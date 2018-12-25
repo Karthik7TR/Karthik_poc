@@ -35,7 +35,7 @@
 									<proview_image table-viewer="true" id="I2451885026a611d99b08a92d7e97623c.1.tif" type="tif" path="/apps/xpp/shared/data/alljobz/CLS_phx-prod/GRP_bound/JOB_CHAL/DIV_I0f7697f026a511d99b08a92d7e97623c_13450040/I2451885026a611d99b08a92d7e97623c.tif" x="0" y="-0.05i" w="4.35i" h="5.75i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="0.980000" cropx="0" cropy="0" cropw="4.35i" croph="5.75i"/>
 									<proview_image table-viewer="true" classes="trg-arr" id="I2451885026a611d99b08a92d7e97623c.1.tif" type="tif" path="/apps/xpp/shared/data/alljobz/CLS_phx-prod/GRP_bound/JOB_CHAL/DIV_I0f7697f026a511d99b08a92d7e97623c_13450040/I2451885026a611d99b08a92d7e97623c.tif" x="0" y="-0.05i" w="4.35i" h="5.75i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="0.980000" cropx="0" cropy="0" cropw="4.35i" croph="5.75i"/>
 									<proview_image table-viewer="false" classes="trg-arr" id="I2451885026a611d99b08a92d7e97623c.1.tif" type="tif" path="/apps/xpp/shared/data/alljobz/CLS_phx-prod/GRP_bound/JOB_CHAL/DIV_I0f7697f026a511d99b08a92d7e97623c_13450040/I2451885026a611d99b08a92d7e97623c.tif" x="0" y="-0.05i" w="4.35i" h="5.75i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="0.980000" cropx="0" cropy="0" cropw="4.35i" croph="5.75i"/>
-									<t style="image.block cgt"> </t>
+									<t style="image.block cgt" line.qdtype="left"> </t>
 								</image>
 							</image.block>	
 									<front date.updated="0">

@@ -26,6 +26,9 @@
                         <xsl:value-of select="concat(' ', 'border_bottom')"/>
                     </xsl:if>
                 </xsl:if>
+                <xsl:if test="@line.qdtype">
+                	<xsl:value-of select="concat(' ', 'line_align_', @line.qdtype)" />
+                </xsl:if>
             </xsl:attribute>
             <xsl:apply-templates />
         </xsl:element>

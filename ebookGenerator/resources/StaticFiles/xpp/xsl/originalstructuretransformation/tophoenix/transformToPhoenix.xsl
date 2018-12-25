@@ -126,6 +126,11 @@
 					<xsl:value-of select="concat(' ', 'cgt')" />
 				</xsl:if>
 			</xsl:attribute>
+			<xsl:if test="ancestor::x:line[1]/@qdtype">
+				<xsl:attribute name="line.qdtype">
+					<xsl:value-of select="ancestor::x:line[1]/@qdtype" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:value-of select="x:get-fixed-text(.)" />
 		</xsl:element>
 	</xsl:template>

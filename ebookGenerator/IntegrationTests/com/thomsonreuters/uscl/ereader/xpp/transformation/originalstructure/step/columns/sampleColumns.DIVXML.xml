@@ -79,7 +79,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/quote.block/quote.para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.29i" yfinal="0.07i" lnwidth="0.05i" lnmeas="0.33i"
-							lindent="0" rindent="0" prelead="0.03i" postlead="0" qdtype="right"
+							lindent="0" rindent="0" prelead="0.03i" postlead="0" 
 							bandwidth="0.09i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="true"
@@ -101,7 +101,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/quote.block/quote.para/para.text/footnote/footnote.body/para/para.text/ref"
 						style="ref.1">
 						<line xfinal="0.33i" yfinal="0.09i" lnwidth="1.91i" lnmeas="2.25i"
-							lindent="0.33i" rindent="0" prelead="-0.1i" postlead="0" qdtype="justify"
+							lindent="0.33i" rindent="0" prelead="-0.1i" postlead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="true"
@@ -139,7 +139,7 @@
 							<t x="0" y="0" style="ref.1">Hainlin v. Budge, 56 Fla. 342, 47 So. </t>
 						</line>
 						<line xfinal="0" yfinal="0.21i" lnwidth="1.07i" lnmeas="2.25i"
-							lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="0" postlead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="false" edtrcds="false" chngbar="false" first="false"
@@ -174,7 +174,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote"
 						style="footnote.1">
 						<line xfinal="0" yfinal="0.39i" lnwidth="0.71i" lnmeas="2.25i"
-							lindent="0" rindent="0" prelead="0.06i" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="0.06i" postlead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.14i" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="false"
@@ -194,7 +194,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.29i" yfinal="0.56i" lnwidth="0.05i" lnmeas="0.33i"
-							lindent="0" rindent="0" prelead="-0.08i" postlead="0" qdtype="right"
+							lindent="0" rindent="0" prelead="-0.08i" postlead="0" 
 							bandwidth="0.03i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="true"
@@ -212,7 +212,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
 						style="para.text.2">
 						<line xfinal="0.33i" yfinal="0.57i" lnwidth="1.91i" lnmeas="2.25i"
-							lindent="0.33i" rindent="0" prelead="-0.1i" postlead="0" qdtype="justify"
+							lindent="0.33i" rindent="0" prelead="-0.1i" postlead="0" 
 							bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="true"
@@ -254,7 +254,7 @@
 							<t x="0" y="0" style="ref.1">Bridges v. Speer, 79 So. 2d 679 </t>
 						</line>
 						<line xfinal="0" yfinal="0.7i" lnwidth="0.59i" lnmeas="2.25i"
-							lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="0" postlead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="false" edtrcds="false" chngbar="false" first="false"

@@ -23,14 +23,14 @@
 						dh="/publication/publication.body/chapter/front/research.reference.block"
 						style="research.reference.block">
 						<line xfinal="0" yfinal="0.09i" lnwidth="1.51i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.1i" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0.1i" bandwidth="0.05i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false"
 							chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false"
 							kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false"
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
 							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
-							bmline="false"><?xpp /ns;43;0?><?xpp /ns;105;0?><?xpp /ei;0?>
+							bmline="false" qdtype="left"><?xpp /ns;43;0?><?xpp /ns;105;0?><?xpp /ei;0?>
 							<tag name="publication">
 								<attr name="online.royalty.id">CALA</attr>
 								<attr name="uuid">I0f72523026a511d99b08a92d7e97623c</attr>
@@ -68,14 +68,14 @@
 						dh="/publication/publication.body/chapter/front/research.reference.block/reference.entry.group/name.block/name"
 						style="name.3">
 						<line xfinal="0.28i" yfinal="0.34i" lnwidth="1.68i" lnmeas="4.32i"
-							lindent="0.28i" rindent="0" prelead="0.08i" qdtype="left"
+							lindent="0.28i" rindent="0" prelead="0.08i" 
 							bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
 							vkpstart="true" vkpsa="false" kptype="false" kpstart="false"
 							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="true" quadset="false" tbstart="false"
-							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							tbsa="false" tbend="false" tbrhd="false" bmline="false" qdtype="right">
 							<tag name="name"></tag>
 							<cite.query w-seq-number="00004" w-ref-type="LQ"
 								w-normalized-cite="MIST712A.18S" w-pub-number="1000043"
@@ -96,7 +96,7 @@
 						dh="/publication/publication.body/chapter/front/research.reference.block/reference.entry.group/reference.entry/ref.text/ref"
 						style="ref">
 						<line xfinal="0" yfinal="0.52i" lnwidth="3.26i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.03i" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0.03i" bandwidth="0.05i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false"
 							chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false"
@@ -118,7 +118,7 @@
 							<endtag name="research.reference.block"></endtag>
 						</line>
 						<line xfinal="0.14i" yfinal="0.57i" lnwidth="0.08i" lnmeas="4.32i"
-							lindent="0.14i" rindent="0" prelead="-0.11i" qdtype="left"
+							lindent="0.14i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -130,7 +130,7 @@
 							</t>
 						</line>
 						<line xfinal="0.14i" yfinal="0.59i" lnwidth="0" lnmeas="4.32i"
-							lindent="0.14i" rindent="0" prelead="-0.14i" qdtype="left"
+							lindent="0.14i" rindent="0" prelead="-0.14i" 
 							bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -140,7 +140,7 @@
 							tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp keycite?>
 						</line>
 						<line xfinal="0.2i" yfinal="0.93i" lnwidth="3.92i" lnmeas="4.12i"
-							lindent="0.2i" rindent="0" prelead="0.2i" qdtype="justify"
+							lindent="0.2i" rindent="0" prelead="0.2i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -157,7 +157,7 @@
 							</t>
 						</line>
 						<line xfinal="0.35i" yfinal="1.05i" lnwidth="3.77i" lnmeas="4.12i"
-							lindent="0.35i" rindent="0" prelead="0" qdtype="justify"
+							lindent="0.35i" rindent="0" prelead="0" 
 							bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -169,7 +169,7 @@
 								KeyCite service on Westlaw&#983333;. Use KeyCite to </t>
 						</line>
 						<line xfinal="0.35i" yfinal="1.17i" lnwidth="3.77i" lnmeas="4.12i"
-							lindent="0.35i" rindent="0" prelead="0" qdtype="justify"
+							lindent="0.35i" rindent="0" prelead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -182,7 +182,7 @@
 							</t>
 						</line>
 						<line xfinal="0.35i" yfinal="1.3i" lnwidth="3.77i" lnmeas="4.12i"
-							lindent="0.35i" rindent="0" prelead="0" qdtype="justify"
+							lindent="0.35i" rindent="0" prelead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -195,7 +195,7 @@
 							</t>
 						</line>
 						<line xfinal="0.35i" yfinal="1.42i" lnwidth="1.3i" lnmeas="4.12i"
-							lindent="0.35i" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							lindent="0.35i" rindent="0" prelead="0" bandwidth="0.04i"
 							letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -208,7 +208,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="1.55i" lnwidth="0.11i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.03i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.03i"
 							letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -231,7 +231,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/front/outline.name.block/designator"
 						style="designator.3">
 						<line xfinal="0" yfinal="2.06i" lnwidth="1.86i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.22i" qdtype="left" bandwidth="0.03i"
+							lindent="0" rindent="0" prelead="0.22i" bandwidth="0.03i"
 							letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="false" vkpstart="true" vkpsa="false" kptype="false"
@@ -275,7 +275,7 @@
 							<endtag name="name"></endtag>
 						</line>
 						<line xfinal="0.25i" yfinal="2.17i" lnwidth="0" lnmeas="4.32i"
-							lindent="0.25i" rindent="0" prelead="-0.12i" qdtype="left"
+							lindent="0.25i" rindent="0" prelead="-0.12i" 
 							bandwidth="0.06i" letspace="0" maxasc="0.15i" maxdesc="0.07i"
 							ldextra="0" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="false" last="true"
@@ -290,7 +290,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.front/outline.name.block/label"
 						style="label.2">
 						<line xfinal="0" yfinal="2.51i" lnwidth="1.83i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.17i" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0.17i" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false"
 							chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false"
@@ -345,7 +345,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text"
 						style="para.text">
 						<line xfinal="0.15i" yfinal="2.78i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.08i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.08i" 
 							bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -369,7 +369,7 @@
 								familiarize the reader </t>
 						</line>
 						<line xfinal="0" yfinal="2.96i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -381,7 +381,7 @@
 								guardianship law. </t>
 						</line>
 						<line xfinal="0" yfinal="3.13i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -393,7 +393,7 @@
 								no substitute for a </t>
 						</line>
 						<line xfinal="0" yfinal="3.3i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -405,7 +405,7 @@
 								statutes are not </t>
 						</line>
 						<line xfinal="0" yfinal="3.47i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -419,7 +419,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="3.65i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -431,7 +431,7 @@
 								rules or customs. An </t>
 						</line>
 						<line xfinal="0" yfinal="3.82i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.07i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.07i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -443,7 +443,7 @@
 								understanding </t>
 						</line>
 						<line xfinal="0" yfinal="3.99i" lnwidth="3.12i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -466,7 +466,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text"
 						style="para.text">
 						<line xfinal="0.15i" yfinal="4.21i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -482,7 +482,7 @@
 								provide answers </t>
 						</line>
 						<line xfinal="0" yfinal="4.38i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -494,7 +494,7 @@
 								in one state, nor </t>
 						</line>
 						<line xfinal="0" yfinal="4.56i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -506,7 +506,7 @@
 								might be litigated. This </t>
 						</line>
 						<line xfinal="0" yfinal="4.73i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -518,7 +518,7 @@
 								family law practitioner </t>
 						</line>
 						<line xfinal="0" yfinal="4.9i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -530,7 +530,7 @@
 								the statutes of his </t>
 						</line>
 						<line xfinal="0" yfinal="5.08i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -542,7 +542,7 @@
 								and with an </t>
 						</line>
 						<line xfinal="0" yfinal="5.24i" lnwidth="2.08i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -564,7 +564,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text"
 						style="para.text">
 						<line xfinal="0.15i" yfinal="5.45i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -580,7 +580,7 @@
 								though adult </t>
 						</line>
 						<line xfinal="0" yfinal="5.62i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -594,7 +594,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="5.78i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -606,7 +606,7 @@
 								appointment, removal </t>
 						</line>
 						<line xfinal="0" yfinal="5.95i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -622,7 +622,7 @@
 							<t x="0" y="0" style="para.text"> Although juries </t>
 						</line>
 						<line xfinal="0" yfinal="6.11i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -636,7 +636,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="6.28i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -648,7 +648,7 @@
 								court that decides </t>
 						</line>
 						<line xfinal="0" yfinal="6.45i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -678,7 +678,7 @@
 						dh="/publication/publication.body/chapter/front/research.reference.block"
 						style="research.reference.block">
 						<line xfinal="0" yfinal="0.1i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -702,7 +702,7 @@
 						dh="/publication/publication.body/chapter/front/research.reference.block"
 						style="research.reference.block">
 						<line xfinal="0" yfinal="0.1i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -735,7 +735,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
 						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false"
@@ -765,7 +765,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote"
 						style="footnote">
 						<line xfinal="0" yfinal="0.14i" lnwidth="0.8i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.06i" qdtype="left" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.06i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true"
@@ -785,7 +785,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="0.32i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="-0.08i" qdtype="right"
+							lindent="0" rindent="0" prelead="-0.08i" 
 							bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -803,7 +803,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
 						style="para.text.2">
 						<line xfinal="0.37i" yfinal="0.33i" lnwidth="0.62i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -856,7 +856,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown.4">
 						<line xfinal="4.01i" yfinal="0.09i" lnwidth="0.31i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="right" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false"
 							cerrors="true" sobprelead="false" edtrcds="false" chngbar="false"
 							first="true" last="false" vkpstart="false" vkpsa="false" kptype="false"
@@ -869,7 +869,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="0.09i" lnwidth="0.81i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="-0.14i" qdtype="left" bandwidth="0.03i"
+							lindent="0" rindent="0" prelead="-0.14i" bandwidth="0.03i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="false" last="false" vkpstart="false" vkpsa="false" kptype="false"
@@ -879,7 +879,7 @@
 							<t x="0" y="0" style="rh1" cgt="true">Guardianship</t>
 						</line>
 						<line xfinal="0" yfinal="0.23i" lnwidth="0" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.03i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.03i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="false" edtrcds="false" chngbar="false"
 							first="false" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -898,7 +898,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="rf3" pclass="" dh="/rf3" style="rf3">
 						<line xfinal="4.25i" yfinal="0.12i" lnwidth="0.07i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.01i" qdtype="right" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0.01i" bandwidth="0.05i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -938,7 +938,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text"
 						style="para.text">
 						<line xfinal="0" yfinal="0.1i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -954,7 +954,7 @@
 							<t x="0" y="0" style="para.text"> although notice regarding </t>
 						</line>
 						<line xfinal="0" yfinal="0.27i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -966,7 +966,7 @@
 								notice to creditors), has </t>
 						</line>
 						<line xfinal="0" yfinal="0.43i" lnwidth="3.77i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -992,7 +992,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text"
 						style="para.text">
 						<line xfinal="0.15i" yfinal="0.63i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1012,7 +1012,7 @@
 							<t x="0" y="0" style="para.text"> as </t>
 						</line>
 						<line xfinal="0" yfinal="0.79i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1026,7 +1026,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="0.96i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1038,7 +1038,7 @@
 								other chapters on </t>
 						</line>
 						<line xfinal="0" yfinal="1.13i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1054,7 +1054,7 @@
 							<t x="0" y="0" style="para.text"> Forms at the end of </t>
 						</line>
 						<line xfinal="0" yfinal="1.29i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1066,7 +1066,7 @@
 								state statutes as a </t>
 						</line>
 						<line xfinal="0" yfinal="1.46i" lnwidth="3.78i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1096,7 +1096,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.front/outline.name.block/label"
 						style="label.2">
 						<line xfinal="0" yfinal="1.79i" lnwidth="1.36i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.17i" qdtype="left" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0.17i" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false"
 							chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false"
@@ -1135,7 +1135,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="2.02i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.08i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.08i" 
 							bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1161,7 +1161,7 @@
 							<t x="0" y="0" style="para.text"> Guardian appointed in a state other </t>
 						</line>
 						<line xfinal="0" yfinal="2.19i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1175,7 +1175,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="2.35i" lnwidth="3i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1198,7 +1198,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="2.54i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1216,7 +1216,7 @@
 							<t x="0" y="0" style="para.text"> Interchangeable with guardian in some </t>
 						</line>
 						<line xfinal="0" yfinal="2.71i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1230,7 +1230,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="2.87i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1244,7 +1244,7 @@
 							</t>
 						</line>
 						<line xfinal="0" yfinal="3.04i" lnwidth="3.64i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1270,7 +1270,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="3.23i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1289,7 +1289,7 @@
 								appointed to </t>
 						</line>
 						<line xfinal="0" yfinal="3.39i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.08i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.08i"
 							letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1301,7 +1301,7 @@
 								meanings in other </t>
 						</line>
 						<line xfinal="0" yfinal="3.56i" lnwidth="0.63i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.04i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1323,7 +1323,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="3.75i" lnwidth="2.49i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="left"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -1352,7 +1352,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="3.93i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1370,7 +1370,7 @@
 							<t x="0" y="0" style="para.text"> Guardian appointed by the state of </t>
 						</line>
 						<line xfinal="0" yfinal="4.1i" lnwidth="2.53i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1393,7 +1393,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="4.29i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1412,7 +1412,7 @@
 								prior </t>
 						</line>
 						<line xfinal="0" yfinal="4.45i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.09i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.09i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1424,7 +1424,7 @@
 								decree or military </t>
 						</line>
 						<line xfinal="0" yfinal="4.62i" lnwidth="0.85i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.04i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1450,7 +1450,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital"
 						style="ital">
 						<line xfinal="0.15i" yfinal="4.81i" lnwidth="4.17i" lnmeas="4.32i"
-							lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify"
+							lindent="0.15i" rindent="0" prelead="0.03i" 
 							bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1468,7 +1468,7 @@
 							<t x="0" y="0" style="para.text"> Guardian whose appointment was </t>
 						</line>
 						<line xfinal="0" yfinal="4.97i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1480,7 +1480,7 @@
 								original appointment </t>
 						</line>
 						<line xfinal="0" yfinal="5.14i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1492,7 +1492,7 @@
 								foreign guardian. </t>
 						</line>
 						<line xfinal="0" yfinal="5.3i" lnwidth="4.32i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.06i"
 							letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="false" vkpstart="false"
@@ -1533,7 +1533,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
 						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false"
@@ -1559,7 +1559,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="0.08i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.03i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -1580,7 +1580,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
 						style="para.text.2">
 						<line xfinal="0.37i" yfinal="0.1i" lnwidth="0.62i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -1631,7 +1631,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="0.26i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.03i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -1652,7 +1652,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref"
 						style="ref.1">
 						<line xfinal="0.37i" yfinal="0.28i" lnwidth="3.95i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="justify"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1678,7 +1678,7 @@
 								Administration of Estates and </t>
 						</line>
 						<line xfinal="0" yfinal="0.42i" lnwidth="2.88i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1708,7 +1708,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="0.58i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.03i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -1729,7 +1729,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
 						style="para.text.2">
 						<line xfinal="0.37i" yfinal="0.6i" lnwidth="1i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -1778,7 +1778,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="0.76i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.03i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -1799,7 +1799,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
 						style="para.text.2">
 						<line xfinal="0.37i" yfinal="0.78i" lnwidth="2.4i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -1850,7 +1850,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote"
 						style="footnote.1">
 						<line xfinal="0" yfinal="0.97i" lnwidth="0.8i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.06i" qdtype="left" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.06i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true"
@@ -1870,7 +1870,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="1.15i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="-0.08i" qdtype="right"
+							lindent="0" rindent="0" prelead="-0.08i" 
 							bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -1888,7 +1888,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/bold"
 						style="bold">
 						<line xfinal="0.37i" yfinal="1.16i" lnwidth="3.95i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="justify"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="false"
@@ -1930,7 +1930,7 @@
 								4th 948, 24 Cal. </t>
 						</line>
 						<line xfinal="0" yfinal="1.3i" lnwidth="1.71i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i"
 							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
 							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
@@ -1959,7 +1959,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
 						style="footnote.reference">
 						<line xfinal="0.33i" yfinal="1.47i" lnwidth="0.05i" lnmeas="0.37i"
-							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							lindent="0" rindent="0" prelead="0.03i" bandwidth="0.04i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -1980,7 +1980,7 @@
 						dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
 						style="para.text.2">
 						<line xfinal="0.37i" yfinal="1.48i" lnwidth="2.42i" lnmeas="4.32i"
-							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							lindent="0.37i" rindent="0" prelead="-0.11i" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="true" last="true"
@@ -2033,7 +2033,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown.4">
 						<line xfinal="0" yfinal="0.09i" lnwidth="0.31i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.05i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false"
 							cerrors="true" sobprelead="false" edtrcds="false" chngbar="false"
 							first="true" last="false" vkpstart="false" vkpsa="false" kptype="false"
@@ -2046,7 +2046,7 @@
 							</t>
 						</line>
 						<line xfinal="1.65i" yfinal="0.09i" lnwidth="2.67i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="-0.14i" qdtype="right"
+							lindent="0" rindent="0" prelead="-0.14i" 
 							bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0" ljerrs="false" cerrors="false" sobprelead="true"
 							edtrcds="false" chngbar="false" first="false" last="false"
@@ -2061,7 +2061,7 @@
 							<t x="0" y="0" style="rh1" cgt="true">Obligations</t>
 						</line>
 						<line xfinal="0" yfinal="0.23i" lnwidth="0" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.03i"
+							lindent="0" rindent="0" prelead="0" bandwidth="0.03i"
 							letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="false" edtrcds="false" chngbar="false"
 							first="false" last="true" vkpstart="false" vkpsa="false" kptype="false"
@@ -2080,7 +2080,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="rf3" pclass="" dh="/rf3" style="rf3">
 						<line xfinal="0" yfinal="0.12i" lnwidth="0.07i" lnmeas="4.32i"
-							lindent="0" rindent="0" prelead="0.01i" qdtype="left" bandwidth="0.05i"
+							lindent="0" rindent="0" prelead="0.01i" bandwidth="0.05i"
 							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
 							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
 							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"

@@ -1076,6 +1076,18 @@ tbody .cgt,
   display: inline !important;
 }
 
+.summary_toc .line_align_center {
+  text-align: center;
+}
+
+.summary_toc .line_align_left {
+  text-align: left;
+}
+
+.summary_toc .line_align_right {
+  text-align: right;
+}
+
 .index-title {
   display: block;
   text-align: center;
@@ -2013,11 +2025,6 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .toc_rutter_chapter .name,
 .toc_rutter_chapter_block .name {
   margin-left: 1em;
-}
-
-.summary_toc .font_summary_toc,
-.summary_toc .font_summary_toc_2 {
-  text-align: center;
 }
 
 .rutter_chapter_block .rw_outline_name_block,

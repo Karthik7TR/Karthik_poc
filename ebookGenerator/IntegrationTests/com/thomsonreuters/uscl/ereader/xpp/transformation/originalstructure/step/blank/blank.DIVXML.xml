@@ -5,7 +5,7 @@
 			<stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1" svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
 				<block type="main" bx="0" by="0.83i" bsx="4.66i" bsy="7.19i" bisy="7.19i" biy="0.83i" rotate="0" svjmode="justify" btextlen="6.3i" bslack="0.1i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="true" rtl="false">
 					<group class="label" pclass="/publication/publication.body/chapter/front/outline.name.block" dh="/publication/publication.body/chapter/front/outline.name.block/label" style="label">
-						<line xfinal="0" yfinal="0.15i" lnwidth="1.17i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.17i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.15i" lnwidth="1.17i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.17i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="publication">
 								<attr name="online.royalty.id">GACORPLAW</attr>
 								<attr name="uuid">I691e9410b19711d983dad4ac9ae95264</attr>
@@ -64,18 +64,18 @@
 							<t x="0" y="0" style="designator">14</t>
 							<endtag name="designator"/>
 						</line>
-						<line xfinal="0" yfinal="0.32i" lnwidth="0" lnmeas="4.66i" lindent="0" rindent="0" prelead="-0.07i" postlead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"/>
-						<line xfinal="0" yfinal="0.58i" lnwidth="3.41i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.07i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.32i" lnwidth="0" lnmeas="4.66i" lindent="0" rindent="0" prelead="-0.07i" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"/>
+						<line xfinal="0" yfinal="0.58i" lnwidth="3.41i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.07i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="name">Statutory Close Corporations</t>
 							<endtag name="name"/>
 						</line>
-						<line xfinal="0" yfinal="0.69i" lnwidth="0" lnmeas="4.66i" lindent="0" rindent="0" prelead="-0.12i" postlead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="true" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"/>
+						<line xfinal="0" yfinal="0.69i" lnwidth="0" lnmeas="4.66i" lindent="0" rindent="0" prelead="-0.12i" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="true" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"/>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="0.88i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.88i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<tag name="generated.toc"/>
 							<tag name="full.toc"/>
@@ -99,14 +99,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="0.88i" lnwidth="2.49i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="0.88i" lnwidth="2.49i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Statutory close corporations, generally</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="1.05i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="1.05i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -128,14 +128,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="1.05i" lnwidth="2.9i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="1.05i" lnwidth="2.9i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Election of statutory close corporation status</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="1.22i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="1.22i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -157,7 +157,7 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="1.22i" lnwidth="2.28i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="1.22i" lnwidth="2.28i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Share certificates</t>
 							<t x="0" y="0" style="name.1" cgt="true">&#8212;</t>
@@ -166,7 +166,7 @@
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="1.38i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="1.38i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -188,17 +188,17 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="1.38i" lnwidth="3.37i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="1.38i" lnwidth="3.37i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Share transfer prohibition; first offer to corporation; </t>
 						</line>
-						<line xfinal="0.72i" yfinal="1.53i" lnwidth="1.42i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="1.53i" lnwidth="1.42i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="name.1">counteroffer; violation</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="1.7i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="1.7i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -220,22 +220,22 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="1.7i" lnwidth="3.29i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="1.7i" lnwidth="3.29i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Compulsory purchase of shares upon shareholder&apos;s </t>
 						</line>
-						<line xfinal="0.72i" yfinal="1.85i" lnwidth="3.41i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="true" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="1.85i" lnwidth="3.41i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="true" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="name.1">death</t>
 							<t x="0" y="0" style="name.1" cgt="true">&#8212;</t>
 							<t x="0" y="0" style="name.1">Application of statutes; notice; offer; order to </t>
 						</line>
-						<line xfinal="0.72i" yfinal="2.01i" lnwidth="1.77i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="2.01i" lnwidth="1.77i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="name.1">purchase; dissolution; costs</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="2.18i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="2.18i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -257,14 +257,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="2.18i" lnwidth="1.58i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="2.18i" lnwidth="1.58i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Shareholder agreements</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="2.35i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="2.35i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -286,14 +286,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="2.35i" lnwidth="1.07i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="2.35i" lnwidth="1.07i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Special directors</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="2.53i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="2.53i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -315,14 +315,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="2.53i" lnwidth="2.11i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="2.53i" lnwidth="2.11i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Elimination of board of directors</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="2.7i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="2.7i" lnwidth="0.38i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -344,14 +344,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="2.7i" lnwidth="0.47i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="2.7i" lnwidth="0.47i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Bylaws</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="2.87i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="2.87i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -373,14 +373,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="2.87i" lnwidth="1.04i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="2.87i" lnwidth="1.04i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Annual meeting</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="3.05i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="3.05i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -402,14 +402,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="3.05i" lnwidth="3.12i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="3.05i" lnwidth="3.12i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Executing documents in more than one capacity</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="3.22i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="3.22i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -431,14 +431,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="3.22i" lnwidth="2.43i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="3.22i" lnwidth="2.43i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Limitation of liability of shareholders</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="3.39i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="3.39i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -460,14 +460,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="3.39i" lnwidth="1.69i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="3.39i" lnwidth="1.69i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Merger or share exchange</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="3.57i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="3.57i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -489,18 +489,18 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="3.57i" lnwidth="3.3i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="3.57i" lnwidth="3.3i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Termination of statutory close corporation status</t>
 							<t x="0" y="0" style="name.1" cgt="true">&#8212;</t>
 						</line>
-						<line xfinal="0.72i" yfinal="3.72i" lnwidth="0.38i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="3.72i" lnwidth="0.38i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="name.1">Effect</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="3.89i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="3.89i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -522,14 +522,14 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="3.89i" lnwidth="1.67i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="3.89i" lnwidth="1.67i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Dissolution of corporation</t>
 							<endtag name="name"/>
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/label" style="label.1">
-						<line xfinal="0" yfinal="4.06i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="4.06i" lnwidth="0.45i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
@@ -551,44 +551,44 @@
 						</line>
 					</group>
 					<group class="name" pclass="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block" dh="/publication/publication.body/chapter/front/generated.toc/full.toc/toc.section/outline.name.block/name" style="name.1">
-						<line xfinal="0.64i" yfinal="4.06i" lnwidth="3.51i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.64i" yfinal="4.06i" lnwidth="3.51i" lnmeas="4.16i" lindent="0.64i" rindent="0" prelead="-0.15i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="name"/>
 							<t x="0" y="0" style="name.1">Judicial relief</t>
 							<t x="0" y="0" style="name.1" cgt="true">&#8212;</t>
 							<t x="0" y="0" style="name.1">Grounds; venue; nonjudicial remedies; </t>
 						</line>
-						<line xfinal="0.72i" yfinal="4.22i" lnwidth="2.96i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="true" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="4.22i" lnwidth="2.96i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="true" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="name.1">equitable relief; damages; purchase of shares; </t>
 						</line>
-						<line xfinal="0.72i" yfinal="4.37i" lnwidth="1.1i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="4.37i" lnwidth="1.1i" lnmeas="4.16i" lindent="0.72i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="name.1">dissolution; costs</t>
 							<endtag name="name"/>
 						</line>
-						<line xfinal="0.72i" yfinal="4.55i" lnwidth="0" lnmeas="4.66i" lindent="0.72i" rindent="0" prelead="0.03i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.72i" yfinal="4.55i" lnwidth="0" lnmeas="4.66i" lindent="0.72i" rindent="0" prelead="0.03i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="outline.name.block"/>
 							<?XPPTOCEndLink ?>
 							<endtag name="toc.section"/>
 							<endtag name="full.toc"/>
 							<endtag name="generated.toc"/>
 						</line>
-						<line xfinal="0.2i" yfinal="4.88i" lnwidth="4.25i" lnmeas="4.46i" lindent="0.2i" rindent="0" prelead="0.2i" postlead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.2i" yfinal="4.88i" lnwidth="4.25i" lnmeas="4.46i" lindent="0.2i" rindent="0" prelead="0.2i" postlead="0"  bandwidth="0.06i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="front" cgt="true">KeyCite&#174;:</t>
 							<t x="0" y="0" style="front.1" cgt="true"> Cases and other legal materials listed in KeyCite Scope can be </t>
 						</line>
-						<line xfinal="0.35i" yfinal="5.01i" lnwidth="4.1i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.35i" yfinal="5.01i" lnwidth="4.1i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="front.1" cgt="true">researched through the KeyCite service on Westlaw&#174;. Use KeyCite to check </t>
 						</line>
-						<line xfinal="0.35i" yfinal="5.13i" lnwidth="4.1i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.35i" yfinal="5.13i" lnwidth="4.1i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="front.1" cgt="true">citations for form, parallel references, prior and later history, and comprehen<dt>-</dt>
 							</t>
 						</line>
-						<line xfinal="0.35i" yfinal="5.26i" lnwidth="4.1i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.35i" yfinal="5.26i" lnwidth="4.1i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="front.1" cgt="true">sive citator information, including citations to other decisions and secondary </t>
 						</line>
-						<line xfinal="0.35i" yfinal="5.38i" lnwidth="0.52i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.35i" yfinal="5.38i" lnwidth="0.52i" lnmeas="4.46i" lindent="0.35i" rindent="0" prelead="0" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="front.1" cgt="true">materials.</t>
 						</line>
-						<line xfinal="0" yfinal="5.51i" lnwidth="0.11i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="5.51i" lnwidth="0.11i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<rule x="0.11i" y="-0.8i" w="0.01i" d="0.8i" color="#000000" color-cmyk="0 0 0 1"/>
 							<rule x="0" y="-0.8i" w="4.43i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/>
 							<rule x="-0.01i" y="-0.8i" w="0.01i" d="0.8i" color="#000000" color-cmyk="0 0 0 1"/>
@@ -596,7 +596,7 @@
 						</line>
 					</group>
 					<group class="label" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.front/outline.name.block" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.front/outline.name.block/label" style="label.2">
-						<line xfinal="0" yfinal="5.82i" lnwidth="3.69i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.17i" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="5.82i" lnwidth="3.69i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.17i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="front"/>
 							<tag name="chapter.body">
 								<attr name="date.updated">0</attr>
@@ -637,7 +637,7 @@
 						</line>
 					</group>
 					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text" style="para.text">
-						<line xfinal="0.15i" yfinal="6.07i" lnwidth="4.5i" lnmeas="4.66i" lindent="0.15i" rindent="0" prelead="0.08i" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.15i" yfinal="6.07i" lnwidth="4.5i" lnmeas="4.66i" lindent="0.15i" rindent="0" prelead="0.08i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<endtag name="section.front"/>
 							<tag name="section.body">
 								<attr name="date.updated">0</attr>
@@ -664,10 +664,10 @@
 							<xref id="1" type="footnote"/>
 							<t x="0" y="0" style="para.text"> </t>
 						</line>
-						<line xfinal="0" yfinal="6.24i" lnwidth="4.66i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="6.24i" lnwidth="4.66i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="para.text">It provides that a person or group of persons licensed to practice </t>
 						</line>
-						<line xfinal="0" yfinal="6.41i" lnwidth="4.66i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="6.41i" lnwidth="4.66i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="para.text">certain professions</t>
 							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t>
 							<xref id="2" type="footnote"/>
@@ -679,7 +679,7 @@
 			<stream type="footnote" sx="0" sy="7.24i" ssx="4.66i" ssy="0.78i" groupnum="4" svjmode="top" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
 				<block type="footnote" id="separator" bx="0" by="0" bsx="4.66i" bsy="0.78i" bisy="0.78i" biy="0" rotate="0" svjmode="top" btextlen="0.24i" bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="3" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown">
-						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="foots"/>
 							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/>
 							<endtag name="foots"/>
@@ -688,7 +688,7 @@
 				</block>
 				<block type="footnote" id="1" bx="0" by="0.33i" bsx="2.25i" bsy="0.46i" bisy="0.55i" biy="0" rotate="0" svjmode="top" btextlen="0.28i" bslack="-0.09i" vjerr="0.09i" pgtbl="2" ipcnum="9" ipcgnum="4" justified="true" trymode="expand" fipcblk="true" lipcblk="false" original="false" bottom="true" rtl="false">
 					<group class="footnote" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote" style="footnote">
-						<line xfinal="0" yfinal="0.08i" lnwidth="0.87i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0.06i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.08i" lnwidth="0.87i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0.06i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="footnote">
 								<attr name="uuid">I9ac2ca905c5911e599c3b3bb573d5d2a</attr>
 								<attr name="date.updated">0</attr>
@@ -697,14 +697,14 @@
 						</line>
 					</group>
 					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
-						<line xfinal="0.33i" yfinal="0.26i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="-0.08i" postlead="0" qdtype="right" bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.33i" yfinal="0.26i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="-0.08i" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="footnote.reference"/>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
 							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="ref" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref" style="ref.1">
-						<line xfinal="0.37i" yfinal="0.28i" lnwidth="1.49i" lnmeas="2.25i" lindent="0.37i" rindent="0" prelead="-0.11i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.37i" yfinal="0.28i" lnwidth="1.49i" lnmeas="2.25i" lindent="0.37i" rindent="0" prelead="-0.11i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="footnote.body">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -741,7 +741,7 @@
 				</block>
 				<block type="footnote" id="2" bx="0" by="0.33i" bsx="2.25i" bsy="0.46i" bisy="0.46i" biy="0.33i" rotate="0" svjmode="top" btextlen="0.46i" bslack="0" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="0" justified="false" trymode="expand" fipcblk="false" lipcblk="false" original="true" bottom="false" rtl="false">
 					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
-						<line xfinal="0.33i" yfinal="0.44i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" postlead="0" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.33i" yfinal="0.44i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="footnote">
 								<attr name="uuid">I9ac451305c5911e599c3b3bb573d5d2a</attr>
 								<attr name="date.updated">0</attr>
@@ -752,7 +752,7 @@
 						</line>
 					</group>
 					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
-						<line xfinal="0.37i" yfinal="0.46i" lnwidth="1.87i" lnmeas="2.25i" lindent="0.37i" rindent="0" prelead="-0.11i" postlead="0" qdtype="justify" bandwidth="0.06i" letspace="0.01i" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0.37i" yfinal="0.46i" lnwidth="1.87i" lnmeas="2.25i" lindent="0.37i" rindent="0" prelead="-0.11i" postlead="0"  bandwidth="0.06i" letspace="0.01i" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="footnote.body">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -770,14 +770,14 @@
 				</block>
 				<block type="footnote" id="2" bx="2.41i" by="0.33i" bsx="2.25i" bsy="0.46i" bisy="0.46i" biy="0" rotate="0" svjmode="justify" btextlen="0.37i" bslack="0.01i" vjerr="0.08i" pgtbl="2" ipcnum="9" ipcgnum="4" justified="false" trymode="expand" fipcblk="false" lipcblk="true" original="false" bottom="true" rtl="false">
 					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
-						<line xfinal="0" yfinal="0.08i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.08i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="para.text.2">architecture, chiropractic, dentistry, </t>
 						</line>
-						<line xfinal="0" yfinal="0.23i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.23i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="para.text.2">professional engineering, land survey<dt>-</dt>
 							</t>
 						</line>
-						<line xfinal="0" yfinal="0.37i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="0" yfinal="0.37i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.06i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<t x="0" y="0" style="para.text.2">ing, law, pharmacy, psychology, medi<dt>-</dt>
 							</t>
 						</line>
@@ -787,7 +787,7 @@
 			<stream type="frills" sx="0" sy="0" ssx="0" ssy="0" groupnum="1" svjmode="bottom" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
 				<block type="frill" id="0" bx="0" by="8.19i" bsx="4.66i" bsy="0.12i" bisy="0.12i" biy="8.19i" rotate="0" svjmode="bottom" btextlen="0.08i" bslack="0.04i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
 					<group class="rf3" pclass="" dh="/rf3" style="rf3">
-						<line xfinal="4.59i" yfinal="0.12i" lnwidth="0.07i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="right" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+						<line xfinal="4.59i" yfinal="0.12i" lnwidth="0.07i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0.01i" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="rf3"/>
 							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FSTART@</t>
 							<t x="0" y="0" style="unknown.2" cgt="true">1</t>
@@ -820,7 +820,7 @@
 						dh="/publication/publication.back/appendix.block/appendix.front/appendix/appendix.body/image.block"
 						style="image.block.1">
 						<line xfinal="0.04i" yfinal="0.05i" lnwidth="4.57i" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="0.08i" postlead="0" qdtype="center"
+							lindent="0" rindent="0" prelead="0.08i" postlead="0" 
 							bandwidth="0.06i" letspace="0" maxasc="0.05i" maxdesc="7.42i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="true"
 							sobprelead="true" edtrcds="false" chngbar="false" first="true"
@@ -850,7 +850,7 @@
 								scale="0.980000" cropx="0" cropy="0" cropw="4.67i" croph="7.67i" />
 						</line>
 						<line xfinal="0" yfinal="7.51i" lnwidth="0.02i" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="0" postlead="0" 
 							bandwidth="0.02i" letspace="0" maxasc="0.05i" maxdesc="0.02i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="false" edtrcds="false" chngbar="false" first="false"
@@ -863,7 +863,7 @@
 							<endtag name="image" />
 						</line>
 						<line xfinal="0" yfinal="7.58i" lnwidth="0" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="0" postlead="0" 
 							bandwidth="0.02i" letspace="0" maxasc="0.05i" maxdesc="0.05i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="true"
 							sobprelead="false" edtrcds="false" chngbar="false" first="false"
@@ -896,7 +896,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
 						<line xfinal="4.17i" yfinal="0.09i" lnwidth="0.48i" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="0" postlead="0" qdtype="right"
+							lindent="0" rindent="0" prelead="0" postlead="0" 
 							bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="true"
 							sobprelead="false" edtrcds="false" chngbar="false" first="true"
@@ -908,7 +908,7 @@
 							<t x="0" y="0" style="rh1" cgt="true">App. C</t>
 						</line>
 						<line xfinal="0" yfinal="0.09i" lnwidth="2.68i" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="-0.14i" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="-0.14i" postlead="0" 
 							bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="false"
@@ -920,7 +920,7 @@
 								Information</t>
 						</line>
 						<line xfinal="0" yfinal="0.23i" lnwidth="0" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left"
+							lindent="0" rindent="0" prelead="0" postlead="0" 
 							bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="false" edtrcds="false" chngbar="false" first="false"
@@ -939,7 +939,7 @@
 					original="true" bottom="false" rtl="false">
 					<group class="rflb" pclass="" dh="/rflb" style="rflb">
 						<line xfinal="4.15i" yfinal="0.12i" lnwidth="0.51i" lnmeas="4.66i"
-							lindent="0" rindent="0" prelead="0.01i" postlead="0" qdtype="right"
+							lindent="0" rindent="0" prelead="0.01i" postlead="0" 
 							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
 							ldextra="0" ljerrs="false" loverset="false" cerrors="false"
 							sobprelead="true" edtrcds="false" chngbar="false" first="true"
