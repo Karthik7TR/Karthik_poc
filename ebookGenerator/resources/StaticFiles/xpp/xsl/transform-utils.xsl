@@ -10,8 +10,8 @@
 	<xsl:variable name="news"
 		select="string-join($characters/specialChars/charsPair/@new, '')" />
 	<xsl:variable name="volNamePlaceholder" select="'VOLUME_NAME_PLACEHOLDER'" />
-
-
+	<xsl:variable name="styleAttributesMap" select="document('StyleAttributes.xml')" />
+	
 	<xsl:function name="x:get-fixed-text">
 		<xsl:param name="value" />
 		<xsl:value-of select="translate($value, $olds, $news)" />
@@ -126,5 +126,13 @@
 	<xsl:function name="x:is-rutter-index-letter">
 		<xsl:param name="node" />
 		<xsl:sequence select="count($node/text())=1 and boolean(string-length($node/text())=1) and boolean(x:strip-braces($node/following-sibling::x:t[@suppress='true'][1]/text())=$node/text())" />
+	</xsl:function>
+
+	<xsl:function name="x:transform-attribute-to-class">
+		<xsl:param name="attribute" as="attribute()"/>		
+		<xsl:variable name="attributeName" select="name($attribute)" />
+		<xsl:if test="$styleAttributesMap/styleAttributes/entry[@name = $attributeName]">
+			<xsl:value-of select="concat(x:get-class-name($attributeName), '_', x:get-class-name($attribute))" />
+		</xsl:if>
 	</xsl:function>
 </xsl:stylesheet>

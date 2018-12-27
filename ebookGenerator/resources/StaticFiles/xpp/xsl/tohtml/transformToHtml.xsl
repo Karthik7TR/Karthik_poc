@@ -150,6 +150,12 @@
 					<xsl:if test="self::x:fm.image.wrap/@quad">
 						<xsl:value-of select="concat(' image_wrapper_', x:get-class-name(@quad))" />
 					</xsl:if>
+					<xsl:for-each select="@*">
+						<xsl:variable name="attrClass" select="x:transform-attribute-to-class(.)" />
+						<xsl:if test="$attrClass and not($attrClass = '')">
+							<xsl:value-of select="concat(' ', $attrClass)" />
+						</xsl:if>
+					</xsl:for-each>
 			</xsl:attribute>
 			<xsl:copy-of select="./@uuid | ./@tocuuid" />
 			<xsl:apply-templates />
