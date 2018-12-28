@@ -2402,7 +2402,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: block;
 }
 
-.rw_hierarchy_body .rw_doc_reserved .cgt {
+.rw_hierarchy_body .rw_doc_reserved .cgt,
+.rw_doc_outline_name_block > .designator + .cgt {
   display: inline;
 }
 
