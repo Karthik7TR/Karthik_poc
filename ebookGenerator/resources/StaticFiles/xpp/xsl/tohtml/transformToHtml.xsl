@@ -371,7 +371,7 @@
 	</xsl:template>
 
 	<xsl:template match="x:row/x:entry">
-		<xsl:variable name="tdClass" select="string-join((x:getAlignClass(@align), x:getLeftIndentClass(@lindent))[. != ''],' ')" />
+		<xsl:variable name="tdClass" select="string-join((x:getAlignClass(@align), x:getLeftIndentClass(@lindent), x:getVAlignClass(@valign))[. != ''],' ')" />
 
 		<xsl:element name="td">
 			<xsl:if test="$tdClass">
@@ -398,6 +398,17 @@
 		</xsl:if>
 		<xsl:if test="$align='right'">
 			<xsl:value-of select="'r'"/>
+		</xsl:if>
+	</xsl:function>
+	
+	<xsl:function name="x:getVAlignClass">
+		<xsl:param name="vAlign"/>
+		
+		<xsl:if test="$vAlign='bottom'">
+			<xsl:value-of select="'vb'"/>
+		</xsl:if>
+		<xsl:if test="$vAlign='top'">
+			<xsl:value-of select="'vt'"/>
 		</xsl:if>
 	</xsl:function>
 

@@ -61,6 +61,14 @@ a + .no-indent:nth-child(2),
   text-align: right !important;
 }
 
+.vt {
+  vertical-align: top;
+}
+
+.vb {
+  vertical-align: bottom;
+}
+
 .left_indent {
   text-indent: 1em;
 }

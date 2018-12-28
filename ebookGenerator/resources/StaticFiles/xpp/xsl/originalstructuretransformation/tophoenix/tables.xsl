@@ -46,6 +46,9 @@
                 when table with multiple different row left indentations is found -->
                 <xsl:attribute name="lindent" select="'true'" />
             </xsl:if>
+            <xsl:if test="@valign">
+            	<xsl:attribute name="valign" select="@valign" />
+            </xsl:if>
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>

@@ -31,7 +31,7 @@
                                     </entry>
                                 </row>
                                 <row row="2" rowrel="2" tbrdepth="0.32i" row_pos="0.14i" row_gutter="0" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="top">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="3.9i" lnwidth="0" lnmeas="0.5i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -46,7 +46,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="top">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="0.67i" yfinal="3.9i" lnwidth="0.63i" lnmeas="1.12i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -64,7 +64,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" align="left" valign="top">
+                                    <entry col="3" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="1.95i" yfinal="3.9i" lnwidth="0.56i" lnmeas="3.2i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="true" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -103,7 +103,7 @@
                             <tbody>
                                 <tag name="tbody"/>
                                 <row row="1" rowrel="1" tbrdepth="0.28i" row_pos="0.14i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="5.58i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -118,7 +118,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" namest="col2" nameend="col5" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" namest="col2" nameend="col5" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="0.46i" yfinal="5.58i" lnwidth="1.67i" lnmeas="3.97i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -131,7 +131,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="6" colsep="0" rowsep="0" align="left" >
                                         <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
                                             <line xfinal="4.6i" yfinal="5.58i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -145,7 +145,7 @@
                                     </entry>
                                 </row>
                                 <row row="2" rowrel="2" tbrdepth="0.18i" row_pos="0.32i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="5.77i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -160,7 +160,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.46i" yfinal="5.77i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -171,7 +171,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="0.79i" yfinal="5.77i" lnwidth="1.01i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -184,7 +184,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="5" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="3.88i" yfinal="5.77i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -201,7 +201,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="6" colsep="0" rowsep="0" align="left" >
                                         <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
                                             <line xfinal="4.6i" yfinal="5.77i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -215,7 +215,7 @@
                                     </entry>
                                 </row>
                                 <row row="3" rowrel="3" tbrdepth="0.18i" row_pos="0.51i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="5.95i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -230,7 +230,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.46i" yfinal="5.95i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -241,7 +241,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="0.79i" yfinal="5.95i" lnwidth="0.85i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -254,7 +254,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="5" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="3.88i" yfinal="5.95i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -271,7 +271,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="6" colsep="0" rowsep="0" align="left" >
                                         <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
                                             <line xfinal="4.6i" yfinal="5.95i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -285,7 +285,7 @@
                                     </entry>
                                 </row>
                                 <row row="4" rowrel="4" tbrdepth="0.18i" row_pos="0.69i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="6.13i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -300,7 +300,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.46i" yfinal="6.13i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -311,7 +311,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="0.79i" yfinal="6.13i" lnwidth="1.36i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -324,7 +324,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="5" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="3.88i" yfinal="6.13i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -341,7 +341,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="6" colsep="0" rowsep="0" align="left" >
                                         <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
                                             <line xfinal="4.6i" yfinal="6.13i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -355,7 +355,7 @@
                                     </entry>
                                 </row>
                                 <row row="5" rowrel="5" tbrdepth="0.18i" row_pos="0.87i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="6.32i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -370,7 +370,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.46i" yfinal="6.32i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -381,7 +381,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="0.79i" yfinal="6.32i" lnwidth="1.91i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -394,7 +394,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="5" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="3.88i" yfinal="6.32i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -411,7 +411,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="6" colsep="0" rowsep="0" align="left" >
                                         <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
                                             <line xfinal="4.6i" yfinal="6.32i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -425,7 +425,7 @@
                                     </entry>
                                 </row>
                                 <row row="6" rowrel="6" tbrdepth="0.18i" row_pos="1.06i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="6.5i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -440,7 +440,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.46i" yfinal="6.5i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -451,7 +451,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="3" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.79i" yfinal="6.5i" lnwidth="0" lnmeas="0.82i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -462,7 +462,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="4" colsep="0" rowsep="0" namest="col4" nameend="col6" align="right" valign="bottom">
+                                    <entry col="4" colsep="0" rowsep="0" namest="col4" nameend="col6" align="right" >
                                         <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
                                             <line xfinal="2.04i" yfinal="6.5i" lnwidth="3.11i" lnmeas="3.38i" lindent="0" rindent="0" prelead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -484,7 +484,7 @@
                                     </entry>
                                 </row>
                                 <row row="7" rowrel="7" tbrdepth="0.18i" row_pos="1.24i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="6.68i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">
@@ -499,7 +499,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.46i" yfinal="6.68i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -509,7 +509,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="3" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="3" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0.79i" yfinal="6.68i" lnwidth="0" lnmeas="0.82i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -519,7 +519,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="4" colsep="0" rowsep="0" align="right" valign="bottom">
+                                    <entry col="4" colsep="0" rowsep="0" align="right" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="3.71i" yfinal="6.68i" lnwidth="0" lnmeas="1.93i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -529,7 +529,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="5" colsep="0" rowsep="0" align="left" >
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="3.88i" yfinal="6.68i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -539,7 +539,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                    <entry col="6" colsep="0" rowsep="0" align="left" >
                                         <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
                                             <line xfinal="4.6i" yfinal="6.68i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="entry">
@@ -552,7 +552,7 @@
                                     </entry>
                                 </row>
                                 <row row="130" rowrel="43" tbrdepth="0.18i" row_pos="7.93i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="top">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/frontmatter/fm.other.structure/tbl/table/tgroup/tbody/row" dh="/frontmatter/fm.other.structure/tbl/table/tgroup/tbody/row[130]/entry" style="entry.1">
                                             <line xfinal="0.15i" yfinal="8.03i" lnwidth="5.3i" lnmeas="5.45i" lindent="0.15i" rindent="0" prelead="0" postlead="0"  bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="true" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <t x="0" y="0" style="entry.1">Sample Form 2-3 </t>
@@ -567,7 +567,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="top">
+                                    <entry col="2" colsep="0" rowsep="0" align="left" >
                                         <group class="entry" pclass="/frontmatter/fm.other.structure/tbl/table/tgroup/tbody/row" dh="/frontmatter/fm.other.structure/tbl/table/tgroup/tbody/row[130]/entry" style="entry.1">
                                             <line xfinal="5.61i" yfinal="8.03i" lnwidth="0.42i" lnmeas="1.04i" lindent-is-absent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <t x="0" y="0" style="entry.1">2:33</t>
@@ -597,7 +597,7 @@
                             <colspec colnum="2" colname="col2" colwidth="1.08i" tbclwsp="0.08i" tbcrwsp="0" tbclgut="0.17i" tbcrgut="0" tbclrule="0.01i" tbcrrule="0" tbcmeas="1i" tbmxalnw="0.49i" tbctpos="1.16i" tbcxpos="1.08i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
                             <thead>
                                 <row row="1" rowrel="1" tbrdepth="0.41i" row_pos="0.14i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" colsep="0" rowsep="0" align="center" valign="top">
+                                    <entry col="1" colsep="0" rowsep="0" align="center" >
                                         <group class="entry" pclass="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row" dh="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row/entry" style="entry">
                                             <line xfinal="0.04i" yfinal="0.23i" lnwidth="0.91i" lnmeas="1i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="true" bmline="false">
                                                 <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
@@ -608,7 +608,7 @@
                                             </line>
                                         </group>
                                     </entry>
-                                    <entry col="2" colsep="0" rowsep="0" align="center" valign="top">
+                                    <entry col="2" colsep="0" rowsep="0" align="center" >
                                         <group class="entry" pclass="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row" dh="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row/entry" style="entry">
                                             <line xfinal="1.42i" yfinal="0.23i" lnwidth="0.48i" lnmeas="1i" lindent="0" rindent="0" prelead="0" postlead="0"  bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="true" bmline="false">
                                                 <t x="0" y="0" style="entry" cgt="true">Monthly </t>

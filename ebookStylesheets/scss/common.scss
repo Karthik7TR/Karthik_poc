@@ -58,6 +58,14 @@
     }
 }
 
+.vt {
+    vertical-align: top;
+}
+
+.vb {
+    vertical-align: bottom;
+}
+
 .left_indent {
     text-indent: #{$indent}em;
 }

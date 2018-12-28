@@ -231,8 +231,8 @@
                                     </row>
                                     <row>
                                         <entry/>
-                                        <entry align="left" lindent="true"/>
-                                        <entry align="center"/>
+                                        <entry align="left" lindent="true" valign="top"/>
+                                        <entry align="center" valign="bottom"/>
                                         <entry align="right" colspan="3">
                                             <t style="entry">Total Past Economic Damages: </t>
                                             <leaveout type="dollar" size="medium">
