@@ -135,4 +135,23 @@
 			<xsl:value-of select="concat(x:get-class-name($attributeName), '_', x:get-class-name($attribute))" />
 		</xsl:if>
 	</xsl:function>
+
+	<xsl:function name="x:get-not-empty-string">
+		<xsl:param name="str1" />
+		<xsl:param name="str2" />
+		
+		<xsl:choose>
+			<xsl:when test="not($str1='')">
+				<xsl:value-of select="$str1" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$str2" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<xsl:function name="x:trim">
+		<xsl:param name="string" />
+		<xsl:value-of select="replace($string, '^\s*(.+?)\s*$', '$1')" />
+	</xsl:function>
 </xsl:stylesheet>

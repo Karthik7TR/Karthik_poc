@@ -90,7 +90,7 @@ public final class OriginalStructureTransformationStepIntegrationTest {
     @Test
     public void shouldTransformRutterIndex() throws Exception {
         testOriginalStructureTransformationStep(
-            "index\\rutter\\sample.DIVXML.xml",
+            "index\\rutter\\1001-TRG_FEDCIVEV_Volume_3_Index.DIVXML.xml",
             "index\\rutter\\expected.main",
             "index\\rutter\\expected.footnotes");
     }

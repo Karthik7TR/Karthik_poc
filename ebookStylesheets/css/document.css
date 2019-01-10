@@ -1129,6 +1129,11 @@ tbody .cgt,
   margin-left: -3em;
 }
 
+.columns > .column > .INDEX > .l1 {
+  text-indent: -1em;
+  margin-left: 2em;
+}
+
 .footnote > sup {
   display: block;
   height: 0;

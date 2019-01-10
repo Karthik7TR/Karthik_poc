@@ -436,7 +436,7 @@ public class TransformerServiceImpl implements TransformerService {
                 + " collection and "
                 + docType
                 + " doc type exist in the "
-                + "XSTL_MAPPER table on the EBook database.";
+                + "XSLT_MAPPER table on the EBook database.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage);
         }

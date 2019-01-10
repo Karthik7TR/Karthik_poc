@@ -26,7 +26,7 @@
 
 	<xsl:template match="x:root">
 		<root>
-			<xsl:variable name="firstIndexWord" select="x:get-first-word((.//x:t[@index-header='true']/text() | .//x:INDEX/x:l1[1]/x:t[1]/text())[1])" />
+			<xsl:variable name="firstIndexWord" select="x:get-first-word(x:get-not-empty-string(x:trim((.//x:t[@index-header='true']/text())[1]), x:trim((.//x:INDEX/x:l1[1]/x:t[1]/text())[1])))" />
 			<xsl:variable name="lastIndexWord" select="x:get-first-word(x:get-last-index-heading((//x:pagebreak)[1]))" />
 			<xsl:variable name="first_index_item"
 				select="concat($materialNumber, '.', $indexId, $firstIndexWord, $lastIndexWord)" />

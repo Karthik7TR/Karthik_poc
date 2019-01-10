@@ -38,4 +38,9 @@
             margin-left: #{$indent * -3}em;
         }
     }
+
+    .columns>.column>&>.l1 {
+        text-indent: #{$indent * -1}em;
+        margin-left: #{$indent * 2}em;
+    }
 }

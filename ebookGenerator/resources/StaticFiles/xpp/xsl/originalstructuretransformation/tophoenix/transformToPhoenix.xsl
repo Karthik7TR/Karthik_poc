@@ -21,6 +21,9 @@
 		<xsl:text disable-output-escaping="yes">&#34;&gt;</xsl:text>
 		<root>
 			<xsl:apply-templates />
+			<xsl:if test="$type='main' and $bundlePartType = 'INDEX'">
+				<xsl:text disable-output-escaping="yes"><![CDATA[</INDEX>]]></xsl:text>
+			</xsl:if>
 		</root>
 	</xsl:template>
 
@@ -51,10 +54,16 @@
 				<xsl:attribute name="page-number" select="$printNumber" />
 			</xsl:element>
 		</xsl:if>
+		
+		<xsl:variable name="isFirstMainPage" select="count(preceding::x:page)=0 and $type='main'"/>
+		
+		<xsl:if test="$isFirstMainPage=true() and $bundlePartType='INDEX'">
+			<xsl:text disable-output-escaping="yes"><![CDATA[<INDEX>]]></xsl:text>
+		</xsl:if>
 
 		<xsl:apply-templates select="x:stream[@type=$type]" />
 	
-		<xsl:if test="$bundlePartType='FRONT' and count(preceding::x:page)=0 and $type='main'">
+		<xsl:if test="$isFirstMainPage=true() and $bundlePartType='FRONT'">
 			<xsl:apply-templates select="x:stream[@type='frills']//x:image"/>
 			<xsl:apply-templates select="x:stream[@type='frills']//x:block[.//x:tag[@name='custserv']]"/>
 		</xsl:if>
