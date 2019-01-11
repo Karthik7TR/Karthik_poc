@@ -17,8 +17,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
-import com.thomsonreuters.uscl.ereader.core.quality.domain.QualityReportRecipient;
-import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportsRecipientService;
+import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportsAdminService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.quality.domain.email.QualityReportEmail;
 import com.thomsonreuters.uscl.ereader.quality.service.QualityEmailService;
@@ -31,7 +30,7 @@ public class SendQualityReportsStep extends BookStepImpl {
     @Autowired
     private EmailUtil emailUtil;
     @Autowired
-    private QualityReportsRecipientService qualityReportRecipientService;
+    private QualityReportsAdminService qualityReportsAdminService;
     @Autowired
     private QualityEmailService qualityEmailService;
 
@@ -60,9 +59,8 @@ public class SendQualityReportsStep extends BookStepImpl {
     }
 
     private Stream<InternetAddress> getQualityReportsRecipients() {
-        return qualityReportRecipientService.getAll()
+        return qualityReportsAdminService.getParams().getRecipients()
             .stream()
-            .map(QualityReportRecipient::getEmail)
             .map(email -> {
                 try {
                     return new InternetAddress(email);

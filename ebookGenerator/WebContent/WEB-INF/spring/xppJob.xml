@@ -116,9 +116,13 @@
         <!--  must always be the last transformation step, otherwise XML parser will throw exception on HTML entities-->
         <step id="unescapeStep">
             <tasklet ref="unescapeTask" />
-            <next on="COMPLETED" to="qualityStep" />
+            <next on="COMPLETED" to="qualityStepDecision" />
             <fail on="FAILED" />
         </step>
+        <decision id="qualityStepDecision" decider="qualityStepExecutionDecider">
+			<next on="ENABLED" to="qualityStep" />
+			<next on="DISABLED" to="extractTocStep" />
+		</decision>
 		<step id="qualityStep">
 			<tasklet ref="qualityTask" />
 			<next on="COMPLETED" to="sendQualityReportNotificationXppStep" />
@@ -247,5 +251,6 @@
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.notification.SendEmailNotification" />
 	<beans:bean id="qualityReportTask" scope="step" parent="bookStep"
-		class="com.thomsonreuters.uscl.ereader.quality.step.SendQualityReportsStep" />	
+		class="com.thomsonreuters.uscl.ereader.quality.step.SendQualityReportsStep" />
+	<beans:bean id="qualityStepExecutionDecider" class="com.thomsonreuters.uscl.ereader.quality.step.QualityStepExecutionDecider"/>
 </beans:beans>

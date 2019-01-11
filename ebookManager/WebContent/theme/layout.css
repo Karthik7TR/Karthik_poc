@@ -983,22 +983,26 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 .bookDefinitionView .rightDefinitionForm>#displayFile>.row>.dynamicContent {
 width: initial;
 }
-.quality-recipient {
+.quality-form {
 	display: flex;
 	width:30vw;
 	justify-content: space-between;
 	margin-bottom: 5px;
 }
 
-.quality-recipient * {
+.quality-form * {
 	display: block;
 }
 
-.quality-recipient:hover {
+.quality-form:hover {
 	background: #F8F9F9;
 }
 
-.recipient-button {
+.quality-step-switch {
+	display: inherit;
+}
+
+.quality-form-button {
 	border-radius: 5px;
 	border: solid 1px;
 	background: #EAECEE;
@@ -1007,7 +1011,7 @@ width: initial;
 	max-width: 20%;
 }
 
-.recipient-button:hover {
+.quality-form-button:hover {
 	background: #CCD1D1;
 }
 

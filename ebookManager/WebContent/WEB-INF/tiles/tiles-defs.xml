@@ -319,7 +319,7 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/misc/body.jsp"/>
 	</definition>
 
-	<definition name="_qualityReportsRecipients" extends="twoColumnDefinition">
+	<definition name="_qualityReportsAdmin" extends="twoColumnDefinition">
 		<put-attribute name="title" value="/WEB-INF/jsp/admin/quality/title.jsp"/>
 		<put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/jsp/admin/quality/body.jsp"/>

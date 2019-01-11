@@ -52,6 +52,6 @@ Generator and Gatherer Switch
 <br/>
 <a href="<%=WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST%>">Outage Types</a><br/>
 <br/>
-<a href="<%=WebConstants.MVC_ADMIN_QUALITY_RECIPIENTS_VIEW%>">Quality Reports Recipients</a><br/>
+<a href="<%=WebConstants.MVC_ADMIN_QUALITY_REPORTS%>">Quality Reports</a><br/>
 <br/>
 <a href="<%=WebConstants.MVC_ADMIN_SUPPORT_VIEW%>">View Support Links</a>

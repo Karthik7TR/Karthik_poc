@@ -1,1 +1,1 @@
-<div class="pageTitle">Administration: Quality Reports Recipients</div>
+<div class="pageTitle">Administration: Quality Reports</div>

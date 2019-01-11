@@ -76,9 +76,9 @@
 	</div>
 
     <div>
-        <h3>Quality Reports Recipients</h3>
+        <h3>Quality Reports</h3>
         <div class="buttons">
-            <a href="<%=WebConstants.MVC_ADMIN_QUALITY_RECIPIENTS_VIEW%>">Quality Reports Recipients</a>
+            <a href="<%=WebConstants.MVC_ADMIN_QUALITY_REPORTS%>">Quality Reports</a>
         </div>
     </div>
 </div>

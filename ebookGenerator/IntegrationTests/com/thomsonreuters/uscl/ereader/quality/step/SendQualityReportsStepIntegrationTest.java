@@ -35,10 +35,12 @@ import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.config.db.AbstractDatabaseIntegrationTestConfig;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDao;
+import com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter;
 import com.thomsonreuters.uscl.ereader.core.quality.dao.QualityReportRecipientDao;
 import com.thomsonreuters.uscl.ereader.core.quality.domain.QualityReportRecipient;
-import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportRecipientServiceImpl;
-import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportsRecipientService;
+import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportsAdminService;
+import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportsAdminServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtilImpl;
 import com.thomsonreuters.uscl.ereader.quality.service.QualityEmailService;
@@ -60,6 +62,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -207,8 +210,8 @@ public final class SendQualityReportsStepIntegrationTest {
         }
 
         @Bean
-        public QualityReportsRecipientService qualityReportRecipientService(final QualityReportRecipientDao dao) {
-            return new QualityReportRecipientServiceImpl(dao);
+        public QualityReportsAdminService qualityReportsAdminService(final QualityReportRecipientDao dao, final AppParameterDao appParameterDao) {
+            return new QualityReportsAdminServiceImpl(appParameterDao, dao);
         }
 
         @Bean
@@ -219,6 +222,17 @@ public final class SendQualityReportsStepIntegrationTest {
         @Bean
         public ReportFileHandlingService reportFileHandlingService() {
             return new ReportFileHandlingServiceImpl();
+        }
+
+        @Bean
+        public AppParameterDao appParameterDao() {
+            final String parameterKey = "QualityStepEnabled";
+            final AppParameterDao appParameterDaoMock = Mockito.mock(AppParameterDao.class);
+            final AppParameter appParameter = new AppParameter();
+            appParameter.setKey(parameterKey);
+            appParameter.setValue("true");
+            given(appParameterDaoMock.findByPrimaryKey(parameterKey)).willReturn(appParameter);
+            return appParameterDaoMock;
         }
     }
 }
