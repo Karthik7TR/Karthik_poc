@@ -49,6 +49,9 @@
             <xsl:if test="@valign">
             	<xsl:attribute name="valign" select="@valign" />
             </xsl:if>
+            <xsl:if test="@rowsep='1'">
+                <xsl:attribute name="rowsep" select="@rowsep" />
+            </xsl:if>
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>

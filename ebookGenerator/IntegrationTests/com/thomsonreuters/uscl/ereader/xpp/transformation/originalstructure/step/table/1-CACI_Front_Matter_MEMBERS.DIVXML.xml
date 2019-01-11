@@ -14,7 +14,7 @@
                             <tbody>
                                 <tag name="tbody"/>
                                 <row row="1" rowrel="1" tbrdepth="0.32i" row_pos="0.14i" row_gutter="0" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
-                                    <entry col="1" morerows="1" colsep="0" rowsep="0" namest="col1" nameend="col3" align="center" valign="top">
+                                    <entry col="1" morerows="1" colsep="0" rowsep="1" namest="col1" nameend="col3" align="center" valign="top">
                                         <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
                                             <line xfinal="0" yfinal="3.9i" lnwidth="0" lnmeas="0.5i" lindent="0" rindent="0" prelead="0"  bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
                                                 <tag name="row">

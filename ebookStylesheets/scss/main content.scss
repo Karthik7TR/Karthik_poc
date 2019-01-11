@@ -75,6 +75,11 @@ table {
     }
 }
 
+.tbl .table_frame_topbot {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
 thead {
     text-align: center;
 }
@@ -122,6 +127,10 @@ td:empty {
     .section_body thead & {
         border: none;
     }
+}
+
+td[rowsep="1"] {
+    border-bottom: 1px solid black;
 }
 
 .name_block {

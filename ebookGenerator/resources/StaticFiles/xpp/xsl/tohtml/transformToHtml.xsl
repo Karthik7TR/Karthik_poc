@@ -383,6 +383,9 @@
 			<xsl:if test="@rowspan">
 				<xsl:attribute name="rowspan" select="@rowspan" />
 			</xsl:if>
+            <xsl:if test="@rowsep">
+                <xsl:attribute name="rowsep" select="@rowsep" />
+            </xsl:if>
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>

@@ -300,6 +300,11 @@ table.table_frame_all {
   margin-bottom: 1em;
 }
 
+.tbl .table_frame_topbot {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
 thead {
   text-align: center;
 }
@@ -348,6 +353,10 @@ td:last-of-type {
 
 .section_body thead td:empty {
   border: none;
+}
+
+td[rowsep="1"] {
+  border-bottom: 1px solid black;
 }
 
 .name_block {
