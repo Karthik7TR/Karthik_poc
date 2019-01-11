@@ -109,7 +109,7 @@ sed -i 's/<\/xsl:stylesheet>/\
 	<xsl:template match="author.line | author.block" name="author">\
 		<xsl:call-template name="wrapContentBlockWithCobaltClass" \/>\
 	<\/xsl:template>\
-    \
+\
 	<xsl:template match="research.references" name="researchReferences">\
 		<xsl:call-template name="wrapContentBlockWithCobaltClass">\
 			<xsl:with-param name="id">\
@@ -119,8 +119,13 @@ sed -i 's/<\/xsl:stylesheet>/\
 			<\/xsl:with-param>\
 		<\/xsl:call-template>\
 	<\/xsl:template>\
-    \
 &/g' WestlawNext/DefaultProductView/ContentTypes/Commentary.xsl
+
+sed -i 's/<\/xsl:stylesheet>/\
+	<xsl:template match="subsection" name="PlatformSubsection">\
+		<xsl:call-template name="wrapContentBlockWithCobaltClass" \/>\
+	<\/xsl:template>\
+&/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks/SimpleContentBlocks_Base.xsl
 
 echo "Replace ampersands" >> log.txt
 sed -i 's/&P/\&amp;P/g' ContentTypeMapData.xml
