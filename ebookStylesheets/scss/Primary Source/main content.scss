@@ -84,9 +84,24 @@
     }
 }
 
+.stat_para {
+    .primary_section_body>.primary_official_content>.stat_subsect>& {
+        margin-left: #{$indent * 2}em;
+    }
+}
+
 .stat_subpara {
     .primary_section_body>.primary_official_content>.stat_subsect>.stat_para>.stat_name_block~& {
         clear: left;
+    }
+    .primary_section_body>.primary_official_content>.stat_subsect>.stat_para>& {
+        margin-left: #{$indent * 2}em;
+    }
+}
+
+.name {
+    .primary_section_body .stat_name_block>.name_block>& {
+        display: inline-block;
     }
 }
 
@@ -97,6 +112,7 @@
         text-align: center;
         float: none;
     }
+    .primary_section>.primary_section_body>.primary_official_content>.stat_subsect>&,
     .publication>.publication_back>.appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_chapter>.stat_section>&,
     .publication>.publication_back>.appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_chapter>.stat_section_repealed>& {
         text-align: left;
@@ -106,6 +122,10 @@
         text-align: center;
         float: none;
         margin: #{$indent * 0.5}em 0 #{$indent * 0.5}em;
+    }
+    .primary_section_body>.primary_official_content>.stat_subsect>.stat_para>&,
+    .primary_section_body>.primary_official_content>.stat_subsect>.stat_para>.stat_subpara>& {
+        text-indent: #{$indent * -1}em;
     }
 }
 
@@ -126,6 +146,10 @@
     }
     .primary_hierarchy>.primary_hierarchy_body>.primary_section>.primary_section_front>& * {
         display: inline;
+    }
+    .full_toc>.toc_primary_hierarchy>.toc_primary_hierarchy>a>&,
+    .full_toc>.toc_primary_hierarchy>.toc_primary_hierarchy>.toc_primary_hierarchy>a>& {
+        margin-top: #{$indent}em;
     }
 }
 
@@ -148,6 +172,7 @@
     .primary_outline_name_block>.primary_name>.name>&:last-child {
         display: block;
     }
+    .primary_section_front>.primary_outline_name_block>.primary_name>.name>&:nth-child(2),
     .primary_section_front>.primary_outline_name_block>.primary_name>.name>&:only-child,
     .primary_hierarchy_front>.primary_outline_name_block>.primary_name>.name>&:only-child,
     .toc_primary_section .primary_outline_name_block>.label~.designator~.primary_name>.name>&,

@@ -18,6 +18,9 @@
         display: flex;
         align-items: baseline;
     }
+    .toc_primary_source>.toc_primary_hierarchy .toc_primary_section & {
+        margin-top: 0;
+    }
     .toc_primary_hierarchy>&,
     {
         display: flex;
@@ -64,6 +67,8 @@
     .primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc>.full_toc>.toc_primary_section>a>.primary_outline_name_block>& {
         width: initial;
     }
+    .full_toc>.toc_primary_hierarchy>.toc_primary_hierarchy>a>.primary_outline_name_block>&,
+    .full_toc>.toc_primary_hierarchy>.toc_primary_hierarchy>.toc_primary_hierarchy>a>.primary_outline_name_block>&,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_primary_source>.toc_primary_hierarchy>.toc_primary_hierarchy>a>.primary_outline_name_block>& {
         display:inline;
     }
@@ -92,6 +97,11 @@
     }
     .toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>& {
         min-width: #{$indent * 3.2}em;
+    }
+    .full_toc>.toc_primary_hierarchy>.toc_primary_hierarchy>a>.primary_outline_name_block>&,
+    .full_toc>.toc_primary_hierarchy>.toc_primary_hierarchy>.toc_primary_hierarchy>a>.primary_outline_name_block>& {
+        margin-right: 0;
+        min-width: 0;
     }
 }
 

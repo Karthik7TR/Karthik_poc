@@ -1419,6 +1419,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .primary_section_front > .primary_outline_name_block > .label > .cgt,
 .publication > .publication_body > .primary > .primary_source > .primary_source_body .primary_hierarchy > .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name .cgt,
 .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_hierarchy > a > .c > .designator + .cgt,
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .designator + .cgt.t,
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .designator + .cgt.t,
 .primary_source > .primary_source_body .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_section .primary_outline_name_block > .primary_name > .name ~ .xref + .cgt {
   display: inline;
 }
@@ -1550,8 +1552,20 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding: 0;
 }
 
+.primary_section_body > .primary_official_content > .stat_subsect > .stat_para {
+  margin-left: 2em;
+}
+
 .primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_name_block ~ .stat_subpara {
   clear: left;
+}
+
+.primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_subpara {
+  margin-left: 2em;
+}
+
+.primary_section_body .stat_name_block > .name_block > .name {
+  display: inline-block;
 }
 
 .publication > .publication_back > .appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_chapter > .stat_name_block,
@@ -1561,6 +1575,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   float: none;
 }
 
+.primary_section > .primary_section_body > .primary_official_content > .stat_subsect > .stat_name_block,
 .publication > .publication_back > .appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_chapter > .stat_section > .stat_name_block,
 .publication > .publication_back > .appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_chapter > .stat_section_repealed > .stat_name_block {
   text-align: left;
@@ -1571,6 +1586,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   text-align: center;
   float: none;
   margin: 0.5em 0 0.5em;
+}
+
+.primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_name_block,
+.primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_subpara > .stat_name_block {
+  text-indent: -1em;
 }
 
 .publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block,
@@ -1595,6 +1615,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline;
 }
 
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block,
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block {
+  margin-top: 1em;
+}
+
 .publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name > .name {
   flex-grow: 1;
 }
@@ -1612,6 +1637,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: block;
 }
 
+.primary_section_front > .primary_outline_name_block > .primary_name > .name > .t:nth-child(2),
 .primary_section_front > .primary_outline_name_block > .primary_name > .name > .t:only-child,
 .primary_hierarchy_front > .primary_outline_name_block > .primary_name > .name > .t:only-child,
 .toc_primary_section .primary_outline_name_block > .label ~ .designator ~ .primary_name > .name > .t,
@@ -1661,6 +1687,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-top: 0.5em;
   display: flex;
   align-items: baseline;
+}
+
+.toc_primary_source > .toc_primary_hierarchy .toc_primary_section .primary_outline_name_block {
+  margin-top: 0;
 }
 
 .toc_primary_hierarchy > .primary_outline_name_block {
@@ -1715,6 +1745,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   width: initial;
 }
 
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .primary_name,
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .primary_name,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .primary_name {
   display: inline;
 }
@@ -1747,6 +1779,12 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .designator {
   min-width: 3.2em;
+}
+
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .designator,
+.full_toc > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy > a > .primary_outline_name_block > .designator {
+  margin-right: 0;
+  min-width: 0;
 }
 
 .toc_primary_section > .toc_editorial_commentary_section * {
