@@ -370,3 +370,7 @@ ref {
         display: inline;
     }
 }
+
+.section_body>.para>.quote_block>.quote_para>.para_text.first_para_text_yes {
+    text-indent: #{$indent}em; 
+}

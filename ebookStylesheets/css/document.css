@@ -600,6 +600,10 @@ td[rowsep="1"] {
   display: inline;
 }
 
+.section_body > .para > .quote_block > .quote_para > .para_text.first_para_text_yes {
+  text-indent: 1em;
+}
+
 .appendix_front > .outline_name_block {
   margin: 1em 0;
   display: block;
