@@ -56,6 +56,12 @@
     margin-top: #{$indent*12}em;
 }
 
+.pre_leading_20p {
+    .frontmatter>.fm_copyright_page>.fm_current_copyright>& {
+        margin-top: #{$indent*12}em;
+    }
+}
+
 .ebook-isbn {
     text-align: center;
     font-size: #{$indent*0.7}em;

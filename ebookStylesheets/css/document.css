@@ -853,6 +853,10 @@ td[rowsep="1"] {
   margin-top: 12em;
 }
 
+.frontmatter > .fm_copyright_page > .fm_current_copyright > .pre_leading_20p {
+  margin-top: 12em;
+}
+
 .ebook-isbn {
   text-align: center;
   font-size: 0.7em;
