@@ -7,10 +7,11 @@ function splitChanged() {
 	$("#splitTypeDiv").hide();			
 	if(isSplitBook == "true" || isSplitBook == true) {	
 		$("#splitTypeDiv").show();	
-		$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
+		splitAutoChanged();
 	} else {
 		$("#splitTypeAuto").remove();
-		$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
+		$("input:radio[name=splitTypeAuto][value=true]").prop('checked', true);
+		$("input:radio[name=splitTypeAuto][value=false]").prop('checked', false);
 		$("#ebookSizeDiv").hide();
 		$("#splitTypeDiv").hide();
 		$("#displaySplitDocument").hide();	
@@ -24,7 +25,6 @@ function splitAutoChanged() {
 	$("#ebookSizeDiv").hide();		
 	isSplitTypeAuto = $('input:radio[name=splitTypeAuto]:checked').val();
 	if(isSplitTypeAuto == "false" || isSplitTypeAuto == false) {
-		$('#splitEBookParts option:first-child').attr("selected", true);
 		$("#ebookSizeDiv").show();	
 	} else {
 		$("#displaySplitDocument").hide();

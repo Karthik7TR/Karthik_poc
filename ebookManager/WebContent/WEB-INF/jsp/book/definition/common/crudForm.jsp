@@ -488,7 +488,7 @@
 				<div class="row">
 					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>
 					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="true" />Auto
-				    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="false" />Manual
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="false" />Manual
 				</div>
 				<div class="errorDiv">
 						<form:errors path="splitTypeAuto" cssClass="errorMessage" />

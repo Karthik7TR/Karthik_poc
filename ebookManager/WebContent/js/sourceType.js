@@ -138,7 +138,6 @@ $(function() {
 		$("#displayFinalStage").hide();
 		$(".xppHideClass").css("display","block");
 		splitChanged();
-		splitAutoChanged();
 		splitSizeChanged();
 		if(sourceType == "TOC") {
 			$("#displayTOC").show();
