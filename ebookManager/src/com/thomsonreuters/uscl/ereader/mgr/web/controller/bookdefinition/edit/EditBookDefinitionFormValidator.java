@@ -965,7 +965,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                     WebConstants.LOCATION_COVER_IMAGE,
                     "validateForm",
                     "error.not.exist");
-                if (form.getPilotBook() == PilotBookStatus.TRUE) {
+                if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
                     fileExist(
                         errors,
                         form.createPilotBookCsvName(),

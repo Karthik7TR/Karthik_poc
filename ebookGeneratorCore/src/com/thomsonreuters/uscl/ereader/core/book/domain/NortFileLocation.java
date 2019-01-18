@@ -18,6 +18,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.CopyAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.EbookDefinitionAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.SequenceNumAware;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -28,7 +31,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Table(name = "NORT_FILE_LOCATION")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "NortFileLocation")
-public class NortFileLocation implements Serializable, Comparable<NortFileLocation> {
+public class NortFileLocation implements Serializable, Comparable<NortFileLocation>, CopyAware<NortFileLocation>, SequenceNumAware, EbookDefinitionAware {
     private static final long serialVersionUID = 249868448548819700L;
 
     @Column(name = "NORT_FILE_LOCATION_ID", nullable = false)
@@ -77,12 +80,14 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
         return sequenceNum;
     }
 
+    @Override
     public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
     /**
      */
+    @Override
     public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
@@ -102,6 +107,7 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
      * Copies the contents of the specified bean into this bean.
      *
      */
+    @Override
     public void copy(final NortFileLocation that) {
         setNortFileLocationId(that.getNortFileLocationId());
         setLocationName(that.getLocationName());

@@ -5,8 +5,12 @@ import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_M
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -23,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
@@ -33,6 +38,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -89,12 +96,22 @@ public class EditBookDefinitionController {
      * @param titleId the primary key of the book to be edited as a required query string parameter.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.GET)
-    public ModelAndView createBookDefintionGet(
-        @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
-        final BindingResult bindingResult,
-        final Model model) {
+    public ModelAndView createBookDefintionGet(@ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm definitionForm,
+                                               final Model model, final Authentication authentication) {
+        final Collection<String> userAuthorities = Optional.ofNullable(authentication)
+            .map(Authentication::getAuthorities)
+            .map(Collection::stream)
+            .orElseGet(Stream::empty)
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
+        final EditBookDefinitionForm form;
+        if (userAuthorities.contains(SecurityRole.ROLE_SUPERUSER.name())) {
+            form = definitionForm;
+        } else {
+            form = new EditBookDefinitionForm();
+            model.addAttribute(EditBookDefinitionForm.FORM_NAME, form);
+        }
         initializeModel(model, form);
-
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
     }
 

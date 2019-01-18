@@ -18,6 +18,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.CopyAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.EbookDefinitionAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.SequenceNumAware;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
@@ -28,7 +31,7 @@ import org.springframework.util.AutoPopulatingList;
  */
 @Entity
 @Table(name = "FRONT_MATTER_PAGE")
-public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage> {
+public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage>, CopyAware<FrontMatterPage>, SequenceNumAware, EbookDefinitionAware {
     private static final long serialVersionUID = 6894572296330551335L;
     /**
      */
@@ -89,6 +92,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
         return ebookDefinition;
     }
 
+    @Override
     public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
@@ -113,6 +117,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
         return sequenceNum;
     }
 
+    @Override
     public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
@@ -133,6 +138,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
      * Copies the contents of the specified bean into this bean.
      *
      */
+    @Override
     @Transient
     public void copy(final FrontMatterPage that) {
         setId(that.getId());

@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.CopyAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.EbookDefinitionAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.SequenceNumAware;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,7 +36,7 @@ import lombok.ToString;
 @IdClass(PilotBook.PilotBookPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PilotBook")
-public class PilotBook implements Serializable, Comparable<PilotBook> {
+public class PilotBook implements Serializable, Comparable<PilotBook>, CopyAware<PilotBook>, SequenceNumAware, EbookDefinitionAware {
     private static final long serialVersionUID = 7962657038385328632L;
 
     @Id
@@ -53,6 +56,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook> {
      * Copies the contents of the specified bean into this bean.
      *
      */
+    @Override
     public void copy(final PilotBook that) {
         setPilotBookTitleId(that.getPilotBookTitleId());
         setSequenceNum(that.getSequenceNum());

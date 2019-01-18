@@ -18,6 +18,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.CopyAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.EbookDefinitionAware;
+import com.thomsonreuters.uscl.ereader.core.book.domain.common.SequenceNumAware;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +45,7 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "AUTHOR")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "Author")
-public class Author implements Serializable, Comparable<Author> {
+public class Author implements Serializable, Comparable<Author>, CopyAware<Author>, SequenceNumAware, EbookDefinitionAware {
     private static final long serialVersionUID = 7962657038385328632L;
 
     @Column(name = "AUTHOR_ID", nullable = false)
@@ -105,6 +108,7 @@ public class Author implements Serializable, Comparable<Author> {
      * Copies the contents of the specified bean into this bean.
      *
      */
+    @Override
     public void copy(final Author that) {
         setAuthorId(that.getAuthorId());
         setAuthorNamePrefix(that.getAuthorNamePrefix());
