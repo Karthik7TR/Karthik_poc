@@ -650,9 +650,13 @@ public class EditBookDefinitionForm {
             OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, PrintComponent.class));
     }
 
+    public PilotBookStatus getPilotBook() {
+        return pilotBookStatus;
+    }
 
-
-
+    public void setPilotBook(final PilotBookStatus pilotBookStatus) {
+        this.pilotBookStatus = pilotBookStatus;
+    }
 
     public String createCoverImageName() {
         return String.format("%s_%s.%s", titleId.replaceAll("/", "_"), "cover", "png");
