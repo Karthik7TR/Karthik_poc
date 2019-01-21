@@ -61,7 +61,7 @@ public class OutageDaoImpl implements OutageDao {
         final Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(PlannedOutage.class)
             .add(Restrictions.ge("endTime", new Date()))
-            .add(Restrictions.le("endTime", endDate))
+            .add(Restrictions.le("startTime", endDate))
             .addOrder(Order.asc("startTime"))
             .list();
     }
