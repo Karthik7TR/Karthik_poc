@@ -190,6 +190,7 @@ public final class EditBookDefinitionFormTest {
 
         form.copyBookDefinition(book, keywordCodes);
         Assert.assertTrue(form.toString().length() > 0);
+        Assert.assertTrue(form.isSplitTypeAuto());
     }
 
     @Test

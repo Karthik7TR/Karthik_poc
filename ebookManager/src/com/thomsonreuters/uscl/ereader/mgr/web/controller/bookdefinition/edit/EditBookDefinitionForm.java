@@ -270,6 +270,7 @@ public class EditBookDefinitionForm {
         bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
         bookDef.setUseReloadContent(false);
         bookDef.setSubGroupHeading(null);
+        bookDef.setIsSplitTypeAuto(true);
 
         // Need to null surrogate and foreign keys.
         // New keys will be made when Copy of Book Definition is saved.
