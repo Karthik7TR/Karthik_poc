@@ -81,12 +81,15 @@ function splitSizeChanged() {
 		}
 	});
 	
-	$("#displaySplitDocument").show();
-	if (splitSize > size){			
+	
+	if (splitSize > size) {
+		$("#displaySplitDocument").show();
 		for(var i = size; i < splitSize; i++) {
 			addSplitGuidRow("splitDocuments", splitDocumentIndex, "tocGuid", "TOC/NORT GUID", $("#addSplitDocumentsHere"));
 			splitDocumentIndex = splitDocumentIndex + 1;
 		}
+	} else if (splitSize < 2){ 
+		$("#displaySplitDocument").hide();
 	}
 }
 
