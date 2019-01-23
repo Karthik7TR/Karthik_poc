@@ -1,5 +1,8 @@
 $(function() {
 	$(document).ready(function() {
+		const CHAR_CODE_0 = 48;
+		const CHAR_CODE_9 = 57;
+		
 		// Add Comment
 		$('#confirm').click(function(e) {
 		    //Cancel the link behavior
@@ -43,5 +46,22 @@ $(function() {
 	        $(this).hide();
 	        $('.window').hide();
 	    });
+	    
+	    this.bookDefinitionIdField = {
+	        addRestrictions: function(element) {
+	            if (!this.hasKeypressAndChangeHandlers(element)) {
+	                $(element).on("keypress", function(event) {
+	                    return event.charCode >= CHAR_CODE_0 && event.charCode <= CHAR_CODE_9;
+	                });
+	                $(element).on("change", function() {
+	                    element.value = element.value.replace(/[^0-9]/g, "");
+	                });
+	            }
+	        },
+	        hasKeypressAndChangeHandlers: function (element) {
+	            var ev = $._data(element, 'events');
+	            return ev && ev.keypress && ev.change;
+	        }
+	    }
 	});
 });

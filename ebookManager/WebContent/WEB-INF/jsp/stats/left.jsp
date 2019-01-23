@@ -7,6 +7,7 @@
 <%--
 	The filter form in the left side tile of the Active / Recent Jobs table.
  --%>
+<script type="text/javascript" src="js/common-form.js"></script>
 <script>
 $(document).ready(function() {
 	<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
@@ -67,7 +68,7 @@ function submitFilterForm(command) {
 	</div>	
 	<div class="filterRow">	
 		<label>Book Definition ID:</label>
-		<form:input path="bookDefinitionId" maxlength="19" onkeypress="return event.charCode == 37 || (event.charCode > 47 && event.charCode < 58)"/>
+		<form:input path="bookDefinitionId" maxlength="19" onfocus="bookDefinitionIdField.addRestrictions(this)"/>
 	</div>	
 	<div class="filterRow">	
 		<label>From Date:</label>
