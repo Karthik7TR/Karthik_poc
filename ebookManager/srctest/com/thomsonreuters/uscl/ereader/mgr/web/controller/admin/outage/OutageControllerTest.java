@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -19,7 +18,6 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import org.apache.commons.lang3.time.DateUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -250,8 +248,11 @@ public final class OutageControllerTest {
         final PlannedOutage outage = new PlannedOutage();
         outage.setId(id);
 
+        final List<PlannedOutage> otherOutages = new ArrayList<>();
+
         outageService.deletePlannedOutage(id);
         EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(id)).andReturn(outage);
+        EasyMock.expect(outageService.getAllActiveAndScheduledPlannedOutages()).andReturn(otherOutages);
         EasyMock.replay(outageService);
         EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr))
             .andReturn(new SimpleRestServiceResponse())
@@ -261,7 +262,7 @@ public final class OutageControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
-        assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_DELETE, mav.getViewName());
+        assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_ACTIVE_LIST, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
         final List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
         // Expect 3 info messages 1 success, and 2 failures for inability to push to host
@@ -269,6 +270,8 @@ public final class OutageControllerTest {
         assertEquals(InfoMessage.Type.SUCCESS, mesgs.get(0).getType());
         assertEquals(InfoMessage.Type.FAIL, mesgs.get(1).getType());
         assertEquals(InfoMessage.Type.FAIL, mesgs.get(2).getType());
+
+        assertEquals(otherOutages, model.get(WebConstants.KEY_OUTAGE));
 
         EasyMock.verify(outageService);
         EasyMock.verify(mockManagerService);

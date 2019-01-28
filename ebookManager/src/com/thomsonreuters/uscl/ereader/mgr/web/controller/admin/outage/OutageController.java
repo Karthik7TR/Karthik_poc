@@ -161,13 +161,13 @@ public class OutageController {
     public ModelAndView deleteOutagePost(
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception {
+        final Model model) {
         final PlannedOutage outage = form.createPlannedOutage();
         outage.setOperation(Operation.REMOVE);
 
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, submitPlannedOutage(bindingResult, model, outage));
-        model.addAttribute(WebConstants.KEY_OUTAGE, outage);
-        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_DELETE);
+        model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllActiveAndScheduledPlannedOutages());
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_ACTIVE_LIST);
     }
 
     public List<InfoMessage> submitPlannedOutage(
