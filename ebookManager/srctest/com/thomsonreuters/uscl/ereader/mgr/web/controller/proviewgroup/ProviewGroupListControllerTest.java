@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.SubgroupInfo;
@@ -109,6 +110,27 @@ public final class ProviewGroupListControllerTest {
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
+
+        EasyMock.verify(mockProviewHandler);
+    }
+
+    /**
+     * Test /ebookManager/proviewGroups.mvc command = REFRESH
+     * with simulating Proview outage.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testPostSelectionsForGroupsRefreshProviewException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", ProviewGroupForm.Command.REFRESH.toString());
+
+        EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andThrow(new ProviewException(""));
+        EasyMock.replay(mockProviewHandler);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        assertNotNull(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE));
 
         EasyMock.verify(mockProviewHandler);
     }

@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -32,7 +36,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import org.easymock.EasyMock;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -117,9 +120,9 @@ public final class ProviewTitleListControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
         final Map<String, Object> model = mav.getModel();
-        Assert.assertEquals(model.get(WebConstants.KEY_PAGE_SIZE), "20");
+        assertEquals(model.get(WebConstants.KEY_PAGE_SIZE), "20");
 
         EasyMock.verify(mockProviewHandler);
     }
@@ -146,10 +149,26 @@ public final class ProviewTitleListControllerTest {
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
         final Map<String, Object> model = mav.getModel();
 
-        Assert.assertEquals("20", model.get("pageSize"));
+        assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
+        assertEquals("20", model.get("pageSize"));
+
+        EasyMock.verify(mockProviewHandler);
+    }
+
+    @Test
+    public void testPostSelectionsRefreshProviewExcepton() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", ProviewTitleForm.Command.REFRESH.toString());
+
+        EasyMock.expect(mockProviewHandler.getAllProviewTitleInfo()).andThrow(new ProviewException(""));
+        EasyMock.replay(mockProviewHandler);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        assertNotNull(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE));
 
         EasyMock.verify(mockProviewHandler);
     }
@@ -170,10 +189,10 @@ public final class ProviewTitleListControllerTest {
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
         final Map<String, Object> model = mav.getModel();
 
-        Assert.assertEquals(1, model.get("resultSize"));
+        assertEquals(1, model.get("resultSize"));
     }
 
     @Test
@@ -189,7 +208,7 @@ public final class ProviewTitleListControllerTest {
         handlerAdapter.handle(request, response, controller);
 
         final ServletOutputStream outStream = response.getOutputStream();
-        Assert.assertTrue(!outStream.toString().isEmpty());
+        assertTrue(!outStream.toString().isEmpty());
     }
 
     @Test
@@ -205,9 +224,9 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(mav);
         final Map<String, Object> model = mav.getModel();
 
-        Assert.assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
-        Assert.assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
-        Assert.assertEquals(WebConstants.KEY_STATUS, model.get("status"));
+        assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
+        assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
+        assertEquals(WebConstants.KEY_STATUS, model.get("status"));
     }
 
     @Test
@@ -223,9 +242,9 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(mav);
         final Map<String, Object> model = mav.getModel();
 
-        Assert.assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
-        Assert.assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
-        Assert.assertEquals(WebConstants.KEY_STATUS, model.get("status"));
+        assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
+        assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
+        assertEquals(WebConstants.KEY_STATUS, model.get("status"));
     }
 
     @Test
@@ -241,9 +260,9 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(mav);
         final Map<String, Object> model = mav.getModel();
 
-        Assert.assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
-        Assert.assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
-        Assert.assertEquals(WebConstants.KEY_STATUS, model.get("status"));
+        assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
+        assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
+        assertEquals(WebConstants.KEY_STATUS, model.get("status"));
     }
 
     @Test
@@ -290,7 +309,7 @@ public final class ProviewTitleListControllerTest {
         EasyMock.replay(mockJobRequestService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, mav.getViewName());
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, mav.getViewName());
     }
 
     @Test
@@ -320,7 +339,7 @@ public final class ProviewTitleListControllerTest {
         EasyMock.replay(mockEmailService);
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, mav.getViewName());
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, mav.getViewName());
     }
 
     @Test
@@ -350,6 +369,6 @@ public final class ProviewTitleListControllerTest {
         EasyMock.replay(mockEmailService);
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, mav.getViewName());
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, mav.getViewName());
     }
 }

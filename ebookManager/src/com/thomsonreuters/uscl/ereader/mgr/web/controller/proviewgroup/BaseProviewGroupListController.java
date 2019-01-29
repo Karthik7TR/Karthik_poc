@@ -10,8 +10,9 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupContainer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseProviewListController;
 
-public abstract class BaseProviewGroupListController {
+public abstract class BaseProviewGroupListController extends BaseProviewListController {
     protected List<ProviewGroup> filterProviewGroupList(
         final ProviewGroupListFilterForm filterForm,
         final List<ProviewGroup> allLatestProviewGroups) {

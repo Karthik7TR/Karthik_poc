@@ -96,7 +96,19 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     public ModelAndView postSelectionsforGroups(
         @ModelAttribute final ProviewGroupForm form,
         final HttpSession httpSession,
-        final Model model) throws Exception {
+        final Model model) {
+        return wrapToProviewExceptionHandler(this::setPostSelectionsforGroupsModel,
+            form,
+            httpSession,
+            model,
+            WebConstants.VIEW_PROVIEW_GROUPS
+            );
+    }
+
+    private void setPostSelectionsforGroupsModel(
+        final ProviewGroupForm form,
+        final HttpSession httpSession,
+        final Model model) throws ProviewException {
         final Command command = form.getCommand();
         switch (command) {
         case REFRESH:
@@ -121,6 +133,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             }
             model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
             model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
+            model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
             break;
         case PAGESIZE:
             saveProviewGroupForm(httpSession, form);
@@ -131,8 +144,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, fetchProviewGroupListFilterForm(httpSession));
             model.addAttribute(ProviewGroupForm.FORM_NAME, form);
             break;
+        default:
+            throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
         }
-        return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)
@@ -191,7 +205,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                     log.warn(e.getMessage(), e);
                     model.addAttribute(
                         WebConstants.KEY_ERR_MESSAGE,
-                        "Proview Exception occured. Please contact your administrator.");
+                        PROVIEW_ERROR_MESSAGE);
                 }
             }
         } else {

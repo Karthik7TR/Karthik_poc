@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseProviewListController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
@@ -52,7 +53,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
-public class ProviewTitleListController {
+public class ProviewTitleListController extends BaseProviewListController {
+    private static final String PROVIEW_ERROR_MESSAGE = "Proview Exception occured. Please contact your administrator.";
     private static final String TITLE_ID_S_VERSION_S = "Title id: %s, version: %s %s";
     private static final String SUCCESS = "Success";
     private static final String UNSUCCESSFUL = "Unsuccessful";
@@ -144,7 +146,16 @@ public class ProviewTitleListController {
     public ModelAndView postSelections(
         @ModelAttribute final ProviewTitleForm form,
         final HttpSession httpSession,
-        final Model model) throws Exception {
+        final Model model) {
+        return wrapToProviewExceptionHandler(this::setPostSelectionsModel,
+            form,
+            httpSession,
+            model,
+            WebConstants.VIEW_PROVIEW_TITLES);
+    }
+
+    private void setPostSelectionsModel(final ProviewTitleForm form, final HttpSession httpSession, final Model model)
+        throws ProviewException {
         final Command command = form.getCommand();
 
         switch (command) {
@@ -172,6 +183,7 @@ public class ProviewTitleListController {
             }
             model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
             model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
+            model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
             break;
         case PAGESIZE:
             saveProviewTitleForm(httpSession, form);
@@ -182,8 +194,9 @@ public class ProviewTitleListController {
             model.addAttribute(ProviewListFilterForm.FORM_NAME, fetchSavedProviewListFilterForm(httpSession));
             model.addAttribute(ProviewTitleForm.FORM_NAME, form);
             break;
+        default:
+            throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
         }
-        return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)
@@ -227,9 +240,7 @@ public class ProviewTitleListController {
 
                     saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
                 } catch (final ProviewException e) {
-                    model.addAttribute(
-                        WebConstants.KEY_ERR_MESSAGE,
-                        "Proview Exception occured. Please contact your administrator.");
+                    model.addAttribute(WebConstants.KEY_ERR_MESSAGE, PROVIEW_ERROR_MESSAGE);
                 }
             }
         }
