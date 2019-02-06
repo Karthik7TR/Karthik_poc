@@ -22,7 +22,7 @@ public final class ProviewHandlerWithRetryImplTest {
     @Test
     public void shouldDeleteTitleIf200() throws Exception {
         //given
-        given(proviewHandler.removeTitle("an/splitTitle", version("v1.1"))).willReturn("200");
+        given(proviewHandler.removeTitle("an/splitTitle", version("v1.1"))).willReturn(true);
         //when
         service.removeTitle("an/splitTitle", version("v1.1"));
         //then
@@ -32,7 +32,7 @@ public final class ProviewHandlerWithRetryImplTest {
     @Test
     public void shouldNotDeleteTitleOtherwise() throws Exception {
         //given
-        given(proviewHandler.removeTitle("an/splitTitle", version("v1.1"))).willReturn("400");
+        given(proviewHandler.removeTitle("an/splitTitle", version("v1.1"))).willReturn(false);
         //when
         service.removeTitle("an/splitTitle", version("v1.1"));
         //then

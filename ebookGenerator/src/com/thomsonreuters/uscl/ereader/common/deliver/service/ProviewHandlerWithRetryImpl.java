@@ -14,8 +14,7 @@ public class ProviewHandlerWithRetryImpl implements ProviewHandlerWithRetry {
     @ProviewRetry
     @Override
     public void removeTitle(final String splitTitle, final Version version) throws ProviewException {
-        final String response = proviewHandler.removeTitle(splitTitle, version);
-        if (response.contains("200")) {
+        if (proviewHandler.removeTitle(splitTitle, version)) {
             proviewHandler.deleteTitle(splitTitle, version);
         }
     }

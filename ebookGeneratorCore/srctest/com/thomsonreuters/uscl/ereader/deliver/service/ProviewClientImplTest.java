@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactor
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
+import com.thomsonreuters.uscl.ereader.deliver.rest.SimpleProviewResponseExtractor;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -19,7 +20,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -45,6 +49,8 @@ public final class ProviewClientImplTest {
     private ProviewRequestCallback mockRequestCallback;
     private ProviewXMLRequestCallback mockXMLRequestCallback;
     private ProviewResponseExtractor mockResponseExtractor;
+    private SimpleProviewResponseExtractor mockSimpleResponseExtractor;
+    private ClientHttpResponse mockClientHttpResponse;
 
     @Before
     public void setUp() throws Exception {
@@ -55,6 +61,7 @@ public final class ProviewClientImplTest {
         mockRequestCallback = new ProviewRequestCallback();
         mockXMLRequestCallback = new ProviewXMLRequestCallback();
         mockResponseExtractor = new ProviewResponseExtractor();
+        mockSimpleResponseExtractor = new SimpleProviewResponseExtractor();
         mockRestTemplate = EasyMock.createMock(RestTemplate.class);
         mockRequestCallbackFactory = EasyMock.createMock(ProviewRequestCallbackFactory.class);
         mockResponseExtractorFactory = EasyMock.createMock(ProviewResponseExtractorFactory.class);
@@ -64,6 +71,7 @@ public final class ProviewClientImplTest {
         proviewClient.setProviewHost(PROVIEW_HOST);
         mockResponseEntity = EasyMock.createMock(ResponseEntity.class);
         mockHeaders = EasyMock.createMock(HttpHeaders.class);
+        mockClientHttpResponse = new MockClientHttpResponse(new byte[]{}, HttpStatus.OK);
     }
 
     @After
@@ -443,22 +451,22 @@ public final class ProviewClientImplTest {
         urlParameters.put("eBookVersionNumber", bookVersion);
 
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
-        EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+        EasyMock.expect(mockResponseExtractorFactory.getSimpleResponseExtractor()).andReturn(mockSimpleResponseExtractor);
         EasyMock
             .expect(
                 mockRestTemplate.execute(
                     promoteTitleUriTemplate,
                     HttpMethod.PUT,
                     mockRequestCallback,
-                    mockResponseExtractor,
+                    mockSimpleResponseExtractor,
                     urlParameters))
-            .andReturn("=)");
+            .andReturn(mockClientHttpResponse);
         EasyMock.expectLastCall();
         replayAll();
 
-        final String response = proviewClient.promoteTitle(titleId, bookVersion);
+        final HttpStatus response = proviewClient.promoteTitle(titleId, bookVersion);
 
-        Assert.assertEquals("=)", response);
+        Assert.assertEquals(HttpStatus.OK, response);
     }
 
     @Test
@@ -473,24 +481,23 @@ public final class ProviewClientImplTest {
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", titleId);
         urlParameters.put("eBookVersionNumber", bookVersion);
-
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
-        EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+        EasyMock.expect(mockResponseExtractorFactory.getSimpleResponseExtractor()).andReturn(mockSimpleResponseExtractor);
         EasyMock
             .expect(
                 mockRestTemplate.execute(
                     removeTitleUriTemplate,
                     HttpMethod.PUT,
                     mockRequestCallback,
-                    mockResponseExtractor,
+                    mockSimpleResponseExtractor,
                     urlParameters))
-            .andReturn("=)");
+            .andReturn(mockClientHttpResponse);
         EasyMock.expectLastCall();
         replayAll();
 
-        final String response = proviewClient.removeTitle(titleId, bookVersion);
+        final HttpStatus response = proviewClient.removeTitle(titleId, bookVersion);
 
-        Assert.assertEquals("=)", response);
+        Assert.assertEquals(HttpStatus.OK, response);
     }
 
     @Test
@@ -507,21 +514,21 @@ public final class ProviewClientImplTest {
         urlParameters.put("eBookVersionNumber", bookVersion);
 
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
-        EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+        EasyMock.expect(mockResponseExtractorFactory.getSimpleResponseExtractor()).andReturn(mockSimpleResponseExtractor);
         EasyMock.expect(
             mockRestTemplate.execute(
                 deleteTitleUriTemplate,
                 HttpMethod.DELETE,
                 mockRequestCallback,
-                mockResponseExtractor,
+                mockSimpleResponseExtractor,
                 urlParameters))
-            .andReturn("=)");
+            .andReturn(mockClientHttpResponse);
         EasyMock.expectLastCall();
         replayAll();
 
-        final String response = proviewClient.deleteTitle(titleId, bookVersion);
+        final HttpStatus response = proviewClient.deleteTitle(titleId, bookVersion);
 
-        Assert.assertEquals("=)", response);
+        Assert.assertEquals(HttpStatus.OK, response);
     }
 
     /**

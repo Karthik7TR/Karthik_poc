@@ -36,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.JobExecution;
@@ -383,9 +384,10 @@ public class ProviewTitleListController extends BaseProviewListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.POST)
     public ModelAndView proviewTitleRemovePost(
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
+        final HttpSession httpSession,
         final Model model) {
         final TitleAction action = new TitleAction(
-            () -> removeTitle(form),
+            () -> removeTitle(form, httpSession),
             "Proview Remove Request Status: %s",
             "removed from Proview.",
             "could not be removed from Proview.",
@@ -398,9 +400,10 @@ public class ProviewTitleListController extends BaseProviewListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.POST)
     public ModelAndView proviewTitlePromotePost(
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
+        final HttpSession httpSession,
         final Model model) {
         final TitleAction action = new TitleAction(
-            () -> promoteTitle(form),
+            () -> promoteTitle(form, httpSession),
             "Proview Promote Request Status: %s",
             "promoted to Final in Proview.",
             "could not be promoted to Final in Proview.",
@@ -413,9 +416,10 @@ public class ProviewTitleListController extends BaseProviewListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.POST)
     public ModelAndView proviewTitleDeletePost(
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
+        final HttpSession httpSession,
         final Model model) {
         final TitleAction action = new TitleAction(
-            () -> deleteTitle(form),
+            () -> deleteTitle(form, httpSession),
             "Proview Delete Request Status: %s",
             "deleted from Proview.",
             "could not be deleted from Proview.",
@@ -456,18 +460,68 @@ public class ProviewTitleListController extends BaseProviewListController {
     }
 
     @SneakyThrows
-    private void promoteTitle(final ProviewTitleForm form) {
-        proviewHandler.promoteTitle(form.getTitleId(), form.getVersion());
+    private void promoteTitle(final ProviewTitleForm form, final HttpSession httpSession) {
+        if (proviewHandler.promoteTitle(form.getTitleId(), form.getVersion())) {
+            changeStatusForTitle(form, httpSession, "Final");
+        }
     }
 
     @SneakyThrows
-    private void removeTitle(final ProviewTitleForm form) {
-        proviewHandler.removeTitle(form.getTitleId(), new Version(form.getVersion()));
+    private void removeTitle(final ProviewTitleForm form, final HttpSession httpSession) {
+        if (proviewHandler.removeTitle(form.getTitleId(), new Version(form.getVersion()))) {
+            changeStatusForTitle(form, httpSession, "Removed");
+        }
     }
 
     @SneakyThrows
-    private void deleteTitle(final ProviewTitleForm form) {
-        proviewHandler.deleteTitle(form.getTitleId(), new Version(form.getVersion()));
+    private void deleteTitle(final ProviewTitleForm form, final HttpSession httpSession) {
+        if (proviewHandler.deleteTitle(form.getTitleId(), new Version(form.getVersion()))) {
+            final Map<String, ProviewTitleContainer> proviewTitleContainerMap = fetchAllProviewTitleInfo(httpSession);
+            proviewTitleContainerMap.computeIfPresent(form.getTitleId(), (key, value) -> {
+                value.getProviewTitleInfos().removeIf(item -> item.getVersion().equals(form.getVersion()));
+                return value;
+            });
+            if (proviewTitleContainerMap.containsKey(form.getTitleId())
+                && CollectionUtils.isEmpty(proviewTitleContainerMap.get(form.getTitleId()).getProviewTitleInfos())) {
+                proviewTitleContainerMap.remove(form.getTitleId());
+            }
+            final List<ProviewTitleInfo> latestProviewTitleInfo =
+                proviewHandler.getAllLatestProviewTitleInfo(proviewTitleContainerMap);
+            final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
+
+            if (selectedProviewTitleInfo.removeIf(item ->
+                item.getTitleId().equals(form.getTitleId()) && item.getVersion().equals(form.getVersion()))) {
+                if (proviewTitleContainerMap.containsKey(form.getTitleId())) {
+                    final ProviewTitleInfo updatedLatestVersion =
+                        proviewTitleContainerMap.get(form.getTitleId()).getLatestVersion();
+                    selectedProviewTitleInfo.add(updatedLatestVersion);
+                }
+            }
+            saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
+            saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
+            saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
+        }
+    }
+
+    @SneakyThrows
+    private void changeStatusForTitle(final ProviewTitleForm form, final HttpSession httpSession, final String updatedStatus) {
+        final Map<String, ProviewTitleContainer> proviewTitleContainerMap = fetchAllProviewTitleInfo(httpSession);
+        proviewTitleContainerMap.computeIfPresent(form.getTitleId(), (key, value) -> {
+            value.getProviewTitleInfos().stream()
+                .filter(item -> item.getVersion().equals(form.getVersion()))
+                .forEach(item -> item.setStatus(updatedStatus));
+            return value;
+        });
+        final List<ProviewTitleInfo> latestProviewTitleInfo =
+            proviewHandler.getAllLatestProviewTitleInfo(proviewTitleContainerMap);
+        final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
+        selectedProviewTitleInfo.stream()
+            .filter(item -> item.getTitleId().equals(form.getTitleId()))
+            .filter(item -> item.getVersion().equals(form.getVersion()))
+            .forEach(item -> item.setStatus(updatedStatus));
+        saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
+        saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
+        saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
     }
 
     @Data

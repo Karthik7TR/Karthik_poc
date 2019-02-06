@@ -19,12 +19,15 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -426,7 +429,7 @@ public class ProviewClientImpl implements ProviewClient {
      * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle (java.lang.String, java.lang.String)
      */
     @Override
-    public String promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
+    public HttpStatus promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
         if (StringUtils.isBlank(fullyQualifiedTitleId)) {
             throw new IllegalArgumentException(
@@ -444,14 +447,14 @@ public class ProviewClientImpl implements ProviewClient {
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
-        final String proviewResponse = restTemplate.execute(
+        final ClientHttpResponse proviewResponse = restTemplate.execute(
             promoteTitleUriTemplate,
             HttpMethod.PUT,
             proviewRequestCallback,
-            proviewResponseExtractorFactory.getResponseExtractor(),
+            proviewResponseExtractorFactory.getSimpleResponseExtractor(),
             urlParameters);
 
-        return proviewResponse;
+        return getStatusCode(proviewResponse);
     }
 
     /*
@@ -460,7 +463,7 @@ public class ProviewClientImpl implements ProviewClient {
      * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#removeTitle (java.lang.String, java.lang.String)
      */
     @Override
-    public String removeTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
+    public HttpStatus removeTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
         if (StringUtils.isBlank(fullyQualifiedTitleId)) {
             throw new IllegalArgumentException(
@@ -478,14 +481,18 @@ public class ProviewClientImpl implements ProviewClient {
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
-        final String proviewResponse = restTemplate.execute(
+        final ClientHttpResponse proviewResponse = restTemplate.execute(
             removeTitleUriTemplate,
             HttpMethod.PUT,
             proviewRequestCallback,
-            proviewResponseExtractorFactory.getResponseExtractor(),
+            proviewResponseExtractorFactory.getSimpleResponseExtractor(),
             urlParameters);
+        return getStatusCode(proviewResponse);
+    }
 
-        return proviewResponse;
+    @SneakyThrows
+    private HttpStatus getStatusCode(ClientHttpResponse proviewResponse) {
+        return proviewResponse.getStatusCode();
     }
 
     /*
@@ -494,7 +501,7 @@ public class ProviewClientImpl implements ProviewClient {
      * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#deleteTitle (java.lang.String, java.lang.String)
      */
     @Override
-    public String deleteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
+    public HttpStatus deleteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
         if (StringUtils.isBlank(fullyQualifiedTitleId)) {
             throw new IllegalArgumentException(
@@ -512,14 +519,14 @@ public class ProviewClientImpl implements ProviewClient {
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
-        final String proviewResponse = restTemplate.execute(
+        final ClientHttpResponse proviewResponse = restTemplate.execute(
             deleteTitleUriTemplate,
             HttpMethod.DELETE,
             proviewRequestCallback,
-            proviewResponseExtractorFactory.getResponseExtractor(),
+            proviewResponseExtractorFactory.getSimpleResponseExtractor(),
             urlParameters);
 
-        return proviewResponse;
+        return getStatusCode(proviewResponse);
     }
 
     /**

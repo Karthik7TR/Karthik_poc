@@ -61,9 +61,9 @@ public interface ProviewHandler {
 
     String publishTitle(String fullyQualifiedTitleId, Version version, File eBook) throws ProviewException;
 
-    String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
+    boolean promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
-    String removeTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;
+    boolean removeTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;
 
     boolean deleteTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;
 }

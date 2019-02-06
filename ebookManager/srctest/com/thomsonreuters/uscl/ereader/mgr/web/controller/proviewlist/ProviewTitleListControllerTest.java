@@ -289,7 +289,7 @@ public final class ProviewTitleListControllerTest {
         final BookDefinition bookDefinition = EasyMock.createNiceMock(BookDefinition.class);
         final Long definitionId = Long.valueOf(127);
 
-        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, version)).andReturn("");
+        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, version)).andReturn(true);
         EasyMock.replay(mockProviewHandler);
 
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId))
@@ -327,13 +327,13 @@ public final class ProviewTitleListControllerTest {
         request.setMethod(HttpMethod.POST.name());
         final String titleId = "anId";
         request.setParameter("titleId", titleId);
-        final String version = "2";
+        final String version = "v2.0";
         request.setParameter("version", version);
         final String status = "test";
         request.setParameter("status", status);
         request.setParameter("command", ProviewTitleForm.Command.REMOVE.toString());
 
-        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v2.0"))).andReturn("");
+        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v2.0"))).andReturn(true);
         EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName)).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
         mockEmailService.send(EasyMock.anyObject());
         EasyMock.replay(mockEmailService);
@@ -357,7 +357,7 @@ public final class ProviewTitleListControllerTest {
         request.setMethod(HttpMethod.POST.name());
         final String titleId = "anId";
         request.setParameter("titleId", titleId);
-        final String version = "2";
+        final String version = "v2.0";
         request.setParameter("version", version);
         final String status = "test";
         request.setParameter("status", status);

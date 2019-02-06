@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpStatus;
 
 /**
  * Implementors of this interface are responsible for interacting with ProView
@@ -61,11 +62,11 @@ public interface ProviewClient {
 
     String publishTitle(String fullyQualifiedTitleId, String versionNumber, File eBook) throws ProviewException;
 
-    String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
+    HttpStatus promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
-    String removeTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
+    HttpStatus removeTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
-    String deleteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
+    HttpStatus deleteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
     // String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
 

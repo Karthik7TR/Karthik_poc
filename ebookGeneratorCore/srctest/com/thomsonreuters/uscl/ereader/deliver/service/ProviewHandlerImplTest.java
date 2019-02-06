@@ -18,6 +18,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 
 /**
  * Component tests for ProviewHandlerImpl.
@@ -365,12 +366,12 @@ public final class ProviewHandlerImplTest {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
 
-        EasyMock.expect(mockProviewClient.promoteTitle(titleId, bookVersion)).andReturn("=)");
+        EasyMock.expect(mockProviewClient.promoteTitle(titleId, bookVersion)).andReturn(HttpStatus.OK);
         EasyMock.replay(mockProviewClient);
 
-        final String response = proviewHandler.promoteTitle(titleId, bookVersion);
+        final boolean response = proviewHandler.promoteTitle(titleId, bookVersion);
 
-        Assert.assertEquals("=)", response);
+        Assert.assertTrue(response);
     }
 
     @Test
@@ -378,12 +379,12 @@ public final class ProviewHandlerImplTest {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
 
-        EasyMock.expect(mockProviewClient.removeTitle(titleId, "v1.2")).andReturn("=)");
+        EasyMock.expect(mockProviewClient.removeTitle(titleId, "v1.2")).andReturn(HttpStatus.OK);
         EasyMock.replay(mockProviewClient);
 
-        final String response = proviewHandler.removeTitle(titleId, bookVersion);
+        final boolean response = proviewHandler.removeTitle(titleId, bookVersion);
 
-        Assert.assertEquals("=)", response);
+        Assert.assertTrue(response);
     }
 
     @Test
@@ -391,9 +392,12 @@ public final class ProviewHandlerImplTest {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
 
+        EasyMock.expect(mockProviewClient.deleteTitle(titleId, "v1.2")).andReturn(HttpStatus.OK);
+        EasyMock.replay(mockProviewClient);
+
         final boolean response = proviewHandler.deleteTitle(titleId, bookVersion);
 
-        Assert.assertEquals(true, response);
+        Assert.assertTrue(response);
     }
 
     @Test
@@ -402,8 +406,8 @@ public final class ProviewHandlerImplTest {
         EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn("<title></title>");
         EasyMock.replay(mockProviewClient);
 
-        final boolean reponse = proviewHandler.hasTitleIdBeenPublished(titleId);
-        Assert.assertTrue(!reponse);
+        final boolean response = proviewHandler.hasTitleIdBeenPublished(titleId);
+        Assert.assertFalse(response);
     }
 
     @Test

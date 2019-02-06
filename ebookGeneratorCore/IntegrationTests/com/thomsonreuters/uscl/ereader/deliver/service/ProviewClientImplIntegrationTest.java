@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -95,7 +96,7 @@ public final class ProviewClientImplIntegrationTest {
     @Test
     public void testRemoveTitle() {
         proviewClient.setRemoveTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + removeTitleUriTemplate);
-        String publisherInformation = null;
+        HttpStatus publisherInformation = null;
         try {
             publisherInformation = proviewClient.removeTitle("uscl/an/blm", "v1.1");
         } catch (final Exception e) {

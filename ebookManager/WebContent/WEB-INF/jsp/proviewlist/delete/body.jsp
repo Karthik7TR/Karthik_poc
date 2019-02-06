@@ -28,6 +28,7 @@
 			 	confirmed = confirm("Are you sure to delete this title version?");
 			 	if (confirmed){
 					 submitForm(cmd);
+					 $('#deleteButton').prop('disabled', true);
 			 	}
 			 }
 			 
@@ -59,14 +60,21 @@
 		</tr>
 		</table>
 
-		<c:if test="${status == 'Removed'}">
-            <div class="buttons">
-                <input id="deleteButton" type="button" value="Delete" onclick="submitDelete('<%=ProviewTitleForm.Command.DELETE%>');"/>
-            </div>
-		</c:if>
+		
+        <div class="buttons">
+       		<input id="returnToList" type="button" value="Return to list" onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${titleId}'"/>
+       		<c:if test="${(status == 'Removed' || status == 'Cleanup') && infoMessage == null && errMessage == null }">
+                <input 
+                	id="deleteButton"
+					type="button" 
+					value="Delete" 
+					onclick="submitDelete('<%=ProviewTitleForm.Command.DELETE%>');"
+				/>
+          	</c:if>
+        </div>
 
-		<c:if test="${status != 'Removed'}">
-            <p>Only books in <b>'Removed'</b> status can be deleted.</p>
+		<c:if test="${status != 'Removed' && status != 'Cleanup'}">
+            <p>Only books in <b>'Removed'</b> or  <b>'Cleanup'</b> status can be deleted.</p>
 		</c:if>
 		
 		<td>

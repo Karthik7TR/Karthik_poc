@@ -24,6 +24,7 @@
  			 var confirmed = confirm("Are you sure to remove this title version?");
  			 if (confirmed){
  				 submitForm(cmd);
+ 				 $('#removeButton').prop('disabled', true);
  			 }
  			 
  			 return confirmed;
@@ -54,8 +55,16 @@
 		</table>
 		
 		<div class="buttons">
-			<input id="removeButton" type="button" value="Remove" onclick="submitRemove('<%=ProviewTitleForm.Command.REMOVE%>');"/>
-		</div>
+			<input id="returnToList" type="button" value="Return to list" onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${titleId}'"/>
+       		<c:if test="${status == 'Review' && infoMessage == null && errMessage == null }">
+                <input 
+                	id="removeButton"
+					type="button" 
+					value="Remove" 
+					onclick="submitRemove('<%=ProviewTitleForm.Command.REMOVE%>');"
+				/>
+          	</c:if>
+        </div>
 		
 		<td>
 				<form:hidden path="titleId"/>

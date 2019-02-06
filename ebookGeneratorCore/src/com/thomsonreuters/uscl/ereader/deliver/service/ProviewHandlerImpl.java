@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.group.service.GroupDefinitionParser;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.http.HttpStatus;
 
 /**
  * This class is responsible for processing information received from ProView into standard project datatypes.
@@ -286,33 +287,27 @@ public class ProviewHandlerImpl implements ProviewHandler {
     }
 
     @Override
-    public String promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
+    public boolean promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object
-        return proviewClient.promoteTitle(fullyQualifiedTitleId, eBookVersionNumber);
+        HttpStatus response = proviewClient.promoteTitle(fullyQualifiedTitleId, eBookVersionNumber);
+        return response.is2xxSuccessful();
     }
 
     @Override
-    public String removeTitle(final String fullyQualifiedTitleId, final Version version) throws ProviewException {
+    public boolean removeTitle(final String fullyQualifiedTitleId, final Version version) throws ProviewException {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object
-        return proviewClient.removeTitle(fullyQualifiedTitleId, version.getFullVersion());
+        HttpStatus response = proviewClient.removeTitle(fullyQualifiedTitleId, version.getFullVersion());
+        return response.is2xxSuccessful();
     }
 
     @Override
     public boolean deleteTitle(final String fullyQualifiedTitleId, final Version version) throws ProviewException {
         // TODO Change input type to single ProviewTitle object, move validation from calling classes to this method
-        try {
-            proviewClient.deleteTitle(fullyQualifiedTitleId, version.getFullVersion());
-        } catch (final ProviewRuntimeException ex) {
-            final String errorMsg = ex.getMessage();
-            LOG.debug(ex.getMessage(), ex);
-            if (ex.getStatusCode().equals("400") && errorMsg.contains("Title already exists in publishing queue")) {
-                return false;
-            }
-        }
-        return true;
+        HttpStatus response = proviewClient.deleteTitle(fullyQualifiedTitleId, version.getFullVersion());
+        return response.is2xxSuccessful();
     }
 
     public String buildRequestBody(final GroupDefinition groupDefinition) throws UnsupportedEncodingException {

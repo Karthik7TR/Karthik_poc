@@ -7,7 +7,12 @@ package com.thomsonreuters.uscl.ereader.deliver.rest;
  *
  */
 public class ProviewResponseExtractorFactory {
+
     public ProviewResponseExtractor getResponseExtractor() {
         return new ProviewResponseExtractor();
+    }
+
+    public SimpleProviewResponseExtractor getSimpleResponseExtractor() {
+        return new SimpleProviewResponseExtractor();
     }
 }

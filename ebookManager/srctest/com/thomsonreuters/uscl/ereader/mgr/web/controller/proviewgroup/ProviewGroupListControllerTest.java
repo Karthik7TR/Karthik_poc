@@ -428,7 +428,7 @@ public final class ProviewGroupListControllerTest {
         groupIds.add(titleId);
         request.setParameter("groupIds", groupIds.toString());
 
-        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, "")).andReturn("");
+        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, "")).andReturn(true);
 
         final String groupId = "testId";
         final String groupVersion = "2";
@@ -466,7 +466,7 @@ public final class ProviewGroupListControllerTest {
         groupIds.add(titleId);
         request.setParameter("groupIds", groupIds.toString());
 
-        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v1.1"))).andReturn("");
+        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v1.1"))).andReturn(true);
 
         final String groupId = "testId";
         final String groupVersion = "2";
