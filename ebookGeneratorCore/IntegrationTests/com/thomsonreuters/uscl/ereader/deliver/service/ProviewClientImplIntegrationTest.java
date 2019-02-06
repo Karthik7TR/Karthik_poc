@@ -112,7 +112,7 @@ public final class ProviewClientImplIntegrationTest {
     @Test
     public void testPromoteTitle() {
         proviewClient.setPromoteTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + promoteTitleUriTemplate);
-        String publisherInformation = null;
+        HttpStatus publisherInformation = null;
         try {
             publisherInformation = proviewClient.promoteTitle("uscl/an/an_frcpbkeenantest2", "v2");
         } catch (final Exception e) {
@@ -127,7 +127,7 @@ public final class ProviewClientImplIntegrationTest {
     @Ignore
     @Test
     public void testDeleteTitle() {
-        String publisherInformation = null;
+        HttpStatus publisherInformation = null;
         proviewClient.setDeleteTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + deleteTitleUriTemplate);
         try {
             publisherInformation = proviewClient.deleteTitle("uscl/an/blm", "v1.0");
