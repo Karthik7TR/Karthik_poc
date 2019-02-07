@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import org.hibernate.FetchMode;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.transaction.annotation.Transactional;
 
 public class OutageDaoImpl implements OutageDao {
@@ -34,13 +33,32 @@ public class OutageDaoImpl implements OutageDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PlannedOutage> getAllPlannedOutagesForType(final Long outageTypeId) {
-        final Session session = sessionFactory.getCurrentSession();
-        final StringBuffer hql = new StringBuffer("select p from PlannedOutage p where p.outageType=" + outageTypeId);
+    public List<PlannedOutage> getActiveAndScheduledPlannedOutagesForType(final Long outageTypeId) {
+        return getPlannedOutagesForType(outageTypeId, Restrictions.ge("endTime", new Date()));
+    }
 
-        final Query query = session.createQuery(hql.toString());
-        final List<PlannedOutage> outageList = query.list();
-        return outageList;
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlannedOutage> getInactivePlannedOutagesForType(final Long outageTypeId) {
+        return getPlannedOutagesForType(outageTypeId, Restrictions.le("endTime", new Date()));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlannedOutage> getPlannedOutagesForType(final OutageType outageType) {
+        return sessionFactory.getCurrentSession().createCriteria(PlannedOutage.class)
+            .add(Restrictions.eq("outageType", outageType))
+            .list();
+    }
+
+    private List<PlannedOutage> getPlannedOutagesForType(final Long outageTypeId, final SimpleExpression timeRestriction) {
+        final OutageType outageType = new OutageType();
+        outageType.setId(outageTypeId);
+        return sessionFactory.getCurrentSession().createCriteria(PlannedOutage.class)
+            .add(Restrictions.eq("outageType", outageType))
+            .add(timeRestriction)
+            .addOrder(Order.desc("startTime"))
+            .list();
     }
 
     /**
@@ -86,6 +104,16 @@ public class OutageDaoImpl implements OutageDao {
         session.flush();
     }
 
+    @Override
+    public void savePlannedOutages(final List<PlannedOutage> outages) {
+        final Session session = sessionFactory.getCurrentSession();
+        outages.forEach(outage -> {
+            outage.setLastUpdated(new Date());
+            session.saveOrUpdate(outage);
+        });
+        session.flush();
+    }
+
     /**
      * Delete the Outage entity in the database.
      */
@@ -97,18 +125,28 @@ public class OutageDaoImpl implements OutageDao {
     }
 
     @Override
-    public List<OutageType> getAllOutageType() {
+    public List<OutageType> getAllActiveOutageTypes() {
         final Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(OutageType.class).addOrder(Order.asc("system")).list();
+        return session.createCriteria(OutageType.class)
+            .add(Restrictions.eq("removed", "N"))
+            .addOrder(Order.asc("system")).list();
     }
 
     @Override
     public OutageType findOutageTypeByPrimaryKey(final Long id) {
         final Session session = sessionFactory.getCurrentSession();
         return (OutageType) session.createCriteria(OutageType.class)
-            .setFetchMode("plannedOutage", FetchMode.JOIN)
             .add(Restrictions.eq("id", id))
             .uniqueResult();
+    }
+
+    @Override
+    public OutageType findOutageTypeBySystemAndSubSystem(final String system, final String subSystem) {
+        final Session session = sessionFactory.getCurrentSession();
+        return (OutageType) session.createCriteria(OutageType.class)
+            .add(Restrictions.eq("system", system))
+            .add(Restrictions.eq("subSystem", subSystem))
+            .list().stream().findAny().orElse(null);
     }
 
     @Override
@@ -117,6 +155,12 @@ public class OutageDaoImpl implements OutageDao {
         outageType.setLastUpdated(new Date());
         session.saveOrUpdate(outageType);
         session.flush();
+    }
+
+    @Override
+    public void removeOutageType(final OutageType outageType) {
+        outageType.setRemoved(true);
+        saveOutageType(outageType);
     }
 
     @Override

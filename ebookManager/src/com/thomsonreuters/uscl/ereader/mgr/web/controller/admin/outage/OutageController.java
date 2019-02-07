@@ -90,7 +90,7 @@ public class OutageController {
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
         final Model model) {
-        model.addAttribute("outageType", outageService.getAllOutageType());
+        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_CREATE);
     }
 
@@ -109,7 +109,7 @@ public class OutageController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST));
         }
 
-        model.addAttribute("outageType", outageService.getAllOutageType());
+        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_CREATE);
     }
 
@@ -125,7 +125,7 @@ public class OutageController {
             model.addAttribute(WebConstants.KEY_OUTAGE, outage);
             form.initialize(outage);
         }
-        model.addAttribute("outageType", outageService.getAllOutageType());
+        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_EDIT);
     }
 
@@ -138,7 +138,7 @@ public class OutageController {
         outage.setOperation(Operation.SAVE);
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, submitPlannedOutage(bindingResult, model, outage));
         model.addAttribute(WebConstants.KEY_OUTAGE, outage);
-        model.addAttribute("outageType", outageService.getAllOutageType());
+        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_EDIT);
     }
 

@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -49,7 +51,7 @@ public final class OutageTypeControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST);
         request.setMethod(HttpMethod.GET.name());
 
-        EasyMock.expect(outageService.getAllOutageType()).andReturn(outages);
+        EasyMock.expect(outageService.getAllActiveOutageTypes()).andReturn(outages);
         EasyMock.replay(outageService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -79,7 +81,7 @@ public final class OutageTypeControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
-        final OutageType outage = setupParametersAndOutage();
+        final OutageType outage = setupParametersAndOutage(1L);
         outageService.saveOutageType(outage);
         EasyMock.replay(outageService);
 
@@ -115,12 +117,12 @@ public final class OutageTypeControllerTest {
 
     @Test
     public void testEditPost() throws Exception {
-        final String id = "99";
+        final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT);
         request.setMethod(HttpMethod.POST.name());
-        request.setParameter("outageTypeId", id);
+        request.setParameter("outageTypeId", String.valueOf(id));
 
-        setupParametersAndOutage();
+        setupParametersAndOutage(id);
         outageService.saveOutageType(EasyMock.anyObject(OutageType.class));
         EasyMock.replay(outageService);
 
@@ -147,7 +149,7 @@ public final class OutageTypeControllerTest {
         final List<PlannedOutage> outage = new ArrayList<>();
 
         EasyMock.expect(outageService.findOutageTypeByPrimaryKey(id)).andReturn(type);
-        EasyMock.expect(outageService.getAllPlannedOutagesForType(id)).andReturn(outage);
+        EasyMock.expect(outageService.getActiveAndScheduledPlannedOutagesForType(id)).andReturn(outage);
         EasyMock.replay(outageService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -162,7 +164,16 @@ public final class OutageTypeControllerTest {
     }
 
     @Test
-    public void testDeletePost() throws Exception {
+    public void testDeletePostRemoveOutageType() throws Exception {
+        testOutageDeletePost(Arrays.asList(new PlannedOutage()), (id) -> outageService.removeOutageType(id));
+    }
+
+    @Test
+    public void testDeletePostDeleteOutageType() throws Exception {
+        testOutageDeletePost(new ArrayList<>(), (id) -> outageService.deleteOutageType(id));
+    }
+
+    private void testOutageDeletePost(final List<PlannedOutage> inactiveOutagesList, final Consumer<Long> expectedFunction) throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE);
         request.setMethod(HttpMethod.POST.name());
@@ -171,7 +182,10 @@ public final class OutageTypeControllerTest {
         final OutageType outage = new OutageType();
         outage.setId(id);
 
-        outageService.deleteOutageType(id);
+        EasyMock.expect(outageService.getInactivePlannedOutagesForType(id)).andReturn(inactiveOutagesList);
+        expectedFunction.accept(id);
+        EasyMock.expectLastCall();
+
         EasyMock.replay(outageService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -184,14 +198,16 @@ public final class OutageTypeControllerTest {
         EasyMock.verify(outageService);
     }
 
-    private OutageType setupParametersAndOutage() {
+    private OutageType setupParametersAndOutage(final Long id) {
         final String system = "system";
         final String subSystem = "subSystem";
 
+        request.setParameter("outageTypeId", String.valueOf(id));
         request.setParameter("system", system);
         request.setParameter("subSystem", subSystem);
 
         final OutageType type = new OutageType();
+        type.setId(id);
         type.setSubSystem(subSystem);
         type.setSystem(system);
 

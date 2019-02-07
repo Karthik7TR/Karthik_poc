@@ -107,7 +107,7 @@ public final class OutageControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
-        EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
+        EasyMock.expect(outageService.getAllActiveOutageTypes()).andReturn(new ArrayList<OutageType>());
         EasyMock.replay(outageService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -163,7 +163,7 @@ public final class OutageControllerTest {
         outage.setId(id);
         outage.setOutageType(type);
 
-        EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
+        EasyMock.expect(outageService.getAllActiveOutageTypes()).andReturn(new ArrayList<OutageType>());
         EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(id)).andReturn(outage);
         EasyMock.replay(outageService);
 
@@ -186,7 +186,7 @@ public final class OutageControllerTest {
         final PlannedOutage outage = setupParametersAndOutage();
         outage.setId(Long.valueOf(id));
         outageService.savePlannedOutage(outage);
-        EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
+        EasyMock.expect(outageService.getAllActiveOutageTypes()).andReturn(new ArrayList<OutageType>());
         EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(Long.valueOf(id))).andReturn(outage).times(2);
         EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr))
             .andReturn(new SimpleRestServiceResponse())

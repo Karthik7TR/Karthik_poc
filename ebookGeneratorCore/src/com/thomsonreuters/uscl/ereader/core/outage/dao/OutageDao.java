@@ -17,7 +17,11 @@ public interface OutageDao {
      */
     List<PlannedOutage> getAllPlannedOutages();
 
-    List<PlannedOutage> getAllPlannedOutagesForType(Long outageTypeId);
+    List<PlannedOutage> getPlannedOutagesForType(OutageType outageType);
+
+    List<PlannedOutage> getActiveAndScheduledPlannedOutagesForType(Long outageTypeId);
+
+    List<PlannedOutage> getInactivePlannedOutagesForType(Long outageTypeId);
 
     /**
      * Returns all Outage entities that are scheduled and displayed to the user
@@ -37,15 +41,24 @@ public interface OutageDao {
     void savePlannedOutage(PlannedOutage outage);
 
     /**
+     * Save multiple the Outage entities in the database.
+     */
+    void savePlannedOutages(List<PlannedOutage> outages);
+
+    /**
      * Delete the Outage entity in the database.
      */
     void deletePlannedOutage(PlannedOutage outage);
 
-    List<OutageType> getAllOutageType();
+    List<OutageType> getAllActiveOutageTypes();
 
     OutageType findOutageTypeByPrimaryKey(Long id);
 
+    OutageType findOutageTypeBySystemAndSubSystem(String system, String subSystem);
+
     void saveOutageType(OutageType outageType);
+
+    void removeOutageType(OutageType outageType);
 
     void deleteOutageType(OutageType outageType);
 }

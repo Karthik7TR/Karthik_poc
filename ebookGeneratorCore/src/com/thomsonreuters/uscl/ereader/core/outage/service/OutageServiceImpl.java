@@ -41,8 +41,14 @@ public class OutageServiceImpl implements OutageService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PlannedOutage> getAllPlannedOutagesForType(final Long outageTypeId) {
-        return dao.getAllPlannedOutagesForType(outageTypeId);
+    public List<PlannedOutage> getActiveAndScheduledPlannedOutagesForType(final Long outageTypeId) {
+        return dao.getActiveAndScheduledPlannedOutagesForType(outageTypeId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlannedOutage> getInactivePlannedOutagesForType(final Long outageTypeId) {
+        return dao.getInactivePlannedOutagesForType(outageTypeId);
     }
 
     /**
@@ -66,6 +72,11 @@ public class OutageServiceImpl implements OutageService {
         return dao.findPlannedOutageByPrimaryKey(id);
     }
 
+    @Transactional(readOnly = true)
+    private List<PlannedOutage> getPlannedOutagesForType(final OutageType outageType) {
+        return dao.getPlannedOutagesForType(outageType);
+    }
+
     /**
      * Save the Outage entity in the database.
      * Used for update and create.
@@ -87,8 +98,8 @@ public class OutageServiceImpl implements OutageService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OutageType> getAllOutageType() {
-        return dao.getAllOutageType();
+    public List<OutageType> getAllActiveOutageTypes() {
+        return dao.getAllActiveOutageTypes();
     }
 
     @Override
@@ -98,16 +109,46 @@ public class OutageServiceImpl implements OutageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public OutageType findOutageTypeBySystemAndSubSystem(final String system, final String subSystem) {
+        return dao.findOutageTypeBySystemAndSubSystem(system, subSystem);
+    }
+
+    @Override
     @Transactional
-    public void saveOutageType(final OutageType outageType) {
-        if (outageType.getId() != null) {
-            final OutageType persistantType = findOutageTypeByPrimaryKey(outageType.getId());
-            persistantType.setSubSystem(outageType.getSubSystem());
-            persistantType.setSystem(outageType.getSystem());
-            dao.saveOutageType(persistantType);
+    public void saveOutageType(final OutageType outageTypeToSave) {
+        final OutageType outageTypeByName = findOutageTypeBySystemAndSubSystem(outageTypeToSave.getSystem(), outageTypeToSave.getSubSystem());
+
+        if (outageTypeToSave.getId() != null) {
+            final OutageType outageTypeById = findOutageTypeByPrimaryKey(outageTypeToSave.getId());
+
+            if (outageTypeByName != null && outageTypeByName.getId() != outageTypeById.getId()) {
+                //merge two objects because they has the same name
+                final List<PlannedOutage> outagesWithAnotherType = getPlannedOutagesForType(outageTypeByName);
+                outagesWithAnotherType.forEach(outage -> outage.setOutageType(outageTypeById));
+                dao.savePlannedOutages(outagesWithAnotherType);
+                dao.deleteOutageType(outageTypeByName);
+            }
+
+            outageTypeById.setSubSystem(outageTypeToSave.getSubSystem());
+            outageTypeById.setSystem(outageTypeToSave.getSystem());
+            dao.saveOutageType(outageTypeById);
         } else {
-            dao.saveOutageType(outageType);
+            if (outageTypeByName != null) {
+                //get OutageType back from removed state
+                outageTypeByName.setRemoved(false);
+                dao.saveOutageType(outageTypeByName);
+            } else {
+                //create new OutageType
+                dao.saveOutageType(outageTypeToSave);
+            }
         }
+    }
+
+    @Override
+    @Transactional
+    public void removeOutageType(final Long id) {
+        dao.removeOutageType(findOutageTypeByPrimaryKey(id));
     }
 
     @Override

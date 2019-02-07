@@ -17,9 +17,14 @@ public interface OutageService {
     List<PlannedOutage> getAllPlannedOutages();
 
     /**
-     * Returns all Outage entities including for outage type.
+     * Returns Outage entities with specified outage type and endTime in the future
      */
-    List<PlannedOutage> getAllPlannedOutagesForType(Long outageTypeId);
+    List<PlannedOutage> getActiveAndScheduledPlannedOutagesForType(Long outageTypeId);
+
+    /**
+     * Returns Outage entities with specified outage type which and endTime in the past
+     */
+    List<PlannedOutage> getInactivePlannedOutagesForType(Long outageTypeId);
 
     /**
      * Returns all Outage entities that are scheduled and displayed to the user
@@ -42,11 +47,18 @@ public interface OutageService {
      */
     void deletePlannedOutage(Long id);
 
-    List<OutageType> getAllOutageType();
+	/**
+	 * Get outage types which are not marked as 'removed'
+	 */
+    List<OutageType> getAllActiveOutageTypes();
 
     OutageType findOutageTypeByPrimaryKey(Long id);
 
+    OutageType findOutageTypeBySystemAndSubSystem(String system, String subSystem);
+
     void saveOutageType(OutageType outageType);
+
+    void removeOutageType(Long id);
 
     void deleteOutageType(Long id);
 }

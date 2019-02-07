@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class OutageTypeController {
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST, method = RequestMethod.GET)
     public ModelAndView getOutageTypeList(final Model model) {
-        model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllOutageType());
+        model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllActiveOutageTypes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_LIST);
     }
@@ -120,9 +121,9 @@ public class OutageTypeController {
         if (outageType != null) {
             model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
             final Long outageTypeId = outageType.getId();
-            final List<PlannedOutage> outageList = outageService.getAllPlannedOutagesForType(outageTypeId);
-            model.addAttribute(WebConstants.KEY_PLANNED_OUTAGE_TYPE, outageList);
-            model.addAttribute("numberOfPlannedOutages", outageList.size());
+            final List<PlannedOutage> activeOutagesList = outageService.getActiveAndScheduledPlannedOutagesForType(outageTypeId);
+            model.addAttribute(WebConstants.KEY_PLANNED_OUTAGE_TYPE, activeOutagesList);
+            model.addAttribute("numberOfPlannedOutages", activeOutagesList.size());
             form.initialize(outageType);
         }
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
@@ -137,7 +138,12 @@ public class OutageTypeController {
 
         final OutageType outageType = form.createOutageType();
         if (!bindingResult.hasErrors()) {
-            outageService.deleteOutageType(outageType.getId());
+            final List<PlannedOutage> inactiveOutagesList = outageService.getInactivePlannedOutagesForType(outageType.getId());
+            if (CollectionUtils.isNotEmpty(inactiveOutagesList)) {
+                outageService.removeOutageType(outageType.getId());
+            } else {
+                outageService.deleteOutageType(outageType.getId());
+            }
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
         }
 

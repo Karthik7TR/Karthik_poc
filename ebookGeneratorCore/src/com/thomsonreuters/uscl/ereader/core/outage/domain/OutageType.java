@@ -15,15 +15,19 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
 @Table(name = "OUTAGE_TYPE")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/outage/domain", name = "OutageType")
 public class OutageType implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "OUTAGE_TYPE_ID", nullable = false)
     @Id
+    @Column(name = "OUTAGE_TYPE_ID", nullable = false)
     @SequenceGenerator(name = "outageTypeIdSequence", sequenceName = "OUTAGE_TYPE_ID_SEQ")
     @GeneratedValue(generator = "outageTypeIdSequence")
     private Long id;
@@ -38,36 +42,15 @@ public class OutageType implements Serializable {
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdated;
 
-    public Long getId() {
-        return id;
+    @Column(name = "REMOVED", nullable = false, length = 1)
+    private String removed = "N";
+
+    public boolean getRemoved() {
+        return "Y".equalsIgnoreCase(removed);
     }
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getSystem() {
-        return system;
-    }
-
-    public void setSystem(final String system) {
-        this.system = system;
-    }
-
-    public String getSubSystem() {
-        return subSystem;
-    }
-
-    public void setSubSystem(final String subSystem) {
-        this.subSystem = subSystem;
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(final Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setRemoved(final boolean removed) {
+        this.removed = removed ? "Y" : "N";
     }
 
     @Override

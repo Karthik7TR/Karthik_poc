@@ -1,6 +1,11 @@
 package com.thomsonreuters.uscl.ereader.core.outage.service;
 
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -35,27 +40,14 @@ public class PlannedOutageIntegrationTest {
 
     @Before
     public void setUp() {
-        OUTAGE_TYPE = new OutageType();
-        OUTAGE_TYPE.setLastUpdated(DATE);
-        OUTAGE_TYPE.setSubSystem("sub system");
-        OUTAGE_TYPE.setSystem("system");
-        outageService.saveOutageType(OUTAGE_TYPE);
+        OUTAGE_TYPE = createOutageType("system", "sub system");
     }
 
     @Test
     public void createPlannedOutage() {
         final OutageType type = outageService.findOutageTypeByPrimaryKey(OUTAGE_TYPE.getId());
 
-        final PlannedOutage outage = new PlannedOutage();
-        outage.setStartTime(DATE);
-        outage.setEndTime(DATE);
-        outage.setLastUpdated(DATE);
-        outage.setOperation(PlannedOutage.Operation.SAVE);
-        outage.setOutageType(type);
-        outage.setReason("Test");
-        outage.setUpdatedBy("Me");
-
-        outageService.savePlannedOutage(outage);
+        final PlannedOutage outage = getSavedPlannedOutage(type);
 
         final PlannedOutage actual = outageService.findPlannedOutageByPrimaryKey(outage.getId());
 
@@ -113,6 +105,74 @@ public class PlannedOutageIntegrationTest {
 
         //then
         Assert.assertEquals(result, expectedDisplayedOutages);
+    }
+
+    @Test
+    public void testSaveActiveOutageTypeWithAnotherOutageTypeFound() {
+        //given
+        final String system = "system2";
+        final String subSystem = "subSystem2";
+
+        final PlannedOutage outage = getSavedPlannedOutage(OUTAGE_TYPE);
+        final OutageType outageType2 = createOutageType(system, subSystem);
+        final PlannedOutage outage2 = getSavedPlannedOutage(outageType2);
+
+        final OutageType outageTypeToSave = new OutageType();
+        outageTypeToSave.setId(OUTAGE_TYPE.getId());
+        outageTypeToSave.setSystem(system);
+        outageTypeToSave.setSubSystem(subSystem);
+
+        assertNotNull(outageService.findOutageTypeByPrimaryKey(outageType2.getId()));
+
+        //when
+        outageService.saveOutageType(outageTypeToSave);
+
+        //then
+        final OutageType actualOutageType1 = outageService.findOutageTypeByPrimaryKey(OUTAGE_TYPE.getId());
+        final OutageType actualOutageType2 = outageService.findOutageTypeByPrimaryKey(outageType2.getId());
+        final PlannedOutage actualOutage1 = outageService.findPlannedOutageByPrimaryKey(outage.getId());
+        final PlannedOutage actualOutage2 = outageService.findPlannedOutageByPrimaryKey(outage2.getId());
+
+        assertEquals(actualOutageType1.getSystem(), system);
+        assertEquals(actualOutageType1.getSubSystem(), subSystem);
+        assertNull(actualOutageType2);
+        assertEquals(actualOutage1.getOutageType().getId(), actualOutageType1.getId());
+        assertEquals(actualOutage2.getOutageType().getId(), actualOutageType1.getId());
+    }
+
+    @Test
+    public void testAttemptToCreateOutageWithNameWhichWasPreviouslyRemoved() {
+        //given
+        final String system = "system2";
+        final String subSystem = "subSystem2";
+
+        final OutageType outageType2 = createOutageType(system, subSystem);
+        outageService.removeOutageType(outageType2.getId());
+
+        final OutageType outageTypeToCreate = new OutageType();
+        outageTypeToCreate.setSystem(system);
+        outageTypeToCreate.setSubSystem(subSystem);
+
+        assertTrue(outageService.findOutageTypeByPrimaryKey(outageType2.getId()).getRemoved());
+
+        //when
+        outageService.saveOutageType(outageTypeToCreate);
+
+        //then
+        assertFalse(outageService.findOutageTypeByPrimaryKey(outageType2.getId()).getRemoved());
+    }
+
+    private OutageType createOutageType(final String systemName, final String subSystemName) {
+        final OutageType outageType = new OutageType();
+        outageType.setLastUpdated(DATE);
+        outageType.setSystem(systemName);
+        outageType.setSubSystem(subSystemName);
+        outageService.saveOutageType(outageType);
+        return outageType;
+    }
+
+    private PlannedOutage getSavedPlannedOutage(final OutageType type) {
+        return getSavedPlannedOutage(Calendar.getInstance(), Calendar.getInstance(), type);
     }
 
     private PlannedOutage getSavedPlannedOutage(final Calendar startTime, final Calendar endTime, final OutageType type) {
