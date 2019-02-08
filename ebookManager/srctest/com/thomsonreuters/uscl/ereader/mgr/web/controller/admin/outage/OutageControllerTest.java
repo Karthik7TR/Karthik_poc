@@ -41,6 +41,8 @@ public final class OutageControllerTest {
     private ManagerService mockManagerService;
     private OutageController controller;
 
+    private String uxpectedFormatDate = "30 February";
+
     @Before
     public void setUp() throws Exception {
         request = new MockHttpServletRequest();
@@ -243,6 +245,7 @@ public final class OutageControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_DELETE);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("plannedOutageId", id.toString());
+        request.setParameter("startTimeString", uxpectedFormatDate);
         final InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
 
         final PlannedOutage outage = new PlannedOutage();

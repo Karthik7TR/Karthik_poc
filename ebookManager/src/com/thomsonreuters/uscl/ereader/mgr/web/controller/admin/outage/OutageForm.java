@@ -1,14 +1,12 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
+import static com.thomsonreuters.uscl.ereader.mgr.web.FormUtils.parseDate;
+
 import java.util.Date;
-import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import org.apache.commons.lang3.StringUtils;
 
 public class OutageForm {
     //private static final Logger log = LogManager.getLogger(OutageForm.class);
@@ -36,9 +34,14 @@ public class OutageForm {
         serversImpacted = outage.getServersImpacted();
     }
 
-    public PlannedOutage createPlannedOutage() {
+    public PlannedOutage createRawPlannedOutage() {
         final PlannedOutage outage = new PlannedOutage();
         outage.setId(plannedOutageId);
+        return outage;
+    }
+
+    public PlannedOutage createPlannedOutage() {
+        final PlannedOutage outage = createRawPlannedOutage();
 
         final OutageType type = new OutageType();
         type.setId(outageTypeId);
@@ -123,21 +126,4 @@ public class OutageForm {
     public void setServersImpacted(final String serversImpacted) {
         this.serversImpacted = serversImpacted;
     }
-
-    public static String parseDate(final Date date) {
-        return Optional.ofNullable(date)
-            .map(Date::toInstant)
-            .map(instant -> instant.atOffset(ZoneOffset.UTC))
-            .map(Object::toString)
-            .orElse(null);
-    }
-
-    public static Date parseDate(final String dateString) {
-        Date date = null;
-        if (StringUtils.isNotBlank(dateString)) {
-            date = Date.from(Instant.parse(dateString));
-        }
-        return date;
-    }
-
 }

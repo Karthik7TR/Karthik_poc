@@ -162,7 +162,7 @@ public class OutageController {
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
         final Model model) {
-        final PlannedOutage outage = form.createPlannedOutage();
+        final PlannedOutage outage = form.createRawPlannedOutage();
         outage.setOperation(Operation.REMOVE);
 
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, submitPlannedOutage(bindingResult, model, outage));
