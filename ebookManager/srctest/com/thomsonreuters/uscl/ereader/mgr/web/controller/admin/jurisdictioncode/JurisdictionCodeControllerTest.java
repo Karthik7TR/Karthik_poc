@@ -205,6 +205,32 @@ public final class JurisdictionCodeControllerTest {
         }
     }
 
+    @Test
+    public void testEditJurisCodeGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_EDIT);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", JURIS_ID.toString());
+        EasyMock.expect(mockJurisTypeCodeService.getJurisTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockJurisTypeCodeService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT, mav.getViewName());
+    }
+
+    @Test
+    public void testDeleteJurisCodeGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_DELETE);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", JURIS_ID.toString());
+        EasyMock.expect(mockJurisTypeCodeService.getJurisTypeCodeById(JURIS_ID)).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockJurisTypeCodeService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE, mav.getViewName());
+    }
+
     /**
      * Test the POST to the Edit Page Success
      */

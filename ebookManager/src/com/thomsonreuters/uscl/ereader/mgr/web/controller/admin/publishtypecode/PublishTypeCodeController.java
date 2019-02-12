@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
@@ -81,16 +83,15 @@ public class PublishTypeCodeController {
     public ModelAndView editPublishTypeCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final PubTypeCode code = codeService.getPubTypeCodeById(id);
+        return handleRequest(() -> {
+            final PubTypeCode code = codeService.getPubTypeCodeById(id);
 
-        if (code != null) {
-            model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
-            form.initialize(code);
-        }
-
-        return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT);
+            if (code != null) {
+                model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
+                form.initialize(code);
+            }
+        }, WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT, method = RequestMethod.POST)
@@ -114,16 +115,15 @@ public class PublishTypeCodeController {
     public ModelAndView deletePublishTypeCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final PubTypeCode code = codeService.getPubTypeCodeById(id);
+        return handleRequest(() -> {
+            final PubTypeCode code = codeService.getPubTypeCodeById(id);
 
-        if (code != null) {
-            model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
-            form.initialize(code);
-        }
-
-        return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE);
+            if (code != null) {
+                model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
+                form.initialize(code);
+            }
+        }, WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE, method = RequestMethod.POST)

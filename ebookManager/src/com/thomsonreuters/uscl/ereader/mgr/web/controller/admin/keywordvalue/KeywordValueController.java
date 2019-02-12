@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -96,14 +98,15 @@ public class KeywordValueController {
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
-        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
+        return handleRequest(() -> {
+            final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
 
-        if (value != null) {
-            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
-            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
-            form.initialize(value);
-        }
-        return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT);
+            if (value != null) {
+                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
+                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
+                form.initialize(value);
+            }
+        }, WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT, method = RequestMethod.POST)
@@ -127,16 +130,17 @@ public class KeywordValueController {
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
-        log.debug(form);
-        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
-        if (value != null) {
-            final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
-            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
-            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
-            model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
-            form.initialize(value);
-        }
-        return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE);
+        return handleRequest(() -> {
+            log.debug(form);
+            final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
+            if (value != null) {
+                final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
+                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
+                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
+                model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
+                form.initialize(value);
+            }
+        }, WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.POST)

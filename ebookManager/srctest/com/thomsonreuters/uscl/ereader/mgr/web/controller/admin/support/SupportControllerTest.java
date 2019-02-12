@@ -309,4 +309,30 @@ public final class SupportControllerTest {
             Assert.fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testEditSupportGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_EDIT);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", "1");
+        EasyMock.expect(mockService.findByPrimaryKey(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_SUPPORT_EDIT, mav.getViewName());
+    }
+
+    @Test
+    public void testDeleteSupportGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_DELETE);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", "1");
+        EasyMock.expect(mockService.findByPrimaryKey(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_SUPPORT_DELETE, mav.getViewName());
+    }
 }

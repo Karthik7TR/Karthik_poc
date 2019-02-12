@@ -518,4 +518,18 @@ public final class ProviewGroupListControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_DELETE);
     }
+
+    @Test
+    public void testGroupAllVersionsGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("groupIds", "1");
+
+        EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockProviewHandler);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS, mav.getViewName());
+    }
 }

@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -117,16 +119,16 @@ public class OutageController {
     public ModelAndView editOutage(
         @RequestParam("id") final Long id,
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
-        final BindingResult bindingResult,
-        final Model model) throws Exception {
-        final PlannedOutage outage = outageService.findPlannedOutageByPrimaryKey(id);
+        final Model model) {
+        return handleRequest(() -> {
+            final PlannedOutage outage = outageService.findPlannedOutageByPrimaryKey(id);
 
-        if (outage != null) {
-            model.addAttribute(WebConstants.KEY_OUTAGE, outage);
-            form.initialize(outage);
-        }
-        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
-        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_EDIT);
+            if (outage != null) {
+                model.addAttribute(WebConstants.KEY_OUTAGE, outage);
+                form.initialize(outage);
+            }
+            model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
+        }, WebConstants.VIEW_ADMIN_OUTAGE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_EDIT, method = RequestMethod.POST)
@@ -146,15 +148,15 @@ public class OutageController {
     public ModelAndView deleteOutage(
         @RequestParam("id") final Long id,
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final PlannedOutage outage = outageService.findPlannedOutageByPrimaryKey(id);
+        return handleRequest(() -> {
+            final PlannedOutage outage = outageService.findPlannedOutageByPrimaryKey(id);
 
-        if (outage != null) {
-            model.addAttribute(WebConstants.KEY_OUTAGE, outage);
-            form.initialize(outage);
-        }
-        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_DELETE);
+            if (outage != null) {
+                model.addAttribute(WebConstants.KEY_OUTAGE, outage);
+                form.initialize(outage);
+            }
+        }, WebConstants.VIEW_ADMIN_OUTAGE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_DELETE, method = RequestMethod.POST)

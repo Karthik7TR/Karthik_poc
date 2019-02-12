@@ -285,4 +285,30 @@ public final class KeywordValueControllerTest {
         EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(keywordTypeValueService);
     }
+
+    @Test
+    public void testEditKeywordValueGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", "1");
+        EasyMock.expect(keywordTypeValueService.getKeywordTypeValueById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(keywordTypeValueService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT, mav.getViewName());
+    }
+
+    @Test
+    public void testDeleteKeywordValueGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", "1");
+        EasyMock.expect(keywordTypeValueService.getKeywordTypeValueById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(keywordTypeValueService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE, mav.getViewName());
+    }
 }

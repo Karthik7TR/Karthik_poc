@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequestWithProviewMessage;
+
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,7 +31,6 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseProviewListController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
@@ -54,7 +55,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
-public class ProviewTitleListController extends BaseProviewListController {
+public class ProviewTitleListController {
     private static final String PROVIEW_ERROR_MESSAGE = "Proview Exception occured. Please contact your administrator.";
     private static final String TITLE_ID_S_VERSION_S = "Title id: %s, version: %s %s";
     private static final String SUCCESS = "Success";
@@ -148,56 +149,50 @@ public class ProviewTitleListController extends BaseProviewListController {
         @ModelAttribute final ProviewTitleForm form,
         final HttpSession httpSession,
         final Model model) {
-        return wrapToProviewExceptionHandler(this::setPostSelectionsModel,
-            form,
-            httpSession,
-            model,
-            WebConstants.VIEW_PROVIEW_TITLES);
-    }
+        return handleRequestWithProviewMessage(model, WebConstants.VIEW_PROVIEW_TITLES, () -> {
 
-    private void setPostSelectionsModel(final ProviewTitleForm form, final HttpSession httpSession, final Model model)
-        throws ProviewException {
-        final Command command = form.getCommand();
+            final Command command = form.getCommand();
 
-        switch (command) {
-        case REFRESH:
-            final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
-            final List<ProviewTitleInfo> allLatestProviewTitleInfo =
-                proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+            switch (command) {
+            case REFRESH:
+                final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+                final List<ProviewTitleInfo> allLatestProviewTitleInfo =
+                    proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
 
-            saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
-            saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
-            saveSelectedProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
+                saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+                saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
+                saveSelectedProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
 
-            if (allLatestProviewTitleInfo != null) {
-                model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewTitleInfo);
-                model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, allLatestProviewTitleInfo.size());
+                if (allLatestProviewTitleInfo != null) {
+                    model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewTitleInfo);
+                    model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, allLatestProviewTitleInfo.size());
+                }
+
+                model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
+
+                ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
+                if (proviewTitleForm == null) {
+                    proviewTitleForm = new ProviewTitleForm();
+                    proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+                    saveProviewTitleForm(httpSession, proviewTitleForm);
+                }
+                model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+                model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
+                model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+                break;
+            case PAGESIZE:
+                saveProviewTitleForm(httpSession, form);
+                final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
+                model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
+                model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
+                model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
+                model.addAttribute(ProviewListFilterForm.FORM_NAME, fetchSavedProviewListFilterForm(httpSession));
+                model.addAttribute(ProviewTitleForm.FORM_NAME, form);
+                break;
+            default:
+                throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
             }
-
-            model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
-
-            ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-            if (proviewTitleForm == null) {
-                proviewTitleForm = new ProviewTitleForm();
-                proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-                saveProviewTitleForm(httpSession, proviewTitleForm);
-            }
-            model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
-            model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
-            model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-            break;
-        case PAGESIZE:
-            saveProviewTitleForm(httpSession, form);
-            final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
-            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
-            model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
-            model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
-            model.addAttribute(ProviewListFilterForm.FORM_NAME, fetchSavedProviewListFilterForm(httpSession));
-            model.addAttribute(ProviewTitleForm.FORM_NAME, form);
-            break;
-        default:
-            throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
-        }
+        });
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)

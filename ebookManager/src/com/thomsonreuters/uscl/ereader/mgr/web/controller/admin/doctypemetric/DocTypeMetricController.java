@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.doctypemetric;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -58,14 +60,15 @@ public class DocTypeMetricController {
         @RequestParam("id") final Long id,
         @ModelAttribute(DocTypeMetricForm.FORM_NAME) final DocTypeMetricForm form,
         final Model model) {
-        final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(id);
+        return handleRequest(() -> {
+            final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(id);
 
-        if (code != null) {
-            model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
-            form.initialize(code);
-        }
+            if (code != null) {
+                model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
+                form.initialize(code);
+            }
 
-        return new ModelAndView(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT);
+        }, WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_DOCTYPE_METRIC_EDIT, method = RequestMethod.POST)

@@ -271,4 +271,30 @@ public final class PublishTypeCodeControllerTest {
             Assert.fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testEditPublishTypeGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", "1");
+        EasyMock.expect(mockCodeService.getPubTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockCodeService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT, mav.getViewName());
+    }
+
+    @Test
+    public void testDeletePublishTypeGetException() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", "1");
+        EasyMock.expect(mockCodeService.getPubTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
+        EasyMock.replay(mockCodeService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE, mav.getViewName());
+    }
 }

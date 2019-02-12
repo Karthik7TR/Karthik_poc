@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
@@ -74,14 +76,14 @@ public class JurisdictionCodeController {
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final Model model) {
-        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
+        return handleRequest(() -> {
+            final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
 
-        if (code != null) {
-            model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
-            form.initialize(code);
-        }
-
-        return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT);
+            if (code != null) {
+                model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
+                form.initialize(code);
+            }
+        }, WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_EDIT, method = RequestMethod.POST)
@@ -104,13 +106,14 @@ public class JurisdictionCodeController {
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final Model model) {
-        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
+        return handleRequest(() -> {
+            final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
 
-        if (code != null) {
-            model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
-            form.initialize(code);
-        }
-        return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE);
+            if (code != null) {
+                model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
+                form.initialize(code);
+            }
+        }, WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_DELETE, method = RequestMethod.POST)

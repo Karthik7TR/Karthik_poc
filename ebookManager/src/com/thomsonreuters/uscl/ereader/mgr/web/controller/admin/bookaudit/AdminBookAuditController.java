@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -111,21 +113,20 @@ public class AdminBookAuditController {
     public ModelAndView modifyAuditIsbn(
         @ModelAttribute(AdminAuditRecordForm.FORM_NAME) final AdminAuditRecordForm form,
         @RequestParam("id") final Long id,
-        final BindingResult bindingResult,
         final Model model) {
-        final EbookAudit audit = auditService.findEBookAuditByPrimaryKey(id);
-        if (audit != null) {
-            form.setTitleId(audit.getTitleId());
-            form.setAuditId(id);
-            form.setBookDefinitionId(audit.getEbookDefinitionId());
-            form.setLastUpdated(audit.getLastUpdated());
-            form.setIsbn(audit.getIsbn());
-            form.setProviewDisplayName(audit.getProviewDisplayName());
-            model.addAttribute("audit", audit);
-            model.addAttribute(AdminAuditRecordForm.FORM_NAME, form);
-        }
-
-        return new ModelAndView(WebConstants.VIEW_ADMIN_AUDIT_BOOK_MODIFY_ISBN);
+        return handleRequest(() -> {
+            final EbookAudit audit = auditService.findEBookAuditByPrimaryKey(id);
+            if (audit != null) {
+                form.setTitleId(audit.getTitleId());
+                form.setAuditId(id);
+                form.setBookDefinitionId(audit.getEbookDefinitionId());
+                form.setLastUpdated(audit.getLastUpdated());
+                form.setIsbn(audit.getIsbn());
+                form.setProviewDisplayName(audit.getProviewDisplayName());
+                model.addAttribute("audit", audit);
+                model.addAttribute(AdminAuditRecordForm.FORM_NAME, form);
+            }
+        }, WebConstants.VIEW_ADMIN_AUDIT_BOOK_MODIFY_ISBN);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_BOOK_MODIFY_ISBN, method = RequestMethod.POST)

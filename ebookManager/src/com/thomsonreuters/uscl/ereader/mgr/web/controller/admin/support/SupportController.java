@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
+
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
@@ -98,14 +100,14 @@ public class SupportController {
         @RequestParam("id") final Long id,
         @ModelAttribute(SupportForm.FORM_NAME) final SupportForm form,
         final Model model) {
-        final SupportPageLink spl = service.findByPrimaryKey(id);
+        return handleRequest(() -> {
+            final SupportPageLink spl = service.findByPrimaryKey(id);
 
-        if (spl != null) {
-            model.addAttribute(WebConstants.KEY_SUPPORT, spl);
-            form.initialize(spl);
-        }
-
-        return new ModelAndView(WebConstants.VIEW_ADMIN_SUPPORT_EDIT);
+            if (spl != null) {
+                model.addAttribute(WebConstants.KEY_SUPPORT, spl);
+                form.initialize(spl);
+            }
+        }, WebConstants.VIEW_ADMIN_SUPPORT_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_EDIT, method = RequestMethod.POST)
@@ -129,16 +131,15 @@ public class SupportController {
     public ModelAndView deleteSupportPageLink(
         @RequestParam("id") final Long id,
         @ModelAttribute(SupportForm.FORM_NAME) final SupportForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final SupportPageLink code = service.findByPrimaryKey(id);
+        return handleRequest(() -> {
+            final SupportPageLink code = service.findByPrimaryKey(id);
 
-        if (code != null) {
-            model.addAttribute(WebConstants.KEY_SUPPORT, code);
-            form.initialize(code);
-        }
-
-        return new ModelAndView(WebConstants.VIEW_ADMIN_SUPPORT_DELETE);
+            if (code != null) {
+                model.addAttribute(WebConstants.KEY_SUPPORT, code);
+                form.initialize(code);
+            }
+        }, WebConstants.VIEW_ADMIN_SUPPORT_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_DELETE, method = RequestMethod.POST)
