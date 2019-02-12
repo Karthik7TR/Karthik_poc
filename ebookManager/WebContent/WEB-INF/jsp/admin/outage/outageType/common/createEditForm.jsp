@@ -7,6 +7,8 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageTypeForm"%>
 
+<script type="text/javascript" src="js/form-utils.js"></script>
+
 <form:form commandName="<%= OutageTypeForm.FORM_NAME %>">
 	<%-- Validation Error Message Presentation (if any) --%>
 	<spring:hasBindErrors name="<%=OutageTypeForm.FORM_NAME%>">
@@ -48,7 +50,7 @@
 		<form:input path="subSystem"/>
 	</div>
 	<div class="buttons">
-		<form:button type="submit">Save</form:button>
+		<button id="save" onclick="submitFormAndDisableButton('<%=OutageTypeForm.FORM_NAME%>', this)">Save</button>
 		<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST%>';">Cancel</button>
 	</div>
 </form:form>

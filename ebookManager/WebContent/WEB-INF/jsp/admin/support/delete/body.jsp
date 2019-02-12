@@ -7,6 +7,8 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support.SupportForm"%>
 
+<script type="text/javascript" src="js/form-utils.js"></script>
+
 <%-- Check if there is a model to render, if not display error message --%>
 <c:choose>
 	<c:when test="${support != null}">
@@ -16,7 +18,7 @@
 			<div>${support.linkDescription}</div>
 			<div>${support.linkAddress}</div>
 			<div class="buttons">
-				<form:button id="delete">Delete</form:button>
+				<button id="delete" onclick="submitFormAndDisableButton('<%=SupportForm.FORM_NAME%>', this)">Delete</button>
 				<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_SUPPORT_VIEW%>';">Cancel</button>
 			</div>
 		</form:form>

@@ -7,6 +7,8 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support.SupportForm"%>
 
+<script type="text/javascript" src="js/form-utils.js"></script>
+
 <form:form commandName="<%= SupportForm.FORM_NAME %>">
 	<form:hidden path="supportPageLinkId" />
 	<div class="row">
@@ -20,7 +22,7 @@
 		<form:errors path="linkAddress" cssClass="errorMessage"/>
 	</div>
 	<div class="buttons">
-		<form:button id="save">Save</form:button>
+		<button id="save" onclick="submitFormAndDisableButton('<%=SupportForm.FORM_NAME%>', this)">Save</button>
 		<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_SUPPORT_VIEW%>';">Cancel</button>
 	</div>
 </form:form>
