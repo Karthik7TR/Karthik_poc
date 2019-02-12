@@ -126,6 +126,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_64,
+            form.getDocCollectionName(),
+            "docCollectionName",
+            new Object[] {"DOC Collection", MAXIMUM_CHARACTER_64});
+        checkMaxLength(
+            errors,
+            MAXIMUM_CHARACTER_64,
             form.getNortDomain(),
             "nortDomain",
             new Object[] {"NORT Domain", MAXIMUM_CHARACTER_64});
@@ -217,10 +223,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             switch (form.getSourceType()) {
             case TOC:
                 checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
+                checkSpecialCharacters(errors, form.getTocCollectionName(), "tocCollectionName", true);
+                checkSpecialCharacters(errors, form.getDocCollectionName(), "docCollectionName", true);
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
                 break;
             case NORT:
+                checkSpecialCharacters(errors, form.getNortDomain(), "nortDomain", true);
+                checkSpecialCharacters(errors, form.getNortFilterView(), "nortFilterView", true);
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
                 break;

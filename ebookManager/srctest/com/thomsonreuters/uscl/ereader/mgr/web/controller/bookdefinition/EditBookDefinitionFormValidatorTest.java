@@ -608,6 +608,61 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     /**
+     * Test Nort type fields
+     */
+    @Test
+    public void testNortTypeFields() {
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
+            .andReturn(null);
+        EasyMock.replay(mockBookDefinitionService);
+        expectReplayDocTypeCode();
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(keywordTypeCodeSevice);
+
+        populateFormDataAnalyticalFile();
+        form.setValidateForm(true);
+        form.setSourceType(SourceType.NORT);
+        form.setNortDomain("#$#$#$#");
+        form.setNortFilterView("#$#$#$");
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals("error.alphanumeric.underscore", errors.getFieldError("nortDomain").getCode());
+        Assert.assertEquals("error.alphanumeric.underscore", errors.getFieldError("nortFilterView").getCode());
+
+        EasyMock.verify(mockBookDefinitionService);
+        EasyMock.verify(keywordTypeCodeSevice);
+    }
+
+    /**
+     * Test Toc type fields
+     */
+    @Test
+    public void testTocTypeFields() {
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
+            .andReturn(null);
+        EasyMock.replay(mockBookDefinitionService);
+        expectReplayDocTypeCode();
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(keywordTypeCodeSevice);
+
+        populateFormDataAnalyticalFile();
+        form.setValidateForm(true);
+        form.setSourceType(SourceType.TOC);
+        form.setTocCollectionName("#$#$#$#");
+        form.setDocCollectionName("#$#$#$");
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals("error.alphanumeric.underscore", errors.getFieldError("tocCollectionName").getCode());
+        Assert.assertEquals("error.alphanumeric.underscore", errors.getFieldError("docCollectionName").getCode());
+
+        EasyMock.verify(mockBookDefinitionService);
+        EasyMock.verify(keywordTypeCodeSevice);
+
+    }
+
+    /**
      * Test PublicationCutoffDate format
      */
     @Test
