@@ -367,6 +367,7 @@ td.field {
 .bookDefinitionView .leftDefinitionForm,
 .bookDefinitionView .rightDefinitionForm {
 	width: 440px;
+	min-width: 440px;
 	vertical-align: top;
 }
 
