@@ -76,10 +76,13 @@ $(document).ready(function() {
 			var startDateTextBox = $('#startDatetimepicker');
 			startDateTextBox.val(startDateTextBox.datetimepicker('getDate').toISOString());
 			var endDateTextBox = $('#endDatetimepicker');
-			endDateTextBox.val(endDateTextBox.datetimepicker('getDate').toISOString())
+			endDateTextBox.val(endDateTextBox.datetimepicker('getDate').toISOString());
 			$("#<%= OutageForm.FORM_NAME %>").submit();
 		}
 	});
+	
+	startDateTextBox.val(fixIEHiddenSymbols(startDateTextBox.val()));
+	endDateTextBox.val(fixIEHiddenSymbols(endDateTextBox.val()));
 });
 </script>
 <form:form id="<%= OutageForm.FORM_NAME %>" commandName="<%= OutageForm.FORM_NAME %>">
