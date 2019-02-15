@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +90,32 @@ public final class JobSummaryFilterControllerTest {
         Assert.assertEquals(fromDate, filterForm.getFromDateString());
         Assert.assertEquals(toDate, filterForm.getToDateString());
 
+        EasyMock.verify(mockJobService);
+        EasyMock.verify(mockOutageService);
+    }
+
+    @Test
+    public void testJobSummaryFilterValidationFailurePost() throws Exception {
+        final String fromDate = "03/01/2012 00:00:00";
+        final String toDate = "01/01/2012 23:59:59";
+        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_FILTER_POST);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("fromDateString", fromDate);
+        request.setParameter("toDateString", toDate);
+        final HttpSession session = request.getSession();
+
+        EasyMock.expect(mockJobService.findJobSummary(Collections.emptyList())).andReturn(Collections.emptyList());
+        EasyMock.replay(mockJobService);
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(Collections.emptyList());
+        EasyMock.replay(mockOutageService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        final Map<String, Object> model = mav.getModel();
+        JobSummaryControllerTest.validateModel(session, model);
+
+        final JobPaginatedList jobPaginatedList = (JobPaginatedList) model.get("paginatedList");
+        Assert.assertEquals(jobPaginatedList.getFullListSize(), 0);
         EasyMock.verify(mockJobService);
         EasyMock.verify(mockOutageService);
     }

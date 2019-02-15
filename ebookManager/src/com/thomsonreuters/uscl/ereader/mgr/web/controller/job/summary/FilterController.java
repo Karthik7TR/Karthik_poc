@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -59,8 +60,7 @@ public class FilterController extends BaseJobSummaryController {
         final BindingResult errors,
         final Model model) {
         log.debug(filterForm);
-        // Fetch the existing saved list of job execution ID's from the last successful query
-        List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
+        List<Long> jobExecutionIds;
 
         // Restore state of paging and sorting
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
@@ -70,7 +70,6 @@ public class FilterController extends BaseJobSummaryController {
         if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initialize();
         }
-
         pageAndSort.setPageNumber(1);
         if (!errors.hasErrors()) {
             final JobFilter filter = new JobFilter(
@@ -82,6 +81,8 @@ public class FilterController extends BaseJobSummaryController {
                 filterForm.getSubmittedBy());
             final JobSort jobSort = createJobSort(pageAndSort.getSortProperty(), pageAndSort.isAscendingSort());
             jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
+        } else {
+            jobExecutionIds = Collections.emptyList();
         }
         setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
         model.addAttribute(JobSummaryForm.FORM_NAME, jobSummaryForm);
