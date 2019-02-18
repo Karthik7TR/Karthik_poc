@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.PROVIEW_ERROR_MESSAGE;
 import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequestWithProviewMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         @ModelAttribute final ProviewGroupForm form,
         final HttpSession httpSession,
         final Model model) {
-        return handleRequestWithProviewMessage(model, WebConstants.VIEW_PROVIEW_GROUPS, () -> {
+        return handleRequest(() -> {
             final Command command = form.getCommand();
             switch (command) {
             case REFRESH:
@@ -140,7 +139,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             default:
                 throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
             }
-        });
+        }, () -> {
+            model.addAttribute(WebConstants.KEY_ERR_MESSAGE, PROVIEW_ERROR_MESSAGE);
+            model.addAttribute(ProviewGroupForm.FORM_NAME, new ProviewGroupForm());
+            model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, new ProviewGroupListFilterForm());
+        }, WebConstants.VIEW_PROVIEW_GROUPS);
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)

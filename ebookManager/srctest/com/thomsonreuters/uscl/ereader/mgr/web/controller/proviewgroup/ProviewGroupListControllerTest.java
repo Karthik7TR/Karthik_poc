@@ -131,6 +131,8 @@ public final class ProviewGroupListControllerTest {
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE));
+        assertNotNull(mav.getModel().get(ProviewGroupForm.FORM_NAME));
+        assertNotNull(mav.getModel().get(ProviewGroupListFilterForm.FORM_NAME));
 
         EasyMock.verify(mockProviewHandler);
     }

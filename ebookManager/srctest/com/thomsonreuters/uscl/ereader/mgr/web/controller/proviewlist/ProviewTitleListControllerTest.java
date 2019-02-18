@@ -169,6 +169,8 @@ public final class ProviewTitleListControllerTest {
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE));
+        assertNotNull(mav.getModel().get(ProviewTitleForm.FORM_NAME));
+        assertNotNull(mav.getModel().get(ProviewListFilterForm.FORM_NAME));
 
         EasyMock.verify(mockProviewHandler);
     }

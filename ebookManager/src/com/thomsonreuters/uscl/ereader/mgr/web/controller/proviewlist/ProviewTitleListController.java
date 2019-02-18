@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequestWithProviewMessage;
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -149,10 +149,8 @@ public class ProviewTitleListController {
         @ModelAttribute final ProviewTitleForm form,
         final HttpSession httpSession,
         final Model model) {
-        return handleRequestWithProviewMessage(model, WebConstants.VIEW_PROVIEW_TITLES, () -> {
-
+        return handleRequest(() -> {
             final Command command = form.getCommand();
-
             switch (command) {
             case REFRESH:
                 final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
@@ -192,7 +190,11 @@ public class ProviewTitleListController {
             default:
                 throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
             }
-        });
+        }, () -> {
+            model.addAttribute(WebConstants.KEY_ERR_MESSAGE, PROVIEW_ERROR_MESSAGE);
+            model.addAttribute(ProviewTitleForm.FORM_NAME, new ProviewTitleForm());
+            model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
+        }, WebConstants.VIEW_PROVIEW_TITLES);
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)
