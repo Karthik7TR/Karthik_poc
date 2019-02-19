@@ -129,14 +129,24 @@ $(function() {
 		$("#codesWorkbenchBookName").remove();
 		$("#addNortFileLocationHere").empty();
 	};
-	
+
+	var showSelectOptions = function(choice, elementName) {
+        if (choice == "true" || choice == true) {
+            $(elementName).show();
+        } else {
+            $(elementName).hide();
+        };
+    };
+
 	var updateSourceType = function(sourceType) {
 		$("#displayTOC").hide();
 		$("#displayNORT").hide();
 		$("#displayFILE").hide();
 		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
-		$(".xppHideClass").css("display","block");
+		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry").css("display","block");
+		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
+        showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		splitChanged();
 		splitSizeChanged();
 		if(sourceType == "TOC") {
