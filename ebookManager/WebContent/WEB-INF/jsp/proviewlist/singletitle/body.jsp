@@ -28,7 +28,7 @@ function openFullcreenWindow(url)
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>"
 				   pagesize="10"
-				   partialList="true"
+				   partialList="false"
 				   size="resultSize" >
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
