@@ -246,9 +246,6 @@ function submitGroupForm(command) {
 	<div class="buttons">
 		<input id="promoteButton" type="button" ${disableButtons} value="Promote to Final" onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
 		<input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
-		<c:if test="${resultSize != 0}">
-			<input id="deleteButton" type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
-		</c:if>
 	</div>
 
 	<c:if test="${pilotBookStatus == pilotInProgress}">
