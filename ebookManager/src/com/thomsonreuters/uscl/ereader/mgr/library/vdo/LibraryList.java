@@ -2,14 +2,19 @@ package com.thomsonreuters.uscl.ereader.mgr.library.vdo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import lombok.Getter;
+import lombok.Setter;
 
 public class LibraryList implements Serializable {
     private static final long serialVersionUID = -4057949125475314670L;
 
     private Long bookDefinitionId;
+    @Getter @Setter
+    private String sourceType;
     private String fullyQualifiedTitleId;
     private String proviewDisplayName;
     private String ebookDefinitionCompleteFlag;
@@ -20,6 +25,7 @@ public class LibraryList implements Serializable {
 
     public LibraryList(
         final Long bookDefinitionId,
+        final String sourceType,
         final String proviewName,
         final String titleId,
         final String isComplete,
@@ -28,6 +34,7 @@ public class LibraryList implements Serializable {
         final Date lastPublished,
         final Set<Author> authors) {
         this.bookDefinitionId = bookDefinitionId;
+        this.sourceType = sourceType;
         proviewDisplayName = proviewName;
         fullyQualifiedTitleId = titleId;
         isDeletedFlag = isDeleted;
@@ -61,6 +68,9 @@ public class LibraryList implements Serializable {
                 return false;
         } else if (!bookDefinitionId.equals(other.bookDefinitionId))
             return false;
+        if (!Objects.equals(sourceType, other.sourceType)) {
+            return false;
+        }
         if (fullyQualifiedTitleId == null) {
             if (other.fullyQualifiedTitleId != null)
                 return false;
@@ -159,6 +169,7 @@ public class LibraryList implements Serializable {
         result = prime * result + ((authorList == null) ? 0 : authorList.hashCode());
         result = prime * result + ((ebookDefinitionCompleteFlag == null) ? 0 : ebookDefinitionCompleteFlag.hashCode());
         result = prime * result + ((bookDefinitionId == null) ? 0 : bookDefinitionId.hashCode());
+        result = prime * result + ((sourceType == null) ? 0 : sourceType.hashCode());
         result = prime * result + ((fullyQualifiedTitleId == null) ? 0 : fullyQualifiedTitleId.hashCode());
         result = prime * result + ((isDeletedFlag == null) ? 0 : isDeletedFlag.hashCode());
         result = prime * result + ((lastPublishDate == null) ? 0 : lastPublishDate.hashCode());
@@ -182,6 +193,7 @@ public class LibraryList implements Serializable {
         final StringBuilder buffer = new StringBuilder();
 
         buffer.append("ebookDefinitionId=[").append(bookDefinitionId).append("] ");
+        buffer.append("sourceType=[").append(sourceType).append("] ");
         buffer.append("fullyQualifiedTitleId=[").append(fullyQualifiedTitleId).append("] ");
         buffer.append("proviewDisplayName=[").append(proviewDisplayName).append("] ");
         buffer.append("ebookDefinitionCompleteFlag=[").append(ebookDefinitionCompleteFlag).append("] ");
@@ -190,4 +202,5 @@ public class LibraryList implements Serializable {
 
         return buffer.toString();
     }
+
 }

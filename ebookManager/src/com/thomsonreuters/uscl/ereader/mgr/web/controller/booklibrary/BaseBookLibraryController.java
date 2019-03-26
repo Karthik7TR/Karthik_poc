@@ -111,6 +111,7 @@ public abstract class BaseBookLibraryController {
             action,
             filterForm.getTitleId(),
             filterForm.getProviewDisplayName(),
+            filterForm.getSourceType(),
             filterForm.getIsbn(),
             filterForm.getMaterialId(),
             filterForm.getProviewKeyword());

@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 public class LibraryListSort {
     public enum SortProperty {
         PROVIEW_DISPLAY_NAME,
+        SOURCE_TYPE,
         TITLE_ID,
         LAST_GENERATED_DATE,
         DEFINITION_STATUS,

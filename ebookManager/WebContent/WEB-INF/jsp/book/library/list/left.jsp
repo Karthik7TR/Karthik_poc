@@ -5,6 +5,7 @@
 -->
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -89,6 +90,15 @@
 		<label>ProView Display Name:</label>
 		<form:input path="proviewDisplayName" maxlength="4000"/>
 	</div>
+	<div class="filterRow">
+        <label>Source Type:</label>
+        <form:select class="autoSizeSelect" path="sourceType">
+            <form:option label="ALL" value=""/>
+            <c:forEach items="<%=SourceType.values()%>" var="currentSourceType">
+                <form:option label="${currentSourceType.toString()}" value="${currentSourceType.toString()}"/>
+            </c:forEach>
+        </form:select>
+    </div>
 	<div class="filterRow">
 		<label>Title ID:</label>
 		<form:input path="titleId" maxlength="4000"/>

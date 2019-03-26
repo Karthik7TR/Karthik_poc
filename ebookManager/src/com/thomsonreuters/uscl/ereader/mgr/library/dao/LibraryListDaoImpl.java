@@ -28,7 +28,7 @@ public class LibraryListDaoImpl implements LibraryListDao {
     public List<LibraryList> findBookDefinitions(final LibraryListFilter filter, final LibraryListSort sort) {
         final StringBuffer sql = new StringBuffer();
         sql.append("select * from ( select row_.*, ROWNUM rownum_ from ( ");
-        sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, ");
+        sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, book.SOURCE_TYPE, ");
         sql.append("book.LAST_UPDATED, book.IS_DELETED_FLAG, book.EBOOK_DEFINITION_COMPLETE_FLAG, ps.pub_date from ");
         sql.append(
             "EBOOK_DEFINITION book LEFT JOIN (SELECT p.EBOOK_DEFINITION_ID, MAX(p.PUBLISH_START_TIMESTAMP) pub_date ");
@@ -53,6 +53,8 @@ public class LibraryListDaoImpl implements LibraryListDao {
                 sortPropertySQL = "ps.PUB_DATE";
             } else if (sortProperty.equals(SortProperty.LAST_EDIT_DATE)) {
                 sortPropertySQL = "book.LAST_UPDATED";
+            } else if (sortProperty.equals(SortProperty.SOURCE_TYPE)) {
+                sortPropertySQL = "book.SOURCE_TYPE";
             }
 
             sql.append(String.format("order by %s %s", sortPropertySQL, direction));
@@ -124,6 +126,9 @@ public class LibraryListDaoImpl implements LibraryListDao {
         if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
             sql.append("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER(?)) and ");
         }
+        if (StringUtils.isNotBlank(filter.getSourceType())) {
+            sql.append("(UPPER(book.SOURCE_TYPE) LIKE UPPER(?)) and ");
+        }
         if (StringUtils.isNotBlank(filter.getTitleId())) {
             sql.append("(UPPER(book.TITLE_ID) LIKE UPPER(?)) and ");
         }
@@ -145,6 +150,9 @@ public class LibraryListDaoImpl implements LibraryListDao {
             .filter(StringUtils::isNotBlank)
             .ifPresent(args::add);
         ofNullable(filter.getProviewDisplayName())
+            .filter(StringUtils::isNotBlank)
+            .ifPresent(args::add);
+        ofNullable(filter.getSourceType())
             .filter(StringUtils::isNotBlank)
             .ifPresent(args::add);
         ofNullable(filter.getTitleId())

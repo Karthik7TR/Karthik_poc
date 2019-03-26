@@ -20,6 +20,7 @@ public class LibraryListRowMapper implements RowMapper<LibraryList> {
         final Long bookDefinitionId = resultSet.getLong("EBOOK_DEFINITION_ID");
         return new LibraryList(
             bookDefinitionId,
+            resultSet.getString("SOURCE_TYPE"),
             resultSet.getString("PROVIEW_DISPLAY_NAME"),
             resultSet.getString("TITLE_ID"),
             resultSet.getString("EBOOK_DEFINITION_COMPLETE_FLAG"),

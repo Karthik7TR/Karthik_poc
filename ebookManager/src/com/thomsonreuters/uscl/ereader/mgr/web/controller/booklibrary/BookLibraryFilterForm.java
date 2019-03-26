@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -25,6 +27,8 @@ public class BookLibraryFilterForm {
     };
 
     private String proviewDisplayName;
+    @Getter @Setter
+    private String sourceType;
     private String toString;
     private String fromString;
     private String titleId;
@@ -43,11 +47,12 @@ public class BookLibraryFilterForm {
      * Used in resetting the form.
      */
     public void initialize() {
-        populate(null, null, null, null, null, null, null, null);
+        populate(null, null,null, null, null, null, null, null, null);
     }
 
     public void populate(
         final String proviewDisplayName,
+        final String sourceType,
         final String toString,
         final String fromString,
         final String titleId,
@@ -56,6 +61,7 @@ public class BookLibraryFilterForm {
         final Action action,
         final Long proviewKeyword) {
         this.proviewDisplayName = proviewDisplayName;
+        this.sourceType = sourceType;
         this.toString = toString;
         this.fromString = fromString;
         this.titleId = titleId;

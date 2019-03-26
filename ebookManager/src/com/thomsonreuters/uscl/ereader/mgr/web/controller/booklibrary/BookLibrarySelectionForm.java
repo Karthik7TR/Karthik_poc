@@ -14,6 +14,7 @@ public class BookLibrarySelectionForm {
 
     public enum DisplayTagSortProperty {
         PROVIEW_DISPLAY_NAME,
+        SOURCE_TYPE,
         TITLE_ID,
         LAST_GENERATED_DATE,
         DEFINITION_STATUS,

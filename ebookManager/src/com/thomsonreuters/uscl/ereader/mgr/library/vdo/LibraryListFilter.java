@@ -23,6 +23,7 @@ public class LibraryListFilter {
     private Date to; // start date on and before this calendar date (inclusive)
     private String titleId;
     private String proviewDisplayName;
+    private String sourceType;
     private String action;
     private String isbn;
     private String materialId;
@@ -34,6 +35,7 @@ public class LibraryListFilter {
         final String action,
         final String titleId,
         final String proviewDisplayName,
+        final String sourceType,
         final String isbn,
         final String materialId,
         final Long keywordValue) {
@@ -43,6 +45,7 @@ public class LibraryListFilter {
         this.titleId = ofNullable(titleId).map(this::clearWildcard).map(String::trim).orElse(null);
         this.proviewDisplayName =
             ofNullable(proviewDisplayName).map(this::clearWildcard).map(String::trim).orElse(null);
+        this.sourceType = sourceType;
         this.isbn = ofNullable(isbn).map(this::clearWildcard).map(String::trim).orElse(null);
         this.materialId = ofNullable(materialId).map(this::clearWildcard).map(String::trim).orElse(null);
         this.keywordValue = keywordValue;
