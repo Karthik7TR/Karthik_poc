@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +30,8 @@ public class KeywordTypeCodeServiceImpl implements KeywordTypeCodeSevice {
 
     @Override
     public List<KeywordTypeCode> getAllKeywordTypeCodes() {
-        return keywordTypeCodeDao.findAllByOrderByNameAsc();
+        final Sort.Order order = new Sort.Order(ASC, "name").ignoreCase();
+        return keywordTypeCodeDao.findAll(new Sort(order));
     }
 
     @Override

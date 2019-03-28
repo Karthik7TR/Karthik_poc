@@ -53,6 +53,7 @@ public class KeywordTypeIntegrationTest {
         codeDao.save(code("type", false));
         final KeywordTypeCode publisher = codeDao.save(code("publisher", true));
         codeDao.save(code("subject", false));
+        codeDao.save(code("Tip", false));
 
         final KeywordTypeValue al = valueDao.save(value(jurisdiction, "AL"));
         final KeywordTypeValue tx = valueDao.save(value(jurisdiction, "TX"));
@@ -67,7 +68,7 @@ public class KeywordTypeIntegrationTest {
     @Test
     public void getAllKeywordCodes() {
         final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
-        assertThat(codes, contains(names("jurisdiction", "publisher", "subject", "type")));
+        assertThat(codes, contains(names("jurisdiction", "publisher", "subject", "Tip", "type")));
 
         final List<KeywordTypeValue> keywordValues = codes.get(1).getValues();
         assertThat(keywordValues, contains(names("Manning", "TR")));
@@ -91,7 +92,7 @@ public class KeywordTypeIntegrationTest {
     public void deleteKeywordTypeCode() {
         codeService.deleteKeywordTypeCode(codeService.getKeywordTypeCodeByName("jurisdiction").getId());
         final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
-        assertThat(codes, contains(names("publisher", "subject", "type")));
+        assertThat(codes, contains(names("publisher", "subject", "Tip", "type")));
 
         final List<KeywordTypeValue> keywordValues = valueService.getAllKeywordTypeValues();
         assertThat(keywordValues, contains(names("Manning", "TR")));
@@ -109,7 +110,7 @@ public class KeywordTypeIntegrationTest {
         codeService.saveKeywordTypeCode(keywordTypeCode);
 
         final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
-        assertThat(codes, contains(names("new name", "publisher", "subject", "type")));
+        assertThat(codes, contains(names("new name", "publisher", "subject", "Tip", "type")));
 
         final List<KeywordTypeValue> keywordValues = codeService.getAllKeywordTypeCodes().get(0).getValues();
         assertThat(keywordValues, contains(names("AL", "TX")));
