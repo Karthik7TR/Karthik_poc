@@ -1,6 +1,6 @@
 var isSplitTypeAuto = true;
 var splitSize ="";
-var splitDocumentIndex =  parseInt($("#numberOfSplitDocuments").val());	
+var splitDocumentIndex = 0;
 
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
@@ -142,7 +142,8 @@ $(function() {
 		var renameTocEntryIndex = parseInt($("#numberOfRenameTocEntries").val());
 		var tableViewerIndex = parseInt($("#numberOfTableViewers").val());
 		var documentCopyrightIndex = parseInt($("#numberOfDocumentCopyrights").val());
-		var documentCurrencyIndex = parseInt($("#numberOfDocumentCurrencies").val());		
+		var documentCurrencyIndex = parseInt($("#numberOfDocumentCurrencies").val());
+		splitDocumentIndex =  parseInt($("#numberOfSplitDocuments").val());
 		var contentType = "";
 		var publisher = "";
 		var state = "";
