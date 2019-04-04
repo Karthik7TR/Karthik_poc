@@ -33,7 +33,9 @@ import org.springframework.web.client.RestTemplate;
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
 public final class ProviewClientImplTest {
-    // private static final Logger LOG = LogManager.getLogger(ProviewClientImplTest.class);
+    private static final String TITLE_ID = "titleId";
+    private static final String EBOOK_VERSION_NUMBER = "eBookVersionNumber";
+    private static final String PROVIEW_HOST_PARAM = "proviewHost";
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
     private static InetAddress PROVIEW_HOST;
@@ -57,7 +59,7 @@ public final class ProviewClientImplTest {
         proviewClient = new ProviewClientImpl();
         PROVIEW_HOST = InetAddress.getLocalHost();
 
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         mockRequestCallback = new ProviewRequestCallback();
         mockXMLRequestCallback = new ProviewXMLRequestCallback();
         mockResponseExtractor = new ProviewResponseExtractor();
@@ -91,7 +93,7 @@ public final class ProviewClientImplTest {
 
         proviewClient.setAllGroupsUriTemplate(allGroupsUriTemplate);
         urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
 
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
         EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
@@ -123,7 +125,7 @@ public final class ProviewClientImplTest {
         final String singleGroupUriTemplate = "";
         proviewClient.setSingleGroupUriTemplate(singleGroupUriTemplate);
         urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("groupId", groupId);
 
         EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
@@ -160,7 +162,7 @@ public final class ProviewClientImplTest {
                     HttpMethod.GET,
                     mockXMLRequestCallback,
                     mockResponseExtractor,
-                    createURLParameters()))
+                    createGroupURLParameters()))
             .andReturn("");
 
         replayAll();
@@ -185,7 +187,7 @@ public final class ProviewClientImplTest {
                     HttpMethod.PUT,
                     mockXMLRequestCallback,
                     mockResponseExtractor,
-                    createURLParameters()))
+                    createGroupURLParameters()))
             .andReturn("");
 
         replayAll();
@@ -212,7 +214,7 @@ public final class ProviewClientImplTest {
                     HttpMethod.PUT,
                     mockXMLRequestCallback,
                     mockResponseExtractor,
-                    createURLParameters()))
+                    createGroupURLParameters()))
             .andReturn("");
 
         replayAll();
@@ -238,7 +240,7 @@ public final class ProviewClientImplTest {
                     HttpMethod.PUT,
                     mockXMLRequestCallback,
                     mockResponseExtractor,
-                    createURLParameters()))
+                    createGroupURLParameters()))
             .andReturn("");
 
         replayAll();
@@ -265,7 +267,7 @@ public final class ProviewClientImplTest {
                     HttpMethod.DELETE,
                     mockXMLRequestCallback,
                     mockResponseExtractor,
-                    createURLParameters()))
+                    createGroupURLParameters()))
             .andReturn("");
 
         replayAll();
@@ -283,7 +285,7 @@ public final class ProviewClientImplTest {
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
 
         urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", "uscl/sc/ca_evid");
 
         final String response =
@@ -312,7 +314,7 @@ public final class ProviewClientImplTest {
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
 
         urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", "uscl/sc/ca_evid");
 
         final String response =
@@ -366,10 +368,10 @@ public final class ProviewClientImplTest {
         proviewClient
             .setSingleTitleByVersionUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleByVersionUriTemplate);
 
-        urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
-        urlParameters.put("titleId", "uscl/an/coi");
-        urlParameters.put("eBookVersionNumber", "v1.0");
+        final String titleId = "uscl/an/coi";
+        final String bookVersion =  "v1.0";
+
+        urlParameters = createTitleVersionUrlParams(titleId, bookVersion);
 
         EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
         EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
@@ -404,10 +406,7 @@ public final class ProviewClientImplTest {
 
             proviewClient.setPublishTitleUriTemplate(publishTitleUriTemplate);
 
-            urlParameters = new HashMap<>();
-            urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
-            urlParameters.put("titleId", titleId);
-            urlParameters.put("eBookVersionNumber", bookVersion);
+            urlParameters = createTitleVersionUrlParams(titleId, bookVersion);
 
             EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
             EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
@@ -445,10 +444,7 @@ public final class ProviewClientImplTest {
 
         proviewClient.setPromoteTitleUriTemplate(promoteTitleUriTemplate);
 
-        urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
-        urlParameters.put("titleId", titleId);
-        urlParameters.put("eBookVersionNumber", bookVersion);
+        urlParameters = createTitleVersionUrlParams(titleId, bookVersion);
 
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
         EasyMock.expect(mockResponseExtractorFactory.getSimpleResponseExtractor()).andReturn(mockSimpleResponseExtractor);
@@ -477,10 +473,7 @@ public final class ProviewClientImplTest {
 
         proviewClient.setRemoveTitleUriTemplate(removeTitleUriTemplate);
 
-        urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
-        urlParameters.put("titleId", titleId);
-        urlParameters.put("eBookVersionNumber", bookVersion);
+        urlParameters = createTitleVersionUrlParams(titleId, bookVersion);
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
         EasyMock.expect(mockResponseExtractorFactory.getSimpleResponseExtractor()).andReturn(mockSimpleResponseExtractor);
         EasyMock
@@ -508,10 +501,7 @@ public final class ProviewClientImplTest {
 
         proviewClient.setDeleteTitleUriTemplate(deleteTitleUriTemplate);
 
-        urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
-        urlParameters.put("titleId", titleId);
-        urlParameters.put("eBookVersionNumber", bookVersion);
+        urlParameters = createTitleVersionUrlParams(titleId, bookVersion);
 
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
         EasyMock.expect(mockResponseExtractorFactory.getSimpleResponseExtractor()).andReturn(mockSimpleResponseExtractor);
@@ -527,6 +517,34 @@ public final class ProviewClientImplTest {
         replayAll();
 
         final HttpStatus response = proviewClient.deleteTitle(titleId, bookVersion);
+
+        Assert.assertEquals(HttpStatus.OK, response);
+    }
+
+    @Test
+    public void testChangeTitleVersionToSuperseded() {
+        final String titleId = "testTileId";
+        final String bookVersion = "v1.2";
+        final String modifySingleTitleWithVersionUriTemplate = "SomeURI";
+
+        proviewClient.setModifySingleTitleWithVersionUriTemplate(modifySingleTitleWithVersionUriTemplate);
+
+        urlParameters = createTitleVersionUrlParams(titleId, bookVersion);
+
+        EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
+        EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+        EasyMock.expect(
+            mockRestTemplate.execute(
+                modifySingleTitleWithVersionUriTemplate,
+                HttpMethod.PUT,
+                mockXMLRequestCallback,
+                mockResponseExtractor,
+                urlParameters))
+            .andReturn("");
+        EasyMock.expectLastCall();
+        replayAll();
+
+        final HttpStatus response = proviewClient.changeTitleVersionToSuperseded(titleId, bookVersion);
 
         Assert.assertEquals(HttpStatus.OK, response);
     }
@@ -552,11 +570,19 @@ public final class ProviewClientImplTest {
         }
     }
 
-    private Map<String, String> createURLParameters() {
+    private Map<String, String> createGroupURLParameters() {
         final Map<String, String> urlParams = new HashMap<>();
-        urlParams.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParams.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParams.put("groupId", "uscl/groupTest");
         urlParams.put("groupVersionNumber", "v1");
+        return urlParams;
+    }
+
+    private Map<String, String> createTitleVersionUrlParams(final String titleId, final String bookVersion) {
+        final Map<String, String> urlParams = new HashMap<>();
+        urlParams.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParams.put(TITLE_ID, titleId);
+        urlParams.put(EBOOK_VERSION_NUMBER, bookVersion);
         return urlParams;
     }
 

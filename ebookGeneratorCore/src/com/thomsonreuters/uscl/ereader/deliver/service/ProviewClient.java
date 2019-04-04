@@ -68,6 +68,8 @@ public interface ProviewClient {
 
     HttpStatus deleteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
+    HttpStatus changeTitleVersionToSuperseded(String fullyQualifiedTitleId, String eBookVersionNumber);
+
     // String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
 
     // String getPublishingStatus(String fullyQualifiedTitleId) throws ProviewException;

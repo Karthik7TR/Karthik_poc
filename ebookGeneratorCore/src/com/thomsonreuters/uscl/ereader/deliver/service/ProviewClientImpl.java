@@ -14,11 +14,14 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.thomsonreuters.uscl.ereader.common.retry.Retry;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -39,8 +42,18 @@ import org.springframework.web.client.RestTemplate;
 public class ProviewClientImpl implements ProviewClient {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImpl.class);
     private static final String TITLE_ID = "titleId";
-
-    public static final String PROVIEW_HOST_PARAM = "proviewHost";
+    private static final String EBOOK_VERSION_NUMBER = "eBookVersionNumber";
+    private static final String PROVIEW_HOST_PARAM = "proviewHost";
+    private static final String GROUP_ID = "groupId";
+    private static final String GROUP_VERSION_NUMBER = "groupVersionNumber";
+    public static final String CHANGE_TITLE_TO_SUPERSEDED_REQUEST_BODY =
+        "<title_metadata_update>" +
+            "<update>" +
+                "<features>" +
+                    "<feature name=\"superseded\" value=\"Superseded\" />" +
+                "</features>" +
+            "</update>" +
+        "</title_metadata_update>";
     private RestTemplate restTemplate;
     private InetAddress proviewHost;
 
@@ -61,6 +74,9 @@ public class ProviewClientImpl implements ProviewClient {
     private String removeTitleUriTemplate;
     private String deleteTitleUriTemplate;
     private String getTitlesByStatusTemplate;
+
+    @Setter(onMethod_ = {@Required})
+    private String modifySingleTitleWithVersionUriTemplate;
 
     private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
     private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
@@ -106,7 +122,7 @@ public class ProviewClientImpl implements ProviewClient {
     public String getProviewGroupById(final String groupId) throws ProviewException {
         final Map<String, String> urlParameters = new HashMap<>();
         urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("groupId", groupId);
+        urlParameters.put(GROUP_ID, groupId);
 
         final ProviewXMLRequestCallback proviewXMLRequestCallback =
             proviewRequestCallbackFactory.getXMLRequestCallback();
@@ -130,10 +146,7 @@ public class ProviewClientImpl implements ProviewClient {
      */
     @Override
     public String getProviewGroupInfo(final String groupId, final String groupVersion) throws ProviewException {
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("groupId", groupId);
-        urlParameters.put("groupVersionNumber", groupVersion);
+        final Map<String, String> urlParameters = setGroupUrlParams(groupId, groupVersion);
 
         final ProviewXMLRequestCallback proviewXMLRequestCallback =
             proviewRequestCallbackFactory.getXMLRequestCallback();
@@ -152,10 +165,7 @@ public class ProviewClientImpl implements ProviewClient {
     public String createGroup(final String groupId, final String groupVersion, final String requestBody)
         throws ProviewException, UnsupportedEncodingException {
         final InputStream requestBodyStream = new ByteArrayInputStream(requestBody.getBytes("UTF-8"));
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("groupId", groupId);
-        urlParameters.put("groupVersionNumber", groupVersion);
+        final Map<String, String> urlParameters = setGroupUrlParams(groupId, groupVersion);
 
         final ProviewXMLRequestCallback proviewXMLRequestCallback =
             proviewRequestCallbackFactory.getXMLRequestCallback();
@@ -180,10 +190,7 @@ public class ProviewClientImpl implements ProviewClient {
      */
     @Override
     public String promoteGroup(final String groupId, final String groupVersion) throws ProviewException {
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("groupId", groupId);
-        urlParameters.put("groupVersionNumber", groupVersion);
+        final Map<String, String> urlParameters = setGroupUrlParams(groupId, groupVersion);
 
         final ProviewXMLRequestCallback proviewXMLRequestCallback =
             proviewRequestCallbackFactory.getXMLRequestCallback();
@@ -207,10 +214,7 @@ public class ProviewClientImpl implements ProviewClient {
      */
     @Override
     public String removeGroup(final String groupId, final String groupVersion) throws ProviewException {
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("groupId", groupId);
-        urlParameters.put("groupVersionNumber", groupVersion);
+        final Map<String, String> urlParameters = setGroupUrlParams(groupId, groupVersion);
 
         final ProviewXMLRequestCallback proviewXMLRequestCallback =
             proviewRequestCallbackFactory.getXMLRequestCallback();
@@ -234,10 +238,7 @@ public class ProviewClientImpl implements ProviewClient {
      */
     @Override
     public String deleteGroup(final String groupId, final String groupVersion) throws ProviewException {
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("groupId", groupId);
-        urlParameters.put("groupVersionNumber", groupVersion);
+        final Map<String, String> urlParameters = setGroupUrlParams(groupId, groupVersion);
 
         final ProviewXMLRequestCallback proviewXMLRequestCallback =
             proviewRequestCallbackFactory.getXMLRequestCallback();
@@ -258,10 +259,7 @@ public class ProviewClientImpl implements ProviewClient {
     public String getTitleInfo(@NotNull final String titleId, @NotNull final String version) throws ProviewException {
         try {
             LOG.debug("Proview host: " + proviewHost.getHostName());
-            final Map<String, String> urlParameters = new HashMap<>();
-            urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-            urlParameters.put(TITLE_ID, titleId);
-            urlParameters.put("eBookVersionNumber", version);
+            final Map<String, String> urlParameters = setTitleVersionUrlParams(titleId, version);
             return restTemplate.execute(
                 getTitleInfoUriTemplate,
                 HttpMethod.GET,
@@ -324,19 +322,9 @@ public class ProviewClientImpl implements ProviewClient {
         throws ProviewException {
         String response = null;
         try {
-            if (StringUtils.isBlank(fullyQualifiedTitleId) && StringUtils.isBlank(version)) {
-                throw new IllegalArgumentException(
-                    "Cannot get publishing status for titleId: "
-                        + fullyQualifiedTitleId
-                        + " and version "
-                        + version
-                        + ". Both titleId and version should be provided.");
-            }
+            validateTitleAndVersion(fullyQualifiedTitleId, version);
 
-            final Map<String, String> urlParameters = new HashMap<>();
-            urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
-            urlParameters.put("eBookVersionNumber", version);
-            urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+            final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, version);
             response = restTemplate.execute(
                 singleTitleByVersionUriTemplate,
                 HttpMethod.GET,
@@ -390,22 +378,12 @@ public class ProviewClientImpl implements ProviewClient {
     @Override
     public String publishTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber, final File eBook)
         throws ProviewException {
-        if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-            throw new IllegalArgumentException(
-                "fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
-        }
-        if (StringUtils.isBlank(eBookVersionNumber)) {
-            throw new IllegalArgumentException(
-                "eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
-        }
+        validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
 
         String proviewResponse = null;
 
         try (FileInputStream ebookInputStream = new FileInputStream(eBook)) {
-            final Map<String, String> urlParameters = new HashMap<>();
-            urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-            urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
-            urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+            final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber);
 
             final ProviewRequestCallback proviewRequestCallback =
                 proviewRequestCallbackFactory.getStreamRequestCallback();
@@ -429,21 +407,15 @@ public class ProviewClientImpl implements ProviewClient {
      * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle (java.lang.String, java.lang.String)
      */
     @Override
+    @Retry(propertyValue = "proview.retry.count",
+        exceptions = {ProviewException.class, ProviewRuntimeException.class},
+        delayProperty = "proview.retry.delay.ms"
+    )
     public HttpStatus promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
-        if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-            throw new IllegalArgumentException(
-                "fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
-        }
-        if (StringUtils.isBlank(eBookVersionNumber)) {
-            throw new IllegalArgumentException(
-                "eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
-        }
+        validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
 
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
-        urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+        final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
@@ -465,19 +437,9 @@ public class ProviewClientImpl implements ProviewClient {
     @Override
     public HttpStatus removeTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
-        if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-            throw new IllegalArgumentException(
-                "fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
-        }
-        if (StringUtils.isBlank(eBookVersionNumber)) {
-            throw new IllegalArgumentException(
-                "eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
-        }
+        validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
 
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
-        urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+        final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
@@ -491,7 +453,7 @@ public class ProviewClientImpl implements ProviewClient {
     }
 
     @SneakyThrows
-    private HttpStatus getStatusCode(ClientHttpResponse proviewResponse) {
+    private HttpStatus getStatusCode(final ClientHttpResponse proviewResponse) {
         return proviewResponse.getStatusCode();
     }
 
@@ -503,19 +465,9 @@ public class ProviewClientImpl implements ProviewClient {
     @Override
     public HttpStatus deleteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
         throws ProviewException {
-        if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-            throw new IllegalArgumentException(
-                "fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
-        }
-        if (StringUtils.isBlank(eBookVersionNumber)) {
-            throw new IllegalArgumentException(
-                "eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
-        }
+        validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
 
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
-        urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+        final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
@@ -527,6 +479,27 @@ public class ProviewClientImpl implements ProviewClient {
             urlParameters);
 
         return getStatusCode(proviewResponse);
+    }
+
+    @Override
+    public HttpStatus changeTitleVersionToSuperseded(final String fullyQualifiedTitleId, final String eBookVersionNumber) {
+        validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
+
+        final ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory.getXMLRequestCallback();
+        try {
+            proviewXMLRequestCallback.setRequestInputStream(new ByteArrayInputStream(CHANGE_TITLE_TO_SUPERSEDED_REQUEST_BODY.getBytes("UTF-8")));
+        } catch (final UnsupportedEncodingException e) {
+            LOG.warn(e.getMessage(), e);
+        }
+
+        restTemplate.execute(
+            modifySingleTitleWithVersionUriTemplate,
+            HttpMethod.PUT,
+            proviewXMLRequestCallback,
+            proviewResponseExtractorFactory.getResponseExtractor(),
+            setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber));
+
+        return HttpStatus.OK;
     }
 
     /**
@@ -543,6 +516,33 @@ public class ProviewClientImpl implements ProviewClient {
             writer.writeStartElement(name);
             writer.writeCharacters(value.toString().trim());
             writer.writeEndElement();
+        }
+    }
+
+    private Map<String, String> setGroupUrlParams(final String groupId, final String groupVersion) {
+        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+        urlParameters.put(GROUP_ID, groupId);
+        urlParameters.put(GROUP_VERSION_NUMBER, groupVersion);
+        return urlParameters;
+    }
+
+    private Map<String, String> setTitleVersionUrlParams(final String fullyQualifiedTitleId, final String eBookVersionNumber) {
+        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
+        urlParameters.put(EBOOK_VERSION_NUMBER, eBookVersionNumber);
+        return urlParameters;
+    }
+
+    private void validateTitleAndVersion(final String fullyQualifiedTitleId, final String eBookVersionNumber) {
+        if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+            throw new IllegalArgumentException(
+                "fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
+        }
+        if (StringUtils.isBlank(eBookVersionNumber)) {
+            throw new IllegalArgumentException(
+                "eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
         }
     }
 

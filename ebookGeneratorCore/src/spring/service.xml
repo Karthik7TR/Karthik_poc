@@ -47,6 +47,19 @@
 		  p:defaultProviewHostname="${proview.host}"
 		  p:defaultNovusEnvironment="${novus.environment}"/>
 	
+	<util:list id="propertiesFilesCore" value-type="org.springframework.core.io.Resource">
+		<value>classpath:spring/properties/default-spring.properties</value>
+		<value>classpath:spring/properties/${environment}-spring.properties</value>
+	</util:list>
+	
+	<bean id="commonPropertiesCore" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations" ref="propertiesFilesCore" />
+	</bean>
+	
+	<bean id="retryAwareBeanPostProcessorCore" class="com.thomsonreuters.uscl.ereader.common.retry.RetryAwareBeanPostProcessor">
+		<constructor-arg ref="commonPropertiesCore" />
+	</bean>
+	
 	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
 		  p:proviewHostname="${proview.host}"
 		  p:getTitlesUriTemplate="http://{proviewHost}/v1/titles/uscl/all"
@@ -67,6 +80,7 @@
 		  p:singleGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}"
 		  p:deleteGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
 		  p:singleTitleByVersionUriTemplate="http://{proviewHost}/v1/titles/{titleId}/{eBookVersionNumber}"
+		  p:modifySingleTitleWithVersionUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}/metadata"
 		  p:getTitlesByStatusTemplate="http://{proviewHost}/v1/titles/{titleId}?status={status}"/>
 		  
 	<bean id="proviewHandler" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl"

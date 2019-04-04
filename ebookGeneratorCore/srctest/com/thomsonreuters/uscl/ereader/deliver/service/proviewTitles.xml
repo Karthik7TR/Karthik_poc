@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<titles>
+    <title id="uscl/an/book_singlebook" version="v1.0" lastupdate="20160331" status="Review" name="Single Book"/>
+    <title id="uscl/an/book_singlebook" version="v1.1" lastupdate="20160331" status="Final" name="Single Book"/>
+    <title id="uscl/an/book_singlebook" version="v1.2" lastupdate="20160331" status="Final" name="Single Book"/>
+    <title id="uscl/an/book_singlebook" version="v2.0" lastupdate="20160331" status="Final" name="Single Book"/>
+    <title id="uscl/an/book_singlebook" version="v2.1" lastupdate="20160405" status="Final" name="Single Book"/>
+    <title id="uscl/an/book_singlebook" version="v2.2" lastupdate="20160405" status="Review" name="Single Book"/>
+    
+    
+    <title id="uscl/an/book_splitbook" version="v1.0" lastupdate="20190401" status="Review" name="Split Book (eBook 1 of 3)"/>
+    <title id="uscl/an/book_splitbook_pt2" version="v1.0" lastupdate="20190401" status="Review" name="Split Book (eBook 2 of 3)"/>
+    <title id="uscl/an/book_splitbook_pt3" version="v1.0" lastupdate="20190401" status="Review" name="Split Book (eBook 3 of 3)"/>
+    
+    <title id="uscl/an/book_splitbook" version="v2.0" lastupdate="20190401" status="Final" name="Split Book (eBook 1 of 3)"/>
+    <title id="uscl/an/book_splitbook_pt2" version="v2.0" lastupdate="20190401" status="Final" name="Split Book (eBook 2 of 3)"/>
+    <title id="uscl/an/book_splitbook_pt3" version="v2.0" lastupdate="20190401" status="Final" name="Split Book (eBook 3 of 3)"/>
+    
+    <title id="uscl/an/book_splitbook" version="v3.0" lastupdate="20190401" status="Final" name="Split Book (eBook 1 of 3)"/>
+    <title id="uscl/an/book_splitbook_pt2" version="v3.0" lastupdate="20190401" status="Final" name="Split Book (eBook 2 of 3)"/>
+    <title id="uscl/an/book_splitbook_pt3" version="v3.0" lastupdate="20190401" status="Final" name="Split Book (eBook 3 of 3)"/>
+    
+    
+    <title id="uscl/an/book_splitbook_2" version="v1.0" lastupdate="20190401" status="Final" name="Split Book (eBook 1 of 2)"/>
+    <title id="uscl/an/book_splitbook_2_pt2" version="v1.0" lastupdate="20190401" status="Final" name="Split Book (eBook 2 of 2)"/>
+    
+    <title id="uscl/an/book_splitbook_2" version="v2.0" lastupdate="20190401" status="Final" name="Split Book (eBook 1 of 2)"/>
+    <title id="uscl/an/book_splitbook_2_pt2" version="v2.0" lastupdate="20190401" status="Final" name="Split Book (eBook 2 of 2)"/>
+    
+    <title id="uscl/an/book_splitbook_2" version="v3.0" lastupdate="20190401" status="Final" name="Not split book any more"/>
+    <title id="uscl/an/book_splitbook_2" version="v3.1" lastupdate="20190401" status="Review" name="Not split book any more"/>
+    
+    <title id="uscl/an/book_splitbook_2" version="v4.0" lastupdate="20190401" status="Final" name="Not split book any more"/>
+    
+    
+    <title id="uscl/an/book_splitbook_3" version="v1.0" lastupdate="20190401" status="Review" name="Split Book (eBook 1 of 2)"/>
+    <title id="uscl/an/book_splitbook_3_pt2" version="v1.0" lastupdate="20190401" status="Review" name="Split Book (eBook 2 of 2)"/>
+    <title id="uscl/an/book_splitbook_3" version="v1.1" lastupdate="20190401" status="Final" name="Split Book (eBook 1 of 2)"/>
+    <title id="uscl/an/book_splitbook_3_pt2" version="v1.1" lastupdate="20190401" status="Final" name="Split Book (eBook 2 of 2)"/>
+    <title id="uscl/an/book_splitbook_3" version="v1.2" lastupdate="20190401" status="Review" name="Split Book (eBook 1 of 2)"/>
+    <title id="uscl/an/book_splitbook_3_pt2" version="v1.2" lastupdate="20190401" status="Review" name="Split Book (eBook 2 of 2)"/>
+    <title id="uscl/an/book_splitbook_3" version="v1.3" lastupdate="20190401" status="Review" name="Split Book (eBook 1 of 2)"/>
+    
+    <title id="uscl/an/book_splitbook_3" version="v2.0" lastupdate="20190401" status="Review" name="Split Book"/>
+    <title id="uscl/an/book_splitbook_3" version="v2.1" lastupdate="20190401" status="Final" name="Split Book"/>
+    <title id="uscl/an/book_splitbook_3" version="v2.2" lastupdate="20190401" status="Final" name="Split Book"/>
+    
+</titles>

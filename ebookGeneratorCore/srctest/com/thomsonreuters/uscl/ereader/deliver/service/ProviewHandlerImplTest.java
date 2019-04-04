@@ -1,6 +1,15 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import static com.thomsonreuters.uscl.ereader.core.book.BookMatchers.version;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,11 +22,13 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import org.apache.commons.io.FileUtils;
-import org.easymock.EasyMock;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -25,20 +36,24 @@ import org.springframework.http.HttpStatus;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
+@RunWith(MockitoJUnitRunner.class)
 public final class ProviewHandlerImplTest {
     // private static final Logger LOG = LogManager.getLogger(ProviewHandlerImplTest.class);
 
+    @InjectMocks
     private ProviewHandlerImpl proviewHandler;
 
     private static final String GROUP_ID = "uscl/test_group_id";
 
+    @Mock
     private ProviewClient mockProviewClient;
     private GroupDefinition groupDefinition;
 
+    @Mock
+    private SupersededProviewHandlerHelper mockSupersededHandler;
+
     @Before
     public void setUp() {
-        proviewHandler = new ProviewHandlerImpl();
-        mockProviewClient = EasyMock.createMock(ProviewClient.class);
         proviewHandler.setProviewClient(mockProviewClient);
     }
 
@@ -131,12 +146,11 @@ public final class ProviewHandlerImplTest {
             + "<group id=\"uscl/abook_testgroup\" status=\"Final\" version=\"v1\"><name>Group1</name>"
             + "<type>standard</type><headtitle>uscl/an/abook_testgroup</headtitle><members><subgroup>"
             + "<title>uscl/an/abook_testgroup</title></subgroup></members></group></groups>";
-        EasyMock.expect(mockProviewClient.getAllProviewGroups()).andReturn(response);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getAllProviewGroups()).thenReturn(response);
 
         final List<ProviewGroup> proviewGroups = proviewHandler.getAllLatestProviewGroupInfo();
-        Assert.assertEquals(1, proviewGroups.size());
-        Assert.assertEquals((Integer) 2, proviewGroups.get(0).getTotalNumberOfVersions());
+        assertEquals(1, proviewGroups.size());
+        assertEquals((Integer) 2, proviewGroups.get(0).getTotalNumberOfVersions());
     }
 
     @Test
@@ -144,14 +158,14 @@ public final class ProviewHandlerImplTest {
         initGroupDef();
         initSubgroupHeading();
         final String response = getGroupsResponseXml(groupDefinition);
-        EasyMock.expect(mockProviewClient.getProviewGroupById(GROUP_ID)).andReturn(response);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getProviewGroupById(GROUP_ID)).thenReturn(response);
+
 
         final ProviewGroupContainer groupContainer = proviewHandler.getProviewGroupContainerById(GROUP_ID);
 
-        Assert.assertNotNull(groupContainer);
-        Assert.assertNotNull(groupContainer.getProviewGroups());
-        Assert.assertEquals(1, groupContainer.getProviewGroups().size());
+        assertNotNull(groupContainer);
+        assertNotNull(groupContainer.getProviewGroups());
+        assertEquals(1, groupContainer.getProviewGroups().size());
     }
 
     @Test
@@ -160,13 +174,12 @@ public final class ProviewHandlerImplTest {
         initSubgroupHeading();
         final String response = getGroupsResponseXml(groupDefinition);
 
-        EasyMock.expect(mockProviewClient.getProviewGroupInfo(GROUP_ID, groupDefinition.getProviewGroupVersionString()))
-            .andReturn(response);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getProviewGroupInfo(GROUP_ID, groupDefinition.getProviewGroupVersionString()))
+            .thenReturn(response);
 
         final GroupDefinition groupDef =
             proviewHandler.getGroupDefinitionByVersion(GROUP_ID, groupDefinition.getGroupVersion());
-        Assert.assertTrue(groupDefinition.equals(groupDef));
+        assertTrue(groupDefinition.equals(groupDef));
     }
 
     @Test
@@ -175,72 +188,61 @@ public final class ProviewHandlerImplTest {
         final String expected = getGroupsRequestXml(groupDefinition);
         final String actual = proviewHandler.buildRequestBody(groupDefinition);
 
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
     public void testCreateGroup() throws Exception {
         initGroupDef();
 
-        EasyMock
-            .expect(
-                mockProviewClient.createGroup(
-                    groupDefinition.getGroupId(),
-                    groupDefinition.getProviewGroupVersionString(),
-                    getGroupsRequestXml(groupDefinition)))
-            .andReturn("");
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.createGroup(
+             groupDefinition.getGroupId(),
+             groupDefinition.getProviewGroupVersionString(),
+             getGroupsRequestXml(groupDefinition)))
+             .thenReturn("");
 
         final String response = proviewHandler.createGroup(groupDefinition);
 
-        Assert.assertEquals("", response);
+        assertEquals("", response);
     }
 
     @Test
     public void testPromoteGroup() throws Exception {
         initGroupDef();
 
-        EasyMock
-            .expect(
-                mockProviewClient
-                    .promoteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString()))
-            .andReturn("");
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.promoteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString()))
+            .thenReturn("");
 
         final String response =
             proviewHandler.promoteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString());
 
-        Assert.assertEquals("", response);
+        assertEquals("", response);
     }
 
     @Test
     public void testRemoveGroup() throws Exception {
         initGroupDef();
 
-        EasyMock.expect(
-            mockProviewClient.removeGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString()))
-            .andReturn("");
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.removeGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString()))
+            .thenReturn("");
 
         final String response =
             proviewHandler.removeGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString());
 
-        Assert.assertEquals("", response);
+        assertEquals("", response);
     }
 
     @Test
     public void testDeleteGroup() throws Exception {
         initGroupDef();
 
-        EasyMock.expect(
-            mockProviewClient.deleteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString()))
-            .andReturn("=)");
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.deleteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString()))
+            .thenReturn("=)");
 
         final String response =
             proviewHandler.deleteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString());
 
-        Assert.assertEquals("=)", response);
+        assertEquals("=)", response);
     }
 
     @Test
@@ -265,13 +267,12 @@ public final class ProviewHandlerImplTest {
             + "lastupdate=\""
             + latest
             + "\" status=\"Cleanup\">Test Book Name</title></titles>";
-        EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn(response);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(response);
 
         final ProviewTitleInfo titleInfo = proviewHandler.getLatestProviewTitleInfo(titleId);
 
-        Assert.assertEquals(titleId, titleInfo.getTitleId());
-        Assert.assertEquals(latest, titleInfo.getLastupdate());
+        assertEquals(titleId, titleInfo.getTitleId());
+        assertEquals(latest, titleInfo.getLastupdate());
     }
 
     @Test
@@ -293,13 +294,12 @@ public final class ProviewHandlerImplTest {
             + titleId
             + "\" version=\"v2.1\" publisher=\"uscl\" "
             + "lastupdate=\"20150508\" status=\"Cleanup\">Test Book Name</title></titles>";
-        EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn(response);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(response);
 
         final List<GroupDetails> groupDetailsList = proviewHandler.getSingleTitleGroupDetails(titleId);
 
-        Assert.assertEquals(4, groupDetailsList.size());
-        Assert.assertEquals(titleId, groupDetailsList.get(0).getTitleId());
+        assertEquals(4, groupDetailsList.size());
+        assertEquals(titleId, groupDetailsList.get(0).getTitleId());
     }
 
     @Test
@@ -311,12 +311,11 @@ public final class ProviewHandlerImplTest {
             + "<title id=\"uscl/abadocs/art\" version=\"v1.1\" publisher=\"uscl\" "
             + "lastupdate=\"20150508\" status=\"Review\">Handbook of Practical "
             + "Planning for Art Collectors and Their Advisors </title></titles>";
-        EasyMock.expect(mockProviewClient.getAllPublishedTitles()).andReturn(response);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getAllPublishedTitles()).thenReturn(response);
 
         final List<ProviewTitleInfo> titleInfo = proviewHandler.getAllLatestProviewTitleInfo();
 
-        Assert.assertEquals(1, titleInfo.size());
+        assertEquals(1, titleInfo.size());
     }
 
     @Test
@@ -331,7 +330,7 @@ public final class ProviewHandlerImplTest {
         map.put("testGroupId", groupContainer);
 
         final List<ProviewTitleInfo> proviewGroups = proviewHandler.getAllLatestProviewTitleInfo(map);
-        Assert.assertEquals(1, proviewGroups.size());
+        assertEquals(1, proviewGroups.size());
     }
 
     @Test
@@ -344,12 +343,11 @@ public final class ProviewHandlerImplTest {
         try {
             final File eBook = makeFile(tempRootDir, "tempBookFile", fileContents);
 
-            EasyMock.expect(mockProviewClient.publishTitle(titleId, "v1.2", eBook)).andReturn("=)");
-            EasyMock.replay(mockProviewClient);
+            when(mockProviewClient.publishTitle(titleId, "v1.2", eBook)).thenReturn("=)");
 
             final String response = proviewHandler.publishTitle(titleId, bookVersion, eBook);
 
-            Assert.assertEquals("=)", response);
+            assertEquals("=)", response);
         } catch (final Exception e) {
             throw e;
         } finally {
@@ -366,12 +364,30 @@ public final class ProviewHandlerImplTest {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
 
-        EasyMock.expect(mockProviewClient.promoteTitle(titleId, bookVersion)).andReturn(HttpStatus.OK);
-        EasyMock.replay(mockProviewClient);
+        doNothing().when(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
+        when(mockProviewClient.promoteTitle(titleId, bookVersion)).thenReturn(HttpStatus.OK);
+        when(mockProviewClient.getAllPublishedTitles()).thenReturn("<titles></titles>");
 
         final boolean response = proviewHandler.promoteTitle(titleId, bookVersion);
 
-        Assert.assertTrue(response);
+        verify(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
+
+        assertTrue(response);
+    }
+
+    @Test
+    public void testPromoteTitleFail() throws Exception {
+        final String titleId = "testTileId";
+        final String bookVersion = "v1.2";
+
+        doNothing().when(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
+        when(mockProviewClient.promoteTitle(titleId, bookVersion)).thenReturn(HttpStatus.FORBIDDEN);
+
+        final boolean response = proviewHandler.promoteTitle(titleId, bookVersion);
+
+        verify(mockSupersededHandler, never()).markTitleVersionAsSupersededInThread(any(), any(), any());
+
+        assertFalse(response);
     }
 
     @Test
@@ -379,12 +395,11 @@ public final class ProviewHandlerImplTest {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
 
-        EasyMock.expect(mockProviewClient.removeTitle(titleId, "v1.2")).andReturn(HttpStatus.OK);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.removeTitle(titleId, "v1.2")).thenReturn(HttpStatus.OK);
 
         final boolean response = proviewHandler.removeTitle(titleId, bookVersion);
 
-        Assert.assertTrue(response);
+        assertTrue(response);
     }
 
     @Test
@@ -392,48 +407,44 @@ public final class ProviewHandlerImplTest {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
 
-        EasyMock.expect(mockProviewClient.deleteTitle(titleId, "v1.2")).andReturn(HttpStatus.OK);
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.deleteTitle(titleId, "v1.2")).thenReturn(HttpStatus.OK);
 
         final boolean response = proviewHandler.deleteTitle(titleId, bookVersion);
 
-        Assert.assertTrue(response);
+        assertTrue(response);
     }
 
     @Test
     public void testHasTitleIdBeenPublishedNoBook() throws Exception {
         final String titleId = "testTileId";
-        EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn("<title></title>");
-        EasyMock.replay(mockProviewClient);
+        when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn("<title></title>");
 
         final boolean response = proviewHandler.hasTitleIdBeenPublished(titleId);
-        Assert.assertFalse(response);
+        assertFalse(response);
     }
 
     @Test
     public void testHasTitleIdBeenPublishedFalse() throws Exception {
         final String titleId = "testTileId";
-        EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn(
+        when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(
             "<title id=\""
                 + titleId
                 + "\" version=\"v1.0\" publisher=\"uscl\" lastupdate=\"20150508\" status=\"Cleanup\">Test Book Name</title>");
-        EasyMock.replay(mockProviewClient);
 
         final boolean response = proviewHandler.hasTitleIdBeenPublished(titleId);
-        Assert.assertTrue(!response);
+        assertTrue(!response);
     }
 
     @Test
     public void testHasTitleIdBeenPublishedTrue() throws Exception {
         final String titleId = "testTileId";
-        EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn(
+        when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(
             "<title id=\""
                 + titleId
                 + "\" version=\"v1.0\" publisher=\"uscl\" lastupdate=\"20150508\" status=\"final\">Test Book Name</title>");
-        EasyMock.replay(mockProviewClient);
 
         final boolean response = proviewHandler.hasTitleIdBeenPublished(titleId);
-        Assert.assertTrue(response);
+        assertTrue(response);
     }
 
     @Test
@@ -448,7 +459,7 @@ public final class ProviewHandlerImplTest {
         map.put("testGroupId", groupContainer);
 
         final List<ProviewGroup> proviewGroups = proviewHandler.getAllLatestProviewGroupInfo(map);
-        Assert.assertEquals(1, proviewGroups.size());
+        assertEquals(1, proviewGroups.size());
     }
 
     /**

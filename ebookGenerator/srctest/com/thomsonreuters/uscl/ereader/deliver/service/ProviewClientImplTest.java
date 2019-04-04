@@ -28,6 +28,7 @@ public final class ProviewClientImplTest {
     //private static final Logger LOG = LogManager.getLogger(ProviewClientImplTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
+    private static final String PROVIEW_HOST_PARAM = "proviewHost";
     private static InetAddress PROVIEW_HOST;
     private String getTitlesUriTemplate = "/v1/titles/uscl/all";
 
@@ -70,7 +71,7 @@ public final class ProviewClientImplTest {
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
         EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
         final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         EasyMock.expect(
             mockRestTemplate.execute(
                 "http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate,
