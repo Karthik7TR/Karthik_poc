@@ -15,6 +15,8 @@ public class WebConstants {
     public static final String KEY_GROUP_DETAIL = "groupDetail";
     public static final String KEY_PUBLISHING_STATS_LIST = "publishingStatsList";
     public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
+    public static final String KEY_LATEST_UPDATE_DATES_TITLE = "titlesLatestUpdateDate";
+    public static final String KEY_LATEST_UPDATE_DATES_GROUPS = "groupsLatestUpdateDate";
     public static final String KEY_ALL_LATEST_PROVIEW_GROUPS = "allLatestProviewGroups";
     public static final String KEY_PROVIEW_GROUPS_DETAILS_SESSIOM = "groupDetailsFromsession";
     public static final String KEY_SELECTED_PROVIEW_TITLES = "selectedProviewTitleInfo";

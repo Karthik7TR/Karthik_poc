@@ -68,6 +68,7 @@
 		<display:column title="Latest Status" property="groupStatus" sortable="true"/>
 		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
 		<display:column title="Latest Version" property="groupVersion" sortable="true"/>
+		<display:column title="Latest Status Update" property="latestUpdateDate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 			<a id="viewAllVersions" href="<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>?<%=WebConstants.KEY_GROUP_IDS%>=${proviewGroup.groupId}">View all versions</a>
 		</display:column>

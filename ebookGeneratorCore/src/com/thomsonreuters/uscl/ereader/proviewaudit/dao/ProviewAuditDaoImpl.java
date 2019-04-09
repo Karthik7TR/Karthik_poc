@@ -1,11 +1,17 @@
 package com.thomsonreuters.uscl.ereader.proviewaudit.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort.SortProperty;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -102,6 +108,26 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
         criteria.setProjection(Projections.projectionList().add(Projections.property("id"), "id"));
 
         return criteria.list().size();
+    }
+
+    @Override
+    public Map<String, Date> findMaxRequestDateByTitleIds(final Collection<String> titleIds) {
+        final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ProviewAudit.class);
+        criteria.setProjection(Projections.projectionList()
+            .add(Projections.groupProperty("titleId"))
+            .add(Projections.max("requestDate")));
+
+        //Since Oracle db has a restriction for IN clause (it can contain only 1000 values)
+        //we are using a workaround like connecting several clauses (in (0...999) or in (1000...1999)...)
+        //So we need to split collection with titleIds to parts with size 1000
+        ListUtils.partition(new ArrayList<>(titleIds), 1000).stream()
+            .map(bunch -> Restrictions.in("titleId", bunch))
+            .reduce(Restrictions::or)
+            .ifPresent(criteria::add);
+
+        final List<Object[]> resultList = criteria.list();
+        return resultList.stream()
+            .collect(Collectors.toMap(columns -> columns[0].toString(), columns -> (Date) columns[1]));
     }
 
     private Criteria addFilters(final ProviewAuditFilter filter) {

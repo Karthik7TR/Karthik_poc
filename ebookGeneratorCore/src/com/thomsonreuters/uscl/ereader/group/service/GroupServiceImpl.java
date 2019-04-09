@@ -541,7 +541,7 @@ public class GroupServiceImpl implements GroupService {
         for (final PilotBook pilotBook : bookList) {
             try {
                 ProviewTitleInfo latest = new ProviewTitleInfo();
-                latest.setVersion("v0");
+                latest.setVersion("v0.0");
                 Integer totalNumberOfVersions = 0;
                 final ProviewTitleContainer singleBook =
                     proviewHandler.getProviewTitleContainer(pilotBook.getPilotBookTitleId());

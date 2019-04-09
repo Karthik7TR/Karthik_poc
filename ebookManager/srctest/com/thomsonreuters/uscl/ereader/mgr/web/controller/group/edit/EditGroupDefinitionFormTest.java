@@ -115,6 +115,7 @@ public final class EditGroupDefinitionFormTest {
 
         final ProviewTitleInfo proviewTitleInfo = new ProviewTitleInfo();
         proviewTitleInfo.setTitleId(TITLE_ID + "_pt2");
+        proviewTitleInfo.setVersion("v1.0");
         proviewTitleMap.put(TITLE_ID, proviewTitleInfo);
 
         final List<SubGroupInfo> subgroupList = new ArrayList<>();

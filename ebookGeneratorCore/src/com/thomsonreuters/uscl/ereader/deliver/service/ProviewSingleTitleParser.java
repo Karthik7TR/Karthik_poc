@@ -72,7 +72,7 @@ public class ProviewSingleTitleParser {
                             groupDetails.setTitleId(titleId);
                             groupDetails.setLastupdate(lastUpdate);
                             final String[] setTitleIdWithVersion = {titleId + "/" + version};
-                            groupDetails.setTitleIdtWithVersionArray(setTitleIdWithVersion);
+                            groupDetails.setTitleIdWithVersionArray(setTitleIdWithVersion);
                             GroupDetailsList.add(groupDetails);
                         }
                     } catch (final Exception e) {

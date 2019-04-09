@@ -8,6 +8,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
@@ -136,20 +139,26 @@ public final class ProviewTitleListControllerTest {
         mockTitleForm.setCommand(Command.REFRESH);
 
         final Map<String, ProviewTitleContainer> mockAllProviewTitleInfo = new HashMap<>();
-        mockAllProviewTitleInfo.put(mockTitleForm.getCommand().toString(), new ProviewTitleContainer());
+        mockAllProviewTitleInfo.put("test", new ProviewTitleContainer());
         final List<ProviewTitleInfo> mockAllLatestProviewTitleInfo = new ArrayList<>();
         final ProviewTitleInfo testInfo = new ProviewTitleInfo();
         testInfo.setTitle("test");
+        testInfo.setTitleId("test");
         mockAllLatestProviewTitleInfo.add(testInfo);
 
         EasyMock.expect(mockProviewHandler.getAllProviewTitleInfo()).andReturn(mockAllProviewTitleInfo);
         EasyMock.expect(mockProviewHandler.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo))
             .andReturn(mockAllLatestProviewTitleInfo);
         EasyMock.replay(mockProviewHandler);
+        EasyMock.expect(mockProviewAuditService.findMaxRequestDateByTitleIds(Collections.singleton("test")))
+            .andReturn(Collections.singletonMap("test", new Date()));
+        EasyMock.replay(mockProviewAuditService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        assertEquals(((List<ProviewTitleInfo>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST)).get(0).getLastStatusUpdateDate(),
+            DateFormatUtils.format(new Date(), "yyyyMMdd"));
         final Map<String, Object> model = mav.getModel();
 
         assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));

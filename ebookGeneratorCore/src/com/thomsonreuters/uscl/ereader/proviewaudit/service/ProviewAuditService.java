@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.proviewaudit.service;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
@@ -28,4 +31,6 @@ public interface ProviewAuditService {
     String getBookStatus(String titleId, String version);
 
     List<ProviewAudit> getRemovedAndDeletedVersions(String fullyQualifiedTitleId);
+
+    Map<String, Date> findMaxRequestDateByTitleIds(Collection<String> titleIds);
 }

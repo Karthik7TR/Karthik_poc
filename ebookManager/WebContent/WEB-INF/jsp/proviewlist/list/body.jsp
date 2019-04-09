@@ -74,6 +74,7 @@
 		<display:column title="Status" property="status" sortable="true"/>
 		<display:column title="Publisher" property="publisher" sortable="true"/>
 		<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
+		<display:column title="Latest Status Update" property="lastStatusUpdateDate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 				<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">View all versions</a>
 		</display:column>

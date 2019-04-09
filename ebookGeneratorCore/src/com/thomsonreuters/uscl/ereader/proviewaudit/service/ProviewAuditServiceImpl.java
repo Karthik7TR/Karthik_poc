@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.proviewaudit.service;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.proviewaudit.dao.ProviewAuditDao;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
@@ -60,5 +63,11 @@ public class ProviewAuditServiceImpl implements ProviewAuditService {
     @Transactional(readOnly = true)
     public String getBookStatus(final String titleId, final String version) {
         return dao.getBookStatus(titleId, version);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Date> findMaxRequestDateByTitleIds(final Collection<String> titleIds) {
+        return dao.findMaxRequestDateByTitleIds(titleIds);
     }
 }

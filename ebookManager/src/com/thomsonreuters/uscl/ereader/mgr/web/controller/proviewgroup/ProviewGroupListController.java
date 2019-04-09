@@ -8,11 +8,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
@@ -44,6 +50,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -105,8 +112,10 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             switch (command) {
             case REFRESH:
                 final Map<String, ProviewGroupContainer> allProviewGroups = proviewHandler.getAllProviewGroupInfo();
+                updateGroupTitlesLatestUpdateDates(allProviewGroups.values(), httpSession);
                 final List<ProviewGroup> allLatestProviewGroups =
                     proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups);
+                fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, httpSession);
 
                 saveAllProviewGroups(httpSession, allProviewGroups);
                 saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
@@ -186,10 +195,12 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                 try {
                     if (allProviewGroups == null) {
                         allProviewGroups = proviewHandler.getAllProviewGroupInfo();
+                        updateGroupTitlesLatestUpdateDates(allProviewGroups.values(), httpSession);
                         saveAllProviewGroups(httpSession, allProviewGroups);
                     }
 
                     allLatestProviewGroups = proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups);
+                    fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, httpSession);
                     saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
                     if (filterForm != null) {
                         selectedProviewGroups = filterProviewGroupList(filterForm, allLatestProviewGroups);
@@ -827,5 +838,46 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
     public int getMaxNumberOfRetries() {
         return maxNumberOfRetries;
+    }
+
+    private void updateGroupTitlesLatestUpdateDates(final Collection<ProviewGroupContainer> proviewGroupContainers,
+                                                    final HttpSession session) {
+        final Set<String> titleIds = Optional.ofNullable(proviewGroupContainers)
+            .map(Collection::stream)
+            .orElseGet(Stream::empty)
+            .map(ProviewGroupContainer::getProviewGroups)
+            .flatMap(Collection::stream)
+            .filter(Objects::nonNull)
+            .map(this::getProviewGroupTitleIds)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet());
+        final Map<String, Date> latestDates = proviewAuditService.findMaxRequestDateByTitleIds(titleIds);
+        session.setAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_GROUPS, latestDates);
+    }
+
+    private void fillLatestUpdateDatesForProviewGroups(final Collection<ProviewGroup> groups, final HttpSession session) {
+        final Map<String, Date> latestUpdateDates = Optional.ofNullable(session.getAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_GROUPS))
+            .map(attribute -> (Map<String, Date>) attribute)
+            .orElseGet(Collections::emptyMap);
+
+        Optional.ofNullable(groups)
+            .map(Collection::stream)
+            .orElseGet(Stream::empty)
+            .forEach(proviewGroup -> {
+                getProviewGroupTitleIds(proviewGroup).stream()
+                    .map(latestUpdateDates::get)
+                    .filter(Objects::nonNull)
+                    .max(Comparator.naturalOrder())
+                    .map(date -> DateFormatUtils.format(date, "yyyyMMdd"))
+                    .ifPresent(proviewGroup::setLatestUpdateDate);
+            });
+    }
+
+    private Set<String> getProviewGroupTitleIds(final ProviewGroup proviewGroup) {
+        return Optional.ofNullable(proviewGroup.getSubgroupInfoList())
+            .map(Collection::stream)
+            .orElseGet(Stream::empty)
+            .flatMap(Subgroup -> Subgroup.getTitleIdList().stream())
+            .collect(Collectors.toSet());
     }
 }

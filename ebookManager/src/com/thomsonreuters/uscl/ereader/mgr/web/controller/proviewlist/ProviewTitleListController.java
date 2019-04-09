@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
@@ -38,6 +39,7 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.JobExecution;
@@ -156,6 +158,8 @@ public class ProviewTitleListController {
                 final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
                 final List<ProviewTitleInfo> allLatestProviewTitleInfo =
                     proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+                updateLatestUpdateDates(allProviewTitleInfo.keySet(), httpSession);
+                fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, httpSession);
 
                 saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
                 saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
@@ -228,10 +232,12 @@ public class ProviewTitleListController {
                 try {
                     if (allProviewTitleInfo == null) {
                         allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+                        updateLatestUpdateDates(allProviewTitleInfo.keySet(), httpSession);
                         saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
                     }
 
                     allLatestProviewTitleInfo = proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+                    fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, httpSession);
                     saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
 
                     selectedProviewTitleInfo = allLatestProviewTitleInfo;
@@ -519,6 +525,32 @@ public class ProviewTitleListController {
         saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
         saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
+    }
+
+    private void fillLatestUpdateDatesForTitleInfos(final List<ProviewTitleInfo> titleInfos, final HttpSession session) {
+        final Map<String, Date> latestUpdateDates = Optional.ofNullable(session.getAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_TITLE))
+            .map(attribute -> (Map<String, Date>) attribute)
+            .orElseGet(Collections::emptyMap);
+
+        Optional.ofNullable(titleInfos)
+            .map(Collection::stream)
+            .orElseGet(Stream::empty)
+            .forEach(titleInfo -> titleInfo.setLastStatusUpdateDate(
+                mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
+    }
+
+    private String mapDateToString(final Date date) {
+        return Optional.ofNullable(date)
+            .map(nonNullDate -> DateFormatUtils.format(nonNullDate, "yyyyMMdd"))
+            .orElse(null);
+    }
+
+    private void updateLatestUpdateDates(final Collection<String> titleIds, final HttpSession session) {
+        final Map<String, Date> latestUpdateDates = Optional.ofNullable(titleIds)
+            .filter(CollectionUtils::isNotEmpty)
+            .map(proviewAuditService::findMaxRequestDateByTitleIds)
+            .orElseGet(Collections::emptyMap);
+        session.setAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_TITLE, latestUpdateDates);
     }
 
     @Data

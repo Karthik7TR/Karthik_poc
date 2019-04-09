@@ -1519,7 +1519,7 @@ public final class GroupServiceImplTest {
         final List<ProviewTitleInfo> titleInfoList = new ArrayList<>();
         titleContainer.setProviewTitleInfos(titleInfoList);
         final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-        titleInfo.setVersion("v2");
+        titleInfo.setVersion("v2.0");
         titleInfoList.add(titleInfo);
         try {
             EasyMock.expect(mockProviewHandler.getProviewTitleContainer(pilotBookTitleId)).andReturn(titleContainer);
@@ -1699,13 +1699,13 @@ public final class GroupServiceImplTest {
         proviewTitleContainer = new ProviewTitleContainer();
         final ProviewTitleInfo title = new ProviewTitleInfo();
         title.setTitleId("uscl/an/title_id");
-        title.setVersion("v2");
+        title.setVersion("v2.0");
         final List<ProviewTitleInfo> titleList = new ArrayList<>();
         titleList.add(title);
 
         final ProviewTitleInfo title1 = new ProviewTitleInfo();
         title1.setTitleId("uscl/an/title_id");
-        title1.setVersion("v3");
+        title1.setVersion("v3.0");
         titleList.add(title1);
 
         proviewTitleContainer.setProviewTitleInfos(titleList);
@@ -1719,7 +1719,7 @@ public final class GroupServiceImplTest {
 
             final List<ProviewTitleInfo> proviewTitleInfo = groupService.getMajorVersionProviewTitles(titleId);
             Assert.assertEquals(Integer.valueOf(3), proviewTitleInfo.get(0).getMajorVersion());
-            Assert.assertEquals(1, proviewTitleInfo.size());
+            Assert.assertEquals(2, proviewTitleInfo.size());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail();

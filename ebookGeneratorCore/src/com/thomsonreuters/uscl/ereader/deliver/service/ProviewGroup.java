@@ -3,16 +3,27 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.math.NumberUtils;
 
+@Log4j
+@Getter @Setter
+@ToString(of = {"groupId", "groupStatus", "groupName", "groupVersion", "proviewName"})
+@EqualsAndHashCode(of = {"groupName", "proviewName", "groupVersion", "groupId", "groupStatus"})
 public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
     private static final long serialVersionUID = -4229230493652304110L;
+
+    private static final String TITLE_WITH_VERSION_PATTERN = "%s/%s";
+
     private String proviewName;
     private String groupName;
     private String groupVersion;
@@ -24,316 +35,74 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
     private List<SubgroupInfo> subgroupInfoList;
     //For third screen
     private List<GroupDetails> groupDetailList;
+
     private String groupStatus;
-
-    private static Logger LOG = LogManager.getLogger(ProviewGroup.class);
-
-    public Integer getTotalNumberOfVersions() {
-        return totalNumberOfVersions;
-    }
-
-    public void setTotalNumberOfVersions(final Integer totalNumberOfVersions) {
-        this.totalNumberOfVersions = totalNumberOfVersions;
-    }
-
-    public String getGroupIdByVersion() {
-        return groupIdByVersion;
-    }
-
-    public void setGroupIdByVersion(final String groupIdByVersion) {
-        this.groupIdByVersion = groupIdByVersion;
-    }
-
-    public String getGroupStatus() {
-        return groupStatus;
-    }
-
-    public void setGroupStatus(final String groupStatus) {
-        this.groupStatus = groupStatus;
-    }
-
-    public List<GroupDetails> getGroupDetailList() {
-        return groupDetailList;
-    }
-
-    public void setGroupDetailList(final List<GroupDetails> bookInfoList) {
-        groupDetailList = bookInfoList;
-    }
-
-    public List<SubgroupInfo> getSubgroupInfoList() {
-        return subgroupInfoList;
-    }
-
-    public void setSubgroupInfoList(final List<SubgroupInfo> subgroupInfoList) {
-        this.subgroupInfoList = subgroupInfoList;
-    }
-
-    public String getHeadTitle() {
-        return headTitle;
-    }
-
-    public void setHeadTitle(final String headTitle) {
-        this.headTitle = headTitle;
-    }
-
-    // Begin These fields can be deleted
-    private String titleId;
-    private String bookVersion;
-    private String bookDefId;
-
-    public String getBookDefId() {
-        return bookDefId;
-    }
-
-    public void setBookDefId(final String bookDefId) {
-        this.bookDefId = bookDefId;
-    }
-
-    public String getBookVersion() {
-        return bookVersion;
-    }
-
-    public void setBookVersion(final String bookVersion) {
-        this.bookVersion = bookVersion;
-    }
-
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public void setTitleId(final String titleId) {
-        this.titleId = titleId;
-    }
-    // End These fields can be deleted
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(final String groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupVersion() {
-        return groupVersion;
-    }
-
-    public void setGroupVersion(final String groupVersion) {
-        this.groupVersion = groupVersion;
-    }
+    private String latestUpdateDate;
 
     public Integer getVersion() {
-        Integer majorVersion = null;
-        final String number = StringUtils.substringAfter(groupVersion, "v");
-        try {
-            if (StringUtils.isNotBlank(number)) {
-                majorVersion = Integer.valueOf(number);
-            }
-        } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return majorVersion;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(final String groupName) {
-        this.groupName = groupName;
-    }
-
-    public String getProviewName() {
-        return proviewName;
-    }
-
-    public void setProviewName(final String proviewName) {
-        this.proviewName = proviewName;
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(groupName)
-            .append(proviewName)
-            .append(groupVersion)
-            .append(groupId)
-            .append(groupStatus)
-            .toHashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ProviewGroup other = (ProviewGroup) obj;
-        if (groupName == null) {
-            if (other.groupName != null)
-                return false;
-        } else if (!groupName.equals(other.groupName))
-            return false;
-        if (proviewName == null) {
-            if (other.proviewName != null)
-                return false;
-        } else if (!proviewName.equals(other.proviewName))
-            return false;
-        if (groupStatus == null) {
-            if (other.groupStatus != null)
-                return false;
-        } else if (!groupStatus.equals(other.groupStatus))
-            return false;
-        if (groupVersion == null) {
-            if (other.groupVersion != null)
-                return false;
-        } else if (!groupVersion.equals(other.groupVersion))
-            return false;
-        if (groupId == null) {
-            if (other.groupId != null)
-                return false;
-        } else if (!groupId.equals(other.groupId))
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ProviewGroup [ groupId="
-            + groupId
-            + "groupStatus="
-            + groupStatus
-            + ", groupName="
-            + groupName
-            + ", groupVersion="
-            + groupVersion
-            + ",proviewTitle="
-            + proviewName
-            + "]";
+        return Optional.of(groupVersion)
+            .map(version -> StringUtils.substringAfter(version, "v"))
+            .filter(StringUtils::isNotBlank)
+            .filter(NumberUtils::isParsable)
+            .map(Integer::valueOf)
+            .orElse(null);
     }
 
     @Override
     public int compareTo(final ProviewGroup info) {
         final int version = info.getVersion().compareTo(getVersion());
-
-        if (version == 0) {
-            return getTitleId().compareToIgnoreCase(info.getTitleId());
-        }
-        return version;
+        return version == 0 ? groupId.compareToIgnoreCase(info.getGroupId()) : version;
     }
 
+    @Getter @Setter
     public static class SubgroupInfo implements Serializable {
         private static final long serialVersionUID = -4229230493652422923L;
         private List<String> titleIdList;
         private String subGroupName;
-
-        public List<String> getTitleIdList() {
-            return titleIdList;
-        }
-
-        public void setTitleIdList(final List<String> titleIdList) {
-            this.titleIdList = titleIdList;
-        }
-
-        public String getSubGroupName() {
-            return subGroupName;
-        }
-
-        public void setSubGroupName(final String subGroupName) {
-            this.subGroupName = subGroupName;
-        }
     }
 
+    @EqualsAndHashCode(of = {"bookVersion", "isPilotBook", "proviewDisplayName", "titleId", "id"})
     public static class GroupDetails implements Serializable, Comparable<GroupDetails> {
         private static final long serialVersionUID = -4229230493652304110L;
+        private static final String REVIEW_STATE = "review";
+
+        @Getter
         private List<ProviewTitleInfo> titleInfoList;
+        @Getter @Setter
         private String bookStatus;
+        @Getter @Setter
         private String subGroupName;
+        @Getter @Setter
         private String bookVersion;
+        @Getter @Setter
         private String lastupdate;
+        @Getter @Setter
         private String id;
+        @Getter @Setter
         private String proviewDisplayName;
+        @Getter @Setter
         private boolean isPilotBook;
 
         //These are for titles with no subgroups
+        @Getter @Setter
         private String[] titleIdWithVersionArray;
+        @Getter @Setter
         private String titleId;
 
-        public String getTitleId() {
-            return titleId;
-        }
-
-        public void setTitleId(final String titleId) {
-            this.titleId = titleId;
-        }
-
-        public String[] getTitleIdWithVersionArray() {
-            return titleIdWithVersionArray;
-        }
-
-        public void setTitleIdtWithVersionArray(final String[] titleIdWithVersionArray) {
-            this.titleIdWithVersionArray = titleIdWithVersionArray;
-        }
-
         public List<String> getTitleIdList() {
-            final List<String> titleIdList = new ArrayList<>();
-            for (final ProviewTitleInfo title : titleInfoList) {
-                titleIdList.add(title.getTitleId());
-            }
-            return titleIdList;
+            return titleInfoList.stream()
+                .map(ProviewTitleInfo::getTitleId)
+                .collect(Collectors.toCollection(ArrayList::new));
         }
 
         public List<String> getTitleIdListWithVersion() {
-            final List<String> titleIdListWithVersion = new ArrayList<>();
-            for (final ProviewTitleInfo title : titleInfoList) {
-                titleIdListWithVersion.add(title.getTitleId() + "/" + title.getVersion());
-            }
-            return titleIdListWithVersion;
-        }
-
-        public String getProviewDisplayName() {
-            return proviewDisplayName;
-        }
-
-        public void setProviewDisplayName(final String proviewDisplayName) {
-            this.proviewDisplayName = proviewDisplayName;
-        }
-
-        public boolean isPilotBook() {
-            return isPilotBook;
-        }
-
-        public void setPilotBook(final boolean isPilotBook) {
-            this.isPilotBook = isPilotBook;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(final String id) {
-            this.id = id;
-        }
-
-        public String getBookVersion() {
-            return bookVersion;
-        }
-
-        public void setBookVersion(final String bookVersion) {
-            this.bookVersion = bookVersion;
-        }
-
-        public String getLastupdate() {
-            return lastupdate;
-        }
-
-        public void setLastupdate(final String lastupdate) {
-            this.lastupdate = lastupdate;
+            return titleInfoList.stream()
+                .map(title -> String.format(TITLE_WITH_VERSION_PATTERN, title.getTitleId(), title.getVersion()))
+                .collect(Collectors.toCollection(ArrayList::new));
         }
 
         public String getIdWithVersion() {
-            return id + "/" + bookVersion;
+            return String.format(TITLE_WITH_VERSION_PATTERN, id, bookVersion);
         }
 
         public Integer getMajorVersion() {
@@ -345,58 +114,30 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
                     majorVersion = Integer.valueOf(number);
                 }
             } catch (final Exception e) {
-                LOG.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
             return majorVersion;
         }
 
-        public String getSubGroupName() {
-            return subGroupName;
-        }
-
-        public void setSubGroupName(final String subGroupName) {
-            this.subGroupName = subGroupName;
-        }
-
-        public String getBookStatus() {
-            return bookStatus;
-        }
-
-        public void setBookStatus(final String bookStatus) {
-            this.bookStatus = bookStatus;
-        }
-
-        public List<ProviewTitleInfo> getTitleInfoList() {
-            return titleInfoList;
-        }
-
         public void setTitleIdList(final List<ProviewTitleInfo> titleInfoList) {
             this.titleInfoList = titleInfoList;
-            for (final ProviewTitleInfo titleInfo : titleInfoList) {
-                if (updateStatus(titleInfo)) {
-                    bookStatus = titleInfo.getStatus();
-                }
-            }
+            titleInfoList.stream()
+                .filter(this::updateStatus)
+                .map(ProviewTitleInfo::getStatus)
+                .forEach(status -> bookStatus = status);
         }
 
         public void addTitleInfo(final ProviewTitleInfo titleInfo) {
-            if (titleInfoList == null) {
-                titleInfoList = new ArrayList<>();
-            }
             if (updateStatus(titleInfo)) {
                 bookStatus = titleInfo.getStatus();
             }
-            titleInfoList.add(titleInfo);
+            Optional.ofNullable(titleInfoList)
+                .orElseGet(() -> titleInfoList = new ArrayList<>())
+                .add(titleInfo);
         }
 
         private boolean updateStatus(final ProviewTitleInfo titleInfo) {
-            if ("review".equalsIgnoreCase(bookStatus)) {
-                return false;
-            }
-            if ("review".equalsIgnoreCase(titleInfo.getStatus())) {
-                return true;
-            }
-            return false;
+            return REVIEW_STATE.equalsIgnoreCase(bookStatus) ? false : REVIEW_STATE.equalsIgnoreCase(titleInfo.getStatus());
         }
 
         @Override
@@ -404,41 +145,9 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
             try {
                 return new Version(other.bookVersion).compareTo(new Version(bookVersion));
             } catch (final Exception e) {
-                LOG.error("Failed to parse version: ", e);
+                log.error("Failed to parse version: ", e);
                 return 0;
             }
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = new HashCodeBuilder()
-                .append(bookVersion).append(isPilotBook).append(proviewDisplayName).toHashCode();
-            int idResult = 0;
-            if (titleId != null)
-                idResult = ((titleId == null) ? 0 : titleId.hashCode());
-            else if (id != null)
-                idResult = ((id == null) ? 0 : id.hashCode());
-            result = prime * result + idResult;
-            return result;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj)
-                return true;
-            if (!(obj instanceof GroupDetails))
-                return false;
-            final GroupDetails other = (GroupDetails) obj;
-            final boolean result = new EqualsBuilder().append(bookVersion, other.bookVersion)
-                .append(isPilotBook, other.isPilotBook)
-                .append(proviewDisplayName, other.proviewDisplayName)
-                .isEquals();
-            if (!result)
-                return false;
-            final String thisId = titleId == null ? id : titleId;
-            final String otherId = other.getTitleId() == null ? other.getId() : other.getTitleId();
-            return thisId.equals(otherId);
         }
     }
 }

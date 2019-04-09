@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
@@ -101,15 +104,29 @@ public final class ProviewGroupListControllerTest {
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("command", ProviewGroupForm.Command.REFRESH.toString());
         final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
+        final SubgroupInfo subGroupInfo = new SubgroupInfo();
+        subGroupInfo.setTitleIdList(Collections.singletonList("titleId"));
+        final ProviewGroup proviewGroup = new ProviewGroup();
+        proviewGroup.setSubgroupInfoList(Collections.singletonList(subGroupInfo));
+        final ProviewGroupContainer proviewGroupContainer = new ProviewGroupContainer();
+        proviewGroupContainer.setProviewGroups(Collections.singletonList(proviewGroup));
+        allProviewGroups.put("titleId", proviewGroupContainer);
+
         final List<ProviewGroup> allLatestProviewGroups = new ArrayList<ProviewGroup>();
+        allLatestProviewGroups.add(proviewGroup);
 
         EasyMock.expect(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups))
             .andReturn(allLatestProviewGroups);
         EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andReturn(allProviewGroups);
         EasyMock.replay(mockProviewHandler);
+        EasyMock.expect(mockProviewAuditService.findMaxRequestDateByTitleIds(Collections.singleton("titleId")))
+            .andReturn(Collections.singletonMap("titleId", new Date()));
+        EasyMock.replay(mockProviewAuditService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
+        Assert.assertEquals(((List<ProviewGroup>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST)).get(0).getLatestUpdateDate(),
+            DateFormatUtils.format(new Date(), "yyyyMMdd"));
 
         EasyMock.verify(mockProviewHandler);
     }
@@ -351,7 +368,7 @@ public final class ProviewGroupListControllerTest {
         details.setTitleId("titleTest");
         details.setBookVersion("v1]");
         final String[] aString = {"test1", "test2"};
-        details.setTitleIdtWithVersionArray(aString);
+        details.setTitleIdWithVersionArray(aString);
         subgroup.add(details);
         session.setAttribute(WebConstants.KEY_PAGINATED_LIST, subgroup);
         request.setSession(session);
@@ -396,7 +413,7 @@ public final class ProviewGroupListControllerTest {
         subgroup.add(details);
 
         final String[] aString = {"test1", "test2"};
-        details.setTitleIdtWithVersionArray(aString);
+        details.setTitleIdWithVersionArray(aString);
 
         final HttpSession session = request.getSession();
         session.setAttribute(WebConstants.KEY_PAGINATED_LIST, subgroup);
