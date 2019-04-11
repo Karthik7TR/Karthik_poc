@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class EditGroupController {
      * @param titleId the primary key of the book as required query string parameter.
      */
     @RequestMapping(value = WebConstants.MVC_GROUP_DEFINITION_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView editGroupDefinitionGet(
         @RequestParam("id") final Long id,
         @ModelAttribute(EditGroupDefinitionForm.FORM_NAME) final EditGroupDefinitionForm form,

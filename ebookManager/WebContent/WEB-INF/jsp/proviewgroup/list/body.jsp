@@ -30,9 +30,9 @@
 		<br/>
 	</c:if>
 	<%-- Error Messages area --%>
-	<c:if test="${errMessage != null}">
+	<c:if test="${errorOccurred != null}">
 		<div class="infoMessageError">
-			${errMessage}
+			ProView Exception occurred. Please contact your administrator.
 		</div>
 		<br/>
 	</c:if>

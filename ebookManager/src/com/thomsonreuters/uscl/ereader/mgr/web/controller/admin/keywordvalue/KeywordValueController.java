@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeValueService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -94,19 +93,19 @@ public class KeywordValueController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT)
     public ModelAndView editKeywordValue(
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
+        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
 
-            if (value != null) {
-                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
-                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
-                form.initialize(value);
-            }
-        }, WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT);
+        if (value != null) {
+            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
+            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
+            form.initialize(value);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT, method = RequestMethod.POST)
@@ -126,21 +125,21 @@ public class KeywordValueController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE)
     public ModelAndView deleteKeywordValue(
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
-        return handleRequest(() -> {
-            log.debug(form);
-            final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
-            if (value != null) {
-                final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
-                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
-                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
-                model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
-                form.initialize(value);
-            }
-        }, WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE);
+        log.debug(form);
+        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
+        if (value != null) {
+            final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
+            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
+            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
+            model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
+            form.initialize(value);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.POST)

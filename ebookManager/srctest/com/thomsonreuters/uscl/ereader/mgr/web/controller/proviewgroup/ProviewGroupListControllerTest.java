@@ -137,7 +137,7 @@ public final class ProviewGroupListControllerTest {
      *
      * @throws Exception
      */
-    @Test
+    @Test(expected = ProviewException.class)
     public void testPostSelectionsForGroupsRefreshProviewException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.POST.name());
@@ -146,12 +146,7 @@ public final class ProviewGroupListControllerTest {
         EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andThrow(new ProviewException(""));
         EasyMock.replay(mockProviewHandler);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        assertNotNull(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE));
-        assertNotNull(mav.getModel().get(ProviewGroupForm.FORM_NAME));
-        assertNotNull(mav.getModel().get(ProviewGroupListFilterForm.FORM_NAME));
-
-        EasyMock.verify(mockProviewHandler);
+        handlerAdapter.handle(request, response, controller);
     }
 
     /**
@@ -538,7 +533,7 @@ public final class ProviewGroupListControllerTest {
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_DELETE);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGroupAllVersionsGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
         request.setMethod(HttpMethod.GET.name());
@@ -547,8 +542,6 @@ public final class ProviewGroupListControllerTest {
         EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockProviewHandler);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

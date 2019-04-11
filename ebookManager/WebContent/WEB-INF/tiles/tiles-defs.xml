@@ -406,7 +406,12 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
 	  <put-attribute name="body"  value="/WEB-INF/jsp/error/body/bookDefinition.jsp"/>
 	</definition>
-
+	
+	<definition name="_errorBookDefinitionNotFound" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
+	  <put-attribute name="body"  value="/WEB-INF/jsp/error/body/bookDefinitionNotFound.jsp"/>
+	</definition>
+	
 	<definition name="_jobExecutionDetails" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/execution/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/execution/jobExecutionDetails.jsp"/>

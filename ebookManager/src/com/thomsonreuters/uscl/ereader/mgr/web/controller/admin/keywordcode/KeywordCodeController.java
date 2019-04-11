@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -10,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,17 +79,17 @@ public class KeywordCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_KEYWORD_CODE_EDIT)
     public ModelAndView editKeywordCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordCodeForm.FORM_NAME) final KeywordCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final KeywordTypeCode code = keywordTypeCodeService.getKeywordTypeCodeById(id);
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
-                form.initialize(code);
-            }
-        }, WebConstants.VIEW_ADMIN_KEYWORD_CODE_EDIT);
+        final KeywordTypeCode code = keywordTypeCodeService.getKeywordTypeCodeById(id);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_CODE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT, method = RequestMethod.POST)
@@ -109,19 +108,19 @@ public class KeywordCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_KEYWORD_CODE_DELETE)
     public ModelAndView deleteKeywordCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordCodeForm.FORM_NAME) final KeywordCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final KeywordTypeCode code = keywordTypeCodeService.getKeywordTypeCodeById(id);
-            if (code != null) {
-                final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordCodeId(id);
-                model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
-                model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
-                form.initialize(code);
-            }
-        }, WebConstants.VIEW_ADMIN_KEYWORD_CODE_DELETE);
+        final KeywordTypeCode code = keywordTypeCodeService.getKeywordTypeCodeById(id);
+        if (code != null) {
+            final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordCodeId(id);
+            model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
+            model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_DELETE, method = RequestMethod.POST)

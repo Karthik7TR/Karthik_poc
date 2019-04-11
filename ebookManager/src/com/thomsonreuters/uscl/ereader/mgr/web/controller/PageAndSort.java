@@ -84,6 +84,13 @@ public class PageAndSort<SortProperty> {
         this.sortProperty = columnId;
     }
 
+    public void setSortAndAscendingProperties(final SortProperty sort, final boolean ascending) {
+        if (sort != null) {
+            setSortProperty(sort);
+            setAscendingSort(ascending);
+        }
+    }
+
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

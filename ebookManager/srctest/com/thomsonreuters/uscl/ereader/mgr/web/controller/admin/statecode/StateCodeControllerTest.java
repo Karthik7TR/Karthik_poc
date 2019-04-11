@@ -270,7 +270,7 @@ public final class StateCodeControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditStateCodeGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -278,12 +278,10 @@ public final class StateCodeControllerTest {
         EasyMock.expect(mockStateCodeService.getStateCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockStateCodeService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_STATE_CODE_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDeleteStateCodeGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -291,8 +289,6 @@ public final class StateCodeControllerTest {
         EasyMock.expect(mockStateCodeService.getStateCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockStateCodeService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_STATE_CODE_DELETE, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

@@ -272,7 +272,7 @@ public final class PublishTypeCodeControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditPublishTypeGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -280,12 +280,10 @@ public final class PublishTypeCodeControllerTest {
         EasyMock.expect(mockCodeService.getPubTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockCodeService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDeletePublishTypeGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -293,8 +291,6 @@ public final class PublishTypeCodeControllerTest {
         EasyMock.expect(mockCodeService.getPubTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockCodeService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

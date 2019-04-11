@@ -70,8 +70,7 @@ public class ProviewAuditController extends BaseProviewAuditController {
             pageAndSort.setPageNumber(nextPageNumber);
         } else { // SORTING
             pageAndSort.setPageNumber(1);
-            pageAndSort.setSortProperty(form.getSort());
-            pageAndSort.setAscendingSort(form.isAscendingSort());
+            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
         }
         setUpModel(filterForm, pageAndSort, httpSession, model);
 

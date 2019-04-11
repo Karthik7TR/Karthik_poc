@@ -1,11 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -79,19 +78,18 @@ public class StateCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_STATE_CODE_EDIT)
     public ModelAndView editStateCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(StateCodeForm.FORM_NAME) final StateCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final StateCode code = stateCodeService.getStateCodeById(id);
+        final StateCode code = stateCodeService.getStateCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_STATE_CODE, code);
-                form.initialize(code);
-            }
-
-        }, WebConstants.VIEW_ADMIN_STATE_CODE_EDIT);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_STATE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_EDIT, method = RequestMethod.POST)
@@ -112,19 +110,18 @@ public class StateCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_STATE_CODE_DELETE)
     public ModelAndView deleteStateCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(StateCodeForm.FORM_NAME) final StateCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final StateCode code = stateCodeService.getStateCodeById(id);
+        final StateCode code = stateCodeService.getStateCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_STATE_CODE, code);
-                form.initialize(code);
-            }
-
-        }, WebConstants.VIEW_ADMIN_STATE_CODE_DELETE);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_STATE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_DELETE, method = RequestMethod.POST)

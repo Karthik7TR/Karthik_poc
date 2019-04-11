@@ -310,7 +310,7 @@ public final class SupportControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditSupportGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -318,12 +318,10 @@ public final class SupportControllerTest {
         EasyMock.expect(mockService.findByPrimaryKey(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_SUPPORT_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDeleteSupportGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -331,8 +329,6 @@ public final class SupportControllerTest {
         EasyMock.expect(mockService.findByPrimaryKey(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_SUPPORT_DELETE, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

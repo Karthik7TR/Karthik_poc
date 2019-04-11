@@ -89,8 +89,7 @@ public class BookAuditController extends BaseBookAuditController {
             pageAndSort.setPageNumber(nextPageNumber);
         } else { // SORTING
             pageAndSort.setPageNumber(1);
-            pageAndSort.setSortProperty(form.getSort());
-            pageAndSort.setAscendingSort(form.isAscendingSort());
+            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
         }
         setUpModel(filterForm, pageAndSort, httpSession, model);
 

@@ -272,7 +272,7 @@ public final class KeywordCodeControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditKeywordCodeGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -280,12 +280,10 @@ public final class KeywordCodeControllerTest {
         EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(keywordTypeCodeSevice);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_CODE_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDeleteKeywordCodeGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -293,8 +291,6 @@ public final class KeywordCodeControllerTest {
         EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(keywordTypeCodeSevice);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_CODE_DELETE, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

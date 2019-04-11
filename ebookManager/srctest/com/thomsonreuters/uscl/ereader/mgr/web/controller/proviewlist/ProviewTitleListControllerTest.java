@@ -167,7 +167,7 @@ public final class ProviewTitleListControllerTest {
         EasyMock.verify(mockProviewHandler);
     }
 
-    @Test
+    @Test(expected = ProviewException.class)
     public void testPostSelectionsRefreshProviewExcepton() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.POST.name());
@@ -176,12 +176,7 @@ public final class ProviewTitleListControllerTest {
         EasyMock.expect(mockProviewHandler.getAllProviewTitleInfo()).andThrow(new ProviewException(""));
         EasyMock.replay(mockProviewHandler);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        assertNotNull(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE));
-        assertNotNull(mav.getModel().get(ProviewTitleForm.FORM_NAME));
-        assertNotNull(mav.getModel().get(ProviewListFilterForm.FORM_NAME));
-
-        EasyMock.verify(mockProviewHandler);
+        handlerAdapter.handle(request, response, controller);
     }
 
     @Test

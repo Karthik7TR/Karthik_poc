@@ -286,7 +286,7 @@ public final class KeywordValueControllerTest {
         EasyMock.verify(keywordTypeValueService);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditKeywordValueGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -294,12 +294,10 @@ public final class KeywordValueControllerTest {
         EasyMock.expect(keywordTypeValueService.getKeywordTypeValueById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(keywordTypeValueService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDeleteKeywordValueGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -307,8 +305,6 @@ public final class KeywordValueControllerTest {
         EasyMock.expect(keywordTypeValueService.getKeywordTypeValueById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(keywordTypeValueService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

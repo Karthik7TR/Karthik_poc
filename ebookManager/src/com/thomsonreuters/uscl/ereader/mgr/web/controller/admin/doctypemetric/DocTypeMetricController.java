@@ -1,11 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.doctypemetric;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -56,19 +55,18 @@ public class DocTypeMetricController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_DOCTYPE_METRIC_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT)
     public ModelAndView editDocTypeMetric(
         @RequestParam("id") final Long id,
         @ModelAttribute(DocTypeMetricForm.FORM_NAME) final DocTypeMetricForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(id);
+        final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
-                form.initialize(code);
-            }
-
-        }, WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_DOCTYPE_METRIC_EDIT, method = RequestMethod.POST)

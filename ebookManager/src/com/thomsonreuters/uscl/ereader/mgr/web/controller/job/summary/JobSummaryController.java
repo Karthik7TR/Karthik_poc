@@ -112,8 +112,7 @@ public class JobSummaryController extends BaseJobSummaryController {
             jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
         } else if (form.getSort() != null) { // SORTING
             pageAndSort.setPageNumber(1);
-            pageAndSort.setSortProperty(form.getSort());
-            pageAndSort.setAscendingSort(form.isAscendingSort());
+            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
             // Fetch the job list model
             final JobFilter jobFilter = new JobFilter(
                 filterForm.getFromDate(),

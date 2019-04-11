@@ -64,6 +64,7 @@ public class WebConstants {
     public static final String KEY_INFO_MESSAGES = "infoMessages";
     public static final String KEY_ERR_MESSAGE = "errMessage";
     public static final String KEY_WARNING_MESSAGE = "warningMessage";
+    public static final String KEY_ERROR_OCCURRED = "errorOccurred";
 
     public static final String KEY_CONTENT_TYPES = "contentTypes";
     public static final String KEY_STATES = "states";
@@ -407,7 +408,8 @@ public class WebConstants {
     public static final String VIEW_SEC_LOGIN = "_login";
     public static final String VIEW_SEC_LOGIN_AUTO = "security/autoLogin";
     public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
-    public static final String VIEW_ERROR_BOOK_DEFINTION = "_errorBookDefinition";
+    public static final String VIEW_ERROR_BOOK_DEFINITION = "_errorBookDefinition";
+    public static final String VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND = "_errorBookDefinitionNotFound";
     public static final String VIEW_SMOKE_TEST = "smokeTest";
     public static final String VIEW_SUPPORT_PAGE_VIEW = "_supportPageView";
     public static final String VIEW_PROVIEW_GROUPS = "_proviewGroups";

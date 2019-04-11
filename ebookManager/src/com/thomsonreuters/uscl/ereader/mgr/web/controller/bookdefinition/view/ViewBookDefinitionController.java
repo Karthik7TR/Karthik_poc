@@ -18,6 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
@@ -60,7 +61,8 @@ public class ViewBookDefinitionController {
      * @param titleId the primary key of the book to be viewed as a required query string parameter.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
-    public ModelAndView viewBookDefintion(
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
+    public ModelAndView viewBookDefinition(
         @RequestParam("id") final Long id,
         @ModelAttribute(ViewBookDefinitionForm.FORM_NAME) final ViewBookDefinitionForm form,
         final Model model,

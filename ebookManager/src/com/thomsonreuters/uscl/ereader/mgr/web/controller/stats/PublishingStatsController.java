@@ -101,8 +101,7 @@ public class PublishingStatsController extends BasePublishingStatsController {
             pageAndSort.setPageNumber(nextPageNumber);
         } else { // SORTING
             pageAndSort.setPageNumber(1);
-            pageAndSort.setSortProperty(form.getSort());
-            pageAndSort.setAscendingSort(form.isAscendingSort());
+            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
         }
         setUpModel(filterForm, pageAndSort, httpSession, model);
 

@@ -103,8 +103,7 @@ public class QueueController {
             pageAndSort.setPageNumber(nextPageNumber);
         } else { // SORTING
             pageAndSort.setPageNumber(1);
-            pageAndSort.setSortProperty(form.getSortProperty());
-            pageAndSort.setAscendingSort(form.isAscendingSort());
+            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
         }
         setUpModel(allQueuedJobs, pageAndSort, httpSession, model);
         return new ModelAndView(WebConstants.VIEW_JOB_QUEUE);

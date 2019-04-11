@@ -185,7 +185,7 @@ public final class DocTypeMetricControllerTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditDocTypeMetricGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_DOCTYPE_METRIC_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -193,8 +193,6 @@ public final class DocTypeMetricControllerTest {
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(mockDocumentTypeCodeService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

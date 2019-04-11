@@ -303,7 +303,7 @@ public final class OutageControllerTest {
         return outage;
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testEditOutageGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -311,12 +311,10 @@ public final class OutageControllerTest {
         EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(outageService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_EDIT, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testDeleteOutageGetException() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -324,8 +322,6 @@ public final class OutageControllerTest {
         EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(EasyMock.anyLong())).andThrow(new IllegalArgumentException());
         EasyMock.replay(outageService);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        Assert.assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_DELETE, mav.getViewName());
+        handlerAdapter.handle(request, response, controller);
     }
 }

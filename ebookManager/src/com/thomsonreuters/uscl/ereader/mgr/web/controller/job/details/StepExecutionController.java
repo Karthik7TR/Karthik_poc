@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -50,6 +51,7 @@ public class StepExecutionController {
      * @param stepExecutionId step execution ID
      */
     @RequestMapping(value = WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS, method = RequestMethod.GET)
+    @ShowOnException(errorRedirectMvcName = WebConstants.MVC_BOOK_LIBRARY_LIST)
     public ModelAndView inboundGet(
         final HttpServletRequest request,
         @RequestParam("jobInstanceId") final Long jobInstanceId, // job instance ID

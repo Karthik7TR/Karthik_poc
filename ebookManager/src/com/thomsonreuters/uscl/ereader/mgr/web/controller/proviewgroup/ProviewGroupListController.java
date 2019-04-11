@@ -1,8 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.PROVIEW_ERROR_MESSAGE;
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +39,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm.Command;
@@ -103,56 +101,53 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUPS, method = RequestMethod.POST)
+    @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_GROUPS)
     public ModelAndView postSelectionsforGroups(
         @ModelAttribute final ProviewGroupForm form,
         final HttpSession httpSession,
-        final Model model) {
-        return handleRequest(() -> {
-            final Command command = form.getCommand();
-            switch (command) {
-            case REFRESH:
-                final Map<String, ProviewGroupContainer> allProviewGroups = proviewHandler.getAllProviewGroupInfo();
-                updateGroupTitlesLatestUpdateDates(allProviewGroups.values(), httpSession);
-                final List<ProviewGroup> allLatestProviewGroups =
-                    proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups);
-                fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, httpSession);
+        final Model model) throws ProviewException {
+        model.addAttribute(ProviewGroupForm.FORM_NAME, new ProviewGroupForm());
+        model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, new ProviewGroupListFilterForm());
+        final Command command = form.getCommand();
+        switch (command) {
+        case REFRESH:
+            final Map<String, ProviewGroupContainer> allProviewGroups = proviewHandler.getAllProviewGroupInfo();
+            updateGroupTitlesLatestUpdateDates(allProviewGroups.values(), httpSession);
+            final List<ProviewGroup> allLatestProviewGroups =
+                proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups);
+            fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, httpSession);
 
-                saveAllProviewGroups(httpSession, allProviewGroups);
-                saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
-                saveSelectedProviewGroups(httpSession, allLatestProviewGroups);
+            saveAllProviewGroups(httpSession, allProviewGroups);
+            saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
+            saveSelectedProviewGroups(httpSession, allLatestProviewGroups);
 
-                if (allLatestProviewGroups != null) {
-                    model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewGroups);
-                    model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, allLatestProviewGroups.size());
-                }
-
-                model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, new ProviewGroupListFilterForm());
-
-                final ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
-                if (proviewGroupForm.getObjectsPerPage() == null) {
-                    proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-                }
-                model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
-                model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
-                model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-                break;
-            case PAGESIZE:
-                saveProviewGroupForm(httpSession, form);
-                final List<ProviewGroup> selectedProviewGroups = fetchSelectedProviewGroups(httpSession);
-                model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroups);
-                model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroups.size());
-                model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
-                model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, fetchProviewGroupListFilterForm(httpSession));
-                model.addAttribute(ProviewGroupForm.FORM_NAME, form);
-                break;
-            default:
-                throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
+            if (allLatestProviewGroups != null) {
+                model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewGroups);
+                model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, allLatestProviewGroups.size());
             }
-        }, () -> {
-            model.addAttribute(WebConstants.KEY_ERR_MESSAGE, PROVIEW_ERROR_MESSAGE);
-            model.addAttribute(ProviewGroupForm.FORM_NAME, new ProviewGroupForm());
-            model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, new ProviewGroupListFilterForm());
-        }, WebConstants.VIEW_PROVIEW_GROUPS);
+
+            final ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
+            if (proviewGroupForm.getObjectsPerPage() == null) {
+                proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+            }
+            model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
+            model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
+            model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+            break;
+        case PAGESIZE:
+            saveProviewGroupForm(httpSession, form);
+            final List<ProviewGroup> selectedProviewGroups = fetchSelectedProviewGroups(httpSession);
+            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroups);
+            model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroups.size());
+            model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
+            model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, fetchProviewGroupListFilterForm(httpSession));
+            model.addAttribute(ProviewGroupForm.FORM_NAME, form);
+            break;
+        default:
+            throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
+        }
+
+        return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)
@@ -183,6 +178,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
      * @return
      */
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUPS, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_GROUPS)
     public ModelAndView allLatestProviewGroupsList(final HttpSession httpSession, final Model model) {
         List<ProviewGroup> selectedProviewGroups = fetchSelectedProviewGroups(httpSession);
         final ProviewGroupListFilterForm filterForm = fetchProviewGroupListFilterForm(httpSession);
@@ -211,9 +207,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                     model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroups);
                 } catch (final ProviewException e) {
                     log.warn(e.getMessage(), e);
-                    model.addAttribute(
-                        WebConstants.KEY_ERR_MESSAGE,
-                        PROVIEW_ERROR_MESSAGE);
+                    model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
                 }
             }
         } else {
@@ -242,32 +236,33 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
      * @param httpSession
      * @param model
      * @return
+     * @throws ProviewException
      */
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS)
     public ModelAndView singleGroupAllVersions(
         @RequestParam("groupIds") final String groupId,
         final HttpSession httpSession,
-        final Model model) {
-        return handleRequest(() -> {
-            Map<String, ProviewGroupContainer> allProviewGroups = fetchAllProviewGroups(httpSession);
-            if (allProviewGroups == null) {
-                allProviewGroups = proviewHandler.getAllProviewGroupInfo();
-                saveAllProviewGroups(httpSession, allProviewGroups);
-            }
+        final Model model) throws ProviewException {
+        Map<String, ProviewGroupContainer> allProviewGroups = fetchAllProviewGroups(httpSession);
+        if (allProviewGroups == null) {
+            allProviewGroups = proviewHandler.getAllProviewGroupInfo();
+            saveAllProviewGroups(httpSession, allProviewGroups);
+        }
 
-            final ProviewGroupContainer proviewGroupContainer = allProviewGroups.get(groupId);
+        final ProviewGroupContainer proviewGroupContainer = allProviewGroups.get(groupId);
 
-            int bookSize = 0;
-            if (proviewGroupContainer != null) {
-                final List<ProviewGroup> allGroupVersions = proviewGroupContainer.getProviewGroups();
-                if (allGroupVersions != null) {
-                    Collections.sort(allGroupVersions);
-                    model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allGroupVersions);
-                    bookSize = allGroupVersions.size();
-                }
+        int bookSize = 0;
+        if (proviewGroupContainer != null) {
+            final List<ProviewGroup> allGroupVersions = proviewGroupContainer.getProviewGroups();
+            if (allGroupVersions != null) {
+                Collections.sort(allGroupVersions);
+                model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allGroupVersions);
+                bookSize = allGroupVersions.size();
             }
-            model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, bookSize);
-        }, WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
+        }
+        model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, bookSize);
+        return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
     }
 
     /**

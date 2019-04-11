@@ -7,6 +7,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
@@ -57,6 +58,7 @@ public class DeleteBookDefinitionController {
      * @param surrogate key
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView getDeleteBookDefintion(
         @RequestParam("id") final Long id,
         @ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) final DeleteBookDefinitionForm form,

@@ -21,6 +21,6 @@ public class ErrorController {
 
     @RequestMapping(value = WebConstants.MVC_ERROR_BOOK_DEFINITION, method = RequestMethod.GET)
     public ModelAndView getBookDefinitionError() {
-        return new ModelAndView(WebConstants.VIEW_ERROR_BOOK_DEFINTION);
+        return new ModelAndView(WebConstants.VIEW_ERROR_BOOK_DEFINITION);
     }
 }

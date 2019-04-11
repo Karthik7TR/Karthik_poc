@@ -1,11 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,18 +79,18 @@ public class PublishTypeCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT)
     public ModelAndView editPublishTypeCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final PubTypeCode code = codeService.getPubTypeCodeById(id);
+        final PubTypeCode code = codeService.getPubTypeCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
-                form.initialize(code);
-            }
-        }, WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT, method = RequestMethod.POST)
@@ -112,18 +111,18 @@ public class PublishTypeCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE)
     public ModelAndView deletePublishTypeCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final PubTypeCode code = codeService.getPubTypeCodeById(id);
+        final PubTypeCode code = codeService.getPubTypeCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
-                form.initialize(code);
-            }
-        }, WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE, method = RequestMethod.POST)

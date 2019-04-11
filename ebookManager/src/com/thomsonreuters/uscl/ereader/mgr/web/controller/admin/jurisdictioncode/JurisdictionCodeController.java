@@ -1,11 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.controller.ControllerUtils.handleRequest;
-
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
+import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -72,18 +71,18 @@ public class JurisdictionCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_EDIT, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT)
     public ModelAndView editJurisCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
+        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
-                form.initialize(code);
-            }
-        }, WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_EDIT, method = RequestMethod.POST)
@@ -102,18 +101,18 @@ public class JurisdictionCodeController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE)
     public ModelAndView deleteJurisCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final Model model) {
-        return handleRequest(() -> {
-            final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
+        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
 
-            if (code != null) {
-                model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
-                form.initialize(code);
-            }
-        }, WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE);
+        if (code != null) {
+            model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
+            form.initialize(code);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_DELETE, method = RequestMethod.POST)
