@@ -104,6 +104,11 @@ public class BookLibraryController extends BaseBookLibraryController {
         return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
     }
 
+    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST, method = RequestMethod.GET)
+    public ModelAndView getBookDefinitionSelections() {
+        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+    }
+
     @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST, method = RequestMethod.POST)
     public ModelAndView postBookDefinitionSelections(
         final HttpSession httpSession,

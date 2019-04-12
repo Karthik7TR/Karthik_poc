@@ -18,6 +18,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class ProviewListFilterControllerTest {
     private ProviewListFilterController controller;
@@ -184,5 +185,15 @@ public final class ProviewListFilterControllerTest {
 
         Assert.assertNotNull(mav);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+    }
+
+    @Test
+    public void testDoFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
+        request.setMethod(HttpMethod.GET.name());
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_PROVIEW_TITLES);
     }
 }

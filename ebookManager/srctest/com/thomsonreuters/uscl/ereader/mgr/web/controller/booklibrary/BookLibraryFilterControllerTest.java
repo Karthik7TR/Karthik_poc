@@ -25,6 +25,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class BookLibraryFilterControllerTest {
     private List<LibraryList> LIBRARY_LIST = new ArrayList<>();
@@ -96,5 +97,15 @@ public final class BookLibraryFilterControllerTest {
         EasyMock.verify(mockLibraryListService);
         EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockOutageService);
+    }
+
+    @Test
+    public void testBookLibraryFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST);
+        request.setMethod(HttpMethod.GET.name());
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_LIBRARY_LIST);
     }
 }

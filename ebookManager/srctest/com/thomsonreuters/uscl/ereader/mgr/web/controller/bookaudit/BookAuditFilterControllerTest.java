@@ -21,6 +21,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class BookAuditFilterControllerTest {
     //private static final Logger log = LogManager.getLogger(BookAuditControllerTest.class);
@@ -80,5 +81,15 @@ public final class BookAuditFilterControllerTest {
         Assert.assertEquals(toDate, filterForm.getToDateString());
 
         EasyMock.verify(mockAuditService);
+    }
+
+    @Test
+    public void testAuditListFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_LIST_FILTER_POST);
+        request.setMethod(HttpMethod.GET.name());
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_AUDIT_LIST);
     }
 }

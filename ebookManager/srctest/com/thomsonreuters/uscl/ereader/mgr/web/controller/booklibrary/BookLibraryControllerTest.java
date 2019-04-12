@@ -338,6 +338,16 @@ public final class BookLibraryControllerTest {
         }
     }
 
+    @Test
+    public void testBookDefinitionSelectionsGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
+        request.setMethod(HttpMethod.GET.name());
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_LIBRARY_LIST);
+    }
+
     /**
      * Verify the state of the session and reqeust (model) as expected before the
      * rendering of the page.
