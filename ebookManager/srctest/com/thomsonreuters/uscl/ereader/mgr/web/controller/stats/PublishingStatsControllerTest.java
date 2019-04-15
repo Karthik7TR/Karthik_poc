@@ -23,6 +23,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class PublishingStatsControllerTest {
     private PublishingStatsController controller;
@@ -118,6 +119,15 @@ public final class PublishingStatsControllerTest {
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+    }
+
+    @Test
+    public void testHandleChangeInItemsToDisplayGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_STATS_CHANGE_ROW_COUNT);
+        request.setMethod(HttpMethod.GET.name());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_STATS);
     }
 
     @Test

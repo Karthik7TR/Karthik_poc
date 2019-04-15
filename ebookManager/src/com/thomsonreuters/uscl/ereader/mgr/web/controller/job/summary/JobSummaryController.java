@@ -204,6 +204,11 @@ public class JobSummaryController extends BaseJobSummaryController {
         return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
     }
 
+    @RequestMapping(value = WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT, method = RequestMethod.GET)
+    public ModelAndView handleChangeInItemsToDisplayGet() {
+        return new ModelAndView(new RedirectView(WebConstants.MVC_JOB_SUMMARY));
+    }
+
     /**
      * Handle URL request that the number of rows displayed in the job summary table be changed.
      */

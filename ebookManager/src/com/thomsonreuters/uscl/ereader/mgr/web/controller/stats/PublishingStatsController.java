@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class PublishingStatsController extends BasePublishingStatsController {
@@ -106,6 +107,11 @@ public class PublishingStatsController extends BasePublishingStatsController {
         setUpModel(filterForm, pageAndSort, httpSession, model);
 
         return new ModelAndView(WebConstants.VIEW_STATS);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_STATS_CHANGE_ROW_COUNT, method = RequestMethod.GET)
+    public ModelAndView handleChangeInItemsToDisplayGet() {
+        return new ModelAndView(new RedirectView(WebConstants.MVC_STATS));
     }
 
     /**

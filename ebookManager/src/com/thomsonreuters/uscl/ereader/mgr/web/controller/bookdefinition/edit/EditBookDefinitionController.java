@@ -336,6 +336,7 @@ public class EditBookDefinitionController {
      * @param titleId the primary key of the book to be edited as a required query string parameter.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView copyBookDefintionGet(
         @RequestParam("id") final Long id,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,

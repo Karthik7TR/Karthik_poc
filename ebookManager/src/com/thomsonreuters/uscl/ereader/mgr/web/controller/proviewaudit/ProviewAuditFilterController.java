@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class ProviewAuditFilterController extends BaseProviewAuditController {
@@ -38,6 +39,11 @@ public class ProviewAuditFilterController extends BaseProviewAuditController {
     protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_AUDIT_LIST_FILTER_POST, method = RequestMethod.GET)
+    public ModelAndView doFilterGet() {
+        return new ModelAndView(new RedirectView(WebConstants.MVC_PROVIEW_AUDIT_LIST));
     }
 
     /**

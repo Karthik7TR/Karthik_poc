@@ -153,6 +153,11 @@ public class BookLibraryController extends BaseBookLibraryController {
         return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
     }
 
+    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT, method = RequestMethod.GET)
+    public ModelAndView handleChangeInItemsToDisplayGet() {
+        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+    }
+
     /**
      * Handle URL request that the number of rows displayed in table be changed.
      */

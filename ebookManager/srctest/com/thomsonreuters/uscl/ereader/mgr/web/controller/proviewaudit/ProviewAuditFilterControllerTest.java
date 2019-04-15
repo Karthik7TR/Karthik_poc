@@ -20,6 +20,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class ProviewAuditFilterControllerTest {
     //private static final Logger log = LogManager.getLogger(ProviewAuditFilterControllerTest.class);
@@ -38,6 +39,15 @@ public final class ProviewAuditFilterControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         controller = new ProviewAuditFilterController(mockAuditService, null);
+    }
+
+    @Test
+    public void testAuditListFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_AUDIT_LIST_FILTER_POST);
+        request.setMethod(HttpMethod.GET.name());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_PROVIEW_AUDIT_LIST);
     }
 
     @Test

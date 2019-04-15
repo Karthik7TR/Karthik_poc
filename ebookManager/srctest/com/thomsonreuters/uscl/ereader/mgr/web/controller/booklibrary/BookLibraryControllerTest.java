@@ -348,6 +348,15 @@ public final class BookLibraryControllerTest {
         Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_LIBRARY_LIST);
     }
 
+    @Test
+    public void testHandleChangeInItemsToDisplayGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT);
+        request.setMethod(HttpMethod.GET.name());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_LIBRARY_LIST);
+    }
+
     /**
      * Verify the state of the session and reqeust (model) as expected before the
      * rendering of the page.

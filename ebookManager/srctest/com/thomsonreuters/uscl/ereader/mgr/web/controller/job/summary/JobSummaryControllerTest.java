@@ -271,6 +271,15 @@ public final class JobSummaryControllerTest {
         EasyMock.verify(mockOutageService);
     }
 
+    @Test
+    public void testChangeDisplayedRowsPerPageGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT);
+        request.setMethod(HttpMethod.GET.name());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_JOB_SUMMARY);
+    }
+
     /**
      * Test the submission of the multi-selected rows, or changing the number of objects displayed per page.
      * @throws Exception

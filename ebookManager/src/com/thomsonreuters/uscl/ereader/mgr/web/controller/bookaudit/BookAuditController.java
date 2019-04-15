@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class BookAuditController extends BaseBookAuditController {
@@ -94,6 +95,11 @@ public class BookAuditController extends BaseBookAuditController {
         setUpModel(filterForm, pageAndSort, httpSession, model);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT, method = RequestMethod.GET)
+    public ModelAndView handleChangeInItemsToDisplayGet() {
+        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_LIST));
     }
 
     /**

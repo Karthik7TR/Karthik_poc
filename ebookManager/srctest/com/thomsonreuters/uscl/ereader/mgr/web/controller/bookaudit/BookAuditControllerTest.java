@@ -25,6 +25,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class BookAuditControllerTest {
     //private static final Logger log = LogManager.getLogger(BookAuditControllerTest.class);
@@ -218,6 +219,15 @@ public final class BookAuditControllerTest {
         Assert.assertEquals(audit, actualAudit);
 
         EasyMock.verify(mockAuditService);
+    }
+
+    @Test
+    public void testChangeDisplayedRowsPerPageGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT);
+        request.setMethod(HttpMethod.GET.name());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_AUDIT_LIST);
     }
 
     /**
