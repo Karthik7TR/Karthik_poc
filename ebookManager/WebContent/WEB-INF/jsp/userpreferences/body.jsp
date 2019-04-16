@@ -30,10 +30,10 @@
 			var name = "emails[" + emailIndex + "]";
 			
 			// Add author name input boxes
-			expandingBox.append($("<input>").attr("id",id).attr("name", name).attr("type", "text").attr("class", "email_class"));
+			expandingBox.append($("<input>").attr("id", id).attr("name", name).attr("type", "text").attr("class", "email_class"));
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("id","deleteButton"+emailIndex).attr("title","Delete Email").attr("type", "button").val("Delete").on("click", onClickToDeleteButton));
+			expandingBox.append($("<input>").addClass("rdelete").attr("id","deleteButton" + emailIndex).attr("title","Delete Email").attr("type", "button").val("Delete").on("click", onClickToDeleteButton));
 		
 			$("#addEmailHere").before(expandingBox);
 			emailIndex = emailIndex + 1;
@@ -52,10 +52,14 @@
 					var emailIdValue = emailIds[index].value;
 					var emailIndexId = emailIds[index].id;
 					var indexId =  emailIndexId.substr(emailIndexId.length - 1);
+					var deleteButton = $("#deleteButton" + indexId);
+					
+					deleteButton.parent().find(".errorDiv").remove();
+					
 					if(emailIdValue == undefined || $.trim(emailIdValue).length == 0) {
 						var errorDiv = $("<div>").addClass("errorDiv");
 						errorDiv.append($("<span>").attr("id","emails"+indexId+"2.errors").attr("class", "errorMessage").text("Invalid Email"));
-						$("#deleteButton"+indexId).after(errorDiv);
+						deleteButton.after(errorDiv);
 						result = false;
 						//break;
 					}
