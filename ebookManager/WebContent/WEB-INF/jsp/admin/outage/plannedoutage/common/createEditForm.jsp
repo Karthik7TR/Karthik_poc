@@ -65,7 +65,8 @@ $(document).ready(function() {
 	    }
 	});
 	
-	$("#save").click(function() {
+	$("#save").click(function(event) {
+		$(event.target).attr("disabled", true);
 		var confirmation = true;
 		var startDate = $('#startDatetimepicker').datetimepicker('getDate');
 		if(startDate < new Date()) {
@@ -78,6 +79,8 @@ $(document).ready(function() {
 			var endDateTextBox = $('#endDatetimepicker');
 			endDateTextBox.val(endDateTextBox.datetimepicker('getDate').toISOString());
 			$("#<%= OutageForm.FORM_NAME %>").submit();
+		} else {
+			$(event.target).attr("disabled", false);
 		}
 	});
 	
