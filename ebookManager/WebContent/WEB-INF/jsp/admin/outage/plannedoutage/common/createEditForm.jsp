@@ -20,10 +20,12 @@ $(document).ready(function() {
 	}
 	
 	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
+	const currentDate = new Date();
 	$( "#startDatetimepicker" ).datetimepicker({
 		showSecond: true,
-		timeFormat: 'hh:mm:ss',
-		minDateTime: new Date(),
+		timeFormat: 'HH:mm:ss',
+		defaultValue: formatDateFromUTCString(currentDate.toUTCString()),
+		minDateTime: currentDate,
 		onClose: function(dateText, inst) {
 			var milliseconds = new Date(dateText).getTime();
 			var offsetMilliseconds = milliseconds + timeOffset;
@@ -44,8 +46,11 @@ $(document).ready(function() {
 	
 	$( "#endDatetimepicker" ).datetimepicker({
 		showSecond: true,
-		timeFormat: 'hh:mm:ss',
-		minDateTime: new Date(new Date().getTime() + timeOffset),
+		timeFormat: 'HH:mm:ss',
+		minDateTime: new Date(currentDate.getTime() + timeOffset),
+		afterInject: function() {
+			$(".ui-datepicker-current").hide();
+		},
 		onClose: function(dateText, inst) {
 			var milliseconds = new Date(dateText).getTime();
 			var offsetMilliseconds = milliseconds - timeOffset;
@@ -64,6 +69,7 @@ $(document).ready(function() {
 	        }
 	    }
 	});
+	$("#startDatetimepicker, #endDatetimepicker").attr('autocomplete','off');
 	
 	$("#save").click(function(event) {
 		$(event.target).attr("disabled", true);

@@ -1,11 +1,11 @@
 function formatDateFromUTCString(utcStr){
     var options = {
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-            month: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            month: "2-digit",
             year:"numeric",
-            day: "numeric",
+            day: "2-digit",
             hour12: false
         };
     return new Date(utcStr).toLocaleDateString("en-US",options).replace(',','');

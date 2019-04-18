@@ -20,15 +20,16 @@ $(document).ready(function() {
 	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
 	$( "#datepickerFrom" ).datetimepicker({
 		showSecond: true,
-		timeFormat: 'hh:mm:ss'
+		timeFormat: 'HH:mm:ss'
 	});
 	$( "#datepickerTo" ).datetimepicker({
 		hour: 23,
 		minute: 59,
 		second: 59,
 		showSecond: true,
-		timeFormat: 'hh:mm:ss'
+		timeFormat: 'HH:mm:ss'
 	});
+	$("#datepickerFrom, #datepickerTo").attr('autocomplete','off');
 });
 
 <%-- Submit the row multi-select form with the command being used to indicate which operation initiated the submit. --%>
