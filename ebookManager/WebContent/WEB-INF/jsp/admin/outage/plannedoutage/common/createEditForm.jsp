@@ -43,11 +43,12 @@ $(document).ready(function() {
 	        }
 	    }
 	});
-	
+	const minEndDate = new Date(currentDate.getTime() + timeOffset);
 	$( "#endDatetimepicker" ).datetimepicker({
 		showSecond: true,
 		timeFormat: 'HH:mm:ss',
-		minDateTime: new Date(currentDate.getTime() + timeOffset),
+		defaultValue: formatDateFromUTCString(minEndDate.toUTCString()),
+		minDateTime: minEndDate,
 		afterInject: function() {
 			$(".ui-datepicker-current").hide();
 		},
