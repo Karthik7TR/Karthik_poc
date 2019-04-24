@@ -13,6 +13,7 @@
 
 <script type="text/javascript">
 		// Declare Global Variables
+		const EMAIL_ID_PREFIX = "emails";
 		var emailIndex = ${numberOfEmails};
 		
         var onClickToDeleteButton = function () {
@@ -26,7 +27,7 @@
 		// Add another author row
 		var addEmailRow = function() {
 			var expandingBox = $("<div>").addClass("expandingBox");
-			var id = "emails" + emailIndex;
+			var id = EMAIL_ID_PREFIX + emailIndex;
 			var name = "emails[" + emailIndex + "]";
 			
 			// Add author name input boxes
@@ -51,7 +52,7 @@
 				for(index=0; index<emailIds.length; index++) {
 					var emailIdValue = emailIds[index].value;
 					var emailIndexId = emailIds[index].id;
-					var indexId =  emailIndexId.substr(emailIndexId.length - 1);
+					var indexId =  emailIndexId.substr(EMAIL_ID_PREFIX.length);
 					var deleteButton = $("#deleteButton" + indexId);
 					
 					deleteButton.parent().find(".errorDiv").remove();
