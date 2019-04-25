@@ -566,7 +566,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         sendEmailAndSetAttribute(
             model,
             form,
-            "Proview Promote Request Status: %s",
+            "Proview Promote Request Status: %s %s",
             "Group: %s could not be promoted to Proview.\n %s",
             PROMOTE,
             FINAL);
@@ -580,7 +580,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         sendEmailAndSetAttribute(
             model,
             form,
-            "Proview Remove Request Status: %s",
+            "Proview Remove Request Status: %s %s",
             "Group: %s could not be removed from Proview.\n %s",
             REMOVE,
             REMOVE);
@@ -594,7 +594,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         sendEmailAndSetAttribute(
             model,
             form,
-            "Proview Delete Request Status: %s",
+            "Proview Delete Request Status: %s %s",
             "Group: %s could not be Deleted from Proview.\n %s",
             DELETE,
             DELETE);
@@ -616,7 +616,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         } catch (final Exception e) {
             final String emailBody = String.format(emailBodyTemplate, form.getGroupName(), e.getMessage());
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \n" + e.getMessage());
-            sendEmail(String.format(emailSubject, UNSUCCESSFUL), emailBody);
+            sendEmail(String.format(emailSubject, UNSUCCESSFUL, form.getGroupName()), emailBody);
             log.error(e.getMessage(), e);
         }
     }

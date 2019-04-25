@@ -387,7 +387,7 @@ public class ProviewTitleListController {
         final Model model) {
         final TitleAction action = new TitleAction(
             () -> removeTitle(form, httpSession),
-            "Proview Remove Request Status: %s",
+            "Proview Remove Request Status: %s %s",
             "removed from Proview.",
             "could not be removed from Proview.",
             "Success: removed from Proview.",
@@ -403,7 +403,7 @@ public class ProviewTitleListController {
         final Model model) {
         final TitleAction action = new TitleAction(
             () -> promoteTitle(form, httpSession),
-            "Proview Promote Request Status: %s",
+            "Proview Promote Request Status: %s %s",
             "promoted to Final in Proview.",
             "could not be promoted to Final in Proview.",
             "Success: promoted to Final in Proview.",
@@ -419,7 +419,7 @@ public class ProviewTitleListController {
         final Model model) {
         final TitleAction action = new TitleAction(
             () -> deleteTitle(form, httpSession),
-            "Proview Delete Request Status: %s",
+            "Proview Delete Request Status: %s %s",
             "deleted from Proview.",
             "could not be deleted from Proview.",
             "Success: deleted from Proview.",
@@ -439,14 +439,14 @@ public class ProviewTitleListController {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.attributeSuccess);
                 final String emailBody =
                     String.format(TITLE_ID_S_VERSION_S, form.getTitleId(), form.getVersion(), action.emailBodySuccess);
-                sendEmail(String.format(action.emailSubjectTemplate, SUCCESS), emailBody);
+                sendEmail(String.format(action.emailSubjectTemplate, SUCCESS, form.getTitleId()), emailBody);
                 proviewAuditService.save(form.createAudit());
             }
         } catch (final Exception e) {
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, action.attributeUnsuccessful + e.getMessage());
             final String emailBody =
                 String.format(TITLE_ID_S_VERSION_S, form.getTitleId(), form.getVersion(), action.emailBodyUnsuccessful);
-            sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL), emailBody);
+            sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL, form.getTitleId()), emailBody);
             log.error(e.getMessage(), e);
         }
     }

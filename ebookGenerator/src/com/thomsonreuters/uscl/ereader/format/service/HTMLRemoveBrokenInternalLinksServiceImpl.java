@@ -30,7 +30,6 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
@@ -138,13 +137,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             // Send notification for existing anchors.
             final File anchorUnlinkTargetListFile =
                 new File(targetDir.getAbsolutePath(), title + "_" + jobInstanceId + "_anchorTargetUnlinkFile.csv");
-            writeUnlinkAnchorReport(
-                title,
-                jobInstanceId,
-                envName,
-                unlinkDocMetadataList,
-                anchorUnlinkTargetListFile,
-                emailRecipients);
+            writeUnlinkAnchorReport(unlinkDocMetadataList, anchorUnlinkTargetListFile);
         }
 
         LOG.info("Unlinking transformation successfully applied to " + numDocs + " files.");
@@ -314,12 +307,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
     }
 
     protected void writeUnlinkAnchorReport(
-        final String title,
-        final Long jobInstanceId,
-        final String envName,
         final List<String> unlinkDocMetadataList,
-        final File anchorUnlinkTargetListFile,
-        final Collection<InternetAddress> emailRecipients) throws EBookFormatException {
+        final File anchorUnlinkTargetListFile) throws EBookFormatException {
         try (BufferedWriter writer =
             new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorUnlinkTargetListFile), "UTF-8"))) {
             writer.write(
@@ -340,19 +329,5 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
-
-        final String subject = String.format(
-            "Anchor links removed for title \"%s\", job: %s, env: %s",
-            title,
-            jobInstanceId.toString(),
-            envName);
-        final String emailBody =
-            "Attached is the file of links removed this book. Format is comma seperated list of guids and Proview enhanced links (relevant portion follows the slash).";
-        LOG.debug("Notification email recipients : " + emailRecipients);
-        LOG.debug("Notification email subject : " + subject);
-        LOG.debug("Notification email body : " + emailBody);
-        final List<String> filenames = new ArrayList<>();
-        filenames.add(anchorUnlinkTargetListFile.getAbsolutePath());
-        EmailNotification.sendWithAttachment(emailRecipients, subject, emailBody, filenames);
     }
 }
