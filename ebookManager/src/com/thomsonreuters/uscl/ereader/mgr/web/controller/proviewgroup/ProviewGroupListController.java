@@ -610,7 +610,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         final String groupStatus) {
         model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
         try {
-            if (performGroupOperation(form, model, operation)) {
+            if (performGroupOperation(form, model, operation, emailSubject)) {
                 model.addAttribute(WebConstants.KEY_GROUP_STATUS, groupStatus);
             }
         } catch (final Exception e) {
@@ -631,9 +631,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     private boolean performGroupOperation(
         final ProviewGroupListFilterForm form,
         final Model model,
-        final String operation) {
+        final String operation,
+        final String emailSubject) {
         String emailBody = "";
-        String emailSubject = "Proview " + operation + " Request Status: ";
 
         final StringBuilder errorStringBuilder = new StringBuilder();
         final StringBuilder successStringBuilder = new StringBuilder();
@@ -730,11 +730,12 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                     + "d");
         }
 
+        final String emailStatus;
         if (success) {
-            emailSubject += "Success";
+            emailStatus = "Success";
             emailBody = successStringBuilder.toString();
         } else {
-            emailSubject += "Failed";
+            emailStatus = "Failed";
             model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
             if (StringUtils.isNotEmpty(successStringBuilder)) {
                 successStringBuilder.append(errorStringBuilder);
@@ -747,7 +748,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                 emailBody = "Failed: \t\n" + errorStringBuilder.toString();
             }
         }
-        sendEmail(emailSubject, emailBody);
+        sendEmail(String.format(emailSubject, emailStatus, form.getGroupName()), emailBody);
         for (final ProviewAudit audit : auditList) {
             proviewAuditService.save(form.createAudit(
                 audit.getTitleId(),
