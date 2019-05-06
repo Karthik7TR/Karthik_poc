@@ -113,6 +113,9 @@
 		<sec:intercept-url pattern="/adminBookLock*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminMisc*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminAuditBook*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminQualityReportsView*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminDocTypeMetricView.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminDocTypeMetricEdit*" access="hasRole('ROLE_SUPERUSER')"/>
 		
 		<sec:intercept-url pattern="/proviewGroupDefinitionEdit.mvc" access="hasRole('ROLE_SUPERUSER')"/>
 		
