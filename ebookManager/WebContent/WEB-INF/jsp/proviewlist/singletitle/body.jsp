@@ -3,7 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>

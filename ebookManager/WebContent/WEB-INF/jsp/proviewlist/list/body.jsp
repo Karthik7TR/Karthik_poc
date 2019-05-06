@@ -67,8 +67,8 @@
 		<display:setProperty name="export.excel.filename" value="ProviewList.xls" />
 		
 		
-		<display:column title="ProView Display Name" property="title" sortable="true"/>
-		<display:column title="Title ID" property="titleId" sortable="true"/>
+		<display:column title="ProView Display Name" property="title" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
+		<display:column title="Title ID" property="titleId" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
 		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
 		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
 		<display:column title="Status" property="status" sortable="true"/>

@@ -68,9 +68,9 @@ public class KeywordTypeIntegrationTest {
     @Test
     public void getAllKeywordCodes() {
         final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
-        assertThat(codes, contains(names("jurisdiction", "publisher", "subject", "Tip", "type")));
+        assertThat(codes, contains(names("Tip", "jurisdiction", "publisher", "subject", "type")));
 
-        final List<KeywordTypeValue> keywordValues = codes.get(1).getValues();
+        final List<KeywordTypeValue> keywordValues = codes.get(2).getValues();
         assertThat(keywordValues, contains(names("Manning", "TR")));
     }
 
@@ -92,7 +92,7 @@ public class KeywordTypeIntegrationTest {
     public void deleteKeywordTypeCode() {
         codeService.deleteKeywordTypeCode(codeService.getKeywordTypeCodeByName("jurisdiction").getId());
         final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
-        assertThat(codes, contains(names("publisher", "subject", "Tip", "type")));
+        assertThat(codes, contains(names("Tip", "publisher", "subject", "type")));
 
         final List<KeywordTypeValue> keywordValues = valueService.getAllKeywordTypeValues();
         assertThat(keywordValues, contains(names("Manning", "TR")));
@@ -105,14 +105,14 @@ public class KeywordTypeIntegrationTest {
 
     @Test
     public void renameKeywordTypeCode() {
-        final KeywordTypeCode keywordTypeCode = codeService.getAllKeywordTypeCodes().get(0);
+        final KeywordTypeCode keywordTypeCode = codeService.getAllKeywordTypeCodes().get(1);
         keywordTypeCode.setName("new name");
         codeService.saveKeywordTypeCode(keywordTypeCode);
 
         final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
-        assertThat(codes, contains(names("new name", "publisher", "subject", "Tip", "type")));
+        assertThat(codes, contains(names("Tip", "new name", "publisher", "subject", "type")));
 
-        final List<KeywordTypeValue> keywordValues = codeService.getAllKeywordTypeCodes().get(0).getValues();
+        final List<KeywordTypeValue> keywordValues = codeService.getAllKeywordTypeCodes().get(1).getValues();
         assertThat(keywordValues, contains(names("AL", "TX")));
     }
 

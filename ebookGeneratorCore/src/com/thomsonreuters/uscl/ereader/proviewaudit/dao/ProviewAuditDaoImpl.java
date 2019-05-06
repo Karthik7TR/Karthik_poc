@@ -11,6 +11,9 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.util.CriteriaFunctionOrder;
+import com.thomsonreuters.uscl.ereader.util.CriteriaFunctionOrder.SqlFunctionCall;
+import com.thomsonreuters.uscl.ereader.util.CriteriaFunctionOrder.SqlFunctionWithArgsCall;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -87,12 +90,7 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
     public List<ProviewAudit> findProviewAudits(final ProviewAuditFilter filter, final ProviewAuditSort sort) {
         final Criteria criteria = addFilters(filter);
 
-        final String orderByColumn = getOrderByColumnName(sort.getSortProperty());
-        if (sort.isAscending()) {
-            criteria.addOrder(Order.asc(orderByColumn));
-        } else {
-            criteria.addOrder(Order.desc(orderByColumn));
-        }
+        addOrderByColumnNames(criteria, sort);
 
         final int itemsPerPage = sort.getItemsPerPage();
         criteria.setFirstResult((sort.getPageNumber() - 1) * (itemsPerPage));
@@ -158,22 +156,48 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
      * Map the sort column enumeration into the actual column identifier used in the criteria.
      * @param sortProperty enumerated value that reflects the database table sort column to sort on.
      */
-    private String getOrderByColumnName(final SortProperty sortProperty) {
+    private void addOrderByColumnNames(final Criteria criteria, final ProviewAuditSort sort) {
+        final SortProperty sortProperty = sort.getSortProperty();
         switch (sortProperty) {
         case PROVIEW_REQUEST:
-            return "proviewRequest";
+            criteria.addOrder(getSimpleOrder("proviewRequest", sort.isAscending()));
+            break;
         case REQUEST_DATE:
-            return "requestDate";
-        case BOOK_VERSION:
-            return "bookVersion";
-        case TITLE_ID:
-            return "titleId";
+            criteria.addOrder(getSimpleOrder("requestDate", sort.isAscending()));
+            break;
         case USERNAME:
-            return "username";
+            criteria.addOrder(getSimpleOrder("username", sort.isAscending()));
+            break;
         case BOOK_LAST_UPDATED:
-            return "bookLastUpdated";
+            criteria.addOrder(getSimpleOrder("bookLastUpdated", sort.isAscending()));
+            break;
+        case TITLE_ID:
+            criteria.addOrder(getTitleIdOrder("titleId", sort.isAscending()));
+            break;
+        case BOOK_VERSION:
+            final String propertyName = "bookVersion";
+            criteria.addOrder(getVersionOrder(propertyName, true, sort.isAscending()));
+            criteria.addOrder(getVersionOrder(propertyName, false, sort.isAscending()));
+            break;
         default:
             throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
         }
+    }
+
+    private Order getVersionOrder(final String propertyName, final boolean isMajorVersion, final boolean isAscending) {
+        final int occurence = isMajorVersion ? 1 : 2;
+        final SqlFunctionCall sqlFunctionCall = SqlFunctionCall.toNumber()
+            .includeFunction(SqlFunctionWithArgsCall.regexpSubstr("\\d+", 1, occurence));
+        return isAscending ? CriteriaFunctionOrder.asc(propertyName, sqlFunctionCall)
+            : CriteriaFunctionOrder.desc(propertyName, sqlFunctionCall);
+    }
+
+    private Order getTitleIdOrder(final String propertyName, final boolean isAscending) {
+        return isAscending ? CriteriaFunctionOrder.asc(propertyName, SqlFunctionCall.trim())
+            : CriteriaFunctionOrder.desc(propertyName, SqlFunctionCall.trim());
+    }
+
+    private Order getSimpleOrder(final String propertyName, final boolean isAscending) {
+        return isAscending ? Order.asc(propertyName) : Order.desc(propertyName);
     }
 }

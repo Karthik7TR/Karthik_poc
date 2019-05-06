@@ -19,7 +19,7 @@ public class JurisTypeCodeServiceImpl implements JurisTypeCodeService {
 
     @Override
     public List<JurisTypeCode> getAllJurisTypeCodes() {
-        return jurisTypeCodeDao.findAll();
+        return jurisTypeCodeDao.findAllByOrderByNameAsc();
     }
 
     @Override

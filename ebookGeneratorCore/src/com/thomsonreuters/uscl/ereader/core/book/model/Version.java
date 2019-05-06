@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.model;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,7 +9,9 @@ import org.springframework.util.Assert;
 
 public class Version implements Comparable<Version> {
     public static final String VERSION_PREFIX = "v";
-    private static final Pattern VERSION_PATTERN = Pattern.compile("v(\\d+)\\.(\\d+)");
+    private static final String MAJOR = "majorV";
+    private static final String MINOR = "minorV";
+    private static final Pattern VERSION_PATTERN = Pattern.compile(String.format("v(?<%s>\\d+)(\\.(?<%s>\\d+))?", MAJOR, MINOR));
 
     private Integer majorVersion;
     private Integer minorVersion;
@@ -16,10 +19,12 @@ public class Version implements Comparable<Version> {
     public Version(@NotNull final String version) {
         Assert.notNull(version);
         final Matcher matcher = VERSION_PATTERN.matcher(version);
-        Assert.isTrue(matcher.matches(), "Version should match pattern: v<major_version>.<minor_version>");
+        Assert.isTrue(matcher.matches(), "Version should match pattern: v<major_version>.[<minor_version>]");
 
-        majorVersion = Integer.valueOf(matcher.group(1));
-        minorVersion = Integer.valueOf(matcher.group(2));
+        majorVersion = Integer.valueOf(matcher.group(MAJOR));
+        minorVersion = Optional.ofNullable(matcher.group(MINOR))
+            .map(Integer::valueOf)
+            .orElse(0);
     }
 
     public Version(final int majorVersion, final int minorVersion) {
