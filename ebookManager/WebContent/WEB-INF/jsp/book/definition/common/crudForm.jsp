@@ -169,7 +169,7 @@
 		<div id="leftPanelFields" class="leftDefinitionForm leftTopPanel">
 			<div class="row">
 				<form:label path="titleId" class="labelCol">Title ID</form:label>
-				<input id="titleIdBox" type="text" disabled="disabled" />
+				<input id="titleIdBox" type="text" disabled="disabled" maxlength="40" />
 				<form:hidden path="titleId"/>
 				<div class="errorDiv">
 					<form:errors path="titleId" cssClass="errorMessage" />
@@ -177,14 +177,14 @@
 			</div>
 			<div class="row">
 				<form:label path="proviewDisplayName" class="labelCol">ProView Display Name</form:label>
-				<form:input path="proviewDisplayName" />
+				<form:input path="proviewDisplayName" maxlength="1024" />
 				<div class="errorDiv">
 					<form:errors path="proviewDisplayName" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
-				<form:input path="publishDateText" />
+				<form:input path="publishDateText" maxlength="1024" />
 				<div class="errorDiv">
 					<form:errors path="publishDateText" cssClass="errorMessage" />
 				</div>
@@ -193,7 +193,7 @@
 				<form:label path="isbn" class="labelCol">ISBN</form:label>
 				<form:input path="isbn" maxlength="17" />
 				<div class="errorDiv">
-					<form:errors path="isbn" cssClass="errorMessage" />
+					<form:errors path="isbn" cssClass="errorMessage" /> 
 				</div>
 			</div>
 
@@ -292,14 +292,14 @@
 			<div id="displayTOC" style="display:none">
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>
-					<form:input disabled="${disableUnderPubPlusRole}" path="tocCollectionName" />
+					<form:input disabled="${disableUnderPubPlusRole}" path="tocCollectionName" maxlength="64" />
 					<div class="errorDiv">
 						<form:errors path="tocCollectionName" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="docCollectionName" class="labelCol">DOC Collection</form:label>
-					<form:input disabled="${disableUnderPubPlusRole}" path="docCollectionName" />
+					<form:input disabled="${disableUnderPubPlusRole}" path="docCollectionName" maxlength="64" />
 					<div class="errorDiv">
 						<form:errors path="docCollectionName" cssClass="errorMessage" />
 					</div>
@@ -315,14 +315,14 @@
 			<div id="displayNORT" style="display:none">
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="nortDomain" class="labelCol">NORT Domain</form:label>
-					<form:input disabled="${disableUnderPubPlusRole}" path="nortDomain" />
+					<form:input disabled="${disableUnderPubPlusRole}" path="nortDomain" maxlength="64" />
 					<div class="errorDiv">
 						<form:errors path="nortDomain" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="nortFilterView" class="labelCol">NORT Filter View</form:label>
-					<form:input disabled="${disableUnderPubPlusRole}" path="nortFilterView" />
+					<form:input disabled="${disableUnderPubPlusRole}" path="nortFilterView" maxlength="64" />
 					<div class="errorDiv">
 						<form:errors path="nortFilterView" cssClass="errorMessage" />
 					</div>
@@ -523,7 +523,7 @@
 							</div>
 							<div class="dynamicRow">
 								<label>Note</label>
-								<form:textarea disabled="${disableUnderPubPlusRole}" path="splitDocuments[${status.index}].note" />
+								<form:textarea disabled="${disableUnderPubPlusRole}" path="splitDocuments[${status.index}].note" maxlength="512" />
 								<div class="errorDiv">
 									<form:errors  path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
 								</div>
@@ -557,7 +557,7 @@
 				</div>
 			</div><div class="dynamicRow">
 				<label>Note</label>
-				<form:textarea path="excludeDocuments[${aStatus.index}].note" />
+				<form:textarea path="excludeDocuments[${aStatus.index}].note" maxlength="512"/>
 				<div class="errorDiv">
 					<form:errors path="excludeDocuments[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
@@ -597,19 +597,19 @@
 				</div>
 			</div><div class="dynamicRow">
 				<label>Old Label</label>
-				<form:input path="renameTocEntries[${aStatus.index}].oldLabel" />
+				<form:input path="renameTocEntries[${aStatus.index}].oldLabel" maxlength="1024" />
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].oldLabel" cssClass="errorMessage" />
 				</div>
 			</div><div class="dynamicRow">
 				<label>New Label</label>
-				<form:input path="renameTocEntries[${aStatus.index}].newLabel" />
+				<form:input path="renameTocEntries[${aStatus.index}].newLabel" maxlength="1024" />
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].newLabel" cssClass="errorMessage" />
 				</div>
 			</div><div class="dynamicRow">
 				<label>Note</label>
-				<form:textarea path="renameTocEntries[${aStatus.index}].note" />
+				<form:textarea path="renameTocEntries[${aStatus.index}].note" maxlength="512" />
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
@@ -649,14 +649,14 @@
 			</div>
 			<div class="dynamicRow">
 				<label>New Text</label>
-				<form:input path="documentCopyrights[${aStatus.index}].newText" />
+				<form:input path="documentCopyrights[${aStatus.index}].newText" maxlength="512" />
 				<div class="errorDiv">
 					<form:errors path="documentCopyrights[${aStatus.index}].newText" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="dynamicRow">
 				<label>Note</label>
-				<form:textarea path="documentCopyrights[${aStatus.index}].note" />
+				<form:textarea path="documentCopyrights[${aStatus.index}].note" maxlength="512" />
 				<div class="errorDiv">
 					<form:errors path="documentCopyrights[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
@@ -698,14 +698,14 @@
 			</div>
 			<div class="dynamicRow">
 				<label>New Text</label>
-				<form:input path="documentCurrencies[${aStatus.index}].newText" />
+				<form:input path="documentCurrencies[${aStatus.index}].newText" maxlength="512" />
 				<div class="errorDiv">
 					<form:errors path="documentCurrencies[${aStatus.index}].newText" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="dynamicRow">
 				<label>Note</label>
-				<form:textarea path="documentCurrencies[${aStatus.index}].note" />
+				<form:textarea path="documentCurrencies[${aStatus.index}].note" maxlength="512" />
 				<div class="errorDiv">
 					<form:errors path="documentCurrencies[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
@@ -890,14 +890,14 @@
 								<form:hidden path="pilotBookInfo[${aStatus.index}].sequenceNum" class="sequence"/>
 								<div class="dynamicRow">
 									<label>Title ID</label>
-									<form:input path="pilotBookInfo[${aStatus.index}].pilotBookTitleId" />
+									<form:input path="pilotBookInfo[${aStatus.index}].pilotBookTitleId" maxlength="40" />
 									<div class="errorDiv">
 										<form:errors path="pilotBookInfo[${aStatus.index}].pilotBookTitleId" cssClass="errorMessage" />
 									</div>
 								</div>
 								<div class="dynamicRow">
 									<label>Note</label>
-									<form:input path="pilotBookInfo[${aStatus.index}].note" />
+									<form:input path="pilotBookInfo[${aStatus.index}].note" maxlength="2048" />
 									<div class="errorDiv">
 										<form:errors path="pilotBookInfo[${aStatus.index}].note" cssClass="errorMessage" />
 									</div>
@@ -931,7 +931,7 @@
 				</div>
 			</div><div class="dynamicRow">
 				<label>Note</label>
-				<form:textarea path="tableViewers[${aStatus.index}].note" />
+				<form:textarea path="tableViewers[${aStatus.index}].note" maxlength="512" />
 				<div class="errorDiv">
 					<form:errors path="tableViewers[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
@@ -970,7 +970,7 @@
 			</div>
 			<div class="row xppHideClass" >
 				<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
-				<form:textarea path="copyrightPageText" />
+				<form:textarea path="copyrightPageText" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="copyrightPageText" cssClass="errorMessage" />
 				</div>
@@ -979,7 +979,7 @@
 				<form:label path="frontMatterTitle" class="labelCol">Main Title</form:label>
 				<form:hidden path="frontMatterTitle.ebookNameId" />
 				<form:hidden path="frontMatterTitle.sequenceNum" value="1" />
-				<form:textarea path="frontMatterTitle.bookNameText" />
+				<form:textarea path="frontMatterTitle.bookNameText" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="frontMatterTitle.bookNameText" cssClass="errorMessage" />
 				</div>
@@ -988,7 +988,7 @@
 				<form:label path="frontMatterSubtitle" class="labelCol">Sub Title</form:label>
 				<form:hidden path="frontMatterSubtitle.ebookNameId"/>
 				<form:hidden path="frontMatterSubtitle.sequenceNum" value="2"/>
-				<form:textarea path="frontMatterSubtitle.bookNameText" />
+				<form:textarea path="frontMatterSubtitle.bookNameText" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="frontMatterSubtitle.bookNameText" cssClass="errorMessage" />
 				</div>
@@ -997,7 +997,7 @@
 				<form:label path="frontMatterSeries" class="labelCol">Series</form:label>
 				<form:hidden path="frontMatterSeries.ebookNameId"/>
 				<form:hidden path="frontMatterSeries.sequenceNum" value="3"/>
-				<form:textarea path="frontMatterSeries.bookNameText" />
+				<form:textarea path="frontMatterSeries.bookNameText" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="frontMatterSeries.bookNameText" cssClass="errorMessage" />
 				</div>
@@ -1006,14 +1006,14 @@
 		<div class="rightDefinitionForm">
 			<div class="row xppHideClass" >
 				<form:label path="additionalTrademarkInfo" class="labelCol">Additional Patent/Trademark Message</form:label>
-				<form:textarea path="additionalTrademarkInfo" />
+				<form:textarea path="additionalTrademarkInfo" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="additionalTrademarkInfo" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row xppHideClass" >
 				<form:label path="currency" class="labelCol">Currentness Message</form:label>
-				<form:textarea path="currency" />
+				<form:textarea path="currency" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="currency" cssClass="errorMessage" />
 				</div>
@@ -1051,42 +1051,42 @@
 							<form:hidden path="authorInfo[${aStatus.index}].sequenceNum" class="sequence"/>
 							<div class="dynamicRow">
 								<label>Prefix</label>
-								<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" />
+								<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" maxlength="40" />
 								<div class="errorDiv">
 									<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>First Name</label>
-								<form:input path="authorInfo[${aStatus.index}].authorFirstName" />
+								<form:input path="authorInfo[${aStatus.index}].authorFirstName" maxlength="1024" />
 								<div class="errorDiv">
 									<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Middle Name</label>
-								<form:input path="authorInfo[${aStatus.index}].authorMiddleName" />
+								<form:input path="authorInfo[${aStatus.index}].authorMiddleName" maxlength="1024" />
 								<div class="errorDiv">
 									<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Last Name</label>
-								<form:input path="authorInfo[${aStatus.index}].authorLastName" />
+								<form:input path="authorInfo[${aStatus.index}].authorLastName" maxlength="1024" />
 								<div class="errorDiv">
 									<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Suffix</label>
-								<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  />
+								<form:input path="authorInfo[${aStatus.index}].authorNameSuffix" maxlength="40" />
 								<div class="errorDiv">
 									<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Additional Text</label>
-								<form:textarea path="authorInfo[${aStatus.index}].authorAddlText" />
+								<form:textarea path="authorInfo[${aStatus.index}].authorAddlText" maxlength="2048"/>
 								<div class="errorDiv">
 									<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
 								</div>
@@ -1115,7 +1115,7 @@
 			<div class="row frontMatterPage">
 				<form:hidden path="frontMatters[${pageStatus.index}].id"/>
 				<form:hidden path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="sequence" />
-				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" /><form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." /><input type="button" value="Preview" class="fmPreview"/>
+				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" maxlength="1024"/><form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" maxlength="1024" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." /><input type="button" value="Preview" class="fmPreview"/>
 				<div class="errorDiv2">
 					<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
 					<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
@@ -1128,7 +1128,7 @@
 							<c:set var="sectionIndex" value="${sectionStatus.index}"/>
 							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
 							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="sequence" />
-							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
+							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" maxlength="1024" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
 							<div class="errorDiv2">
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="errorMessage" />
@@ -1168,7 +1168,7 @@
 <div id="modal">
     <div id="dialog" class="window" style="display:none;">
         <div class="modelTitle">Comments</div>
-        <form:textarea path="comment"/>
+        <form:textarea path="comment" maxlength="1024" />
         <form:errors path="comment" cssClass="errorMessage" />
         <div class="modalButtons">
         	<form:button class="save">Save</form:button>

@@ -163,7 +163,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             errors,
             MAXIMUM_CHARACTER_2048,
             form.getAdditionalTrademarkInfo(),
-            "currency",
+            "additionalTrademarkInfo",
             new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
 
         checkMaxLength(
