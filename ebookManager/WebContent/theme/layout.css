@@ -1010,6 +1010,7 @@ width: initial;
 	cursor: pointer;
 	flex-grow: 1;
 	max-width: 20%;
+	height: 1.5em;
 }
 
 .quality-form-button:hover {

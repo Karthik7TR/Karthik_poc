@@ -286,7 +286,6 @@ public class WebConstants {
     public static final String MVC_ADMIN_AUDIT_BOOK_SEARCH = "adminAuditBookSearch.mvc";
     public static final String MVC_ADMIN_AUDIT_BOOK_MODIFY_ISBN = "adminAuditBookModifyIsbn.mvc";
     public static final String MVC_ADMIN_QUALITY_REPORTS = "adminQualityReportsView.mvc";
-    public static final String MVC_ADMIN_QUALITY_RECIPIENTS_ADD = "adminQualityRecipientsAdd.mvc";
     public static final String MVC_ADMIN_QUALITY_RECIPIENTS_DELETE = "adminQualityRecipientsDelete.mvc";
     public static final String MVC_ADMIN_QUALITY_SWITCH_APPLY = "adminQualityStepSwitchApply.mvc";
 
