@@ -20,3 +20,13 @@ function formatDates() {
 		$(this).text(formatDateFromUTCString($(this).text().trim()));
 	});
 }
+
+function validateDate(selector) {
+	const dateTextBox = $(selector);
+	try {
+		startDateISOString = $.datepicker.parseDateTime("mm/dd/yy", "HH:mm:ss", dateTextBox.val(), null).toISOString();
+		dateTextBox.val(startDateISOString);
+	} catch(e) {
+		dateTextBox.val("");
+	}
+}

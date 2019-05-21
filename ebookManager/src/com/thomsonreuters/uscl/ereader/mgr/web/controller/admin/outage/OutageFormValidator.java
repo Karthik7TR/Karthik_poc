@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -55,19 +54,23 @@ public class OutageFormValidator extends BaseFormValidator implements Validator 
         final Date fromDate = form.getStartTime();
         final Date toDate = form.getEndTime();
 
-        if (StringUtils.isNotBlank(form.getStartTimeString())) {
-            validateDate(form.getStartTimeString(), fromDate, "Start", errors);
-        }
-        if (StringUtils.isNotBlank(form.getEndTimeString())) {
-            validateDate(form.getEndTimeString(), toDate, "End", errors);
-        }
+        validateDate(form.getStartTimeString(), fromDate, "Start", errors);
+        validateDate(form.getEndTimeString(), toDate, "End", errors);
 
         checkDateRange(fromDate, toDate, errors);
     }
 
     private void checkDateRange(final Date fromDate, final Date toDate, final Errors errors) {
         if (fromDate != null) {
+            final Date currentDate = new Date();
+            if (fromDate.before(currentDate)) {
+                errors.reject("error.start.date.in.past");
+            }
+
             if (toDate != null) {
+                if (toDate.before(currentDate)) {
+                    errors.reject("error.end.date.in.past");
+                }
                 if (fromDate.after(toDate)) {
                     errors.reject("error.start.date.after.end.date");
                 }

@@ -16,6 +16,8 @@ $(document).ready(function() {
 	var endDateTextBox = $('#endDatetimepicker');
 	if (startDateTextBox.val().length !== 0) {
 		startDateTextBox.val(formatDateFromUTCString(startDateTextBox.val()));
+	}
+	if (endDateTextBox.val().length !== 0) {
 		endDateTextBox.val(formatDateFromUTCString(endDateTextBox.val()));
 	}
 	
@@ -81,10 +83,8 @@ $(document).ready(function() {
 		}
 		
 		if(confirmation) {
-			var startDateTextBox = $('#startDatetimepicker');
-			startDateTextBox.val(startDateTextBox.datetimepicker('getDate').toISOString());
-			var endDateTextBox = $('#endDatetimepicker');
-			endDateTextBox.val(endDateTextBox.datetimepicker('getDate').toISOString());
+			validateDate("#startDatetimepicker");
+			validateDate("#endDatetimepicker");
 			$("#<%= OutageForm.FORM_NAME %>").submit();
 		} else {
 			$(event.target).attr("disabled", false);
