@@ -282,8 +282,8 @@ public final class OutageControllerTest {
 
     private PlannedOutage setupParametersAndOutage() throws Exception {
         final String outageTypeId = "1";
-        final String startTimeString = "2018-07-04T12:03:29.000Z";
-        final String endTimeString = "2018-07-04T12:10:29.000Z";
+        final String startTimeString = "2028-07-04T12:03:29.000Z";
+        final String endTimeString = "2028-07-04T12:10:29.000Z";
         final String reason = "test";
 
         request.setParameter("outageTypeId", outageTypeId);
