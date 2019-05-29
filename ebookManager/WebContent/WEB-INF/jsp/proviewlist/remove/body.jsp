@@ -56,7 +56,7 @@
 		
 		<div class="buttons">
 			<input id="returnToList" type="button" value="Return to list" onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${titleId}'"/>
-       		<c:if test="${status == 'Review' && infoMessage == null && errMessage == null }">
+       		<c:if test="${(status == 'Review' || status == 'Final') && infoMessage == null && errMessage == null }">
                 <input 
                 	id="removeButton"
 					type="button" 

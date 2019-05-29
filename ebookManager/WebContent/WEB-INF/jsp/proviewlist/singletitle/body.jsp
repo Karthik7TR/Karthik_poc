@@ -45,7 +45,7 @@ function openFullcreenWindow(url)
 		</c:if>
 		<c:if test="${isSuperUser == 'true'}">
 		  	<display:column title="Remove">
-		  		<input value="Remove" type="button" <c:if test="${!vdo.canRemove || vdo.getStatus() != 'Review'}"><c:out value="disabled"/></c:if> onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}&<%=WebConstants.KEY_LAST_UPDATE%>=${vdo.lastupdate}'"/>
+		  		<input value="Remove" type="button" <c:if test="${!vdo.canRemove || (vdo.getStatus() != 'Review' && vdo.getStatus() != 'Final')}"><c:out value="disabled"/></c:if> onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}&<%=WebConstants.KEY_LAST_UPDATE%>=${vdo.lastupdate}'"/>
 		  	</display:column>
 		  	<display:column title="Delete">
 		  		<input value="Delete" type="button" <c:if test="${!vdo.canRemove || (vdo.getStatus() != 'Removed' && vdo.getStatus() != 'Cleanup')}"><c:out value="disabled"/></c:if> onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}&<%=WebConstants.KEY_LAST_UPDATE%>=${vdo.lastupdate}'"/>
