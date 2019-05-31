@@ -1,16 +1,35 @@
 package com.thomsonreuters.uscl.ereader.mgr.cleanup;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JobCleaner {
-    private ManagerService managerService;
-    private int cleanJobsGreaterThanThisManyDaysOld;
-    private int cleanPlannedOutagesGreaterThanThisManyDaysOld;
-    private int numberLastMajorVersionKept;
-    private int daysBeforeDocMetadataDelete;
-    private int cleanCwbFilesGreaterThanThisManyDaysOld;
+    private final ManagerService managerService;
+    private final int cleanJobsGreaterThanThisManyDaysOld;
+    private final int cleanPlannedOutagesGreaterThanThisManyDaysOld;
+    private final int numberLastMajorVersionKept;
+    private final int daysBeforeDocMetadataDelete;
+    private final int cleanCwbFilesGreaterThanThisManyDaysOld;
+
+    @Autowired
+    public JobCleaner(
+            final ManagerService managerService,
+            @Value("${cleanup.jobs.older.than.this.many.days.old}")final int cleanJobsGreaterThanThisManyDaysOld,
+            @Value("${clean.planned.outages.greater.than.this.many.days.old}")final int cleanPlannedOutagesGreaterThanThisManyDaysOld,
+            @Value("${number.last.major.version.kept}")final int numberLastMajorVersionKept,
+            @Value("${days.before.docmetadata.delete}")final int daysBeforeDocMetadataDelete,
+            @Value("${cleanup.cwb.files.older.than.this.many.days.old}")final int cleanCwbFilesGreaterThanThisManyDaysOld) {
+        this.managerService = managerService;
+        this.cleanJobsGreaterThanThisManyDaysOld = cleanJobsGreaterThanThisManyDaysOld;
+        this.cleanPlannedOutagesGreaterThanThisManyDaysOld = cleanPlannedOutagesGreaterThanThisManyDaysOld;
+        this.numberLastMajorVersionKept = numberLastMajorVersionKept;
+        this.daysBeforeDocMetadataDelete = daysBeforeDocMetadataDelete;
+        this.cleanCwbFilesGreaterThanThisManyDaysOld = cleanCwbFilesGreaterThanThisManyDaysOld;
+    }
 
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     public void cleanupOldData() {
@@ -19,35 +38,5 @@ public class JobCleaner {
             .cleanupOldFilesystemFiles(cleanJobsGreaterThanThisManyDaysOld, cleanCwbFilesGreaterThanThisManyDaysOld);
         managerService.cleanupOldPlannedOutages(cleanPlannedOutagesGreaterThanThisManyDaysOld);
         managerService.cleanupOldTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
-    }
-
-    @Required
-    public void setManagerService(final ManagerService service) {
-        managerService = service;
-    }
-
-    @Required
-    public void setCleanJobsGreaterThanThisManyDaysOld(final int daysBack) {
-        cleanJobsGreaterThanThisManyDaysOld = daysBack;
-    }
-
-    @Required
-    public void setCleanPlannedOutagesGreaterThanThisManyDaysOld(final int daysBack) {
-        cleanPlannedOutagesGreaterThanThisManyDaysOld = daysBack;
-    }
-
-    @Required
-    public void setNumberLastMajorVersionKept(final int numberLastMajorVersionKept) {
-        this.numberLastMajorVersionKept = numberLastMajorVersionKept;
-    }
-
-    @Required
-    public void setDaysBeforeDocMetadataDelete(final int daysBeforeDocMetadataDelete) {
-        this.daysBeforeDocMetadataDelete = daysBeforeDocMetadataDelete;
-    }
-
-    @Required
-    public void setCleanCwbFilesGreaterThanThisManyDaysOld(final int daysBack) {
-        cleanCwbFilesGreaterThanThisManyDaysOld = daysBack;
     }
 }

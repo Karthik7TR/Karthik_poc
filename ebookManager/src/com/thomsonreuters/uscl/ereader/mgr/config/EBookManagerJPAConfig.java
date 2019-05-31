@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.mgr.config;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.thomsonreuters.uscl.ereader.common.config.CommonJPAConfig;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDaoImpl;
@@ -26,6 +28,9 @@ import com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDaoImpl;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
 import org.hibernate.SessionFactory;
 import org.springframework.batch.core.explore.JobExplorer;
+import org.springframework.batch.core.explore.support.JobExplorerFactoryBean;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -79,6 +84,15 @@ public class EBookManagerJPAConfig extends CommonJPAConfig {
         managerDao.setJobNameProvider(jobNameProvider);
         managerDao.setPublishingStatsUtil(publishingStatsUtil);
         return managerDao;
+    }
+
+    @Bean
+    public JobExplorerFactoryBean jobExplorer(@Qualifier("dataSource") final DataSource dataSource,
+                                              @Value("${spring.batch.table.prefix}") final String tablesPrefix) {
+        final JobExplorerFactoryBean jobExplorer = new JobExplorerFactoryBean();
+        jobExplorer.setDataSource(dataSource);
+        jobExplorer.setTablePrefix(tablesPrefix);
+        return jobExplorer;
     }
 
     @Override
