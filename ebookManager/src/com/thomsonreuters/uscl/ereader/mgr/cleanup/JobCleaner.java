@@ -19,12 +19,15 @@ public class JobCleaner {
     public JobCleaner(
             final ManagerService managerService,
             @Value("${cleanup.jobs.older.than.this.many.days.old}")final int cleanJobsGreaterThanThisManyDaysOld,
+            @Value("${clean.planned.outages.greater.than.this.many.days.old}")final int cleanPlannedOutagesGreaterThanThisManyDaysOld,
+            @Value("${number.last.major.version.kept}")final int numberLastMajorVersionKept,
+            @Value("${days.before.docmetadata.delete}")final int daysBeforeDocMetadataDelete,
             @Value("${cleanup.cwb.files.older.than.this.many.days.old}")final int cleanCwbFilesGreaterThanThisManyDaysOld) {
         this.managerService = managerService;
         this.cleanJobsGreaterThanThisManyDaysOld = cleanJobsGreaterThanThisManyDaysOld;
-        cleanPlannedOutagesGreaterThanThisManyDaysOld = 180;
-        numberLastMajorVersionKept = 2;
-        daysBeforeDocMetadataDelete = 30;
+        this.cleanPlannedOutagesGreaterThanThisManyDaysOld = cleanPlannedOutagesGreaterThanThisManyDaysOld;
+        this.numberLastMajorVersionKept = numberLastMajorVersionKept;
+        this.daysBeforeDocMetadataDelete = daysBeforeDocMetadataDelete;
         this.cleanCwbFilesGreaterThanThisManyDaysOld = cleanCwbFilesGreaterThanThisManyDaysOld;
     }
 

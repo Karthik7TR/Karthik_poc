@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import java.util.Arrays;
 
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -112,13 +111,12 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    @SneakyThrows
     public static PropertyPlaceholderConfigurer propertyConfigurer() {
         final PropertyPlaceholderConfigurer propertyConfigurer = new PropertyPlaceholderConfigurer();
         propertyConfigurer.setLocations(
-            new ClassPathResource("spring/properties/default-spring.properties"),
-            new ClassPathResource("spring/properties/workstation-spring.properties"),
-            new ClassPathResource("eBookManager.properties"));
+            new ClassPathResource("/spring/properties/default-spring.properties"),
+            new ClassPathResource("/spring/properties/workstation-spring.properties"),
+            new ClassPathResource("/eBookManager.properties"));
         propertyConfigurer.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
         return propertyConfigurer;
     }
