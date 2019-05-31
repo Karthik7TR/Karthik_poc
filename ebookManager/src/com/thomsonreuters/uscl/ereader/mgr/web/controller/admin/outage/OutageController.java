@@ -17,8 +17,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,9 +35,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+@Slf4j
 @Controller
 public class OutageController {
-    private static final Logger log = LogManager.getLogger(OutageController.class);
+    private static final String OUTAGE_TYPE = "outageType";
 
     private final ManagerService managerService;
     private final OutageService outageService;
@@ -91,7 +91,7 @@ public class OutageController {
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
         final Model model) {
-        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
+        model.addAttribute(OUTAGE_TYPE, outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_CREATE);
     }
 
@@ -110,7 +110,7 @@ public class OutageController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST));
         }
 
-        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
+        model.addAttribute(OUTAGE_TYPE, outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_CREATE);
     }
 
@@ -126,7 +126,7 @@ public class OutageController {
             model.addAttribute(WebConstants.KEY_OUTAGE, outage);
             form.initialize(outage);
         }
-        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
+        model.addAttribute(OUTAGE_TYPE, outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_EDIT);
     }
 
@@ -139,7 +139,7 @@ public class OutageController {
         outage.setOperation(Operation.SAVE);
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, submitPlannedOutage(bindingResult, model, outage));
         model.addAttribute(WebConstants.KEY_OUTAGE, outage);
-        model.addAttribute("outageType", outageService.getAllActiveOutageTypes());
+        model.addAttribute(OUTAGE_TYPE, outageService.getAllActiveOutageTypes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_EDIT);
     }
 

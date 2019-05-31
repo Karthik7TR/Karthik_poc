@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.Errors;
 
 public abstract class BaseFormValidator {
-    //private static final Logger log = LogManager.getLogger(EditBookDefinitionFormValidator.class);
 
     protected void checkMaxLength(
         final Errors errors,
@@ -18,14 +17,12 @@ public abstract class BaseFormValidator {
         final String text,
         final String fieldName,
         final Object[] args) {
-        if (StringUtils.isNotEmpty(text)) {
-            if (text.length() > maxValue) {
-                errors.rejectValue(
-                    fieldName,
-                    "error.max.length",
-                    args,
-                    "Must be maximum of " + maxValue + " characters or under");
-            }
+        if (StringUtils.isNotEmpty(text) && text.length() > maxValue) {
+            errors.rejectValue(
+                fieldName,
+                "error.max.length",
+                args,
+                "Must be maximum of " + maxValue + " characters or under");
         }
     }
 
@@ -90,11 +87,9 @@ public abstract class BaseFormValidator {
         final Date parsedDate,
         final String label,
         final Errors errors) {
-        if (StringUtils.isNotBlank(dateString)) {
-            if (parsedDate == null) {
-                final Object[] args = {label};
-                errors.reject("error.invalid.date", args, "Invalid Date: " + label);
-            }
+        if (StringUtils.isNotBlank(dateString) && parsedDate == null) {
+            final Object[] args = {label};
+            errors.reject("error.invalid.date", args, "Invalid Date: " + label);
         }
     }
 

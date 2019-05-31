@@ -6,13 +6,9 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 
 public class UserUtils {
-    private static final Logger log = LogManager.getLogger(UserUtils.class);
-
     public enum SecurityRole {
         ROLE_SUPERUSER,
         ROLE_PUBLISHER_PLUS,

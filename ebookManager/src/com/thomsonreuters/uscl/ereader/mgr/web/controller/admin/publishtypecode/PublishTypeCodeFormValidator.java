@@ -22,7 +22,7 @@ public class PublishTypeCodeFormValidator extends BaseFormValidator implements V
 
     @Override
     public boolean supports(final Class clazz) {
-        return (PublishTypeCodeForm.class.isAssignableFrom(clazz));
+        return PublishTypeCodeForm.class.isAssignableFrom(clazz);
     }
 
     @Override

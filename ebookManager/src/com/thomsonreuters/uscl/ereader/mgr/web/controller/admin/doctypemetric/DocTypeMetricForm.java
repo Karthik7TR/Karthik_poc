@@ -10,6 +10,10 @@ public class DocTypeMetricForm {
     private Integer thresholdValue;
     private Integer thresholdPercent;
 
+    public DocTypeMetricForm() {
+        super();
+    }
+
     public Long getId() {
         return id;
     }
@@ -24,10 +28,6 @@ public class DocTypeMetricForm {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public DocTypeMetricForm() {
-        super();
     }
 
     public void initialize(final DocumentTypeCode code) {

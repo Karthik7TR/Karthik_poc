@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobNameProvider;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,8 +22,8 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@Slf4j
 public class ManagerDaoImpl implements ManagerDao {
-    private static final Logger log = LogManager.getLogger(ManagerDaoImpl.class);
     private SessionFactory sessionFactory;
     private JdbcTemplate jdbcTemplate;
     private JobExplorer jobExplorer;
@@ -68,8 +67,8 @@ public class ManagerDaoImpl implements ManagerDao {
             argTypes,
             Long.class);
 
-        if (jobExecutionIds.size() > 0) { // if no executions, there will be no
-                                              // instance or step data
+        if (!jobExecutionIds.isEmpty()) { // if no executions, there will be no
+                                          // instance or step data
                                           // INSTANCES to be cleaned up
             final List<Long> jobInstanceIds = jdbcTemplate.queryForList(
                 "select unique job_instance_id from batch_job_execution where ("
@@ -93,9 +92,9 @@ public class ManagerDaoImpl implements ManagerDao {
                 Collections.sort(jobInstanceIds);
                 Collections.sort(jobExecutionIds);
                 Collections.sort(stepExecutionIds);
-                log.debug("jobInstanceIds: " + jobInstanceIds);
-                log.debug("jobExecutionIds: " + jobExecutionIds);
-                log.debug("stepExecutionIds: " + stepExecutionIds);
+                log.debug("jobInstanceIds: {}", jobInstanceIds);
+                log.debug("jobExecutionIds: {}", jobExecutionIds);
+                log.debug("stepExecutionIds: {}", stepExecutionIds);
             }
 
             // Save off the old step data to the JOB_HISTORY table
@@ -245,7 +244,7 @@ public class ManagerDaoImpl implements ManagerDao {
         }
 
         // Delete the old document_metadata rows by job instance
-        if (jobInstanceIds.size() > 0) {
+        if (!jobInstanceIds.isEmpty()) {
             deleteSpringBatchRecords("delete from IMAGE_METADATA where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
             deleteSpringBatchRecords("delete from DOCUMENT_METADATA where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
         }

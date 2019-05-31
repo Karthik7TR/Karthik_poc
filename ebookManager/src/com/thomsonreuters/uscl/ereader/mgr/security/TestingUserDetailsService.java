@@ -21,7 +21,6 @@ public class TestingUserDetailsService implements UserDetailsService {
         final Collection<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(TestingAuthenticationProvider.mapGroupFromUsername(username).toString()));
 
-        final UserDetails user = new CobaltUser(username, "User", username, username + "@bogus.tr.com", roles);
-        return user;
+        return new CobaltUser(username, "User", username, username + "@bogus.tr.com", roles);
     }
 }

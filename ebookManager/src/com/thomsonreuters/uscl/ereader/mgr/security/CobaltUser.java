@@ -44,8 +44,7 @@ public class CobaltUser extends User {
             return null;
         }
         final Object principal = authentication.getPrincipal();
-        final CobaltUser user = (principal instanceof CobaltUser) ? (CobaltUser) authentication.getPrincipal() : null;
-        return user;
+        return (principal instanceof CobaltUser) ? (CobaltUser) authentication.getPrincipal() : null;
     }
 
     public String getFirstName() {

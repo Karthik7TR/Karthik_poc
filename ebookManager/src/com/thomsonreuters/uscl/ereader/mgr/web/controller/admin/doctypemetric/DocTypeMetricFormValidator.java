@@ -8,15 +8,18 @@ import org.springframework.validation.Validator;
 
 @Component("docTypeMetricFormValidator")
 public class DocTypeMetricFormValidator extends BaseFormValidator implements Validator {
+
+    private final String MESSAGE_PROPERTY_NAME = "error.required";
+
     @Override
     public boolean supports(final Class<?> clazz) {
-        return (DocTypeMetricForm.class.isAssignableFrom(clazz));
+        return DocTypeMetricForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(final Object obj, final Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "error.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "thresholdValue", "error.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "thresholdPercent", "error.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", MESSAGE_PROPERTY_NAME);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "thresholdValue", MESSAGE_PROPERTY_NAME);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "thresholdPercent", MESSAGE_PROPERTY_NAME);
     }
 }

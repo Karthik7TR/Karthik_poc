@@ -72,7 +72,7 @@ public class BookAuditPaginatedList implements PaginatedList {
 
     @Override
     public SortOrderEnum getSortDirection() {
-        return (ascending) ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
+        return ascending ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
     }
 
     public boolean isAscendingSort() {

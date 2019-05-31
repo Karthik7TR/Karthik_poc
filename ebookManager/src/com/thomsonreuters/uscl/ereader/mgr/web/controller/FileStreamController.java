@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Controller used to stream files from NAS location to the web application.
  */
+
+@Slf4j
 @Controller
 public class FileStreamController {
-    private static final Logger log = LogManager.getLogger(AppExceptionController.class);
 
     @RequestMapping(value = WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
     public void getCoverImage(

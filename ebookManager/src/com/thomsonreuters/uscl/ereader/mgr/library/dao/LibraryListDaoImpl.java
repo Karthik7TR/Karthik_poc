@@ -103,12 +103,12 @@ public class LibraryListDaoImpl implements LibraryListDao {
         }
         if (StringUtils.isNotBlank(filter.getAction())) {
             final String action = filter.getAction();
-            if (action.equalsIgnoreCase("DELETED")) {
+            if ("DELETED".equalsIgnoreCase(action)) {
                 sql.append(String.format("(book.IS_DELETED_FLAG = '%s') and ", "Y"));
             } else {
                 final String flag;
 
-                if (action.equalsIgnoreCase("READY")) {
+                if ("READY".equalsIgnoreCase(action)) {
                     flag = "Y";
                 } else {
                     flag = "N";

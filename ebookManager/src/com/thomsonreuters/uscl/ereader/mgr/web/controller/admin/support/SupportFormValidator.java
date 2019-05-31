@@ -15,7 +15,7 @@ public class SupportFormValidator extends BaseFormValidator implements Validator
 
     @Override
     public boolean supports(final Class<?> clazz) {
-        return (SupportForm.class.isAssignableFrom(clazz));
+        return SupportForm.class.isAssignableFrom(clazz);
     }
 
     @Override

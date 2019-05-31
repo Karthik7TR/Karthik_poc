@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.util.StringUtils;
@@ -7,7 +9,10 @@ import org.springframework.util.StringUtils;
 /**
  * The form backing object that holds the data the user enters into the Audit book filter HTML form.
  */
-public class AdminAuditFilterForm {
+public class AdminAuditFilterForm implements Serializable {
+
+    private static final long serialVersionUID = -7115884046790747884L;
+
     public static final String FORM_NAME = "adminAuditFilterForm";
 
     //private static final Logger log = LogManager.getLogger(AdminAuditFilterForm.class);

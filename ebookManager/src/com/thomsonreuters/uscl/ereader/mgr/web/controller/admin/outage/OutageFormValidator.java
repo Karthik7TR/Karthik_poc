@@ -11,6 +11,7 @@ import org.springframework.validation.Validator;
 @Component("outageFormValidator")
 public class OutageFormValidator extends BaseFormValidator implements Validator {
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
+    private static final String FIELD_REQUIRED_ERROR_MESSAGE = "error.required.field";
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -22,15 +23,15 @@ public class OutageFormValidator extends BaseFormValidator implements Validator 
         final OutageForm form = (OutageForm) obj;
 
         ValidationUtils
-            .rejectIfEmptyOrWhitespace(errors, "outageTypeId", "error.required.field", new Object[] {"Outage Type"});
+            .rejectIfEmptyOrWhitespace(errors, "outageTypeId", FIELD_REQUIRED_ERROR_MESSAGE, new Object[] {"Outage Type"});
         ValidationUtils.rejectIfEmptyOrWhitespace(
             errors,
             "startTimeString",
             "error.required.field",
             new Object[] {"Start Date/Time"});
         ValidationUtils
-            .rejectIfEmptyOrWhitespace(errors, "endTimeString", "error.required.field", new Object[] {"End Date/Time"});
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "reason", "error.required.field", new Object[] {"Reason"});
+            .rejectIfEmptyOrWhitespace(errors, "endTimeString", FIELD_REQUIRED_ERROR_MESSAGE, new Object[] {"End Date/Time"});
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "reason", FIELD_REQUIRED_ERROR_MESSAGE, new Object[] {"Reason"});
 
         checkMaxLength(
             errors,

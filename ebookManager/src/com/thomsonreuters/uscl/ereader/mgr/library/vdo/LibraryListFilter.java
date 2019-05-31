@@ -57,6 +57,6 @@ public class LibraryListFilter {
     }
 
     private String clearWildcard(final String string) {
-        return (EMPTY.equals(string.replaceAll("%", EMPTY))) ? EMPTY : string;
+        return EMPTY.equals(string.replaceAll("%", EMPTY)) ? EMPTY : string;
     }
 }

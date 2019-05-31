@@ -13,10 +13,9 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapRdn;
@@ -26,8 +25,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 /**
  * Map the attributes for a Thomson Reuters LDAP user entry to a User object.
  */
+
+@Slf4j
 public class CobaltUserAttributesMapper implements AttributesMapper {
-    private static final Logger log = LogManager.getLogger(CobaltUserAttributesMapper.class);
     private static final String ATTR_COMMON_NAME = "cn";
     private static final String ATTR_EMAIL_ADDR = "mail";
     private static final String ATTR_FIRST_NAME = "givenName";
@@ -64,8 +64,7 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
         // Load the physical LDAP groups to then map them to logical roles/authorities
         final Collection<String> groups = loadLdapGroups(attributes);
         final Collection<GrantedAuthority> authorities = mapGroupsToRoles(groups);
-        final CobaltUser user = new CobaltUser(username, firstName, lastName, emailAddr, authorities);
-        return user;
+        return new CobaltUser(username, firstName, lastName, emailAddr, authorities);
     }
 
     private static String attrToString(final Attribute attr) throws NamingException {

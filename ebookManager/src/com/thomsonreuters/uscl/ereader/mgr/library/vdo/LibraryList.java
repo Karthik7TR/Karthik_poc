@@ -143,7 +143,7 @@ public class LibraryList implements Serializable {
     /**
      */
     public boolean getIsDeletedFlag() {
-        return ((isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+        return "Y".equalsIgnoreCase(isDeletedFlag);
     }
 
     public Date getLastPublishDate() {
@@ -181,7 +181,7 @@ public class LibraryList implements Serializable {
     /**
      */
     public boolean IsEbookDefinitionCompleteFlag() {
-        return ((ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
+        return "Y".equalsIgnoreCase(ebookDefinitionCompleteFlag);
     }
 
     /**

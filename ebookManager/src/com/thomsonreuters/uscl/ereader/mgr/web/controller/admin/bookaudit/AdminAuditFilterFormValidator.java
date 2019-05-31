@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 public class AdminAuditFilterFormValidator extends BaseFormValidator implements Validator {
     @Override
     public boolean supports(final Class<?> clazz) {
-        return (AdminAuditFilterForm.class.isAssignableFrom(clazz));
+        return AdminAuditFilterForm.class.isAssignableFrom(clazz);
     }
 
     @Override

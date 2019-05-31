@@ -45,36 +45,36 @@ public class GeneratorRestClientImpl implements GeneratorRestClient {
 
     @Override
     public SimpleRestServiceResponse restartJob(final long jobExecutionId) {
-        final SimpleRestServiceResponse response = restTemplate.getForObject(
+        return restTemplate.getForObject(
             GENERATOR_REST_RESTART_JOB_URL_PATTERN,
             SimpleRestServiceResponse.class,
             generatorContextUrl.toString(),
             jobExecutionId);
-        return response;
     }
 
     @Override
     public SimpleRestServiceResponse stopJob(final long jobExecutionId) {
-        final SimpleRestServiceResponse response = restTemplate.getForObject(
+        return restTemplate.getForObject(
             GENERATOR_REST_STOP_JOB_URL_PATTERN,
             SimpleRestServiceResponse.class,
             generatorContextUrl.toString(),
             jobExecutionId);
-        return response;
     }
 
     @Override
     public JobThrottleConfig getJobThrottleConfig() {
-        final JobThrottleConfig config = restTemplate
-            .getForObject(GENERATOR_GET_JOB_THROTTLE_CONFIG, JobThrottleConfig.class, generatorContextUrl.toString());
-        return config;
+        return restTemplate.getForObject(
+            GENERATOR_GET_JOB_THROTTLE_CONFIG,
+            JobThrottleConfig.class,
+            generatorContextUrl.toString());
     }
 
     @Override
     public MiscConfig getMiscConfig() {
-        final MiscConfig config =
-            restTemplate.getForObject(GENERATOR_GET_MISC_CONFIG, MiscConfig.class, generatorContextUrl.toString());
-        return config;
+        return restTemplate.getForObject(
+            GENERATOR_GET_MISC_CONFIG,
+            MiscConfig.class,
+            generatorContextUrl.toString());
     }
 
     @Override

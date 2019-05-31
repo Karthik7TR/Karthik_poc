@@ -12,7 +12,7 @@ import org.springframework.validation.Validator;
 public class BookAuditFilterFormValidator extends BaseFormValidator implements Validator {
     @Override
     public boolean supports(final Class<?> clazz) {
-        return (BookAuditFilterForm.class.isAssignableFrom(clazz));
+        return BookAuditFilterForm.class.isAssignableFrom(clazz);
     }
 
     @Override

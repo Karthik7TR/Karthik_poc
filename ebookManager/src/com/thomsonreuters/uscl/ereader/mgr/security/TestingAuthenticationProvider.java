@@ -31,19 +31,17 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
             return null;
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final UsernamePasswordAuthenticationToken authToken =
-            new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        return authToken;
+        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
     public static SecurityRole mapGroupFromUsername(final String name) {
         // Only allow this to work in Test, CI, and Workstation for testing purposes.
         if (environmentName != null
-            && (environmentName.equalsIgnoreCase("ci")
-                || environmentName.equalsIgnoreCase("cicontent")
-                || environmentName.equalsIgnoreCase("test")
-                || environmentName.equalsIgnoreCase("testcontent")
-                || environmentName.equalsIgnoreCase("workstation"))) {
+            && ("ci".equalsIgnoreCase(environmentName)
+                || "cicontent".equalsIgnoreCase(environmentName)
+                || "test".equalsIgnoreCase(environmentName)
+                || "testcontent".equalsIgnoreCase(environmentName)
+                || "workstation".equalsIgnoreCase(environmentName))) {
             if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
                 return SecurityRole.ROLE_GUEST;
             }
