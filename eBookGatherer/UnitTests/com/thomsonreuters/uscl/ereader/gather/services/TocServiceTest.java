@@ -439,6 +439,7 @@ public final class TocServiceTest {
         for (int i = 0; i < maxChildren; i++) {
             final TOCNode child = EasyMock.createMock(TOCNode.class);
             EasyMock.expect(child.getName()).andReturn("Child " + i + prefix).anyTimes();
+
             if (i == skipDoc) {
                 EasyMock.expect(child.getDocGuid()).andReturn(null).times(2);
             } else {
