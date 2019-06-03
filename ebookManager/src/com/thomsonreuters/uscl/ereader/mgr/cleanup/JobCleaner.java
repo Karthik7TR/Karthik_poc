@@ -1,12 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.cleanup;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
-@Component
 public class JobCleaner {
     private final ManagerService managerService;
     private final int cleanJobsGreaterThanThisManyDaysOld;
@@ -15,7 +12,6 @@ public class JobCleaner {
     private final int daysBeforeDocMetadataDelete;
     private final int cleanCwbFilesGreaterThanThisManyDaysOld;
 
-    @Autowired
     public JobCleaner(
             final ManagerService managerService,
             @Value("${cleanup.jobs.older.than.this.many.days.old}")final int cleanJobsGreaterThanThisManyDaysOld,

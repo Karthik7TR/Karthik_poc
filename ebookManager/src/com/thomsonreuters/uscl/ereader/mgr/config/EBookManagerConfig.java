@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import java.util.Arrays;
 
+import com.thomsonreuters.uscl.ereader.mgr.cleanup.JobCleaner;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -111,6 +113,18 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
     @Bean
     public DefaultAnnotationHandlerMapping defaultAnnotationHandlerMapping() {
         return new DefaultAnnotationHandlerMapping();
+    }
+
+    @Bean
+    public JobCleaner jobCleaner(final ManagerService managerService,
+                                 @Value("${cleanup.jobs.older.than.this.many.days.old}")final int cleanJobsGreaterThanThisManyDaysOld,
+                                 @Value("${clean.planned.outages.greater.than.this.many.days.old}")final int cleanPlannedOutagesGreaterThanThisManyDaysOld,
+                                 @Value("${number.last.major.version.kept}")final int numberLastMajorVersionKept,
+                                 @Value("${days.before.docmetadata.delete}")final int daysBeforeDocMetadataDelete,
+                                 @Value("${cleanup.cwb.files.older.than.this.many.days.old}")final int cleanCwbFilesGreaterThanThisManyDaysOld) {
+        return new JobCleaner(managerService, cleanJobsGreaterThanThisManyDaysOld,
+            cleanPlannedOutagesGreaterThanThisManyDaysOld, numberLastMajorVersionKept,
+            daysBeforeDocMetadataDelete, cleanCwbFilesGreaterThanThisManyDaysOld);
     }
 
 //    @Bean
