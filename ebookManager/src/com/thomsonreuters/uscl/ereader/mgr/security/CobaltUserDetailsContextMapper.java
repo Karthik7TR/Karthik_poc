@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
  * Delegates to a standard LDAP AttributesMapper to accomplish this.
  */
 @Component("userDetailsContextMapper")
-
 @Slf4j
 public class CobaltUserDetailsContextMapper implements UserDetailsContextMapper {
     private static final Logger log = LogManager.getLogger(CobaltUserDetailsContextMapper.class);

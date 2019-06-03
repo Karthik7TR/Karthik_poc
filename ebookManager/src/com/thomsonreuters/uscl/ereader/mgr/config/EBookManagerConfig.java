@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.cleanup.JobCleaner;
@@ -57,12 +58,6 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 //    @PropertySource("classpath:eBookManager.properties")
 //})
 public class EBookManagerConfig extends WebSecurityConfigurerAdapter {
-    @Value("#{${ldap.lds.config}}")
-    private  Map<String, String> ldsLdapConfig;
-    @Value("#{${ldap.tlr.config}}")
-    private  Map<String, String> tlrLdapConfig;
-    @Value("#{${ldap.ten.config}}")
-    private  Map<String, String> tenLdapConfig;
     @Autowired
     private UserDetailsContextMapper userDetailsContextMapper;
 
@@ -171,26 +166,24 @@ public class EBookManagerConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AttributesMapper cobaltUserAttributesMapper(@Qualifier("environmentName") final String environment,
-                                                       @Value("#{${prod.user.roles}}") final Map<String, String> productionGroupToRoleMap,
-                                                       @Value("#{${nonprod.user.roles}}") final Map<String, String> nonProductionGroupToRoleMap) {
-        return new CobaltUserAttributesMapper(environment, productionGroupToRoleMap, nonProductionGroupToRoleMap);
+    public AttributesMapper cobaltUserAttributesMapper() {
+        return new CobaltUserAttributesMapper(System.getProperty("environment"), productionGroupToRoleMap(), nonProductionGroupToRoleMap());
     }
 
     //Following beans should be moved to the EBookManagerAuthConfig
     @Bean
     public LdapContextSource ldsLdapContextSource() {
-        return createLdapContextSource(ldsLdapConfig);
+        return createLdapContextSource(ldsLdapConfig());
     }
 
     @Bean
     public LdapContextSource tlrLdapContextSource() {
-        return createLdapContextSource(tlrLdapConfig);
+        return createLdapContextSource(tlrLdapConfig());
     }
 
     @Bean
     public LdapContextSource tenLdapContextSource() {
-        return createLdapContextSource(tenLdapConfig);
+        return createLdapContextSource(tenLdapConfig());
     }
 
     private LdapContextSource createLdapContextSource(final Map<String, String> ldapConfig) {
@@ -352,5 +345,55 @@ public class EBookManagerConfig extends WebSecurityConfigurerAdapter {
         http.logout()
             .logoutUrl("/j_spring_security_logout")
             .logoutSuccessUrl("/afterLogout.mvc");
+    }
+
+    //it is in the properties file
+    private  Map<String, String> ldsLdapConfig() {
+        final Map<String, String> ldapConfig = new HashMap<>();
+        ldapConfig.put("url", "ldaps://lds.int.thomsonreuters.com:50001");
+        ldapConfig.put("base", "ou=Users,DC=lds,DC=thomsonreuters,DC=com");
+        ldapConfig.put("userDn", "CN=s.cobalt.ebookbuilder,OU=Service Accounts,DC=lds,DC=thomsonreuters,DC=com");
+        ldapConfig.put("password", "Iaw*:C@DAA");
+        return ldapConfig;
+    }
+
+    private  Map<String, String> tlrLdapConfig() {
+        final Map<String, String> ldapConfig = new HashMap<>();
+        ldapConfig.put("url", "ldap://tlradldap.int.westgroup.com:389");
+        ldapConfig.put("base", "ou=West-TLRCorp,dc=TLR,dc=Thomson,dc=com");
+        ldapConfig.put("userDn", "CN=svcCTWebSphere,OU=Service - Application Accounts,OU=Administrative Accounts,OU=West-TLRCorp Administration,OU=West-TLRCorp,DC=TLR,DC=Thomson,DC=com");
+        ldapConfig.put("password", "CodeDev3");
+        return ldapConfig;
+    }
+
+    private  Map<String, String> tenLdapConfig() {
+        final Map<String, String> ldapConfig = new HashMap<>();
+        ldapConfig.put("url", "ldap://tenadldap.int.thomsonreuters.com:389");
+        ldapConfig.put("base", "DC=ten,DC=thomsonreuters,DC=com");
+        ldapConfig.put("userDn", "CN=s.cobalt.ebookbuilder,OU=Service Accounts,OU=Admin,OU=MSP01,DC=ten,DC=thomsonreuters,DC=com");
+        ldapConfig.put("password", "Iaw*:C@DAA");
+        return ldapConfig;
+    }
+
+    private  Map<String, String> productionGroupToRoleMap() {
+        final Map<String, String> ldapConfig = new HashMap<>();
+        ldapConfig.put("P-West-EBOOKBUILDER_GUEST_PROD.*", "ROLE_GUEST");
+        ldapConfig.put("P-West-EBOOKBUILDER_EDITOR_PROD.*", "ROLE_EDITOR");
+        ldapConfig.put("P-West-EBOOKBUILDER_PUBLISHER_PROD.*", "ROLE_PUBLISHER");
+        ldapConfig.put("P-West-EBOOKBUILDER_PUBLISHER_PLUS_PROD.*", "ROLE_PUBLISHER_PLUS");
+        ldapConfig.put("P-West-EBOOKBUILDER_SUPERUSER_PROD.*", "ROLE_SUPERUSER");
+        ldapConfig.put("P-West-EBOOKBUILDER_SUPPORT_PROD.*", "ROLE_SUPPORT");
+        return ldapConfig;
+    }
+
+    private  Map<String, String> nonProductionGroupToRoleMap() {
+        final Map<String, String> ldapConfig = new HashMap<>();
+        ldapConfig.put("P-West-EBOOKBUILDER_GUEST_NONPROD.*", "ROLE_GUEST");
+        ldapConfig.put("P-West-EBOOKBUILDER_EDITOR_NONPROD.*", "ROLE_EDITOR");
+        ldapConfig.put("P-West-EBOOKBUILDER_PUBLISHER_NONPROD.*", "ROLE_PUBLISHER");
+        ldapConfig.put("P-West-EBOOKBUILDER_PUBLISHER_PLUS_NONPROD.*", "ROLE_PUBLISHER_PLUS");
+        ldapConfig.put("P-West-EBOOKBUILDER_SUPERUSER_NONPROD.*", "ROLE_SUPERUSER");
+        ldapConfig.put("P-West-EBOOKBUILDER_SUPPORT_NONPROD.*", "ROLE_SUPPORT");
+        return ldapConfig;
     }
 }
