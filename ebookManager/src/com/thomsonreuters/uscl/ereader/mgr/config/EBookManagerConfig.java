@@ -1,11 +1,14 @@
 package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.cleanup.JobCleaner;
+import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUserAttributesMapper;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,8 +17,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.ldap.core.AttributesMapper;
+import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -116,6 +122,23 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
+    public static PropertyPlaceholderConfigurer propertyConfigurer() {
+        final PropertyPlaceholderConfigurer propertyConfigurer = new PropertyPlaceholderConfigurer();
+        propertyConfigurer.setLocations(new ClassPathResource("spring/properties/default-spring.properties"),
+            new ClassPathResource(String.format("spring/properties/%s-spring.properties", System.getProperty("environment"))),
+            new ClassPathResource("eBookManager.properties"));
+        propertyConfigurer.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
+        return propertyConfigurer;
+    }
+
+    /*The following beans should be defined using java annotations
+     * currently it doesn't work since it can't read placeholder properties.
+     * Probably it should be fixed when we add @PropertySource annotation,
+     * but currently xmls in Core projects don't allow us to do this.
+     * However it does't work on the servers but on local machines it does.
+     * Investigation needed
+     */
+    @Bean
     public JobCleaner jobCleaner(final ManagerService managerService,
                                  @Value("${cleanup.jobs.older.than.this.many.days.old}")final int cleanJobsGreaterThanThisManyDaysOld,
                                  @Value("${clean.planned.outages.greater.than.this.many.days.old}")final int cleanPlannedOutagesGreaterThanThisManyDaysOld,
@@ -127,10 +150,35 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
             daysBeforeDocMetadataDelete, cleanCwbFilesGreaterThanThisManyDaysOld);
     }
 
-//    @Bean
-//    public static PropertyPlaceholderConfigurer propertyConfigurer() {
-//        final PropertyPlaceholderConfigurer propertyConfigurer = new PropertyPlaceholderConfigurer();
-//        propertyConfigurer.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
-//        return propertyConfigurer;
-//    }
+    @Bean
+    public AttributesMapper cobaltUserAttributesMapper(@Qualifier("environmentName") final String environment,
+                                                       @Value("#{${prod.user.roles}}") final Map<String, String> productionGroupToRoleMap,
+                                                       @Value("#{${nonprod.user.roles}}") final Map<String, String> nonProductionGroupToRoleMap) {
+        return new CobaltUserAttributesMapper(environment, productionGroupToRoleMap, nonProductionGroupToRoleMap);
+    }
+
+    //Following beans should be moved to the EBookManagerAuthConfig
+    @Bean
+    public LdapContextSource ldsLdapContextSource(@Value("#{${ldap.lds.config}}") final  Map<String, String> ldsLdapConfig) {
+        return createLdapContextSource(ldsLdapConfig);
+    }
+
+    @Bean
+    public LdapContextSource tlrLdapContextSource(@Value("#{${ldap.tlr.config}}") final Map<String, String> tlrLdapConfig) {
+        return createLdapContextSource(tlrLdapConfig);
+    }
+
+    @Bean
+    public LdapContextSource tenLdapContextSource(@Value("#{${ldap.ten.config}}") final Map<String, String> tenLdapConfig) {
+        return createLdapContextSource(tenLdapConfig);
+    }
+
+    private LdapContextSource createLdapContextSource(final Map<String, String> ldapConfig) {
+        final LdapContextSource source = new LdapContextSource();
+        source.setUrl(ldapConfig.get("url"));
+        source.setBase(ldapConfig.get("base"));
+        source.setUserDn(ldapConfig.get("userDn"));
+        source.setPassword(ldapConfig.get("password"));
+        return source;
+    }
 }
