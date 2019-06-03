@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +12,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -34,6 +32,11 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 @Import({EBookManagerSecurityConfig.class, EBookManagerJPAConfig.class, EBookManagerAuthConfig.class})
 @ImportResource({"classpath:spring/*.xml", "/WEB-INF/spring/*.xml"})
 @ComponentScan("com.thomsonreuters.uscl.ereader")
+//@PropertySources({
+//    @PropertySource("classpath:spring/properties/default-spring.properties"),
+//    @PropertySource("classpath:spring/properties/workstation-spring.properties"),
+//    @PropertySource("classpath:eBookManager.properties")
+//})
 public class EBookManagerConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter() {
@@ -110,14 +113,10 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
         return new DefaultAnnotationHandlerMapping();
     }
 
-    @Bean
-    public static PropertyPlaceholderConfigurer propertyConfigurer() {
-        final PropertyPlaceholderConfigurer propertyConfigurer = new PropertyPlaceholderConfigurer();
-        propertyConfigurer.setLocations(
-            new ClassPathResource("/spring/properties/default-spring.properties"),
-            new ClassPathResource("/spring/properties/workstation-spring.properties"),
-            new ClassPathResource("/eBookManager.properties"));
-        propertyConfigurer.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
-        return propertyConfigurer;
-    }
+//    @Bean
+//    public static PropertyPlaceholderConfigurer propertyConfigurer() {
+//        final PropertyPlaceholderConfigurer propertyConfigurer = new PropertyPlaceholderConfigurer();
+//        propertyConfigurer.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
+//        return propertyConfigurer;
+//    }
 }
