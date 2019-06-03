@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import com.thomsonreuters.uscl.ereader.mgr.security.TestingAuthenticationProvider;
 import com.thomsonreuters.uscl.ereader.mgr.security.TestingUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,25 +15,18 @@ import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
 @Configuration
 public class EBookManagerAuthConfig {
-    @Autowired
-    private LdapContextSource ldsLdapContextSource;
-    @Autowired
-    private LdapContextSource tlrLdapContextSource;
-    @Autowired
-    private LdapContextSource tenLdapContextSource;
-
     @Bean
-    public FilterBasedLdapUserSearch ldsLdapUserSearchFilter() {
+    public FilterBasedLdapUserSearch ldsLdapUserSearchFilter(@Qualifier("ldsLdapContextSource") final LdapContextSource ldsLdapContextSource) {
         return createFilterBasedLdapUserSearch(ldsLdapContextSource);
     }
 
     @Bean
-    public FilterBasedLdapUserSearch tlrLdapUserSearchFilter() {
+    public FilterBasedLdapUserSearch tlrLdapUserSearchFilter(@Qualifier("tlrLdapContextSource") final LdapContextSource tlrLdapContextSource) {
         return createFilterBasedLdapUserSearch(tlrLdapContextSource);
     }
 
     @Bean
-    public FilterBasedLdapUserSearch tenLdapUserSearchFilter() {
+    public FilterBasedLdapUserSearch tenLdapUserSearchFilter(@Qualifier("tenLdapContextSource") final LdapContextSource tenLdapContextSource) {
         return createFilterBasedLdapUserSearch(tenLdapContextSource);
     }
 
@@ -45,18 +37,18 @@ public class EBookManagerAuthConfig {
     }
 
     @Bean
-    public BindAuthenticator ldsBindAuthenticator() {
-        return createBindAuthenticator(ldsLdapContextSource, ldsLdapUserSearchFilter());
+    public BindAuthenticator ldsBindAuthenticator(@Qualifier("ldsLdapContextSource") final LdapContextSource ldsLdapContextSource) {
+        return createBindAuthenticator(ldsLdapContextSource, ldsLdapUserSearchFilter(ldsLdapContextSource));
     }
 
     @Bean
-    public BindAuthenticator tlrBindAuthenticator() {
-        return createBindAuthenticator(tlrLdapContextSource, tlrLdapUserSearchFilter());
+    public BindAuthenticator tlrBindAuthenticator(@Qualifier("tlrLdapContextSource") final LdapContextSource tlrLdapContextSource) {
+        return createBindAuthenticator(tlrLdapContextSource, tlrLdapUserSearchFilter(tlrLdapContextSource));
     }
 
     @Bean
-    public BindAuthenticator tenBindAuthenticator() {
-        return createBindAuthenticator(tenLdapContextSource, tenLdapUserSearchFilter());
+    public BindAuthenticator tenBindAuthenticator(@Qualifier("tenLdapContextSource") final LdapContextSource tenLdapContextSource) {
+        return createBindAuthenticator(tenLdapContextSource, tenLdapUserSearchFilter(tenLdapContextSource));
     }
 
     private BindAuthenticator createBindAuthenticator(final LdapContextSource ldapContextSource,
@@ -67,18 +59,21 @@ public class EBookManagerAuthConfig {
     }
 
     @Bean
-    public LdapAuthenticationProvider ldsLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper) {
-        return createLdapAuthenticationProvider(userDetailsContextMapper, ldsBindAuthenticator());
+    public LdapAuthenticationProvider ldsLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper,
+                                                                    @Qualifier("ldsLdapContextSource") final LdapContextSource ldsLdapContextSource) {
+        return createLdapAuthenticationProvider(userDetailsContextMapper, ldsBindAuthenticator(ldsLdapContextSource));
     }
 
     @Bean
-    public LdapAuthenticationProvider tlrLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper) {
-        return createLdapAuthenticationProvider(userDetailsContextMapper, tlrBindAuthenticator());
+    public LdapAuthenticationProvider tlrLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper,
+                                                                    @Qualifier("tlrLdapContextSource") final LdapContextSource tlrLdapContextSource) {
+        return createLdapAuthenticationProvider(userDetailsContextMapper, tlrBindAuthenticator(tlrLdapContextSource));
     }
 
     @Bean
-    public LdapAuthenticationProvider tenLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper) {
-        return createLdapAuthenticationProvider(userDetailsContextMapper, tenBindAuthenticator());
+    public LdapAuthenticationProvider tenLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper,
+                                                                    @Qualifier("tenLdapContextSource") final LdapContextSource tenLdapContextSource) {
+        return createLdapAuthenticationProvider(userDetailsContextMapper, tenBindAuthenticator(tenLdapContextSource));
     }
 
     private LdapAuthenticationProvider createLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper,
