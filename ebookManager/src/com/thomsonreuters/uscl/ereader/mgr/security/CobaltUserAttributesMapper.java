@@ -16,8 +16,6 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapRdn;
@@ -27,6 +25,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 /**
  * Map the attributes for a Thomson Reuters LDAP user entry to a User object.
  */
+
 @Slf4j
 public class CobaltUserAttributesMapper implements AttributesMapper {
     private static final String ATTR_COMMON_NAME = "cn";
@@ -37,7 +36,7 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
     private static final String ATTR_USERNAME = ATTR_COMMON_NAME;
 
     /** KEY=a regular expression for a physical LDAP group name, VALUE=logical role name (like ROLE_SUPERUSER) */
-    private final Map<String, String> groupToRoleMap;
+    private Map<String, String> groupToRoleMap;
 
     /**
      * Constructor for the LDAP user entry attribute mapper.  Maps the user entry into a POJO.  For group/role names,
@@ -46,10 +45,10 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
      * The key is a Java regular expression, the value is the corresponding role name for a match.
      */
     public CobaltUserAttributesMapper(
-            @Qualifier("environmentName") final String environment,
-            @Value("#{${prod.user.roles}}") final Map<String, String> productionGroupToRoleMap,
-            @Value("#{${nonprod.user.roles}}") final Map<String, String> nonProductionGroupToRoleMap) {
-        if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environment)) {
+        final String environmentName,
+        final Map<String, String> productionGroupToRoleMap,
+        final Map<String, String> nonProductionGroupToRoleMap) {
+        if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName)) {
             groupToRoleMap = productionGroupToRoleMap;
         } else {
             groupToRoleMap = nonProductionGroupToRoleMap;
