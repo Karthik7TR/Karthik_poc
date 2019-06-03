@@ -5,7 +5,10 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.cleanup.JobCleaner;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUserAttributesMapper;
+import com.thomsonreuters.uscl.ereader.mgr.security.TestingAuthenticationProvider;
+import com.thomsonreuters.uscl.ereader.mgr.security.TestingUserDetailsService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -23,9 +26,17 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.ldap.authentication.BindAuthenticator;
+import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
+import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
+import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
@@ -45,7 +56,16 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 //    @PropertySource("classpath:spring/properties/workstation-spring.properties"),
 //    @PropertySource("classpath:eBookManager.properties")
 //})
-public class EBookManagerConfig extends WebMvcConfigurerAdapter {
+public class EBookManagerConfig extends WebSecurityConfigurerAdapter {
+    @Value("#{${ldap.lds.config}}")
+    private  Map<String, String> ldsLdapConfig;
+    @Value("#{${ldap.tlr.config}}")
+    private  Map<String, String> tlrLdapConfig;
+    @Value("#{${ldap.ten.config}}")
+    private  Map<String, String> tenLdapConfig;
+    @Autowired
+    private UserDetailsContextMapper userDetailsContextMapper;
+
     @Bean
     public MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter() {
         return new MappingJackson2HttpMessageConverter();
@@ -159,17 +179,17 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
 
     //Following beans should be moved to the EBookManagerAuthConfig
     @Bean
-    public LdapContextSource ldsLdapContextSource(@Value("#{${ldap.lds.config}}") final  Map<String, String> ldsLdapConfig) {
+    public LdapContextSource ldsLdapContextSource() {
         return createLdapContextSource(ldsLdapConfig);
     }
 
     @Bean
-    public LdapContextSource tlrLdapContextSource(@Value("#{${ldap.tlr.config}}") final Map<String, String> tlrLdapConfig) {
+    public LdapContextSource tlrLdapContextSource() {
         return createLdapContextSource(tlrLdapConfig);
     }
 
     @Bean
-    public LdapContextSource tenLdapContextSource(@Value("#{${ldap.ten.config}}") final Map<String, String> tenLdapConfig) {
+    public LdapContextSource tenLdapContextSource() {
         return createLdapContextSource(tenLdapConfig);
     }
 
@@ -180,5 +200,157 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
         source.setUserDn(ldapConfig.get("userDn"));
         source.setPassword(ldapConfig.get("password"));
         return source;
+    }
+
+    @Bean
+    public FilterBasedLdapUserSearch ldsLdapUserSearchFilter() {
+        return createFilterBasedLdapUserSearch(ldsLdapContextSource());
+    }
+
+    @Bean
+    public FilterBasedLdapUserSearch tlrLdapUserSearchFilter() {
+        return createFilterBasedLdapUserSearch(tlrLdapContextSource());
+    }
+
+    @Bean
+    public FilterBasedLdapUserSearch tenLdapUserSearchFilter() {
+        return createFilterBasedLdapUserSearch(tenLdapContextSource());
+    }
+
+    private FilterBasedLdapUserSearch createFilterBasedLdapUserSearch(final LdapContextSource ldapContextSource) {
+        final FilterBasedLdapUserSearch filterBasedLdapUserSearch = new FilterBasedLdapUserSearch("", "(cn={0})", ldapContextSource);
+        filterBasedLdapUserSearch.setSearchTimeLimit(15000);
+        return filterBasedLdapUserSearch;
+    }
+
+    @Bean
+    public BindAuthenticator ldsBindAuthenticator() {
+        return createBindAuthenticator(ldsLdapContextSource(), ldsLdapUserSearchFilter());
+    }
+
+    @Bean
+    public BindAuthenticator tlrBindAuthenticator() {
+        return createBindAuthenticator(tlrLdapContextSource(), tlrLdapUserSearchFilter());
+    }
+
+    @Bean
+    public BindAuthenticator tenBindAuthenticator() {
+        return createBindAuthenticator(tenLdapContextSource(), tenLdapUserSearchFilter());
+    }
+
+    private BindAuthenticator createBindAuthenticator(final LdapContextSource ldapContextSource,
+                                                      final FilterBasedLdapUserSearch filterBasedLdapUserSearch) {
+        final BindAuthenticator bindAuthenticator = new BindAuthenticator(ldapContextSource);
+        bindAuthenticator.setUserSearch(filterBasedLdapUserSearch);
+        return bindAuthenticator;
+    }
+
+    @Bean
+    public LdapAuthenticationProvider ldsLdapAuthenticationProvider() {
+        return createLdapAuthenticationProvider(userDetailsContextMapper, ldsBindAuthenticator());
+    }
+
+    @Bean
+    public LdapAuthenticationProvider tlrLdapAuthenticationProvider() {
+        return createLdapAuthenticationProvider(userDetailsContextMapper, tlrBindAuthenticator());
+    }
+
+    @Bean
+    public LdapAuthenticationProvider tenLdapAuthenticationProvider() {
+        return createLdapAuthenticationProvider(userDetailsContextMapper, tenBindAuthenticator());
+    }
+
+    private LdapAuthenticationProvider createLdapAuthenticationProvider(final UserDetailsContextMapper userDetailsContextMapper,
+                                                                        final BindAuthenticator bindAuthenticator) {
+        final LdapAuthenticationProvider ldsLdapAuthenticationProvider = new LdapAuthenticationProvider(bindAuthenticator);
+        ldsLdapAuthenticationProvider.setUserDetailsContextMapper(userDetailsContextMapper);
+        return ldsLdapAuthenticationProvider;
+    }
+
+    /*TESTING ONLY - NOT FOR PRODUCTION*/
+    @Bean
+    public UserDetailsService testingUserDetailsService() {
+        return new TestingUserDetailsService();
+    }
+
+    @Bean
+    public AuthenticationProvider testingAuthenticationProvider(@Qualifier("environmentName") final String environment) {
+        final TestingAuthenticationProvider authenticationProvider = new TestingAuthenticationProvider();
+        TestingAuthenticationProvider.setEnvironmentName(environment);
+        authenticationProvider.setUserDetailsService(testingUserDetailsService());
+        return authenticationProvider;
+    }
+
+    //Should be in eBookManagerSecurityConfig
+    @Override
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(ldsLdapAuthenticationProvider())
+            .authenticationProvider(testingAuthenticationProvider(System.getProperty("environment")));
+    }
+
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http.csrf().disable();
+        http.exceptionHandling().accessDeniedPage("/accessDenied.mvc");
+
+        http.formLogin().loginPage("/login.mvc")
+            .failureUrl("/loginFail.mvc")
+            .defaultSuccessUrl("/afterAuthentication.mvc", true);
+
+        http.authorizeRequests()
+            .antMatchers("/js/**",
+                         "/theme/**",
+                         "/service/**",
+                         "/smokeTest.mvc",
+                         "/login.mvc",
+                         "/loginFail.mvc",
+                         "/accessDenied.mvc",
+                         "/afterLogout.mvc",
+                         "/dismissOutage.mvc")
+            .permitAll()
+
+            .antMatchers("/bookDefinitionDelete.mvc",
+                         "/bookDefinitionRestore.mvc",
+                         "/adminJuris*",
+                         "/adminPublish*",
+                         "/adminState*",
+                         "/adminKeyword*",
+                         "/adminBookLock*",
+                         "/adminMisc*",
+                         "/adminAuditBook*",
+                         "/adminQualityReportsView*",
+                         "/adminDocTypeMetricView.mvc",
+                         "/adminDocTypeMetricEdit*",
+                         "/proviewGroupDefinitionEdit.mvc",
+                         "/proviewTitleRemove*",
+                         "/proviewTitleDelete*")
+            .hasRole("SUPERUSER")
+
+            .antMatchers("/adminMain.mvc",
+                         "/adminOutage*",
+                         "/adminSupport*",
+                         "/adminStartGenerator*",
+                         "/adminStopGenerator*",
+                         "/adminJobThrottleConfig.mvc")
+            .hasAnyRole("SUPPORT", "SUPERUSER")
+
+            .antMatchers("/bookDefinitionCreate.mvc",
+                         "/bookDefinitionCopy.mvc",
+                         "/generateEbookPreview.mvc",
+                         "/generateBulkEbookPreview.mvc")
+            .hasAnyRole("PUBLISHER", "PUBLISHER_PLUS", "SUPERUSER")
+
+            .antMatchers("/proviewTitlePromote*")
+            .hasAnyRole("PUBLISHER_PLUS", "SUPERUSER")
+
+            .antMatchers("/bookDefinitionEdit.mvc")
+            .hasAnyRole("EDITOR", "PUBLISHER", "PUBLISHER_PLUS", "SUPERUSER")
+
+            .antMatchers("/**")
+            .fullyAuthenticated();
+
+        http.logout()
+            .logoutUrl("/j_spring_security_logout")
+            .logoutSuccessUrl("/afterLogout.mvc");
     }
 }
