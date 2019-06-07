@@ -231,7 +231,7 @@ public final class SendQualityReportsStepIntegrationTest {
             final AppParameter appParameter = new AppParameter();
             appParameter.setKey(parameterKey);
             appParameter.setValue("true");
-            given(appParameterDaoMock.findByPrimaryKey(parameterKey)).willReturn(appParameter);
+            given(appParameterDaoMock.findOne(parameterKey)).willReturn(appParameter);
             return appParameterDaoMock;
         }
     }

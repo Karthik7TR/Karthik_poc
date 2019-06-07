@@ -3,17 +3,13 @@ package com.thomsonreuters.uscl.ereader.support.dao;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * DAO to manage SupportPageLink entities.
  *
  */
-public interface SupportPageLinkDao {
-    void save(SupportPageLink spl);
+public interface SupportPageLinkDao extends JpaRepository<SupportPageLink, Long> {
 
-    void delete(SupportPageLink spl);
-
-    SupportPageLink findByPrimaryKey(Long id);
-
-    List<SupportPageLink> findAllSupportPageLink();
+    List<SupportPageLink> findAllByOrderByLinkDescriptionDesc();
 }

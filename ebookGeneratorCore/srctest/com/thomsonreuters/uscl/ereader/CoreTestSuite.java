@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoTest;
-import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceTest;
@@ -29,7 +28,6 @@ import org.junit.runners.Suite.SuiteClasses;
     FileExtensionFilterTest.class,
     FileHandlingHelperTest.class,
     com.thomsonreuters.uscl.ereader.jaxb.JAXBMarshallingTest.class,
-    CodeDaoTest.class,
     CodeServiceTest.class,
     EmailUtilTest.class,
     ProviewClientImplTest.class,

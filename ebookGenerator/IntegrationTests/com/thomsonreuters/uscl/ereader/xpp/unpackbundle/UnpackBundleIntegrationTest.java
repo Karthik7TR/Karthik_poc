@@ -16,8 +16,6 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
-import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
@@ -140,9 +138,5 @@ public final class UnpackBundleIntegrationTest {
             return new XppBundleArchiveService(null);
         }
 
-        @Bean
-        public XppBundleArchiveDao xppBundleArchiveDao() {
-            return new XppBundleArchiveDaoImpl(null);
-        }
     }
 }

@@ -71,7 +71,7 @@ public class AppConfigServiceImpl implements AppConfigService {
     @Override
     @Transactional(readOnly = true)
     public String getConfigValue(final String key) {
-        final AppParameter param = (AppParameter) dao.findByPrimaryKey(key);
+        final AppParameter param = dao.findOne(key);
         return (param != null) ? param.getValue() : null;
     }
 

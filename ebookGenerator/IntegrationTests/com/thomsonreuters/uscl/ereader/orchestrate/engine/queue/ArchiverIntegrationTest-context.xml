@@ -88,10 +88,6 @@
           p:appParameterDao-ref="appParameterDao"
           p:defaultProviewHostname="${proview.host}"
           p:defaultNovusEnvironment="${novus.environment}"/>
-          
-    <bean id="appParameterDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDaoImpl">
-        <constructor-arg ref="sessionFactory"/>
-    </bean>
     
         <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>

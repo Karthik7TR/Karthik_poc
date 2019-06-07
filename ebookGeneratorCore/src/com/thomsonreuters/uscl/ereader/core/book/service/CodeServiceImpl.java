@@ -25,7 +25,7 @@ public class CodeServiceImpl implements CodeService {
     @Override
     @Transactional(readOnly = true)
     public List<PubTypeCode> getAllPubTypeCodes() {
-        return dao.getAllPubTypeCodes();
+        return dao.findAllByOrderByNameAsc();
     }
 
     /**
@@ -36,7 +36,7 @@ public class CodeServiceImpl implements CodeService {
     @Override
     @Transactional(readOnly = true)
     public PubTypeCode getPubTypeCodeById(final Long pubTypeCodeId) {
-        return dao.getPubTypeCodeById(pubTypeCodeId);
+        return dao.findOne(pubTypeCodeId);
     }
 
     /**
@@ -47,7 +47,7 @@ public class CodeServiceImpl implements CodeService {
     @Override
     @Transactional(readOnly = true)
     public PubTypeCode getPubTypeCodeByName(final String pubTypeCodeName) {
-        return dao.getPubTypeCodeByName(pubTypeCodeName);
+        return dao.findFirstByNameIgnoreCase(pubTypeCodeName);
     }
 
     /**
@@ -59,7 +59,7 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public void savePubTypeCode(final PubTypeCode pubTypeCode) {
         pubTypeCode.setLastUpdated(new Date());
-        dao.savePubTypeCode(pubTypeCode);
+        dao.save(pubTypeCode);
     }
 
     /**
@@ -70,6 +70,6 @@ public class CodeServiceImpl implements CodeService {
     @Override
     @Transactional
     public void deletePubTypeCode(final PubTypeCode pubTypeCode) {
-        dao.deletePubTypeCode(pubTypeCode);
+        dao.delete(pubTypeCode);
     }
 }

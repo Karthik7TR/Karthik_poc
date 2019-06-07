@@ -1,11 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AppParameterDao {
-    AppParameter findByPrimaryKey(String key);
+public interface AppParameterDao extends JpaRepository<AppParameter, String> {
 
-    void save(AppParameter param);
-
-    void delete(AppParameter param);
 }

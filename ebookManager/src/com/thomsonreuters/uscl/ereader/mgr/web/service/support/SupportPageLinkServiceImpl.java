@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service.support;
 
+import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDao;
@@ -24,6 +25,7 @@ public class SupportPageLinkServiceImpl implements SupportPageLinkService {
     @Override
     @Transactional
     public void save(final SupportPageLink spl) {
+        spl.setLastUpdated(new Date());
         dao.save(spl);
     }
 
@@ -36,12 +38,12 @@ public class SupportPageLinkServiceImpl implements SupportPageLinkService {
     @Override
     @Transactional(readOnly = true)
     public SupportPageLink findByPrimaryKey(final Long id) {
-        return dao.findByPrimaryKey(id);
+        return dao.findOne(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<SupportPageLink> findAllSupportPageLink() {
-        return dao.findAllSupportPageLink();
+        return dao.findAllByOrderByLinkDescriptionDesc();
     }
 }

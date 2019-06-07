@@ -27,7 +27,7 @@ public final class CodeServiceTest {
 
     @Test
     public void testGetPubTypeCode() {
-        EasyMock.expect(mockCodeDao.getPubTypeCodeById(PUB_TYPE_CODES_ID)).andReturn(PUB_TYPE_CODE);
+        EasyMock.expect(mockCodeDao.findOne(PUB_TYPE_CODES_ID)).andReturn(PUB_TYPE_CODE);
         EasyMock.replay(mockCodeDao);
         final PubTypeCode actual = service.getPubTypeCodeById(PUB_TYPE_CODES_ID);
         Assert.assertEquals(PUB_TYPE_CODE, actual);
@@ -37,7 +37,7 @@ public final class CodeServiceTest {
     @Test
     public void testGetAllPubTypeCodes() {
         ALL_PUB_TYPE_CODES.add(PUB_TYPE_CODE);
-        EasyMock.expect(mockCodeDao.getAllPubTypeCodes()).andReturn(ALL_PUB_TYPE_CODES);
+        EasyMock.expect(mockCodeDao.findAllByOrderByNameAsc()).andReturn(ALL_PUB_TYPE_CODES);
         EasyMock.replay(mockCodeDao);
         final List<PubTypeCode> actual = service.getAllPubTypeCodes();
         final List<PubTypeCode> expected = new ArrayList<>();

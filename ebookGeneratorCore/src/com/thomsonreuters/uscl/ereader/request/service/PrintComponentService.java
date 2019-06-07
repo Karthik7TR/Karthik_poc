@@ -10,33 +10,33 @@ import org.springframework.transaction.annotation.Transactional;
 public class PrintComponentService {
     private PrintComponentDao printComponentDao;
 
+    public PrintComponentService(PrintComponentDao printComponentDao) {
+        this.printComponentDao = printComponentDao;
+    }
+
     @Transactional
-    public Long saveRequest(final PrintComponent ebookRequest) {
-        return printComponentDao.saveRequest(ebookRequest);
+    public PrintComponent saveRequest(final PrintComponent ebookRequest) {
+        return printComponentDao.save(ebookRequest);
     }
 
     public PrintComponent findByPrimaryKey(final long printComponentId) {
-        return printComponentDao.findByPrimaryKey(printComponentId);
+        return printComponentDao.findOne(printComponentId);
     }
 
     @Transactional
     public void deleteComponent(final long printComponentId) {
-        printComponentDao.deleteComponent(printComponentId);
+        printComponentDao.delete(printComponentId);
     }
 
     public PrintComponent findByComponentName(final String messageId) {
-        return printComponentDao.findByComponentName(messageId);
+        return printComponentDao.findFirstByComponentName(messageId);
     }
 
     public PrintComponent findByMaterialNumber(final String materialNumber) {
-        return printComponentDao.findByMaterialNumber(materialNumber);
+        return printComponentDao.findFirstByMaterialNumber(materialNumber);
     }
 
     public List<PrintComponent> findAllRequests() {
-        return printComponentDao.findAllRequests();
-    }
-
-    public void setPrintComponentDao(final PrintComponentDao dao) {
-        printComponentDao = dao;
+        return printComponentDao.findAll();
     }
 }

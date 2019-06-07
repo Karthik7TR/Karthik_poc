@@ -87,18 +87,18 @@ public final class RetrieveBundleTaskTest {
             "ThisIsTheHash",
             new Date(1487201107046L),
             ebookBundle.getAbsolutePath());
-
+        expected.setXppBundleArchiveId(1L);
         mockGetJobParameters(mockChunkContext, mockJobParameters);
         EasyMock.expect(mockJobParameters.getString(JobParameterKey.ENVIRONMENT_NAME)).andReturn("AutomatedTest");
 
         mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
         EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE)).andReturn(expected);
 
-        EasyMock.expect(mockArchiveDao.findByRequestId("ThisIsAnId")).andReturn(null);
+        EasyMock.expect(mockArchiveDao.findFirstByMessageId("ThisIsAnId")).andReturn(null);
 
         mockValidator.validate(EasyMock.and(EasyMock.capture(capturedRequest), EasyMock.isA(XppBundleArchive.class)));
 
-        EasyMock.expect(mockArchiveDao.saveRequest(expected)).andReturn(1L);
+        EasyMock.expect(mockArchiveDao.save(expected)).andReturn(expected);
         replayAll();
         try {
             exitCode = tasklet.executeStep(mockContribution, mockChunkContext);
@@ -130,7 +130,7 @@ public final class RetrieveBundleTaskTest {
         mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
         EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE)).andReturn(bundle);
 
-        EasyMock.expect(mockArchiveDao.findByRequestId("ThisIsAnId")).andReturn(bundle);
+        EasyMock.expect(mockArchiveDao.findFirstByMessageId("ThisIsAnId")).andReturn(bundle);
 
         replayAll();
         try {

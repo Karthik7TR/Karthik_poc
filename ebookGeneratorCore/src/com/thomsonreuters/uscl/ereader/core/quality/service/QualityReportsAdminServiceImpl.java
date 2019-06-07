@@ -28,7 +28,7 @@ public class QualityReportsAdminServiceImpl implements QualityReportsAdminServic
     @Override
     @Transactional(readOnly = true)
     public QualityReportParams getParams() {
-        final boolean qualityStepEnabled = Optional.ofNullable(appParameterDao.findByPrimaryKey(QUALITY_STEP_ENABLED_PROP_KEY))
+        final boolean qualityStepEnabled = Optional.ofNullable(appParameterDao.findOne(QUALITY_STEP_ENABLED_PROP_KEY))
             .map(AppParameter::getValue)
             .map(Boolean::parseBoolean)
             .orElse(true);

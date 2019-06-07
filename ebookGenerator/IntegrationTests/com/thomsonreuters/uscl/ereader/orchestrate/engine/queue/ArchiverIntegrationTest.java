@@ -80,7 +80,7 @@ public final class ArchiverIntegrationTest {
 
     private void validateRetrieveBundleTask(final String mesageUuid) {
         try {
-            final XppBundleArchive dup = bundleArchiveDao.findByRequestId(mesageUuid);
+            final XppBundleArchive dup = bundleArchiveDao.findFirstByMessageId(mesageUuid);
             assertNotNull(dup);
         } catch (final Exception e) {
             e.printStackTrace();

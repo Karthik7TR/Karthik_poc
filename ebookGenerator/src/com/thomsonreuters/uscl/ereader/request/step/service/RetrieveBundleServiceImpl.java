@@ -61,7 +61,7 @@ public class RetrieveBundleServiceImpl implements RetrieveBundleService {
     }
 
     private void invalidateDuplicateRequest(@NotNull final XppBundleArchive request) throws XppMessageException {
-        final XppBundleArchive dup = xppBundleArchiveDao.findByRequestId(request.getMessageId());
+        final XppBundleArchive dup = xppBundleArchiveDao.findFirstByMessageId(request.getMessageId());
         if (dup != null) {
             final String message = dup.isSimilar(request) ? XPPConstants.ERROR_DUPLICATE_REQUEST + request
                 : "non-identical duplicate request received";
@@ -70,7 +70,7 @@ public class RetrieveBundleServiceImpl implements RetrieveBundleService {
     }
 
     private void archiveRequest(@NotNull final XppBundleArchive request) {
-        final long pk = xppBundleArchiveDao.saveRequest(request);
+        final long pk = xppBundleArchiveDao.save(request).getXppBundleArchiveId();
         request.setXppBundleArchiveId(pk);
     }
 }

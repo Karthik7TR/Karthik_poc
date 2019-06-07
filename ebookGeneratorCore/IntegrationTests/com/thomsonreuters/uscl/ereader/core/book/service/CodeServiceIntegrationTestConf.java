@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 import com.thomsonreuters.uscl.ereader.config.AbstractDatabaseIntegrationTestConfig;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
-import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.KeywordTypeCodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.KeywordTypeValueDao;
 import org.springframework.context.annotation.Bean;
@@ -25,16 +24,6 @@ public class CodeServiceIntegrationTestConf extends AbstractDatabaseIntegrationT
     }
 
     @Bean
-    public CodeDao codeDao() {
-        return new CodeDaoImpl(sessionFactory());
-    }
-
-    @Bean
-    public CodeService codeService() {
-        return new CodeServiceImpl(codeDao());
-    }
-
-    @Bean
     public KeywordTypeCodeSevice keywordTypeCodeSevice(
         final KeywordTypeCodeDao keywordTypeCodeDao,
         final BookDao bookDao) {
@@ -47,5 +36,10 @@ public class CodeServiceIntegrationTestConf extends AbstractDatabaseIntegrationT
         final KeywordTypeCodeDao keywordTypeCodeDao,
         final BookDao bookDao) {
         return new KeywordTypeValueServiceImpl(keywordTypeValueDao, keywordTypeCodeDao, bookDao);
+    }
+
+    @Bean
+    public CodeService codeService(CodeDao codeDao) {
+        return new CodeServiceImpl(codeDao);
     }
 }

@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
+import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

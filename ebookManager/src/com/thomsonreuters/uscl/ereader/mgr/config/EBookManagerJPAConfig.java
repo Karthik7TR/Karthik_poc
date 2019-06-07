@@ -21,8 +21,6 @@ import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListRowMapper;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.author.AuthorService;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
-import com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDao;
-import com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDaoImpl;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
 import org.hibernate.SessionFactory;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -63,10 +61,6 @@ public class EBookManagerJPAConfig extends CommonJPAConfig {
         return new BookDefinitionLockDaoImpl(sessionFactory);
     }
 
-    @Bean
-    public SupportPageLinkDao supportPageLinkDao(final SessionFactory sessionFactory) {
-        return new SupportPageLinkDaoImpl(sessionFactory);
-    }
 
     @Bean
     public ManagerDao managerDao(final SessionFactory sessionFactory, final JdbcTemplate jdbcTemplate,

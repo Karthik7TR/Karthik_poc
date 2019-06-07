@@ -60,7 +60,7 @@ public final class QualityReportsAdminServiceImplTest {
     public void shouldReturnEnabledFlagParamIsTrue() {
         //given
         given(appParameter.getValue()).willReturn("true");
-        given(appParameterDao.findByPrimaryKey("QualityStepEnabled")).willReturn(appParameter);
+        given(appParameterDao.findOne("QualityStepEnabled")).willReturn(appParameter);
 
         //when
         final QualityReportParams params = sut.getParams();
@@ -74,7 +74,7 @@ public final class QualityReportsAdminServiceImplTest {
     public void shouldReturnDisabledFlagParamIsFalse() {
         //given
         given(appParameter.getValue()).willReturn("false");
-        given(appParameterDao.findByPrimaryKey("QualityStepEnabled")).willReturn(appParameter);
+        given(appParameterDao.findOne("QualityStepEnabled")).willReturn(appParameter);
 
         //when
         final QualityReportParams params = sut.getParams();

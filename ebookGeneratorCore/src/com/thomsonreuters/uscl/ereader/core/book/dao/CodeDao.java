@@ -3,39 +3,10 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CodeDao {
-    /**
-     * Get all the PubType codes from the PUB_TYPE_CODES table
-     * @return a list of PubType objects
-     */
-    List<PubTypeCode> getAllPubTypeCodes();
+public interface CodeDao extends JpaRepository<PubTypeCode, Long> {
+    List<PubTypeCode> findAllByOrderByNameAsc();
 
-    /**
-     * Get a PubType Code from the PUB_TYPE_CODES table that match PUB_TYPE_CODES_ID
-     * @param pubTypeCodeId
-     * @return
-     */
-    PubTypeCode getPubTypeCodeById(Long pubTypeCodeId);
-
-    /**
-     * Get a PubType Code from the PUB_TYPE_CODES table that match PUB_TYPE_CODES_NAME
-     * @param pubTypeCodeName
-     * @return
-     */
-    PubTypeCode getPubTypeCodeByName(String pubTypeCodeName);
-
-    /**
-     * Create or Update a PubType Code to the PUB_TYPE_CODES table
-     * @param pubTypeCode
-     * @return
-     */
-    void savePubTypeCode(PubTypeCode pubTypeCode);
-
-    /**
-     * Delete a PubType Code in the PUB_TYPE_CODES table
-     * @param pubTypeCode
-     * @return
-     */
-    void deletePubTypeCode(PubTypeCode pubTypeCode);
+    PubTypeCode findFirstByNameIgnoreCase(String pubTypeCodeName);
 }

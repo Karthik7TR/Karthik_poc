@@ -20,31 +20,31 @@ public class XppBundleArchiveService {
 
     @Transactional
     public Long saveRequest(final XppBundleArchive ebookRequest) {
-        return xppBundleArchiveDao.saveRequest(ebookRequest);
+        return xppBundleArchiveDao.save(ebookRequest).getXppBundleArchiveId();
     }
 
     public XppBundleArchive findByPrimaryKey(final long ebookRequestId) {
-        return xppBundleArchiveDao.findByPrimaryKey(ebookRequestId);
+        return xppBundleArchiveDao.findOne(ebookRequestId);
     }
 
     @Transactional
     public void deleteRequest(final long ebookRequestId) {
-        xppBundleArchiveDao.deleteRequest(ebookRequestId);
+        xppBundleArchiveDao.delete(ebookRequestId);
     }
 
     public XppBundleArchive findByRequestId(final String requestId) {
-        return xppBundleArchiveDao.findByRequestId(requestId);
+        return xppBundleArchiveDao.findFirstByMessageId(requestId);
     }
 
     public XppBundleArchive findByMaterialNumber(final String materialNumber) {
-        return xppBundleArchiveDao.findByMaterialNumber(materialNumber);
+        return xppBundleArchiveDao.findFirstByMaterialNumberOrderByDateTimeDesc(materialNumber);
     }
 
     public List<XppBundleArchive> findAllRequests() {
-        return xppBundleArchiveDao.findAllRequests();
+        return xppBundleArchiveDao.findAll();
     }
 
     public List<XppBundleArchive> findByMaterialNumberList(final List<String> sourceMaterialNumberList) {
-        return xppBundleArchiveDao.findByMaterialNumberList(sourceMaterialNumberList);
+        return xppBundleArchiveDao.findByMaterialNumberIn(sourceMaterialNumberList);
     }
 }

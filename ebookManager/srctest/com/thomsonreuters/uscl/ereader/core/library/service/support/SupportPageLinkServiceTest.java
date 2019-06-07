@@ -30,7 +30,7 @@ public final class SupportPageLinkServiceTest {
 
     @Test
     public void testFindByPrimaryKey() {
-        EasyMock.expect(mockDao.findByPrimaryKey(SUPPORT_PAGE_LINK_ID)).andReturn(SUPPORT_PAGE_LINK);
+        EasyMock.expect(mockDao.findOne(SUPPORT_PAGE_LINK_ID)).andReturn(SUPPORT_PAGE_LINK);
         EasyMock.replay(mockDao);
         final SupportPageLink actual = service.findByPrimaryKey(SUPPORT_PAGE_LINK_ID);
         Assert.assertEquals(SUPPORT_PAGE_LINK, actual);
@@ -40,7 +40,7 @@ public final class SupportPageLinkServiceTest {
     @Test
     public void testFindAllSupportPageLinks() {
         ALL_SUPPORT_PAGE_LINK.add(SUPPORT_PAGE_LINK);
-        EasyMock.expect(mockDao.findAllSupportPageLink()).andReturn(ALL_SUPPORT_PAGE_LINK);
+        EasyMock.expect(mockDao.findAllByOrderByLinkDescriptionDesc()).andReturn(ALL_SUPPORT_PAGE_LINK);
         EasyMock.replay(mockDao);
         final List<SupportPageLink> actual = service.findAllSupportPageLink();
         final List<SupportPageLink> expected = new ArrayList<>();

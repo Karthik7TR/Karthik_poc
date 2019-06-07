@@ -11,8 +11,6 @@ import javax.sql.DataSource;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl;
-import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
-import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
@@ -40,8 +38,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDaoImpl;
-import com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDao;
-import com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDao;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
@@ -55,8 +51,6 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.proviewaudit.dao.ProviewAuditDao;
 import com.thomsonreuters.uscl.ereader.proviewaudit.dao.ProviewAuditDaoImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
-import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
-import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponentHistory;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
@@ -198,10 +192,6 @@ public abstract class CommonJPAConfig {
     /*
      * Repository beans for eBookManager and eBookGenerator
      */
-    @Bean
-    public AppParameterDao appParameterDao(final SessionFactory sessionFactory) {
-        return new AppParameterDaoImpl(sessionFactory);
-    }
 
     @Bean
     public BookDefinitionDao bookDefinitionDao(final SessionFactory sessionFactory) {
@@ -213,10 +203,6 @@ public abstract class CommonJPAConfig {
         return new StateCodeDaoImpl(sessionFactory);
     }
 
-    @Bean
-    public CodeDao codeDao(final SessionFactory sessionFactory) {
-        return new CodeDaoImpl(sessionFactory);
-    }
 
     @Bean
     public PublishingStatsDao publishingStatsDao(final SessionFactory sessionFactory) {
@@ -248,8 +234,4 @@ public abstract class CommonJPAConfig {
         return new OutageDaoImpl(sessionFactory);
     }
 
-    @Bean
-    public XppBundleArchiveDao xppBundleArchiveDao(final SessionFactory sessionFactory) {
-        return new XppBundleArchiveDaoImpl(sessionFactory);
-    }
 }
