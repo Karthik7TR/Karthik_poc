@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServ
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -22,9 +21,9 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+
+@Slf4j
 public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
-    //TODO: Use logger API to get Logger instance to job-specific appender.
-    private static final Logger LOG = LogManager.getLogger(GenerateFrontMatterHTMLPages.class);
     private CreateFrontMatterService frontMatterService;
 
     private PublishingStatsService publishingStatsService;
@@ -56,7 +55,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
             frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition);
         } catch (final Exception e) {
             publishStatus = "generateFrontMatterHTML : Failed";
-            throw (e);
+            throw e;
         } finally {
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobInstance);
@@ -68,7 +67,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
         final long elapsedTime = endTime - startTime;
 
         //TODO: Improve metrics
-        LOG.debug("Generated all the Front Matter HTML pages in " + elapsedTime + " milliseconds");
+        log.debug("Generated all the Front Matter HTML pages in " + elapsedTime + " milliseconds");
 
         return ExitStatus.COMPLETED;
     }

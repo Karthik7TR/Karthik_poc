@@ -9,9 +9,8 @@ import com.thomsonreuters.uscl.ereader.gather.img.util.NovusImageMetadataParser;
 import com.thomsonreuters.uscl.ereader.gather.services.NovusFactory;
 import com.thomsonreuters.uscl.ereader.gather.services.NovusUtility;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Required;
@@ -22,9 +21,8 @@ import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 
+@Slf4j
 public class NovusImageFinderImpl implements NovusImageFinder {
-    private static final Logger Log = LogManager.getLogger(NovusImageFinderImpl.class);
-
     private NovusFactory novusFactory;
     private NovusUtility novusUtility;
     private NovusImageMetadataParser parser;
@@ -65,7 +63,7 @@ public class NovusImageFinderImpl implements NovusImageFinder {
                 final MediaType mediaType = MediaType.valueOf(mimeType);
                 return new NovusImage(mediaType, imgMetadataInfo, blob.getContents());
             } catch (final Exception e) {
-                Log.error(
+                log.error(
                     "Exception ocuured while retreiving image for imageGuid "
                         + imageId
                         + ".  Retry Count # is "
@@ -76,7 +74,7 @@ public class NovusImageFinderImpl implements NovusImageFinder {
                 try {
                     Thread.sleep(sleepIntervalBetweenImages);
                 } catch (final InterruptedException e1) {
-                    Log.error("Interrupted Exception: " + e1.getMessage());
+                    log.error("Interrupted Exception: " + e1.getMessage());
                     return null;
                 }
             }

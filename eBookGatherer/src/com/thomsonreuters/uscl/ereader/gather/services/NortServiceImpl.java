@@ -27,13 +27,12 @@ import com.thomsonreuters.uscl.ereader.gather.parser.NortLabelParser;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.NumericEntityEscaper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.westgroup.novus.productapi.NortManager;
@@ -47,6 +46,8 @@ import com.westgroup.novus.productapi.NovusException;
  * @author Kirsten Gunn
  *
  */
+
+@Slf4j
 public class NortServiceImpl implements NortService {
     private static final String DATE_FORMAT = "yyyyMMddHHmmss";
     private static final String DATE_FORMAT_FINAL = "dd-MMM-yyyy";
@@ -57,7 +58,6 @@ public class NortServiceImpl implements NortService {
     private static final String NODE_TYPE_PATH = NORT_PAYLOAD_PATH + "/node-type";
     private static final String TRIANGULAR_BRACKETS = "\\<.*?>";
     private static final Long MAX_END_DATE = 20970101000000L;
-    private static final Logger LOG = LogManager.getLogger(NortServiceImpl.class);
     private static final int DOCCOUNT = 0;
     private static final int NODECOUNT = 1;
     private static final int SKIPCOUNT = 2;
@@ -102,7 +102,7 @@ public class NortServiceImpl implements NortService {
                     + nortManager.getDomainDescriptor()
                     + " and filter "
                     + nortManager.getFilterName();
-                LOG.error(emptyErr);
+                log.error(emptyErr);
                 throw new GatherException(emptyErr, GatherResponse.CODE_UNHANDLED_ERROR);
             }
             final Map<String, String> tocGuidDateMap = new HashMap<>();
@@ -119,10 +119,10 @@ public class NortServiceImpl implements NortService {
                 renameTocEntries,
                 copyRenameTocEntries);
         } catch (final GatherException e) {
-            LOG.error("Failed with Exception in NORT");
+            log.error("Failed with Exception in NORT");
             throw e;
         } catch (final Exception e) {
-            LOG.error("Failed with Exception in NORT");
+            log.error("Failed with Exception in NORT");
             throw new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
         }
     }
@@ -149,10 +149,10 @@ public class NortServiceImpl implements NortService {
         try {
             return novusUtility.handleException(exception, novusNortRetryCounter, nortRetryCount);
         } catch (final NovusException e) {
-            LOG.error("Failed with Novus Exception in NORT");
+            log.error("Failed with Novus Exception in NORT");
             throw new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
         } catch (final Exception e) {
-            LOG.error("Failed with Exception in NORT");
+            log.error("Failed with Exception in NORT");
             throw new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
         }
     }
@@ -203,19 +203,19 @@ public class NortServiceImpl implements NortService {
                     iParent[0]--;
                 }
             } catch (final IOException e) {
-                LOG.error("Failed writing TOC in NORT");
+                log.error("Failed writing TOC in NORT");
                 throw new GatherException("Failed writing TOC in NORT ", e, GatherResponse.CODE_NOVUS_ERROR);
             } catch (final NovusException e) {
-                LOG.error("Failed with Novus Exception in NORT");
+                log.error("Failed with Novus Exception in NORT");
                 throw new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
             } catch (final ParseException e) {
-                LOG.error(e.getMessage());
+                log.error(e.getMessage());
                 throw new GatherException(
                     "NORT ParseException for start/end node date ",
                     e,
                     GatherResponse.CODE_FILE_ERROR);
             } catch (final NortLabelParseException e) {
-                LOG.error(e.getMessage());
+                log.error(e.getMessage());
                 throw new GatherException("NORT LabelParseException ", e, GatherResponse.CODE_DATA_ERROR);
             }
         }
@@ -276,7 +276,7 @@ public class NortServiceImpl implements NortService {
 
                 if (node.getLabel() == null) { // Fail with empty Name
                     final String err = "Failed with empty node Label for guid " + node.getGuid();
-                    LOG.error(err);
+                    log.error(err);
                     throw new GatherException(err, GatherResponse.CODE_NOVUS_ERROR);
                 }
 
@@ -402,7 +402,7 @@ public class NortServiceImpl implements NortService {
                     out.write("\r\n");
                     out.flush();
                 } catch (final IOException e) {
-                    LOG.debug(e.getMessage());
+                    log.debug(e.getMessage());
                     throw new GatherException("Failed writing to NORT TOC ", e, GatherResponse.CODE_FILE_ERROR);
                 }
             }
@@ -454,13 +454,13 @@ public class NortServiceImpl implements NortService {
         try {
             return novusUtility.handleException(exception, novusNortRetryCounter, nortRetryCount);
         } catch (final NovusException e) {
-            LOG.error("Failed with Novus Exception in NORT getChildren()");
+            log.error("Failed with Novus Exception in NORT getChildren()");
             throw new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
         } catch (final GatherException e) {
-            LOG.error("Failed with Exception in NORT");
+            log.error("Failed with Exception in NORT");
             throw e;
         } catch (final Exception e) {
-            LOG.error("Failed with Exception in NORT  getChildren()");
+            log.error("Failed with Exception in NORT  getChildren()");
             throw new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
         }
     }
@@ -537,7 +537,7 @@ public class NortServiceImpl implements NortService {
                 renameTocEntries,
                 copyRenameTocs);
 
-            LOG.info(
+            log.info(
                 counters[DOCCOUNT]
                     + " documents "
                     + counters[SKIPCOUNT]
@@ -550,25 +550,25 @@ public class NortServiceImpl implements NortService {
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
-            LOG.debug("Done with Nort.");
+            log.debug("Done with Nort.");
 
             checkExcludedDocsAndRenamedTocs(copyExcludeDocs, copyRenameTocs);
 
             return getGatherResponse(counters);
         } catch (final UnsupportedEncodingException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final FileNotFoundException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final IOException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final GatherException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw e;
         } catch (final Exception e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
         } finally {
             novusObject.shutdownMQ();

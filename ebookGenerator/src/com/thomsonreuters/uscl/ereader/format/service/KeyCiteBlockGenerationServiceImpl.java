@@ -11,18 +11,17 @@ import java.util.stream.Stream;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import lombok.Getter;
 import lombok.Setter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
+
+@Slf4j
 @Setter
 public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGenerationService {
-    private static final Logger LOG = LogManager.getLogger(KeyCiteBlockGenerationServiceImpl.class);
     private DocMetadataService docMetadataService;
     private CitationNormalizer citationNormalizer;
     private String hostname;
@@ -44,7 +43,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
                 + titleId
                 + " and jobInstanceId ="
                 + jobId;
-            LOG.error(message);
+            log.error(message);
 
             throw new EBookFormatException(message);
         }
@@ -93,7 +92,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         } catch (final RuntimeException e) {
             final String message =
                     "Encountered an Encoding issues while trying to encode the normalized cite for the KC URL.";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookFormatException(message, e);
         }
     }
@@ -110,7 +109,6 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
      * Builds Image block using passed in Url info .
      *
      * @param Url
-     * @param cite
      *
      * @return
      */

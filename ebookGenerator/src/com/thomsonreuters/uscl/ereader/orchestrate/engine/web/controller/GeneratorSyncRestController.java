@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
  * receive new application configuration. The configurations are POST'ed as the
  * body of the HTTP request.
  */
+
+@Slf4j
 @Controller
 public class GeneratorSyncRestController {
-    private static final Logger log = LogManager.getLogger(GeneratorSyncRestController.class);
     /** May be null if this is not the generator web app application */
     private JobThrottleConfigSyncService jobThrottleConfigSyncService;
     private OutageProcessor outageProcessor;
@@ -70,7 +70,7 @@ public class GeneratorSyncRestController {
             final boolean wasRemoved = outageProcessor.deletePlannedOutageFromContainer(outage);
             message = (wasRemoved)
                 ? String.format("Successfully removed planned outage with ID %d", outage.getId())
-                : String.format("There was no outage with ID %d, nothing removed" + outage.getId());
+                : String.format("There was no outage with ID %d, nothing removed", outage.getId());
             break;
         default: // programming error
             throw new IllegalArgumentException("Unexpected outage operation: " + outage.getOperation());

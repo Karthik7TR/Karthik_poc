@@ -44,9 +44,8 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -60,9 +59,9 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLTransformerServiceImpl implements HTMLTransformerService {
-    private static final Logger LOG = LogManager.getLogger(HTMLTransformerServiceImpl.class);
 
+@Slf4j
+public class HTMLTransformerServiceImpl implements HTMLTransformerService {
     private FileHandlingHelper fileHandlingHelper;
     private ImageService imgService;
     private DocMetadataService docMetadataService;
@@ -140,7 +139,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         } catch (final FileNotFoundException e) {
             final String errMessage = "No html files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -148,7 +147,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
             targetDir.mkdirs();
         }
 
-        LOG.info("Applying post transformations on transformed files...");
+        log.info("Applying post transformations on transformed files...");
 
         final Set<String> staticImages = new HashSet<>();
 
@@ -180,7 +179,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         }
 
         // Check all the document guids has been accounted for Table Viewer
-        if ((copyTableViewers != null) && (copyTableViewers.size() > 0)) {
+        if ((copyTableViewers != null) && (!copyTableViewers.isEmpty())) {
             final StringBuffer unaccountedDocs = new StringBuffer();
             for (final TableViewer document : copyTableViewers) {
                 unaccountedDocs.append(document.getDocumentGuid() + ",");
@@ -188,7 +187,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
 
             final String errMessage =
                 "Not all Table Viewer guids are accounted for and those are " + unaccountedDocs.toString();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 
@@ -196,7 +195,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         final File anchorTargetFile = new File(targetDir.getAbsolutePath(), "anchorTargetFile");
         createAnchorTargetList(anchorTargetFile, targetAnchors);
 
-        LOG.info("Post transformations successfully applied to " + numDocs + " files.");
+        log.info("Post transformations successfully applied to " + numDocs + " files.");
         return numDocs;
     }
 
@@ -236,7 +235,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         try (FileInputStream inStream = new FileInputStream(sourceFile)) {
             try (FileOutputStream outStream = new FileOutputStream(
                 new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postTransform"))) {
-                //LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
                 final DocMetadata docMetadata =
                     docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
 
@@ -333,19 +331,19 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                         insertDeduppingAnchorRecords(deDuppingList, deDuppingFile);
                     }
                 }
-                LOG.debug("Successfully transformed:" + sourceFile.getAbsolutePath());
+                log.debug("Successfully transformed:" + sourceFile.getAbsolutePath());
             }
         } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }
@@ -359,21 +357,21 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
     protected void createStaticImageList(final File imgListFile, final Set<String> imgFileNames)
         throws EBookFormatException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile))) {
-            LOG.info("Writing static images to " + imgListFile.getAbsolutePath() + " file...");
+            log.info("Writing static images to " + imgListFile.getAbsolutePath() + " file...");
             for (final String fileName : imgFileNames) {
                 if (StringUtils.isEmpty(fileName)) {
                     final String message = "Invalid image file name encountered: " + fileName;
-                    LOG.error(message);
+                    log.error(message);
                     throw new EBookFormatException(message);
                 }
 
                 writer.write(fileName);
                 writer.newLine();
             }
-            LOG.info(imgFileNames.size() + " image references written successfuly to file.");
+            log.info(imgFileNames.size() + " image references written successfuly to file.");
         } catch (final IOException e) {
             final String message = "Could not write to the static image list file: " + imgListFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }
@@ -388,7 +386,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         throws EBookFormatException {
         try (BufferedWriter writer =
             new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8"))) {
-            LOG.info("Writing anchor list to " + anchorTargetListFile.getAbsolutePath() + " file...");
+            log.info("Writing anchor list to " + anchorTargetListFile.getAbsolutePath() + " file...");
 
             for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet()) {
                 writer.write(guidAnchorEntry.getKey());
@@ -399,11 +397,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                 }
                 writer.newLine();
             }
-            LOG.info(targetAnchors.size() + " anchor references written successfuly to file.");
+            log.info(targetAnchors.size() + " anchor references written successfuly to file.");
         } catch (final IOException e) {
             final String message =
                 "Could not write to the static image list file: " + anchorTargetListFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }
@@ -418,7 +416,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         throws EBookFormatException {
         final String charset = "UTF-8";
         try (Writer writer = new OutputStreamWriter(new FileOutputStream(deDuppingFile, true), charset)) {
-            LOG.info("Writing de-dupping anchors info  to " + deDuppingFile.getAbsolutePath() + " file...");
+            log.info("Writing de-dupping anchors info  to " + deDuppingFile.getAbsolutePath() + " file...");
             for (final String id : deduppingIds) {
                 writer.write(id);
                 writer.write("\n");
@@ -426,7 +424,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         } catch (final Exception e) {
             final String message =
                 "Could not write to the de-dupping anchors list file: " + deDuppingFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }

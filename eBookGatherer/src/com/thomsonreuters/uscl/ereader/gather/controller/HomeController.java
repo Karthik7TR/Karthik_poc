@@ -10,8 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-    //private static final Logger log = LogManager.getLogger(HomeController.class);
-
     private String environmentName;
 
     @RequestMapping(value = EBConstants.URI_HOME, method = RequestMethod.GET)

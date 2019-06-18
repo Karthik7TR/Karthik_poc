@@ -5,8 +5,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.DocService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class DocController {
-    private static Logger LOG = LogManager.getLogger(DocController.class);
-
     private DocService docService;
 
     @RequestMapping(value = "/doc", method = RequestMethod.POST)
     public ModelAndView fetchDocuments(@RequestBody final GatherDocRequest docRequest, final Model model) {
-        LOG.debug(">>> " + docRequest);
+        log.debug(">>> " + docRequest);
         GatherResponse gatherResponse = new GatherResponse();
         try {
             gatherResponse = docService.fetchDocuments(
@@ -39,7 +37,7 @@ public class DocController {
             if (cause != null) {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage, e);
+            log.error(errorMessage, e);
             gatherResponse.setErrorCode(e.getErrorCode());
             gatherResponse.setErrorMessage(errorMessage);
         } catch (final Exception e) {
@@ -48,7 +46,7 @@ public class DocController {
             if (cause != null) {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage, e);
+            log.error(errorMessage, e);
             gatherResponse.setErrorCode(GatherResponse.CODE_UNHANDLED_ERROR);
             gatherResponse.setErrorMessage(errorMessage);
         }

@@ -24,12 +24,10 @@ import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.util.XMLEventReaderClosableWrapper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class NovusDocFileParser {
-    private static final Logger Log = LogManager.getLogger(NovusDocFileParser.class);
-
     private static final String CHARSET = "UTF-8"; // explicitly set the character set
     private static final String N_DOCUMENT = "n-document";
     private static final String N_DOCBODY = "n-docbody";
@@ -141,7 +139,7 @@ public class NovusDocFileParser {
                             docbodyWriter = xmlOutFactory.createXMLEventWriter(docbodyOutput, CHARSET);
                             metadataWriter = xmlOutFactory.createXMLEventWriter(metadataOutput, CHARSET);
                         } else {
-                            Log.debug("Match Not Found for Novus Document GUID or was already processed: " + docGuid);
+                            log.debug("Match Not Found for Novus Document GUID or was already processed: " + docGuid);
                         }
                     } else if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCBODY) && foundDocument) {
                         isDocbody = true;
@@ -209,28 +207,28 @@ public class NovusDocFileParser {
                 try {
                     docbodyWriter.close();
                 } catch (final XMLStreamException e) {
-                    Log.error("Error closing docbody writer.", e);
+                    log.error("Error closing docbody writer.", e);
                 }
             }
             if (docbodyOutput != null) {
                 try {
                     docbodyOutput.close();
                 } catch (final IOException e) {
-                    Log.error("Error closing docbody output stream.", e);
+                    log.error("Error closing docbody output stream.", e);
                 }
             }
             if (metadataWriter != null) {
                 try {
                     metadataWriter.close();
                 } catch (final XMLStreamException e) {
-                    Log.error("Error closing metadata writer.", e);
+                    log.error("Error closing metadata writer.", e);
                 }
             }
             if (metadataOutput != null) {
                 try {
                     metadataOutput.close();
                 } catch (final IOException e) {
-                    Log.error("Error closing metadata output stream.", e);
+                    log.error("Error closing metadata output stream.", e);
                 }
             }
         }

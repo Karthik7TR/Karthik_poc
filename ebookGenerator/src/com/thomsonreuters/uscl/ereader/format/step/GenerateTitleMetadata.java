@@ -106,7 +106,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
             }
         } catch (final Exception e) {
             status = "Failed";
-            throw (e);
+            throw e;
         } finally {
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobId);
@@ -144,7 +144,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
                 docToSplitBookFile,
                 splitNodeInfoFile);
         } catch (final Exception e) {
-            throw (e);
+            throw e;
         }
     }
 

@@ -7,8 +7,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class TocController {
-    private static Logger LOG = LogManager.getLogger(TocController.class);
-
     @Autowired
     private TocService tocService;
 
@@ -29,7 +27,7 @@ public class TocController {
      */
     @RequestMapping(value = "/toc", method = RequestMethod.POST)
     public ModelAndView getTableOfContents(@RequestBody final GatherTocRequest tocRequest, final Model model) {
-        LOG.debug(">>> " + tocRequest);
+        log.debug(">>> " + tocRequest);
         GatherResponse gatherResponse = new GatherResponse();
 
         // Retrieve TOC structure from Novus
@@ -47,21 +45,9 @@ public class TocController {
                 tocRequest.getThresholdValue());
             // Create EBook TOC file on specified path
         } catch (final GatherException e) {
-            String errorMessage = e.getMessage();
-            final Throwable cause = e.getCause();
-            if (cause != null) {
-                errorMessage = errorMessage + " - " + cause.getMessage();
-            }
-            LOG.error(errorMessage, e);
-            gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
+            gatherResponse = new GatherResponse(e.getErrorCode(), getErrorMessage(e));
         } catch (final Exception e) {
-            String errorMessage = e.getMessage();
-            final Throwable cause = e.getCause();
-            if (cause != null) {
-                errorMessage = errorMessage + " - " + cause.getMessage();
-            }
-            LOG.error(errorMessage, e);
-            gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
+            gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, getErrorMessage(e));
         }
 
         model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
@@ -70,5 +56,15 @@ public class TocController {
 
     public void setTocService(final TocService service) {
         tocService = service;
+    }
+
+    private String getErrorMessage(final Exception e) {
+        String errorMessage = e.getMessage();
+        final Throwable cause = e.getCause();
+        if (cause != null) {
+            errorMessage = errorMessage + " - " + cause.getMessage();
+        }
+        log.error(errorMessage, e);
+        return errorMessage;
     }
 }

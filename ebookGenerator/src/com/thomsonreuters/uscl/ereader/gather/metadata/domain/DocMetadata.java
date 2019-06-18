@@ -149,6 +149,9 @@ public class DocMetadata implements Serializable {
     @XmlElement
     private String endEffectiveDate;
 
+    public DocMetadata() {
+    }
+
     public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
@@ -345,11 +348,6 @@ public class DocMetadata implements Serializable {
             && endEffectiveDate != null
             && now.isAfter(LocalDateTime.parse(startEffectiveDate, FORMATTER))
             && now.isBefore(LocalDateTime.parse(endEffectiveDate, FORMATTER));
-    }
-
-    /**
-     */
-    public DocMetadata() {
     }
 
     /**

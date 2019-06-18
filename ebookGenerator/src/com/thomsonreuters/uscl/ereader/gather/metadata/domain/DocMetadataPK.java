@@ -12,11 +12,6 @@ public class DocMetadataPK implements Serializable {
 
     /**
      */
-    public DocMetadataPK() {
-    }
-
-    /**
-     */
 
     @Column(name = "TITLE_ID", length = 64, nullable = false)
     @Basic(fetch = FetchType.EAGER)
@@ -36,6 +31,11 @@ public class DocMetadataPK implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     @Id
     private String docUuid;
+
+    /**
+     */
+    public DocMetadataPK() {
+    }
 
     /**
      */

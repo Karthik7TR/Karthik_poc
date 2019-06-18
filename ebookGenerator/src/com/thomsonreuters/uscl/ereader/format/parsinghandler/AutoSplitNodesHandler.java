@@ -17,14 +17,14 @@ import javax.xml.parsers.SAXParserFactory;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+@Slf4j
 public class AutoSplitNodesHandler extends DefaultHandler {
     private int percentage;
     private int level;
@@ -57,18 +57,20 @@ public class AutoSplitNodesHandler extends DefaultHandler {
     private int splitSize;
     private List<String> splitTocGuidList = new ArrayList<>();
 
+    private TableOfContents tableOfContents = new TableOfContents();
+
+    public AutoSplitNodesHandler(final Integer partSize, final Integer thresholdPercent) {
+        determinedPartSize = partSize;
+        percentage = thresholdPercent;
+        previousNode = tableOfContents;
+    }
+
     public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
     public void setSplitTocGuidList(final List<String> splitTocGuidList) {
         this.splitTocGuidList = splitTocGuidList;
-    }
-
-    public AutoSplitNodesHandler(final Integer partSize, final Integer thresholdPercent) {
-        determinedPartSize = partSize;
-        percentage = thresholdPercent;
-        previousNode = tableOfContents;
     }
 
     public void parseInputStream(final InputStream tocStream)
@@ -88,10 +90,6 @@ public class AutoSplitNodesHandler extends DefaultHandler {
     public void setDeterminedPartSize(final int determinedPartSize) {
         this.determinedPartSize = determinedPartSize;
     }
-
-    private static final Logger LOG = LogManager.getLogger(AutoSplitNodesHandler.class);
-
-    private TableOfContents tableOfContents = new TableOfContents();
 
     public TableOfContents getTableOfContents() {
         return tableOfContents;
@@ -222,7 +220,7 @@ public class AutoSplitNodesHandler extends DefaultHandler {
 
     public Integer getMargin(final int size) {
         final Integer marginBasedOnSize = size * percentage / 100;
-        LOG.debug("Split size " + size + " and margin " + marginBasedOnSize);
+        log.debug("Split size " + size + " and margin " + marginBasedOnSize);
         return marginBasedOnSize;
     }
 
@@ -253,7 +251,7 @@ public class AutoSplitNodesHandler extends DefaultHandler {
             final String message = "Failed to identify a parent for node: "
                 + node
                 + " because of possibly bad depth assignment.  This is very likely a programming error in the TitleManifestFilter.";
-            LOG.error(message);
+            log.error(message);
             throw new SAXException(message);
         } else {
             return searchForParentInAncestryOfNode(node.getParent(), desiredDepth);

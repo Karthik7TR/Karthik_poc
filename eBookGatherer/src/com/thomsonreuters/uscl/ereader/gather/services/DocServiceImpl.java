@@ -10,9 +10,8 @@ import java.util.Collection;
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
@@ -27,12 +26,12 @@ import com.westgroup.novus.productapi.NovusException;
  * @author Ray Cracauer
  * @modified 3/9/2012 - Retry looping fix was added to prevent infinite loops.
  */
+
+@Slf4j
 public class DocServiceImpl implements DocService {
     private static final int META_COUNTER = 1;
 
     private static final int META_RETRY_COUNTER = 0;
-
-    private static final Logger Log = LogManager.getLogger(DocServiceImpl.class);
 
     private NovusFactory novusFactory;
 
@@ -67,10 +66,9 @@ public class DocServiceImpl implements DocService {
         try {
             novus = novusFactory.createNovus(isFinalStage);
         } catch (final NovusException e) {
-            final GatherException ge = new GatherException(
+            throw new GatherException(
                 "Novus error occurred while creating Novus object " + e,
                 GatherResponse.CODE_NOVUS_ERROR);
-            throw ge;
         }
 
         final Integer docRetryCount = Integer.valueOf(novusUtility.getDocRetryCount());
@@ -113,23 +111,7 @@ public class DocServiceImpl implements DocService {
                         try {
                             novusRetryCounter =
                                 novusUtility.handleException(exception, novusRetryCounter, docRetryCount);
-
-                            if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
-                                if (novusRetryCounter == 3) { // just write it once after 3 retries
-                                    if (document != null) {
-                                        Log.debug(
-                                            "Text is not found for the guid "
-                                                + document.getGuid()
-                                                + " and the error code is "
-                                                + document.getErrorCode());
-                                        writer.write(document.getGuid());
-                                        writer.write("\n");
-                                    } else {
-                                        Log.debug("Text is not found. Document is null.");
-                                    }
-                                    missingGuidsCount++;
-                                }
-                            }
+                            missingGuidsCount = getMissingGuidsCount(document, writer, novusRetryCounter);
                         } catch (final Exception e) {
                             throw new GatherException(
                                 "Exception happened in handleException " + docGuid + ". DOC Step Failed Exception happened in fetching doc.",
@@ -180,6 +162,28 @@ public class DocServiceImpl implements DocService {
         return gatherResponse;
     }
 
+    private int getMissingGuidsCount(final Document document, final Writer writer,
+        final int novusRetryCounter) throws IOException {
+        int missingGuidsCount = 0;
+        if ("Y".equalsIgnoreCase(novusUtility.getShowMissDocsList())) {
+            if (novusRetryCounter == 3) { // just write it once after 3 retries
+                if (document != null) {
+                    log.debug(
+                        "Text is not found for the guid "
+                            + document.getGuid()
+                            + " and the error code is "
+                            + document.getErrorCode());
+                    writer.write(document.getGuid());
+                    writer.write("\n");
+                } else {
+                    log.debug("Text is not found. Document is null.");
+                }
+                missingGuidsCount++;
+            }
+        }
+        return missingGuidsCount;
+    }
+
     /**
      * @param document
      * @param destinationDirectory
@@ -206,20 +210,10 @@ public class DocServiceImpl implements DocService {
                 if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
                     break;
                 } else {
-                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
-                        if (novusDocRetryCounter == 3) { // just write it once after 3 retries
-                            Log.debug(
-                                "Text is not found for the guid "
-                                    + document.getGuid()
-                                    + " and the error code is "
-                                    + document.getErrorCode());
-                            missingsDocs.write(document.getGuid());
-                            missingsDocs.write("\n");
-                            missingGuidsCountUpdated++;
-                        }
-                    }
+                    missingGuidsCountUpdated =
+                        getMissingGuidCountUpdated(missingsDocs, document, novusDocRetryCounter, missingGuidsCountUpdated);
 
-                    Log.error(
+                    log.error(
                         "Exception happened while retrieving text for the guid "
                             + document.getGuid()
                             + " with an error code "
@@ -230,29 +224,36 @@ public class DocServiceImpl implements DocService {
                 }
             } catch (final Exception exception) {
                 try {
-                    Log.debug("Before calling handleException in createContentFile()");
+                    log.debug("Before calling handleException in createContentFile()");
                     novusDocRetryCounter = novusUtility.handleException(exception, novusDocRetryCounter, retryCount);
-
-                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
-                        if (novusDocRetryCounter == 3) { // just write it once, after 3 retries
-                            Log.debug(
-                                "Text is not found for the guid "
-                                    + document.getGuid()
-                                    + " and the error code is "
-                                    + document.getErrorCode());
-                            missingsDocs.write(document.getGuid());
-                            missingsDocs.write("\n");
-                            missingGuidsCountUpdated++;
-                        }
-                    }
+                    missingGuidsCountUpdated =
+                        getMissingGuidCountUpdated(missingsDocs, document, novusDocRetryCounter, missingGuidsCountUpdated);
                 } catch (final Exception e) {
-                    Log.error("Exception in handleException() call from createContentFile() " + e.getMessage());
+                    log.error("Exception in handleException() call from createContentFile() " + e.getMessage());
                     novusDocRetryCounter++;
                 }
             }
         }
         if (docText != null) {
             createFile(docText.toString(), destinationFile);
+        }
+
+        return missingGuidsCountUpdated;
+    }
+
+    private int getMissingGuidCountUpdated(final Writer missingsDocs, final Document document,
+        final int novusDocRetryCounter, int missingGuidsCountUpdated) throws IOException {
+        if ("Y".equalsIgnoreCase(novusUtility.getShowMissDocsList())) {
+            if (novusDocRetryCounter == 3) { // just write it once after 3 retries
+                log.debug(
+                    "Text is not found for the guid "
+                        + document.getGuid()
+                        + " and the error code is "
+                        + document.getErrorCode());
+                missingsDocs.write(document.getGuid());
+                missingsDocs.write("\n");
+                missingGuidsCountUpdated++;
+            }
         }
 
         return missingGuidsCountUpdated;
@@ -286,7 +287,7 @@ public class DocServiceImpl implements DocService {
                 if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
                     break;
                 } else {
-                    Log.error(
+                    log.error(
                         "Exception happened while retreving metadata for the guid "
                             + document.getGuid()
                             + " with an error code "
@@ -295,9 +296,9 @@ public class DocServiceImpl implements DocService {
                             + novusMetaRetryCounter);
                     novusMetaRetryCounter++;
 
-                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+                    if ("Y".equalsIgnoreCase(novusUtility.getShowMissDocsList())) {
                         if (novusMetaRetryCounter == 0) { // just write it once
-                            Log.debug(
+                            log.debug(
                                 "Metadata is not found for the guid "
                                     + document.getGuid()
                                     + " and the error code is "
@@ -307,10 +308,10 @@ public class DocServiceImpl implements DocService {
                 }
             } catch (final Exception exception) {
                 try {
-                    Log.debug("Before calling handleException in createMetadataFile()");
+                    log.debug("Before calling handleException in createMetadataFile()");
                     novusMetaRetryCounter = novusUtility.handleException(exception, novusMetaRetryCounter, retryCount);
                 } catch (final Exception e) {
-                    Log.error("Exception in handleException createMetadataFile()" + e.getMessage());
+                    log.error("Exception in handleException createMetadataFile()" + e.getMessage());
                     novusMetaRetryCounter++;
                 }
             }

@@ -7,8 +7,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
 import com.thomsonreuters.uscl.ereader.gather.img.service.ImageServiceFactory;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class ImgController {
-    private static Logger LOG = LogManager.getLogger(ImgController.class);
-
     private ImageServiceFactory imageServiceFactory;
     private ImageRequestParameters parameters;
 
     @RequestMapping(value = "/img", method = RequestMethod.POST)
     public ModelAndView fetchImages(@RequestBody final GatherImgRequest imgRequest, final Model model) {
-        LOG.debug(">>> ImgController");
+        log.debug(">>> ImgController");
 
         parameters.setDocToImageManifestFile(imgRequest.getImgToDocManifestFile());
         parameters.setDynamicImageDirectory(imgRequest.getDynamicImageDirectory());
@@ -37,7 +35,7 @@ public class ImgController {
         try {
             gatherResponse = imageServiceFactory.getImageService(imgRequest.isXpp()).getImages(parameters);
         } catch (final Exception e) {
-            LOG.error("Failed to get images", e);
+            log.error("Failed to get images", e);
         }
         model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, Optional.ofNullable(gatherResponse).orElseGet(GatherResponse::new));
         return new ModelAndView(EBConstants.VIEW_RESPONSE);

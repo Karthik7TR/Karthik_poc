@@ -26,7 +26,6 @@ import org.springframework.util.Assert;
  * Fetch static book images from a filesystem tree and copy them to the holding destination directory.
  */
 public class GatherStaticImagesTask extends AbstractSbTasklet {
-    //private static final Logger log = LogManager.getLogger(GatherStaticImagesTask.class);
     private ImageService imageService;
     private PublishingStatsService publishingStatsService;
 

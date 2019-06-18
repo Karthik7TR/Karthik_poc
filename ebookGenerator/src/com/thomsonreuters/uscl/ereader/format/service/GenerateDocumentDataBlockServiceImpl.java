@@ -8,8 +8,7 @@ import java.util.Date;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -17,8 +16,9 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
+
+@Slf4j
 public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDataBlockService {
-    private static final Logger LOG = LogManager.getLogger(GenerateDocumentDataBlockServiceImpl.class);
     private DocMetadataService docMetadataService;
 
     @Required
@@ -73,7 +73,7 @@ public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDat
                 + titleId
                 + " and jobInstanceId ="
                 + jobInstanceId;
-            LOG.error(message);
+            log.error(message);
 
             throw new EBookFormatException(message);
         }

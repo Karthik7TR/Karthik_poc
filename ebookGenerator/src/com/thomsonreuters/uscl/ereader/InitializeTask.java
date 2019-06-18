@@ -52,8 +52,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -71,9 +70,9 @@ import org.springframework.beans.factory.annotation.Required;
  * This includes various file system path calculations based on the JobParameters used to run the job.
  *
  */
-public class InitializeTask extends AbstractSbTasklet {
-    private static final Logger log = LogManager.getLogger(InitializeTask.class);
 
+@Slf4j
+public class InitializeTask extends AbstractSbTasklet {
     private File rootWorkDirectory; // "/nas/ebookbuilder/data"
     private File rootCodesWorkbenchLandingStrip;
     private String environmentName;

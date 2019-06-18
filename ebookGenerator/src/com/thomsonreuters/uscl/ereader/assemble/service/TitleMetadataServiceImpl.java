@@ -26,9 +26,8 @@ import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.output.FileWriterWithEncoding;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -47,8 +46,10 @@ import org.xml.sax.XMLReader;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
+
+@Slf4j
 public class TitleMetadataServiceImpl implements TitleMetadataService {
-    private static final Logger LOG = LogManager.getLogger(TitleMetadataServiceImpl.class);
+    private final String OMIT_XML_DECLARATION = "omit-xml-declaration";
     private DocMetadataService docMetadataService;
     private PlaceholderDocumentService placeholderDocumentService;
     private FileUtilsFacade fileUtilsFacade;
@@ -89,7 +90,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
             titleManifestFilter.setParent(xmlReader);
 
             final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
-            props.setProperty("omit-xml-declaration", "yes");
+            props.setProperty(OMIT_XML_DECLARATION, "yes");
 
             final Serializer serializer = SerializerFactory.getSerializer(props);
             serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
@@ -141,7 +142,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
             splitTocManifestFilter.setParent(xmlReader);
 
             final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
-            props.setProperty("omit-xml-declaration", "yes");
+            props.setProperty(OMIT_XML_DECLARATION, "yes");
 
             final Serializer serializer = SerializerFactory.getSerializer(props);
             serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
@@ -193,7 +194,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
             splitTitleManifestFilter.setParent(xmlReader);
 
             final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
-            props.setProperty("omit-xml-declaration", "yes");
+            props.setProperty(OMIT_XML_DECLARATION, "yes");
 
             final Serializer serializer = SerializerFactory.getSerializer(props);
             serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
@@ -234,7 +235,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
         } catch (final IOException e) {
             final String message =
                 "Could not write out Split Node information to following file: " + docToSplitBookFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new IOException(); //EBookFormatException(message, e);
         }
     }
@@ -271,7 +272,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
         } catch (final IOException e) {
             final String message =
                 "Could not write out ImageMetadata to following file: " + docToSplitBookFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new IOException(); //EBookFormatException(message, e);
         }
     }

@@ -16,15 +16,11 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 public class ImageServiceImpl implements ImageService {
-    private static final Logger log = LogManager.getLogger(ImageServiceImpl.class);
-
     /** The DAO for persisting image meta-data */
     private ImageDao imageDao;
 
@@ -100,7 +96,7 @@ public class ImageServiceImpl implements ImageService {
         final MediaType mediaType = MediaType.valueOf(imgMetadataInfo.getMimeType());
 
         // Create the entity that will be persisted
-        final ImageMetadataEntity entity = new ImageMetadataEntity(
+        return new ImageMetadataEntity(
             pk,
             titleId,
             imgMetadataInfo.getWidth(),
@@ -109,14 +105,12 @@ public class ImageServiceImpl implements ImageService {
             imgMetadataInfo.getDpi(),
             imgMetadataInfo.getDimUnit(),
             mediaType);
-        return entity;
     }
 
     @Override
     @Transactional
     public ImageMetadataEntityKey saveImageMetadata(final ImageMetadataEntity metadata) {
-        final ImageMetadataEntityKey primaryKey = imageDao.saveImageMetadata(metadata);
-        return primaryKey;
+        return imageDao.saveImageMetadata(metadata);
     }
 
     @Override

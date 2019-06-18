@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 
+@Slf4j
 public class NovusLogCleaner {
-    private static final Logger log = LogManager.getLogger(NovusLogCleaner.class);
-
     private static final String NOVUS_LOG_FOLDER = "/home/asadmin/";
 
     /*

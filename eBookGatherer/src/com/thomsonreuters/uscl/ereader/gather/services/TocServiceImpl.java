@@ -19,12 +19,11 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.NumericEntityEscaper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.westgroup.novus.productapi.Novus;
@@ -38,12 +37,12 @@ import com.westgroup.novus.productapi.TOCNode;
  * @author Kirsten Gunn
  *
  */
+
+@Slf4j
 public class TocServiceImpl implements TocService {
     private NovusFactory novusFactory;
 
     private NovusUtility novusUtility;
-
-    private static final Logger LOG = LogManager.getLogger(TocServiceImpl.class);
 
     private Integer tocRetryCount;
 
@@ -103,28 +102,14 @@ public class TocServiceImpl implements TocService {
                     tocNode = _tocManager.getNode(guid);
                     break;
                 } catch (final Exception exception) {
-                    try {
-                        novusTocRetryCounter =
-                            novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
-                    } catch (final NovusException e) {
-                        LOG.error("Failed with Novus Exception in TOC");
-                        final GatherException ge =
-                            new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-                        throw ge;
-                    } catch (final Exception e) {
-                        LOG.error("Failed with Novus Exception in TOC");
-                        final GatherException ge =
-                            new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-                        throw ge;
-                    }
+                    novusTocRetryCounter = handleNovusExceptionAfterGetNodes(exception);
                 }
             }
             if (tocNode == null) {
                 final String emptyErr =
                     "Failed with EMPTY toc.xml for collection " + _tocManager.getCollection() + " and guid " + guid;
-                LOG.error(emptyErr);
-                final GatherException ge = new GatherException(emptyErr, GatherResponse.CODE_UNHANDLED_ERROR);
-                throw ge;
+                log.error(emptyErr);
+                throw new GatherException(emptyErr, GatherResponse.CODE_UNHANDLED_ERROR);
             }
 
             retryCounter[0] += novusTocRetryCounter;
@@ -144,13 +129,26 @@ public class TocServiceImpl implements TocService {
                 renameTocEntries,
                 copyRenameTocEntries);
         } catch (final GatherException e) {
-            LOG.error("Failed with GatherException in TOC");
+            log.error("Failed with GatherException in TOC");
             throw e;
         } catch (final Exception e) {
-            LOG.debug("Failed with Novus Exception in TOC");
-            final GatherException ge = new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-            throw ge;
+            log.debug("Failed with Novus Exception in TOC");
+            throw new GatherException("TOC Novus Exception bitch", e, GatherResponse.CODE_NOVUS_ERROR);
         }
+    }
+
+    private int handleNovusExceptionAfterGetNodes(final Exception exception) throws GatherException {
+        int novusTocRetryCounter = 0;
+
+        try {
+            novusTocRetryCounter =
+                novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
+        } catch (final Exception e) {
+            log.error("Failed with Novus Exception in TOC");
+            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+        }
+
+        return novusTocRetryCounter;
     }
 
     public boolean printNodes(
@@ -198,10 +196,8 @@ public class TocServiceImpl implements TocService {
                     iParent[0]--;
                 }
             } catch (final IOException e) {
-                LOG.error("Failed writing TOC in TOC");
-                final GatherException ge =
-                    new GatherException("Failed writing TOC in TOC ", e, GatherResponse.CODE_NOVUS_ERROR);
-                throw ge;
+                log.error("Failed writing TOC in TOC");
+                throw new GatherException("Failed writing TOC in TOC ", e, GatherResponse.CODE_NOVUS_ERROR);
             }
         }
         return docFound;
@@ -242,9 +238,8 @@ public class TocServiceImpl implements TocService {
             if (node.getName() == null) // Fail with empty Name
             {
                 final String err = "Failed with empty node Name for guid " + node.getGuid();
-                LOG.error(err);
-                final GatherException ge = new GatherException(err, GatherResponse.CODE_NOVUS_ERROR);
-                throw ge;
+                log.error(err);
+                throw new GatherException(err, GatherResponse.CODE_NOVUS_ERROR);
             }
 
             if (!excludeDocumentFound) {
@@ -302,17 +297,7 @@ public class TocServiceImpl implements TocService {
                 // <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
 
                 // To verify if the provided split Toc/Nort Node exists in the file
-                if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33) {
-                    splitTocCount++;
-                    final String splitNode = StringUtils.substring(guid.toString(), 0, 33);
-                    if (splitTocGuidList.contains(splitNode)) {
-                        if (splitTocCount >= thresholdValue) {
-                            findSplitsAgain = true;
-                        }
-                        splitTocCount = 0;
-                        splitTocGuidList.remove(splitNode);
-                    }
-                }
+                verifyProvidedSplitNodeExistsInFile(guid);
 
                 //843012:Update Generator for CWB Reorder Changes. For both TOC and Doc guids a six digit suffix has been added
                 //Add only first 33 characters to find the duplicate TOC
@@ -338,53 +323,12 @@ public class TocServiceImpl implements TocService {
                     out.write("\r\n");
                     out.flush();
                 } catch (final IOException e) {
-                    LOG.error(e.getMessage());
-                    final GatherException ge =
-                        new GatherException("Failed writing to TOC ", e, GatherResponse.CODE_FILE_ERROR);
-                    throw ge;
+                    log.error(e.getMessage());
+                    throw new GatherException("Failed writing to TOC ", e, GatherResponse.CODE_FILE_ERROR);
                 }
             }
 
-            TOCNode[] tocNodes = null;
-
-            try {
-                // This is the counter for checking how many Novus retries we
-                // are making
-                Integer novusTocRetryCounter = 0;
-                tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
-                while (novusTocRetryCounter < tocRetryCount) {
-                    try {
-                        tocNodes = node.getChildren();
-                        break;
-                    } catch (final Exception exception) {
-                        try {
-                            novusTocRetryCounter =
-                                novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
-                        } catch (final NovusException e) {
-                            LOG.error("Failed with Novus Exception in TOC getChildren()");
-                            final GatherException ge =
-                                new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-                            throw ge;
-                        } catch (final GatherException e) {
-                            LOG.error("Failed with GatherException in TOC");
-                            throw e;
-                        } catch (final Exception e) {
-                            LOG.error("Failed with Exception in TOC getChildren()");
-                            final GatherException ge =
-                                new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-                            throw ge;
-                        }
-                    }
-                }
-            } catch (final GatherException e) {
-                LOG.error("Failed with GatherException in TOC");
-                throw e;
-            } catch (final Exception e) {
-                LOG.error("Failed with Novus Exception in TOC");
-                final GatherException ge =
-                    new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-                throw ge;
-            }
+            final TOCNode[] tocNodes = getTocNodes(node);
 
             if (tocNodes != null) {
                 printNodes(
@@ -402,6 +346,67 @@ public class TocServiceImpl implements TocService {
             }
         }
         return docFound;
+    }
+
+    private TOCNode[] getTocNodes(final TOCNode node) throws GatherException {
+        TOCNode[] tocNodes = null;
+
+        try {
+            // This is the counter for checking how many Novus retries we
+            // are making
+            Integer novusTocRetryCounter = 0;
+            tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
+            while (novusTocRetryCounter < tocRetryCount) {
+                try {
+                    tocNodes = node.getChildren();
+                    break;
+                } catch (final Exception exception) {
+                    novusTocRetryCounter = handleNovusExceptionAfterGetChildren(exception);
+                }
+            }
+        } catch (final GatherException e) {
+            log.error("Failed with GatherException in TOC");
+            throw e;
+        } catch (final Exception e) {
+            log.error("Failed with Novus Exception in TOC");
+            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+        }
+
+        return tocNodes;
+    }
+
+    private void verifyProvidedSplitNodeExistsInFile(final String guid) {
+        if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33) {
+            splitTocCount++;
+            final String splitNode = StringUtils.substring(guid.toString(), 0, 33);
+            if (splitTocGuidList.contains(splitNode)) {
+                if (splitTocCount >= thresholdValue) {
+                    findSplitsAgain = true;
+                }
+                splitTocCount = 0;
+                splitTocGuidList.remove(splitNode);
+            }
+        }
+    }
+
+    private int handleNovusExceptionAfterGetChildren(final Exception exception) throws GatherException {
+        int novusTocRetryCounter = 0;
+
+        try {
+            novusTocRetryCounter =
+                novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
+        } catch (final NovusException e) {
+            log.error("Failed with Novus Exception in TOC getChildren()");
+            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+        } catch (final GatherException e) {
+            log.error("Failed with GatherException in TOC");
+            throw e;
+        } catch (final Exception e) {
+            log.error("Failed with Exception in TOC getChildren()");
+            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+        }
+
+        return novusTocRetryCounter;
     }
 
     /**
@@ -436,10 +441,9 @@ public class TocServiceImpl implements TocService {
         try {
             novusObject = novusFactory.createNovus(isFinalStage);
         } catch (final NovusException e) {
-            final GatherException ge = new GatherException(
+            throw new GatherException(
                 "Novus error occurred while creating Novus object " + e,
                 GatherResponse.CODE_NOVUS_ERROR);
-            throw ge;
         }
 
         _tocManager = getTocObject(collectionName, type, novusObject);
@@ -490,7 +494,7 @@ public class TocServiceImpl implements TocService {
                 renameTocEntries,
                 copyRenameTocs);
 
-            LOG.info(
+            log.info(
                 docCounter[0]
                     + " documents and "
                     + counter[0]
@@ -501,32 +505,23 @@ public class TocServiceImpl implements TocService {
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
-            LOG.debug("Done with Toc.");
+            log.debug("Done with Toc.");
         } catch (final UnsupportedEncodingException e) {
-            LOG.error(e.getMessage());
-            final GatherException ge =
-                new GatherException("TOC UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+            log.error(e.getMessage());
             publishStatus = "TOC Step Failed UTF-8 encoding error";
-            throw ge;
+            throw new GatherException("TOC UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final FileNotFoundException e) {
-            LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("TOC File not found ", e, GatherResponse.CODE_FILE_ERROR);
+            log.error(e.getMessage());
             publishStatus = "TOC Step Failed File not found";
-            throw ge;
-        } catch (final IOException e) {
-            LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
-            publishStatus = "TOC Step Failed IOException";
-            throw ge;
+            throw new GatherException("TOC File not found ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final GatherException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             publishStatus = "TOC Step Failed GatherException";
             throw e;
         } catch (final Exception e) {
-            LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
+            log.error(e.getMessage());
             publishStatus = "TOC Step Failed IOException";
-            throw ge;
+            throw new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
         } finally {
             try {
                 if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
@@ -534,26 +529,22 @@ public class TocServiceImpl implements TocService {
                     for (final ExcludeDocument excludeDocument : copyExcludDocs) {
                         unaccountedExcludedDocs.append(excludeDocument.getDocumentGuid() + ",");
                     }
-                    final GatherException ge = new GatherException(
-                        "Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs.toString());
                     publishStatus = "TOC Step Failed with Not all Excluded Docs accounted for error";
-                    throw ge;
+                    throw new GatherException(
+                        "Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs.toString());
                 }
                 if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
                     final StringBuffer unaccountedRenameTocs = new StringBuffer();
                     for (final RenameTocEntry renameTocEntry : copyRenameTocs) {
                         unaccountedRenameTocs.append(renameTocEntry.getTocGuid() + ",");
                     }
-                    final GatherException ge = new GatherException(
-                        "Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs.toString());
                     publishStatus = "TOC Step Failed with Not all Rename TOCs accounted for error";
-                    throw ge;
+                    throw new GatherException(
+                        "Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs.toString());
                 }
             } catch (final Exception e) {
-                LOG.error(e.getMessage());
-                final GatherException ge =
-                    new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
-                throw ge;
+                log.error(e.getMessage());
+                throw new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
             } finally {
                 gatherResponse.setDocCount(docCounter[0]);
                 gatherResponse.setNodeCount(counter[0]);

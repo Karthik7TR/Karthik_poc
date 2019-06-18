@@ -1,10 +1,10 @@
 package com.thomsonreuters.uscl.ereader.gather.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
+@Slf4j
 public class NovusUtility {
     /**
      * Retry count. default value 3
@@ -19,8 +19,6 @@ public class NovusUtility {
     */
 
     private String showMissDocsList;
-
-    private static final Logger Log = LogManager.getLogger(NortServiceImpl.class);
 
     /**
      * handles the doc retrieval exception. Performs checks to see if the
@@ -39,7 +37,7 @@ public class NovusUtility {
         throws Exception {
         if (isNovusException(exception)) {
             novusRetryCounter++;
-            Log.error("Novus Exception has happened. Retry Count # is " + novusRetryCounter);
+            log.error("Novus Exception has happened. Retry Count # is " + novusRetryCounter);
             if (novusRetryCounter == (retryCount - 1)) {
                 throw exception;
             }
