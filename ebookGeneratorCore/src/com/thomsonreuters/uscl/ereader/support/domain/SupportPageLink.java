@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
@@ -14,9 +15,12 @@ import javax.persistence.TemporalType;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "SUPPORT_PAGE_LINK")
+@EntityListeners(AuditingEntityListener.class)
 public class SupportPageLink implements Serializable {
     //private static Logger log = LogManager.getLogger(SupportPageLink.class);
     private static final long serialVersionUID = 1L;
@@ -35,6 +39,7 @@ public class SupportPageLink implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
+    @LastModifiedDate
     private Date lastUpdated;
 
     public Long getId() {

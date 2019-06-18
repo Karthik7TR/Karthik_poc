@@ -26,6 +26,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,6 +38,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     entityManagerFactoryRef = "entityManagerFactory",
     transactionManagerRef = "jpaTransactionManager"
 )
+@EnableJpaAuditing
 @EnableTransactionManagement
 public class EBookManagerJPAConfig extends CommonJPAConfig {
     @Bean

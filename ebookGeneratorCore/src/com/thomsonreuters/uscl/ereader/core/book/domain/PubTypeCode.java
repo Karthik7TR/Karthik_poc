@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
@@ -17,6 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * A Pub Type Code database table entity.
@@ -26,6 +29,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Table(name = "PUB_TYPE_CODES")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PubTypeCode")
+@EntityListeners(AuditingEntityListener.class)
 public class PubTypeCode implements Serializable {
     //private static final Logger log = LogManager.getLogger(PubTypeCode.class);
     private static final long serialVersionUID = -4932734236359244870L;
@@ -41,6 +45,7 @@ public class PubTypeCode implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
+    @LastModifiedDate
     private Date lastUpdatedTimeStampForPubTypeCode;
 
     public PubTypeCode() {

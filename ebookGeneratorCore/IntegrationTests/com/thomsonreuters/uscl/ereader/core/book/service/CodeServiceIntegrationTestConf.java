@@ -8,12 +8,14 @@ import com.thomsonreuters.uscl.ereader.core.book.dao.KeywordTypeValueDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @Profile("IntegrationTests")
 @EnableTransactionManagement
+@EnableJpaAuditing
 @EnableJpaRepositories(
     basePackages = "com.thomsonreuters.uscl.ereader",
     entityManagerFactoryRef = "entityManagerFactory",

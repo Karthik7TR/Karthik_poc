@@ -58,7 +58,6 @@ public class CodeServiceImpl implements CodeService {
     @Override
     @Transactional
     public void savePubTypeCode(final PubTypeCode pubTypeCode) {
-        pubTypeCode.setLastUpdated(new Date());
         dao.save(pubTypeCode);
     }
 

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,6 +12,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.util.Assert;
 
 /**
@@ -21,6 +24,7 @@ import org.springframework.util.Assert;
 @ToString
 @Entity
 @Table(name = "APP_PARAMETER")
+@EntityListeners(AuditingEntityListener.class)
 public class AppParameter {
     @Id
     @Column(name = "PARAMETER_KEY")
@@ -29,6 +33,7 @@ public class AppParameter {
     @Column(name = "PARAMETER_VALUE")
     private String value;
     @Column(name = "LAST_UPDATED", nullable = false)
+    @LastModifiedDate
     @NonNull
     private Date lastUpdated;
 

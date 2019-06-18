@@ -25,7 +25,6 @@ public class SupportPageLinkServiceImpl implements SupportPageLinkService {
     @Override
     @Transactional
     public void save(final SupportPageLink spl) {
-        spl.setLastUpdated(new Date());
         dao.save(spl);
     }
 
