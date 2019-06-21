@@ -102,7 +102,13 @@ public class TocServiceImpl implements TocService {
                     tocNode = _tocManager.getNode(guid);
                     break;
                 } catch (final Exception exception) {
-                    novusTocRetryCounter = handleNovusExceptionAfterGetNodes(exception);
+                    try {
+                        novusTocRetryCounter =
+                            novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
+                    } catch (final Exception e) {
+                        log.error("Failed with Novus Exception in TOC");
+                        throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                    }
                 }
             }
             if (tocNode == null) {
@@ -135,20 +141,6 @@ public class TocServiceImpl implements TocService {
             log.debug("Failed with Novus Exception in TOC");
             throw new GatherException("TOC Novus Exception bitch", e, GatherResponse.CODE_NOVUS_ERROR);
         }
-    }
-
-    private int handleNovusExceptionAfterGetNodes(final Exception exception) throws GatherException {
-        int novusTocRetryCounter = 0;
-
-        try {
-            novusTocRetryCounter =
-                novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
-        } catch (final Exception e) {
-            log.error("Failed with Novus Exception in TOC");
-            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-        }
-
-        return novusTocRetryCounter;
     }
 
     public boolean printNodes(
@@ -361,7 +353,19 @@ public class TocServiceImpl implements TocService {
                     tocNodes = node.getChildren();
                     break;
                 } catch (final Exception exception) {
-                    novusTocRetryCounter = handleNovusExceptionAfterGetChildren(exception);
+                    try {
+                        novusTocRetryCounter =
+                            novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
+                    } catch (final NovusException e) {
+                        log.error("Failed with Novus Exception in TOC getChildren()");
+                        throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                    } catch (final GatherException e) {
+                        log.error("Failed with GatherException in TOC");
+                        throw e;
+                    } catch (final Exception e) {
+                        log.error("Failed with Exception in TOC getChildren()");
+                        throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                    }
                 }
             }
         } catch (final GatherException e) {
@@ -387,26 +391,6 @@ public class TocServiceImpl implements TocService {
                 splitTocGuidList.remove(splitNode);
             }
         }
-    }
-
-    private int handleNovusExceptionAfterGetChildren(final Exception exception) throws GatherException {
-        int novusTocRetryCounter = 0;
-
-        try {
-            novusTocRetryCounter =
-                novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
-        } catch (final NovusException e) {
-            log.error("Failed with Novus Exception in TOC getChildren()");
-            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-        } catch (final GatherException e) {
-            log.error("Failed with GatherException in TOC");
-            throw e;
-        } catch (final Exception e) {
-            log.error("Failed with Exception in TOC getChildren()");
-            throw new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-        }
-
-        return novusTocRetryCounter;
     }
 
     /**

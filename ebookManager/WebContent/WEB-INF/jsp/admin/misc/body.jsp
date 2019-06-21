@@ -59,7 +59,7 @@
 	</td>
 	</tr>
 	<tr>
-	<td>Root Loggger Level:</td>
+	<td>Root Logger Level:</td>
 	<td> 
 	<form:select path="<%=MiscConfig.Key.rootLogLevel.toString()%>">
 		<form:option label="Debug" value="<%=Level.DEBUG.toString()%>"/>
