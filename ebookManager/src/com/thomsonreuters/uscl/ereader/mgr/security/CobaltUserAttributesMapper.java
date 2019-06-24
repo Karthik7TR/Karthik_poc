@@ -16,17 +16,22 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapRdn;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  * Map the attributes for a Thomson Reuters LDAP user entry to a User object.
  */
 
 @Slf4j
+@Component
 public class CobaltUserAttributesMapper implements AttributesMapper {
     private static final String ATTR_COMMON_NAME = "cn";
     private static final String ATTR_EMAIL_ADDR = "mail";
@@ -44,11 +49,12 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
      * @param groupToRoleMap is the mapping between physical group names and logical role/authority names.
      * The key is a Java regular expression, the value is the corresponding role name for a match.
      */
+    @Autowired
     public CobaltUserAttributesMapper(
-        final String environmentName,
-        final Map<String, String> productionGroupToRoleMap,
-        final Map<String, String> nonProductionGroupToRoleMap) {
-        if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName)) {
+        @Qualifier("environmentName") final String environment,
+        @Value("#{${prod.user.roles}}") final Map<String, String> productionGroupToRoleMap,
+        @Value("#{${nonprod.user.roles}}")final Map<String, String> nonProductionGroupToRoleMap) {
+        if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environment)) {
             groupToRoleMap = productionGroupToRoleMap;
         } else {
             groupToRoleMap = nonProductionGroupToRoleMap;
