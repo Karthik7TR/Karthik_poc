@@ -43,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class JobExecutionController {
     private static final Logger log = LogManager.getLogger(JobExecutionController.class);
+
     private static final String CODE_JOB_OPERATION_PRIVILEGE = "job.operation.privilege";
     private static final String CODE_JOB_RESTART_SUCCESS = "job.restart.success";
     private static final String CODE_JOB_RESTART_FAIL = "job.restart.fail";
