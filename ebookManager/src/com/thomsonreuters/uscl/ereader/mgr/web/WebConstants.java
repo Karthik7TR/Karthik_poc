@@ -65,7 +65,6 @@ public class WebConstants {
     public static final String KEY_ERR_MESSAGE = "errMessage";
     public static final String KEY_WARNING_MESSAGE = "warningMessage";
     public static final String KEY_ERROR_OCCURRED = "errorOccurred";
-
     public static final String KEY_CONTENT_TYPES = "contentTypes";
     public static final String KEY_STATES = "states";
     public static final String KEY_YEARS = "years";
