@@ -651,7 +651,7 @@ public class EbookAudit implements Serializable {
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
-        setPrintPageNumbers(that.getPrintPageNumbers());
+        setPrintPageNumbers(that.isPrintPageNumbers());
     }
 
     /**
@@ -1134,6 +1134,10 @@ public class EbookAudit implements Serializable {
 
     public void setPrintSetNumber(final String printSetNumber) {
         this.printSetNumber = printSetNumber;
+    }
+
+    public boolean isPrintPageNumbers() {
+        return printPageNumbers.equalsIgnoreCase("Y");
     }
 
     public void setPrintPageNumbers(final boolean isPrintPageNumbers) {
