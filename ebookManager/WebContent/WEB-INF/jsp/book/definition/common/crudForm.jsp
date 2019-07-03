@@ -311,6 +311,11 @@
 						<form:errors path="rootTocGuid" cssClass="errorMessage" />
 					</div>
 				</div>
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="printPageNumbers" class="labelCol">Print Page Numbers:</form:label>
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="true" />Enabled
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="false" />Disabled
+				</div>
 			</div>
 			<div id="displayNORT" style="display:none">
 				<div class="row">

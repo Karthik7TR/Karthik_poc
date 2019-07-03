@@ -352,6 +352,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("groupsEnabled", "false");
         request.setParameter("isComplete", "true");
         request.setParameter("validateForm", "false");
+        request.setParameter("printPageNumbers", "true");
 
         setupDropdownMenuAndKeywords(2);
 
@@ -1160,6 +1161,7 @@ public final class EditBookDefinitionControllerTest {
         book.setIsSplitBook(false);
         book.setIsSplitTypeAuto(true);
         book.setPrintSetNumber("1234");
+        book.setPrintPageNumbers(true);
         return book;
     }
 

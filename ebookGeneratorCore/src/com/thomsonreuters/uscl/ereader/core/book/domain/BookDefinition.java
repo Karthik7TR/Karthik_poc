@@ -375,6 +375,9 @@ public class BookDefinition implements Serializable {
     @Getter @Setter
     private String notes;
 
+    @Column(name = "PRINT_PAGE_NUMBERS")
+    private String printPageNumbers;
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = isTocFlag ? Y : N;
     }
@@ -772,6 +775,14 @@ public class BookDefinition implements Serializable {
         frontMatterPages = new LinkedHashSet<>(frontMatterPage);
     }
 
+    public void setPrintPageNumbers(final boolean isPrintPageNumbers) {
+        printPageNumbers = isPrintPageNumbers ? Y : N;
+    }
+
+    public boolean getPrintPageNumbers() {
+        return Y.equalsIgnoreCase(printPageNumbers);
+    }
+
     public BookDefinition() {
         super();
         setIsDeletedFlag(false);
@@ -853,6 +864,7 @@ public class BookDefinition implements Serializable {
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintSubNumber(that.getPrintSubNumber());
+        setPrintPageNumbers(that.getPrintPageNumbers());
     }
 
     /**

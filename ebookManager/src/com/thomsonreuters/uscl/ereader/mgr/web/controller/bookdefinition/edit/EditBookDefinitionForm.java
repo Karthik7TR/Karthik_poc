@@ -246,6 +246,9 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private boolean colorPrintComponentTable;
 
+    @Getter @Setter
+    private boolean printPageNumbers;
+
     /**
      * Reset some book definition fields before copying in to the form
      *
@@ -352,6 +355,7 @@ public class EditBookDefinitionForm {
             isSplitTypeAuto = book.isSplitTypeAuto();
             splitEBookParts = book.getSplitEBookParts();
             fmThemeText = book.getFrontMatterTheme();
+            printPageNumbers = book.getPrintPageNumbers();
 
             // Determine if ProView groups are set
             if (StringUtils.isBlank(book.getGroupName())) {
@@ -552,6 +556,7 @@ public class EditBookDefinitionForm {
         book.setSplitEBookParts(splitEBookParts);
         book.setSubGroupHeading(subGroupHeading);
         book.setGroupName(groupName);
+        book.setPrintPageNumbers(printPageNumbers);
 
         book.setNortFileLocations(copyList(nortFileLocations, book, NortFileLocation::new));
         book.setFrontMatterTheme(fmThemeText);

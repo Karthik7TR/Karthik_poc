@@ -248,9 +248,13 @@ $(document).ready(function() {
 						<span class="field">${ book.removeEditorNoteHeadFlag }</span>
 					</div>
 					<div class="row" ${xppHide}>
-						<label class="labelCol">Split book</label>
-						<span class="field">${ book.splitBook }</span>
+						<label class="labelCol">Print Page Numbers</label>
+						<span class="field">${ book.printPageNumbers }</span>
 					</div>
+                    <div class="row" ${xppHide}>
+                        <label class="labelCol">Split book</label>
+                        <span class="field">${ book.splitBook }</span>
+                    </div>
 					<c:choose>
 						<c:when test="${ book.splitBook == true }">						
 							<div class="row" ${xppHide}>

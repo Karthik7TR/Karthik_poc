@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -307,6 +309,11 @@ public class EbookAudit implements Serializable {
     @Column(name = "PRINT_SET_NUMBER")
     @Basic(fetch = FetchType.EAGER)
     private String printSetNumber;
+
+    @Column(name = "PRINT_PAGE_NUMBERS")
+    @Getter @Setter
+    @Basic(fetch = FetchType.EAGER)
+    private String printPageNumbers;
 
     public void setAuditId(final Long auditId) {
         this.auditId = auditId;
@@ -644,6 +651,7 @@ public class EbookAudit implements Serializable {
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
+        setPrintPageNumbers(that.getPrintPageNumbers());
     }
 
     /**
@@ -720,6 +728,7 @@ public class EbookAudit implements Serializable {
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
+        setPrintPageNumbers(that.getPrintPageNumbers());
     }
 
     @Transient
@@ -808,6 +817,7 @@ public class EbookAudit implements Serializable {
         buffer.append("subGroupHeading=[").append(subGroupHeading).append("] ");
         buffer.append("groupName=[").append(groupName).append("] ");
         buffer.append("printSetNumber=[").append(printSetNumber).append("] ");
+        buffer.append("printPageNumbers=[").append(printPageNumbers).append("] ");
         return buffer.toString();
     }
 
@@ -1124,5 +1134,9 @@ public class EbookAudit implements Serializable {
 
     public void setPrintSetNumber(final String printSetNumber) {
         this.printSetNumber = printSetNumber;
+    }
+
+    public void setPrintPageNumbers(final boolean isPrintPageNumbers) {
+        printPageNumbers = isPrintPageNumbers ? "Y" : "N";
     }
 }
