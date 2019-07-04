@@ -135,6 +135,10 @@ $(document).ready(function() {
 								<label class="labelCol">Root TOC Guid</label>
 								<span class="field">${ book.rootTocGuid }</span>
 							</div>
+                            <div class="row">
+                                <label class="labelCol">Print Page Numbers</label>
+                                <span class="field">${ book.printPageNumbers }</span>
+                            </div>
 						</div>
 					</c:when>
 					<c:when test="${ book.sourceType == 'NORT' }">
@@ -246,10 +250,6 @@ $(document).ready(function() {
 					<div class="row" ${xppHide}>
 						<label class="labelCol">Remove Editors' Notes Heading</label>
 						<span class="field">${ book.removeEditorNoteHeadFlag }</span>
-					</div>
-					<div class="row" ${xppHide}>
-						<label class="labelCol">Print Page Numbers</label>
-						<span class="field">${ book.printPageNumbers }</span>
 					</div>
                     <div class="row" ${xppHide}>
                         <label class="labelCol">Split book</label>
