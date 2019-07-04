@@ -20,8 +20,6 @@ import javax.persistence.Transient;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -311,7 +309,6 @@ public class EbookAudit implements Serializable {
     private String printSetNumber;
 
     @Column(name = "PRINT_PAGE_NUMBERS")
-    @Getter @Setter
     @Basic(fetch = FetchType.EAGER)
     private String printPageNumbers;
 
@@ -728,7 +725,7 @@ public class EbookAudit implements Serializable {
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
-        setPrintPageNumbers(that.getPrintPageNumbers());
+        setPrintPageNumbers(that.isPrintPageNumbers());
     }
 
     @Transient

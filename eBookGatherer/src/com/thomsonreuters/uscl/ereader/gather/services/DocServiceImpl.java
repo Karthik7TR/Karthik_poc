@@ -12,7 +12,9 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.westgroup.novus.productapi.Document;
@@ -28,13 +30,17 @@ import com.westgroup.novus.productapi.NovusException;
  */
 
 @Slf4j
+@Component
 public class DocServiceImpl implements DocService {
     private static final int META_COUNTER = 1;
 
     private static final int META_RETRY_COUNTER = 0;
 
+    @Autowired
+    @Qualifier("novusFactory")
     private NovusFactory novusFactory;
 
+    @Autowired
     private NovusUtility novusUtility;
 
     /*
@@ -337,12 +343,10 @@ public class DocServiceImpl implements DocService {
         }
     }
 
-    @Required
     public void setNovusFactory(final NovusFactory factory) {
         novusFactory = factory;
     }
 
-    @Required
     public void setNovusUtility(final NovusUtility novusUtil) {
         novusUtility = novusUtil;
     }

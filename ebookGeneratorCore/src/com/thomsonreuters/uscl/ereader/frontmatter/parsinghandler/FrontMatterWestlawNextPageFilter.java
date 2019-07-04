@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addPageNumber;
+
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -13,6 +16,8 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
 public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl {
+    private static final String PAGE_NUMBER = "iv";
+
     /** Names of all the placeholder tags this filter handles */
     private static final String WESTLAW_NEXT_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_WestlawNextPageAnchor";
 
@@ -23,10 +28,17 @@ public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl {
 
     private static final String CDATA = "CDATA";
 
+    private BookDefinition bookDefinition;
+
+    public FrontMatterWestlawNextPageFilter(final BookDefinition bookDefinition) {
+        this.bookDefinition = bookDefinition;
+    }
+
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (qName.equalsIgnoreCase(WESTLAW_NEXT_PAGE_ANCHOR_TAG)) {
+            addPageNumber(this, bookDefinition, PAGE_NUMBER);
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,

@@ -61,9 +61,12 @@ public class PreprocessXML extends AbstractSbTasklet {
                 preprocessDir,
                 bookDefinition.isFinalStage(),
                 bookDefinition.getDocumentCopyrights(),
-                bookDefinition.getDocumentCurrencies());
+                bookDefinition.getDocumentCurrencies(),
+                bookDefinition.isPrintPageNumbers());
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
+
+            jobExecutionContext.put(JobExecutionKey.PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS, preprocessService.isPagebreakFoundInSourceDocs());
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of documents preprocessed did not match the number "

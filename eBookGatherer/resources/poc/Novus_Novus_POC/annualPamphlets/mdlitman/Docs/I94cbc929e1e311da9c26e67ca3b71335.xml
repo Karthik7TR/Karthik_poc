@@ -1,0 +1,511 @@
+<n-docbody>
+    <doc bill="Y">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man § 2:4
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I01ec5521680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+            <prop.head toc-guid="I97b7f560933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Part</label.name>
+                <label.designator>I.</label.designator>
+                <headtext>Handling Cases Before the Judicial Panel on Multidistrict Litigation</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="I9a7603f0933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Chapter</label.name>
+                <label.designator>2.</label.designator>
+                <headtext>History of the Panel</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+        </prop.block>
+        <message.block>
+            <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">
+                Copyright (c) 2017 Thomson/RIA All rights reserved.
+            </include.copyright>
+        </message.block>
+        <section>
+            <section.front>
+                <doc.title toc-guid="I94cbc928e1e311da9c26e67ca3b71335">
+                    <head parent="doc.title">
+                        <bop/>
+                        <bos/>
+                        <label.name>§</label.name>
+                        <label.designator>2:4.</label.designator>
+                        <headtext>Membership of the Panel</headtext>
+                        <eos/>
+                        <eop/>
+                    </head>
+                </doc.title>
+            </section.front>
+            <section.body>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel comprises seven judges.
+                        <eos/>
+                        <bos/>The judges are assigned by the Chief Justice of the United States to serve indefinite
+                        terms.
+                        <eos/>
+                        <bos/>The initial membership of the Panel included a number of the judges who had been involved
+                        in the electrical equipment antitrust litigation.
+                        <eos/>
+                        <bos/>Additionally, members of the Coordinating Committee for Multiple Litigation of the United
+                        States District Courts were also assigned to the Panel.
+                        <eos/>
+                        <bos/>The Panel thus had, from its beginning, judges who were experienced in management of
+                        complex litigation involving multiple parties and complicated issues.
+                        <eos/>
+                        <bos/>The Panel has continued to be a “blue ribbon” panel of federal judges, although it has
+                        also become a more diverse group.
+                        <eos/>
+                        <bos/>The judges who have served on the Panel are set forth below.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>Membership of the Panel continues to change.
+                        <eos/>
+                        <bos/>This table shows the current members of the Panel.
+                        <eos/>
+                        <bos/>The composition of the Panel is also set forth in the current issues of Federal Reporter,
+                        Federal Supplement, and Federal Rules Decisions.
+                        <eos/>
+                        <bos/>A roster of all current and former judges of the Panel is available on the Panel&apos;s
+                        website. <?pagebreak label="15"?>[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I01ef1440680911e88f4a9c1f64101294">1</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <tbl ID="I9db8d2e0933b11da99e2b07024dacc26">
+                    <bop/>
+                    <table>
+                        <bos/>
+                        <tgroup cols="3" align="left">
+                            <colspec colnum="1" colname="1" colwidth="18*"/>
+                            <colspec colnum="2" colname="2" colwidth="11*"/>
+                            <colspec colnum="3" colname="3" colwidth="20*"/>
+                            <thead valign="bottom">
+                                <row>
+                                    <entry colname="1"> 
+                                        <ital>Judge</ital>
+                                    </entry>
+                                    <entry colname="2" align="center">
+                                        <ital>Court to which normally assigned</ital>
+                                    </entry>
+                                    <entry colname="3" align="center">
+                                        <ital>Dates of service</ital>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> </entry>
+                                    <entry colname="2"/>
+                                    <entry colname="3"/>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry colname="1"> Alfred P. Murrah, Chair</entry>
+                                    <entry colname="2">10th Circuit</entry>
+                                    <entry colname="3">May 29, 1968 to Oct. 30, 1975</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> John Minor Wisdom</entry>
+                                    <entry colname="2">5th Circuit</entry>
+                                    <entry colname="3">May 29, 1968 to Jan. 1, 1979</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Edward Weinfeld</entry>
+                                    <entry colname="2">S.D.N.Y.</entry>
+                                    <entry colname="3">May 29, 1968 to Jan. 1, 1979</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Edwin A. Robson</entry>
+                                    <entry colname="2">N.D. Ill.</entry>
+                                    <entry colname="3">May 29, 1968 to July 1, 1979</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> William H. Becker</entry>
+                                    <entry colname="2">W.D. Mo.</entry>
+                                    <entry colname="3">May 29, 1968 to Jan. 1, 1979</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Joseph S. Lord, III</entry>
+                                    <entry colname="2">E.D. Pa.</entry>
+                                    <entry colname="3">May 29, 1968 to Jan. 1, 1979</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Stanley A. Weigel</entry>
+                                    <entry colname="2">N.D. Cal.</entry>
+                                    <entry colname="3">May 29, 1968 to Mar. 1, 1980</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Andrew A. Caffrey</entry>
+                                    <entry colname="2">D. Mass.</entry>
+                                    <entry colname="3">Nov. 6, 1975 to June 1, 1980</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1">   Chair</entry>
+                                    <entry colname="2"/>
+                                    <entry colname="3">Mar. 1, 1980 to June 1, 1980</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Murray I. Gurfein</entry>
+                                    <entry colname="2">1st Circuit</entry>
+                                    <entry colname="3">Sept. 11, 1974 to Mar. 1, 1980</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1">   Chair</entry>
+                                    <entry colname="2"/>
+                                    <entry colname="3">Jan. 1, 1979 to Mar. 1, 1980</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Roy W. Harper</entry>
+                                    <entry colname="2">E.D. Mo.</entry>
+                                    <entry colname="3">Feb. 1, 1977 to Oct. 1, 1983</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Charles R. Weiner</entry>
+                                    <entry colname="2">E.D. Pa.</entry>
+                                    <entry colname="3">Oct. 25, 1978 to Oct. 1, 1983</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Edward S. Northrop</entry>
+                                    <entry colname="2">D. Md.</entry>
+                                    <entry colname="3">July 1, 1979 to Oct. 1, 1983</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Robert H. Schnacke</entry>
+                                    <entry colname="2">N.D. Cal.</entry>
+                                    <entry colname="3">July 1, 1979 to Nov. 19, 1990</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Frederick A. Daugherty</entry>
+                                    <entry colname="2">E., W. D. Ok.</entry>
+                                    <entry colname="3">Mar. 1, 1980 to Nov. 19, 1990</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Sam C. Pointer, Jr.</entry>
+                                    <entry colname="2">N.D. Ala.</entry>
+                                    <entry colname="3">Mar. 1, 1980 to Nov. 20, 1987</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> S. Hugh Dillin</entry>
+                                    <entry colname="2">S.D. Ind.</entry>
+                                    <entry colname="3">Oct. 1, 1983 to Oct. 26, 1992</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Milton Pollack</entry>
+                                    <entry colname="2">S.D.N.Y.</entry>
+                                    <entry colname="3">Oct. 1, 1983 to Dec. 5, 1994</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Louis H. Pollak</entry>
+                                    <entry colname="2">E.D. Pa.</entry>
+                                    <entry colname="3">Oct. 1, 1983 to Oct. 26, 1992</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Halbert O. Woodward</entry>
+                                    <entry colname="2">N.D. Tex.</entry>
+                                    <entry colname="3">Mar. 3, 1989 to June 23, 1992</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> John F. Nangle, Chair</entry>
+                                    <entry colname="2">E.D. Mo.</entry>
+                                    <entry colname="3">June 1, 1990 to Dec. 1, 2000</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Robert R. Merhige, Jr.</entry>
+                                    <entry colname="2">E.D. Va.</entry>
+                                    <entry colname="3">Nov. 19, 1990 to June 9, 1998</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> William B. Enright</entry>
+                                    <entry colname="2">S.D. Cal.</entry>
+                                    <entry colname="3">Nov. 19, 1990 to June 1, 2000</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Clarence A. Brimmer, Jr.</entry>
+                                    <entry colname="2">D. Wyo.</entry>
+                                    <entry colname="3">Oct. 26, 1992 to June 1, 2000</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> John F. Grady</entry>
+                                    <entry colname="2">N.D. Ill.</entry>
+                                    <entry colname="3">Oct. 26, 1992 to June 1, 2000</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Barefoot Sanders</entry>
+                                    <entry colname="2">N.D. Tex.</entry>
+                                    <entry colname="3">Oct. 26, 1992 to June 1, 2000</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Louis C. Bechtle</entry>
+                                    <entry colname="2">E.D. Pa.</entry>
+                                    <entry colname="3">Dec. 6, 1994 to June 29, 2001</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> John F. Keenan</entry>
+                                    <entry colname="2">S.D.N.Y.</entry>
+                                    <entry colname="3">June 8, 1998 to June 1, 2006</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Julia Smith Gibbons</entry>
+                                    <entry colname="2">W. D. Tenn.</entry>
+                                    <entry colname="3">June 1, 2000 to Dec. 30, 2003</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Morey L. Sear</entry>
+                                    <entry colname="2">E. D. La.</entry>
+                                    <entry colname="3">June 1, 2000 to Dec. 31, 2002</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Bruce M. Selya</entry>
+                                    <entry colname="2">1st Circuit</entry>
+                                    <entry colname="3">June 1, 2000 to June 1, 2004</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Wm. Terrell Hodges, Chair</entry>
+                                    <entry colname="2">M. D. Fla.</entry>
+                                    <entry colname="3">June 1, 2000 to June 1, 2007</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> D. Lowell Jensen</entry>
+                                    <entry colname="2">N. D. Cal.</entry>
+                                    <entry colname="3">Dec. 1, 2000 to June 1, 2008</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> J. Frederick Motz</entry>
+                                    <entry colname="2">D. Md.</entry>
+                                    <entry colname="3">July 17, 2001 to June 1, 2009</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Robert L. Miller, Jr.</entry>
+                                    <entry colname="2">N. D. Ind.</entry>
+                                    <entry colname="3">Jan. 1, 2003 to Oct. 15, 2010</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Kathryn H. Vratil</entry>
+                                    <entry colname="2">D. Kan.</entry>
+                                    <entry colname="3">Feb. 2, 2004 to October 15, 2013</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> David R. Hansen</entry>
+                                    <entry colname="2">8th Circuit</entry>
+                                    <entry colname="3">July 9, 2004 to May 1, 2011</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Anthony J. Scirica</entry>
+                                    <entry colname="2">3rd Circuit</entry>
+                                    <entry colname="3">June 1, 2006 to June 15, 2008</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> John Gilpin Heyburn II</entry>
+                                    <entry colname="2">W. D. Ky.</entry>
+                                    <entry colname="3">June 14, 2007 to June 14, 2014</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1">   Chair</entry>
+                                    <entry colname="2"/>
+                                    <entry colname="3"/>
+                                </row>
+                                <row>
+                                    <entry colname="1"> W. Royal Furgeson, Jr.</entry>
+                                    <entry colname="2">W. D. Tex.</entry>
+                                    <entry colname="3">Sept. 22, 2008 to May 31, 2013</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Frank C. Damrell, Jr.</entry>
+                                    <entry colname="2">E. D. Ca.</entry>
+                                    <entry colname="3">Dec. 9, 2008 to Oct. 15, 2011</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> David G. Trager</entry>
+                                    <entry colname="2">E. D. N. Y.</entry>
+                                    <entry colname="3">Oct. 7, 2009, to April 1, 2010</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Barbara S. Jones</entry>
+                                    <entry colname="2">S. D. N.Y.</entry>
+                                    <entry colname="3">May 21, 2010 to Oct. 15, 2012</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Paul J. Barbadoro</entry>
+                                    <entry colname="2">D. N. H.</entry>
+                                    <entry colname="3">Nov. 8, 2010 to Feb. 10, 2014</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Marjorie O. Rendell[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">3rd Circuit</entry>
+                                    <entry colname="3">May 24, 2011 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Charles R. Breyer[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">N.D. Cal.</entry>
+                                    <entry colname="3">Oct. 16, 2011 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Lewis A. Kaplan[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">S.D.N.Y.</entry>
+                                    <entry colname="3">Oct. 24, 2012 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Sarah S. Vance[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">E. D. La.</entry>
+                                    <entry colname="3">June 1, 2013 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1">   Chair</entry>
+                                    <entry colname="2"/>
+                                    <entry colname="3">Oct. 16, 2014 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Ellen Segal Huvelle[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">D. D. C.</entry>
+                                    <entry colname="3">Oct. 16, 2013 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> R. David Proctor[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">N. D. Ala.</entry>
+                                    <entry colname="3">April 11, 2014 to present</entry>
+                                </row>
+                                <row>
+                                    <entry colname="1"> Catherine D Perry[<endnote.reference
+                                            refid="N10552I9db43f00933b11da99e2b07024dacc26">*</endnote.reference>]
+                                    </entry>
+                                    <entry colname="2">E. D. Mo.</entry>
+                                    <entry colname="3">Oct. 8, 2014 to present</entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                        <eos/>
+                        <bos/>
+                    </table>
+                    <endnote ID="N10552I9db43f00933b11da99e2b07024dacc26">
+                        <label.designator>*</label.designator>
+                        <endnote.body>
+                            <para>
+                                <paratext>Currently serving</paratext>
+                            </para>
+                        </endnote.body>
+                    </endnote>
+                    <eos/>
+                    <eop/>
+                </tbl>
+            </section.body>
+        </section>
+        <author.footnotes>
+            <footnote ID="I01ec5521680911e88f4a9c1f64101294">
+                <label.designator>a0</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </author.footnotes>
+        <footnote.block>
+            <footnote ID="I01ef1440680911e88f4a9c1f64101294">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            http://www.jpml.uscourts.gov/sites/jpml/files/Current_Former_Judges_of_the%20Panel-10-9-2015.pdf.
+                        </paratext>
+                        <eos/>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN § 2:4
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

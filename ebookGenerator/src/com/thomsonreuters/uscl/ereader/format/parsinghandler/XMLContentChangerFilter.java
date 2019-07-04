@@ -1,9 +1,14 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_CLOSE;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_OPEN;
+
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
+import lombok.Getter;
+import lombok.Setter;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
@@ -14,6 +19,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
 public class XMLContentChangerFilter extends XMLFilterImpl {
+    private static final String PAGEBREAK_PROCESSING_INSTRUCTION = "pagebreak";
     private static final String GUID_ATTR = "n-include_guid";
     private static final String CURRENCY_TAG = "include.currency";
     private boolean isChanging;
@@ -24,16 +30,23 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
     private List<DocumentCurrency> currencies;
     private List<DocumentCurrency> copyCurrencies;
 
+    @Setter
+    private boolean protectPagebreaks;
+    @Getter
+    private boolean pagebreakFound;
+
     public XMLContentChangerFilter(
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies) {
+        final List<DocumentCurrency> copyCurrencies,
+        final boolean protectPagebreaks) {
         super();
         this.copyrights = copyrights;
         this.copyCopyrights = copyCopyrights;
         this.currencies = currencies;
         this.copyCurrencies = copyCurrencies;
+        this.protectPagebreaks = protectPagebreaks;
     }
 
     @Override
@@ -89,5 +102,21 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
         } else {
             super.endElement(uri, localName, qName);
         }
+    }
+
+    /**
+     * protect processing instruction <?pagebreak ... ?> from Cobalt Document XSL stylesheets
+     */
+    @Override
+    public void processingInstruction(final String target, final String data) throws SAXException {
+        if (protectPagebreaks && PAGEBREAK_PROCESSING_INSTRUCTION.equals(target)) {
+            final String message = wrapPagebreak(data);
+            super.characters(message.toCharArray(), 0, message.length());
+            pagebreakFound = true;
+        }
+    }
+
+    private String wrapPagebreak(final String data) {
+        return PAGEBREAK_WRAPPER_OPEN + data + PAGEBREAK_WRAPPER_CLOSE;
     }
 }

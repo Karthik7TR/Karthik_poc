@@ -11,6 +11,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -27,6 +28,7 @@ import org.xml.sax.InputSource;
  */
 public final class FrontMatterWestlawNextPageFilterTest {
     private FrontMatterWestlawNextPageFilter westlawNextPageFilter;
+    private BookDefinition bookDefinition;
     private Serializer serializer;
 
     @Before
@@ -35,7 +37,9 @@ public final class FrontMatterWestlawNextPageFilterTest {
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
 
-        westlawNextPageFilter = new FrontMatterWestlawNextPageFilter();
+        bookDefinition = new BookDefinition();
+
+        westlawNextPageFilter = new FrontMatterWestlawNextPageFilter(bookDefinition);
         westlawNextPageFilter.setParent(saxParser.getXMLReader());
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
@@ -89,9 +93,20 @@ public final class FrontMatterWestlawNextPageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_WestlawNextPageAnchor() {
+        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
         final String expectedResult =
             "<test><a name=\"" + FrontMatterFileName.WESTLAW + FrontMatterFileName.ANCHOR + "\"> </a></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_WestlawNextPageAnchorWithPagebreaks() {
+        bookDefinition.setPrintPageNumbers(true);
+        final String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
+        final String expectedResult =
+            "<test><?pb label=\"iv\"?><a name=\"" + FrontMatterFileName.WESTLAW + FrontMatterFileName.ANCHOR + "\"> </a></test>";
 
         testHelper(xmlTestStr, expectedResult);
     }

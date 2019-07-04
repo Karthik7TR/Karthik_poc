@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;

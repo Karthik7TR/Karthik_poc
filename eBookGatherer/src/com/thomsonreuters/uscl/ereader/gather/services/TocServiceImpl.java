@@ -24,7 +24,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.NumericEntityEscaper;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
@@ -39,9 +41,13 @@ import com.westgroup.novus.productapi.TOCNode;
  */
 
 @Slf4j
+@Component
 public class TocServiceImpl implements TocService {
+    @Autowired
+    @Qualifier("novusFactory")
     private NovusFactory novusFactory;
 
+    @Autowired
     private NovusUtility novusUtility;
 
     private Integer tocRetryCount;
@@ -567,12 +573,10 @@ public class TocServiceImpl implements TocService {
         return toc;
     }
 
-    @Required
     public void setNovusFactory(final NovusFactory factory) {
         novusFactory = factory;
     }
 
-    @Required
     public void setNovusUtility(final NovusUtility novusUtil) {
         novusUtility = novusUtil;
     }

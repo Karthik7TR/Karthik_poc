@@ -32,4 +32,10 @@ public final class EBConstants {
     public static final String TOC_END_DOCUMENT_GUID_ELEMENT = "</DocumentGuid>";
     public static final String TOC_START_GUID_ELEMENT = "<Guid>";
     public static final String TOC_END_GUID_ELEMENT = "</Guid>";
+
+    public static final String PAGEBREAK_WRAPPER_OPEN = "{pagebreak-open ";
+    public static final String PAGEBREAK_WRAPPER_CLOSE = " close-pagebreak}";
+    public static final String PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION = "<?pb ";
+    public static final String PROCESSING_INSTRUCTION_CLOSE = "?>";
+
 }

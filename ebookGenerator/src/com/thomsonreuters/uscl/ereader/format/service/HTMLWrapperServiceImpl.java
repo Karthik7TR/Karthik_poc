@@ -1,5 +1,10 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_CLOSE;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_OPEN;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.PROCESSING_INSTRUCTION_CLOSE;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -19,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.ReplacingInputStream;
 
 /**
  * The HTMLWrapperService iterates through a directory of transformed raw HTML files and
@@ -152,9 +158,14 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
 
         try (FileOutputStream outputStream = new FileOutputStream(output, true);
             InputStream headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
-            InputStream transFileStream = new FileInputStream(transformedFile);
+            InputStream transFileStream =
+                new ReplacingInputStream(new ReplacingInputStream(
+                new FileInputStream(transformedFile),
+                PAGEBREAK_WRAPPER_OPEN.getBytes(), PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION.getBytes()),
+                PAGEBREAK_WRAPPER_CLOSE.getBytes(), PROCESSING_INSTRUCTION_CLOSE.getBytes());
             InputStream footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
-            ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());) {
+            ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());
+            ) {
             IOUtils.copy(headerStream, outputStream);
 
             IOUtils.copy(anchorStream, outputStream);

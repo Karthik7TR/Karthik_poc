@@ -161,9 +161,20 @@ public final class FrontMatterTitlePageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_TitlePageAnchor() {
+        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_TitlePageAnchor/></test>";
         final String expectedResult =
             "<test><a name=\"" + FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR + "\"/></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_TitlePageAnchorWithPagebreaks() {
+        bookDefinition.setPrintPageNumbers(true);
+        final String xmlTestStr = "<test><frontMatterPlaceholder_TitlePageAnchor/></test>";
+        final String expectedResult =
+            "<test><?pb label=\"i\"?><a name=\"" + FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR + "\"/></test>";
 
         testHelper(xmlTestStr, expectedResult);
     }

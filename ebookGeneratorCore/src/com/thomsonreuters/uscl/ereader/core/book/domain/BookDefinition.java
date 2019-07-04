@@ -779,7 +779,7 @@ public class BookDefinition implements Serializable {
         printPageNumbers = isPrintPageNumbers ? Y : N;
     }
 
-    public boolean getPrintPageNumbers() {
+    public boolean isPrintPageNumbers() {
         return Y.equalsIgnoreCase(printPageNumbers);
     }
 
@@ -864,7 +864,7 @@ public class BookDefinition implements Serializable {
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintSubNumber(that.getPrintSubNumber());
-        setPrintPageNumbers(that.getPrintPageNumbers());
+        setPrintPageNumbers(that.isPrintPageNumbers());
     }
 
     /**

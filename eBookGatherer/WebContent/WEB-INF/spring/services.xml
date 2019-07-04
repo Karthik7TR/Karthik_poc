@@ -18,15 +18,7 @@
 		  p:tocRetryCount="3"
 		  p:nortRetryCount="3"
 		  p:imgRetryCount="3"
-		  p:showMissDocsList="Y"/>		  
-
-	<bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl"
-		  p:novusFactory-ref="novusFactory"
-		  p:novusUtility-ref="novusUtility"/>
-
-	<bean id="tocService" class="com.thomsonreuters.uscl.ereader.gather.services.TocServiceImpl"
-		  p:novusFactory-ref="novusFactory"
-		  p:novusUtility-ref="novusUtility"/>
+		  p:showMissDocsList="Y"/>
 	
 	<bean id="nortService" class="com.thomsonreuters.uscl.ereader.gather.services.NortServiceImpl"
 		  p:novusFactory-ref="novusFactory"

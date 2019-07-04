@@ -59,7 +59,7 @@ public final class XMLContentChangerFilterTest {
         Collections.copy(copyCurrencies, currencies);
         Collections.copy(copyCopyrights, copyrights);
 
-        contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
+        contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies, true);
         contentChangeFilter.setParent(saxParser.getXMLReader());
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -80,7 +80,7 @@ public final class XMLContentChangerFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) {
+    public void testHelper(final String inputXML, final String expectedResult, final boolean expectPagebreaks) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
         try {
@@ -95,6 +95,7 @@ public final class XMLContentChangerFilterTest {
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
+            assertEquals(expectPagebreaks, contentChangeFilter.isPagebreakFound());
         } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
         } finally {
@@ -118,29 +119,29 @@ public final class XMLContentChangerFilterTest {
         final String expectedResult =
             "<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, false);
     }
 
     @Test
     public void testCopyrightValueChange() {
         final String xmlTestStr =
-            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>";
+            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?pagebreak label=\"i\"?></test>";
         final String expectedResult =
-            "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>";
+            "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open label=\"i\" close-pagebreak}</test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
     public void testCopyrightAndCurrencyChange() {
         final String xmlTestStr =
-            "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>"
+            "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?pagebreak label=\"i\"?></test>"
                 + "<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
         final String expectedResult =
-            "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>"
+            "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open label=\"i\" close-pagebreak}</test>"
                 + "<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test></body>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
@@ -150,6 +151,17 @@ public final class XMLContentChangerFilterTest {
                 + "<test><include.else n-include_guid=\"123456789\">This is a currency</include.else></test></body>";
         final String expectedResult = xmlTestStr;
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, false);
+    }
+
+    @Test
+    public void testDoNotProtectPagebreaks() {
+        contentChangeFilter.setProtectPagebreaks(false);
+        final String xmlTestStr =
+            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?pagebreak label=\"i\"?></test>";
+        final String expectedResult =
+            "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>";
+
+        testHelper(xmlTestStr, expectedResult, false);
     }
 }

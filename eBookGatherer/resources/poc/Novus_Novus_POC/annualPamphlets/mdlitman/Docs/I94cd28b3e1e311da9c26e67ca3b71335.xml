@@ -1,0 +1,935 @@
+<n-docbody>
+    <doc bill="Y">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man § 3:4
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I024cc4a1680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+            <prop.head toc-guid="I97b7f560933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Part</label.name>
+                <label.designator>I.</label.designator>
+                <headtext>Handling Cases Before the Judicial Panel on Multidistrict Litigation</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="I9f85f1c0933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Chapter</label.name>
+                <label.designator>3.</label.designator>
+                <headtext>Powers of the Panel</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+        </prop.block>
+        <message.block>
+            <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">
+                Copyright (c) 2017 Thomson/RIA All rights reserved.
+            </include.copyright>
+        </message.block>
+        <section>
+            <section.front>
+                <doc.title toc-guid="I94cd28b2e1e311da9c26e67ca3b71335">
+                    <head parent="doc.title">
+                        <bop/>
+                        <bos/>
+                        <label.name>§</label.name>
+                        <label.designator>3:4.</label.designator>
+                        <headtext>Breadth of power to transfer</headtext>
+                        <eos/>
+                        <eop/>
+                    </head>
+                </doc.title>
+            </section.front>
+            <section.body>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The power to transfer under <cite.query w-src-number="0304913952" w-seq-number="00001"
+                                                                      w-ref-type="LQ" w-normalized-cite="28USCAS1407"
+                                                                      w-pub-number="1000546"
+                                                                      ID="I0ed29930680811e8aca4f6dd071ce3e8">28 U.S.C.A.
+                        § 1407
+                    </cite.query> is broader than the power of individual courts in certain respects.
+                        <eos/>
+                        <bos/>The concept of transfer under this statute is not limited to the traditional views of
+                        venue.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024d12c0680911e88f4a9c1f64101294">1</footnote.reference>] The Panel
+                        can transfer cases for coordinated or consolidated pretrial proceedings to districts in which
+                        venue could not properly be laid initially[<footnote.reference
+                                refid="I024d39d0680911e88f4a9c1f64101294">2</footnote.reference>] or to courts that
+                        cannot exercise jurisdiction over some of the defendants.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024d39d1680911e88f4a9c1f64101294">3</footnote.reference>] The power
+                        to transfer cases for efficient case management under <cite.query w-src-number="0304913952"
+                                                                                          w-seq-number="00009"
+                                                                                          w-ref-type="LQ"
+                                                                                          w-normalized-cite="28USCAS1407"
+                                                                                          w-pub-number="1000546"
+                                                                                          ID="I0ed77b30680811e8aca4f6dd071ce3e8">
+                            § 1407
+                        </cite.query> trumps exclusive venue provisions in other statutes.
+                        <eos/>
+                        <bos/>For example, although the statute governing federal crop insurance claims provides that
+                        actions under the statute may be brought only in the district where the farm is
+                        located,[<footnote.reference refid="I024e4b41680911e88f4a9c1f64101294">4</footnote.reference>]
+                        the Panel has ordered that it can transfer such actions to any district, just as it does other
+                        actions.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024e4b42680911e88f4a9c1f64101294">5</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel can order transfer of entire actions, including the claims against defendants
+                        who have not been served.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024e7250680911e88f4a9c1f64101294">6</footnote.reference>] The Panel
+                        has noted, however, that special considerations come into play when questions of transfer of
+                        actions against defendants who have not been served are before it.
+                        <eos/>
+                        <bos/>In one early decision the Panel stated:
+                    </paratext>
+                    <display.quote>
+                        <para>
+                            <paratext><begin.quote ID="QT_0001"/>When defendants named in a particular case have not
+                                been served or notified and have therefore not had the opportunity to object to a
+                                proposed transfer, the Panel may not be able to conclude that the <cite.query
+                                        w-src-number="0304913952" w-seq-number="00014" w-ref-type="LQ"
+                                        w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                        ID="I0edc0f10680811e8aca4f6dd071ce3e8">§ 1407
+                                </cite.query> standard is satisfied, even though the case may appear to meet the
+                                statutory criteria for transfer.
+                                <eos/>
+                                <bos/>Factors which may be significant in determining the propriety of transferring such
+                                cases include: (1) the strength of the showing that transfer is desirable, (2) the
+                                presence or absence of plaintiff&apos;s good faith in naming the unserved defendants,
+                                (3) the extent of plaintiff&apos;s effort to serve each defendant with process, (4) the
+                                degree to which the unserved <?pagebreak label="25"?> defendant&apos;s interests appear to be the same as those
+                                of the defendants coming before the Panel, (5) the number of unserved defendants, and
+                                (6) the importance of their presence before the Panel in aiding its decision.
+                                <eos/>
+                                <bos/>
+                                <end.quote refid="QT_0001"/>[<footnote.reference
+                                        refid="I024e7251680911e88f4a9c1f64101294">7</footnote.reference>]
+                            </paratext>
+                        </para>
+                    </display.quote>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>Although the statute speaks of actions pending in different “districts,” the Panel has
+                        suggested in one case that it may have the power to transfer for coordinated or consolidated
+                        pretrial proceedings cases pending before the United States Court of Claims.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024e7252680911e88f4a9c1f64101294">8</footnote.reference>] It did not
+                        reach the issue in that case, but, rather, deferred to voluntary coordination between the
+                        transferee court and the Court of Claims.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024e7253680911e88f4a9c1f64101294">9</footnote.reference>] It is
+                        probable that the Panel would transfer such cases in a situation where voluntary coordination
+                        would not be likely to succeed.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The power to transfer under <cite.query w-src-number="0304913952" w-seq-number="00018"
+                                                                      w-ref-type="LQ" w-normalized-cite="28USCAS1407"
+                                                                      w-pub-number="1000546"
+                                                                      ID="I0ee0a2f0680811e8aca4f6dd071ce3e8">§ 1407
+                    </cite.query> is frequently said to be broader than the power to transfer for venue purposes.
+                        <eos/>
+                        <bos/>In truth, the Panel&apos;s power of transfer is definitely different from that of a
+                        district judge deciding a question of venue, but it is both broader in scope and more narrowly
+                        defined.
+                        <eos/>
+                        <bos/>The Panel&apos;s decision is largely a matter of discretion, and it is not subject to any
+                        appellate review.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024e9960680911e88f4a9c1f64101294">10</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The three most important powers of the Panel relating to transfer that are not involved in
+                        venue decisions are the ability to transfer to a district where the court could not exercise
+                        personal jurisdiction, power to transfer where venue does not lie, and the power to transfer
+                        portions of actions.
+                        <eos/>
+                        <bos/>These powers have been frequently relied on by the Panel in considering transfer motions.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel has frequently stated that the power of transfer is broader than that
+                        encompassed by considerations of venue.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024ec070680911e88f4a9c1f64101294">11</footnote.reference>] The Panel
+                        can order transfer of actions to a court that would not otherwise have subject-matter
+                        jurisdiction,[<footnote.reference refid="I024ec071680911e88f4a9c1f64101294">
+                            12</footnote.reference>] where venue does not otherwise lie,[<footnote.reference
+                                refid="I024ec072680911e88f4a9c1f64101294">13</footnote.reference>] and can do so before
+                        the defendants to be affected by the transfer have been served with process.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024ee781680911e88f4a9c1f64101294">14</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel&apos;s most detailed discussion of its power to transfer beyond <?pagebreak label="26"?> the mere
+                        considerations of venue arose in a series of cases involving national banks.
+                        <eos/>
+                        <bos/>In these cases, primarily securities cases, national banks were made parties.
+                        <eos/>
+                        <bos/>Under a special venue statute existing at the time,[<footnote.reference
+                                refid="I024ee782680911e88f4a9c1f64101294">15</footnote.reference>] national banks could
+                        only be sued in the district encompassing the county of their home office.
+                        <eos/>
+                        <bos/>This statute had been rigorously enforced in both the state and federal courts.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024ee783680911e88f4a9c1f64101294">16</footnote.reference>] The Panel
+                        quickly determined that this statute did not prevent it from transferring litigation involving
+                        national banks to a different district for coordinated or consolidated pretrial proceedings.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I024f0e90680911e88f4a9c1f64101294">17</footnote.reference>] The Panel
+                        articulated its reasons for transferring actions against national banks to distant districts
+                        when appropriate:
+                    </paratext>
+                    <display.quote>
+                        <para>
+                            <paratext><begin.quote ID="QT_0003"/>[The banks] stress that <cite.query
+                                    w-src-number="0304913952" w-seq-number="00034" w-ref-type="LQ"
+                                    w-normalized-cite="12USCAS94" w-pub-number="1000546"
+                                    ID="I0eea18d0680811e8aca4f6dd071ce3e8">12 U.S.C. § 94
+                            </cite.query> was enacted for the convenience of the national banks to protect them from
+                                having to move their records outside their home districts.
+                                <eos/>
+                                <bos/>This policy of the Act, they assert, as discussed in the recent United States
+                                Supreme Court case of <cite.query w-src-number="0304913952" w-serial-number="1976142388"
+                                                                  w-seq-number="00035" w-ref-type="RP"
+                                                                  w-pub-number="0000708"
+                                                                  ID="I0eea18d3680811e8aca4f6dd071ce3e8">Radzanower v.
+                                    Touche Ross &amp; Co., 426 U.S. 148, 96 S. Ct. 1989, 48 L. Ed. 2d 540
+                                    (1976)</cite.query>, would be violated by transferring the actions against the banks
+                                for pretrial purposes.
+                                <eos/>
+                                <bos/>Though the national banks realize that transfers under <cite.query
+                                        w-src-number="0304913952" w-seq-number="00036" w-ref-type="LQ"
+                                        w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                        ID="I0eea18d5680811e8aca4f6dd071ce3e8">Section 1407
+                                </cite.query> are not restricted by considerations of venue, they urge the Panel to give
+                                deference to the policy behind the venue provision of the National Bank Act by denying
+                                transfer.
+                                <eos/>
+                                <bos/>
+                                <end.quote refid="QT_0003"/>
+                            </paratext>
+                        </para>
+                        <para>
+                            <paratext><begin.quote ID="QT_0004"/>We see no reason, including anything in <cite.query
+                                    w-src-number="0304913952" w-serial-number="1976142388" w-seq-number="00037"
+                                    w-ref-type="RS" w-pub-number="0000708" ID="I0ef98222680811e8aca4f6dd071ce3e8">
+                                Radzanower</cite.query>, to exempt actions involving national banks from transfer under <cite.query
+                                    w-src-number="0304913952" w-seq-number="00038" w-ref-type="LQ"
+                                    w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                    ID="I0ef98226680811e8aca4f6dd071ce3e8">Section 1407</cite.query>.
+                                <eos/>
+                                <bos/>In considering transfer under <cite.query w-src-number="0304913952"
+                                                                                w-seq-number="00039" w-ref-type="LQ"
+                                                                                w-normalized-cite="28USCAS1407"
+                                                                                w-pub-number="1000546"
+                                                                                ID="I0ef98227680811e8aca4f6dd071ce3e8">
+                                    Section 1407
+                                </cite.query> the Panel is not encumbered by considerations of venue, including those
+                                under <cite.query w-src-number="0304913952" w-seq-number="00040" w-ref-type="LQ"
+                                                  w-normalized-cite="12USCAS94" w-pub-number="1000546"
+                                                  ID="I0ef98224680811e8aca4f6dd071ce3e8">12 U.S.C. § 94</cite.query>.
+                                <eos/>
+                                <bos/>The fact that defendants may not all be amenable to suit in the same jurisdiction
+                                does not prevent transfer of the actions against them to a single district for pretrial
+                                proceedings where the prerequisites of <cite.query w-src-number="0304913952"
+                                                                                   w-seq-number="00041" w-ref-type="LQ"
+                                                                                   w-normalized-cite="28USCAS1407"
+                                                                                   w-pub-number="1000546"
+                                                                                   ID="I0ef98228680811e8aca4f6dd071ce3e8">
+                                    Section 1407
+                                </cite.query> are otherwise satisfied.
+                                <eos/>
+                                <bos/>Indeed, <cite.query w-src-number="0304913952" w-seq-number="00042" w-ref-type="LQ"
+                                                          w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                                          ID="I0ef98225680811e8aca4f6dd071ce3e8">28 U.S.C. § 1407(a)
+                                </cite.query> states that<begin.quote ID="QT_0002"/>‘actions may be transferred to any
+                                district for coordinated or consolidated pretrial proceedings.’
+                                <eos/>
+                                <bos/>
+                                <end.quote refid="QT_0002"/>
+                                The legislative history of <cite.query w-src-number="0304913952" w-seq-number="00043"
+                                                                       w-ref-type="LQ" w-normalized-cite="28USCAS1407"
+                                                                       w-pub-number="1000546"
+                                                                       ID="I0ef98229680811e8aca4f6dd071ce3e8">Section
+                                    1407
+                                </cite.query> is also instructive on this point ….
+                                <eos/>
+                                <bos/>
+                                <end.quote refid="QT_0004"/>
+                            </paratext>
+                        </para>
+                        <para>
+                            <paratext><begin.quote ID="QT_0005"/>Furthermore, we see no reason to accord national banks
+                                any special treatment in considering transfer of actions under <cite.query
+                                        w-src-number="0304913952" w-seq-number="00044" w-ref-type="LQ"
+                                        w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                        ID="I0eff7590680811e8aca4f6dd071ce3e8">Section 1407</cite.query>.
+                                <eos/>
+                                <bos/>The Panel&apos;s statutory mandate is to weigh the interests of all the plaintiffs
+                                and all the defendants, and to consider multidistrict litigation as a whole in light of
+                                the purpose of the law.
+                                <eos/>
+                                <bos/>
+                                <end.quote refid="QT_0005"/>
+                            </paratext>
+                        </para>
+                        <para>
+                            <paratext><begin.quote ID="QT_0006"/>We emphasize that defendant national banks need not
+                                worry about a transferee court&apos;s entering an order requiring that their documents
+                                be moved outside their home districts for trial because transfers under <cite.query
+                                        w-src-number="0304913952" w-seq-number="00045" w-ref-type="LQ"
+                                        w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                        ID="I0f0f7b20680811e8aca4f6dd071ce3e8">Section 1407
+                                </cite.query> are for pretrial only and the actions against them will be remanded to <?pagebreak label="27"?>
+                                their home districts for trial.
+                                <eos/>
+                                <bos/>Moreover, we note that transfer under <cite.query w-src-number="0304913952"
+                                                                                        w-seq-number="00046"
+                                                                                        w-ref-type="LQ"
+                                                                                        w-normalized-cite="28USCAS1407"
+                                                                                        w-pub-number="1000546"
+                                                                                        ID="I0f0f7b21680811e8aca4f6dd071ce3e8">
+                                    Section 1407
+                                </cite.query> does not mean that all discovery must take place in the transferee
+                                district.
+                                <eos/>
+                                <bos/>
+                                <end.quote refid="QT_0006"/>[<footnote.reference
+                                        refid="I02510a60680911e88f4a9c1f64101294">18</footnote.reference>]
+                            </paratext>
+                        </para>
+                    </display.quote>
+                    <paratext>Although the special venue provision favoring national banks is no longer on the
+                        books,[<footnote.reference refid="I02513170680911e88f4a9c1f64101294">19</footnote.reference>]
+                        the debate over how it affected the Panel is instructive on the scope of the Panel&apos;s
+                        powers.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>Unlike a court considering a motion for change of venue, the Panel does not need to
+                        transfer an entire action if it orders transfer.
+                        <eos/>
+                        <bos/>The statute provides for separation of any claim and remand of it to the transferor court
+                        at the time transfer is ordered.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I02513171680911e88f4a9c1f64101294">20</footnote.reference>] The Panel
+                        has frequently used this power to transfer related actions and claims and to leave unrelated
+                        claims for separate treatment in the districts where they were filed[<footnote.reference
+                                refid="I02515880680911e88f4a9c1f64101294">21</footnote.reference>] Primary claims may be
+                        transferred while counterclaims may be remanded.
+                        <eos/>
+                        <bos/>Similarly, a single counterclaim may be transferred for coordinated or consolidated
+                        pretrial proceedings with other cases while the balance of the claims, counterclaims, and
+                        crossclaims in the action are remanded for proceedings in the transferor court.
+                        <eos/>
+                        <bos/>This power is directly related to the Panel&apos;s role in increasing the efficiency with
+                        which the federal courts manage litigation.
+                        <eos/>
+                        <bos/>Where claims will not benefit from transfer, or where the burdens of transfer will exceed
+                        the benefits to be derived from transfer, transfer will not be ordered.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+            </section.body>
+        </section>
+        <author.footnotes>
+            <footnote ID="I024cc4a1680911e88f4a9c1f64101294">
+                <label.designator>a0</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </author.footnotes>
+        <footnote.block>
+            <footnote ID="I024d12c0680911e88f4a9c1f64101294">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913952" w-serial-number="2005443059"
+                                              w-seq-number="00002" w-ref-type="RP" w-pub-number="0004637"
+                                              w-pinpoint-page="1354" ID="I0ed33571680811e8aca4f6dd071ce3e8">In re Peanut
+                            Crop Ins. Litigation, 342 F. Supp. 2d 1353, 1354 (J.P.M.L. 2004)</cite.query>; <cite.query
+                                w-src-number="0304913952" w-serial-number="1974104884" w-seq-number="00003"
+                                w-ref-type="RP" w-pub-number="0000345" ID="I0ed33573680811e8aca4f6dd071ce3e8">In re
+                            Great Western Ranches Litigation, 369 F. Supp. 1406 (J.P.M.L. 1974)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024d39d0680911e88f4a9c1f64101294">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913952"
+                                                                      w-serial-number="1978102920" w-seq-number="00004"
+                                                                      w-ref-type="RP" w-pub-number="0000350"
+                                                                      w-pinpoint-page="51"
+                                                                      ID="I0ed3d1b1680811e8aca4f6dd071ce3e8">Matter of
+                            New York City Mun. Securities Litigation, 572 F.2d 49, 51 (2d Cir. 1978)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024d39d1680911e88f4a9c1f64101294">
+                <label.designator>3</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1975107365" w-seq-number="00005"
+                                        w-ref-type="RP" w-pub-number="0000345" ID="I0ed4bc11680811e8aca4f6dd071ce3e8">In
+                                re Sugar Industry Antitrust Litigation, 399 F. Supp. 1397 (J.P.M.L. 1975)</cite.query>; <cite.query
+                                w-src-number="0304913952" w-serial-number="1975105295" w-seq-number="00006"
+                                w-ref-type="RP" w-pub-number="0000345" ID="I0ed4bc13680811e8aca4f6dd071ce3e8">In re
+                            Highway Acc. Near Rockville, Connecticut, on December 30, 1972, 388 F. Supp. 574 (J.P.M.L.
+                            1975)</cite.query>; <cite.query w-src-number="0304913952" w-serial-number="1975105201"
+                                                            w-seq-number="00007" w-ref-type="RP" w-pub-number="0000345"
+                                                            ID="I0ed4bc15680811e8aca4f6dd071ce3e8">In re Truck Acc. Near
+                            Alamagordo, New Mexico, on June 18, 1969, 387 F. Supp. 732 (J.P.M.L. 1975)</cite.query>.
+                            <eos/>
+                            <bos/>The Panel has noted, however, that the ability of a court to exercise personal
+                            jurisdiction over the defendants is a factor that it will consider in deciding transfer
+                            decisions.
+                            <eos/>
+                            <bos/>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1970113934" w-seq-number="00008"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="63"
+                                        ID="I0ed4bc17680811e8aca4f6dd071ce3e8">In re Air Crash Disaster Near Hanover, N.
+                                H., 314 F. Supp. 62, 63 (J.P.M.L. 1970)</cite.query>.
+                            <eos/>
+                            <bos/>Although this may not be a directly valid consideration of’ the Panel, the decision
+                            may recognize that additional actions may be filed, and that by transferring the action to a
+                            district where the court can exercise jurisdiction over all the potential defendants the
+                            Panel can obviate tag-along motions since the new actions could be initially filed in the
+                            transferee district.
+                            <eos/>
+                            <bos/>The role of jurisdiction in selection of a transferee district is discussed
+                            in <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs6:20" w-pub-number="185218"
+                                           ID="I024e4b40680911e88f4a9c1f64101294">§ 6:20</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e4b41680911e88f4a9c1f64101294">
+                <label.designator>4</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913952" w-seq-number="00010" w-ref-type="LQ"
+                                              w-normalized-cite="7USCAS1508" w-pub-number="1000546"
+                                              ID="I0ed7c950680811e8aca4f6dd071ce3e8">7 U.S.C.A. §
+                            1508(j)(2)(a)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e4b42680911e88f4a9c1f64101294">
+                <label.designator>5</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913952" w-serial-number="2005443059"
+                                              w-seq-number="00011" w-ref-type="RP" w-pub-number="0004637"
+                                              w-pinpoint-page="1354" ID="I0ed81771680811e8aca4f6dd071ce3e8">In re Peanut
+                            Crop Ins. Litigation, 342 F. Supp. 2d 1353, 1354 (J.P.M.L. 2004)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e7250680911e88f4a9c1f64101294">
+                <label.designator>6</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1969102811" w-seq-number="00012"
+                                        w-ref-type="RP" w-pub-number="0000345" ID="I0ed8b3b1680811e8aca4f6dd071ce3e8">In
+                                re Gypsum Wallboard, 302 F. Supp. 794 (J.P.M.L. 1969)</cite.query>; <cite.query
+                                w-src-number="0304913952" w-serial-number="1969103964" w-seq-number="00013"
+                                w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1141"
+                                ID="I0ed8b3b3680811e8aca4f6dd071ce3e8">In re Library Editions of Children&apos;s Books,
+                            299 F. Supp. 1139, 1141 (J.P.M.L. 1969)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e7251680911e88f4a9c1f64101294">
+                <label.designator>7</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1969103964" w-seq-number="00015"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1143"
+                                        ID="I0edc5d31680811e8aca4f6dd071ce3e8">In re Library Editions of Children&apos;s
+                                Books, 299 F. Supp. 1139, 1143 (J.P.M.L. 1969)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e7252680911e88f4a9c1f64101294">
+                <label.designator>8</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1976126385" w-seq-number="00016"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="380"
+                                        ID="I0edcf971680811e8aca4f6dd071ce3e8">In re Western Elec. Co. Semiconductor
+                                Patent Litigation, 415 F. Supp. 378, 380 (J.P.M.L. 1976)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e7253680911e88f4a9c1f64101294">
+                <label.designator>9</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <cite.query w-src-number="0304913952" w-serial-number="1976126385" w-seq-number="00017"
+                                        w-ref-type="RT" w-pub-number="0000345" ID="I0edd6ea0680811e8aca4f6dd071ce3e8">
+                                <ital>Id.</ital>
+                            </cite.query>
+                        </paratext>
+                        <eos/>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024e9960680911e88f4a9c1f64101294">
+                <label.designator>10</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Appellate review of transfer decisions by the Panel is discussed in <cite.query
+                                w-ref-type="NA" w-normalized-cite="MDLITMANs11:1" w-pub-number="185218"
+                                ID="I024e9961680911e88f4a9c1f64101294">§ 11:1</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024ec070680911e88f4a9c1f64101294">
+                <label.designator>11</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See</ital>, <ital>e.g.</ital>, <cite.query w-src-number="0304913952"
+                                                                                   w-serial-number="1978102920"
+                                                                                   w-seq-number="00019" w-ref-type="RP"
+                                                                                   w-pub-number="0000350"
+                                                                                   w-pinpoint-page="51"
+                                                                                   ID="I0ee1b461680811e8aca4f6dd071ce3e8">
+                            Matter of New York City Mun. Securities Litigation, 572 F.2d 49, 51 (2d Cir.
+                            1978)</cite.query>.
+                            <eos/>
+                            <bos/>
+                            <ital>See also</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1977125794" w-seq-number="00020"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1229"
+                                        ID="I0ee1b463680811e8aca4f6dd071ce3e8">In re Falstaff Brewing Corp. Antitrust
+                                Litigation, 434 F. Supp. 1225, 1229 (J.P.M.L. 1977)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024ec071680911e88f4a9c1f64101294">
+                <label.designator>12</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The Panel has historically deferred to the transferee court for consideration and
+                            decision of questions relating to jurisdiction.
+                            <eos/>
+                            <bos/>
+                            <ital>See, e.g.</ital>, <cite.query w-src-number="0304913952" w-serial-number="1976127468"
+                                                                w-seq-number="00021" w-ref-type="RP"
+                                                                w-pub-number="0000345"
+                                                                ID="I0ee250a1680811e8aca4f6dd071ce3e8">In re
+                                Colocotronis Tanker Securities Litigation, 420 F. Supp. 998 (J.P.M.L. 1976)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024ec072680911e88f4a9c1f64101294">
+                <label.designator>13</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913952"
+                                                                      w-serial-number="1977125794" w-seq-number="00022"
+                                                                      w-ref-type="RP" w-pub-number="0000345"
+                                                                      w-pinpoint-page="1229"
+                                                                      ID="I0ee3b031680811e8aca4f6dd071ce3e8">In re
+                            Falstaff Brewing Corp. Antitrust Litigation, 434 F. Supp. 1225, 1229 (J.P.M.L.
+                            1977)</cite.query>.
+                            <eos/>
+                            <bos/>The transferor court must have subject-matter jurisdiction, however.
+                            <eos/>
+                            <bos/>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1975110881" w-seq-number="00023"
+                                        w-ref-type="RP" w-pub-number="0000350" w-pinpoint-page="32"
+                                        ID="I0ee3b033680811e8aca4f6dd071ce3e8">BancOhio Corp. v. Fox, 516 F.2d 29, 32
+                                (6th Cir. 1975)</cite.query>.
+                            <eos/>
+                            <bos/>If the action was not properly brought in the federal court for the reason that there
+                            is no subject-matter jurisdiction, dismissal is appropriate.
+                            <eos/>
+                            <bos/>Dismissal on this ground can be ordered by the transferee court if transfer is ordered
+                            by the Panel.
+                            <eos/>
+                            <bos/>The power of the transferee court to consider motions, including motions to dismiss,
+                            is discussed in §§ <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs9:13"
+                                                           w-pub-number="185218" ID="I024ec073680911e88f4a9c1f64101294">
+                                9:13
+                            </cite.query> and  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs9:20"
+                                                           w-pub-number="185218" ID="I024ee780680911e88f4a9c1f64101294">
+                                9:20</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024ee781680911e88f4a9c1f64101294">
+                <label.designator>14</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1969103964" w-seq-number="00024"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1143"
+                                        ID="I0ee44c71680811e8aca4f6dd071ce3e8">In re Library Editions of Children&apos;s
+                                Books, 299 F. Supp. 1139, 1143 (J.P.M.L. 1969)</cite.query>.
+                            <eos/>
+                            <bos/>The Panel recognizes the right of unserved defendants to be heard on the transfer
+                            question after they have been served.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024ee782680911e88f4a9c1f64101294">
+                <label.designator>15</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913952" w-seq-number="00025" w-ref-type="LQ"
+                                              w-normalized-cite="12USCAS94" w-pub-number="1000546"
+                                              ID="I0ee4c1a0680811e8aca4f6dd071ce3e8">12 U.S.C.A. § 94
+                            (1976)</cite.query>, <ital>amended by</ital>
+                            <cite.query w-src-number="0304913952" w-seq-number="00026" w-ref-type="LQ"
+                                        w-normalized-cite="12USCAS94" w-pub-number="1000546"
+                                        ID="I0ee4c1a1680811e8aca4f6dd071ce3e8">12 U.S.C.A. § 94 (1982)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024ee783680911e88f4a9c1f64101294">
+                <label.designator>16</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See generally</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="0104501152" w-seq-number="00027"
+                                        w-ref-type="TS" w-pub-number="0102228" ID="I0ee536d0680811e8aca4f6dd071ce3e8">15
+                                Charles Alan Wright, Arthur R. Miller &amp; Edward H. Cooper, Federal Practice and
+                                Procedure § 3813, at 81 (4th ed. 2013)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I024f0e90680911e88f4a9c1f64101294">
+                <label.designator>17</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913952"
+                                                                      w-serial-number="1969116192" w-seq-number="00028"
+                                                                      w-ref-type="RP" w-pub-number="0000345"
+                                                                      w-pinpoint-page="562"
+                                                                      ID="I0ee5d311680811e8aca4f6dd071ce3e8">In re
+                            Westec Corp., 307 F. Supp. 559, 562 n.8 (J.P.M.L. 1969)</cite.query>; <ital>see also</ital>
+                            <cite.query w-src-number="0304913952" w-serial-number="1978102920" w-seq-number="00029"
+                                        w-ref-type="RP" w-pub-number="0000350" w-pinpoint-page="51"
+                                        ID="I0ee5d313680811e8aca4f6dd071ce3e8">Matter of New York City Mun. Securities
+                                Litigation, 572 F.2d 49, 51 (2d Cir. 1978)</cite.query>; <cite.query
+                                    w-src-number="0304913952" w-serial-number="1977125794" w-seq-number="00030"
+                                    w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1229"
+                                    ID="I0ee5d315680811e8aca4f6dd071ce3e8">In re Falstaff Brewing Corp. Antitrust
+                                Litigation, 434 F. Supp. 1225, 1229 (J.P.M.L. 1977)</cite.query>; <cite.query
+                                    w-src-number="0304913952" w-serial-number="1977126351" w-seq-number="00031"
+                                    w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1202"
+                                    ID="I0ee5d317680811e8aca4f6dd071ce3e8">In re Investors Funding Corp. of New York
+                                Securities Litigation, 437 F. Supp. 1199, 1202–03 (J.P.M.L.
+                                1977)</cite.query>; <cite.query w-src-number="0304913952" w-serial-number="1975105294"
+                                                                w-seq-number="00032" w-ref-type="RP"
+                                                                w-pub-number="0000345" w-pinpoint-page="573"
+                                                                ID="I0ee5d319680811e8aca4f6dd071ce3e8">In re
+                                Multidistrict Litigation Involving Banking Agreements with Stirling Homex Corp., 388 F.
+                                Supp. 572, 573 n.1 (J.P.M.L. 1975)</cite.query>; <cite.query w-src-number="0304913952"
+                                                                                             w-serial-number="1974104884"
+                                                                                             w-seq-number="00033"
+                                                                                             w-ref-type="RP"
+                                                                                             w-pub-number="0000345"
+                                                                                             ID="I0ee5d31b680811e8aca4f6dd071ce3e8">
+                                In re Great Western Ranches Litigation, 369 F. Supp. 1406 (J.P.M.L. 1974)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I02510a60680911e88f4a9c1f64101294">
+                <label.designator>18</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913952" w-serial-number="1977125794"
+                                              w-seq-number="00047" w-ref-type="RP" w-pub-number="0000345"
+                                              w-pinpoint-page="1229" ID="I0f0fc941680811e8aca4f6dd071ce3e8">In re
+                            Falstaff Brewing Corp. Antitrust Litigation, 434 F. Supp. 1225, 1229 (J.P.M.L.
+                            1977)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I02513170680911e88f4a9c1f64101294">
+                <label.designator>19</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-seq-number="00048" w-ref-type="LQ"
+                                        w-normalized-cite="12USCAS94" w-pub-number="1000546"
+                                        ID="I0f103e70680811e8aca4f6dd071ce3e8">12 U.S.C.A. § 94</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I02513171680911e88f4a9c1f64101294">
+                <label.designator>20</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913952" w-seq-number="00049" w-ref-type="LQ"
+                                        w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                        ID="I0f1101c0680811e8aca4f6dd071ce3e8">28 U.S.C.A. § 1407(a)</cite.query>.
+                            <eos/>
+                            <bos/>The statute is reproduced in <cite.query w-ref-type="NA"
+                                                                           w-normalized-cite="MDLITMANs3:19"
+                                                                           w-pub-number="185218"
+                                                                           ID="I02513172680911e88f4a9c1f64101294">§
+                            3:19</cite.query>, below.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I02515880680911e88f4a9c1f64101294">
+                <label.designator>21</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Separation of claims is discussed in detail in §§ <cite.query w-ref-type="NA"
+                                                                                                w-normalized-cite="MDLITMANs5:57"
+                                                                                                w-pub-number="185218"
+                                                                                                ID="I02515881680911e88f4a9c1f64101294">
+                            5:57
+                        </cite.query> to  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs5:59"
+                                                      w-pub-number="185218" ID="I02515882680911e88f4a9c1f64101294">
+                            5:59</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN § 3:4
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -176,6 +177,10 @@ public abstract class AbstractSbTasklet implements Tasklet {
         final String propertyKey) {
         assertPropertyExists(executionContext, propertyKey);
         return executionContext.getDouble(propertyKey);
+    }
+
+    protected static Boolean getBooleanProperty(final ExecutionContext executionContext, final String propertyKey) {
+        return (Boolean) Optional.ofNullable(executionContext.get(propertyKey)).orElse(Boolean.FALSE);
     }
 
     private static void assertPropertyExists(final ExecutionContext executionContext, final String propertyKey) {

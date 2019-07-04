@@ -2,10 +2,12 @@ package com.thomsonreuters.uscl.ereader.notification.service;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStep;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -17,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class DefaultEmailBuilderTest {
+    private static final String PRINT_PAGE_NUMBERS_WARNING = "WARNING: printPageNumbers";
     @InjectMocks
     private DefaultEmailBuilder defaultEmailBuilder;
     @Mock
@@ -38,6 +41,7 @@ public final class DefaultEmailBuilderTest {
     public void bodyShouldBeCorrect() {
         //given
         givenAll();
+        givenPages(false, false);
         //when
         final String body = defaultEmailBuilder.getBody();
         //then
@@ -48,6 +52,40 @@ public final class DefaultEmailBuilderTest {
         assertThat(body, containsString("Job Execution ID: 2"));
         assertThat(body, containsString("Environment: env"));
         assertThat(body, containsString("No Previous Version."));
+        assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
+    }
+
+    @Test
+    public void testPagebreaksNotWantedButFound() {
+        //given
+        givenAll();
+        givenPages(false, true);
+        //when
+        final String body = defaultEmailBuilder.getBody();
+        //then
+        assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
+    }
+
+    @Test
+    public void testPagebreaksWantedButNotFound() {
+        //given
+        givenAll();
+        givenPages(true, false);
+        //when
+        final String body = defaultEmailBuilder.getBody();
+        //then
+        assertThat(body, containsString(PRINT_PAGE_NUMBERS_WARNING));
+    }
+
+    @Test
+    public void testPagebreaksWantedAndFound() {
+        //given
+        givenAll();
+        givenPages(true, true);
+        //when
+        final String body = defaultEmailBuilder.getBody();
+        //then
+        assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
     }
 
     @Test
@@ -91,5 +129,10 @@ public final class DefaultEmailBuilderTest {
         given(step.getEnvironment()).willReturn("env");
         given(step.getJobInstanceId()).willReturn(1L);
         given(step.getJobExecutionId()).willReturn(2L);
+    }
+
+    private void givenPages(final boolean printPageNumbersInUI, final boolean pagebreaksFoundInXml) {
+        given(book.isPrintPageNumbers()).willReturn(printPageNumbersInUI);
+        given(step.getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS)).willReturn(pagebreaksFoundInXml);
     }
 }

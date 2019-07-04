@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -114,7 +116,7 @@ public final class XMLPreprocessServiceTest {
         boolean thrown = false;
 
         try {
-            numDocs = preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
+            numDocs = preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final Exception e) {
             //e.printStackTrace();
             thrown = true;
@@ -126,6 +128,17 @@ public final class XMLPreprocessServiceTest {
         final File preprocess2 = new File(targetDir.getAbsolutePath(), "temp3.preprocess");
         assertTrue(preprocess1.exists());
         assertTrue(preprocess2.exists());
+        assertFalse(preprocessService.isPagebreakFoundInSourceDocs());
+    }
+
+    @Test
+    public void testWithProtectingPagebreaks() throws EBookFormatException {
+        testPagebreaksProcessing(true);
+    }
+
+    @Test
+    public void testNotProtectingPagebreaks() throws EBookFormatException {
+        testPagebreaksProcessing(false);
     }
 
     @Test
@@ -133,7 +146,7 @@ public final class XMLPreprocessServiceTest {
         boolean thrown = false;
 
         try { /*  null source directory  */
-            preprocessService.transformXML(null, targetDir, isFinalStage, copyrights, currencies);
+            preprocessService.transformXML(null, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final IllegalArgumentException e) {
             /*  expected exception  */
             //e.printStackTrace();
@@ -143,7 +156,7 @@ public final class XMLPreprocessServiceTest {
         thrown = false;
 
         try { /*  file as a source directory  */
-            preprocessService.transformXML(tempXMLfile, targetDir, isFinalStage, copyrights, currencies);
+            preprocessService.transformXML(tempXMLfile, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final IllegalArgumentException e) {
             /*  expected exception  */
             //e.printStackTrace();
@@ -163,7 +176,7 @@ public final class XMLPreprocessServiceTest {
         boolean thrown = false;
         try { /*  targetDir does not exist  */
             targetDir = new File(tempRootDir.getAbsolutePath(), "not_real");
-            numDocs = preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
+            numDocs = preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final Exception e) {
             //e.printStackTrace();
             thrown = true;
@@ -180,7 +193,7 @@ public final class XMLPreprocessServiceTest {
         srcDir.mkdir();
 
         try { /*  source directory with no xml files  */
-            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
+            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
@@ -194,7 +207,7 @@ public final class XMLPreprocessServiceTest {
         makeFile(srcDir, "bad3.html", "okay, this isn't even an xml file");
 
         try { /*  source directory with bad xml files  */
-            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
+            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
@@ -213,7 +226,7 @@ public final class XMLPreprocessServiceTest {
         currencies.add(currency);
 
         try { /*  extra currency info  */
-            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
+            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
@@ -228,11 +241,33 @@ public final class XMLPreprocessServiceTest {
         copyrights.add(copyright);
 
         try { /*  extra copyright info  */
-            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
+            preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, false);
         } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;
         }
+    }
+
+    private void testPagebreaksProcessing(final boolean protectPagebreaks) throws EBookFormatException {
+        //given
+        tempXMLfile = makeFile(
+            srcDir,
+            "temp4.xml",
+            "<body><test><?pagebreak label=\"i\"?></test></body>");
+
+        //when
+        preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, protectPagebreaks);
+
+        //then
+        assertFileExistence("temp1.preprocess");
+        assertFileExistence("temp3.preprocess");
+        assertFileExistence("temp4.preprocess");
+
+        assertEquals(protectPagebreaks, preprocessService.isPagebreakFoundInSourceDocs());
+    }
+
+    private void assertFileExistence(final String fileName) {
+        assertTrue(new File(targetDir.getAbsolutePath(), fileName).exists());
     }
 }

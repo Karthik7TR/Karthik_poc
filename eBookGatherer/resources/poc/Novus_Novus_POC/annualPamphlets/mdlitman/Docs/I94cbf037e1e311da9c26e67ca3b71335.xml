@@ -1,0 +1,436 @@
+<n-docbody>
+    <doc bill="Y">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man § 3:1
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I0216e791680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+            <prop.head toc-guid="I97b7f560933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Part</label.name>
+                <label.designator>I.</label.designator>
+                <headtext>Handling Cases Before the Judicial Panel on Multidistrict Litigation</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="I9f85f1c0933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Chapter</label.name>
+                <label.designator>3.</label.designator>
+                <headtext>Powers of the Panel</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+        </prop.block>
+        <message.block>
+            <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">
+                Copyright (c) 2017 Thomson/RIA All rights reserved.
+            </include.copyright>
+        </message.block>
+        <section>
+            <section.front>
+                <doc.title toc-guid="I94cbf036e1e311da9c26e67ca3b71335">
+                    <head parent="doc.title">
+                        <bop/>
+                        <bos/>
+                        <label.name>§</label.name>
+                        <label.designator>3:1.</label.designator>
+                        <headtext>Jurisdiction of Panel generally</headtext>
+                        <eos/>
+                        <eop/>
+                    </head>
+                </doc.title>
+            </section.front>
+            <section.body>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The powers of the Panel are defined by the statute creating it, <cite.query
+                            w-src-number="0304913949" w-seq-number="00001" w-ref-type="LQ"
+                            w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                            ID="I0c377bf0680811e8aca4f6dd071ce3e8">28 U.S.C.A. § 1407</cite.query>.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I021735b0680911e88f4a9c1f64101294">1</footnote.reference>] The powers
+                        set forth in the statute can also be thought of as the limits of the Panel&apos;s jurisdiction,
+                        since the Panel has no other authority for taking any action in a case.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The statute authorizes the Panel to order transfer of pending actions to any district for
+                        pretrial proceedings and to remand part or all of those actions to the district court in which
+                        they were initially filed.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I02175cc0680911e88f4a9c1f64101294">2</footnote.reference>] The Panel
+                        does not have the power to enter any other orders in the actions.
+                        <eos/>
+                        <bos/>The Panel does not take any action of a substantive or procedural nature <?pagebreak label="20"?> other than
+                        transfer or remand cases.
+                        <eos/>
+                        <bos/>These matters are left to the discretion of either the transferor court as to matters
+                        arising prior to transfer or after remand or the transferee court as to matters arising in the
+                        litigation following transfer by the Panel but before remand.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I0217f901680911e88f4a9c1f64101294">3</footnote.reference>] The Panel
+                        cannot expand its jurisdiction by entering transfer or remand orders conditioned on the
+                        performance of matters not properly within its limited jurisdiction.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I02182012680911e88f4a9c1f64101294">4</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The function of the Panel is essentially managerial, not adjudicative.
+                        <eos/>
+                        <bos/>Although the Panel receives motions, hears arguments, considers briefs, and issues
+                        decisions, it does not really adjudicate the rights of litigants.
+                        <eos/>
+                        <bos/>The Panel recognizes that there is no “right” to transfer under the
+                        statute,[<footnote.reference refid="I021a9112680911e88f4a9c1f64101294">5</footnote.reference>]
+                        and that a party does not assert or waive transfer “rights.”[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I021ab820680911e88f4a9c1f64101294">6</footnote.reference>] Similarly,
+                        the Panel can act <ital>sua sponte</ital> in its transfer decisions and can order transfer if
+                        all parties oppose it.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I021ba280680911e88f4a9c1f64101294">7</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel was also given by Congress the task of assigning the judges to the special
+                        federal court created under the Regional Rail Reorganization Act of 1973.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I021c17b1680911e88f4a9c1f64101294">8</footnote.reference>] This duty
+                        is discussed in <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs3:17"
+                                                    w-pub-number="185218" ID="I021c8ce0680911e88f4a9c1f64101294">§
+                            3:17</cite.query>.
+                        <eos/>
+                        <bos/>In 1988 the Panel was given the responsibility to consider multicircuit appeals from
+                        orders of administrative agencies and boards.
+                        <eos/>
+                        <bos/>This authority is discussed in <cite.query w-ref-type="NA"
+                                                                         w-normalized-cite="MDLITMANs3:18"
+                                                                         w-pub-number="185218"
+                                                                         ID="I021cdb00680911e88f4a9c1f64101294">§
+                            3:18</cite.query>.
+                        <eos/>
+                    </paratext>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel has adopted the term “centralization” to describe its action where transfer is
+                        ordered.
+                        <eos/>
+                        <bos/>This term is both clear and more precise than referring to transfer in that where the
+                        Panel does decide to transfer cases to a single district all cases are centralized in a single
+                        district, but not all are transferred—the cases that where already pending in that district
+                        before the transferee judge are not transferred but simply remain there.
+                        <eos/>
+                        <bos/>If there are cases in the transferee district that are not already before the transferee
+                        court, they are really just reassigned rather than transferred to a different district.
+                        <eos/>
+                        <bos/>Centralization is a broader term that encompasses the Panel&apos;s action for any of these
+                        cases. <?pagebreak label="21"?>[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I021cdb01680911e88f4a9c1f64101294">9</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+            </section.body>
+        </section>
+        <author.footnotes>
+            <footnote ID="I0216e791680911e88f4a9c1f64101294">
+                <label.designator>a0</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </author.footnotes>
+        <footnote.block>
+            <footnote ID="I021735b0680911e88f4a9c1f64101294">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The statute is set forth <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs3:19"
+                                                                       w-pub-number="185218"
+                                                                       ID="I021735b1680911e88f4a9c1f64101294">§
+                            3:19</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I02175cc0680911e88f4a9c1f64101294">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913949" w-seq-number="00002" w-ref-type="LQ"
+                                              w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                              ID="I0c38b470680811e8aca4f6dd071ce3e8">28 U.S.C.A. § 1407 (a) to
+                            (c)</cite.query>.
+                            <eos/>
+                            <bos/>The statute is reprinted in <cite.query w-ref-type="NA"
+                                                                          w-normalized-cite="MDLITMANs3:19"
+                                                                          w-pub-number="185218"
+                                                                          ID="I0217f900680911e88f4a9c1f64101294">§
+                                3:19</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I0217f901680911e88f4a9c1f64101294">
+                <label.designator>3</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The Panel&apos;s deference to the transferee court is especially noticeable.
+                            <eos/>
+                            <bos/>This deference is noted in §§ <cite.query w-ref-type="NA"
+                                                                            w-normalized-cite="MDLITMANs9:2"
+                                                                            w-pub-number="185218"
+                                                                            ID="I02182010680911e88f4a9c1f64101294">9:2
+                            </cite.query> and  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs9:4"
+                                                           w-pub-number="185218" ID="I02182011680911e88f4a9c1f64101294">
+                                9:4</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I02182012680911e88f4a9c1f64101294">
+                <label.designator>4</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The Panel&apos;s inability and unwillingness to enter orders for transfer or remand
+                            conditioned on some substantive or procedural requirement of the Panel are discussed in §§ <cite.query
+                                    w-ref-type="NA" w-normalized-cite="MDLITMANs3:10" w-pub-number="185218"
+                                    ID="I02195890680911e88f4a9c1f64101294">3:10
+                            </cite.query> and  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs3:11"
+                                                           w-pub-number="185218" ID="I0219a6b0680911e88f4a9c1f64101294">
+                                3:11</cite.query>.
+                            <eos/>
+                            <bos/>These orders should not be confused with conditional transfer orders and conditional
+                            remand orders that are properly entered by the Panel.
+                            <eos/>
+                            <bos/>These latter orders are conditional only in that they become final if not objected to,
+                            but have no effect if a party files a notice of objection.
+                            <eos/>
+                            <bos/>Conditional transfer orders are discussed in §§ <cite.query w-ref-type="NA"
+                                                                                              w-normalized-cite="MDLITMANs4:6"
+                                                                                              w-pub-number="185218"
+                                                                                              ID="I021a1be0680911e88f4a9c1f64101294">
+                                4:6
+                            </cite.query> and  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs8:3"
+                                                           w-pub-number="185218" ID="I021a42f0680911e88f4a9c1f64101294">
+                                8:3</cite.query>.
+                            <eos/>
+                            <bos/>Conditional remand orders in §§ <cite.query w-ref-type="NA"
+                                                                              w-normalized-cite="MDLITMANs4:32"
+                                                                              w-pub-number="185218"
+                                                                              ID="I021a9110680911e88f4a9c1f64101294">
+                                4:32
+                            </cite.query> and  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs10:6"
+                                                           w-pub-number="185218" ID="I021a9111680911e88f4a9c1f64101294">
+                                10:6</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I021a9112680911e88f4a9c1f64101294">
+                <label.designator>5</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913949" w-seq-number="00003" w-ref-type="LQ"
+                                        w-normalized-cite="28USCAS1407" w-pub-number="1000546"
+                                        ID="I0c3bc1b0680811e8aca4f6dd071ce3e8">28 U.S.C.A. § 1407 (2000)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I021ab820680911e88f4a9c1f64101294">
+                <label.designator>6</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913949" w-serial-number="1977126582" w-seq-number="00004"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="270"
+                                        ID="I0c3c36e1680811e8aca4f6dd071ce3e8">In re New York City Municipal Securities
+                                Litigation, 439 F. Supp. 267, 270 (J.P.M.L. 1977)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I021ba280680911e88f4a9c1f64101294">
+                <label.designator>7</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The role of the preferences (and opposition) of the parties on the question of
+                            transfer is discussed in <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs5:34"
+                                                                 w-pub-number="185218"
+                                                                 ID="I021bf0a0680911e88f4a9c1f64101294">§
+                                5:34</cite.query>, on the selection of a transferee district in <cite.query
+                                    w-ref-type="NA" w-normalized-cite="MDLITMANs6:18" w-pub-number="185218"
+                                    ID="I021bf0a1680911e88f4a9c1f64101294">§ 6:18</cite.query>, and in selection of a
+                            transferee judge in <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs7:7"
+                                                            w-pub-number="185218"
+                                                            ID="I021c17b0680911e88f4a9c1f64101294">§ 7:7</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I021c17b1680911e88f4a9c1f64101294">
+                <label.designator>8</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            Regional Rail Reorganization Act of 1973, <cite.query w-seq-number="00005" w-ref-type="SL"
+                                                                                  w-normalized-cite="I048AF38F71-2C4AAE87385-194BC8CE891"
+                                                                                  w-pub-number="1077005"
+                                                                                  ID="I0c3e0ba1680811e88e78eda24c2fdd6c">
+                            Pub. L. No. 93-236, § 209(b), 87 Stat. 985</cite.query>, 999 (1974).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I021cdb01680911e88f4a9c1f64101294">
+                <label.designator>9</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <csc>Mark Herrmann &amp; David B. Alden, Drug and Device Product Liability Litigation
+                                Strategy
+                            </csc> 161–62 n.9 (2011), quoting John G. Heyburn, II, <ital>A View from the Panel: Part of
+                            the Solution</ital>, 82 LG &amp;SM 2225, 2227 n.12 (2008).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN § 3:1
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

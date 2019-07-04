@@ -152,7 +152,7 @@ public abstract class FeatureListBuilderFixture {
             features.add(new Feature("CombinedTOC"));
         }
 
-        if (SourceType.XPP == bookDefinition.getSourceType()) {
+        if (SourceType.XPP == bookDefinition.getSourceType() || bookDefinition.isPrintPageNumbers()) {
             features.add(new Feature("PageNos"));
             features.add(new Feature("SpanPages"));
         }

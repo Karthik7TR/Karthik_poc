@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service.support;
 
-import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDao;

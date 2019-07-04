@@ -111,7 +111,7 @@
   		  p:filter-ref="postUnlinkFileFilter"/>
   		  
   	<bean id="preprocessService" class="com.thomsonreuters.uscl.ereader.format.service.XMLPreprocessServiceImpl"
-		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
+		  p:fileHandlingHelper-ref="xmlFileHandlingHelper" scope="step"/>
   		  
 	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
 		  p:docMetadataService-ref="docMetadataService"

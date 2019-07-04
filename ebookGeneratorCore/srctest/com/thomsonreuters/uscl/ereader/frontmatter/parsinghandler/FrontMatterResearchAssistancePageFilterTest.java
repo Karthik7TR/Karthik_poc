@@ -134,8 +134,21 @@ public final class FrontMatterResearchAssistancePageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_researchAssistancePageAnchor() {
+        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistancePageAnchor/></test>";
         final String expectedResult = "<test><a name=\""
+            + FrontMatterFileName.RESEARCH_ASSISTANCE
+            + FrontMatterFileName.ANCHOR
+            + "\"> </a></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_researchAssistancePageAnchorWithPageNumber() {
+        bookDefinition.setPrintPageNumbers(true);
+        final String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistancePageAnchor/></test>";
+        final String expectedResult = "<test><?pb label=\"iii\"?><a name=\""
             + FrontMatterFileName.RESEARCH_ASSISTANCE
             + FrontMatterFileName.ANCHOR
             + "\"> </a></test>";

@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addPageNumber;
+
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.xml.sax.Attributes;
@@ -14,6 +16,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
 public class FrontMatterResearchAssistancePageFilter extends XMLFilterImpl {
+    private static final String PAGE_NUMBER = "iii";
     /** Names of all the placeholder tags this filter handles */
     private static final String RESEARCH_ASSISTANCE_PAGE_ANCHOR_TAG =
         "frontMatterPlaceholder_researchAssistancePageAnchor";
@@ -38,6 +41,7 @@ public class FrontMatterResearchAssistancePageFilter extends XMLFilterImpl {
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (qName.equalsIgnoreCase(RESEARCH_ASSISTANCE_PAGE_ANCHOR_TAG)) {
+            addPageNumber(this, bookDefinition, PAGE_NUMBER);
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,

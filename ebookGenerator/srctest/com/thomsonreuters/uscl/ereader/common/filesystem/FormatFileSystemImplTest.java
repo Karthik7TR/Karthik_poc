@@ -19,6 +19,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class FormatFileSystemImplTest {
+    private static final String SEPARATOR = "/";
+    private static final String WORK_DIRECTORY = "workDirectory";
+    private static final String FORMAT_DIRECTORY = WORK_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_DIR.getName();
+    private static final String SPLITBOOK_DIRECTORY = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR.getName();
+    private static final String SPLIT_NODE_INFO = SPLITBOOK_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE.getName();
+    private static final String DOC_TO_IMAGE_MANIFEST = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE.getName();
+
     @InjectMocks
     private FormatFileSystemImpl fileSystem;
     @Mock
@@ -30,8 +37,8 @@ public final class FormatFileSystemImplTest {
 
     @Before
     public void setUp() {
-        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
-        given(bookFileSystem.getWorkDirectoryByJobId(anyLong())).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
+        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), WORK_DIRECTORY));
+        given(bookFileSystem.getWorkDirectoryByJobId(anyLong())).willReturn(new File(temporaryFolder.getRoot(), WORK_DIRECTORY));
     }
 
     @Test
@@ -40,7 +47,7 @@ public final class FormatFileSystemImplTest {
         //when
         final File directory = fileSystem.getFormatDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format"));
+        assertThat(directory, hasPath(FORMAT_DIRECTORY));
     }
 
     @Test
@@ -49,7 +56,7 @@ public final class FormatFileSystemImplTest {
         //when
         final File directory = fileSystem.getSplitBookDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/splitEbook"));
+        assertThat(directory, hasPath(SPLITBOOK_DIRECTORY));
     }
 
     @Test
@@ -58,7 +65,7 @@ public final class FormatFileSystemImplTest {
         //when
         final File file = fileSystem.getSplitBookInfoFile(step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/splitEbook/splitNodeInfo.txt"));
+        assertThat(file, hasPath(SPLIT_NODE_INFO));
     }
 
     @Test
@@ -67,7 +74,7 @@ public final class FormatFileSystemImplTest {
         //when
         final File file = fileSystem.getImageToDocumentManifestFile(step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/doc-to-image-manifest.txt"));
+        assertThat(file, hasPath(DOC_TO_IMAGE_MANIFEST));
     }
 
     @Test
@@ -76,6 +83,6 @@ public final class FormatFileSystemImplTest {
         //when
         final File directory = fileSystem.getFormatDirectory(1L);
         //then
-        assertThat(directory, hasPath("workDirectory/Format"));
+        assertThat(directory, hasPath(FORMAT_DIRECTORY));
     }
 }

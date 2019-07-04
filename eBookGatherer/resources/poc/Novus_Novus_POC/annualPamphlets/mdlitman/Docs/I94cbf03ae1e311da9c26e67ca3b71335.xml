@@ -1,0 +1,505 @@
+<n-docbody>
+    <doc bill="Y">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man § 3:2
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I022b59f1680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+            <prop.head toc-guid="I97b7f560933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Part</label.name>
+                <label.designator>I.</label.designator>
+                <headtext>Handling Cases Before the Judicial Panel on Multidistrict Litigation</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="I9f85f1c0933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Chapter</label.name>
+                <label.designator>3.</label.designator>
+                <headtext>Powers of the Panel</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+        </prop.block>
+        <message.block>
+            <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">
+                Copyright (c) 2017 Thomson/RIA All rights reserved.
+            </include.copyright>
+        </message.block>
+        <section>
+            <section.front>
+                <doc.title toc-guid="I94cbf039e1e311da9c26e67ca3b71335">
+                    <head parent="doc.title">
+                        <bop/>
+                        <bos/>
+                        <label.name>§</label.name>
+                        <label.designator>3:2.</label.designator>
+                        <headtext>Transfer for pretrial proceedings only</headtext>
+                        <eos/>
+                        <eop/>
+                    </head>
+                </doc.title>
+            </section.front>
+            <section.body>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>With one statutory exception, the Panel is only authorized to transfer cases for pretrial
+                        proceedings.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022c1d40680911e88f4a9c1f64101294">1</footnote.reference>] The Panel
+                        cannot transfer a case for trial, nor can it consider any motions concerning venue or dismissal
+                        related to the place of venue.
+                        <eos/>
+                        <bos/>The statute contemplates that actions be transferred and consolidated by the Panel for
+                        pretrial proceedings and that they be remanded by the Panel for trial.
+                        <eos/>
+                        <bos/>In practice, remand frequently does not take place.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022d07a0680911e88f4a9c1f64101294">2</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>A report on complex litigation by the American Law Institute recommends that the power of
+                        the Panel be expanded to include trial as well as pretrial proceedings.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022df200680911e88f4a9c1f64101294">3</footnote.reference>] This ALI
+                        project report has met with a somewhat indeterminate fate in the courts and in the academic
+                        community.
+                        <eos/>
+                        <bos/>It has not yet had any significant impact on the handling of complex cases.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022df201680911e88f4a9c1f64101294">4</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The ALI report reflects a clear judgment in favor of expanded use of proceedings before
+                        the Panel to manage complex federal court litigation.
+                        <eos/>
+                        <bos/>Additionally, it includes proposals to expand the ability of the courts to coordinate
+                        state court cases[<footnote.reference refid="I022e1910680911e88f4a9c1f64101294">
+                            5</footnote.reference>] and parallel cases pending in state and federal courts.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e1911680911e88f4a9c1f64101294">6</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>Many actions are not remanded because they are either settled or disposed of on motion in
+                        the transferee court.
+                        <eos/>
+                        <bos/>Additionally, for many years, the transferee court would consider a motion to transfer
+                        venue under <cite.query w-src-number="0304913950" w-seq-number="00004" w-ref-type="LQ"
+                                                w-normalized-cite="28USCAS1404" w-pub-number="1000546"
+                                                ID="I0cdd7ff0680811e8aca4f6dd071ce3e8">28 U.S.C.A. §
+                            1404(a)</cite.query>, and frequently transfer actions to itself for trial.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e1912680911e88f4a9c1f64101294">7</footnote.reference>]
+                        Self-transfer under <cite.query w-src-number="0304913950" w-seq-number="00006" w-ref-type="LQ"
+                                                        w-normalized-cite="28USCAS1404" w-pub-number="1000546"
+                                                        ID="I0ce17794680811e8aca4f6dd071ce3e8">§ 1404(a)
+                        </cite.query> was ended by the Supreme Court decision in <cite.query w-src-number="0304913950"
+                                                                                             w-serial-number="1998061318"
+                                                                                             w-seq-number="00007"
+                                                                                             w-ref-type="RS"
+                                                                                             w-pub-number="0000708"
+                                                                                             ID="I0ce17792680811e8aca4f6dd071ce3e8">
+                            Lexecon
+                        </cite.query> in 1998, although efforts to restore it in Congress continue.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e4020680911e88f4a9c1f64101294">8</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>One consequence of the Supreme Court&apos;s
+                        <cite.query w-src-number="0304913950" w-serial-number="1998061318" w-seq-number="00009"
+                                    w-ref-type="RT" w-pub-number="0000708" ID="I0ce32542680811e8aca4f6dd071ce3e8">
+                            <ital>Lexecon</ital>
+                        </cite.query>
+                        prohibition on self-transfer is the recognition that transfer for all purposes under <cite.query
+                                w-src-number="0304913950" w-seq-number="00010" w-ref-type="LQ"
+                                w-normalized-cite="28USCAS1404" w-pub-number="1000546"
+                                ID="I0ce32544680811e8aca4f6dd071ce3e8">28 U.S.C.A. § 1404(a)
+                        </cite.query> may be preferable to transfer by the Panel.
+                        <eos/>
+                        <bos/>The Panel itself has recognized this advantage as a reason to deny or defer
+                        centralization.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e4021680911e88f4a9c1f64101294">9</footnote.reference>] The Panel
+                        has also recognized that a transfer under <cite.query w-src-number="0304913950"
+                                                                              w-seq-number="00014" w-ref-type="LQ"
+                                                                              w-normalized-cite="28USCAS1404"
+                                                                              w-pub-number="1000546"
+                                                                              ID="I0ce76b00680811e8aca4f6dd071ce3e8">
+                            section 1404(a)
+                        </cite.query> may destroy the multidistrict nature of the litigation, es-<?pagebreak label="22"?>sentially mooting any
+                        consideration of transfer under section 1407.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e6730680911e88f4a9c1f64101294">10</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>In the post-Lexecon era, courts have looked to other means to facilitate trial in the
+                        transferee court when it serves the interests of the parties.
+                        <eos/>
+                        <bos/>One mechanism for accomplishing this is for the parties to agree to trial in the
+                        transferee court.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e6731680911e88f4a9c1f64101294">11</footnote.reference>] Some
+                        courts held that parties to an action could consent to transfer of the actions to the transferee
+                        judge for trial.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I022e6732680911e88f4a9c1f64101294">12</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+            </section.body>
+        </section>
+        <author.footnotes>
+            <footnote ID="I022b59f1680911e88f4a9c1f64101294">
+                <label.designator>a0</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </author.footnotes>
+        <footnote.block>
+            <footnote ID="I022c1d40680911e88f4a9c1f64101294">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The Panel is authorized to transfer actions commenced under section 4(C) of the
+                            Clayton Act, <cite.query w-src-number="0304913950" w-seq-number="00001" w-ref-type="ES"
+                                                     w-normalized-cite="5USCAS15" w-pub-number="1000546"
+                                                     ID="I0cd828c0680811e8aca4f6dd071ce3e8">5 U.S.C.A. §
+                                15(c)</cite.query>, for both pretrial and trial purposes.
+                            <eos/>
+                            <bos/>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913950" w-serial-number="1971106977" w-seq-number="00002"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="302"
+                                        ID="I0cd828c2680811e8aca4f6dd071ce3e8">In re Antibiotic Antitrust Actions, 333
+                                F. Supp. 299, 302 (S.D. N.Y. 1971)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022d07a0680911e88f4a9c1f64101294">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Remand is discussed in Chapter 10.
+                            <eos/>
+                            <bos/>The various alternatives to remand are discussed in that chapter as well as in §§ <cite.query
+                                    w-ref-type="NA" w-normalized-cite="MDLITMANs9:18" w-pub-number="185218"
+                                    ID="I022d55c0680911e88f4a9c1f64101294">9:18
+                            </cite.query> to  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs9:25"
+                                                          w-pub-number="185218" ID="I022d7cd0680911e88f4a9c1f64101294">
+                                9:25</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022df200680911e88f4a9c1f64101294">
+                <label.designator>3</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <csc>American Law Institute, Complex Litigation: Statutory Recommendations and Analysis
+                            </csc>
+                            App. A, at 438–41 (1994).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022df201680911e88f4a9c1f64101294">
+                <label.designator>4</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Linda Mullenix,
+                            <cite.query w-src-number="0304913950" w-serial-number="0104453707" w-seq-number="00003"
+                                        w-ref-type="LR" w-pub-number="0001181" ID="I0cdae7e1680811e8aca4f6dd071ce3e8">
+                                <ital>Unfinished Symphony: The Complex Litigation Project Rests</ital>, 54 <csc>La. L.
+                                Rev.
+                            </csc> 977 (1994)
+                            </cite.query>
+                            .
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e1910680911e88f4a9c1f64101294">
+                <label.designator>5</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <csc>American Law Institute, Complex Litigation: Statutory Recommendations and Analysis
+                            </csc>
+                            165–216 (1994).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e1911680911e88f4a9c1f64101294">
+                <label.designator>6</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>Id.
+                                <eos/>
+                                <bos/>
+                            </ital>
+                            at 217–303.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e1912680911e88f4a9c1f64101294">
+                <label.designator>7</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913950" w-serial-number="1971111947" w-seq-number="00005"
+                                        w-ref-type="RP" w-pub-number="0000350" w-pinpoint-page="124"
+                                        ID="I0cddce11680811e8aca4f6dd071ce3e8">Pfizer, Inc. v. Lord, 447 F.2d 122,
+                                124–25 (2d Cir. 1971)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e4020680911e88f4a9c1f64101294">
+                <label.designator>8</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913950" w-serial-number="1998061318"
+                                              w-seq-number="00008" w-ref-type="RP" w-pub-number="0000708"
+                                              ID="I0ce1ecc2680811e8aca4f6dd071ce3e8">Lexecon Inc. v. Milberg Weiss
+                            Bershad Hynes &amp; Lerach, 523 U.S. 26, 118 S. Ct. 956, 140 L. Ed. 2d 62
+                            (1998)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e4021680911e88f4a9c1f64101294">
+                <label.designator>9</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913950" w-serial-number="2039935932"
+                                              w-seq-number="00011" w-ref-type="RP" w-pub-number="0007903"
+                                              ID="I0ce3c181680811e8aca4f6dd071ce3e8">In re Colgate Optic White
+                            Toothpaste Marketing and Sales Practices Litigation, 232 F. Supp. 3d 1346 (U.S.J.P.M.L.
+                            2016)</cite.query>; <cite.query w-src-number="0304913950" w-serial-number="2040517204"
+                                                            w-seq-number="00012" w-ref-type="RP" w-pub-number="0007903"
+                                                            ID="I0ce3c183680811e8aca4f6dd071ce3e8">In re Capacitors
+                            Antitrust Litigation (No. II), 223 F. Supp. 3d 1340 (U.S.J.P.M.L.
+                            2016)</cite.query>; <cite.query w-src-number="0304913950" w-serial-number="2038992582"
+                                                            w-seq-number="00013" w-ref-type="RP" w-pub-number="0007903"
+                                                            w-pinpoint-page="1345"
+                                                            ID="I0ce3c185680811e8aca4f6dd071ce3e8">In re Comcast Corp.
+                            Employee Wage and Hour Employment Practices Litigation, 190 F. Supp. 3d 1344, 1345
+                            (U.S.J.P.M.L. 2016)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e6730680911e88f4a9c1f64101294">
+                <label.designator>10</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See, e.g.,</ital>
+                            <cite.query w-src-number="0304913950" w-serial-number="2039510470" w-seq-number="00015"
+                                        w-ref-type="RP" w-pub-number="0007903" ID="I0ce7e031680811e8aca4f6dd071ce3e8">In
+                                re 3M Company Lava Ultimate Products Liability Litigation, 222 F. Supp. 3d 1347
+                                (U.S.J.P.M.L. 2016)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e6731680911e88f4a9c1f64101294">
+                <label.designator>11</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913950"
+                                                                      w-serial-number="2003827044" w-seq-number="00016"
+                                                                      w-ref-type="RP" w-pub-number="0004637"
+                                                                      ID="I0ce966d1680811e8aca4f6dd071ce3e8">In re
+                            Farmers Ins. Exchange Claims Representatives&apos; Overtime Pay Litigation, 300 F. Supp. 2d
+                            1020 (D. Or. 2003)</cite.query>.
+                            <eos/>
+                            <bos/>
+                            <ital>See generally</ital>
+                            Mark Herrmann, <ital>Self-Transfers Gone after</ital> &apos;Lexecon
+                            <ital>?&apos;<eos/>
+                                <bos/>
+                            </ital>
+                            , N.Y.L.J., Nov. 23, 1998, at S8 (exploring other potential mechanisms as well).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I022e6732680911e88f4a9c1f64101294">
+                <label.designator>12</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913950" w-serial-number="1980131148" w-seq-number="00017"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="551"
+                                        ID="I0cea0311680811e8aca4f6dd071ce3e8">In re Alien Children Ed. Litigation, 501
+                                F. Supp. 544, 551 n.7 (S.D. Tex. 1980)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN § 3:2
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

@@ -1,0 +1,247 @@
+<n-docbody>
+    <doc bill="Y">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man § 2:5
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I01fd6c21680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+            <prop.head toc-guid="I97b7f560933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Part</label.name>
+                <label.designator>I.</label.designator>
+                <headtext>Handling Cases Before the Judicial Panel on Multidistrict Litigation</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="I9a7603f0933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Chapter</label.name>
+                <label.designator>2.</label.designator>
+                <headtext>History of the Panel</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+        </prop.block>
+        <message.block>
+            <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">
+                Copyright (c) 2017 Thomson/RIA All rights reserved.
+            </include.copyright>
+        </message.block>
+        <section>
+            <section.front>
+                <doc.title toc-guid="I94cbf030e1e311da9c26e67ca3b71335">
+                    <head parent="doc.title">
+                        <bop/>
+                        <bos/>
+                        <label.name>§</label.name>
+                        <label.designator>2:5.</label.designator>
+                        <headtext>Functioning of the Panel</headtext>
+                        <eos/>
+                        <eop/>
+                    </head>
+                </doc.title>
+            </section.front>
+            <section.body>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel has functioned well since its early days.
+                        <eos/>
+                        <bos/>The Panel&apos;s initial make-up of judges who had served on the Coordinating Committee
+                        and who had handled complex, multidistrict cases helped it establish a smooth-running and
+                        effective set of procedures.
+                        <eos/>
+                        <bos/>Although the Panel&apos;s rules have been changed over the years, the rules initially
+                        adopted in <?pagebreak label="16"?> 1968 bear a striking resemblance to those now in effect.
+                        <eos/>
+                        <bos/>The procedures, like the VW Beetle, have been periodically updated, but the initial design
+                        continues to serve well.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I01fea4a0680911e88f4a9c1f64101294">1</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The smooth running of the Panel does not mean that the decisional process has been simple
+                        or automatic.
+                        <eos/>
+                        <bos/>In a few of the Panel&apos;s decisions over the years one or more Panel member has
+                        dissented from the Panel majority&apos;s decision.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I01fecbb1680911e88f4a9c1f64101294">2</footnote.reference>] Panel
+                        members have also disagreed with portions of the decision of the Panel and have filed concurring
+                        or concurring and dissenting opinions.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I01ff19d0680911e88f4a9c1f64101294">3</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+            </section.body>
+        </section>
+        <author.footnotes>
+            <footnote ID="I01fd6c21680911e88f4a9c1f64101294">
+                <label.designator>a0</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </author.footnotes>
+        <footnote.block>
+            <footnote ID="I01fea4a0680911e88f4a9c1f64101294">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>The Panel Rules are reprinted in <cite.query w-ref-type="NA"
+                                                                               w-normalized-cite="MDLITMANs4:34"
+                                                                               w-pub-number="185218"
+                                                                               ID="I01fecbb0680911e88f4a9c1f64101294">§
+                            4:34</cite.query>.
+                            <eos/>
+                            <bos/>The rules are also available in the Panel Web site, at
+                            http://www.jpml.uscourts.gov/sites/jpml/files/Panel%20Rules-Index_%20Copy-Effective-10-4-2016.pdf.
+                        </paratext>
+                        <eos/>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I01fecbb1680911e88f4a9c1f64101294">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913947"
+                                                                      w-serial-number="1978123404" w-seq-number="00001"
+                                                                      w-ref-type="RP" w-pub-number="0000345"
+                                                                      w-pinpoint-page="1232"
+                                                                      ID="I09a27931680811e8865b9f61650dcdcd">In re
+                            Uranium Industry Antitrust Litigation, 458 F. Supp. 1223, 1232 (J.P.M.L. 1978)
+                        </cite.query> (Weinfeld, J., concurring in part, dissenting in part); <cite.query
+                                w-src-number="0304913947" w-serial-number="1971104460" w-seq-number="00002"
+                                w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1019"
+                                ID="I09a27933680811e8865b9f61650dcdcd">In re Carrom Trademark Litigation, 322 F. Supp.
+                            1016, 1019 (J.P.M.L. 1971)
+                        </cite.query> (Wiegel, dissenting).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I01ff19d0680911e88f4a9c1f64101294">
+                <label.designator>3</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913947"
+                                                                      w-serial-number="1978123404" w-seq-number="00003"
+                                                                      w-ref-type="RP" w-pub-number="0000345"
+                                                                      w-pinpoint-page="1232"
+                                                                      ID="I09a33c81680811e8865b9f61650dcdcd">In re
+                            Uranium Industry Antitrust Litigation, 458 F. Supp. 1223, 1232 (J.P.M.L. 1978)
+                        </cite.query> (Weinfeld, J., concurring in part, dissenting in part); <cite.query
+                                w-src-number="0304913947" w-serial-number="1977126351" w-seq-number="00004"
+                                w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1204"
+                                ID="I09a33c83680811e8865b9f61650dcdcd">In re Investors Funding Corp. of New York
+                            Securities Litigation, 437 F. Supp. 1199, 1204 (J.P.M.L. 1977)
+                        </cite.query> (Weinfeld, J., concurring); <cite.query w-src-number="0304913947"
+                                                                              w-serial-number="1969114852"
+                                                                              w-seq-number="00005" w-ref-type="RP"
+                                                                              w-pub-number="0000345"
+                                                                              w-pinpoint-page="253"
+                                                                              ID="I09a33c85680811e8865b9f61650dcdcd">In
+                            re Concrete Pipe, 302 F. Supp. 244, 253 (J.P.M.L. 1969)
+                        </cite.query> (Weigel, J., concurring); <cite.query w-src-number="0304913947"
+                                                                            w-serial-number="1969105437"
+                                                                            w-seq-number="00006" w-ref-type="RP"
+                                                                            w-pub-number="0000345" w-pinpoint-page="497"
+                                                                            ID="I09a33c87680811e8865b9f61650dcdcd">In re
+                            Plumbing Fixture Cases, 298 F. Supp. 484, 497 (J.P.M.L. 1968)
+                        </cite.query> (Weinfeld, J., concurring in part, dissenting in part).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN § 2:5
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

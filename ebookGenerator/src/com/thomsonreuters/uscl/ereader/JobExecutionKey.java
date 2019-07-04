@@ -210,4 +210,6 @@ public class JobExecutionKey {
      * Path to the directory with unpacked images.
      */
     public static final String XPP_IMAGES_UNPACK_DIR = "xppImagesUnpackDir";
+
+    public static final String PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS = "pageNumbersExist";
 }

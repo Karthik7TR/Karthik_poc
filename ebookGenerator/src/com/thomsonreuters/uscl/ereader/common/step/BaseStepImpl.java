@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -91,6 +92,11 @@ public abstract class BaseStepImpl implements BaseStep {
     public String getJobExecutionPropertyString(final String propertyKey) {
         assertPropertyExists(propertyKey);
         return getJobExecutionContext().getString(propertyKey);
+    }
+
+    @Override
+    public boolean getJobExecutionPropertyBoolean(final String propertyKey) {
+        return (Boolean) Optional.ofNullable(getJobExecutionContext().get(propertyKey)).orElse(Boolean.FALSE);
     }
 
     private void assertPropertyExists(final String propertyKey) {

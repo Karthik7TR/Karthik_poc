@@ -1,0 +1,619 @@
+<n-docbody>
+    <doc bill="Y">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man § 3:8
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I027b4eb1680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+            <prop.head toc-guid="I97b7f560933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Part</label.name>
+                <label.designator>I.</label.designator>
+                <headtext>Handling Cases Before the Judicial Panel on Multidistrict Litigation</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="I9f85f1c0933b11da99e2b07024dacc26">
+                <bop/>
+                <bos/>
+                <label.name>Chapter</label.name>
+                <label.designator>3.</label.designator>
+                <headtext>Powers of the Panel</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+        </prop.block>
+        <message.block>
+            <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">
+                Copyright (c) 2017 Thomson/RIA All rights reserved.
+            </include.copyright>
+        </message.block>
+        <section>
+            <section.front>
+                <doc.title toc-guid="I94ed81f3e1e311da9c26e67ca3b71335">
+                    <head parent="doc.title">
+                        <bop/>
+                        <bos/>
+                        <label.name>§</label.name>
+                        <label.designator>3:8.</label.designator>
+                        <headtext>Limitations on Panel&apos;s power—Pending actions only</headtext>
+                        <eos/>
+                        <eop/>
+                    </head>
+                </doc.title>
+            </section.front>
+            <section.body>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel is empowered only to transfer cases <ital>pending</ital> in separate districts
+                        prior to trial.
+                        <eos/>
+                        <bos/>For most situations, this only requires filing of actions in more than one district.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027b75c0680911e88f4a9c1f64101294">1</footnote.reference>] The
+                        statute requires at least two cases to be pending in at least two district courts.
+                        <eos/>
+                        <bos/>Inasmuch as the Federal Court of Claims is a trial court that is not a district court, the
+                        Panel cannot transfer cases to that court nor can a case pending in that court count as one of
+                        the two or more districts necessary for transfer.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027b75c1680911e88f4a9c1f64101294">2</footnote.reference>] For <ital>
+                            in rem
+                        </ital> actions, service must be accomplished in order for the action to be <?pagebreak label="29"?> pending.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027b9cd0680911e88f4a9c1f64101294">3</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel is not allowed to transfer cases after trial is commenced,[<footnote.reference
+                            refid="I027c8730680911e88f4a9c1f64101294">4</footnote.reference>] or to transfer cases that
+                        have been remanded to state court[<footnote.reference refid="I027cae42680911e88f4a9c1f64101294">
+                            5</footnote.reference>] or that are on appeal.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027cae43680911e88f4a9c1f64101294">6</footnote.reference>] Similarly,
+                        the Panel cannot transfer cases that have been dismissed.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027cae44680911e88f4a9c1f64101294">7</footnote.reference>] Dismissal
+                        for this purpose expressly includes voluntary dismissal.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027cd550680911e88f4a9c1f64101294">8</footnote.reference>] The Panel
+                        has indicated that dismissal “with prejudice” renders the transfer issue
+                        moot,[<footnote.reference refid="I027cd551680911e88f4a9c1f64101294">9</footnote.reference>] but
+                        it is not clear that the with prejudice/without prejudice distinction should make any
+                        difference, as an action dismissed without prejudice is still not pending in any district.
+                        <eos/>
+                        <bos/>Merely filing a “dismissal” should not be sufficient, however, and the action should only
+                        be viewed as dismissed when the dismissal is effective under the rules of civil procedure.
+                        <eos/>
+                        <bos/>Dismissal is relevant at any time before the Panel rules on the transfer question, and the
+                        Panel has found the transfer question moot both as to actions dismissed before the filing of a
+                        transfer motion and those dismissed thereafter.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027cd552680911e88f4a9c1f64101294">10</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The Panel has viewed any of these events as rendering the transfer question as “moot,” but
+                        in fact it may also remove the statutory authority to order transfer.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027cd553680911e88f4a9c1f64101294">11</footnote.reference>]
+                        Similarly, the Panel may not transfer an action that has been dismissed.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027cfc60680911e88f4a9c1f64101294">12</footnote.reference>] Change of
+                        venue of actions may also destroy <?pagebreak label="30"?> the multidistrict nature of the
+                        litigation,[<footnote.reference refid="I027e34e0680911e88f4a9c1f64101294">
+                            13</footnote.reference>] although it would not prevent the Panel from including actions
+                        previously transferred as a matter of venue in an order transferring cases.
+                        <eos/>
+                        <bos/>Change of venue by the district courts may specifically be relevant to the Panel&apos;s
+                        selection of an appropriate transferee district.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027e5bf0680911e88f4a9c1f64101294">14</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+                <para>
+                    <bop/>
+                    <bos/>
+                    <paratext>The requirement that the actions be pending applies both to actual transfer of the actions
+                        and to the threshold requirements of the statute.
+                        <eos/>
+                        <bos/>Not only may the Panel not transfer an action that has been remanded, appealed, or
+                        dismissed, the Panel cannot consider such an action in determining if more than one action is
+                        pending in more than one district.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027e5bf2680911e88f4a9c1f64101294">15</footnote.reference>] The Panel
+                        can, however, consider the former pendency of an action in selecting an appropriate transferee
+                        district or judge.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027e5bf3680911e88f4a9c1f64101294">16</footnote.reference>] In one
+                        decision the Panel specifically transferred a group of cases to a judge who had presided over a
+                        case that was settled after oral argument of the Panel transfer motion.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027ef830680911e88f4a9c1f64101294">17</footnote.reference>]
+                        Similarly, even if a case is settled but still “pending,” the Panel can exclude it from transfer
+                        because little positive would likely be accomplished by transfer.[
+                        <eos/>
+                        <bos/>
+                        <footnote.reference refid="I027ef831680911e88f4a9c1f64101294">18</footnote.reference>]
+                    </paratext>
+                    <eos/>
+                    <eop/>
+                </para>
+            </section.body>
+        </section>
+        <author.footnotes>
+            <footnote ID="I027b4eb1680911e88f4a9c1f64101294">
+                <label.designator>a0</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </author.footnotes>
+        <footnote.block>
+            <footnote ID="I027b75c0680911e88f4a9c1f64101294">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913956" w-seq-number="00001" w-ref-type="LQ"
+                                        w-normalized-cite="USFRCPR3" w-pub-number="1000600"
+                                        ID="I10743b40680811e8aca4f6dd071ce3e8">Fed. R. Civ. P. 3
+                            </cite.query> (actions commenced by filing of complaint).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027b75c1680911e88f4a9c1f64101294">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913956" w-serial-number="2030316402" w-seq-number="00002"
+                                        w-ref-type="RP" w-pub-number="0004637" ID="I1074d781680811e8aca4f6dd071ce3e8">In
+                                re NeuroGrafix (&apos;360) Patent Litigation, 936 F. Supp. 2d 1376 (J.P.M.L.
+                                2013)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027b9cd0680911e88f4a9c1f64101294">
+                <label.designator>3</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913956" w-serial-number="2003124330" w-seq-number="00003"
+                                        w-ref-type="RP" w-pub-number="0004637" ID="I107573c1680811e8aca4f6dd071ce3e8">
+                                Saudi v. Acomarit Maritimes Services, S.A., 245 F. Supp. 2d 662 (E.D. Pa.
+                                2003)</cite.query>, <case.history>judgment aff&apos;d</case.history>, <cite.query
+                                w-src-number="0304913956" w-serial-number="2005170358" w-seq-number="00004"
+                                w-ref-type="RP" w-pub-number="0006538" ID="I107573c3680811e8aca4f6dd071ce3e8">114 Fed.
+                            Appx. 449 (3d Cir. 2004)</cite.query>, <case.history>cert.
+                            denied</case.history>, <cite.query w-src-number="0304913956" w-serial-number="2006245021"
+                                                               w-seq-number="00005" w-ref-type="RP"
+                                                               w-pub-number="0000708"
+                                                               ID="I107573c6680811e8aca4f6dd071ce3e8">544 U.S. 976, 125
+                            S. Ct. 1850, 161 L. Ed. 2d 727 (2005)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027c8730680911e88f4a9c1f64101294">
+                <label.designator>4</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>As a matter of practice, but not because of any true limitation on its jurisdiction,
+                            the Panel has hesitated to transfer cases for coordinated or consolidated pretrial
+                            proceedings where the cases are ready for trial or nearly ready for trial because of the
+                            minimal benefits to be obtained by transfer.
+                            <eos/>
+                            <bos/>This practice is discussed in greater detail in §§ <cite.query w-ref-type="NA"
+                                                                                                 w-normalized-cite="MDLITMANs5:33"
+                                                                                                 w-pub-number="185218"
+                                                                                                 ID="I027c8731680911e88f4a9c1f64101294">
+                                5:33
+                            </cite.query> to  <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs5:35"
+                                                          w-pub-number="185218" ID="I027cae40680911e88f4a9c1f64101294">
+                                5:35
+                            </cite.query> (initial transfer) and <cite.query w-ref-type="NA"
+                                                                             w-normalized-cite="MDLITMANs8:4"
+                                                                             w-pub-number="185218"
+                                                                             ID="I027cae41680911e88f4a9c1f64101294">8:4
+                            </cite.query> (tag-along actions).
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cae42680911e88f4a9c1f64101294">
+                <label.designator>5</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913956" w-serial-number="2004883889" w-seq-number="00006"
+                                        w-ref-type="RP" w-pub-number="0004637" ID="I1076fa61680811e8aca4f6dd071ce3e8">In
+                                re Helicopter Crash Near Meadview, Ariz., on Aug. 10, 2001, 330 F. Supp. 2d 1365
+                                (J.P.M.L. 2004)</cite.query>; <cite.query w-src-number="0304913956"
+                                                                          w-serial-number="2004356297"
+                                                                          w-seq-number="00007" w-ref-type="RP"
+                                                                          w-pub-number="0004637" w-pinpoint-page="1387"
+                                                                          ID="I1076fa63680811e8aca4f6dd071ce3e8">In re
+                            General Motors Corp. Piston Slap Products Liability Litigation, 314 F. Supp. 2d 1386, 1387
+                            n.1 (J.P.M.L. 2004)</cite.query>; <cite.query w-src-number="0304913956"
+                                                                          w-serial-number="1974105351"
+                                                                          w-seq-number="00008" w-ref-type="RP"
+                                                                          w-pub-number="0000345" w-pinpoint-page="1399"
+                                                                          ID="I1076fa65680811e8aca4f6dd071ce3e8">In re
+                            Sta-Power Industries Securities and Antitrust Litigation, 372 F. Supp. 1398, 1399 n.1
+                            (J.P.M.L. 1974)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cae43680911e88f4a9c1f64101294">
+                <label.designator>6</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913956"
+                                                                      w-serial-number="1974106796" w-seq-number="00009"
+                                                                      w-ref-type="RP" w-pub-number="0000345"
+                                                                      ID="I10776f91680811e8aca4f6dd071ce3e8">In re
+                            Molinaro/Catanzaro Patent Litigation, 380 F. Supp. 794 (J.P.M.L. 1974)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cae44680911e88f4a9c1f64101294">
+                <label.designator>7</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913956" w-serial-number="2015774353"
+                                              w-seq-number="00010" w-ref-type="RP" w-pub-number="0004637"
+                                              ID="I1077e4c1680811e8aca4f6dd071ce3e8">In re Asbestos Products Liability
+                            Litigation (No. VI), 545 F. Supp. 2d 1359 (J.P.M.L. 2008)</cite.query>; <cite.query
+                                w-src-number="0304913956" w-serial-number="1974107432" w-seq-number="00011"
+                                w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="843"
+                                ID="I1077e4c3680811e8aca4f6dd071ce3e8">In re West Coast Bakery Flour Antitrust
+                            Litigation, 383 F. Supp. 842, 843 (J.P.M.L. 1974)</cite.query>; <cite.query
+                                w-src-number="0304913956" w-serial-number="1974105351" w-seq-number="00012"
+                                w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1399"
+                                ID="I1077e4c5680811e8aca4f6dd071ce3e8">In re Sta-Power Industries Securities and
+                            Antitrust Litigation, 372 F. Supp. 1398, 1399 n.1 (J.P.M.L. 1974)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cd550680911e88f4a9c1f64101294">
+                <label.designator>8</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>See, e.g., <cite.query w-src-number="0304913956" w-serial-number="2012573855"
+                                                         w-seq-number="00013" w-ref-type="RP" w-pub-number="0004637"
+                                                         ID="I10788101680811e8aca4f6dd071ce3e8">In re Air Crash Near
+                            Peixoto De Azeveda, Brazil on September 29, 2006, 493 F. Supp. 2d 1374 (J.P.M.L.
+                            2007)</cite.query>; <cite.query w-src-number="0304913956" w-serial-number="2005396813"
+                                                            w-seq-number="00014" w-ref-type="RP" w-pub-number="0004637"
+                                                            ID="I10788103680811e8aca4f6dd071ce3e8">In re Not-For-Profit
+                            Hospitals/Uninsured Patients Litigation, 341 F. Supp. 2d 1354 (J.P.M.L. 2004)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cd551680911e88f4a9c1f64101294">
+                <label.designator>9</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913956" w-serial-number="2004341818"
+                                              w-seq-number="00015" w-ref-type="RP" w-pub-number="0004637"
+                                              ID="I1078cf21680811e8aca4f6dd071ce3e8">In re Ephedra Products Liability
+                            Litigation, 314 F. Supp. 2d 1373 (J.P.M.L. 2004)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cd552680911e88f4a9c1f64101294">
+                <label.designator>10</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913956" w-serial-number="1997060545"
+                                              w-seq-number="00016" w-ref-type="RP" w-pub-number="0000999"
+                                              ID="I10796b61680811e8aca4f6dd071ce3e8">In re Phonometrics, Inc.,
+                            Electronic Long Distance Call Cost Computers and Recorder Patent Litigation, 1997 WL 83673
+                            (J.P.M.L. 1997)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cd553680911e88f4a9c1f64101294">
+                <label.designator>11</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <cite.query w-src-number="0304913956" w-serial-number="2017252550" w-seq-number="00017"
+                                        w-ref-type="RP" w-pub-number="0004637" ID="I107a2eb1680811e8aca4f6dd071ce3e8">In
+                                re Indianapolis Life Ins. Co. I.R.S. 412(I) Plans Life Ins. Marketing Litigation, 581 F.
+                                Supp. 2d 1364 (J.P.M.L. 2008)
+                            </cite.query>
+                            (transfer moot as to 51 actions <case.history>remanded</case.history> to state
+                            court); <cite.query w-src-number="0304913956" w-serial-number="2003501391"
+                                                w-seq-number="00018" w-ref-type="RP" w-pub-number="0004637"
+                                                ID="I107a2eb3680811e8aca4f6dd071ce3e8">In re Duke Energy Corp.
+                            Securities &amp; “ERISA” Litigation, 271 F. Supp. 2d 1382 (J.P.M.L.
+                            2003)</cite.query>; <cite.query w-src-number="0304913956" w-serial-number="1974107432"
+                                                            w-seq-number="00019" w-ref-type="RP" w-pub-number="0000345"
+                                                            w-pinpoint-page="843"
+                                                            ID="I107a2eb5680811e8aca4f6dd071ce3e8">In re West Coast
+                            Bakery Flour Antitrust Litigation, 383 F. Supp. 842, 843 (J.P.M.L.
+                            1974)</cite.query>; <cite.query w-src-number="0304913956" w-serial-number="1974106796"
+                                                            w-seq-number="00020" w-ref-type="RP" w-pub-number="0000345"
+                                                            ID="I107a2eb7680811e8aca4f6dd071ce3e8">In re
+                            Molinaro/Catanzaro Patent Litigation, 380 F. Supp. 794 (J.P.M.L. 1974)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027cfc60680911e88f4a9c1f64101294">
+                <label.designator>12</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913956" w-serial-number="1975106242"
+                                              w-seq-number="00021" w-ref-type="RP" w-pub-number="0000345"
+                                              ID="I107aa3e1680811e8aca4f6dd071ce3e8">In re Petroleum Products Antitrust
+                            Litigation, 393 F. Supp. 1091 (J.P.M.L. 1975)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027e34e0680911e88f4a9c1f64101294">
+                <label.designator>13</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <cite.query w-src-number="0304913956" w-serial-number="2018990144" w-seq-number="00022"
+                                        w-ref-type="RP" w-pub-number="0004637" ID="I107b1911680811e8aca4f6dd071ce3e8">In
+                                re Androgel Antitrust Litigation, 622 F. Supp. 2d 1382 (J.P.M.L. 2009)
+                            </cite.query>
+                            (transfer under <cite.query w-src-number="0304913956" w-seq-number="00023" w-ref-type="LQ"
+                                                        w-normalized-cite="28USCAS1404" w-pub-number="1000546"
+                                                        ID="I107b1912680811e8aca4f6dd071ce3e8">28 U.S.C.A. § 1404(a)
+                        </cite.query> moots Panel transfer question); <cite.query w-src-number="0304913956"
+                                                                                  w-serial-number="2002390939"
+                                                                                  w-seq-number="00024" w-ref-type="RP"
+                                                                                  w-pub-number="0000999"
+                                                                                  ID="I107b1914680811e8aca4f6dd071ce3e8">
+                            In re Van Wagoner Funds Securities Litigation, 2002 WL 1359742 (J.P.M.L. 2002)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027e5bf0680911e88f4a9c1f64101294">
+                <label.designator>14</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>See <cite.query w-ref-type="NA" w-normalized-cite="MDLITMANs6:11"
+                                                  w-pub-number="185218" ID="I027e5bf1680911e88f4a9c1f64101294">§
+                            6:11</cite.query>, below.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027e5bf2680911e88f4a9c1f64101294">
+                <label.designator>15</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><ital>See, e.g.</ital>, <cite.query w-src-number="0304913956"
+                                                                      w-serial-number="2003501391" w-seq-number="00025"
+                                                                      w-ref-type="RP" w-pub-number="0004637"
+                                                                      ID="I107c2a81680811e8aca4f6dd071ce3e8">In re Duke
+                            Energy Corp. Securities &amp; “ERISA” Litigation, 271 F. Supp. 2d 1382 (J.P.M.L.
+                            2003)</cite.query>; <cite.query w-src-number="0304913956" w-serial-number="2003447376"
+                                                            w-seq-number="00026" w-ref-type="RP" w-pub-number="0004637"
+                                                            ID="I107c2a83680811e8aca4f6dd071ce3e8">In re World Access,
+                            Inc., Securities Litigation, 268 F. Supp. 2d 1376 (J.P.M.L. 2003)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027e5bf3680911e88f4a9c1f64101294">
+                <label.designator>16</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>Selection of a transferee district by the Panel is discussed in Chapter 6; selection
+                            of the transferee judge in Chapter 7.
+                        </paratext>
+                        <eos/>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027ef830680911e88f4a9c1f64101294">
+                <label.designator>17</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext>
+                            <ital>See</ital>
+                            <cite.query w-src-number="0304913956" w-serial-number="1975107931" w-seq-number="00027"
+                                        w-ref-type="RP" w-pub-number="0000345" w-pinpoint-page="1402"
+                                        ID="I107d14e1680811e8aca4f6dd071ce3e8">In re Panty Hose Seaming Patent
+                                Litigation, 402 F. Supp. 1401, 1402–03 (J.P.M.L. 1975)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I027ef831680911e88f4a9c1f64101294">
+                <label.designator>18</label.designator>
+                <footnote.body>
+                    <para>
+                        <bop/>
+                        <bos/>
+                        <paratext><cite.query w-src-number="0304913956" w-serial-number="2011787836"
+                                              w-seq-number="00028" w-ref-type="RP" w-pub-number="0004637"
+                                              ID="I107d8a11680811e8aca4f6dd071ce3e8">In re Tri-State Water Rights
+                            Litigation, 481 F. Supp. 2d 1351 (J.P.M.L. 2007)</cite.query>.
+                            <eos/>
+                        </paratext>
+                        <eop/>
+                    </para>
+                </footnote.body>
+            </footnote>
+        </footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN § 3:8
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.notification.service;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStep;
@@ -44,6 +45,9 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
         sb.append(getVersionInfo(false));
 
         sb.append(getAdditionalBodyPart());
+
+        sb.append(getPagesInfo(bookDefinition));
+
         return sb.toString();
     }
 
@@ -71,5 +75,14 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
         sb.append("\t\nGather Doc Retrieved Count: " + (docRetrievedCount == null ? "-" : docRetrievedCount));
         sb.append("\t\nBook Size: " + (bookSize == null ? "-" : bookSize));
         return sb.toString();
+    }
+
+    private String getPagesInfo(final BookDefinition bookDefinition) {
+        final boolean pageNumbersExistInSourceDocs = step.getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS);
+
+        if (bookDefinition.isPrintPageNumbers() && !pageNumbersExistInSourceDocs) {
+            return "\n\nWARNING: printPageNumbers option is set in eBook Definition but source data files are missing pagebreaks";
+        }
+        return "";
     }
 }

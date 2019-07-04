@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XMLContentChangerFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+import lombok.Getter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
@@ -39,6 +40,9 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
     private static final Logger LOG = LogManager.getLogger(XMLPreprocessServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
+
+    @Getter
+    private boolean pagebreakFoundInSourceDocs;
 
     public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
@@ -64,7 +68,8 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         final File targetDir,
         final boolean isFinalStage,
         final List<DocumentCopyright> copyrights,
-        final List<DocumentCurrency> currencies) throws EBookFormatException {
+        final List<DocumentCurrency> currencies,
+        final boolean protectPagebreaks) throws EBookFormatException {
         if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
@@ -103,7 +108,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
 
         int numDocs = 0;
         for (final File xmlFile : xmlFiles) {
-            transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
+            transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies, protectPagebreaks);
             numDocs++;
         }
 
@@ -159,7 +164,8 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies) throws EBookFormatException {
+        final List<DocumentCurrency> copyCurrencies,
+        final boolean protectPagebreaks) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         try (FileInputStream inStream = new FileInputStream(sourceFile)) {
             try (FileOutputStream outStream = new FileOutputStream(
@@ -169,7 +175,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
                 final SAXParser saxParser = factory.newSAXParser();
 
                 final XMLContentChangerFilter contentChangerFilter =
-                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
+                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies, protectPagebreaks);
                 contentChangerFilter.setParent(saxParser.getXMLReader());
 
                 final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -180,6 +186,8 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
 
                 contentChangerFilter.setContentHandler(serializer.asContentHandler());
                 contentChangerFilter.parse(new InputSource(inStream));
+
+                pagebreakFoundInSourceDocs = pagebreakFoundInSourceDocs || contentChangerFilter.isPagebreakFound();
 
                 LOG.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
             }

@@ -72,7 +72,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
                 DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
         }
 
-        if (SourceType.XPP == bookDefinition.getSourceType()) {
+        if (SourceType.XPP == bookDefinition.getSourceType() || bookDefinition.isPrintPageNumbers()) {
             Collections.addAll(features, DefaultProviewFeatures.PAGE_NUMBERS.feature,
                 DefaultProviewFeatures.SPAN_PAGES.feature);
         }

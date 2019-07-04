@@ -105,8 +105,21 @@ public final class FrontMatterCopyrightPageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_TOCHeadingAnchor() {
+        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_TOCHeadingAnchor/></test>";
         final String expectedResult = "<test><a name=\""
+            + FrontMatterFileName.PUBLISHING_INFORMATION
+            + FrontMatterFileName.ANCHOR
+            + "\"/></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_TOCHeadingAnchorWithPageNumber() {
+        bookDefinition.setPrintPageNumbers(true);
+        final String xmlTestStr = "<test><frontMatterPlaceholder_TOCHeadingAnchor/></test>";
+        final String expectedResult = "<test><?pb label=\"ii\"?><a name=\""
             + FrontMatterFileName.PUBLISHING_INFORMATION
             + FrontMatterFileName.ANCHOR
             + "\"/></test>";

@@ -90,7 +90,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         LOG.debug("Front Matter Research Assistance HTML page generated.");
 
         final File westlawNextPage = new File(outputDir, FrontMatterFileName.WESTLAW + HTML_EXTENSION);
-        writeHTMLFile(westlawNextPage, generateWestlawNextPage());
+        writeHTMLFile(westlawNextPage, generateWestlawNextPage(bookDefinition));
 
         LOG.debug("Front Matter WestlawNext HTML page generated.");
     }
@@ -154,7 +154,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
     @Override
     public String getWestlawNextPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
         final String output =
-            generateWestlawNextPage().replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css")
+            generateWestlawNextPage(bookDefinition).replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css")
                 .replace(WLN_LOGO_PLACEHOLDER, "frontMatterImage.mvc?imageName=EBook_Generator_WestlawNextLogo.png");
         return output;
     }
@@ -267,8 +267,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @return HTML that represents the Title page
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
-    protected String generateWestlawNextPage() throws EBookFrontMatterGenerationException {
-        return transformTemplate(new FrontMatterWestlawNextPageFilter(), getFrontMatterWestlawNextTemplateLocation());
+    protected String generateWestlawNextPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
+        return transformTemplate(new FrontMatterWestlawNextPageFilter(bookDefinition), getFrontMatterWestlawNextTemplateLocation());
     }
 
     /**

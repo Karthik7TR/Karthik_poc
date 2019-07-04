@@ -355,7 +355,7 @@ public class EditBookDefinitionForm {
             isSplitTypeAuto = book.isSplitTypeAuto();
             splitEBookParts = book.getSplitEBookParts();
             fmThemeText = book.getFrontMatterTheme();
-            printPageNumbers = book.getPrintPageNumbers();
+            printPageNumbers = book.isPrintPageNumbers();
 
             // Determine if ProView groups are set
             if (StringUtils.isBlank(book.getGroupName())) {
