@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component(value = "tocServiceMockImpl")
@@ -20,10 +21,10 @@ public class TocServiceMockImpl implements TocService {
     private static final int NODE_COUNT = 244;
     private static final int DOC_COUNT = 227;
     private final String MOCK_COLLECTION_NAME = "w_an_ea_texts2_toc_mock";
-    private final String MOCK_TOC_FILE = "/eBookGatherer/resources/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Toc/toc.xml";
+    private final String MOCK_TOC_FILE = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Toc/toc.xml";
 
-    @Value("${root.work.directory}")
-    private String rootDir;
+    @Autowired
+    private ServletContext servletContext;
 
     @Autowired
     private TocService tocService;
@@ -51,7 +52,7 @@ public class TocServiceMockImpl implements TocService {
                 thresholdValue);
         } else {
             try {
-                FileUtils.copyFile(new File(rootDir, MOCK_TOC_FILE), tocFile);
+                FileUtils.copyFile(new File(servletContext.getRealPath(MOCK_TOC_FILE)), tocFile);
             } catch (final IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

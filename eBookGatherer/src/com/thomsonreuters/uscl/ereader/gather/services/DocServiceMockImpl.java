@@ -4,20 +4,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.servlet.ServletContext;
+
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component(value = "docServiceMockImpl")
 public class DocServiceMockImpl implements DocService {
     private static final String MOCK_COLLECTION_NAME = "w_an_ea_texts2_mock";
-    private static final String MOCK_DOCS_DIR = "/eBookGatherer/resources/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Docs";
+    private static final String MOCK_DOCS_DIR = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Docs";
 
-    @Value("${root.work.directory}")
-    private String rootDir;
+    @Autowired
+    private ServletContext servletContext;
 
     @Autowired
     private DocService docService;
@@ -41,7 +42,7 @@ public class DocServiceMockImpl implements DocService {
                 useReloadContent);
         } else {
             try {
-                FileUtils.copyDirectory(new File(rootDir, MOCK_DOCS_DIR), contentDestinationDirectory);
+                FileUtils.copyDirectory(new File(servletContext.getRealPath(MOCK_DOCS_DIR)), contentDestinationDirectory);
             } catch (final IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
