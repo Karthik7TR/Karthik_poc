@@ -41,7 +41,7 @@ public class DocServiceMockImpl implements DocService {
                 useReloadContent);
         } else {
             try {
-                FileUtils.copyDirectory(new File(rootDir + MOCK_DOCS_DIR), contentDestinationDirectory);
+                FileUtils.copyDirectory(new File(rootDir, MOCK_DOCS_DIR), contentDestinationDirectory);
             } catch (final IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

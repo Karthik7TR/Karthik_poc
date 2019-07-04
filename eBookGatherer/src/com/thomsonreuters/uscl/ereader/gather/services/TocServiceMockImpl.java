@@ -51,7 +51,7 @@ public class TocServiceMockImpl implements TocService {
                 thresholdValue);
         } else {
             try {
-                FileUtils.copyFile(new File(rootDir + MOCK_TOC_FILE), tocFile);
+                FileUtils.copyFile(new File(rootDir, MOCK_TOC_FILE), tocFile);
             } catch (final IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
