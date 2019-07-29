@@ -54,6 +54,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
     private static final int ISBN_TOTAL_CHARACTER_LENGTH = 17;
     private static final int ISBN_NUMBER_LENGTH = 13;
+    private static final int MAX_NUMBER_SUBJECT_KEYWORDS = 3;
+    private static final String ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED = "error.keyword.max.subjecs.number.exceeded";
 
     private final BookDefinitionService bookDefinitionService;
     private final KeywordTypeCodeSevice keywordTypeCodeSevice;
@@ -949,9 +951,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void validateProviewKeywords(final EditBookDefinitionForm form, final Errors errors) {
+        final List<KeywordTypeCode> keywordTypeCodes = keywordTypeCodeSevice.getAllKeywordTypeCodes();
+
         // Validate that required keyword are selected
-        keywordTypeCodeSevice.getAllKeywordTypeCodes()
-            .stream()
+        keywordTypeCodes.stream()
             .filter(code -> code.getIsRequired() && !code.getValues().isEmpty())
             .map(KeywordTypeCode::getId)
             .map(
@@ -962,6 +965,23 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             .findAny()
             .ifPresent(
                 idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", "error.required"));
+
+        validateSubjectMatterKeywords(form, errors, keywordTypeCodes);
+    }
+
+    private void validateSubjectMatterKeywords(final EditBookDefinitionForm form, final Errors errors, final List<KeywordTypeCode> keywordTypeCodes) {
+        // Validate that subject matter keywords number does not exceed predefined value
+        keywordTypeCodes.stream()
+            .filter(code -> WebConstants.KEY_SUBJECT_MATTER.equalsIgnoreCase(code.getName()))
+            .map(KeywordTypeCode::getId)
+            .findAny()
+            .ifPresent(subjectKeywordTypeId -> validateMaxNumberOfSubjects(form, errors, subjectKeywordTypeId));
+    }
+
+    private void validateMaxNumberOfSubjects(final EditBookDefinitionForm form, final Errors errors, final long subjectKeywordTypeId) {
+        if (form.getKeywords().computeIfAbsent(subjectKeywordTypeId, k -> Collections.emptyList()).size() > MAX_NUMBER_SUBJECT_KEYWORDS) {
+            errors.rejectValue("keywords[" + subjectKeywordTypeId + "]", ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED);
+        }
     }
 
     private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors) {

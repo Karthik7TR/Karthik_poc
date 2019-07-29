@@ -74,7 +74,7 @@ public class ViewBookDefinitionController {
 
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_FORM, form);
-        model.addAttribute("keywords", getKeywords(bookDef).entrySet());
+        model.addAttribute(WebConstants.KEY_KEYWORDS, getKeywords(bookDef).entrySet());
 
         if (bookDef == null) {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));

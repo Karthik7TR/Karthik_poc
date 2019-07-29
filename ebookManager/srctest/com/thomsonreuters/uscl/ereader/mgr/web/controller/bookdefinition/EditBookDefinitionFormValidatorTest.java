@@ -4,7 +4,14 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
@@ -37,6 +44,11 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
 public final class EditBookDefinitionFormValidatorTest {
+    private static final String KEYWORDS_FIELD = "keywords[4]";
+    private static final long SUBJECT_KEYWORD_ID = 4L;
+    private static final String SUBJECT_KEYWORD = "subject";
+    private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
+
     private List<KeywordTypeCode> KEYWORD_CODES;
 
     private BookDefinitionService mockBookDefinitionService;
@@ -86,6 +98,7 @@ public final class EditBookDefinitionFormValidatorTest {
         KEYWORD_CODES = new ArrayList<>();
         KEYWORD_CODES.add(keyword);
         KEYWORD_CODES.add(keyword2);
+        KEYWORD_CODES.add(getSubjectKeywordTypeCode("Subject1", "Subject2", "Subject3", "Subject4"));
     }
 
     /**
@@ -1223,6 +1236,64 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("groupsEnabled").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
+    }
+
+    @Test
+    public void testNoSubjectKeywords() {
+        testSubjectKeywords(0, err -> Assert.assertNull(err.getFieldError(KEYWORDS_FIELD)));
+    }
+
+    @Test
+    public void testMultipleSubjectKeywords() {
+        testSubjectKeywords(3, err -> Assert.assertNull(err.getFieldError(KEYWORDS_FIELD)));
+    }
+
+    @Test
+    public void testMultipleSubjectKeywordsMaxNumberExceeded() {
+        testSubjectKeywords(4, err -> Assert.assertEquals(
+            SUBJECT_KEYWORD_ERROR,
+            err.getFieldError(KEYWORDS_FIELD).getCode()));
+    }
+
+    private void testSubjectKeywords(final int numberOfSubjectKeywords, final Consumer<Errors> assertion) {
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(keywordTypeCodeSevice);
+
+        form.setValidateForm(true);
+        form.setKeywords(getSubjectKeywordsFormData(numberOfSubjectKeywords));
+
+        setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2, 2);
+
+        validator.validate(form, errors);
+
+        assertion.accept(errors);
+    }
+
+    private Map<Long, Collection<Long>> getSubjectKeywordsFormData(final int numberOfSubjectKeywords) {
+        final Map<Long, Collection<Long>> keywords = new HashMap<>();
+        keywords.put(SUBJECT_KEYWORD_ID, LongStream.range(0, numberOfSubjectKeywords).boxed().collect(Collectors.toList()));
+        return keywords;
+    }
+
+    private KeywordTypeCode getSubjectKeywordTypeCode(final String...subjects) {
+        final KeywordTypeCode keyword = new KeywordTypeCode();
+        keyword.setId(SUBJECT_KEYWORD_ID);
+        keyword.setIsRequired(false);
+        keyword.setName(SUBJECT_KEYWORD);
+
+        keyword.setValues(IntStream.range(0, subjects.length).boxed()
+            .map(index -> createKeywordTypeValue(index, subjects[index], keyword))
+            .collect(Collectors.toList()));
+
+        return keyword;
+    }
+
+    private KeywordTypeValue createKeywordTypeValue(final int index, final String value, final KeywordTypeCode typeCode) {
+        final KeywordTypeValue typeValue = new KeywordTypeValue();
+        typeValue.setId((long) index);
+        typeValue.setKeywordTypeCode(typeCode);
+        typeValue.setName(value);
+        return typeValue;
     }
 
     private void setupPublisherAndTitleId(
