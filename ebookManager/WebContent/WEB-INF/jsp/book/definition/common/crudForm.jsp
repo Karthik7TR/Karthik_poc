@@ -752,16 +752,21 @@
 							<img src="theme/images/wf_plus.gif"> ${keyword.name} <form:errors path="keywords[${keyword.id}]" cssClass="errorMessage" />
 						</div>
 						<div id="keyword_${keyword.id}_values" class="keywordValueBox" style="display:none;">
-                            <c:if test="${keyword.id != subjectId}">
-	                            <c:choose>
-	                            	<c:when test="${form.keywords.get(keyword.id) == null}" >
-								    	<form:radiobutton path="keywords[${keyword.id}]" value="-1" checked="true"/>None
-	                            	</c:when>
-	                            	<c:otherwise>
-								    	<form:radiobutton path="keywords[${keyword.id}]" value="-1"/>None
-	                            	</c:otherwise>
-	                            </c:choose>
-                            </c:if>
+							<c:choose>
+                  	            <c:when test="${keyword.id == subjectId}">
+                  	            	<div class="keywordInfoMessage">maximum three subjects allowed</div>
+                  	            </c:when>
+                  	            <c:otherwise>
+                  	            	<c:choose>
+		                            	<c:when test="${form.keywords.get(keyword.id) == null}" >
+									    	<form:radiobutton path="keywords[${keyword.id}]" value="-1" checked="true"/>None
+		                            	</c:when>
+		                            	<c:otherwise>
+									    	<form:radiobutton path="keywords[${keyword.id}]" value="-1"/>None
+		                            	</c:otherwise>
+	                            	</c:choose>
+                  	            </c:otherwise>
+                	        </c:choose>
 							<c:forEach items="${keyword.values}" var="value">
 								<div class="keywordValues">
                                     <c:choose>

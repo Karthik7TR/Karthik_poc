@@ -1042,3 +1042,9 @@ width: initial;
 .print_component_legend.supplement .legend_color {
 	background-color: yellow;
 }
+
+.keywordInfoMessage {
+	font-weight: bold;
+	padding-top: .5em;
+	padding-bottom: .5em;
+}
