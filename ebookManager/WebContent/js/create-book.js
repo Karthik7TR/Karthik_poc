@@ -1,6 +1,7 @@
 var isSplitTypeAuto = true;
 var splitSize ="";
 var splitDocumentIndex = 0;
+const MAX_NUMBER_SUBJECT_KEYWORDS = 3;
 
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
@@ -847,5 +848,18 @@ $(function() {
 		
 		// Set validateForm
 		$('#validateForm').val(false);
+		
+		var checkMaxNumberOfSubjectKeywords = function () {
+			var infoText = $("#subjectKeywordInfoMessage");
+			if ($(".subject-keyword:checked").size() > MAX_NUMBER_SUBJECT_KEYWORDS) {
+				infoText.addClass("error");
+			} else {
+				infoText.removeClass("error");
+			}			
+		} 
+		
+		$(".subject-keyword").click(checkMaxNumberOfSubjectKeywords);
+		
+		checkMaxNumberOfSubjectKeywords();
 	});
 });

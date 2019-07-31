@@ -754,7 +754,7 @@
 						<div id="keyword_${keyword.id}_values" class="keywordValueBox" style="display:none;">
 							<c:choose>
                   	            <c:when test="${keyword.id == subjectId}">
-                  	            	<div class="keywordInfoMessage">maximum three subjects allowed</div>
+                  	            	<div id="subjectKeywordInfoMessage" class="keyword-info-message">maximum three subjects allowed</div>
                   	            </c:when>
                   	            <c:otherwise>
                   	            	<c:choose>
@@ -773,10 +773,10 @@
                                         <c:when test="${keyword.id == subjectId}">
 									         <c:choose>
 									         	<c:when test="${form.keywords[keyword.id].contains(value.id)}">
-									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}" checked="true"/>
+									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}" checked="true" class="subject-keyword"/>
 									         	</c:when>
 									         	<c:otherwise>
-									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}"/>
+									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}" class="subject-keyword"/>
 									         	</c:otherwise>
 									         </c:choose>
                                         </c:when>
