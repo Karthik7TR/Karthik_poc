@@ -139,6 +139,10 @@ $(document).ready(function() {
                                 <label class="labelCol">Print Page Numbers</label>
                                 <span class="field">${ book.printPageNumbers }</span>
                             </div>
+                            <div class="row">
+                                <label class="labelCol">Inline TOC Included</label>
+                                <span class="field">${ book.inlineTocIncluded }</span>
+                            </div>
 						</div>
 					</c:when>
 					<c:when test="${ book.sourceType == 'NORT' }">

@@ -378,6 +378,9 @@ public class BookDefinition implements Serializable {
     @Column(name = "PRINT_PAGE_NUMBERS")
     private String printPageNumbers;
 
+    @Column(name = "INLINE_TOC_INCLUDED")
+    private String inlineTocIncluded;
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = isTocFlag ? Y : N;
     }
@@ -783,6 +786,14 @@ public class BookDefinition implements Serializable {
         return Y.equalsIgnoreCase(printPageNumbers);
     }
 
+    public void setInlineTocIncluded(final boolean isInlineTocIncluded) {
+        inlineTocIncluded = isInlineTocIncluded ? Y : N;
+    }
+
+    public boolean isInlineTocIncluded() {
+        return Y.equalsIgnoreCase(inlineTocIncluded);
+    }
+
     public BookDefinition() {
         super();
         setIsDeletedFlag(false);
@@ -865,6 +876,7 @@ public class BookDefinition implements Serializable {
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintSubNumber(that.getPrintSubNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
+        setInlineTocIncluded(that.isInlineTocIncluded());
     }
 
     /**

@@ -249,6 +249,9 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private boolean printPageNumbers;
 
+    @Getter @Setter
+    private boolean isInlineTocIncluded;
+
     /**
      * Reset some book definition fields before copying in to the form
      *
@@ -356,6 +359,7 @@ public class EditBookDefinitionForm {
             splitEBookParts = book.getSplitEBookParts();
             fmThemeText = book.getFrontMatterTheme();
             printPageNumbers = book.isPrintPageNumbers();
+            isInlineTocIncluded = book.isInlineTocIncluded();
 
             // Determine if ProView groups are set
             if (StringUtils.isBlank(book.getGroupName())) {
@@ -557,6 +561,7 @@ public class EditBookDefinitionForm {
         book.setSubGroupHeading(subGroupHeading);
         book.setGroupName(groupName);
         book.setPrintPageNumbers(printPageNumbers);
+        book.setInlineTocIncluded(isInlineTocIncluded);
 
         book.setNortFileLocations(copyList(nortFileLocations, book, NortFileLocation::new));
         book.setFrontMatterTheme(fmThemeText);

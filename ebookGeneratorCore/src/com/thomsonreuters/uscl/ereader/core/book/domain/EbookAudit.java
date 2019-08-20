@@ -312,6 +312,10 @@ public class EbookAudit implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     private String printPageNumbers;
 
+    @Column(name = "INLINE_TOC_INCLUDED")
+    @Basic(fetch = FetchType.EAGER)
+    private String inlineTocIncluded;
+
     public void setAuditId(final Long auditId) {
         this.auditId = auditId;
     }
@@ -649,6 +653,7 @@ public class EbookAudit implements Serializable {
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
+        setInlineTocIncluded(that.isInlineTocIncluded());
     }
 
     /**
@@ -726,6 +731,7 @@ public class EbookAudit implements Serializable {
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
+        setInlineTocIncluded(that.isInlineTocIncluded());
     }
 
     @Transient
@@ -815,6 +821,7 @@ public class EbookAudit implements Serializable {
         buffer.append("groupName=[").append(groupName).append("] ");
         buffer.append("printSetNumber=[").append(printSetNumber).append("] ");
         buffer.append("printPageNumbers=[").append(printPageNumbers).append("] ");
+        buffer.append("inlineTocIncluded=[").append(inlineTocIncluded).append("] ");
         return buffer.toString();
     }
 
@@ -1134,10 +1141,26 @@ public class EbookAudit implements Serializable {
     }
 
     public boolean isPrintPageNumbers() {
-        return printPageNumbers.equalsIgnoreCase("Y");
+        return isEqualsYes(printPageNumbers);
     }
 
     public void setPrintPageNumbers(final boolean isPrintPageNumbers) {
-        printPageNumbers = isPrintPageNumbers ? "Y" : "N";
+        printPageNumbers = getStringForBooleanValue(isPrintPageNumbers);
+    }
+
+    public boolean isInlineTocIncluded() {
+        return isEqualsYes(inlineTocIncluded);
+    }
+
+    public void setInlineTocIncluded(final boolean isInlineTocIncluded) {
+        inlineTocIncluded = getStringForBooleanValue(isInlineTocIncluded);
+    }
+
+    private boolean isEqualsYes(final String value) {
+        return "Y".equalsIgnoreCase(value);
+    }
+
+    private String getStringForBooleanValue(final boolean value) {
+        return value ? "Y" : "N";
     }
 }

@@ -316,6 +316,11 @@
 					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="true" />Enabled
 					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="false" />Disabled
 				</div>
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" class="labelCol">Inline TOC Included:</form:label>
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="true" />Enabled
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="false" />Disabled
+				</div>
 			</div>
 			<div id="displayNORT" style="display:none">
 				<div class="row">
