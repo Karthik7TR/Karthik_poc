@@ -23,6 +23,7 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_CREATED_LINKS_TRANSFORM_DIR("CreatedLinksTransform"),
     FORMAT_FIXED_TRANSFORM_DIR("FixedTransform"),
     FORMAT_HTML_WRAPPER_DIR("HTMLWrapper"),
+    FORMAT_PROCESS_PAGES_DIR("ProcessPages"),
     FORMAT_SPLIT_EBOOK_DIR("splitEbook"),
 
     GATHER_TOC_FILE("toc.xml"),

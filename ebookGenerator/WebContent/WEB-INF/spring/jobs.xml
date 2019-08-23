@@ -158,6 +158,12 @@
 		<!-- Wrap HTML in required HTML header and footer -->
 		<step id="formatAddHTMLWrapper">
 			<tasklet ref="formatAddHTMLWrapperTask"/>
+			<next on="COMPLETED" to="processPages"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="processPages">
+			<tasklet ref="processPagesTask"/>
 			<next on="COMPLETED" to="getStaticImages"/>
 			<fail on="FAILED"/>
 		</step>
@@ -311,6 +317,7 @@
 	<beans:bean id="formatAddHTMLWrapperTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="generatorParentTask"
 				p:htmlWrapperService-ref="htmlWrapperService"
 				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="processPagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.ProcessPages" />
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="generatorParentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 	            p:moveResourcesUtil-ref="moveResourcesUtil"/>

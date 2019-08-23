@@ -1,0 +1,2219 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<?pagebreak label="9"?>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Multidistrict Lit Man Bibliography<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Multidistrict Litigation Manual</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20190501">
+						<bop/>
+						<bos/>May 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>David F. Herr[<footnote.reference refid="If7e057916b3e11e99b03e53d6dd36aa2">a0</footnote.reference>]</author>
+				<eos/>
+				<eop/>
+			</author.line>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<bibliography>
+			<doc.title toc-guid="I403894d0558a11dca5f9d46486b7845f">
+				<head parent="doc.title">
+					<bop/>
+					<bos/>
+					<headtext>Bibliography</headtext>
+					<eos/>
+					<eop/>
+				</head>
+			</doc.title>
+			<bibliography.division>
+				<head parent="bibliography.division">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Multidistrict Venue Materials</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<bibliography.division>
+					<head parent="bibliography.division">
+						<bop/>
+						<bos/>
+						<headtext>
+							<bold>
+								<ital>Books</ital>
+							</bold>
+						</headtext>
+						<eos/>
+						<eop/>
+					</head>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Charles A. Bane, The Electrical Equipment Conspiracies: The Treble Damage Actions</csc> (1973)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>T. Bartsch, F. Boddy, B. King &amp; P. Thompson, A Class-Action Suit that Worked: The Consumer Refund in the Antibiotic Antitrust Litigation</csc> (1978)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>David F. Herr, Annotated Manual for Complex Litigation Fourth</csc> (ThomsonReuters 2018)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>David F. Herr, Multidistrict Litigation: Handling Cases Before the Judicial Panel on Multidistrict Litigation</csc> (Little Brown 1986, Supp. 1996)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Mark Herrmann, Geoffrey J. Ritts &amp; Katherine Larson, Statewide Coordinated Proceedings: State Court Analogues to the Federal MDL Process</csc> 30–38 (West 2d ed. 2004)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Kenneth R. Redden, Federal Special Court Litigation</csc>§§ 4-1 to 4-7, at 359–98 (1982)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Paul D. Rheingold, Mass Tort Litigation</csc> ch. 4 (West 1996 ed. &amp; Supp. 2016)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>15 <csc>Charles Alan Wright, Arthur R. Miller, Edward H. Cooper &amp; Richard D. Freer, </csc>
+								<cite.query w-serial-number="0104501186" w-seq-number="00001" w-ref-type="TS" w-pub-number="0102228" ID="Ic67a77d06b3e11e981c298c9743468bd">
+									<csc>Federal Practice and Procedure</csc> §§ 3861</cite.query>–<cite.query w-seq-number="00002" w-ref-type="ER" w-normalized-cite="FPPs63" w-pub-number="0102228" ID="Ic67a77d16b3e11e981c298c9743468bd">63 (4th ed. 2013 &amp; Supp. 2017)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+				</bibliography.division>
+				<bibliography.division>
+					<head parent="bibliography.division">
+						<bop/>
+						<bos/>
+						<headtext>
+							<bold>
+								<ital>Articles</ital>
+							</bold>
+						</headtext>
+						<eos/>
+						<eop/>
+					</head>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>American Law Institute, Complex Litigation: Statutory Recommendations and Analysis</csc> (1994)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Peter Adomeit, <cite.query w-serial-number="0294914050" w-seq-number="00003" w-ref-type="LR" w-pub-number="0001486" ID="Ic67bb0516b3e11e981c298c9743468bd">
+									<ital>The Station Nightclub Fire And Federal Jurisdictional Reach: The Multidistrict, Multiparty, Multiforum Jurisdiction Act of 2002</ital>, 25 <csc>W. New Eng. L. Rev.</csc> 243 (2003)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Atkins, <cite.query w-seq-number="00004" w-ref-type="LR" w-normalized-cite="38JAIRLCOM205" w-pub-number="0001169" ID="Ic67c4c916b3e11e981c298c9743468bd">
+									<ital>An Apologia for Transfer of Aviation Disaster Cases Under Section 1407</ital>, 38 <csc>J. Air L. &amp; Com.</csc> 205 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Baldridge, <cite.query w-seq-number="00005" w-ref-type="LR" w-normalized-cite="11ANTITRUSTBULL635" w-pub-number="0100206" ID="Ic67cc1c16b3e11e981c298c9743468bd">
+									<ital>Problems Raised in Multiple Litigation</ital>, 11 <csc>Antitrust Bull.</csc> 635 (1966)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Desmond T. Barry, Jr., <ital>A Practical Guides to the Ins and Outs of </ital>
+								<cite.query w-seq-number="00006" w-ref-type="ES" w-normalized-cite="USMULTIDISTLITR64" w-pub-number="1000604" ID="Ic67d36f06b3e11e981c298c9743468bd">
+									<ital>Multi-District Litigation</ital>, 64</cite.query>
+								<csc>Defense Coun. <eos/>
+									<bos/>J.<eos/>
+									<bos/>
+								</csc> 58 (1997)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Beatty, <cite.query w-seq-number="00007" w-ref-type="LR" w-normalized-cite="38JAIRLCOM183" w-pub-number="0001169" ID="Ic67e6f716b3e11e981c298c9743468bd">
+									<ital>The Impact of Consolidated Multidistrict Proceedings on Plaintiffs in Mass-Disaster Litigation</ital>, 38 <csc>J. Air L. &amp; Com.</csc> 183 (1970)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Catherine R. Borden &amp; Emery G. Lee III, <cite.query w-serial-number="0378361798" w-seq-number="00008" w-ref-type="LR" w-pub-number="0100385" ID="Ic67ebd916b3e11e981c298c9743468bd">
+									<ital>Beyond Transfer: Coordination of Complex Litigation In State and Federal Courts in the Twenty-First Century,</ital> 31 <csc>Rev. Litig.</csc> 997 (2012)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Catherine R. Borden, Emery G. Lee III &amp; Margaret S. Williams, <cite.query w-serial-number="0425840193" w-seq-number="00009" w-ref-type="LR" w-pub-number="0001181" ID="Ic67f0bb16b3e11e981c298c9743468bd">
+									<ital>Centripetal Forces: Multidistrict Litigation and Its Parts</ital>, 75 <csc>La. L. Rev.</csc> 425 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Kyle Brackin, Comment, <cite.query w-serial-number="0102000267" w-seq-number="00010" w-ref-type="LR" w-pub-number="0001169" ID="Ic67f59d16b3e11e981c298c9743468bd">
+									<ital>Salvaging the Wreckage: Multidistrict Litigation and Aviation</ital>, 57 <csc>J. Air L. &amp; Comm.</csc> 655 (1992)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Andrew D. Bradt, <cite.query w-serial-number="0386223802" w-seq-number="00011" w-ref-type="LR" w-pub-number="0001211" ID="Ic67fa7f16b3e11e981c298c9743468bd">
+									<ital>The Shortest Distance: Direct Filing and Choice of Law in Multidistrict Litigation,</ital> 88 <csc>Notre Dame L. Rev.</csc> 759 (2012)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Elizabeth Chamblee Burch, <cite.query w-serial-number="0429059961" w-seq-number="00012" w-ref-type="LR" w-pub-number="0001206" ID="Ic67ff6116b3e11e981c298c9743468bd">
+									<ital>Judging Multidistrict Litigation</ital>, 90 <csc>N.Y.U. L. Rev.</csc> 71 (2015)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Elizabeth Chamblee Burch, <cite.query w-serial-number="0455546398" w-seq-number="00013" w-ref-type="LR" w-pub-number="0001277" w-pinpoint-page="72" ID="Ic6801d216b3e11e981c298c9743468bd">
+									<ital>Monopolies in Multidistrict Litigation,</ital> 70 <ital>Vand. L. Rev.</ital> 67, 72 (2017)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Elizabeth Chamblee Burch, <cite.query w-serial-number="0425840192" w-seq-number="00014" w-ref-type="LR" w-pub-number="0001181" ID="Ic6806b416b3e11e981c298c9743468bd">
+									<ital>Remanding Multidistrict Litigation,</ital> 75 <csc>La. L. Rev.</csc> 399 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Andrew A. Caffrey, <cite.query w-serial-number="0292103135" w-seq-number="00015" w-ref-type="LR" w-pub-number="0000344" ID="Ic680b9616b3e11e981c298c9743468bd">
+									<ital>The Role of the Transferee Judge in Multidistrict Litigation</ital>, 69 F.R.D. 289 (1976)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Robert A. Cahn, <cite.query w-serial-number="0292103147" w-seq-number="00016" w-ref-type="LR" w-pub-number="0000344" ID="Ic68107806b3e11e981c298c9743468bd">A <ital>Look at the Judicial Panel on Multidistrict Litigation</ital>, 72 F.R.D. 211 (1977)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>L. Elizabeth Chamblee, <cite.query w-serial-number="0304802867" w-seq-number="00017" w-ref-type="LR" w-pub-number="0001181" ID="Ic6812e916b3e11e981c298c9743468bd">
+									<ital>Unsettling Efficiency: When Non-Class Aggregation of Mass Torts Creates Second-Class Settlements,</ital> 65 <csc>La. L. Rev.</csc> 157 (2004)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <ital>A Survey of Federal Multidistrict Litigation—<cite.query w-seq-number="00018" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic681cad06b3e11e981c298c9743468bd">28 U.S.C. § 1407</cite.query>
+								</ital>, <cite.query w-seq-number="00019" w-ref-type="LR" w-normalized-cite="15VILLLREV916" w-pub-number="0001278" ID="Ic681cad36b3e11e981c298c9743468bd">15 <csc>Villanova L. Rev.</csc> 916 (1970)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <ital>Consolidation of Pretrial Proceedings Under Proposed <cite.query w-seq-number="00020" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic68267106b3e11e981c298c9743468bd">Section 1407 of the Judicial Code</cite.query>: </ital>
+								<cite.query w-seq-number="00021" w-ref-type="LR" w-normalized-cite="33UCHILREV558" w-pub-number="0003039" ID="Ic68267126b3e11e981c298c9743468bd">
+									<ital>Unanswered Questions of Transfer and Review</ital>, 33 <csc>U. Chi. L. Rev.</csc> 558 (1966)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <cite.query w-seq-number="00022" w-ref-type="LR" w-normalized-cite="64NWULR188" w-pub-number="0001214" ID="Ic6832a616b3e11e981c298c9743468bd">
+									<ital>The Search for the Most Convenient Federal Forum: Three Solutions to the Problems of Multidistrict Litigation</ital>, 64 <csc>Nw. U.L. Rev.</csc> 188 (1969)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <cite.query w-serial-number="0101148834" w-seq-number="00023" w-ref-type="LR" w-pub-number="0001268" ID="Ic68378816b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel on Multidistrict Litigation: Time for Rethinking</ital>, 140 <csc>U. Pa. L. Rev.</csc> 711 (1911)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>George T. Conway, III, Note, <cite.query w-serial-number="0101386640" w-seq-number="00024" w-ref-type="LR" w-pub-number="0001292" ID="Ic683c6a16b3e11e981c298c9743468bd">
+									<ital>The Consolidation of Multistate Litigation in State Courts</ital>, 96 <csc>Yale L.J.</csc> 1099 (1987)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John F. Cooney, Comment, <cite.query w-seq-number="00025" w-ref-type="LR" w-normalized-cite="39UCHILREV588" w-pub-number="0003039" ID="Ic68574516b3e11e981c298c9743468bd">
+									<ital>The Experience of Transferee Courts under the Multidistrict Litigation Act</ital>, 39 <csc>U. Chi. L. Rev.</csc> 588 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward H. Cooper, <cite.query w-serial-number="0104453702" w-seq-number="00026" w-ref-type="LR" w-pub-number="0001181" ID="Ic685c2716b3e11e981c298c9743468bd">
+									<ital>Interstate Consolidation: A Comparison of the ALI Project with the Uniform Transfer of Litigation Act</ital>, 54 <csc>La. L. Rev.</csc> 897 (1994)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Elisabeth Courson, <cite.query w-serial-number="0442859142" w-seq-number="00027" w-ref-type="LR" w-pub-number="0105911" ID="Ic68610916b3e11e981c298c9743468bd">
+									<ital>No Looking Back: The Effect of Transfer on the Choice of Law Rules Applicable to Directly Filed Multidistrict Litigation Cases</ital>, 46 <csc>U. Mem. L. Rev.</csc> 437 (2015)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Crocker, <cite.query w-seq-number="00028" w-ref-type="LR" w-normalized-cite="35DEFCOUNSJ604" w-pub-number="0100294" ID="Ic686d3e16b3e11e981c298c9743468bd">
+									<ital>Consolidated Pre-Trial for Multi-District Litigation</ital>, 35 <csc>Ins. Couns. J.</csc> 604 (1968)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext> Mary H. Cronin, Jesse P. Hyde &amp; Edward B. Ruff, III, <ital>Multidistrict Litigation: Technical and Practical Considerations</ital>, 59 FDCC Qtly. 391 (2009)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Michael Cutler, <cite.query w-serial-number="0425303495" w-seq-number="00029" w-ref-type="LR" w-pub-number="0210599" ID="Ic687e5516b3e11e981c298c9743468bd">
+									<ital>Reforming 28 U.S.C. § 1407 To Fix Lexecon Would Not Only Conserve Resources, But Also Help Plaintiffs Regain Bargaining Power to Reach Better Settlements</ital>, 5 <csc>Faulkner L. Rev.</csc> 165 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Jaime Dodge, <cite.query w-serial-number="0425838168" w-seq-number="00030" w-ref-type="LR" w-pub-number="0001135" ID="Ic6880c616b3e11e981c298c9743468bd">
+									<ital>Facilitative Judging: Organizational Design In Mass-Multidistrict Litigation</ital>, 64 <csc>Emory L.J.</csc> 329 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Richard A. Epstein, <ital>The Consolidation of Complex Litigation: A Critical Evaluation of the ALI Proposal</ital>, 10 <csc>L. J. &amp; Comm.</csc> 1 (1990)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Eldon E. Fallon, Jeremy T. Grabill &amp; Robert Pitard Wynne, <cite.query w-serial-number="0339879132" w-seq-number="00031" w-ref-type="LR" w-pub-number="0001254" ID="Ic68993016b3e11e981c298c9743468bd">
+									<ital>Bellwether Trials in Multidistrict Litigation</ital>, 82 <csc>Tul. L. Rev.</csc> 2323 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Farrell, <cite.query w-seq-number="00032" w-ref-type="LR" w-normalized-cite="38JAIRLCOM159" w-pub-number="0001169" ID="Ic68a56516b3e11e981c298c9743468bd">
+									<ital>Multidistrict Litigation in Aviation Accident Gases</ital>, 38 <csc>J. Air L. &amp; Com.</csc> 159 (1970)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>George M. Fleming &amp; Jessica Kasischke, <ital>MDL Practice: Avoiding The Black Hole</ital>, 56 S. LG &amp; SM 71 (2014)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Thomas B. Goodbody, <cite.query w-serial-number="0292103147" w-seq-number="00033" w-ref-type="LT" w-pub-number="0000344" ID="Ic68c79316b3e11e981c298c9743468bd">
+									<ital>Complex Litigation and Multidistrict Litigation</ital>
+								</cite.query>, 3 <csc>Class Act. <eos/>
+									<bos/>Rep.</csc> 71 (1974)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Jeremy T. Grabill, Comment, <cite.query w-serial-number="0306988757" w-seq-number="00034" w-ref-type="LR" w-pub-number="0001254" ID="Ic68cee616b3e11e981c298c9743468bd">
+									<ital>Multistate Class Actions Properly Frustrated by Choice-of-Law Complexities: The Role of Parallel Litigation in the Courts</ital>, 80 <csc>Tul. L. Rev.</csc> 299 (2005)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Gregory R. Harris, Note, <ital>Consolidation and Transfer in the Federal Courts: <cite.query w-seq-number="00035" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic692e1d06b3e11e981c298c9743468bd">28 U.S.C. § 1407</cite.query> Viewed in Light of Rule 42(a) and <cite.query w-seq-number="00036" w-ref-type="LQ" w-normalized-cite="28USCAS1404" w-pub-number="1000546" ID="Ic692e1d16b3e11e981c298c9743468bd">28 U.S.C. § 1404(a)</cite.query>
+								</ital>, <cite.query w-seq-number="00037" w-ref-type="LR" w-normalized-cite="22HASTINGSLJ1289" w-pub-number="0001159" ID="Ic692e1d46b3e11e981c298c9743468bd">22 <csc>Hastings L.J.</csc> 1289 (1971)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Deborah R. Hensler, <cite.query w-serial-number="0287961997" w-seq-number="00038" w-ref-type="LR" w-pub-number="0001234" ID="Ic69357016b3e11e981c298c9743468bd">
+									<ital>The Role of Multi-Districting in Mass Tort Litigation: An Empirical Investigation</ital>, 31 <csc>Seton Hall L. Rev.</csc> 883 (2001)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Wilson Herndon, <ital>
+									<cite.query w-seq-number="00039" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic6968b516b3e11e981c298c9743468bd">Section 1407</cite.query> and Antitrust </ital>
+								<cite.query w-seq-number="00040" w-ref-type="ES" w-normalized-cite="USMULTIDISTLITR47" w-pub-number="1000604" ID="Ic6968b506b3e11e981c298c9743468bd">
+									<ital>Multidistrict Litigation</ital>, 47</cite.query>
+								<csc>A.B.A. Antitrust L.J.</csc> 1161 (1978–1979)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Wilson Herndon &amp; Ernest R. Higginbotham, <ital>Complex Multidistrict Litigation—An Overview of <cite.query w-seq-number="00041" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic69775b06b3e11e981c298c9743468bd">28 U.S.C.A. § 1407</cite.query>
+								</ital>, <cite.query w-seq-number="00042" w-ref-type="LR" w-normalized-cite="31BLRLR33" w-pub-number="0001099" ID="Ic69775b36b3e11e981c298c9743468bd">31 <csc>Baylor L. Rev.</csc> 33 (1979)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mark Herrmann, <ital>From Saccharin to Breast Implants: Mass Torts, Then and Now</ital>, 26 <csc>Litigation</csc>, Fall 1999, at 50</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mark Hermann, <ital>To MDL or Not to MDL? A Defense Perspective</ital>, 24 <csc>Litigation</csc>, Sum. 1998, at 43</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mark Herrmann &amp; Pearson Bownas, <cite.query w-serial-number="0339879131" w-seq-number="00043" w-ref-type="LR" w-pub-number="0001254" ID="Ic698ae316b3e11e981c298c9743468bd">
+									<ital>An Uncommon Focus on “Common Questions”: Two Problems with the Judicial Panel on Multidistrict Litigation&apos;s Treatment of the “One or More Common Questions of Fact” Requirement for Centralization</ital>, 82 <csc>Tul. L. Rev.</csc> 2297 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. John G. Heyburn II &amp; Francis E. McGovern, <ital>Evaluating and Improving the MDL Process</ital>, 38 <csc>Litigation</csc>, Spr. 2012, at 26</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John G. Heyburn II, <cite.query w-serial-number="0339879129" w-seq-number="00044" w-ref-type="LR" w-pub-number="0001254" ID="Ic69998916b3e11e981c298c9743468bd">
+									<ital>A View from the Panel: Part of the Solution</ital>, 82 <csc>Tul. L. Rev.</csc> 2225 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Patricia D. Howard, <cite.query w-serial-number="0292126968" w-seq-number="00045" w-ref-type="LR" w-pub-number="0000344" ID="Ic699bfa16b3e11e981c298c9743468bd">
+									<ital>A Guide to Multidistrict Litigation</ital>, 75 F.R.D. 577 (1978)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Patricia Howard, <cite.query w-serial-number="0102839888" w-seq-number="00046" w-ref-type="LR" w-pub-number="0000344" ID="Ic69a0dc16b3e11e981c298c9743468bd">
+									<ital>A Guide to Multidistrict Litigation</ital>, 124 F.R.D. 479 (1989)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Martin I. Kaminsky, <cite.query w-seq-number="00047" w-ref-type="LR" w-normalized-cite="23SYRACUSELREV817" w-pub-number="0001245" ID="Ic69b6d516b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel on Multidistrict Litigation: Emerging Problems and Current Trends of Decision</ital>, 23 <csc>Syracuse L. Rev.</csc> 817 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Allen R. Kamp, <cite.query w-seq-number="00048" w-ref-type="LR" w-normalized-cite="21WM161" w-pub-number="0002984" ID="Ic69c09916b3e11e981c298c9743468bd">
+									<ital>The Shrinking Forum: The Supreme Court&apos;s Limitation of Jurisdiction—An Argument for a Federal Forum in Multi-Party, Multi-State Litigation</ital>, 21 <csc>Wm. &amp; Mary L. Rev.</csc> 161 (1979)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Stowell R.R. Kelner, Note, <ital>“</ital>
+								<cite.query w-serial-number="0102729241" w-seq-number="00049" w-ref-type="LR" w-pub-number="0001206" ID="Ic69c57b16b3e11e981c298c9743468bd">
+									<ital>Adrift on an Unchartered Sea”: A Survey of Section 1404(a) Transfer in the Federal System</ital>, 67 <csc>N.Y.U.L. Rev.</csc> 612 (1992)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Earle F. Kyle, IV, <cite.query w-serial-number="0108757959" w-seq-number="00050" w-ref-type="LR" w-pub-number="0000344" ID="Ic69ca5d16b3e11e981c298c9743468bd">
+									<ital>The Mechanics of Motion Practice Before the Judicial Panel on Multidistrict Litigation</ital>, 175 F.R.D. 589 (1997)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Benjamin W. Larson, Comment, <cite.query w-serial-number="0111026885" w-seq-number="00051" w-ref-type="LR" w-pub-number="0001211" ID="Ic69cf3f16b3e11e981c298c9743468bd">Lexecon Inc. v. Milberg Weiss Bershad Hynes &amp; Lerach: <ital>Respecting the Plaintiff&apos;s Choice of Forum</ital>, 74 <csc>Notre Dame L. Rev.</csc> 1337 (1999)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>David Lauter, <ital>Mastering MDL</ital>, 6 <csc>Nat. L.J.</csc> 1, 24–25, 32 (Nov. 21, 1983)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Emery G. Lee, III &amp; Thomas E. Willging, <cite.query w-serial-number="0341023453" w-seq-number="00052" w-ref-type="LR" w-pub-number="0001268" ID="Ic69d90316b3e11e981c298c9743468bd">
+									<ital>The Impact of the Class Action Fairness Act on the Federal Courts: An Empirical Analysis of Filings and Removals</ital>, 156 <csc>U. Pa. L. Rev.</csc> 1723 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Stanley J. Levy, <cite.query w-seq-number="00053" w-ref-type="LR" w-normalized-cite="40FDMLR41" w-pub-number="0001142" ID="Ic69ec8b16b3e11e981c298c9743468bd">
+									<ital>Complex Multidistrict Litigation and the Federal Courts</ital>, 40 <csc>Fordham L. Rev.</csc> 41 (1971)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John H. Lowrie, Note, <ital>Air Crash Litigation and <cite.query w-seq-number="00054" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic69f64f06b3e11e981c298c9743468bd">28 U.S.C. Section 1407</cite.query>: </ital>
+								<cite.query w-seq-number="00055" w-ref-type="LR" w-normalized-cite="1981UILLLREV927" w-pub-number="0001264" ID="Ic69f64f26b3e11e981c298c9743468bd">
+									<ital>Experience Suggests a Solution</ital>, 1981 <csc>U. Ill. L. Rev.</csc> 927 (1981)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Jason Lynch, Note, <cite.query w-serial-number="0287454462" w-seq-number="00056" w-ref-type="LR" w-pub-number="0003050" ID="Ic69fb3116b3e11e981c298c9743468bd">
+									<ital>Federalism, Separation of Powers, And The Role of State Attorneys General in Multistate Litigation</ital>, 101 <csc>Colum. L. Rev.</csc> 1998 (2001)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Richard L. Marcus, <cite.query w-serial-number="0341023454" w-seq-number="00057" w-ref-type="LR" w-pub-number="0001268" ID="Ic69fda216b3e11e981c298c9743468bd">
+									<ital>Assessing CAFA&apos;s Stated Jurisdictional Policy</ital>, 156 <csc>U. Pa. L. Rev.</csc> 1765 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Richard L. Marcus, <cite.query w-serial-number="0339879130" w-seq-number="00058" w-ref-type="LR" w-pub-number="0001254" w-pinpoint-page="2291" ID="Ic6a028416b3e11e981c298c9743468bd">
+									<ital>Cure-All for an Era of Dispersed Litigation? Toward a Maximalist Use of the Multidistrict Litigation Panel’s Transfer Power</ital>, 82 <csc>Tul. L. Rev.</csc> 2245, 2291-92 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John T. McDermott, <cite.query w-serial-number="0292103047" w-seq-number="00059" w-ref-type="LR" w-pub-number="0000344" ID="Ic6a076616b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel on Multidistrict Litigation</ital>, 57 F.R.D. 215 (1973)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John T. McDermott, <cite.query w-seq-number="00060" w-ref-type="LR" w-normalized-cite="38JAIRLCOM171" w-pub-number="0001169" ID="Ic6a1d5f16b3e11e981c298c9743468bd">
+									<ital>A Modest Proposal for Expanding the Authority of the Judicial Panel on Multidistrict Litigation</ital>, 38 <csc>J. Air L. &amp; Com.</csc> 171 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John T. McDermott, <cite.query w-seq-number="00061" w-ref-type="LR" w-normalized-cite="37JAIRLCOM423" w-pub-number="0001169" ID="Ic6a299416b3e11e981c298c9743468bd">
+									<ital>A Plea for the Preservation of the Public&apos;s Interest in Multidistrict Litigation</ital>, 37 <csc>J. Air L. &amp; Com.</csc> 423 (1971)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John T. McDermott, <cite.query w-seq-number="00062" w-ref-type="LR" w-normalized-cite="35MLR15" w-pub-number="0003085" ID="Ic6a3d1c16b3e11e981c298c9743468bd">
+									<ital>The Transferee Judge—The Unsung Hero of Multidistrict Litigation</ital>, 35 <csc>Mont. L. Rev.</csc> 15 (1974)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John H. McElhaney, <cite.query w-seq-number="00063" w-ref-type="LR" w-normalized-cite="37JAIRLCOM49" w-pub-number="0001169" ID="Ic6a495116b3e11e981c298c9743468bd">
+									<ital>A Plea for the Preservation of the “Worm&apos;s Eye View” in Multidistrict Aviation Litigation</ital>, 37 <csc>J. Air L. &amp; Com.</csc> 49 (1971)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Francis McGovern, <cite.query w-serial-number="0280193942" w-seq-number="00064" w-ref-type="LR" w-pub-number="0001268" w-pinpoint-page="1886" ID="Ic6a4e3316b3e11e981c298c9743468bd">
+									<ital>Toward a Cooperative Strategy for Federal and State Judges in Mass Tort Litigation</ital>, 148 <csc>U. Pa. L. Rev.</csc> 1867, 1886–96 (2000)</cite.query>; and E. Norman Veasey, <cite.query w-serial-number="0280193943" w-seq-number="00065" w-ref-type="LR" w-pub-number="0001268" ID="Ic6a4e3336b3e11e981c298c9743468bd">
+									<ital>A Response to Professor McGovern</ital>, 148 <csc>U. Pa. L. Rev.</csc> 1897 (2000)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Kara M. Moorcroft, <ital>The Path to Preclusion: Federal Injunctive Relief against Nationwide Classes in State Court</ital>, 54 LG &amp; SM 221 (2004)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda Mullenix, <cite.query w-serial-number="0104453707" w-seq-number="00066" w-ref-type="LR" w-pub-number="0001181" ID="Ic6a61bb16b3e11e981c298c9743468bd">
+									<ital>Unfinished Symphony: The Complex Litigation Project Rests</ital>, 54 <csc>La. L. Rev.</csc> 977 (1994)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Diana E. Murphy, <cite.query w-serial-number="0102839921" w-seq-number="00067" w-ref-type="LR" w-pub-number="0000344" ID="Ic6a642c16b3e11e981c298c9743468bd">
+									<ital>Unified and Consolidated Complaints in Multidistrict Litigation</ital>, 132 F.R.D. 597 (1991)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. John F. Nangle, <cite.query w-serial-number="0108559101" w-seq-number="00068" w-ref-type="LR" w-pub-number="0001145" ID="Ic6a690e16b3e11e981c298c9743468bd">
+									<ital>Bankruptcy&apos;s Impact on Multidistrict Litigation: Legislative Reform as an Alternative to Existing Mechanisms</ital>, 31 <csc>Ga. L. Rev.</csc> 1093 (1997)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. John F. Nangle, <cite.query w-serial-number="0112630121" w-seq-number="00069" w-ref-type="LR" w-pub-number="0100267" ID="Ic6a6df016b3e11e981c298c9743468bd">
+									<ital>From The Horse&apos;s Mouth: The Workings of The Judicial Panel on Multidistrict Litigation</ital>, 66 <csc>Def. Couns. J.</csc> 341 (1999)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Phil C. Neal &amp; Perry Goldberg, <cite.query w-seq-number="00070" w-ref-type="LR" w-normalized-cite="50ABA1621" w-pub-number="0000101" ID="Ic6a7c9616b3e11e981c298c9743468bd">
+									<ital>The Electrical Equipment Antitrust Cases: Novel Judicial Administration</ital>, 50 A.B.A. 1621 (1963)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <cite.query w-seq-number="00071" w-ref-type="LR" w-normalized-cite="39UCHILREV588" w-pub-number="0003039" ID="Ic6a950016b3e11e981c298c9743468bd">
+									<ital>Experience of Transferee Courts Under the Multidistrict Litigation Act</ital>, 39 <csc>U. Chi. L. Rev.</csc> 588 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <cite.query w-serial-number="0101991788" w-seq-number="00072" w-ref-type="LR" w-pub-number="0001192" ID="Ic6a99e216b3e11e981c298c9743468bd">
+									<ital>Federal Venue Under Section 1392(a): The Problem of the Multidistrict Defendant</ital>, 85 <csc>Mich. L. Rev.</csc> 352 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <cite.query w-seq-number="00073" w-ref-type="LR" w-normalized-cite="1969WISLREV653" w-pub-number="0001290" ID="Ic6aaaf916b3e11e981c298c9743468bd">
+									<ital>Judicial Code Revisions to Provide for Pretrial Consolidation of Multidistrict Litigation</ital>, 1969 <csc>Wis. L. Rev.</csc> 653</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <cite.query w-serial-number="0110392459" w-seq-number="00074" w-ref-type="LR" w-pub-number="0003084" ID="Ic6aafdb16b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel and the Conduct of Multidistrict Litigation</ital>, 87 <csc>Harv. L. Rev.</csc> 1001 (1974)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <ital>Multidistrict Litigation: Termination of “Pretrial Proceedings” Under <cite.query w-seq-number="00075" w-ref-type="LQ" w-normalized-cite="28USCAS1407" w-pub-number="1000546" ID="Ic6af43726b3e11e981c298c9743468bd">Section 1407</cite.query> Judicial Experiments in Making the Practice Meet the Purpose of the Act</ital>, <cite.query w-seq-number="00076" w-ref-type="LR" w-normalized-cite="38JAIRLCOM263" w-pub-number="0001169" ID="Ic6af43716b3e11e981c298c9743468bd">38 <csc>J. Air L. &amp; Com.</csc> 263 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <ital>Pre-Trial Consolidation in Complex Federal </ital>
+								<cite.query w-seq-number="00077" w-ref-type="ES" w-normalized-cite="USMULTIDISTLITR6" w-pub-number="1000604" ID="Ic6b0f1206b3e11e981c298c9743468bd">
+									<ital>Multidistrict Litigation</ital>, 6</cite.query>
+								<csc>Colum. J. L. &amp; Social Prob.</csc> 433 (1970)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <cite.query w-seq-number="00078" w-ref-type="LR" w-normalized-cite="41NOTREDAMELREV507" w-pub-number="0100362" ID="Ic6b1b4716b3e11e981c298c9743468bd">
+									<ital>The Problem of Venue in Multiple District Litigation</ital>, 41 <csc>Notre Dame Law.</csc> 507 (1966)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Danielle Oakley, <cite.query w-serial-number="0320649853" w-seq-number="00079" w-ref-type="LR" w-pub-number="0161786" ID="Ic6b202916b3e11e981c298c9743468bd">
+									<ital>Is Multidistrict Litigation a Just and Efficient Consolidation Technique? Using Diet Drug Litigation as a Model to Answer this Question</ital>, 6 <csc>Nev. L.J</csc>. 494 (2005–2006)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>O&apos;Connor &amp; Kukankos, <cite.query w-seq-number="00080" w-ref-type="LR" w-normalized-cite="20TRIALLAWGUIDE249" w-pub-number="0100414" ID="Ic6b389316b3e11e981c298c9743468bd">
+									<ital>Estoppel by Verdict, The Multidistrict Litigation Act, and Constitutional Rights of Litigants Can They Coexist?</ital>, 20 <csc>Trial Law. Guide</csc> 249 (1976)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Yvette Ostolaza &amp; Michelle Hartmann, <ital>The Judicial Panel on Multidistrict Litigation and Coordinating Multijurisdictional Disputes</ital>, 16 <csc>Pract. <eos/>
+									<bos/>Litigator</csc>, July 2005, at 23</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Yvette Ostolaza &amp; Michelle Hartmann, <cite.query w-serial-number="0329978342" w-seq-number="00081" w-ref-type="LR" w-pub-number="0100385" ID="Ic6b536e16b3e11e981c298c9743468bd">
+									<ital>Overview of Multidistrict Litigation Rules at the State and Federal Level</ital>, 26 <csc>Rev. Litig. </csc> 47 (2007)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Calvin A. Peterson &amp; John T. McDermott, <cite.query w-seq-number="00082" w-ref-type="LR" w-normalized-cite="56ABA737" w-pub-number="0000101" ID="Ic6b648516b3e11e981c298c9743468bd">
+									<ital>Multidistrict Litigation: New Forms of Judicial Administration</ital>, 56 A.B.A. J. 737 (1970)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Carter G. Phillips, Gene C. Schaerr &amp; Anil K. Abraham, <cite.query w-serial-number="0108622504" w-seq-number="00083" w-ref-type="LR" w-pub-number="0001100" ID="Ic6b696716b3e11e981c298c9743468bd">
+									<ital>Rescuing Multidistrict Litigation From The Altar of Expediency</ital>, 1997 <csc>Brigham Young U.L. Rev.</csc> 821</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Angela J. Raforth, Note, <ital>Congress and the Multiparty, Multiforum Trial Jurisdiction Act of 2002: Meaningful Reform or a Comedy of Errors?<eos/>
+									<bos/>
+								</ital>, 54 Duke L.J. (2002)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Martin H. Redish, <cite.query w-serial-number="0119765221" w-seq-number="00084" w-ref-type="LR" w-pub-number="0001211" ID="Ic6b780d16b3e11e981c298c9743468bd">
+									<ital>Intersystemic Redundancy And Federal Court Power: Proposing a Zero Tolerance Solution to The Duplicative Litigation Problem</ital>, 75 <csc>Notre Dame L. Rev.</csc> 1347 (2000)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Martin H. Redish &amp; Julie M. Karaba, <cite.query w-serial-number="0427067933" w-seq-number="00085" w-ref-type="LR" w-pub-number="0003197" ID="Ic6b7f6016b3e11e981c298c9743468bd">
+									<ital>One Size Doesn&apos;t Fit All: Multidistrict Litigation, Due Process, and the Dangers of Procedural Collectivism</ital>, 95 <csc>B.U. L. Rev.</csc> 109 (2015)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Blake M. Rhodes, <cite.query w-serial-number="0101148834" w-seq-number="00086" w-ref-type="LR" w-pub-number="0001268" ID="Ic6b81d116b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel on Multidistrict Litigation: Time for Rethinking</ital>, 140 U. Pa. L. Rev. 711 (1991)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Daniel A. Richards, <cite.query w-serial-number="0347247597" w-seq-number="00087" w-ref-type="LR" w-pub-number="0001142" ID="Ic6b86b316b3e11e981c298c9743468bd">
+									<ital>An Analysis of the Judicial Panel on Multidistrict Litigation&apos;s Selection of Transferee District and Judge</ital>, 78 <csc>Fordham L. Rev</csc>. 311 (2009)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mike Roberts, <cite.query w-serial-number="0103292417" w-seq-number="00088" w-ref-type="LR" w-pub-number="0001189" ID="Ic6b8e0616b3e11e981c298c9743468bd">
+									<ital>Multdistrict Litigation and the Judicial Panel, Transfer and Tag-Along Orders Prior to a Determination of Remand: Procedural and Substantive Probeme or Effective Judicial Public Policy?</ital>, 23 <csc>Mem. St. U.L. Rev.</csc> 841 (1993)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Edwin A. Robson, <cite.query w-seq-number="00089" w-ref-type="LR" w-normalized-cite="14ANTITRUSTBULL109" w-pub-number="0100206" ID="Ic6b955916b3e11e981c298c9743468bd">
+									<ital>Multi-District Litigation: § 1407 in Operation</ital>, 14 <csc>Antitrust Bull.</csc> 109 (1969)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Thomas D. Rowe, Jr., <cite.query w-serial-number="0101194070" w-seq-number="00090" w-ref-type="LR" w-pub-number="0100385" ID="Ic6b9a3b16b3e11e981c298c9743468bd">
+									<ital>Jurisdictional and Transfer Proposals for Complex Litigation</ital>, 10 <csc>Rev. Litigation</csc> 325 (1991)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Thomas D. Rowe, Jr. &amp; Kenneth D. Sibley, <cite.query w-serial-number="0102878026" w-seq-number="00091" w-ref-type="LR" w-pub-number="0001268" ID="Ic6b9f1d16b3e11e981c298c9743468bd">
+									<ital>Beyond Diversity: Federal Multiparty, Multiforum Jurisdiction</ital>, 135 <csc>U. Pa. L. Rev.</csc> 7 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Warren F. Schwartz, <cite.query w-seq-number="00092" w-ref-type="LR" w-normalized-cite="20VANDLREV1197" w-pub-number="0001277" ID="Ic6bab5216b3e11e981c298c9743468bd">
+									<ital>Severance—A Means of Minimizing the Role of Burden and Expense in Determining the Outcome of Litigation</ital>, 20 <csc>Vand. L. Rev.</csc> 1197 (1967)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>William W. Schwarzer, et al., <cite.query w-serial-number="0102566966" w-seq-number="00093" w-ref-type="LR" w-pub-number="0001359" ID="Ic6bb03416b3e11e981c298c9743468bd">
+									<ital>Judicial Federalism in: Coordination of Litigation in State and Federal Courts</ital>, 78 <csc>Va. L. Rev.</csc> 1689 (1992)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>William W. Schwarzer &amp; Edward Sussman, <cite.query w-serial-number="0105556662" w-seq-number="00094" w-ref-type="LR" w-pub-number="0001251" ID="Ic6bb51616b3e11e981c298c9743468bd">
+									<ital>Judicial Federalism: A Proposal to Amend the Multidistrict Litigation Statute to Permit Discovery Coordination of Large-Scale Litigation Pending in State and Federal Courts</ital>, 73 <csc>Tex. L. Rev.</csc> 1529 (1995)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Seeley, <cite.query w-seq-number="00095" w-ref-type="LR" w-normalized-cite="14ANTITRUSTBULL91" w-pub-number="0100206" ID="Ic6bc3bc16b3e11e981c298c9743468bd">
+									<ital>Procedures for Coordinated Multi-District Litigation: A Nineteenth Century Mind Views with Alarm</ital>, 14 <csc>Antitrust Bull.</csc> 91 (1969)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Amir Seyedfarshi, <ital>Binding Bellwether Trials in Multidistrict Litigation and the Right to Jury Trial</ital>, 17 <csc>T.M. Cooley J. Prac. &amp; Clinical L.</csc> 295 (2016)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0101194067" w-seq-number="00096" w-ref-type="LR" w-pub-number="0100385" ID="Ic6bd26216b3e11e981c298c9743468bd">
+									<ital>Aggregate Disposition of Related Cases: The Policy Issues</ital>, 10 <csc>Rev. Litig.</csc> 231 (1991)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0366966739" w-seq-number="00097" w-ref-type="LR" w-pub-number="0001195" ID="Ic6bd74416b3e11e981c298c9743468bd">
+									<ital>The BP Oil Spill Litigation and Evolving Supervision of Multidistrict Litigation Judges,</ital> 30 <csc>Miss. C. L. Rev.</csc> 237 (2011)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0339879128" w-seq-number="00098" w-ref-type="LR" w-pub-number="0001254" ID="Ic6bdc2616b3e11e981c298c9743468bd">
+									<ital>The MDL Model for Resolving Complex Litigation if a Class Action is Not Possible</ital>, 82 <csc>Tul. L. Rev.</csc> 2205 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0425840194" w-seq-number="00099" w-ref-type="LR" w-pub-number="0001181" ID="Ic6bde9716b3e11e981c298c9743468bd">
+									<ital>When Remand Is Appropriate in Multidistrict Litigation</ital>, 75 <csc>La. L. Rev.</csc> 455 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda Silberman, <cite.query w-serial-number="0341023458" w-seq-number="00100" w-ref-type="LR" w-pub-number="0001268" ID="Ic6be37916b3e11e981c298c9743468bd">
+									<ital>The Role of Choice of Law in National Class Actions</ital>, 156 <csc>U. Pa. L. Rev.</csc> 2001 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Charles Silver, <cite.query w-serial-number="0362344986" w-seq-number="00101" w-ref-type="LR" w-pub-number="0001142" ID="Ic6be85b16b3e11e981c298c9743468bd">
+									<ital>The Responsibilities Of Lead Lawyers and Judges in Multidistrict Litigations</ital>, 79 <csc>Fordham L. Rev.</csc> 1985 (2011)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Courtney E. Silver, <cite.query w-serial-number="0345373453" w-seq-number="00102" w-ref-type="LR" w-pub-number="0001216" ID="Ic6bed3d16b3e11e981c298c9743468bd">
+									<ital>Procedural Hassles in Multidistrict Litigation: A Call for Reform of 28 U.S.C. § 1407 and the Lexecon Result</ital>, 70 <csc>Ohio St. L.J.</csc> 455 (2009)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Adam M. Slater, <ital>Streamlining MDLs</ital>, LG &amp; SM, July 2016, at 60</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Standing Committee on Federal Judicial Improvements, American Bar Association, <ital>Report to the House of Delegates on</ital> H.R. 3406 (Multiparty, Multiforum Jurisdiction Act) (1990)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Joan Steinman, <cite.query w-serial-number="0102878032" w-seq-number="00103" w-ref-type="LR" w-pub-number="0001268" ID="Ic6c05a716b3e11e981c298c9743468bd">
+									<ital>Law of the Case: A Judicial Puzzle in Consolidated and Transferred Cases and in Multidistrict Litigation</ital>, 135 <csc>U. Pa. L. Rev.</csc> 595 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Joan Steinman, <cite.query w-serial-number="0105027913" w-seq-number="00104" w-ref-type="LR" w-pub-number="0003041" ID="Ic6c0a8916b3e11e981c298c9743468bd">The Effects <ital>of Case Consolidation on the Procedural Rights of Litigants: What They Are, What They Might Be, Part I, Justiciability and Jurisdiction</ital>, 42 <csc>U.C.L.A. L. Rev.</csc> 717 (1995)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Symposium, <ital>American Law Institute, Complex Litigation Project</ital>, <cite.query w-serial-number="0104453697" w-seq-number="00105" w-ref-type="LR" w-pub-number="0001181" ID="Ic6c16be16b3e11e981c298c9743468bd">54 <csc>La. L. Rev.</csc> 833 (1944)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Margaret S. Thomas, <cite.query w-serial-number="0414994001" w-seq-number="00106" w-ref-type="LR" w-pub-number="0001135" ID="Ic6c192f16b3e11e981c298c9743468bd">
+									<ital>Morphing Case Boundaries In Multidistrict Litigation Settlements</ital>, 63 <csc>Emory L.J.</csc> 1339 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Julian O. von Kalinowski, <cite.query w-seq-number="00107" w-ref-type="LR" w-normalized-cite="38JAIRLCOM197" w-pub-number="0001169" ID="Ic6c27d516b3e11e981c298c9743468bd">
+									<ital>The Power of a Transferee Judge to Transfer Liability and Damages Trial</ital>, 38 <csc>J. Air L. &amp; Com.</csc> 197 (1972)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Stanley A. Weigel, <cite.query w-serial-number="0292126982" w-seq-number="00108" w-ref-type="LR" w-pub-number="0000344" ID="Ic6c2a4616b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel on Multidistrict Litigation, Transferor Courts and Transferee Courts</ital>, 78 F.R.D. 575 (1978)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Jack B. Weinstein, <ital>Preliminary Reflections on the Law&apos;s Reaction to Disasters</ital>, 11 <csc>Colum. J. Evntl. <eos/>
+									<bos/>L.<eos/>
+									<bos/>
+								</csc> 1 (1986)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Angela C. Zambrano, &amp; Michelle Hartmann, <ital>Coordinating Related Banking Cases on an Intra-state Basis</ital>, 124 LG &amp; SM 637 (2007)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+				</bibliography.division>
+			</bibliography.division>
+			<bibliography.division>
+				<head parent="bibliography.division">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Management of Complex Litigation Materials</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<bibliography.division>
+					<head parent="bibliography.division">
+						<bop/>
+						<bos/>
+						<headtext>
+							<bold>
+								<ital>Books</ital>
+							</bold>
+						</headtext>
+						<eos/>
+						<eop/>
+					</head>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>American Bar Association, Special Comm. on Law &amp; Sci., An Analysis of Proposed Changes in Substantive and Procedural Law in Establishing Whether or Not Causation Exists in Mass Toxic Tort Litigation</csc> (1986)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>American College of Trial Lawyers, Recommendations on Major Issues Affecting Complex Litigation</csc> (1981)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Mark Herrmann &amp; David B. Alden, Drug and Device Product Liability Litigation Strategy</csc> (2011)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>William Schwarzer, Managing Antitrust and Other Complex Litigation</csc> (1982)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+				</bibliography.division>
+				<bibliography.division>
+					<head parent="bibliography.division">
+						<bop/>
+						<bos/>
+						<headtext>
+							<bold>
+								<ital>Articles</ital>
+							</bold>
+						</headtext>
+						<eos/>
+						<eop/>
+					</head>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Richard H. Agins, Comment, <cite.query w-serial-number="0297714070" w-seq-number="00109" w-ref-type="LR" w-pub-number="0001221" ID="Ic6c7d4816b3e11e981c298c9743468bd">
+									<ital>An Argument For Expanding The Application of Rule 53(b) to Facilitate Reference of the Special Master In Electronic Data Discovery</ital>, 23 <csc>Pace L. Rev</csc>. 689 (2003)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Lynn A. Baker, Michael A. Perino &amp; Charles Silver, <cite.query w-serial-number="0397474680" w-seq-number="00110" w-ref-type="LR" w-pub-number="0001277" ID="Ic6c934116b3e11e981c298c9743468bd">
+									<ital>Setting Attorneys&apos; Fees In Securities Class Actions: An Empirical Assessment,</ital> 66 <csc>Vand. L. Rev</csc>. 1677 (2013)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Catherine R. Borden &amp; Emery G. Lee III</csc>, <ital>Beyond Transfer: Coordination of Complex Litigation In State and Federal Courts in the Twenty-First Century,</ital> 31 LG &amp; SM 997 (2012)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Andrew D. Bradt</csc>, <ital>The Shortest Distance: Direct Filing and Choice of Law in </ital>
+								<cite.query w-seq-number="00111" w-ref-type="ES" w-normalized-cite="USMULTIDISTLITR88" w-pub-number="1000604" ID="Ic6cb08d06b3e11e981c298c9743468bd">
+									<ital>Multidistrict Litigation,</ital> 88</cite.query> LG &amp; SM 759 (2012)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Wayne D. Brazil, <ital>Improving Controls Over the Pretrial Development of Civil Actions</ital>, 1981 <csc>A.B.F. Res. <eos/>
+									<bos/>J.<eos/>
+									<bos/>
+								</csc> 873</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Wayne D. Brazil, <ital>Special Masters in the Pretrial Development of Big Cases: Potential and Problems</ital>, 1982 <csc>A.B.F. Res. <eos/>
+									<bos/>J.<eos/>
+									<bos/>
+								</csc> 289</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>S. Todd Brown</csc>, <ital>Plaintiff Control and Domination in Multidistrict Mass Torts,</ital> 61 LG &amp; SM 391 (2013)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Elizabeth J. Cabraser, <cite.query w-serial-number="0304286885" w-seq-number="00112" w-ref-type="LR" w-pub-number="0001239" ID="Ic6cd52c16b3e11e981c298c9743468bd">
+									<ital>The Class Action Counterreformation</ital>, 57 <csc>Stan. L. Rev.</csc> 1475 (2005)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Elizabeth J. Cabraser &amp; Samuel Issacharoff, <ital>
+									<cite.query w-serial-number="0304942936" w-seq-number="00113" w-ref-type="LT" w-pub-number="0000344" ID="Ic6ce16116b3e11e981c298c9743468bd">The Participatory Class Action</cite.query>,</ital> 92 NYU L. LG &amp; SM 846 (2017)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <cite.query w-serial-number="0102729879" w-seq-number="00114" w-ref-type="LR" w-pub-number="0001268" ID="Ic6ce3d216b3e11e981c298c9743468bd">
+									<ital>Choice of Law and the Multistate Class: Forum Interests in Matters Distant</ital>, 134 <csc>U. Pa. L. Rev.</csc> 913 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <cite.query w-seq-number="00115" w-ref-type="LR" w-normalized-cite="19JMARLREV91" w-pub-number="0001176" ID="Ic6cf4e916b3e11e981c298c9743468bd">
+									<ital>Mandatory Mass Tort Class Actions: Litigating Catastrophes Without Creating Litigation Catastrophes</ital>, 19 <csc>J. Marshall L. Rev.</csc> 91 (1985)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <cite.query w-serial-number="0110403947" w-seq-number="00116" w-ref-type="LR" w-pub-number="0003084" ID="Ic6cf9cb16b3e11e981c298c9743468bd">
+									<ital>Masters and Magistrates in Federal Court</ital>, 88 <csc>Harv. L. Rev.</csc> 779 (1976)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Comment, <cite.query w-seq-number="00117" w-ref-type="LR" w-normalized-cite="68MILR303" w-pub-number="0001192" ID="Ic6d038f16b3e11e981c298c9743468bd">
+									<ital>Observations on the Manual for Complex and Multi-District Litigation</ital>, 68 <csc>Mich. L. Rev.</csc> 303 (1969)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Jonathan L. Corsico, Comment, <cite.query w-serial-number="0296313377" w-seq-number="00118" w-ref-type="LR" w-pub-number="0001214" ID="Ic6d087116b3e11e981c298c9743468bd">
+									<ital>Forum Non Conveniens: A Vehicle for Federal Court Enforcement of Forum Selection Clauses That Name Non–Federal Forums as Proper</ital>, 97 <csc>Nw. U. L. Rev.</csc> 1853 (2003)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>W. Cole Durham &amp; Jonathan A. Dibble, <cite.query w-seq-number="00119" w-ref-type="LR" w-normalized-cite="1978BYULREV299" w-pub-number="0001100" ID="Ic6d123516b3e11e981c298c9743468bd">
+									<ital>Certification: A Practical Device for Early Screening of Spurious Antitrust Litigation</ital>, 1978 <csc>B.Y.U. L. Rev.</csc> 299</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Stanwood R. Duval, Jr., <ital>Considerations in Choosing Counsel for Multidistrict Litigation Cases and Mass Tort Cases,</ital> 74 La. LG &amp; SM 391 (2014)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Howard M. Erichson, <cite.query w-serial-number="0455547877" w-seq-number="00120" w-ref-type="LR" w-pub-number="0001211" ID="Ic6d2a9f16b3e11e981c298c9743468bd">Aggregation as Disempowerment: Red Flags in Class Action Settlements, 92 Notre Dame L. Rev. 859 (2017)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Eldon E. Fallon, <cite.query w-serial-number="0398322517" w-seq-number="00121" w-ref-type="LR" w-pub-number="0001181" ID="Ic6d2f8116b3e11e981c298c9743468bd">
+									<ital>Common Benefit Fees in Multidistrict Litigation</ital>, 74 <csc>La. L. Rev.</csc> 371 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mark A. Fellows &amp; Roger S. Haydock, <cite.query w-serial-number="0303999882" w-seq-number="00122" w-ref-type="LR" w-pub-number="0001291" ID="Ic6d346316b3e11e981c298c9743468bd">
+									<ital>Federal Court Special Masters: A Vital Resource In The Era of Complex Litigation</ital>, 31 <csc>Wm. Mitchell L. Rev.</csc> 1269 (2005)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Kevin M. Forde, <ital>Use of the Manual for Complex Litigation-</ital>
+								<cite.query w-serial-number="0102729797" w-seq-number="00123" w-ref-type="LR" w-pub-number="0101655" ID="Ic6d3bb616b3e11e981c298c9743468bd">
+									<ital>The Plaintiff&apos;s Viewpoint</ital>, 24 <csc>Forum</csc> 137 (1979)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Richard D. Freer, <cite.query w-serial-number="0102845598" w-seq-number="00124" w-ref-type="LR" w-pub-number="0001269" ID="Ic6d409816b3e11e981c298c9743468bd">
+									<ital>Avoiding Duplicative Litigation: Rethinking Plaintiff Autonomy and the Court&apos;s Role in Defining the Litigative Unit</ital>, 50 <csc>U. Pitt. L. Rev.</csc> 809 (1989)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Jeremy Hays</csc>, <cite.query w-serial-number="0372184855" w-seq-number="00125" w-ref-type="LR" w-pub-number="0148305" ID="Ic6d457a16b3e11e981c298c9743468bd">
+									<ital>The Quasi-Class Action Model for Limiting Attorneys&apos; Fees in Multidistrict Litigation,</ital> 67 <csc>N.Y.U. Ann. Surv. Am. L</csc>. 589 (2012)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>David F. Herr &amp; Michael C. McCarthy, <cite.query w-serial-number="0304942936" w-seq-number="00126" w-ref-type="LR" w-pub-number="0000344" ID="Ic6d4a5c16b3e11e981c298c9743468bd">
+									<ital>The Class Action Fairness Act of 2005—Congress Again Wades Into Complex Litigation Management</ital>, 228 F.R.D. 673 (2005)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Lonny Sheinkopf Hoffman, Syngenta, Stephenson <ital>and the Federal Injunctive Power</ital>, 37 <csc>Akron L. Rev.</csc> (2004)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Monica Hughes</csc>, <cite.query w-serial-number="0387002120" w-seq-number="00127" w-ref-type="LR" w-pub-number="0001251" ID="Ic6d51af16b3e11e981c298c9743468bd">
+									<ital>Applying State Contingency Fee Caps in Multidistrict Litigation (MDL) Settlements,</ital> 91 Tex. L. Rev. 961 (2013)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Samuel Issacharoff &amp; Richard A. Nagareda, <cite.query w-serial-number="0341023452" w-seq-number="00128" w-ref-type="LR" w-pub-number="0001268" ID="Ic6d569116b3e11e981c298c9743468bd">
+									<ital>Class Action Settlements Under Attack</ital>, 156 <csc>U. Pa. L. Rev.</csc> 1649 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Paul M. Janicke</csc>, <cite.query w-serial-number="0391446754" w-seq-number="00129" w-ref-type="LR" w-pub-number="0100385" ID="Ic6d5b7316b3e11e981c298c9743468bd">
+									<ital>The Judicial Panel on Multidistrict Litigation: Now a Strengthened Traffic Cop for Patent Venue,</ital> 32 Rev. Litig. 497 (2013)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Lynn Jokela &amp; David F. Herr, <cite.query w-serial-number="0303999883" w-seq-number="00130" w-ref-type="LR" w-pub-number="0001291" ID="Ic6d605516b3e11e981c298c9743468bd">
+									<ital>Special Masters In State Court Complex Litigation: An Available and Underused Case Management Tool, 3</ital>1 <csc>Wm. Mitchell L. Rev.</csc> 1299 (2005)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Martin I. Kaminsky, <cite.query w-seq-number="00131" w-ref-type="LR" w-normalized-cite="48FDMLR907" w-pub-number="0001142" ID="Ic6d716c16b3e11e981c298c9743468bd">
+									<ital>Proposed Federal Discovery Rules for Complex Civil Litigation</ital>, 48 <csc>Fordham L. Rev.</csc> 907 (1980)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mary Kay Kane, <cite.query w-serial-number="0101194069" w-seq-number="00132" w-ref-type="LR" w-pub-number="0100385" ID="Ic6d73dd16b3e11e981c298c9743468bd">
+									<ital>Drafting Choice of Law Rules for Complex Litigation: Some Preliminary Thoughts</ital>, 10 <csc>Rev. Litig.</csc> 309 (1991)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Irving R. Kaufman, <ital>Use of Special Pre-Trial Masters in the “Big” Case</ital>, <cite.query w-seq-number="00133" w-ref-type="ER" w-normalized-cite="23FRD572" w-pub-number="0000344" ID="Ic6d7da116b3e11e981c298c9743468bd">23 F.R.D. 572 (1959)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Robert H. Klonoff, <ital>
+									<cite.query w-serial-number="0304942936" w-seq-number="00134" w-ref-type="LT" w-pub-number="0000344" ID="Ic6d876516b3e11e981c298c9743468bd">The Decline of Class Actions</cite.query>,</ital> 90 LG &amp; SM 729 (2013)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Daniel B. Magraw, <ital>The Bhopal Disaster: Structuring a Solution</ital>, 57 <csc>Colo. L. Rev.</csc> 835 (1986)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Paula J. McDermott, <cite.query w-seq-number="00135" w-ref-type="LR" w-normalized-cite="90DICKLREV439" w-pub-number="0001131" ID="Ic6d987c16b3e11e981c298c9743468bd">
+									<ital>Can Statutory Interpleader Be Used as a Remedy by the Tortfeasor in Mass Tort Litigation?</ital>, 90 <csc>Dick. L. Rev.</csc> 439 (1985)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Arthur R. Miller &amp; David Crump, <cite.query w-serial-number="0101035840" w-seq-number="00136" w-ref-type="LR" w-pub-number="0001292" ID="Ic6d9d5e16b3e11e981c298c9743468bd">
+									<ital>Jurisdiction and Choice of Law in Multistate Class Actions After</ital> Phillips Petroleum Co. v. Shutts, 96 <csc>Yale L.J.</csc> 1 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda Mullenix, <cite.query w-serial-number="0389227784" w-seq-number="00137" w-ref-type="LR" w-pub-number="0001214" ID="Ic6da24016b3e11e981c298c9743468bd">Aggregate Litigation and the Death of Democratic Dispute Resolution, 107 Nw. L. Rev. 511 (2013)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda Mullenix, <cite.query w-serial-number="0101884603" w-seq-number="00138" w-ref-type="LR" w-pub-number="0001251" ID="Ic6da72216b3e11e981c298c9743468bd">
+									<ital>Class Resolution of the Mass-Tort Case: A Proposed Federal Procedure Act</ital>, 64 <csc>Tex. L. Rev.</csc> 1039 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda Mullenix, <cite.query w-serial-number="0101351497" w-seq-number="00139" w-ref-type="LR" w-pub-number="0001142" ID="Ic6dac0416b3e11e981c298c9743468bd">
+									<ital>Complex Litigation Reform and Article III Jurisdiction</ital>, 59 <csc>Fordham L. Rev.</csc> 169 (1990)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda Mullenix, <cite.query w-serial-number="0101194066" w-seq-number="00140" w-ref-type="LR" w-pub-number="0100385" ID="Ic6dae7516b3e11e981c298c9743468bd">
+									<ital>Problems in Complex Litigation</ital>, 10 <csc>Rev. Litigation</csc> 213 (1991)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Linda S. Mullenix, <cite.query w-serial-number="0440913559" w-seq-number="00141" w-ref-type="LR" w-pub-number="0161786" ID="Ic6db35716b3e11e981c298c9743468bd">Reflections of a Recovering Aggregationist, 15 Nev. L.J. 1455 (2015)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <ital>Mass Exposure Torts: An Efficient Solution to a Complex Problem</ital>, 54 <csc>Cincinnati L. Rev.</csc> 467 (1985)</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Note, <cite.query w-seq-number="00142" w-ref-type="LR" w-normalized-cite="27CASEWRESLREV542" w-pub-number="0001124" ID="Ic6dc6df16b3e11e981c298c9743468bd">
+									<ital>United States Magistrate: Additional Duties and Civil Proceedings</ital>, 27 <csc>Case W. Res. L. Rev.</csc> 542 (1977)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Robert F. Peckham, <cite.query w-seq-number="00143" w-ref-type="LR" w-normalized-cite="69CALIFLREV770" w-pub-number="0001107" ID="Ic6dd58516b3e11e981c298c9743468bd">
+									<ital>The Federal Judge as Case Manager: The New Role in Guiding a Case from Filing to Disposition</ital>, 69 <csc>Calif. L. Rev.</csc> 770 (1981)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Jerry J. Phillips, <cite.query w-serial-number="0103423013" w-seq-number="00144" w-ref-type="LR" w-pub-number="0001145" ID="Ic6dda6716b3e11e981c298c9743468bd">
+									<ital>A Comment on Mass Torts and Litigation Disasters</ital>, 20 <csc>Ga. L. Rev.</csc> 455 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Tanya Pierce, <cite.query w-serial-number="0415106878" w-seq-number="00145" w-ref-type="LR" w-pub-number="0001196" ID="Ic6ddf4916b3e11e981c298c9743468bd">
+									<ital>It&apos;s Not Over ‘Til It&apos;s Over: Mandating Federal Pretrial Jurisdiction and Oversight in Mass Torts,</ital> 79 <csc>Mo. L. Rev.</csc> 27 (2014)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Andrew S. Pollis</csc>, <cite.query w-serial-number="0361031036" w-seq-number="00146" w-ref-type="LR" w-pub-number="0001142" ID="Ic6de42b16b3e11e981c298c9743468bd">
+									<ital>The Need for Non-Discretionary Interlocutory Appellate Review in Multidistrict Litigation,</ital> 79 Fordham L. Rev. 1643 (2011)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<cite.query w-serial-number="0292131404" w-seq-number="00147" w-ref-type="LR" w-pub-number="0000344" ID="Ic6de69c16b3e11e981c298c9743468bd">Proceedings of the Seminar on Protracted Cases, 21 F.R.D. 395 (1958)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>John K. Rabiej, <cite.query w-serial-number="0323613316" w-seq-number="00148" w-ref-type="LR" w-pub-number="0001195" ID="Ic6deb7e16b3e11e981c298c9743468bd">
+									<ital>The Making of Class Action Rule 23—What Were We Thinking?</ital>, 24 <csc>Miss. C. L. Rev.</csc> 323 (2005)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Judith Resnik, <cite.query w-serial-number="0101322161" w-seq-number="00149" w-ref-type="LR" w-pub-number="0003084" ID="Ic6df06016b3e11e981c298c9743468bd">
+									<ital>Managerial Judges</ital>, 96 <csc>Harv. L. Rev.</csc> 374 (1982)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Mark J. Roe, <cite.query w-serial-number="0102000433" w-seq-number="00150" w-ref-type="LR" w-pub-number="0001359" ID="Ic6df2d116b3e11e981c298c9743468bd">
+									<ital>Corporate Strategic Reaction to Mass Tort</ital>, 72 <csc>Va. L. Rev</csc>. 1 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Alvin B. Rubin, <cite.query w-serial-number="0103423012" w-seq-number="00151" w-ref-type="LR" w-pub-number="0001145" ID="Ic6df7b316b3e11e981c298c9743468bd">
+									<ital>Mass Torts and Litigation Disasters</ital>, 20 <csc>Ga. L. Rev</csc>. 429 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Anthony J. Sebok, <cite.query w-serial-number="0337482352" w-seq-number="00152" w-ref-type="LR" w-pub-number="0001192" ID="Ic6dfc9516b3e11e981c298c9743468bd">
+									<ital>What Do We Talk About When We Talk About Mass Torts?</ital>, 106 <csc>Mich. L. Rev.</csc> 1213 (2008)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0326477449" w-seq-number="00153" w-ref-type="LR" w-pub-number="0100385" w-pinpoint-page="697" ID="Ic6e2fda16b3e11e981c298c9743468bd">
+									<ital>Segmenting Aggregate Litigation: Initiatives and Impediments for Reshaping the Trial Process</ital>, 25 <csc>Rev. Litig.</csc> 691, 697 (2006)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0366966739" w-seq-number="00154" w-ref-type="LR" w-pub-number="0001195" ID="Ic6e34bc16b3e11e981c298c9743468bd">
+									<ital>The BP Oil Spill Litigation and Evolving Supervision of Multidistrict Litigation Judges</ital>, 30 <csc>Miss. C. L. Rev.</csc> 237 (2011)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Edward F. Sherman, <cite.query w-serial-number="0331015752" w-seq-number="00155" w-ref-type="LR" w-pub-number="0000344" w-pinpoint-page="526" ID="Ic6e399e16b3e11e981c298c9743468bd">
+									<ital>Class Action Fairness Act and the Federalization of Class Actions</ital>, 238 F.R.D. 504, 526-32 (2007)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Charles Silver, <cite.query w-serial-number="0362344986" w-seq-number="00156" w-ref-type="LR" w-pub-number="0001142" ID="Ic6e3e8016b3e11e981c298c9743468bd">
+									<ital>The Responsibilities of Lead Lawyers and Judges in Multidistrict Litigations</ital>, 79 <csc>Fordham L. Rev</csc>. 1985 (2011)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Andrew J. Simons, <cite.query w-serial-number="0102715410" w-seq-number="00157" w-ref-type="LR" w-pub-number="0001235" ID="Ic6e436216b3e11e981c298c9743468bd">
+									<ital>The Manual for Complex Litigation: More Rules or Mere Recommendations?</ital>, 62 <csc>St. John&apos;s L.Rev.</csc> 493 (1988)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Roger H. Trangsrud, <cite.query w-serial-number="0102694024" w-seq-number="00158" w-ref-type="LR" w-pub-number="0001111" ID="Ic6e484416b3e11e981c298c9743468bd">
+									<ital>Joinder Alternatives in Mass Tort Litigation</ital>, 70 <csc>Cornell L. Rev.</csc> 779 (1985)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>Ettie Ward</csc>, <cite.query w-serial-number="0378361793" w-seq-number="00159" w-ref-type="LR" w-pub-number="0100385" ID="Ic6e4d2616b3e11e981c298c9743468bd">
+									<ital>Large-Scale Litigation Issues: Class Actions and Mass Tort Cases in 2012 and Beyond</ital>, 31 <csc>Rev. Litig</csc>. 747 (2012)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Jack B. Weinstein, <cite.query w-seq-number="00160" w-ref-type="LR" w-normalized-cite="11CLMJEL1" w-pub-number="0001445" ID="Ic6e4f9716b3e11e981c298c9743468bd">
+									<ital>Preliminary Reflections on the Law&apos;s Reaction to Disasters</ital>, 11 <csc>Colum. J. Envtl. L.</csc> 1 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Jack B. Weinstein, <cite.query w-serial-number="0292131412" w-seq-number="00161" w-ref-type="LR" w-pub-number="0000344" ID="Ic6e547916b3e11e981c298c9743468bd">
+									<ital>Standing Masters to Supervise Discovery</ital>, 23 F.R.D. 36 (1959)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>
+								<csc>K. Craig Wildfang &amp; Stacey Slaughter</csc>, <cite.query w-serial-number="0377383070" w-seq-number="00162" w-ref-type="LR" w-pub-number="0153638" ID="Ic6e5bcc16b3e11e981c298c9743468bd">
+									<ital>Walking the Tightrope—Judicial Management of the Challenges Posed by Coordination of Discovery Between Simultaneous Class and Individual Actions,</ital> 13 Sedona Conf. J. 163 (2012)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Thomas J. Wylie, <cite.query w-seq-number="00163" w-ref-type="LR" w-normalized-cite="24TILJ163" w-pub-number="0101655" ID="Ic6e659016b3e11e981c298c9743468bd">
+									<ital>The Use of the Manual for Complex Litigation-The Defendant&apos;s Viewpoint</ital>, 24 <csc>Forum</csc> 163 (1979)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Hon. Leon R. Yankwich, <cite.query w-serial-number="0292131333" w-seq-number="00164" w-ref-type="LR" w-pub-number="0000344" ID="Ic6e680116b3e11e981c298c9743468bd">
+									<ital>“Short Cuts” in Long Cases</ital>, 13 F.R.D. 41 (1952)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+					<bibliography.entry>
+						<para>
+							<bop/>
+							<bos/>
+							<paratext>Carol K. Young, <cite.query w-serial-number="0102601772" w-seq-number="00165" w-ref-type="LR" w-pub-number="0001169" ID="Ic6e6f5416b3e11e981c298c9743468bd">
+									<ital>Defending Litigation Against a Foreign Airline Under the Foreign Sovereign Immunities Act</ital>, 51 <csc>J. Air L. &amp; Com.</csc> 461 (1986)</cite.query>
+							</paratext>
+							<eos/>
+							<eop/>
+						</para>
+					</bibliography.entry>
+				</bibliography.division>
+			</bibliography.division>
+		</bibliography>
+		<author.footnotes>
+			<footnote ID="If7e057916b3e11e99b03e53d6dd36aa2">
+				<label.designator>a0</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>MDLITMAN BIBLIO<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

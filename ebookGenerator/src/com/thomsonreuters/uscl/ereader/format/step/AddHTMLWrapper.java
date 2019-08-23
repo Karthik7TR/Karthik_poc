@@ -105,10 +105,6 @@ public class AddHTMLWrapper extends AbstractSbTasklet {
                 + elapsedTime
                 + " milliseconds");
 
-        jobExecutionContext.putString(
-            JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH,
-            jobExecutionContext.getString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR));
-
         return ExitStatus.COMPLETED;
     }
 }

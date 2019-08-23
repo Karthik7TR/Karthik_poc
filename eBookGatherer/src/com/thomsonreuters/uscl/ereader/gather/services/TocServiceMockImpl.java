@@ -21,7 +21,7 @@ public class TocServiceMockImpl implements TocService {
     private static final int NODE_COUNT = 244;
     private static final int DOC_COUNT = 227;
     private final String MOCK_COLLECTION_NAME = "w_an_ea_texts2_toc_mock";
-    private final String MOCK_TOC_FILE = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Toc/toc.xml";
+    private final String MOCK_TOC_FILE = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Toc/toc.xml";
 
     @Autowired
     private ServletContext servletContext;

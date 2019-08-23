@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component(value = "docServiceMockImpl")
 public class DocServiceMockImpl implements DocService {
     private static final String MOCK_COLLECTION_NAME = "w_an_ea_texts2_mock";
-    private static final String MOCK_DOCS_DIR = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Docs";
+    private static final String MOCK_DOCS_DIR = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Docs";
 
     @Autowired
     private ServletContext servletContext;
