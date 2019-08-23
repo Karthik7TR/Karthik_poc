@@ -33,7 +33,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
             type = FilterType.ASSIGNABLE_TYPE)})
 @PropertySources({
     @PropertySource("file:WebContent/WEB-INF/spring/properties/xpp.properties"),
-    @PropertySource("file:WebContent/WEB-INF/spring/properties/eBookGenerator.properties"),
     @PropertySource("file:IntegrationTests/WEB-INF/spring/properties/default-spring.properties")})
 @Profile("IntegrationTests")
 public class CommonTestContextConfiguration {
