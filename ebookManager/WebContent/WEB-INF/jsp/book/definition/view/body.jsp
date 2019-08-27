@@ -143,6 +143,24 @@ $(document).ready(function() {
                                 <label class="labelCol">Inline TOC Included</label>
                                 <span class="field">${ book.inlineTocIncluded }</span>
                             </div>
+                            <div class="row">
+                                <label class="labelCol">Index Included</label>
+                                <span class="field">${ book.indexIncluded }</span>
+                            </div>
+							<c:if test="${book.indexIncluded=='true'}">
+								<div class="row">
+									<label class="labelCol">Index TOC Collection Name</label>
+									<span class="field">${ book.indexTocCollectionName }</span>
+								</div>
+								<div class="row">
+									<label class="labelCol">Index DOC Collection Name</label>
+									<span class="field">${ book.indexDocCollectionName }</span>
+								</div>
+								<div class="row">
+									<label class="labelCol">Index TOC Root Guid</label>
+									<span class="field">${ book.indexTocRootGuid }</span>
+								</div>
+							</c:if>
 						</div>
 					</c:when>
 					<c:when test="${ book.sourceType == 'NORT' }">

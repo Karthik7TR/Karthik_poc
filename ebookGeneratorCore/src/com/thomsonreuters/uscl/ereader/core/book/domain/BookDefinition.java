@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
+import static com.thomsonreuters.uscl.ereader.util.ValueConverter.getStringForBooleanValue;
+import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,7 +65,9 @@ import org.hibernate.annotations.CascadeType;
                                           "lastUpdated", "frontMatterTocLabel", "isAuthorDisplayVertical", "additionalTrademarkInfo", "enableCopyFeatureFlag",
                                           "isPilotBook", "includeAnnotations", "includeNotesOfDecisions", "isFinalStage", "useReloadContent",
                                           "sourceType", "cwbBookName", "isInsStyleFlag", "isDelStyleFlag", "isRemoveEditorNoteHeadFlag",
-                                          "frontMatterTheme", "subGroupHeading", "groupName"})
+                                          "frontMatterTheme", "subGroupHeading", "groupName", "printPageNumbers",
+                                          "inlineTocIncluded", "indexIncluded", "indexTocCollectionName", "indexDocCollectionName",
+                                          "indexTocRootGuid"})
 public class BookDefinition implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String Y = "Y";
@@ -380,6 +385,21 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "INLINE_TOC_INCLUDED")
     private String inlineTocIncluded;
+
+    @Column(name="INDEX_INCLUDED")
+    private String indexIncluded;
+
+    @Column(name="INDEX_TOC_COLLECTION_NAME")
+    @Getter @Setter
+    private String indexTocCollectionName;
+
+    @Column(name="INDEX_DOC_COLLECTION_NAME")
+    @Getter @Setter
+    private String indexDocCollectionName;
+
+    @Column(name="INDEX_TOC_ROOT_GUID")
+    @Getter @Setter
+    private String indexTocRootGuid;
 
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = isTocFlag ? Y : N;
@@ -779,19 +799,27 @@ public class BookDefinition implements Serializable {
     }
 
     public void setPrintPageNumbers(final boolean isPrintPageNumbers) {
-        printPageNumbers = isPrintPageNumbers ? Y : N;
+        printPageNumbers = getStringForBooleanValue(isPrintPageNumbers);
     }
 
     public boolean isPrintPageNumbers() {
-        return Y.equalsIgnoreCase(printPageNumbers);
+        return isEqualsYes(printPageNumbers);
     }
 
     public void setInlineTocIncluded(final boolean isInlineTocIncluded) {
-        inlineTocIncluded = isInlineTocIncluded ? Y : N;
+        inlineTocIncluded = getStringForBooleanValue(isInlineTocIncluded);
     }
 
     public boolean isInlineTocIncluded() {
-        return Y.equalsIgnoreCase(inlineTocIncluded);
+        return isEqualsYes(inlineTocIncluded);
+    }
+
+    public void setIndexIncluded(final boolean isIndexIncluded) {
+        indexIncluded = getStringForBooleanValue(isIndexIncluded);
+    }
+
+    public boolean isIndexIncluded() {
+        return isEqualsYes(indexIncluded);
     }
 
     public BookDefinition() {

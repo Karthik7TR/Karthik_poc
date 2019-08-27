@@ -317,9 +317,37 @@
 					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="false" />Disabled
 				</div>
 				<div class="row">
-					<form:label disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" class="labelCol">Inline TOC Included:</form:label>
+					<form:label disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" class="labelCol">Inline TOC:</form:label>
 					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="true" />Enabled
 					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="false" />Disabled
+				</div>
+                <div class="row">
+                    <form:label disabled="${disableUnderPubPlusRole}" path="indexIncluded" class="labelCol">Index:</form:label>
+                    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="true" />Enabled
+                    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="false" />Disabled
+                </div>
+				<div id="indexData" style="display: none;">
+					<div class="row">
+						<form:label disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" class="labelCol">Index TOC collection:</form:label>
+						<form:input disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" maxlength="64" />
+						<div class="errorDiv">
+							<form:errors path="indexTocCollectionName" cssClass="errorMessage" />
+						</div>
+					</div>
+					<div class="row">
+						<form:label disabled="${disableUnderPubPlusRole}" path="indexDocCollectionName" class="labelCol">Index DOC collection:</form:label>
+						<form:input disabled="${disableUnderPubPlusRole}" path="indexDocCollectionName" maxlength="64" />
+						<div class="errorDiv">
+							<form:errors path="indexDocCollectionName" cssClass="errorMessage" />
+						</div>
+					</div>
+					<div class="row">
+						<form:label disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" class="labelCol">Index Root TOC Guid:</form:label>
+						<form:input disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" maxlength="64" />
+						<div class="errorDiv">
+							<form:errors path="indexTocRootGuid" cssClass="errorMessage" />
+						</div>
+					</div>
 				</div>
 			</div>
 			<div id="displayNORT" style="display:none">

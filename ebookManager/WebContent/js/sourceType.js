@@ -214,6 +214,16 @@ $(function() {
 		$('input:radio[name=sourceType]').change(function () {
 			updateSourceType($(this).val());
 		});
+
+		showSelectOptions($("input:radio[name=indexIncluded]:checked").val(), "#indexData");
+
+        $('input:radio[name=indexIncluded]').change(function () {
+            if ($(this).val() == "true") {
+                $("#indexData").show();
+            } else {
+                $("#indexData").hide();
+            }
+        });
 		
 		updateSourceType($('input:radio[name=sourceType]:checked').val());
 		

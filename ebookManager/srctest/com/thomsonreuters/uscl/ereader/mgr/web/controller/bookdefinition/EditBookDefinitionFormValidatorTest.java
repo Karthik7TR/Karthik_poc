@@ -1239,6 +1239,33 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
+    public void testNoIndexTocCollectionName() {
+        form.setIndexTocCollectionName(null);
+        testIndexFieldIsEmpty("indexTocCollectionName");
+    }
+
+    @Test
+    public void testNoIndexDocCollectionName() {
+        form.setIndexDocCollectionName(null);
+        testIndexFieldIsEmpty("indexDocCollectionName");
+    }
+
+    @Test
+    public void testNoIndexTocRootGuid() {
+        form.setIndexTocRootGuid(null);
+        testIndexFieldIsEmpty("indexTocRootGuid");
+    }
+
+    private void testIndexFieldIsEmpty(String fieldName) {
+        form.setIndexIncluded(true);
+
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals("error.required", errors.getFieldError(fieldName).getCode());
+    }
+
+    @Test
     public void testNoSubjectKeywords() {
         testSubjectKeywords(0, err -> Assert.assertNull(err.getFieldError(KEYWORDS_FIELD)));
     }

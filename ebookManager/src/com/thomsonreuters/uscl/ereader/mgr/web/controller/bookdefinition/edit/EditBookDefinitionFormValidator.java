@@ -198,6 +198,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "frontMatterSeries.bookNameText",
             new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 
+        validateIndexFields(form, errors);
         validateAuthors(form, errors);
         validatePilotBooks(form, errors);
         validateExcludeDocuments(form, errors);
@@ -981,6 +982,36 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private void validateMaxNumberOfSubjects(final EditBookDefinitionForm form, final Errors errors, final long subjectKeywordTypeId) {
         if (form.getKeywords().computeIfAbsent(subjectKeywordTypeId, k -> Collections.emptyList()).size() > MAX_NUMBER_SUBJECT_KEYWORDS) {
             errors.rejectValue("keywords[" + subjectKeywordTypeId + "]", ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED);
+        }
+    }
+
+    private void validateIndexFields(final EditBookDefinitionForm form, final Errors errors) {
+        if (form.isIndexIncluded()) {
+            checkSpecialCharacters(errors, form.getTocCollectionName(), "indexTocCollectionName", true);
+            checkSpecialCharacters(errors, form.getDocCollectionName(), "indexDocCollectionName", true);
+            checkGuidFormat(errors, form.getRootTocGuid(), "indexTocRootGuid");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocCollectionName", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexDocCollectionName", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocRootGuid", "error.required");
+
+            checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_64,
+                form.getIndexTocCollectionName(),
+                "indexTocCollectionName",
+                new Object[] {"Index TOC Collection", MAXIMUM_CHARACTER_64});
+            checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_64,
+                form.getIndexDocCollectionName(),
+                "indexDocCollectionName",
+                new Object[] {"Index DOC Collection", MAXIMUM_CHARACTER_64});
+            checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_64,
+                form.getIndexTocRootGuid(),
+                "indexTocRootGuid",
+                new Object[] {"Index Root TOC Guid", MAXIMUM_CHARACTER_64});
         }
     }
 

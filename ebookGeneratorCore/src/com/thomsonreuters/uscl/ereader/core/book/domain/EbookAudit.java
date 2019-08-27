@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
+import static com.thomsonreuters.uscl.ereader.util.ValueConverter.getStringForBooleanValue;
+import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -20,6 +23,8 @@ import javax.persistence.Transient;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -52,30 +57,37 @@ public class EbookAudit implements Serializable {
     @Id
     @GeneratedValue(generator = "AuditSequence")
     @SequenceGenerator(name = "AuditSequence", sequenceName = "AUDIT_ID_SEQ")
+    @Getter @Setter
     private Long auditId;
 
     @Column(name = "EBOOK_DEFINITION_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Long ebookDefinitionId;
 
     @Column(name = "TITLE_ID", length = 40, nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String titleId;
 
     @Column(name = "PROVIEW_DISPLAY_NAME", length = 1024)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String proviewDisplayName;
 
     @Column(name = "COPYRIGHT", length = 1024, nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String copyright;
 
     @Column(name = "COPYRIGHT_PAGE_TEXT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String copyrightPageText;
 
     @Column(name = "MATERIAL_ID", length = 64, nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String materialId;
 
     @Column(name = "IS_TOC_FLAG", length = 1, nullable = false)
@@ -84,52 +96,61 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "ROOT_TOC_GUID", length = 64)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String rootTocGuid;
 
     @Column(name = "DOC_COLLECTION_NAME", length = 64)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String docCollectionName;
 
     @Column(name = "TOC_COLLECTION_NAME", length = 64)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String tocCollectionName;
 
     @Column(name = "NORT_DOMAIN", length = 64)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String nortDomain;
 
     @Column(name = "NORT_FILTER_VIEW", length = 64)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String nortFilterView;
 
     @Column(name = "DOCUMENT_TYPE_CODES_ID")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Long documentTypeCodesId;
 
     @Column(name = "COVER_IMAGE", length = 256)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String coverImage;
 
     @Column(name = "ISBN", length = 64)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String isbn;
 
     @Column(name = "PUBLISH_DATE_TEXT", length = 1024)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String publishDateText;
 
     @Column(name = "PUBLISHER_CODES_ID")
     @Basic(fetch = FetchType.EAGER)
-
+    @Getter @Setter
     private Long publisherCodesId;
 
     @Column(name = "CURRENCY", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String currency;
 
     @Column(name = "KEYCITE_TOPLINE_FLAG", length = 1)
     @Basic(fetch = FetchType.EAGER)
-
     private String keyciteToplineFlag;
 
     @Column(name = "AUTO_UPDATE_SUPPORT_FLAG", length = 1)
@@ -138,11 +159,11 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "SEARCH_INDEX_FLAG", length = 1)
     @Basic(fetch = FetchType.EAGER)
-
     private String searchIndexFlag;
 
     @Column(name = "FRONT_MATTER_THEME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String frontMatterTheme;
 
     @Column(name = "ONE_PASS_SSO_LINK_FLAG", length = 1)
@@ -152,6 +173,7 @@ public class EbookAudit implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "PUBLISH_CUTOFF_DATE")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Date publishCutoffDate;
 
     @Column(name = "EBOOK_DEFINITION_COMPLETE_FLAG", length = 1)
@@ -165,32 +187,37 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "AUTHOR_NAMES_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
-
+    @Getter @Setter
     private String authorNamesConcat;
 
     @Column(name = "PILOT_BOOKS_CONCAT", length = 1024)
     @Basic(fetch = FetchType.EAGER)
-
+    @Getter @Setter
     private String pilotBooksConcat;
 
     @Column(name = "BOOK_NAMES_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String bookNamesConcat;
 
     @Column(name = "KEYWORDS_CONCAT", length = 1024)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String keywordsConcat;
 
     @Column(name = "AUDIT_NOTE", length = 1024)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String auditNote;
 
     @Column(name = "AUDIT_TYPE", length = 10)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String auditType;
 
     @Column(name = "UPDATED_BY", length = 32, nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String updatedBy;
 
     @Column(name = "IS_DELETED_FLAG", length = 1, nullable = false)
@@ -200,10 +227,12 @@ public class EbookAudit implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Date lastUpdated;
 
     @Column(name = "FRONT_MATTER_TOC_LABEL", length = 1024)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String frontMatterTocLabel;
 
     @Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG", length = 1)
@@ -216,6 +245,7 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "FRONT_MATTER_CONCAT", length = 1024)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String frontMatterConcat;
 
     @Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
@@ -234,22 +264,27 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "EXCLUDED_DOCUMENTS_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String excludeDocumentsConcat;
 
     @Column(name = "RENAME_TOC_ENTRY_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String renameTocEntryConcat;
 
     @Column(name = "TABLE_VIEWER_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String tableViewerConcat;
 
     @Column(name = "DOCUMENT_COPYRIGHT_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String documentCopyrightConcat;
 
     @Column(name = "DOCUMENT_CURRENCY_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String documentCurrencyConcat;
 
     @Column(name = "IS_FINAL_STAGE", length = 1)
@@ -260,12 +295,14 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "NORT_FILE_LOCATION_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String nortFileLocationConcat;
 
     @Column(name = "SOURCE_TYPE", length = 10)
     private String sourceType;
 
     @Column(name = "CWB_BOOK_NAME", length = 1028)
+    @Getter @Setter
     private String cwbBookName;
 
     @Column(name = "IS_INS_STYLE_FLAG")
@@ -290,22 +327,27 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "SPLIT_EBOOK_PARTS")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Integer splitEBookParts;
 
     @Column(name = "SPLIT_DOCUMENTS_CONCAT", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String splitDocumentsConcat;
 
     @Column(name = "SUBGROUP_HEADING")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String subGroupHeading;
 
     @Column(name = "GROUP_NAME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String groupName;
 
     @Column(name = "PRINT_SET_NUMBER")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String printSetNumber;
 
     @Column(name = "PRINT_PAGE_NUMBERS")
@@ -316,53 +358,24 @@ public class EbookAudit implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     private String inlineTocIncluded;
 
-    public void setAuditId(final Long auditId) {
-        this.auditId = auditId;
-    }
+    @Column(name = "INDEX_INCLUDED")
+    @Basic(fetch = FetchType.EAGER)
+    private String indexIncluded;
 
-    public Long getAuditId() {
-        return auditId;
-    }
+    @Column(name="INDEX_TOC_COLLECTION_NAME")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String indexTocCollectionName;
 
-    public void setLastUpdated(final Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
+    @Column(name="INDEX_DOC_COLLECTION_NAME")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String indexDocCollectionName;
 
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setTitleId(final String titleId) {
-        this.titleId = titleId;
-    }
-
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public void setCopyright(final String copyright) {
-        this.copyright = copyright;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyrightPageText(final String copyrightPageText) {
-        this.copyrightPageText = copyrightPageText;
-    }
-
-    public String getCopyrightPageText() {
-        return copyrightPageText;
-    }
-
-    public void setMaterialId(final String materialId) {
-        this.materialId = materialId;
-    }
-
-    public String getMaterialId() {
-        return materialId;
-    }
+    @Column(name="INDEX_TOC_ROOT_GUID")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String indexTocRootGuid;
 
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = ((isTocFlag) ? "Y" : "N");
@@ -370,94 +383,6 @@ public class EbookAudit implements Serializable {
 
     public boolean getIsTocFlag() {
         return ((isTocFlag.equalsIgnoreCase("Y") ? true : false));
-    }
-
-    public void setRootTocGuid(final String rootTocGuid) {
-        this.rootTocGuid = rootTocGuid;
-    }
-
-    public String getRootTocGuid() {
-        return rootTocGuid;
-    }
-
-    public void setDocCollectionName(final String docCollectionName) {
-        this.docCollectionName = docCollectionName;
-    }
-
-    public String getDocCollectionName() {
-        return docCollectionName;
-    }
-
-    public void setTocCollectionName(final String tocCollectionName) {
-        this.tocCollectionName = tocCollectionName;
-    }
-
-    public String getTocCollectionName() {
-        return tocCollectionName;
-    }
-
-    public void setNortDomain(final String nortDomain) {
-        this.nortDomain = nortDomain;
-    }
-
-    public String getNortDomain() {
-        return nortDomain;
-    }
-
-    public void setNortFilterView(final String nortFilterView) {
-        this.nortFilterView = nortFilterView;
-    }
-
-    public String getNortFilterView() {
-        return nortFilterView;
-    }
-
-    public void setDocumentTypeCodesId(final Long documentTypeCodesId) {
-        this.documentTypeCodesId = documentTypeCodesId;
-    }
-
-    public Long getDocumentTypeCodesId() {
-        return documentTypeCodesId;
-    }
-
-    public void setCoverImage(final String coverImage) {
-        this.coverImage = coverImage;
-    }
-
-    public String getCoverImage() {
-        return coverImage;
-    }
-
-    public void setIsbn(final String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setPublishDateText(final String publishDateText) {
-        this.publishDateText = publishDateText;
-    }
-
-    public String getPublishDateText() {
-        return publishDateText;
-    }
-
-    public void setPublisherCodesId(final Long publisherCodesId) {
-        this.publisherCodesId = publisherCodesId;
-    }
-
-    public Long getPublisherCodesId() {
-        return publisherCodesId;
-    }
-
-    public void setCurrency(final String currency) {
-        this.currency = currency;
-    }
-
-    public String getCurrency() {
-        return currency;
     }
 
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
@@ -508,79 +433,7 @@ public class EbookAudit implements Serializable {
         return ((publishedOnceFlag.equalsIgnoreCase("Y") ? true : false));
     }
 
-    public void setAuthorNamesConcat(final String authorNamesConcat) {
-        this.authorNamesConcat = authorNamesConcat;
-    }
-
-    public String getAuthorNamesConcat() {
-        return authorNamesConcat;
-    }
-
-    public String getPilotBooksConcat() {
-        return pilotBooksConcat;
-    }
-
-    public void setPilotBooksConcat(final String pilotBookConcat) {
-        pilotBooksConcat = pilotBookConcat;
-    }
-
-    public void setBookNamesConcat(final String bookNamesConcat) {
-        this.bookNamesConcat = bookNamesConcat;
-    }
-
-    public String getBookNamesConcat() {
-        return bookNamesConcat;
-    }
-
-    public void setKeywordsConcat(final String keywordsConcat) {
-        this.keywordsConcat = keywordsConcat;
-    }
-
-    public String getKeywordsConcat() {
-        return keywordsConcat;
-    }
-
-    public void setFrontMatterConcat(final String frontMatterConcat) {
-        this.frontMatterConcat = frontMatterConcat;
-    }
-
-    public String getFrontMatterConcat() {
-        return frontMatterConcat;
-    }
-
-    public void setUpdatedBy(final String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setAuditNote(final String auditNote) {
-        this.auditNote = auditNote;
-    }
-
-    public String getAuditNote() {
-        return auditNote;
-    }
-
-    public void setAuditType(final String auditType) {
-        this.auditType = auditType;
-    }
-
-    public String getAuditType() {
-        return auditType;
-    }
-
     public EbookAudit() {
-    }
-
-    public String getFrontMatterTheme() {
-        return frontMatterTheme;
-    }
-
-    public void setFrontMatterTheme(final String frontMatterTheme) {
-        this.frontMatterTheme = frontMatterTheme;
     }
 
     /**
@@ -654,6 +507,10 @@ public class EbookAudit implements Serializable {
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
         setInlineTocIncluded(that.isInlineTocIncluded());
+        setIndexIncluded(that.isIndexIncluded());
+        setTocCollectionName(that.getTocCollectionName());
+        setDocCollectionName(that.getDocCollectionName());
+        setRootTocGuid(that.getRootTocGuid());
     }
 
     /**
@@ -732,6 +589,10 @@ public class EbookAudit implements Serializable {
         setPrintSetNumber(that.getPrintSetNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
         setInlineTocIncluded(that.isInlineTocIncluded());
+        setIndexIncluded(that.isIndexIncluded());
+        setTocCollectionName(that.getTocCollectionName());
+        setDocCollectionName(that.getDocCollectionName());
+        setRootTocGuid(that.getRootTocGuid());
     }
 
     @Transient
@@ -822,6 +683,12 @@ public class EbookAudit implements Serializable {
         buffer.append("printSetNumber=[").append(printSetNumber).append("] ");
         buffer.append("printPageNumbers=[").append(printPageNumbers).append("] ");
         buffer.append("inlineTocIncluded=[").append(inlineTocIncluded).append("] ");
+        buffer.append("indexIncluded=[").append(indexIncluded).append("] ");
+        if (isEqualsYes(indexIncluded)) {
+            buffer.append("indexTocCollectionName=[").append(indexTocCollectionName).append("] ");
+            buffer.append("indexDocCollectionName=[").append(indexDocCollectionName).append("] ");
+            buffer.append("indexTocRootGuid=[").append(indexTocRootGuid).append("] ");
+        }
         return buffer.toString();
     }
 
@@ -845,30 +712,6 @@ public class EbookAudit implements Serializable {
         if (auditId != null && !auditId.equals(equalCheck.auditId))
             return false;
         return true;
-    }
-
-    public Long getEbookDefinitionId() {
-        return ebookDefinitionId;
-    }
-
-    public void setEbookDefinitionId(final Long ebookDefinitionId) {
-        this.ebookDefinitionId = ebookDefinitionId;
-    }
-
-    public void setProviewDisplayName(final String proviewDisplayName) {
-        this.proviewDisplayName = proviewDisplayName;
-    }
-
-    public String getProviewDisplayName() {
-        return proviewDisplayName;
-    }
-
-    public void setPublishCutoffDate(final Date publishCutoffDate) {
-        this.publishCutoffDate = publishCutoffDate;
-    }
-
-    public Date getPublishCutoffDate() {
-        return publishCutoffDate;
     }
 
     public void setIsDeletedFlag(final boolean isDeletedFlag) {
@@ -947,62 +790,6 @@ public class EbookAudit implements Serializable {
         }
     }
 
-    public String getExcludeDocumentsConcat() {
-        return excludeDocumentsConcat;
-    }
-
-    public void setExcludeDocumentsConcat(final String excludeDocumentsConcat) {
-        this.excludeDocumentsConcat = excludeDocumentsConcat;
-    }
-
-    public String getSplitDocumentsConcat() {
-        return splitDocumentsConcat;
-    }
-
-    public void setSplitDocumentsConcat(final String splitDocumentsConcat) {
-        this.splitDocumentsConcat = splitDocumentsConcat;
-    }
-
-    public String getRenameTocEntryConcat() {
-        return renameTocEntryConcat;
-    }
-
-    public void setRenameTocEntryConcat(final String renameTocEntryConcat) {
-        this.renameTocEntryConcat = renameTocEntryConcat;
-    }
-
-    public String getTableViewerConcat() {
-        return tableViewerConcat;
-    }
-
-    public void setTableViewerConcat(final String tableViewerConcat) {
-        this.tableViewerConcat = tableViewerConcat;
-    }
-
-    public String getFrontMatterTocLabel() {
-        return frontMatterTocLabel;
-    }
-
-    public void setFrontMatterTocLabel(final String frontMatterTocLabel) {
-        this.frontMatterTocLabel = frontMatterTocLabel;
-    }
-
-    public String getDocumentCopyrightConcat() {
-        return documentCopyrightConcat;
-    }
-
-    public void setDocumentCopyrightConcat(final String documentCopyrightConcat) {
-        this.documentCopyrightConcat = documentCopyrightConcat;
-    }
-
-    public String getDocumentCurrencyConcat() {
-        return documentCurrencyConcat;
-    }
-
-    public void setDocumentCurrencyConcat(final String documentCurrencyConcat) {
-        this.documentCurrencyConcat = documentCurrencyConcat;
-    }
-
     public boolean isFinalStage() {
         return ((isFinalStage.equalsIgnoreCase("Y") ? true : false));
     }
@@ -1017,14 +804,6 @@ public class EbookAudit implements Serializable {
 
     public void setUseReloadContent(final boolean isFinalStage) {
         useReloadContent = ((isFinalStage) ? "Y" : "N");
-    }
-
-    public void setNortFileLocationConcat(final String nortFileLocationConcat) {
-        this.nortFileLocationConcat = nortFileLocationConcat;
-    }
-
-    public String getNortFileLocationConcat() {
-        return nortFileLocationConcat;
     }
 
     public SourceType getSourceType() {
@@ -1058,14 +837,6 @@ public class EbookAudit implements Serializable {
             sourceType = "TOC";
             break;
         }
-    }
-
-    public String getCwbBookName() {
-        return cwbBookName;
-    }
-
-    public void setCwbBookName(final String cwbBookName) {
-        this.cwbBookName = cwbBookName;
     }
 
     public void setIsInsStyleFlag(final boolean isInsStyleFlag) {
@@ -1108,38 +879,6 @@ public class EbookAudit implements Serializable {
         this.isSplitTypeAuto = ((isSplitTypeAuto) ? "Y" : "N");
     }
 
-    public Integer getSplitEBookParts() {
-        return splitEBookParts;
-    }
-
-    public void setSplitEBookParts(final Integer splitEBookParts) {
-        this.splitEBookParts = splitEBookParts;
-    }
-
-    public String getSubGroupHeading() {
-        return subGroupHeading;
-    }
-
-    public void setSubGroupHeading(final String subGroupHeading) {
-        this.subGroupHeading = subGroupHeading;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(final String groupName) {
-        this.groupName = groupName;
-    }
-
-    public String getPrintSetNumber() {
-        return printSetNumber;
-    }
-
-    public void setPrintSetNumber(final String printSetNumber) {
-        this.printSetNumber = printSetNumber;
-    }
-
     public boolean isPrintPageNumbers() {
         return isEqualsYes(printPageNumbers);
     }
@@ -1156,11 +895,11 @@ public class EbookAudit implements Serializable {
         inlineTocIncluded = getStringForBooleanValue(isInlineTocIncluded);
     }
 
-    private boolean isEqualsYes(final String value) {
-        return "Y".equalsIgnoreCase(value);
+    public boolean isIndexIncluded() {
+        return isEqualsYes(indexIncluded);
     }
 
-    private String getStringForBooleanValue(final boolean value) {
-        return value ? "Y" : "N";
+    public void setIndexIncluded(final boolean isIndexIncluded) {
+        indexIncluded = getStringForBooleanValue(isIndexIncluded);
     }
 }

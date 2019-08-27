@@ -239,18 +239,22 @@ public class EditBookDefinitionForm {
      */
     @Getter @Setter
     private Long selectedFrontMatterPreviewPage;
-
     @Getter @Setter
     private boolean validateForm;
-
     @Getter @Setter
     private boolean colorPrintComponentTable;
-
     @Getter @Setter
     private boolean printPageNumbers;
-
     @Getter @Setter
     private boolean isInlineTocIncluded;
+    @Getter @Setter
+    private boolean indexIncluded;
+    @Getter @Setter
+    private String indexTocCollectionName;
+    @Getter @Setter
+    private String indexDocCollectionName;
+    @Getter @Setter
+    private String indexTocRootGuid;
 
     /**
      * Reset some book definition fields before copying in to the form
@@ -360,6 +364,10 @@ public class EditBookDefinitionForm {
             fmThemeText = book.getFrontMatterTheme();
             printPageNumbers = book.isPrintPageNumbers();
             isInlineTocIncluded = book.isInlineTocIncluded();
+            indexIncluded = book.isIndexIncluded();
+            indexTocCollectionName = book.getIndexTocCollectionName();
+            indexDocCollectionName = book.getIndexDocCollectionName();
+            indexTocRootGuid = book.getIndexTocRootGuid();
 
             // Determine if ProView groups are set
             if (StringUtils.isBlank(book.getGroupName())) {
@@ -562,6 +570,10 @@ public class EditBookDefinitionForm {
         book.setGroupName(groupName);
         book.setPrintPageNumbers(printPageNumbers);
         book.setInlineTocIncluded(isInlineTocIncluded);
+        book.setIndexIncluded(indexIncluded);
+        book.setIndexTocCollectionName(indexTocCollectionName);
+        book.setIndexDocCollectionName(indexDocCollectionName);
+        book.setIndexTocRootGuid(indexTocRootGuid);
 
         book.setNortFileLocations(copyList(nortFileLocations, book, NortFileLocation::new));
         book.setFrontMatterTheme(fmThemeText);
