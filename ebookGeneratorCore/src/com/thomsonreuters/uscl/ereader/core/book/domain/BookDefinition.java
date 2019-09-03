@@ -402,11 +402,11 @@ public class BookDefinition implements Serializable {
     private String indexTocRootGuid;
 
     public void setIsTocFlag(final boolean isTocFlag) {
-        this.isTocFlag = isTocFlag ? Y : N;
+        this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }
 
     public boolean isTocFlag() {
-        return Y.equalsIgnoreCase(isTocFlag);
+        return isEqualsYes(isTocFlag);
     }
 
     @Transient
@@ -418,123 +418,123 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIsProviewTableViewFlag(final boolean isProviewTableViewFlag) {
-        this.isProviewTableViewFlag = isProviewTableViewFlag ? Y : N;
+        this.isProviewTableViewFlag = getStringForBooleanValue(isProviewTableViewFlag);
     }
 
     public boolean isProviewTableViewFlag() {
-        return Y.equalsIgnoreCase(isProviewTableViewFlag);
+        return isEqualsYes(isProviewTableViewFlag);
     }
 
     public void setIsFinalStage(final boolean isFinalStage) {
-        this.isFinalStage = isFinalStage ? Y : N;
+        this.isFinalStage = getStringForBooleanValue(isFinalStage);
     }
 
     public boolean isFinalStage() {
-        return Y.equalsIgnoreCase(isFinalStage);
+        return isEqualsYes(isFinalStage);
     }
 
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
-        this.keyciteToplineFlag = keyciteToplineFlag ? Y : N;
+        this.keyciteToplineFlag = getStringForBooleanValue(keyciteToplineFlag);
     }
 
     public boolean getKeyciteToplineFlag() {
-        return Y.equalsIgnoreCase(keyciteToplineFlag);
+        return isEqualsYes(keyciteToplineFlag);
     }
 
     public void setEnableCopyFeatureFlag(final boolean enableCopyFeatureFlag) {
-        this.enableCopyFeatureFlag = enableCopyFeatureFlag ? Y : N;
+        this.enableCopyFeatureFlag = getStringForBooleanValue(enableCopyFeatureFlag);
     }
 
     public boolean getEnableCopyFeatureFlag() {
-        return Y.equalsIgnoreCase(enableCopyFeatureFlag);
+        return isEqualsYes(enableCopyFeatureFlag);
     }
 
     public void setAutoUpdateSupportFlag(final boolean autoUpdateSupportFlag) {
-        this.autoUpdateSupportFlag = autoUpdateSupportFlag ? Y : N;
+        this.autoUpdateSupportFlag = getStringForBooleanValue(autoUpdateSupportFlag);
     }
 
     public boolean getAutoUpdateSupportFlag() {
-        return Y.equalsIgnoreCase(autoUpdateSupportFlag);
+        return isEqualsYes(autoUpdateSupportFlag);
     }
 
     public void setSearchIndexFlag(final boolean searchIndexFlag) {
-        this.searchIndexFlag = searchIndexFlag ? Y : N;
+        this.searchIndexFlag = getStringForBooleanValue(searchIndexFlag);
     }
 
     public boolean getSearchIndexFlag() {
-        return Y.equalsIgnoreCase(searchIndexFlag);
+        return isEqualsYes(searchIndexFlag);
     }
 
     public void setOnePassSsoLinkFlag(final boolean onePassSsoLinkFlag) {
-        this.onePassSsoLinkFlag = onePassSsoLinkFlag ? Y : N;
+        this.onePassSsoLinkFlag = getStringForBooleanValue(onePassSsoLinkFlag);
     }
 
     public boolean getOnePassSsoLinkFlag() {
-        return Y.equalsIgnoreCase(onePassSsoLinkFlag);
+        return isEqualsYes(onePassSsoLinkFlag);
     }
 
     public void setEbookDefinitionCompleteFlag(final boolean ebookDefinitionCompleteFlag) {
-        this.ebookDefinitionCompleteFlag = ebookDefinitionCompleteFlag ? Y : N;
+        this.ebookDefinitionCompleteFlag = getStringForBooleanValue(ebookDefinitionCompleteFlag);
     }
 
     public boolean getEbookDefinitionCompleteFlag() {
-        return Y.equalsIgnoreCase(ebookDefinitionCompleteFlag);
+        return isEqualsYes(ebookDefinitionCompleteFlag);
     }
 
     public void setUseReloadContent(final boolean useReloadContent) {
-        this.useReloadContent = useReloadContent ? Y : N;
+        this.useReloadContent = getStringForBooleanValue(useReloadContent);
     }
 
     public boolean getUseReloadContent() {
-        return Y.equalsIgnoreCase(useReloadContent);
+        return isEqualsYes(useReloadContent);
     }
 
     public void setPublishedOnceFlag(final boolean publishedOnceFlag) {
-        this.publishedOnceFlag = publishedOnceFlag ? Y : N;
+        this.publishedOnceFlag = getStringForBooleanValue(publishedOnceFlag);
     }
 
     public boolean getPublishedOnceFlag() {
-        return Y.equalsIgnoreCase(publishedOnceFlag);
+        return isEqualsYes(publishedOnceFlag);
     }
 
     public void setIsDeletedFlag(final boolean isDeletedFlag) {
-        this.isDeletedFlag = isDeletedFlag ? Y : N;
+        this.isDeletedFlag = getStringForBooleanValue(isDeletedFlag);
     }
 
     public boolean isDeletedFlag() {
-        return Y.equalsIgnoreCase(isDeletedFlag);
+        return isEqualsYes(isDeletedFlag);
     }
 
     public void setIsAuthorDisplayVertical(final boolean isAuthorDisplayVertical) {
-        this.isAuthorDisplayVertical = isAuthorDisplayVertical ? Y : N;
+        this.isAuthorDisplayVertical = getStringForBooleanValue(isAuthorDisplayVertical);
     }
 
     public boolean isAuthorDisplayVertical() {
-        return Y.equalsIgnoreCase(isAuthorDisplayVertical);
+        return isEqualsYes(isAuthorDisplayVertical);
     }
 
     public void setIncludeAnnotations(final boolean includeAnnotations) {
-        this.includeAnnotations = includeAnnotations ? Y : N;
+        this.includeAnnotations = getStringForBooleanValue(includeAnnotations);
     }
 
     public boolean getIncludeAnnotations() {
-        return Y.equalsIgnoreCase(includeAnnotations);
+        return isEqualsYes(includeAnnotations);
     }
 
     public void setIncludeNotesOfDecisions(final boolean includeNotesOfDecisions) {
-        this.includeNotesOfDecisions = includeNotesOfDecisions ? Y : N;
+        this.includeNotesOfDecisions = getStringForBooleanValue(includeNotesOfDecisions);
     }
 
     public boolean getIncludeNotesOfDecisions() {
-        return Y.equalsIgnoreCase(includeNotesOfDecisions);
+        return isEqualsYes(includeNotesOfDecisions);
     }
 
     public boolean getIsPilotBook() {
-        return Y.equalsIgnoreCase(isPilotBook);
+        return isEqualsYes(isPilotBook);
     }
 
     public PilotBookStatus getPilotBookStatus() {
-            if (Y.equalsIgnoreCase(isPilotBook)) {
+            if (isEqualsYes(isPilotBook)) {
                 return PilotBookStatus.TRUE;
             } else if ("I".equalsIgnoreCase(isPilotBook)) {
                 return PilotBookStatus.IN_PROGRESS;
@@ -591,27 +591,27 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIsInsStyleFlag(final boolean isInsStyleFlag) {
-        this.isInsStyleFlag = isInsStyleFlag ? Y : N;
+        this.isInsStyleFlag = getStringForBooleanValue(isInsStyleFlag);
     }
 
     public boolean isInsStyleFlag() {
-        return Y.equalsIgnoreCase(isInsStyleFlag);
+        return isEqualsYes(isInsStyleFlag);
     }
 
     public void setIsDelStyleFlag(final boolean isDelStyleFlag) {
-        this.isDelStyleFlag = isDelStyleFlag ? Y : N;
+        this.isDelStyleFlag = getStringForBooleanValue(isDelStyleFlag);
     }
 
     public boolean isDelStyleFlag() {
-        return Y.equalsIgnoreCase(isDelStyleFlag);
+        return isEqualsYes(isDelStyleFlag);
     }
 
     public void setIsRemoveEditorNoteHeadFlag(final boolean isRemoveEditorNoteHeadFlag) {
-        this.isRemoveEditorNoteHeadFlag = isRemoveEditorNoteHeadFlag ? Y : N;
+        this.isRemoveEditorNoteHeadFlag = getStringForBooleanValue(isRemoveEditorNoteHeadFlag);
     }
 
     public boolean isRemoveEditorNoteHeadFlag() {
-        return Y.equalsIgnoreCase(isRemoveEditorNoteHeadFlag);
+        return isEqualsYes(isRemoveEditorNoteHeadFlag);
     }
 
     public boolean isSplitBook() {
@@ -621,15 +621,15 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIsSplitBook(final boolean isSplitBook) {
-        this.isSplitBook = isSplitBook ? Y : N;
+        this.isSplitBook = getStringForBooleanValue(isSplitBook);
     }
 
     public boolean isSplitTypeAuto() {
-        return Y.equalsIgnoreCase(isSplitTypeAuto);
+        return isEqualsYes(isSplitTypeAuto);
     }
 
     public void setIsSplitTypeAuto(final boolean isSplitTypeAuto) {
-        this.isSplitTypeAuto = isSplitTypeAuto ? Y : N;
+        this.isSplitTypeAuto = getStringForBooleanValue(isSplitTypeAuto);
     }
 
     public void setKeywordTypeValues(final Collection<KeywordTypeValue> keywordTypeValues) {

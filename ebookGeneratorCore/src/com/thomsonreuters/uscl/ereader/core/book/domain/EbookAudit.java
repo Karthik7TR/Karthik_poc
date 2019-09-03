@@ -250,6 +250,7 @@ public class EbookAudit implements Serializable {
 
     @Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String additionalTrademarkInfo;
 
     @Column(name = "IS_PILOT_BOOK", length = 1)
@@ -378,59 +379,59 @@ public class EbookAudit implements Serializable {
     private String indexTocRootGuid;
 
     public void setIsTocFlag(final boolean isTocFlag) {
-        this.isTocFlag = ((isTocFlag) ? "Y" : "N");
+        this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }
 
     public boolean getIsTocFlag() {
-        return ((isTocFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isTocFlag);
     }
 
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
-        this.keyciteToplineFlag = ((keyciteToplineFlag) ? "Y" : "N");
+        this.keyciteToplineFlag = getStringForBooleanValue(keyciteToplineFlag);
     }
 
     public boolean getKeyciteToplineFlag() {
-        return ((keyciteToplineFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(keyciteToplineFlag);
     }
 
     public void setAutoUpdateSupportFlag(final boolean autoUpdateSupportFlag) {
-        this.autoUpdateSupportFlag = ((autoUpdateSupportFlag) ? "Y" : "N");
+        this.autoUpdateSupportFlag = getStringForBooleanValue(autoUpdateSupportFlag);
     }
 
     public boolean getAutoUpdateSupportFlag() {
-        return ((autoUpdateSupportFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(autoUpdateSupportFlag);
     }
 
     public void setSearchIndexFlag(final boolean searchIndexFlag) {
-        this.searchIndexFlag = ((searchIndexFlag) ? "Y" : "N");
+        this.searchIndexFlag = getStringForBooleanValue(searchIndexFlag);
     }
 
     public boolean getSearchIndexFlag() {
-        return ((searchIndexFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(searchIndexFlag);
     }
 
     public void setOnePassSsoLinkFlag(final boolean onePassSsoLinkFlag) {
-        this.onePassSsoLinkFlag = ((onePassSsoLinkFlag) ? "Y" : "N");
+        this.onePassSsoLinkFlag = getStringForBooleanValue(onePassSsoLinkFlag);
     }
 
     public boolean getOnePassSsoLinkFlag() {
-        return ((onePassSsoLinkFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(onePassSsoLinkFlag);
     }
 
     public void setEbookDefinitionCompleteFlag(final boolean ebookDefinitionCompleteFlag) {
-        this.ebookDefinitionCompleteFlag = ((ebookDefinitionCompleteFlag) ? "Y" : "N");
+        this.ebookDefinitionCompleteFlag = getStringForBooleanValue(ebookDefinitionCompleteFlag);
     }
 
     public boolean getEbookDefinitionCompleteFlag() {
-        return ((ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(ebookDefinitionCompleteFlag);
     }
 
     public void setPublishedOnceFlag(final boolean publishedOnceFlag) {
-        this.publishedOnceFlag = ((publishedOnceFlag) ? "Y" : "N");
+        this.publishedOnceFlag = getStringForBooleanValue(publishedOnceFlag);
     }
 
     public boolean getPublishedOnceFlag() {
-        return ((publishedOnceFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(publishedOnceFlag);
     }
 
     public EbookAudit() {
@@ -715,51 +716,43 @@ public class EbookAudit implements Serializable {
     }
 
     public void setIsDeletedFlag(final boolean isDeletedFlag) {
-        this.isDeletedFlag = ((isDeletedFlag) ? "Y" : "N");
+        this.isDeletedFlag = getStringForBooleanValue(isDeletedFlag);
     }
 
     public boolean getIsDeletedFlag() {
-        return ((isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isDeletedFlag);
     }
 
     public boolean getEnableCopyFeatureFlag() {
-        return ((enableCopyFeatureFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(enableCopyFeatureFlag);
     }
 
     public void setEnableCopyFeatureFlag(final boolean enableCopyFeatureFlag) {
-        this.enableCopyFeatureFlag = ((enableCopyFeatureFlag) ? "Y" : "N");
+        this.enableCopyFeatureFlag = getStringForBooleanValue(enableCopyFeatureFlag);
     }
 
     public boolean getAuthorDisplayVerticalFlag() {
-        return ((authorDisplayVerticalFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(authorDisplayVerticalFlag);
     }
 
     public void setAuthorDisplayVerticalFlag(final boolean authorDisplayVerticalFlag) {
-        this.authorDisplayVerticalFlag = ((authorDisplayVerticalFlag) ? "Y" : "N");
-    }
-
-    public String getAdditionalTrademarkInfo() {
-        return additionalTrademarkInfo;
-    }
-
-    public void setAdditionalTrademarkInfo(final String additionalTrademarkInfo) {
-        this.additionalTrademarkInfo = additionalTrademarkInfo;
+        this.authorDisplayVerticalFlag = getStringForBooleanValue(authorDisplayVerticalFlag);
     }
 
     public void setIncludeAnnotations(final boolean includeAnnotations) {
-        this.includeAnnotations = ((includeAnnotations) ? "Y" : "N");
+        this.includeAnnotations = getStringForBooleanValue(includeAnnotations);
     }
 
     public boolean getIncludeAnnotations() {
-        return ((includeAnnotations.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(includeAnnotations);
     }
 
     public void setIncludeNotesOfDecisions(final boolean includeNotesOfDecisions) {
-        this.includeNotesOfDecisions = ((includeNotesOfDecisions) ? "Y" : "N");
+        this.includeNotesOfDecisions = getStringForBooleanValue(includeNotesOfDecisions);
     }
 
     public boolean getIncludeNotesOfDecisions() {
-        return ((includeNotesOfDecisions.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(includeNotesOfDecisions);
     }
 
     public PilotBookStatus getPilotBookStatus() {
@@ -791,19 +784,19 @@ public class EbookAudit implements Serializable {
     }
 
     public boolean isFinalStage() {
-        return ((isFinalStage.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isFinalStage);
     }
 
     public void setIsFinalStage(final boolean isFinalStage) {
-        this.isFinalStage = ((isFinalStage) ? "Y" : "N");
+        this.isFinalStage = getStringForBooleanValue(isFinalStage);
     }
 
     public boolean getUseReloadContent() {
-        return ((useReloadContent.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(useReloadContent);
     }
 
-    public void setUseReloadContent(final boolean isFinalStage) {
-        useReloadContent = ((isFinalStage) ? "Y" : "N");
+    public void setUseReloadContent(final boolean useReloadContent) {
+        this.useReloadContent = getStringForBooleanValue(useReloadContent);
     }
 
     public SourceType getSourceType() {
@@ -840,43 +833,43 @@ public class EbookAudit implements Serializable {
     }
 
     public void setIsInsStyleFlag(final boolean isInsStyleFlag) {
-        this.isInsStyleFlag = ((isInsStyleFlag) ? "Y" : "N");
+        this.isInsStyleFlag = getStringForBooleanValue(isInsStyleFlag);
     }
 
     public boolean isInsStyleFlag() {
-        return ((isInsStyleFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isInsStyleFlag);
     }
 
     public void setIsDelStyleFlag(final boolean isDelStyleFlag) {
-        this.isDelStyleFlag = ((isDelStyleFlag) ? "Y" : "N");
+        this.isDelStyleFlag = getStringForBooleanValue(isDelStyleFlag);
     }
 
     public boolean isDelStyleFlag() {
-        return ((isDelStyleFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isDelStyleFlag);
     }
 
     public void setIsRemoveEditorNoteHeadFlag(final boolean isRemoveEditorNoteHeadFlag) {
-        this.isRemoveEditorNoteHeadFlag = ((isRemoveEditorNoteHeadFlag) ? "Y" : "N");
+        this.isRemoveEditorNoteHeadFlag = getStringForBooleanValue(isRemoveEditorNoteHeadFlag);
     }
 
     public boolean isRemoveEditorNoteHeadFlag() {
-        return ((isRemoveEditorNoteHeadFlag.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isRemoveEditorNoteHeadFlag);
     }
 
     public boolean isSplitBook() {
-        return ((isSplitBook.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isSplitBook);
     }
 
     public void setIsSplitBook(final boolean isSplitBook) {
-        this.isSplitBook = ((isSplitBook) ? "Y" : "N");
+        this.isSplitBook = getStringForBooleanValue(isSplitBook);
     }
 
     public boolean isSplitTypeAuto() {
-        return ((isSplitTypeAuto.equalsIgnoreCase("Y") ? true : false));
+        return isEqualsYes(isSplitTypeAuto);
     }
 
     public void setIsSplitTypeAuto(final boolean isSplitTypeAuto) {
-        this.isSplitTypeAuto = ((isSplitTypeAuto) ? "Y" : "N");
+        this.isSplitTypeAuto = getStringForBooleanValue(isSplitTypeAuto);
     }
 
     public boolean isPrintPageNumbers() {
