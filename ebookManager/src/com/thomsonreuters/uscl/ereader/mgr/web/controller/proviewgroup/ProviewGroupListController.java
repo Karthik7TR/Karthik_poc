@@ -309,6 +309,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             httpSession.setAttribute(WebConstants.KEY_GROUP_NAME, proviewGroup.getGroupName());
             httpSession.setAttribute(WebConstants.KEY_HEAD_TITLE, headTitleID);
             httpSession.setAttribute(WebConstants.KEY_GROUP_STATUS, proviewGroup.getGroupStatus());
+            httpSession.setAttribute(WebConstants.KEY_PROVIEW_GROUP_ID, groupId);
             httpSession.setAttribute(WebConstants.KEY_GROUP_BY_VERSION_ID, groupIdByVersion);
             httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, version);
 
