@@ -14,17 +14,23 @@
  	<script type="text/javascript">
 		
  		function submitForm(cmd){
- 			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response.";
- 			$('#command').val(cmd);
+ 			disablePromoteButton();
+			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response.";
+			$('#command').val(cmd);
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
   			return true; 
   		}
+ 		
+ 		function disablePromoteButton() {
+ 			var promoteButton = document.getElementById('promoteButton');
+ 			promoteButton.disabled = true;
+ 			promoteButton.classList.add('ui-state-disabled');
+ 		}
 		
  		 function submitPromote(cmd){
  			 var confirmed = confirm("Are you sure to promote this title version to Final?");
  			 if (confirmed){
  				 submitForm(cmd);
- 				 $('#promoteButton').prop('disabled', true);
  			 }
  			 
  			 return confirmed;
