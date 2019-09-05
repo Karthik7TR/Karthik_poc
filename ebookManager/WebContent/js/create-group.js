@@ -30,7 +30,7 @@ $(function() {
     var addSubgroup = function() {
     	var groupIdx = $("#groups .group").length;
     	var group = $("<div>").addClass("group");
-    	group.append($("<button>").addClass("removeSubgroup").attr("type", "button").html("Remove Subgroup"));
+    	group.append($("<button>").addClass("removeSubgroup").attr("type", "button").html("Remove Subgroup").click(deleteSubgroup));
     	
     	var row = $("<div>").addClass("row");
     	row.append($("<label>").html("Subgroup "+ (groupIdx + 1) +" heading:"));
@@ -78,6 +78,34 @@ $(function() {
     		$("#displayPilotBooks").show();
     	}
     };
+
+	var deleteSubgroup = function() {
+		var srow = $(this).parent();
+		var titles = $(this).siblings("ul").children("li");
+		$( "#delete-confirm" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height:260,
+			width:500,
+			title: "Delete Subgroup",
+			modal: true,
+			draggable:false,
+			buttons: {
+				"Delete": function() {
+					// Remove the element
+					srow.remove();
+					$("#titles").append(titles);
+					updateTitleFields();
+					updateSubgroupHeadingFields();
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		$( "#delete-confirm" ).dialog( "open" );
+	}
     
 	$(document).ready(function() {
 		 $( "ul.drop" ).sortable({
@@ -106,36 +134,10 @@ $(function() {
 			
 			$( "ul.drop" ).sortable("refresh");
 		});
-		
+
 		// delete confirmation box
-		$(".removeSubgroup").on("click", function () {
-			var srow = $(this).parent();
-			var titles = $(this).siblings("ul").children("li");
-			$( "#delete-confirm" ).dialog({
-				autoOpen: false,
-				resizable: false,
-				height:260,
-				width:500,
-				title: "Delete Subgroup",
-				modal: true,
-				draggable:false,
-				buttons: {
-					"Delete": function() {
-						// Remove the element
-						srow.remove();
-						$("#titles").append(titles);
-						updateTitleFields();
-						updateSubgroupHeadingFields();
-						$( this ).dialog( "close" );
-					},
-					Cancel: function() {
-						$( this ).dialog( "close" );
-					}
-				}
-			});
-			$( "#delete-confirm" ).dialog( "open" );
-		});
+		$(this).find(".removeSubgroup").click(deleteSubgroup);
 		determineSubgroups();
 		determinePilotBooks();
-	})
+	});
 });
