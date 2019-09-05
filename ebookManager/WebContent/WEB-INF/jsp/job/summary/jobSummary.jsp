@@ -23,8 +23,8 @@
 <script>
 $(document).ready(function() {
 	$('#selectAll').click(function () {
-		$(this).parents('#<%= WebConstants.KEY_JOB %>').find(':checkbox').attr('checked', this.checked);
-	});
+	    $(this).parents('#<%= WebConstants.KEY_JOB %>').find(':checkbox').prop('checked', this.checked);
+    });
 });
 
 function submitJobSummaryForm(command) {

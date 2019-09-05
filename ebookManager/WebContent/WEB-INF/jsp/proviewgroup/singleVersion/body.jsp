@@ -22,7 +22,7 @@
 <script>
 $(document).ready(function() {
 	$('#selectAll').click(function () {
-		$(this).parents('#<%= WebConstants.KEY_GROUP_DETAIL %>').find(':checkbox').attr('checked', this.checked);
+		$(this).parents('#<%= WebConstants.KEY_GROUP_DETAIL %>').find(':checkbox').prop('checked', this.checked);
 	});
 });
 
