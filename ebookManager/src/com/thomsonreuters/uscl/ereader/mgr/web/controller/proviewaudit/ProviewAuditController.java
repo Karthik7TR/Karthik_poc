@@ -62,6 +62,32 @@ public class ProviewAuditController extends BaseProviewAuditController {
         final ProviewAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+
+        pageAndSort(form, pageAndSort);
+        setUpModel(filterForm, pageAndSort, httpSession, model);
+
+        return new ModelAndView(WebConstants.VIEW_PROVIEW_AUDIT_LIST);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_AUDIT_LIST_PAGE_AND_SORT, method = RequestMethod.POST)
+    public ModelAndView updateNumberOfRows(final Model model, final HttpSession httpSession,
+        @ModelAttribute(ProviewAuditForm.FORM_NAME) final ProviewAuditForm form) {
+
+        final ProviewAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
+
+        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+        pageAndSort.setObjectsPerPage(form.getObjectsPerPage());
+        httpSession.setAttribute(PAGE_AND_SORT_NAME, pageAndSort);
+
+        pageAndSort.setPageNumber(1);
+        pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
+        setUpModel(filterForm, pageAndSort, httpSession, model);
+
+        return new ModelAndView(WebConstants.VIEW_PROVIEW_AUDIT_LIST);
+    }
+
+    private void pageAndSort(ProviewAuditForm form,
+        PageAndSort<DisplayTagSortProperty> pageAndSort) {
         final Integer nextPageNumber = form.getPage();
 
         // If there was a page=n query string parameter, then we assume we are paging since this
@@ -72,8 +98,5 @@ public class ProviewAuditController extends BaseProviewAuditController {
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
         }
-        setUpModel(filterForm, pageAndSort, httpSession, model);
-
-        return new ModelAndView(WebConstants.VIEW_PROVIEW_AUDIT_LIST);
     }
 }

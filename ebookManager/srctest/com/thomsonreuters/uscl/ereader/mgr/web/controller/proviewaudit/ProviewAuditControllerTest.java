@@ -10,10 +10,10 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditForm.DisplayTagSortProperty;
-import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import lombok.SneakyThrows;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 public final class ProviewAuditControllerTest {
-    //private static final Logger log = LogManager.getLogger(ProviewAuditControllerTest.class);
     private ProviewAuditController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -51,26 +50,13 @@ public final class ProviewAuditControllerTest {
         request.setMethod(HttpMethod.GET.name());
         final HttpSession session = request.getSession();
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findProviewAudits(
-                    EasyMock.anyObject(ProviewAuditFilter.class),
-                    EasyMock.anyObject(ProviewAuditSort.class)))
-            .andReturn(new ArrayList<ProviewAudit>());
-        EasyMock.expect(mockAuditService.numberProviewAudits(EasyMock.anyObject(ProviewAuditFilter.class)))
-            .andReturn(0);
-        EasyMock.replay(mockAuditService);
+        recordExpectedServiceCalls();
 
         // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         // Verify
-        assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_AUDIT_LIST, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
-
+        validateProviewAuditListModelAndView(mav, session);
         final PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseProviewAuditController.PAGE_AND_SORT_NAME);
         Assert.assertEquals(false, pageAndSort.isAscendingSort());
@@ -88,26 +74,13 @@ public final class ProviewAuditControllerTest {
         request.setParameter("page", String.valueOf(newPageNumber));
         final HttpSession session = request.getSession();
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findProviewAudits(
-                    EasyMock.anyObject(ProviewAuditFilter.class),
-                    EasyMock.anyObject(ProviewAuditSort.class)))
-            .andReturn(new ArrayList<ProviewAudit>());
-        EasyMock.expect(mockAuditService.numberProviewAudits(EasyMock.anyObject(ProviewAuditFilter.class)))
-            .andReturn(0);
-        EasyMock.replay(mockAuditService);
+        recordExpectedServiceCalls();
 
         // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         // Verify
-        assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_AUDIT_LIST, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
-
+        validateProviewAuditListModelAndView(mav, session);
         final PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseProviewAuditController.PAGE_AND_SORT_NAME);
         Assert.assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
@@ -126,32 +99,59 @@ public final class ProviewAuditControllerTest {
         request.setParameter("dir", direction);
         final HttpSession session = request.getSession();
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findProviewAudits(
-                    EasyMock.anyObject(ProviewAuditFilter.class),
-                    EasyMock.anyObject(ProviewAuditSort.class)))
-            .andReturn(new ArrayList<ProviewAudit>());
-        EasyMock.expect(mockAuditService.numberProviewAudits(EasyMock.anyObject(ProviewAuditFilter.class)))
-            .andReturn(0);
-        EasyMock.replay(mockAuditService);
+        recordExpectedServiceCalls();
 
         // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         // Verify
-        assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_PROVIEW_AUDIT_LIST, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
-
+        validateProviewAuditListModelAndView(mav, session);
         final PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseProviewAuditController.PAGE_AND_SORT_NAME);
         Assert.assertEquals(sort, pageAndSort.getSortProperty().toString());
         Assert.assertEquals(true, pageAndSort.isAscendingSort());
 
         EasyMock.verify(mockAuditService);
+    }
+
+    @Test
+    @SneakyThrows
+    public void testAuditListUpdateNumberOfRows() {
+        final int expectedRowCount = 122;
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_AUDIT_LIST_PAGE_AND_SORT);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("objectsPerPage", String.valueOf(expectedRowCount));
+
+        recordExpectedServiceCalls();
+
+        final HttpSession session = request.getSession();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        validateProviewAuditListModelAndView(modelAndView, session);
+        final PageAndSort<DisplayTagSortProperty> pageAndSort =
+            (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseProviewAuditController.PAGE_AND_SORT_NAME);
+        final int actualRowCount = pageAndSort.getObjectsPerPage();
+        Assert.assertEquals(expectedRowCount, actualRowCount);
+    }
+
+    private void recordExpectedServiceCalls() {
+        EasyMock
+            .expect(
+                mockAuditService.findProviewAudits(
+                    EasyMock.anyObject(ProviewAuditFilter.class),
+                    EasyMock.anyObject(ProviewAuditSort.class)))
+            .andReturn(new ArrayList<>());
+        EasyMock.expect(mockAuditService.numberProviewAudits(EasyMock.anyObject(ProviewAuditFilter.class)))
+            .andReturn(0);
+        EasyMock.replay(mockAuditService);
+    }
+
+    private void validateProviewAuditListModelAndView(final ModelAndView modelAndView, final HttpSession session) {
+        assertNotNull(modelAndView);
+        Assert.assertEquals(WebConstants.VIEW_PROVIEW_AUDIT_LIST, modelAndView.getViewName());
+        final Map<String, Object> model = modelAndView.getModel();
+        validateModel(session, model);
     }
 
     /**
