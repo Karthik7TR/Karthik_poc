@@ -20,7 +20,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XMLContentChangerFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import lombok.Getter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
@@ -40,9 +39,6 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
     private static final Logger LOG = LogManager.getLogger(XMLPreprocessServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
-
-    @Getter
-    private boolean pagebreakFoundInSourceDocs;
 
     public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
@@ -186,8 +182,6 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
 
                 contentChangerFilter.setContentHandler(serializer.asContentHandler());
                 contentChangerFilter.parse(new InputSource(inStream));
-
-                pagebreakFoundInSourceDocs = pagebreakFoundInSourceDocs || contentChangerFilter.isPagebreakFound();
 
                 LOG.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
             }

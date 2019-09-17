@@ -21,11 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class ProcessPages extends BookStepImpl {
-    @Resource(name = "formatFileSystem")
-    private FormatFileSystem formatFileSystem;
-
     @Resource(name = "gatherFileSystem")
     private GatherFileSystem gatherFileSystem;
+
+    @Resource(name = "formatFileSystem")
+    private FormatFileSystem formatFileSystem;
 
     @Autowired
     private ReorderFootnotesService reorderFootnotesService;
@@ -56,7 +56,7 @@ public class ProcessPages extends BookStepImpl {
     }
 
     private boolean shouldReorderFootnotes() {
-        return getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS) && getBookDefinition().isPrintPageNumbers();
+        return getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS);
     }
 
     private void markDirectoryAsReady(final File destDir) {

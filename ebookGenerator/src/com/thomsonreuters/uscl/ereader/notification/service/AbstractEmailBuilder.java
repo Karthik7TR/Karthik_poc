@@ -47,6 +47,7 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
         sb.append(getAdditionalBodyPart());
 
         sb.append(getPagesInfo(bookDefinition));
+        sb.append(getInlineTocInfo(bookDefinition));
 
         return sb.toString();
     }
@@ -78,10 +79,19 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
     }
 
     private String getPagesInfo(final BookDefinition bookDefinition) {
-        final boolean pageNumbersExistInSourceDocs = step.getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS);
+        final boolean pageNumbersActuallyAdded = step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS);
 
-        if (bookDefinition.isPrintPageNumbers() && !pageNumbersExistInSourceDocs) {
+        if (bookDefinition.isPrintPageNumbers() && !pageNumbersActuallyAdded) {
             return "\n\nWARNING: printPageNumbers option is set in eBook Definition but source data files are missing pagebreaks";
+        }
+        return "";
+    }
+
+    private String getInlineTocInfo(final BookDefinition bookDefinition) {
+        final boolean inlineTocActuallyAdded = step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC);
+
+        if (bookDefinition.isInlineTocIncluded() && !inlineTocActuallyAdded) {
+            return "\n\nWARNING: inlineToc option is set in eBook Definition but source TOC xml is missing inlineToc related attributes";
         }
         return "";
     }

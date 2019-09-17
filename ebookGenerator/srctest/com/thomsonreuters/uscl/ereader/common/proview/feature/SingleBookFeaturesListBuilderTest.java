@@ -83,10 +83,9 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
     @Test
     public void checkPageNosFeatureExistence() {
         //given
-        given(bookDefinition.isPrintPageNumbers()).willReturn(true);
         given(bookDefinition.getSourceType()).willReturn(SourceType.TOC);
         //when
-        final List<Feature> features = featuresListBuilder.getFeatures();
+        final List<Feature> features = featuresListBuilder.withPageNumbers(true).getFeatures();
         //then
         assertTrue(features.stream().anyMatch(feature -> PAGE_NOS.equals(feature.getName())));
         assertTrue(features.stream().anyMatch(feature -> SPAN_PAGES.equals(feature.getName())));

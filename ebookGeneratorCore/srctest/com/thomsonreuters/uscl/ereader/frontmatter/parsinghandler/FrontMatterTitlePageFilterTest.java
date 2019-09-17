@@ -34,12 +34,13 @@ public final class FrontMatterTitlePageFilterTest {
     private FrontMatterTitlePageFilter titlePageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
+    private SAXParser saxParser;
 
     @Before
     public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
-        final SAXParser saxParser = factory.newSAXParser();
+        saxParser = factory.newSAXParser();
 
         bookDefinition = new BookDefinition();
 
@@ -88,9 +89,6 @@ public final class FrontMatterTitlePageFilterTest {
         bookDefinition.setIsAuthorDisplayVertical(true);
         bookDefinition.setFrontMatterTheme("AAJ Press");
 
-        titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
-        titlePageFilter.setParent(saxParser.getXMLReader());
-
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
         props.setProperty("omit-xml-declaration", "yes");
         serializer = SerializerFactory.getSerializer(props);
@@ -109,12 +107,19 @@ public final class FrontMatterTitlePageFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) {
+    private void testHelper(final String inputXML, final String expectedResult) {
+        testHelper(inputXML, expectedResult, false);
+    }
+
+    private void testHelper(final String inputXML, final String expectedResult, final boolean withPagebreaks) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
         try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
+
+            titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition, withPagebreaks);
+            titlePageFilter.setParent(saxParser.getXMLReader());
 
             serializer.setOutputStream(output);
 
@@ -146,7 +151,7 @@ public final class FrontMatterTitlePageFilterTest {
         final String expectedResult =
             "<test><div class=\"logo\"><img src=\"er:#AAJ_PRESS\" alt=\"AAJ Press logo\"/></div></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
@@ -161,7 +166,6 @@ public final class FrontMatterTitlePageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_TitlePageAnchor() {
-        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_TitlePageAnchor/></test>";
         final String expectedResult =
             "<test><a name=\"" + FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR + "\"/></test>";
@@ -171,12 +175,11 @@ public final class FrontMatterTitlePageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_TitlePageAnchorWithPagebreaks() {
-        bookDefinition.setPrintPageNumbers(true);
         final String xmlTestStr = "<test><frontMatterPlaceholder_TitlePageAnchor/></test>";
         final String expectedResult =
             "<test><?pb label=\"i\"?><a name=\"" + FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR + "\"/></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
@@ -192,7 +195,7 @@ public final class FrontMatterTitlePageFilterTest {
         final String xmlTestStr = "<test><frontMatterPlaceholder_bookname2/></test>";
         final String expectedResult = "<test>TEST Edition</test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
@@ -208,7 +211,7 @@ public final class FrontMatterTitlePageFilterTest {
         final String xmlTestStr = "<test><frontMatterPlaceholder_currency/></test>";
         final String expectedResult = "<test>Currency Test</test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
@@ -230,7 +233,7 @@ public final class FrontMatterTitlePageFilterTest {
 
         bookDefinition.setIsAuthorDisplayVertical(false);
 
-        titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
+        titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition, false);
         titlePageFilter.setParent(saxParser.getXMLReader());
 
         final String xmlTestStr = "<test><frontMatterPlaceholder_authors/></test>";
@@ -258,7 +261,7 @@ public final class FrontMatterTitlePageFilterTest {
         ebookNames.add(series);
         bookDefinition.setEbookNames(ebookNames);
 
-        titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
+        titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition, false);
         titlePageFilter.setParent(saxParser.getXMLReader());
 
         final String xmlTestStr = "<test><bookname1><frontMatterPlaceholder_bookname/></bookname1>"

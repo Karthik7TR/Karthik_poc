@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
 import org.jsoup.parser.Parser;
@@ -23,15 +24,18 @@ import org.springframework.stereotype.Component;
 public class JsoupService {
     public Document loadDocument(final File file) {
         try (InputStream input = new FileInputStream(file)) {
-            return Jsoup.parse(input, StandardCharsets.UTF_8.name(), "", Parser.xmlParser());
+            final Document doc = Jsoup.parse(input, StandardCharsets.UTF_8.name(), "", Parser.xmlParser());
+            doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+            doc.outputSettings().escapeMode(EscapeMode.xhtml);
+            return doc;
         } catch (final IOException e) {
             throw new EBookException(e);
         }
     }
 
-    public void saveDocument(final File destDir, final File file, final Document doc) {
+    public void saveDocument(final File destDir, final String fileName, final Document doc) {
         try {
-            FileUtils.write(new File(destDir, file.getName()), doc.outerHtml(), StandardCharsets.UTF_8.name());
+            FileUtils.write(new File(destDir, fileName), doc.outerHtml(), StandardCharsets.UTF_8.name());
         } catch (final IOException e) {
             throw new EBookException(e);
         }

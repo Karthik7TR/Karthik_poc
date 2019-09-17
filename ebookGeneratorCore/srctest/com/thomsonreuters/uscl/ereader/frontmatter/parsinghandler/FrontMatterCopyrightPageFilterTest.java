@@ -34,12 +34,13 @@ public final class FrontMatterCopyrightPageFilterTest {
     private FrontMatterCopyrightPageFilter copyrightPageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
+    private SAXParser saxParser;
 
     @Before
     public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
-        final SAXParser saxParser = factory.newSAXParser();
+        saxParser = factory.newSAXParser();
 
         bookDefinition = new BookDefinition();
         final List<EbookName> ebookNames = new ArrayList<>();
@@ -89,9 +90,6 @@ public final class FrontMatterCopyrightPageFilterTest {
         bookDefinition.setAuthors(authors);
         bookDefinition.setIsAuthorDisplayVertical(true);
 
-        copyrightPageFilter = new FrontMatterCopyrightPageFilter(bookDefinition);
-        copyrightPageFilter.setParent(saxParser.getXMLReader());
-
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
         props.setProperty("omit-xml-declaration", "yes");
         serializer = SerializerFactory.getSerializer(props);
@@ -117,14 +115,13 @@ public final class FrontMatterCopyrightPageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_TOCHeadingAnchorWithPageNumber() {
-        bookDefinition.setPrintPageNumbers(true);
         final String xmlTestStr = "<test><frontMatterPlaceholder_TOCHeadingAnchor/></test>";
         final String expectedResult = "<test><?pb label=\"ii\"?><a name=\""
             + FrontMatterFileName.PUBLISHING_INFORMATION
             + FrontMatterFileName.ANCHOR
             + "\"/></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     /**
@@ -134,12 +131,19 @@ public final class FrontMatterCopyrightPageFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) {
+    private void testHelper(final String inputXML, final String expectedResult) {
+        testHelper(inputXML, expectedResult, false);
+    }
+
+    private void testHelper(final String inputXML, final String expectedResult, final boolean withPagebreaks) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
         try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
+
+            copyrightPageFilter = new FrontMatterCopyrightPageFilter(bookDefinition, withPagebreaks);
+            copyrightPageFilter.setParent(saxParser.getXMLReader());
 
             serializer.setOutputStream(output);
 
@@ -189,7 +193,7 @@ public final class FrontMatterCopyrightPageFilterTest {
             + "by a United States Government officer or employee as part of that person's official duties."
             + "</p><p>Test paragraph 2.</p></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test

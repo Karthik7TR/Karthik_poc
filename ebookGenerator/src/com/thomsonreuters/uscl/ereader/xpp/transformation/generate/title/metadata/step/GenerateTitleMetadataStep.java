@@ -119,7 +119,8 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
 
     private List<Feature> getFeatures(final Integer splitPartNumber, final List<Doc> documents) {
         final FeaturesListBuilder featureListBuilder = proviewFeaturesListBuilderFactory.create(getBookDefinition())
-            .withBookVersion(getBookVersion());
+            .withBookVersion(getBookVersion())
+            .withPageNumbers(true);
         Optional.ofNullable(splitPartNumber)
             .map(partNumber -> new BookTitleId(partNumber.toString(), new Version(0, 0)))
             .ifPresent(titleId -> featureListBuilder.forTitleId(titleId)

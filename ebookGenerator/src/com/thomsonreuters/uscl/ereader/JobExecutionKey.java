@@ -211,5 +211,6 @@ public class JobExecutionKey {
      */
     public static final String XPP_IMAGES_UNPACK_DIR = "xppImagesUnpackDir";
 
-    public static final String PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS = "pageNumbersExist";
+    public static final String WITH_PAGE_NUMBERS = "withPageNumbers";
+    public static final String WITH_INLINE_TOC = "withInlineToc";
 }

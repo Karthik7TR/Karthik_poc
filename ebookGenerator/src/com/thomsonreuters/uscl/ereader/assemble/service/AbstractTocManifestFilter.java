@@ -12,17 +12,17 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+@Slf4j
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
-    private static final Logger LOG = LogManager.getLogger(AbstractTocManifestFilter.class);
-
+    private static final String INLINE_TOC_ITEM = "Inline TOC";
+    private static final String INLINE_TOC_FILE = "inlineToc";
     public static final String URI = "";
     public static final String TITLE_ELEMENT = "title";
     protected List<TocNode> nodesContainingDocuments = new ArrayList<>();
@@ -101,6 +101,10 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
             isSplitBook);
 
         createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
+
+        if (titleMetadata.isInlineToc()) {
+            createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
+        }
 
         currentDepth--;
         currentDepth--;
@@ -218,7 +222,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
             final String message = "Failed to identify a parent for node: "
                 + node
                 + " because of possibly bad depth assignment.  This is very likely a programming error in the SplitSplitTitleManifestFilter.";
-            LOG.error(message);
+            log.error(message);
             throw new SAXException(message); // could not find the parent, so
                                              // bail. This may need to be an
                                              // exception case because it
@@ -241,7 +245,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
      *            the "new" copy of the file.
      */
     public void copyHtmlDocument(final String sourceDocId, final String destDocId) throws SAXException {
-        LOG.debug("Copying " + sourceDocId + " to " + destDocId);
+        log.debug("Copying {} to {}", sourceDocId, destDocId);
         final File sourceFile = new File(documentsDirectory, sourceDocId + HTML_EXTENSION);
         final File destFile = new File(documentsDirectory, destDocId + HTML_EXTENSION);
         try {

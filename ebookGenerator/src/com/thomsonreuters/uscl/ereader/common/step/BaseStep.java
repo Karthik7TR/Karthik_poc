@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 
@@ -23,6 +24,10 @@ public interface BaseStep extends Tasklet {
     long getJobInstanceId();
 
     long getJobExecutionId();
+
+    ChunkContext getChunkContext();
+
+    void setChunkContext(ChunkContext chunkContext);
 
     @Nullable
     String getJobParameterString(@NotNull String key);

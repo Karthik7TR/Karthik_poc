@@ -35,6 +35,4 @@ public interface XMLPreprocessService {
         List<DocumentCopyright> copyrights,
         List<DocumentCurrency> currencies,
         boolean protectPagebreaks) throws EBookFormatException;
-
-    boolean isPagebreakFoundInSourceDocs();
 }

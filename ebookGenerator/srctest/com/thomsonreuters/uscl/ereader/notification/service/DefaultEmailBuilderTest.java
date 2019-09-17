@@ -20,6 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class DefaultEmailBuilderTest {
     private static final String PRINT_PAGE_NUMBERS_WARNING = "WARNING: printPageNumbers";
+    private static final String INLINE_TOC_WARNING = "WARNING: inlineToc";
     @InjectMocks
     private DefaultEmailBuilder defaultEmailBuilder;
     @Mock
@@ -42,6 +43,7 @@ public final class DefaultEmailBuilderTest {
         //given
         givenAll();
         givenPages(false, false);
+        givenInlineToc(false, false);
         //when
         final String body = defaultEmailBuilder.getBody();
         //then
@@ -53,6 +55,7 @@ public final class DefaultEmailBuilderTest {
         assertThat(body, containsString("Environment: env"));
         assertThat(body, containsString("No Previous Version."));
         assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
+        assertThat(body, not(containsString(INLINE_TOC_WARNING)));
     }
 
     @Test
@@ -60,10 +63,12 @@ public final class DefaultEmailBuilderTest {
         //given
         givenAll();
         givenPages(false, true);
+        givenInlineToc(false, true);
         //when
         final String body = defaultEmailBuilder.getBody();
         //then
         assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
+        assertThat(body, not(containsString(INLINE_TOC_WARNING)));
     }
 
     @Test
@@ -71,10 +76,12 @@ public final class DefaultEmailBuilderTest {
         //given
         givenAll();
         givenPages(true, false);
+        givenInlineToc(true, false);
         //when
         final String body = defaultEmailBuilder.getBody();
         //then
         assertThat(body, containsString(PRINT_PAGE_NUMBERS_WARNING));
+        assertThat(body, containsString(INLINE_TOC_WARNING));
     }
 
     @Test
@@ -82,10 +89,12 @@ public final class DefaultEmailBuilderTest {
         //given
         givenAll();
         givenPages(true, true);
+        givenInlineToc(true, true);
         //when
         final String body = defaultEmailBuilder.getBody();
         //then
         assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
+        assertThat(body, not(containsString(INLINE_TOC_WARNING)));
     }
 
     @Test
@@ -131,8 +140,13 @@ public final class DefaultEmailBuilderTest {
         given(step.getJobExecutionId()).willReturn(2L);
     }
 
-    private void givenPages(final boolean printPageNumbersInUI, final boolean pagebreaksFoundInXml) {
+    private void givenPages(final boolean printPageNumbersInUI, final boolean pagebreaksActuallyAdded) {
         given(book.isPrintPageNumbers()).willReturn(printPageNumbersInUI);
-        given(step.getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_NUMBERS_EXIST_IN_SOURCE_DOCS)).willReturn(pagebreaksFoundInXml);
+        given(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS)).willReturn(pagebreaksActuallyAdded);
+    }
+
+    private void givenInlineToc(final boolean inlineTocInUI, final boolean inlineTocActuallyAdded) {
+        given(book.isInlineTocIncluded()).willReturn(inlineTocInUI);
+        given(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC)).willReturn(inlineTocActuallyAdded);
     }
 }

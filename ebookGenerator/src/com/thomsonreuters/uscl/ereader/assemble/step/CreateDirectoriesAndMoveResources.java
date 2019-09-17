@@ -113,7 +113,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
             final FeaturesListBuilder featuresListBuilder = featuresListBuilderFactory.create(bookDefinition)
                 .withBookVersion(new Version("v" + versionNumber))
-                .withTitleDocs(getDocsByTitles(docMap));
+                .withTitleDocs(getDocsByTitles(docMap))
+                .withPageNumbers(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_PAGE_NUMBERS));
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks

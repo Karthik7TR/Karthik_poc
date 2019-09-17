@@ -227,4 +227,10 @@ public final class TitleMetadataTest {
         assertThat(titleMetadata.getArtwork(), nullValue());
         assertThat(titleMetadata.getAssets(), nullValue());
     }
+
+    @Test
+    public void testBuilderInlineToc() {
+        final TitleMetadata titleMetadata = TitleMetadata.builder().inlineToc(true).build();
+        assertTrue(titleMetadata.isInlineToc());
+    }
 }

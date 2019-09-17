@@ -263,6 +263,21 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase {
     }
 
     @Test
+    public void testDocumentWithInlineToc() throws Exception {
+        titleMetadata.setInlineToc(true);
+        splitTocManifestFilterTest.parse(new InputSource(tocXml));
+        final String expected = "<title><toc><titlebreak/>"
+            + "<entry s=\"yarr/pirates#FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry>"
+            + "<entry s=\"yarr/pirates#Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text>"
+            + "<entry s=\"yarr/pirates#Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry>"
+            + "<entry s=\"yarr/pirates#ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry>"
+            + "<entry s=\"yarr/pirates#Westlaw/WestlawAnchor\"><text>Westlaw</text></entry>"
+            + "<entry s=\"yarr/pirates#inlineToc/inlineTocAnchor\"><text>Inline TOC</text></entry>"
+            + "</entry><entry s=\"yarr/pirates#DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc></title>";
+        Assert.assertEquals(expected, resultStreamToString(resultStream));
+    }
+
+    @Test
     public void testTitleManifestFilterHappyPath() throws Exception {
         titleMetadata.setTitleId("uscl/an/book_splittitletest");
         final InputStream immigrationProceduresHandbook =

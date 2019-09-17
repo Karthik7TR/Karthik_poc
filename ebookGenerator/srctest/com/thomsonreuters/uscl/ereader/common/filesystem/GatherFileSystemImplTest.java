@@ -20,7 +20,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class GatherFileSystemImplTest {
     private static final String WORK_DIRECTORY_NAME = "workDirectory";
-    private static final String EXPECTED_PATH = String.format("%s/Gather", WORK_DIRECTORY_NAME);
+    private static final String EXPECTED_GATHER_PATH = String.format("%s/Gather", WORK_DIRECTORY_NAME);
+    private static final String EXPECTED_GATHER_TOC_PATH = String.format("%s/Gather/Toc/toc.xml", WORK_DIRECTORY_NAME);
     @InjectMocks
     private GatherFileSystemImpl fileSystem;
     @Mock
@@ -43,7 +44,16 @@ public final class GatherFileSystemImplTest {
         final File fileByStep = fileSystem.getGatherRootDirectory(step);
         final File fileByJobId = fileSystem.getGatherRootDirectory(1L);
         //then
-        assertThat(fileByStep, hasPath(EXPECTED_PATH));
-        assertThat(fileByJobId, hasPath(EXPECTED_PATH));
+        assertThat(fileByStep, hasPath(EXPECTED_GATHER_PATH));
+        assertThat(fileByJobId, hasPath(EXPECTED_GATHER_PATH));
+    }
+
+    @Test
+    public void shouldReturnGatherTocFile() {
+        //given
+        //when
+        final File file = fileSystem.getGatherTocFile(step);
+        //then
+        assertThat(file, hasPath(EXPECTED_GATHER_TOC_PATH));
     }
 }

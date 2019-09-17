@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addPageNumber;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -28,17 +27,17 @@ public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl {
 
     private static final String CDATA = "CDATA";
 
-    private BookDefinition bookDefinition;
+    private boolean withPageNumber;
 
-    public FrontMatterWestlawNextPageFilter(final BookDefinition bookDefinition) {
-        this.bookDefinition = bookDefinition;
+    public FrontMatterWestlawNextPageFilter(final boolean withPageNumber) {
+        this.withPageNumber = withPageNumber;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (qName.equalsIgnoreCase(WESTLAW_NEXT_PAGE_ANCHOR_TAG)) {
-            addPageNumber(this, bookDefinition, PAGE_NUMBER);
+            addPageNumber(this, withPageNumber, PAGE_NUMBER);
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,

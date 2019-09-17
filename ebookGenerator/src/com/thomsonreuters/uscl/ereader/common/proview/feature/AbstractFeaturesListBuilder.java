@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtil;
@@ -25,6 +24,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     private final ProviewTitleService proviewTitleService;
     private final BookDefinition bookDefinition;
     private final VersionUtil versionUtil;
+    private boolean withPageNumbers;
 
     private Version newBookVersion;
 
@@ -51,6 +51,12 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         return features;
     }
 
+     @Override
+     public FeaturesListBuilder withPageNumbers(final boolean withPageNumbers) {
+         this.withPageNumbers = withPageNumbers;
+         return this;
+     }
+
     private List<Feature> createDefaultFeaturesList() {
         final List<Feature> features = new ArrayList<>();
         features.add(DefaultProviewFeatures.PRINT.feature);
@@ -72,7 +78,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
                 DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
         }
 
-        if (SourceType.XPP == bookDefinition.getSourceType() || bookDefinition.isPrintPageNumbers()) {
+        if (withPageNumbers) {
             Collections.addAll(features, DefaultProviewFeatures.PAGE_NUMBERS.feature,
                 DefaultProviewFeatures.SPAN_PAGES.feature);
         }

@@ -37,16 +37,18 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
     private static final boolean SINGLE_LINE_FIELD = false;
 
     private BookDefinition bookDefinition;
+    private boolean withPageNumber;
 
-    public FrontMatterCopyrightPageFilter(final BookDefinition bookDefinition) {
+    public FrontMatterCopyrightPageFilter(final BookDefinition bookDefinition, final boolean withPageNumber) {
         this.bookDefinition = bookDefinition;
+        this.withPageNumber = withPageNumber;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG)) {
-            addPageNumber(this, bookDefinition, PAGE_NUMBER);
+            addPageNumber(this, withPageNumber, PAGE_NUMBER);
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,

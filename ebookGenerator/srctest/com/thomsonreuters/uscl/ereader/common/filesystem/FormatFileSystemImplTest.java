@@ -25,6 +25,7 @@ public final class FormatFileSystemImplTest {
     private static final String SPLITBOOK_DIRECTORY = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR.getName();
     private static final String SPLIT_NODE_INFO = SPLITBOOK_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE.getName();
     private static final String DOC_TO_IMAGE_MANIFEST = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE.getName();
+    private static final String FORMAT_HTML_WRAPPER_DIR = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR.getName();
 
     @InjectMocks
     private FormatFileSystemImpl fileSystem;
@@ -84,5 +85,14 @@ public final class FormatFileSystemImplTest {
         final File directory = fileSystem.getFormatDirectory(1L);
         //then
         assertThat(directory, hasPath(FORMAT_DIRECTORY));
+    }
+
+    @Test
+    public void shouldReturnHtmlWrapperDirectory() {
+        //given
+        //when
+        final File directory = fileSystem.getHtmlWrapperDirectory(step);
+        //then
+        assertThat(directory, hasPath(FORMAT_HTML_WRAPPER_DIR));
     }
 }

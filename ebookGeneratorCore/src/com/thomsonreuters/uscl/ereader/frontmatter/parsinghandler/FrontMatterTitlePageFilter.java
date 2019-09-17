@@ -47,16 +47,18 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     public static final String AAJ_PRESS_THEME = "AAJ Press";
 
     private BookDefinition bookDefinition;
+    private boolean withPageNumber;
 
-    public FrontMatterTitlePageFilter(final BookDefinition bookDefinition) {
+    public FrontMatterTitlePageFilter(final BookDefinition bookDefinition, final boolean withPageNumber) {
         this.bookDefinition = bookDefinition;
+        this.withPageNumber = withPageNumber;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG)) {
-            addPageNumber(this, bookDefinition, PAGE_NUMBER);
+            addPageNumber(this, withPageNumber, PAGE_NUMBER);
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,

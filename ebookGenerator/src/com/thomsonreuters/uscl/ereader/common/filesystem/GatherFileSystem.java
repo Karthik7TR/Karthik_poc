@@ -23,4 +23,11 @@ public interface GatherFileSystem {
      */
     @NotNull
     File getGatherRootDirectory(@NotNull BookStep step);
+    /**
+     * Returns gather root directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getGatherRootDirectory Gather}{@code /Toc/toc.xml}
+     */
+    @NotNull
+    File getGatherTocFile(@NotNull BookStep step);
 }

@@ -32,16 +32,18 @@ public class FrontMatterResearchAssistancePageFilter extends XMLFilterImpl {
     private static final String CDATA = "CDATA";
 
     private BookDefinition bookDefinition;
+    private boolean withPageNumber;
 
-    public FrontMatterResearchAssistancePageFilter(final BookDefinition bookDefinition) {
+    public FrontMatterResearchAssistancePageFilter(final BookDefinition bookDefinition, final boolean withPageNumber) {
         this.bookDefinition = bookDefinition;
+        this.withPageNumber = withPageNumber;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (qName.equalsIgnoreCase(RESEARCH_ASSISTANCE_PAGE_ANCHOR_TAG)) {
-            addPageNumber(this, bookDefinition, PAGE_NUMBER);
+            addPageNumber(this, withPageNumber, PAGE_NUMBER);
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,

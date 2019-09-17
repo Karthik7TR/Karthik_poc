@@ -2,12 +2,12 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_CLOSE;
 import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_OPEN;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
-import lombok.Getter;
 import lombok.Setter;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -19,7 +19,6 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
 public class XMLContentChangerFilter extends XMLFilterImpl {
-    private static final String PAGEBREAK_PROCESSING_INSTRUCTION = "pagebreak";
     private static final String GUID_ATTR = "n-include_guid";
     private static final String CURRENCY_TAG = "include.currency";
     private boolean isChanging;
@@ -32,8 +31,6 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
 
     @Setter
     private boolean protectPagebreaks;
-    @Getter
-    private boolean pagebreakFound;
 
     public XMLContentChangerFilter(
         final List<DocumentCopyright> copyrights,
@@ -109,10 +106,9 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
      */
     @Override
     public void processingInstruction(final String target, final String data) throws SAXException {
-        if (protectPagebreaks && PAGEBREAK_PROCESSING_INSTRUCTION.equals(target)) {
+        if (protectPagebreaks && PAGEBREAK.equals(target)) {
             final String message = wrapPagebreak(data);
             super.characters(message.toCharArray(), 0, message.length());
-            pagebreakFound = true;
         }
     }
 

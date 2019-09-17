@@ -30,17 +30,15 @@ public final class FrontMatterWestlawNextPageFilterTest {
     private FrontMatterWestlawNextPageFilter westlawNextPageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
+    private SAXParser saxParser;
 
     @Before
     public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
-        final SAXParser saxParser = factory.newSAXParser();
+        saxParser = factory.newSAXParser();
 
         bookDefinition = new BookDefinition();
-
-        westlawNextPageFilter = new FrontMatterWestlawNextPageFilter(bookDefinition);
-        westlawNextPageFilter.setParent(saxParser.getXMLReader());
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
         props.setProperty("omit-xml-declaration", "yes");
@@ -60,12 +58,15 @@ public final class FrontMatterWestlawNextPageFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) {
+    public void testHelper(final String inputXML, final String expectedResult, final boolean withPagebreaks) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
         try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
+
+            westlawNextPageFilter = new FrontMatterWestlawNextPageFilter(withPagebreaks);
+            westlawNextPageFilter.setParent(saxParser.getXMLReader());
 
             serializer.setOutputStream(output);
 
@@ -93,21 +94,19 @@ public final class FrontMatterWestlawNextPageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_WestlawNextPageAnchor() {
-        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
         final String expectedResult =
             "<test><a name=\"" + FrontMatterFileName.WESTLAW + FrontMatterFileName.ANCHOR + "\"> </a></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, false);
     }
 
     @Test
     public void testFrontMatterPlaceholder_WestlawNextPageAnchorWithPagebreaks() {
-        bookDefinition.setPrintPageNumbers(true);
         final String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
         final String expectedResult =
             "<test><?pb label=\"iv\"?><a name=\"" + FrontMatterFileName.WESTLAW + FrontMatterFileName.ANCHOR + "\"> </a></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 }

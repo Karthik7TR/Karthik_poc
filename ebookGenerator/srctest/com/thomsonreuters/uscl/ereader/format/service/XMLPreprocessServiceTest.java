@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -128,7 +126,6 @@ public final class XMLPreprocessServiceTest {
         final File preprocess2 = new File(targetDir.getAbsolutePath(), "temp3.preprocess");
         assertTrue(preprocess1.exists());
         assertTrue(preprocess2.exists());
-        assertFalse(preprocessService.isPagebreakFoundInSourceDocs());
     }
 
     @Test
@@ -263,8 +260,6 @@ public final class XMLPreprocessServiceTest {
         assertFileExistence("temp1.preprocess");
         assertFileExistence("temp3.preprocess");
         assertFileExistence("temp4.preprocess");
-
-        assertEquals(protectPagebreaks, preprocessService.isPagebreakFoundInSourceDocs());
     }
 
     private void assertFileExistence(final String fileName) {

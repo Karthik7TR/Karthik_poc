@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.common.step;
 import java.util.Date;
 import java.util.Optional;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
@@ -14,6 +16,7 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 
 public abstract class BaseStepImpl implements BaseStep {
+    @Getter @Setter
     protected ChunkContext chunkContext;
 
     @Override
@@ -55,12 +58,12 @@ public abstract class BaseStepImpl implements BaseStep {
 
     @Override
     public StepExecution getStepExecution() {
-        return chunkContext.getStepContext().getStepExecution();
+        return getChunkContext().getStepContext().getStepExecution();
     }
 
     @Override
     public String getStepName() {
-        return chunkContext.getStepContext().getStepName();
+        return getChunkContext().getStepContext().getStepName();
     }
 
     @Override

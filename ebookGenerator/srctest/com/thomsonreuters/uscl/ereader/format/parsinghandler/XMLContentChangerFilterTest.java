@@ -80,7 +80,7 @@ public final class XMLContentChangerFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult, final boolean expectPagebreaks) {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
         try {
@@ -95,7 +95,6 @@ public final class XMLContentChangerFilterTest {
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-            assertEquals(expectPagebreaks, contentChangeFilter.isPagebreakFound());
         } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
         } finally {
@@ -119,7 +118,7 @@ public final class XMLContentChangerFilterTest {
         final String expectedResult =
             "<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test>";
 
-        testHelper(xmlTestStr, expectedResult, false);
+        testHelper(xmlTestStr, expectedResult);
     }
 
     @Test
@@ -129,7 +128,7 @@ public final class XMLContentChangerFilterTest {
         final String expectedResult =
             "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open label=\"i\" close-pagebreak}</test>";
 
-        testHelper(xmlTestStr, expectedResult, true);
+        testHelper(xmlTestStr, expectedResult);
     }
 
     @Test
@@ -141,7 +140,7 @@ public final class XMLContentChangerFilterTest {
             "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open label=\"i\" close-pagebreak}</test>"
                 + "<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test></body>";
 
-        testHelper(xmlTestStr, expectedResult, true);
+        testHelper(xmlTestStr, expectedResult);
     }
 
     @Test
@@ -151,7 +150,7 @@ public final class XMLContentChangerFilterTest {
                 + "<test><include.else n-include_guid=\"123456789\">This is a currency</include.else></test></body>";
         final String expectedResult = xmlTestStr;
 
-        testHelper(xmlTestStr, expectedResult, false);
+        testHelper(xmlTestStr, expectedResult);
     }
 
     @Test
@@ -162,6 +161,6 @@ public final class XMLContentChangerFilterTest {
         final String expectedResult =
             "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>";
 
-        testHelper(xmlTestStr, expectedResult, false);
+        testHelper(xmlTestStr, expectedResult);
     }
 }

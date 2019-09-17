@@ -63,7 +63,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
         final String versionNumber = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
         final TitleMetadataBuilder titleMetadataBuilder =
-            TitleMetadata.builder(bookDefinition).versionNumber(versionNumber);
+            TitleMetadata.builder(bookDefinition).versionNumber(versionNumber)
+                .inlineToc(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_INLINE_TOC));
 
         //TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);
@@ -79,13 +80,15 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
         String status = "Completed";
 
         try (OutputStream titleManifest = new FileOutputStream(titleXml);
-            InputStream tocXml = new FileInputStream(tocXmlFile);) {
+            InputStream tocXml = new FileInputStream(tocXmlFile)) {
             final File documentsDirectory =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
             //TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
 
             final FeaturesListBuilder featureListBuilder =
-                featuresListBuilderFactory.create(bookDefinition).withBookVersion(new Version("v" + versionNumber));
+                featuresListBuilderFactory.create(bookDefinition)
+                    .withBookVersion(new Version("v" + versionNumber))
+                    .withPageNumbers(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_PAGE_NUMBERS));
             if (bookDefinition.isSplitBook()) {
                 splitBookTitle(titleMetadataBuilder.build(), jobInstanceId, jobExecutionContext);
             } else {

@@ -127,6 +127,10 @@ public abstract class FeatureListBuilderFixture {
     }
 
     protected List<Feature> getExpectedFeatures(final BookDefinition bookDefinition) {
+        return getExpectedFeatures(bookDefinition, false);
+    }
+
+    protected List<Feature> getExpectedFeatures(final BookDefinition bookDefinition, final boolean withPageNumbers) {
         final List<Feature> features = new ArrayList<>();
         features.add(new Feature("Print"));
 
@@ -152,7 +156,7 @@ public abstract class FeatureListBuilderFixture {
             features.add(new Feature("CombinedTOC"));
         }
 
-        if (SourceType.XPP == bookDefinition.getSourceType() || bookDefinition.isPrintPageNumbers()) {
+        if (withPageNumbers) {
             features.add(new Feature("PageNos"));
             features.add(new Feature("SpanPages"));
         }

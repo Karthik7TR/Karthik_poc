@@ -48,4 +48,12 @@ public interface FormatFileSystem {
      */
     @NotNull
     File getImageToDocumentManifestFile(@NotNull BookStep step);
+
+    /**
+     * Returns split book directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /HTMLWrapper}
+     */
+    @NotNull
+    File getHtmlWrapperDirectory(@NotNull BookStep step);
 }

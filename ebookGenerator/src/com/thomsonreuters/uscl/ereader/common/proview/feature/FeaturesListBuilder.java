@@ -28,6 +28,11 @@ public interface FeaturesListBuilder {
     FeaturesListBuilder forTitleId(BookTitleId titleId);
 
     /**
+     * If page numbers feature is needed
+     */
+    FeaturesListBuilder withPageNumbers(boolean withPageNumbers);
+
+    /**
      * Get list of proview features
      */
     List<Feature> getFeatures();

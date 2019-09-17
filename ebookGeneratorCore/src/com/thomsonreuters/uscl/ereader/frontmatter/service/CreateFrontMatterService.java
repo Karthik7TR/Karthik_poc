@@ -17,7 +17,7 @@ public interface CreateFrontMatterService {
      * @param outputDir the target directory to which the generated front matter pages will be written
      * @param bookDefinition defines the book for which front matter is being generated
      */
-    void generateAllFrontMatterPages(File outputDir, BookDefinition bookDefinition)
+    void generateAllFrontMatterPages(File outputDir, BookDefinition bookDefinition, boolean withPageNumbers)
         throws EBookFrontMatterGenerationException;
 
     /**

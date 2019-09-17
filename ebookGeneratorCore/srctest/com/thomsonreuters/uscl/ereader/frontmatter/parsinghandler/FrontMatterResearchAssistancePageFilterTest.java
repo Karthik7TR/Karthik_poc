@@ -34,12 +34,13 @@ public final class FrontMatterResearchAssistancePageFilterTest {
     private FrontMatterResearchAssistancePageFilter researchAssistancePageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
+    private SAXParser saxParser;
 
     @Before
     public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
-        final SAXParser saxParser = factory.newSAXParser();
+        saxParser = factory.newSAXParser();
 
         bookDefinition = new BookDefinition();
         bookDefinition.setProviewDisplayName("Display TEST Title");
@@ -80,9 +81,6 @@ public final class FrontMatterResearchAssistancePageFilterTest {
         bookDefinition.setAuthors(authors);
         bookDefinition.setIsAuthorDisplayVertical(true);
 
-        researchAssistancePageFilter = new FrontMatterResearchAssistancePageFilter(bookDefinition);
-        researchAssistancePageFilter.setParent(saxParser.getXMLReader());
-
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
         props.setProperty("omit-xml-declaration", "yes");
         serializer = SerializerFactory.getSerializer(props);
@@ -101,12 +99,15 @@ public final class FrontMatterResearchAssistancePageFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) {
+    public void testHelper(final String inputXML, final String expectedResult, final boolean withPages) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
         try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
+
+            researchAssistancePageFilter = new FrontMatterResearchAssistancePageFilter(bookDefinition, withPages);
+            researchAssistancePageFilter.setParent(saxParser.getXMLReader());
 
             serializer.setOutputStream(output);
 
@@ -134,26 +135,24 @@ public final class FrontMatterResearchAssistancePageFilterTest {
 
     @Test
     public void testFrontMatterPlaceholder_researchAssistancePageAnchor() {
-        bookDefinition.setPrintPageNumbers(false);
         final String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistancePageAnchor/></test>";
         final String expectedResult = "<test><a name=\""
             + FrontMatterFileName.RESEARCH_ASSISTANCE
             + FrontMatterFileName.ANCHOR
             + "\"> </a></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, false);
     }
 
     @Test
     public void testFrontMatterPlaceholder_researchAssistancePageAnchorWithPageNumber() {
-        bookDefinition.setPrintPageNumbers(true);
         final String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistancePageAnchor/></test>";
         final String expectedResult = "<test><?pb label=\"iii\"?><a name=\""
             + FrontMatterFileName.RESEARCH_ASSISTANCE
             + FrontMatterFileName.ANCHOR
             + "\"> </a></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 
     @Test
@@ -164,6 +163,6 @@ public final class FrontMatterResearchAssistancePageFilterTest {
             + "eBook Questions and Suggestions for Display TEST Title\">"
             + "west.ebooksuggestions@thomsonreuters.com</a></test>";
 
-        testHelper(xmlTestStr, expectedResult);
+        testHelper(xmlTestStr, expectedResult, true);
     }
 }

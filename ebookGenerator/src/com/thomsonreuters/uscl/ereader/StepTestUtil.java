@@ -1,8 +1,12 @@
 package com.thomsonreuters.uscl.ereader;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import java.io.File;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -89,5 +93,34 @@ public final class StepTestUtil {
                 .getJobExecution()
                 .getExecutionContext()
                 .get(parameterName)).willReturn(value);
+    }
+
+    /**
+     * If files
+     *     expectDirName/dirName/file.xml and
+     *     actualDirName/dirName/file.xml
+     * are equal
+     * then the method return true
+     *
+     * expectDirName/
+     *              dirName/
+     *                      file.xml
+     * actualDirName/
+     *              dirName/
+     *                      file.xml
+     *                      file12.xml
+     *              dirName2/
+     *                      file22.xml
+     *
+     */
+    public static void validateDirsOnExpected(final File expectedDir, final File actualDir) {
+        Stream.of(expectedDir.listFiles())
+        .forEach(expected -> {
+            if (expected.isDirectory()) {
+                validateDirsOnExpected(expected, new File(actualDir, expected.getName()));
+            } else {
+                assertThat(expected, hasSameContentAs(new File(actualDir, expected.getName())));
+            }
+        });
     }
 }

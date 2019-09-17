@@ -14,6 +14,7 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -27,6 +28,9 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
     private CreateFrontMatterService frontMatterService;
 
     private PublishingStatsService publishingStatsService;
+
+    @Autowired
+    private PagesAnalyzeService pagesAnalyzeService;
 
     public void setfrontMatterService(final CreateFrontMatterService frontMatterService) {
         this.frontMatterService = frontMatterService;
@@ -51,8 +55,10 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
         final long startTime = System.currentTimeMillis();
         String publishStatus = "generateFrontMatterHTML : Completed";
 
+        final boolean withPageNumbers = checkForPagebreaks(jobExecutionContext, bookDefinition);
+
         try {
-            frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition);
+            frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition, withPageNumbers);
         } catch (final Exception e) {
             publishStatus = "generateFrontMatterHTML : Failed";
             throw e;
@@ -70,6 +76,15 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
         log.debug("Generated all the Front Matter HTML pages in " + elapsedTime + " milliseconds");
 
         return ExitStatus.COMPLETED;
+    }
+
+    private boolean checkForPagebreaks(
+        final ExecutionContext jobExecutionContext,
+        final BookDefinition bookDefinition) {
+        final File docsDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR));
+        final boolean withPageNumbers = bookDefinition.isPrintPageNumbers() && pagesAnalyzeService.checkIfDocumentsContainPagebreaks(docsDir);
+        jobExecutionContext.put(JobExecutionKey.WITH_PAGE_NUMBERS, withPageNumbers);
+        return withPageNumbers;
     }
 
     @Required
