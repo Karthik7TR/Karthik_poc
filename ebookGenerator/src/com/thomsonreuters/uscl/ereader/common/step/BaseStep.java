@@ -55,4 +55,6 @@ public interface BaseStep extends Tasklet {
     String getJobExecutionPropertyString(String propertyKey);
 
     boolean getJobExecutionPropertyBoolean(String propertyKey);
+
+    int getJobExecutionPropertyInt(String propertyKey);
 }

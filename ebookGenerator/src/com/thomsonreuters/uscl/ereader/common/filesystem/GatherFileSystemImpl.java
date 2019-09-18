@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
 
@@ -34,4 +36,17 @@ public class GatherFileSystemImpl implements GatherFileSystem {
     public File getGatherTocFile(@NotNull final BookStep step) {
         return getGatherRootDirectory(step).toPath().resolve(GATHER_TOC_DIR.getName()).resolve(GATHER_TOC_FILE.getName()).toFile();
     }
+
+    @NotNull
+    @Override
+    public File getGatherDocsDirectory(@NotNull final BookStep step) {
+        return new File(getGatherRootDirectory(step), GATHER_DOCS_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getGatherDocsMetadataDirectory(@NotNull final BookStep step) {
+        return new File(getGatherDocsDirectory(step), GATHER_DOCS_METADATA_DIR.getName());
+    }
+
 }

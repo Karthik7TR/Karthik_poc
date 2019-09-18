@@ -102,6 +102,12 @@ public abstract class BaseStepImpl implements BaseStep {
         return (Boolean) Optional.ofNullable(getJobExecutionContext().get(propertyKey)).orElse(Boolean.FALSE);
     }
 
+    @Override
+    public int getJobExecutionPropertyInt(final String propertyKey) {
+        assertPropertyExists(propertyKey);
+        return getJobExecutionContext().getInt(propertyKey);
+    }
+
     private void assertPropertyExists(final String propertyKey) {
         if (!getJobExecutionContext().containsKey(propertyKey)) {
             throw new IllegalArgumentException(

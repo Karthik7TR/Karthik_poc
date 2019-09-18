@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.annotation.Resource;
 
@@ -36,7 +35,7 @@ public class InlineTocStep extends BookStepImpl {
         return ExitStatus.COMPLETED;
     }
 
-    private void generateInlineToc() throws IOException {
+    private void generateInlineToc() {
         final boolean pages = getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS);
         final File tocXmlFile = gatherFileSystem.getGatherTocFile(this);
         final File outputDir = formatFileSystem.getHtmlWrapperDirectory(this);

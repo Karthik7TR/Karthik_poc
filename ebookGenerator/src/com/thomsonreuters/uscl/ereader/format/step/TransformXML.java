@@ -2,72 +2,61 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
 
+import javax.annotation.Resource;
+
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
 
 /**
  * This step transforms the Novus extracted XML documents into HTML.
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class TransformXML extends AbstractSbTasklet {
-    //TODO: Use logger API to get Logger instance to job-specific appender.
-    private static final Logger LOG = LogManager.getLogger(TransformXML.class);
+@Slf4j
+@SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
+@SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
+public class TransformXML extends BookStepImpl {
+    @Resource(name = "gatherFileSystem")
+    private GatherFileSystem gatherFileSystem;
+
+    @Resource(name = "formatFileSystem")
+    private FormatFileSystem formatFileSystem;
+
+    @Resource
     private TransformerService transformerService;
+
+    @Resource(name = "publishingStatsService")
     private PublishingStatsService publishingStatsService;
 
-    public void settransformerService(final TransformerService transformerService) {
-        this.transformerService = transformerService;
-    }
-
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
-        throws Exception {
-        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-        final JobInstance jobInstance = getJobInstance(chunkContext);
+    public ExitStatus executeStep() throws Exception {
+        final Long jobId = getJobInstanceId();
+        final BookDefinition bookDefinition = getBookDefinition();
+        final int numDocsInTOC = getJobExecutionPropertyInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 
-        final BookDefinition bookDefinition =
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
-        final String titleId = bookDefinition.getTitleId();
-
-        final Long jobId = jobInstance.getId();
-
-        final String preprocessDirectory =
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_PREPROCESS_DIR);
-        final String metadataDirectory =
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR);
-        final String transformDirectory =
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
-        final String imgMetadataDirectory =
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_IMAGE_METADATA_DIR);
-
-        final int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
-
-        final File preprocessDir = new File(preprocessDirectory);
-        final File metadataDir = new File(metadataDirectory);
-        final File transformDir = new File(transformDirectory);
-        final File imgMetadataDir = new File(imgMetadataDirectory);
+        final File metadataDir = gatherFileSystem.getGatherDocsMetadataDirectory(this);
+        final File imgMetadataDir = formatFileSystem.getImageMetadataDirectory(this);
+        final File preprocessDir = formatFileSystem.getPreprocessDirectory(this);
+        final File transformDir = formatFileSystem.getTransformedDirectory(this);
 
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
 
-        final File staticContentDir =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR));
+        final File staticContentDir = new File(getJobExecutionPropertyString(JobExecutionKey.STATIC_CONTENT_DIR));
 
         try {
             final long startTime = System.currentTimeMillis();
@@ -89,11 +78,11 @@ public class TransformXML extends AbstractSbTasklet {
                     + " documents while the eBook TOC had "
                     + numDocsInTOC
                     + " documents.";
-                LOG.error(message);
+                log.error(message);
                 throw new EBookFormatException(message);
             }
 
-            LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
+            log.debug("Transformed {} XML files in {} milliseconds", numDocsTransformed, elapsedTime);
         } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;
@@ -103,10 +92,5 @@ public class TransformXML extends AbstractSbTasklet {
         }
 
         return ExitStatus.COMPLETED;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
-        this.publishingStatsService = publishingStatsService;
     }
 }

@@ -22,6 +22,8 @@ public final class GatherFileSystemImplTest {
     private static final String WORK_DIRECTORY_NAME = "workDirectory";
     private static final String EXPECTED_GATHER_PATH = String.format("%s/Gather", WORK_DIRECTORY_NAME);
     private static final String EXPECTED_GATHER_TOC_PATH = String.format("%s/Gather/Toc/toc.xml", WORK_DIRECTORY_NAME);
+    private static final String EXPECTED_GATHER_DOCS_PATH = String.format("%s/Gather/Docs", WORK_DIRECTORY_NAME);
+    private static final String EXPECTED_GATHER_DOCS_METADATA_PATH = String.format("%s/Gather/Docs/Metadata", WORK_DIRECTORY_NAME);
     @InjectMocks
     private GatherFileSystemImpl fileSystem;
     @Mock
@@ -55,5 +57,23 @@ public final class GatherFileSystemImplTest {
         final File file = fileSystem.getGatherTocFile(step);
         //then
         assertThat(file, hasPath(EXPECTED_GATHER_TOC_PATH));
+    }
+
+    @Test
+    public void shouldReturnGatherDocsDirectory() {
+        //given
+        //when
+        final File file = fileSystem.getGatherDocsDirectory(step);
+        //then
+        assertThat(file, hasPath(EXPECTED_GATHER_DOCS_PATH));
+    }
+
+    @Test
+    public void shouldReturnGatherDocsMetadataDirectory() {
+        //given
+        //when
+        final File file = fileSystem.getGatherDocsMetadataDirectory(step);
+        //then
+        assertThat(file, hasPath(EXPECTED_GATHER_DOCS_METADATA_PATH));
     }
 }

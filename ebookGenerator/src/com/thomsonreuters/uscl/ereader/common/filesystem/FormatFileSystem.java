@@ -26,6 +26,38 @@ public interface FormatFileSystem {
     File getFormatDirectory(@NotNull BookStep step);
 
     /**
+     * Returns image metadata directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /ImageMetadata}
+     */
+    @NotNull
+    File getImageMetadataDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns preprocess directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /Preprocess}
+     */
+    @NotNull
+    File getPreprocessDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns transformed directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /Transformed}
+     */
+    @NotNull
+    File getTransformedDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns html wrapper directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /HTMLWrapper}
+     */
+    @NotNull
+    File getHtmlWrapperDirectory(@NotNull BookStep step);
+
+    /**
      * Returns split book directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link getFormatDirectory Format}{@code /splitEbook}
@@ -48,12 +80,4 @@ public interface FormatFileSystem {
      */
     @NotNull
     File getImageToDocumentManifestFile(@NotNull BookStep step);
-
-    /**
-     * Returns split book directory:
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link getFormatDirectory Format}{@code /HTMLWrapper}
-     */
-    @NotNull
-    File getHtmlWrapperDirectory(@NotNull BookStep step);
 }
