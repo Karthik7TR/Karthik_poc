@@ -1,7 +1,5 @@
 <html >
-<head>
-  <!-- <h4 align='right' style="font-weight:bold">Version 1</h4>
-  <h4 align='right' id="date" style="font-weight:bold"></h4> -->
+  <head>
     <meta charset="utf-8">
     <title>Employee Management System</title>
     <meta charset="utf-8">
@@ -10,159 +8,74 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
-    var n =  new Date().toDateString();
-    document.getElementById("date").innerHTML = n;
+      var n =  new Date().toDateString();
+      document.getElementById("date").innerHTML = n;
     </script>
   <script src='/js/main.js'></script>
-
   <style>
-  #emp {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-#emp tr:nth-child(even){background-color: #f2f2f2}
-
-#emp tr:hover {background-color: #ddd;}
-
-#emp th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color:Gray;
-  color: white;font-weight: bold;font-size: 20px;
-}
+    #emp {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    #emp tr:nth-child(even){background-color: #f2f2f2}
+    #emp tr:hover {background-color: #ddd;}
+    #emp th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color:Gray;
+      color: white;font-weight: bold;font-size: 20px;
+    }
   </style>
+  </head>
 
-</head>
-
-<body class='container'>
+  <body class='container'>
     <h4 style="float: right" id="date" style="font-weight:bold;"></h4>
-    <div style="clear: both">
+      <div style="clear: both">
         <h4 style="float: right" style="font-weight:bold;">Version 1</h4>
-        <h1 align='center'>Techops Sample Application</h1>  <br/>
-        <script>
-            var n =  new Date().toDateString();
-            document.getElementById("date").innerHTML = n;
-            </script>
-    </div>
-    <!-- class="btn btn-success btn-lg" class="btn  btn-lg" style='background-color: #555555; color:white;'-->
-    <div >
+          <h1 align='center'>Techops Sample Application</h1>  <br/>
+      </div>
+      <div>
         <table id='emp' class="table table-bordered" >
-              <thead class="thead-dark" >
-                  <tr align='right'>
-                      <button type='button'  class="btn btn-success btn-lg" data-toggle="modal" data-target="#formModal">
-                          Add New Employee
-                      </button>&nbsp;&nbsp; &nbsp;&nbsp;
-                      <button type='button' class="btn btn-success btn-lg" data-toggle="modal" data-target="#columnModal">
-                          Add New Column
-                      </button>&nbsp;&nbsp; &nbsp;&nbsp;
-                      <button type='button'  class="btn btn-success btn-lg"  data-toggle="modal" data-target="#deletecolumnModal">
-                          Delete Column
-                      </button>
-                          <br/><br/></tr>
-                      <thead>
-                          <tr>
-                              <% for (var i = 0; i < columnNames.length; i++) { %>
-                               <th> <%= columnNames[i] %></th>
-                        <% } %>
-                    <th>EDIT</th>
-                    <th>DELETE</th>
-                  </tr>
-              </thead>
-              <tbody>
+          <thead class="thead-dark" >
+            <tr align='right'>
+              <button type='button' disabled class="btn btn-success btn-lg" data-toggle="modal" data-target="#formModal">
+                Add New Employee
+              </button>&nbsp;&nbsp; &nbsp;&nbsp;
+              <button type='button' disabled class="btn btn-success btn-lg" data-toggle="modal" data-target="#columnModal">
+                Add New Column
+              </button>&nbsp;&nbsp; &nbsp;&nbsp;
+              <button type='button' disabled class="btn btn-success btn-lg"  data-toggle="modal" data-target="#deletecolumnModal">
+                Delete Column
+              </button>
+              <br/><br/></tr>
+          <thead>
+            <tr>
+                <% for (var i = 0; i < columnNames.length; i++) { %>
+                  <th> <%= columnNames[i] %></th>
+                <% } %>
+                <th>EDIT</th>
+                <th>DELETE</th>
+              </tr>
+            </thead>
+          <tbody>
                 <% employee.forEach(result=> { %>
                   <tr>
                   <%  Object.keys(result).forEach(key => { %>
                     <td><%= result[key] %> </td>
                     <% }) %>
                     <td>
-                        <a href="../employee/edit/<%=result.id%>" class="btn btn-info ">
-                            <span class="glyphicon glyphicon-edit"></span> Edit
-                          </a>
-                    <td><button class='btn btn-danger delete-employee' data-id='<%=result.id%>'>
-                        <span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Delete
+                        <button disabled class="btn btn-info ">
+                            <span class='glyphicon glyphicon-edit' aria-hidden='true' ></span>Edit
+                        </button></td>
+                    <td><button class='btn btn-danger delete-employee' data-id='<%=result.id%>'disabled>
+                      <span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Delete
                     </button></td>
                   </tr>
                 <% }) %>
-
-            </tbody>
-
-          </table>
-      </div>
-      <!-- Add Form Modal -->
-      <div class="modal fade" id="formModal" role="dialog" >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form method='post' action='/add'>
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
-            </div>
-            <div class="modal-body">
-                <div class='form-group'>
-                    <% for (var i = 0; i < columnNames.length; i++) { %>
-                      <label><%= columnNames[i] %></label>
-                  <input type='text' class='form-control' name='<%= columnNames[i] %>'/>
-               <% } %>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <input type="submit" class="btn btn-primary" value='Save'/>
-            </div>
-        </form>
-          </div>
-        </div>
-      </div>
-
-      <!--Column Modal-->
-      <div class="modal fade" id="columnModal" role="dialog" >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <form method='post' action='/addColumn'>
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Add Column Name</h4>
-                </div>
-                <div class="modal-body">
-                    <div class='form-group'>
-                        <label>Column Name</label>
-                            <input type='text' class='form-control' name='cname'/>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value='Save'/>
-                </div>
-            </form>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="deletecolumnModal" role="dialog" >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <form method='post' action='/deleteColumn'>
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Delete Column Name</h4>
-                  </div>
-                  <div class="modal-body">
-                      <div class='form-group'>
-                          <label>Enter Column Name you want to delete: </label>
-                              <input type='text' class='form-control' name='delColname'/>
-                      </div>
-                  </div>
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value='Save'/>
-                  </div>
-              </form>
-                </div>
-              </div>
-            </div>
-    </body>
+          </tbody>
+      </table>
+    </div>
+  </body>
 </html>
