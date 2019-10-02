@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  variables:
+    SOURCE_ZIP_FILEAME: source-artifact.zip
+
+phases:
+  build:
+    commands:
+      - echo "This is where your build would go."
+      - echo "You can also put your static code analysis here."
+
+  post_build:
+    commands:
+      - zip -r ${SOURCE_ZIP_FILEAME} ./
+
+artifacts:
+  secondary-artifacts:
+    BakeInput:
+      files:
+        - "**/*"
+    BuildOutput:
+      files:
+        - ${SOURCE_ZIP_FILEAME}

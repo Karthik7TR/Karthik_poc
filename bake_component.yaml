@@ -1,0 +1,104 @@
+---
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  A template that contains a "custom Bake" component for a Cumulus CICD pipeline.
+  Bakes based on a "bakespec.yml" provided in the source.
+
+Parameters:
+  # Mandatory tag parameters
+  ApplicationAssetInsightId:
+    Description: Application Asset Insight Id
+    Type: String
+  ResourceOwner:
+    Description: Resource Owner
+    Type: String
+  EnvironmentType:
+    AllowedValues: ["PRODUCTION", "PRE-PRODUCTION", "INTEGRATION TESTING", "QUALITY ASSURANCE", "DEVELOPMENT", "LAB"]
+    Description: Environment Type
+    Type: String
+
+  # Common parameters - may be shared with other (non-mutually-exclusive) component templates
+  ServiceName:
+    Description: |
+      The name of the artifact being built. Used to name various things such as pipeline stages and container names.
+      Should be unique.
+    Type: String
+
+  # Specific action parameters - shouldn't be common to other (non-mutually-exclusive) component templates
+  BakeComponentSpecFolderPath:
+    Description: |
+      "Folder that contains the bakespec.yml file. Can be blank to
+      represent root directory. If specified, end with a slash."
+    Type: String
+    Default: ""
+  CustomBakeActionTimeout:
+    Description: "Timeout for the custom Bake action, in minutes."
+    Type: Number
+    MinValue: 5
+    MaxValue: 480
+    Default: 10
+  EcrAccount:
+    Description: The account the ECR repository is located in.
+    Type: Number
+  EcrRegion:
+    Description: The region the ECR repository is located in.
+    Type: String
+
+Resources:
+  # yamllint disable rule:line-length
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Stages:
+        # This is where a source stage would go.
+        # A build stage would go here.
+        - Name: Bake
+          Actions:
+            - Name: Bake  # Bake the actual image (also validates and publishes it)
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              InputArtifacts:
+                - Name: BakeInput  # The previous' stage output should match this so the spec.ymls have consistent names
+              OutputArtifacts:
+                - Name: DeployInput  # This should match the input name of the next stage.
+              Configuration:
+                ProjectName:
+                  Ref: CustomBakeAction
+                PrimarySource: Source
+              RunOrder: 1
+              # yamllint enable rule:line-length
+  CustomBakeAction:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name:
+        Fn::Sub: a${ApplicationAssetInsightId}-${ServiceName}-custom-bake
+      Description: "The 'Bake' action in the 'Bake' stage of the CICD Pipeline components document"
+      ServiceRole:
+        Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/service-role/a${ApplicationAssetInsightId}-CICD-Deployment"
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/docker:18.09.0
+        EnvironmentVariables:
+          - {"Name": "ASSET_ID", "Value": {"Ref": ApplicationAssetInsightId}}
+          - {"Name": "ACCOUNT_ID", "Value": {"Ref": "AWS::AccountId"}}
+          - {"Name": "REGION", "Value": {"Ref": "AWS::Region"}}
+          - {"Name": "SERVICE_NAME", "Value": {"Ref": ServiceName}}
+          - {"Name": "ECR_ACCOUNT", "Value": {"Ref": EcrAccount}}
+          - {"Name": "ECR_REGION", "Value": {"Ref": EcrRegion}}
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec:
+          Fn::Sub: '${BakeComponentSpecFolderPath}bakespec.yml'
+      TimeoutInMinutes:
+        Ref: CustomBakeActionTimeout
+      Tags:
+        - {"Key": "tr:application-asset-insight-id", "Value": {"Ref": ApplicationAssetInsightId}}
+        - {"Key": "tr:environment-type", "Value": {"Ref": EnvironmentType}}
+        - {"Key": "tr:resource-owner", "Value": {"Ref": ResourceOwner}}

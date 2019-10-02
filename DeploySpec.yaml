@@ -1,0 +1,80 @@
+---
+Defaults:
+  DeployerVersion: "1"
+  AssetId: 204820
+  DeployerType: blue_green_deployer
+  ServiceName: ben-dojo  # FIXME
+  DeployerParameters:
+    SfnArn: "arn:aws:states:us-east-1:307097860667:stateMachine:a204820-ben-dojo-BlueGreenDeployMachine"  # FIXME The ARN of the stepfunction from the bluegreen-deployer-stepfunction CloudFormation Stack
+    Service:
+      EnvironmentType: DEVELOPMENT
+      ResourceOwner: ben.mcclain@thomsonreuters.com  # FIXME Your email
+    Notifications:
+      FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-ben-dojo-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+      TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-ben-dojo-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+    Stack:
+      Template:
+        Url: "s3://a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn/ben-dojo/fargate_service.yaml"  # TODO
+
+        # Use these to do the same thing as `Url` above.
+        # Bucket: a205930-cloud-scrum
+        # Key: test-rolling-deployment/service_cfn.yaml
+
+        # Use these to use a built-in template  # TODO Provide url
+        # Name: ecs
+        # Version: 1
+      Parameters:
+        ServiceName: ben-dojo  # FIXME
+        ContainerPort: 8080
+        ContainerCpu: 256
+        ContainerMemory: 512
+    Routing:
+      TargetGroupRouter:
+        TargetRulePriority: 20000  # The priority you want your application to run at when it is live to customers.
+        GreenRulePriority: 19999  # The priority the app should be deployed to initially.  Should be higher in priority (a lower number) than the TargetRulePriority
+        TestingEndpoint: "http://www.juliannemcclain.com"
+        Stack:
+          Template:
+            Url: "s3://a205930-cloud-scrum/test-rolling-deployment/service_cfn.yaml"  # TODO
+
+            # Use these to do the same thing as `Url` above.
+            # Bucket: a205930-cloud-scrum
+            # Key: test-rolling-deployment/service_cfn.yaml
+
+            # Use these to use a built-in template  # TODO Provide url
+            # Name: ecs
+            # Version: 1
+          Parameters:
+            RoutePathPatterns: /
+            HealthCheckPath: /
+            TargetGroupPort: 8080
+dev:
+  AccountId: "773476038677"
+  AccountRegion: us-east-1
+  DeployerParameters:
+    Stack:
+      Parameters:
+        ImageUrl: "Filled in by BakeSpec"
+        DesiredCount: 1
+        ClusterName: a204820-ccng-dojo-dev  # FIXME From IaC
+        SecurityGroup: sg-05e6554e58486e6e7  # FIXME From IaC
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-sampleapp-ccng-dev-ec-ECSTaskExecutionRole-YJBVMMHFUW6L  # FIXME From IaC
+    Routing:
+      TestingEndpoint: "http://www.juliannemcclain.com"
+      TargetGroupRouter:
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-ccng-dojo-dev/7d3cc500ed5d25a2/8a16a4bc93a7fab3  # FIXME From IaC
+
+qa:
+  AccountId: "773476038677"
+  AccountRegion: us-east-1
+  DeployerParameters:
+    Stack:
+      Parameters:
+        ImageUrl: "Filled in by BakeSpec"
+        DesiredCount: 2
+        ClusterName: a204820-ccng-dojo-dev  # FIXME From IaC
+        SecurityGroup: sg-05e6554e58486e6e7  # FIXME From IaC
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-sampleapp-ccng-dev-ec-ECSTaskExecutionRole-YJBVMMHFUW6L  # FIXME From IaC
+    Routing:
+      TargetGroupRouter:
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-ccng-dojo-dev/7d3cc500ed5d25a2/8a16a4bc93a7fab3  # FIXME From IaC

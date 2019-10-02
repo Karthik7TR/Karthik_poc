@@ -9,17 +9,37 @@ phases:
     commands:
       # Get ecr credentials and login
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region ${ECR_REGION})
+      - $(aws ecr get-login --no-include-email --region ${ECR_REGION} --registry-ids ${ECR_ACCOUNT})
 
   build:
     commands:
 
       # Build image
       - echo "Building the Docker image..."
-      - IMAGE_NAME=a${ASSET_ID}-techops-repo
+      - IMAGE_NAME=a${ASSET_ID}-ccng-dojo-repo  # FIXME  The ECR Repository Name from IaC
       - HASH=`date +%s`
       - IMAGE_URI="${ECR_ACCOUNT}.dkr.ecr.${ECR_REGION}.amazonaws.com/${IMAGE_NAME}:${HASH}"
       - echo "Pushing Image ${IMAGE_URI}"
       - docker build . --tag ${IMAGE_NAME}:latest
       - docker tag ${IMAGE_NAME}:latest ${IMAGE_URI} ;
       - docker push ${IMAGE_URI} ;
+
+  post_build:
+    commands:
+      # Modify DeploySpec.yaml to put location of container image.
+      # yq is run empty once to load the image (so layer downloads don't pollute the read)
+      - >-
+        yq () { docker run --rm -v ${PWD}:/workdir mikefarah/yq yq $@ ; } ;
+        yq >/dev/null ;
+        ENVS=$(yq read DeploySpec.yaml | grep -v '^ ' | grep -v 'Defaults' | sed 's/:.*$//') ;
+        for ENV in $ENVS ;
+        do
+          yq write --inplace DeploySpec.yaml ${ENV}.DeployerParameters.Stack.Parameters.ImageUrl ${IMAGE_URI} ;
+          echo "Modified ${ENV} ImageUrl to '${IMAGE_URI}'" ;
+        done
+      - cat DeploySpec.yaml
+
+
+artifacts:
+  files:
+    - "**/*"

@@ -1,0 +1,89 @@
+---
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  A template that contains a "custom Build" component for a Cumulus CICD pipeline.
+  Builds based on a "buildspec.yml" provided in the source.
+
+Parameters:
+  # Mandatory tag parameters
+  ApplicationAssetInsightId:
+    Description: Application Asset Insight Id
+    Type: String
+  ResourceOwner:
+    Description: Resource Owner
+    Type: String
+  EnvironmentType:
+    AllowedValues: ["PRODUCTION", "PRE-PRODUCTION", "INTEGRATION TESTING", "QUALITY ASSURANCE", "DEVELOPMENT", "LAB"]
+    Description: Environment Type
+    Type: String
+
+  # Common parameters - may be shared with other (non-mutually-exclusive) component templates
+  ServiceName:
+    Description: |
+      The name of the artifact being built. Used to name various things such as pipeline stages and container names.
+      Should be unique.
+    Type: String
+
+  # Specific action parameters - shouldn't be common to other (non-mutually-exclusive) component templates
+  BuildComponentSpecFolderPath:
+    Description: |
+      Folder that contains the buildspec.yml file. Can be blank to represent root directory.
+      If specified, end with a slash.
+    Type: String
+    Default: ""
+  CustomBuildActionTimeout:
+    Description: "Timeout for the custom Build action, in minutes."
+    Type: Number
+    MinValue: 5
+    MaxValue: 480
+    Default: 10
+
+Resources:
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Stages:
+        # This is where a source stage would go.
+        - Name: "Build"
+          Actions:
+            - Name: Build
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              InputArtifacts:
+                - Name: BuildInput
+              OutputArtifacts:
+                - Name: BakeInput  # This should match the input name of the next stage.
+                - Name: BuildOutput  # This should match the input name of the publish stage.
+              Configuration:
+                ProjectName:
+                  Ref: CustomBuildAction
+              RunOrder: 1
+
+  CustomBuildAction:  # Gradle Build
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name:
+        Fn::Sub: a${ApplicationAssetInsightId}-${ServiceName}-custom-build
+      Description: "The custom Build action of the CICD Pipeline components document"
+      ServiceRole:
+        Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/service-role/a${ApplicationAssetInsightId}-CICD-Deployment"
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/java:openjdk-8
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec:
+          Fn::Sub: '${BuildComponentSpecFolderPath}buildspec.yml'
+      TimeoutInMinutes:
+        Ref: CustomBuildActionTimeout
+      Tags:
+        - {"Key": "tr:application-asset-insight-id", "Value": {"Ref": ApplicationAssetInsightId}}
+        - {"Key": "tr:environment-type", "Value": {"Ref": EnvironmentType}}
+        - {"Key": "tr:resource-owner", "Value": {"Ref": ResourceOwner}}
