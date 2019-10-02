@@ -12,6 +12,10 @@ Defaults:
     Notifications:
       FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-ben-dojo-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
       TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-ben-dojo-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+    Cleanup:
+      DenyDeployment: 3
+      FailedTrafficShift: 5
+      OldVersion: 1
     Stack:
       Template:
         Url: "s3://a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn/ben-dojo/fargate_service.yaml"  # TODO
@@ -29,21 +33,23 @@ Defaults:
         ContainerCpu: 256
         ContainerMemory: 512
     Routing:
+      TestingEndpoint: "http://www.yourendpoint.com"
       TargetGroupRouter:
         TargetRulePriority: 20000  # The priority you want your application to run at when it is live to customers.
         GreenRulePriority: 19999  # The priority the app should be deployed to initially.  Should be higher in priority (a lower number) than the TargetRulePriority
-        TestingEndpoint: "http://www.juliannemcclain.com"
         Stack:
           Template:
-            Url: "s3://a205930-cloud-scrum/test-rolling-deployment/service_cfn.yaml"  # TODO
+            # If your cfn template is in S3, it can be specified as below.
+            Url: "s3://a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn/ben-dojo/target_group.yaml"
+
+            # Use these to use a built-in template
+            # Name: target-group
+            # Version: 1
 
             # Use these to do the same thing as `Url` above.
             # Bucket: a205930-cloud-scrum
             # Key: test-rolling-deployment/service_cfn.yaml
 
-            # Use these to use a built-in template  # TODO Provide url
-            # Name: ecs
-            # Version: 1
           Parameters:
             RoutePathPatterns: /
             HealthCheckPath: /
@@ -60,7 +66,6 @@ dev:
         SecurityGroup: sg-05e6554e58486e6e7  # FIXME From IaC
         ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-sampleapp-ccng-dev-ec-ECSTaskExecutionRole-YJBVMMHFUW6L  # FIXME From IaC
     Routing:
-      TestingEndpoint: "http://www.juliannemcclain.com"
       TargetGroupRouter:
         ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-ccng-dojo-dev/7d3cc500ed5d25a2/8a16a4bc93a7fab3  # FIXME From IaC
 

@@ -11,4 +11,4 @@ bluegreen_deployer:
   # The rate (in minutes) at which to trigger the cleanup function.
   cleanup_run_rate: 10
   # The email to send alerts about the cleanup to.
-  cleanup_alert_email: "ben.mcclain@thomsonreuters.com"
+  cleanup_alert_email: "ben.mcclain@thomsonreuters.com"  # FIXME
