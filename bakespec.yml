@@ -16,7 +16,7 @@ phases:
 
       # Build image
       - echo "Building the Docker image..."
-      - IMAGE_NAME=a${ASSET_ID}-ccng-dojo-repo  # FIXME  The ECR Repository Name from IaC
+      - IMAGE_NAME=a204820-dojo-u6065223-repo  # FIXME  The ECR Repository Name from IaC
       - HASH=`date +%s`
       - IMAGE_URI="${ECR_ACCOUNT}.dkr.ecr.${ECR_REGION}.amazonaws.com/${IMAGE_NAME}:${HASH}"
       - echo "Pushing Image ${IMAGE_URI}"

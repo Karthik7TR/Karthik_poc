@@ -6,10 +6,6 @@ Pipeline:
   EnvironmentType: DEVELOPMENT
   ServiceName: dojo
   GroupName: ben-dojo
-  # S3TemplatesArchive:
-  #   BucketName: a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn
-  #   BaseArchiveKey: ben-dojo/pipeline-components
-  #   Version: "1"
 Source:
   Type: S3
   Key: ben-dojo/pipeline-source.zip  # FIXME Where you want to upload your source file zip to.  This is where the pipeline watches to trigger.

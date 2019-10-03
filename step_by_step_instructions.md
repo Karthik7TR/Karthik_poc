@@ -9,15 +9,12 @@
 Let Rajesh handle this
 
 # Projct Cumulus
-**Are SNS topics for cumulus stuff being created?  (alert for testing, etc.)**
-
-
 ## Run installer
 ### Files
 [installer_input.yaml](installer_input.yaml) - Modify those files with `# FIXME`
 
 ### Steps
-`cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml`
+`cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install`
 
 ## Create pipeline
 ### Files
@@ -27,5 +24,7 @@ Let Rajesh handle this
 * ~[`buildspec.yml`](buildspec.yml)~
 
 ### Steps
+`pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml`
 
 # Cleanup
+`cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml uninstall`
