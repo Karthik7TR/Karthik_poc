@@ -3,15 +3,15 @@ Defaults:
   DeployerVersion: "1"
   AssetId: 204820
   DeployerType: blue_green_deployer
-  ServiceName: ben-dojo  # FIXME  Same as your GroupName
+  ServiceName: TEN-Acct-Id  # FIXME  Same as your GroupName.  Outside this dojo, this would be the actual service name you are deploying.
   DeployerParameters:
-    SfnArn: "arn:aws:states:us-east-1:307097860667:stateMachine:a204820-ben-dojo-BlueGreenDeployMachine"  # FIXME The ARN of the stepfunction from the bluegreen-deployer-stepfunction CloudFormation Stack
+    SfnArn: "arn:aws:states:us-east-1:307097860667:stateMachine:a204820-TEN-Acct-Id-BlueGreenDeployMachine"  # FIXME The ARN of the stepfunction from the bluegreen-deployer-stepfunction CloudFormation Stack
     Service:
       EnvironmentType: DEVELOPMENT
       ResourceOwner: ben.mcclain@thomsonreuters.com  # FIXME Your email
     Notifications:
-      FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-ben-dojo-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
-      TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-ben-dojo-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+      FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+      TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
     Cleanup:
       DenyDeployment: 3
       FailedTrafficShift: 5
@@ -28,7 +28,7 @@ Defaults:
         # Name: ecs
         # Version: 1
       Parameters:
-        ServiceName: ben-dojo  # FIXME  Same as your GroupName
+        ServiceName: TEN-Acct-Id  # FIXME  Same as your GroupName
         ContainerPort: 8080
         ContainerCpu: 256
         ContainerMemory: 512

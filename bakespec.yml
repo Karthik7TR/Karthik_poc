@@ -37,7 +37,6 @@ phases:
           yq write --inplace DeploySpec.yaml ${ENV}.DeployerParameters.Stack.Parameters.ImageUrl ${IMAGE_URI} ;
           echo "Modified ${ENV} ImageUrl to '${IMAGE_URI}'" ;
         done
-      - cat DeploySpec.yaml
 
 
 artifacts:

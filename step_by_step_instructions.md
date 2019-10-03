@@ -9,6 +9,7 @@ You need to have the following installed on your machine:
 * Login to cloud-tool into the CICD account (tr-tax-prof1-cicd-nonprod) as the a204820-PowerUser2 role
 * Login to the AWS console into the CICD account (tr-tax-prof1-cicd-nonprod) as the a204820-PowerUser2 role
 * In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a204820-PowerUser2 role
+* Clone this repo and open it in your favorite text editor as we will need to make several changes.
 
 # Cumulus Installer
 The cumulus installer will install into the CICD account all the resources necessary to perform each of the stages in your pipeline.  These include the Deployment engine and the blue/green deployer.  
@@ -22,14 +23,25 @@ What you are installing is essentially a wrapper.  Most of the hard work is hand
 `pip3 install cumulus-installer`  
 > If you get an error along the lines of `unable to find cumulus-installer`, this likely means you don't have BAMS setup as a pip repo.  See [Setup](#setup)
 
-2. Modify the file [installer_input.yaml](installer_input.yaml).  Change those lines with `# FIXME` in them.  The others can remain the same.  
-This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.
+2. Modify the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
+Change those lines with `# FIXME` in them.  The others can remain the same.  You should be able to do a find/replace for `TEN-Acct-Id` and replace with your TEN u account for most of the lines.  However, there may be some lines where you are unable to do this.  Please verify/change every line with `# FIXME` on it.
 3. Run the command below to create your resources.  It will take about 10-15 minutes.  
 (Replace `${AWS_PROFILE}` with the profile you used when logging into cloud-tool.  If you didn't use one, omit the `--profile-name` argument.)  
-`cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install`
+```sh
+cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install
+```
 
 # Pipeline
-We will now create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS services you created with Cloud IaC.
+We will now create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS services you created with Cloud IaC.  
+First though, let's walk through together and talk about what each of these files do.
+* `build_component.yaml`
+* `s3_publish.yaml`
+* `bake_component.yaml`
+* `pipelinespec.yaml`
+* `buildspec.yml`
+* `bakespec.yml`
+* `DeploySpec.yaml`
+
 
 ## Deploy Version 1
 1. Run the following command in your virtual environment to install the installer:  
@@ -42,15 +54,17 @@ We will now create your end-to-end pipeline.  This will be used to build the cod
   * [`bakespec.yml`](bakespec.yml)  
   This is the file the bake stage of the pipeline uses to bake the container image.
 1. Create the pipeline CloudFormation template  
-`pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml`
-1. Create the pipeline CloudFormation stack.  This can be done in the console in the CICD account.
+```sh
+pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml
+```
+1. Create the pipeline CloudFormation stack using the template output from command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  Eventually this will be automated but for now you'll have to do this in the console.  
 1. Navigate in the console to S3 where you told your pipeline to expect the source (the `Source` object in the `pipelinespec.yaml` file).
 1. zip up this repo and upload it to this place, ensuring the name of the file is what your pipeline expects.
 > You can use these commands to do this if you have aws-cli installed.  Modify the variables and run from within this directory.
 ```shell
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
 S3_BUCKET_NAME="a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn"
-S3_SOURCE_BUCKET_DIR="ben-dojo"
+S3_SOURCE_BUCKET_DIR=""
 PROFILE="tr-tax-prof1-cicd-nonprod"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
 aws --profile ${PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
@@ -64,7 +78,9 @@ rm ${SOURCE_ZIPFILE_NAME}
 1. Navigate into the console to EC2 | Loadbalancers.  You should be able to find your ALB by searching the name.  It will take the syntax `a204820-${projectName}-${GroupName}-dev`
 1. Find the DNS name for your ALB.  For example, mine is `internal-a204820-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Run the following command using cloud-tool:  
-`cloud-tool --profile ${PROFILE_NAME} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080`
+```sh
+cloud-tool --profile ${PROFILE_NAME} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
+```
 1. Open your browser and navigate to `http://localhost:8080`
 1. Notice the version in the top right.
 
