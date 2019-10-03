@@ -1,15 +1,15 @@
 ---
 Pipeline:
-  Name: a204820-ben-dojo-cumulus-pipeline  # FIXME  What you want the name of your pipeline to be
+  Name: a204820-cumulus-pipeline
   ApplicationAssetInsightId: '204820'
   ResourceOwner: ben.mcclain@thomsonreuters.com  # FIXME  Your email
   EnvironmentType: DEVELOPMENT
-  ServiceName: dojo
-  GroupName: ben-dojo
+  ServiceName: ems
+  GroupName: TEN-Acct-Id  # FIXME the same GroupName as in the installer-input.yaml
 Source:
   Type: S3
-  Key: ben-dojo/pipeline-source.zip  # FIXME Where you want to upload your source file zip to.  This is where the pipeline watches to trigger.
-  Bucket: a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn
+  Key: TEN-Acct-Id/pipeline-source.zip  # FIXME Where you want to upload your source file zip to.  This is where the pipeline watches to trigger.
+  Bucket: a204820-cloud-iac-project-dojo-us-east-1-cfn
 Components:
   Build:
     Template:
@@ -22,22 +22,21 @@ Components:
       Template:
         TemplatePath: s3_publish.yaml
         TemplateName: S3Publish
-      OutputBucket: a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn
-      OutputObjectKey: ben-dojo/binary-artifacts
+      OutputBucket: a204820-cloud-iac-project-dojo-us-east-1-cfn
+      OutputObjectKey: TEN-Acct-Id/binary-artifacts  # FIXME Where you want your binary artifacts to be published.
   Bake:
     Template:
       TemplatePath: bake_component.yaml
       TemplateName: CustomBake
-
     # custom_bake.yaml parameters
     CustomBakeActionTimeout: 10
     EcrRegion: us-east-1
     EcrAccount: 773476038677
   Deploy:
     - Environment: dev
-      Provider: a204820-ben-dojo-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`
+      Provider: a204820-TEN-Acct-Id-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`
       # NOTE Can get a list of them all with this command:  aws --profile techops codepipeline list-action-types | jq .actionTypes[].id.provider
       Version: 1
     - Environment: qa
-      Provider: a204820-ben-dojo-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`
+      Provider: a204820-TEN-Acct-Id-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`
       Version: 1
