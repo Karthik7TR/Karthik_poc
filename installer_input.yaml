@@ -3,7 +3,8 @@ asset_id: "204820"
 environment_type: DEVELOPMENT
 resource_owner: ben.mcclain@tr.com
 group_name: "ben-dojo"  # FIXME  Something to distinguish your stuff from the person next to you (suggestion, your employee ID)
-built_in_template_bucket: a204820-ben-dojo-bucket  # FIXME
+built_in_template_bucket: a204820-ben-dojo-bucket  # FIXME This will be created if it does not already exist.  Ensure it starts with `a204820`  You can use your employee ID to ensure it is unique
+# NOTE We will use the above bucket for uploading our source code to trigger the pipeline.
 deployment_engine: {}
 bluegreen_deployer:
   # The name of a bucket where SAM can upload lambdas and packaged templates to.
