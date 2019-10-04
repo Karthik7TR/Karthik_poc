@@ -61,14 +61,15 @@ First though, let's walk through together and talk about what each of these file
 pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml
 ```
 
-1. Create the pipeline CloudFormation stack using the template output from command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  Eventually this will be automated but for now you'll have to do this in the console.  
+1. Create the pipeline CloudFormation stack using the template output from command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  
+Eventually this will be automated but for now you'll have to do this in the console.  
 1. Navigate in the console to S3 where you told your pipeline to expect the source (the `Source` object in the `pipelinespec.yaml` file).
 1. zip up this repo and upload it to this place, ensuring the name of the file is what your pipeline expects.
 > You can use these commands to do this if you have aws-cli installed.  Modify the variables and run from within this directory.
 ```shell
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-S3_BUCKET_NAME="a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn"
-S3_SOURCE_BUCKET_DIR=""
+S3_BUCKET_NAME="a204820-cloud-iac-project-dojo-us-east-1-cfn"
+S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
 PROFILE="tr-tax-prof1-cicd-nonprod"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
 aws --profile ${PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
