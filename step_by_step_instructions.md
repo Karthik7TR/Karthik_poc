@@ -71,7 +71,7 @@ Eventually this will be automated but for now you'll have to do this in the cons
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
 S3_BUCKET_NAME="a204820-cloud-iac-project-dojo-us-east-1-cfn"
 S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
-PROFILE="tr-tax-prof1-cicd-nonprod"
+PROFILE="tr-tax-prof1-preprod"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
 aws --profile ${PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
 rm ${SOURCE_ZIPFILE_NAME}

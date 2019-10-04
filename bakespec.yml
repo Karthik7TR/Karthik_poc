@@ -16,7 +16,7 @@ phases:
 
       # Build image
       - echo "Building the Docker image..."
-      - IMAGE_NAME=a204820-dojo-TEN-Acct-Id-repo  # FIXME  The ECR Repository Name From IaC in deployment account
+      - IMAGE_NAME=a204820-dojo-TEN-Acct-Id-repo  # FIXME From output `ECRName` in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecr-repository-ecrconfig stack in deployment account
       - HASH=`date +%s`
       - IMAGE_URI="${ECR_ACCOUNT}.dkr.ecr.${ECR_REGION}.amazonaws.com/${IMAGE_NAME}:${HASH}"
       - echo "Pushing Image ${IMAGE_URI}"

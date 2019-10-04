@@ -62,12 +62,12 @@ dev:
       Parameters:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a204820-dojo-TEN-Acct-Id-dev  # FIXME From IaC in deployment account
-        SecurityGroup: sg-085123378cd6a9235  # FIXME From IaC in deployment account
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From IaC in deployment account
+        ClusterName: a204820-dojo-TEN-Acct-Id-dev  # FIXME From `ECSCluster` output in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        SecurityGroup: sg-085123378cd6a9235  # FIXME From output `FargateContainerSecurityGroup` in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From output `ECSTaskExecutionRoleArn` in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-TEN-Acct-Id-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From IaC in deployment account
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-TEN-Acct-Id-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From output `HTTPAlbListener` in a204820-${TEN-Acct-Id}-ems-dojo-dev-alb-ecs-allconfig stack in deployment account
 
 qa:
   AccountId: "773476038677"
@@ -77,9 +77,9 @@ qa:
       Parameters:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a204820-dojo-TEN-Acct-Id-qa  # FIXME From IaC in deployment account
-        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From IaC in deployment account
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From IaC in deployment account
+        ClusterName: a204820-dojo-TEN-Acct-Id-qa   # FIXME From `ECSCluster` output in a204820-${TEN-Acct-Id}-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From output `FargateContainerSecurityGroup` in a204820-${TEN-Acct-Id}-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From output `ECSTaskExecutionRoleArn` in a204820-${TEN-Acct-Id}-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-TEN-Acct-Id-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From IaC in deployment account
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-TEN-Acct-Id-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From output `HTTPAlbListener` in a204820-${TEN-Acct-Id}-ems-dojo-qa-alb-ecs-allconfig stack in deployment account
