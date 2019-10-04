@@ -62,12 +62,12 @@ dev:
       Parameters:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a204820-dojo-u6065223-dev  # FIXME From IaC
-        SecurityGroup: sg-085123378cd6a9235  # FIXME From IaC
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-u6065223-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From IaC
+        ClusterName: a204820-dojo-u6065223-dev  # FIXME From IaC in deployment account
+        SecurityGroup: sg-085123378cd6a9235  # FIXME From IaC in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-u6065223-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From IaC in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-u6065223-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From IaC
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-u6065223-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From IaC in deployment account
 
 qa:
   AccountId: "773476038677"
@@ -77,9 +77,9 @@ qa:
       Parameters:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a204820-dojo-u6065223-qa  # FIXME From IaC
-        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From IaC
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-u6065223-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From IaC
+        ClusterName: a204820-dojo-u6065223-qa  # FIXME From IaC in deployment account
+        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From IaC in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-u6065223-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From IaC in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-u6065223-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From IaC
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-u6065223-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From IaC in deployment account
