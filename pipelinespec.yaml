@@ -2,7 +2,7 @@
 Pipeline:
   Name: a204820-cumulus-pipeline
   ApplicationAssetInsightId: '204820'
-  ResourceOwner: ben.mcclain@thomsonreuters.com  # FIXME  Your email
+  ResourceOwner: firstname.lastname@thomsonreuters.com  # FIXME  Your email
   EnvironmentType: DEVELOPMENT
   ServiceName: ems
   GroupName: TEN-Acct-Id  # FIXME the same GroupName as in the installer-input.yaml
