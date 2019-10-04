@@ -9,7 +9,7 @@ You need to have the following installed on your machine:
 * Login to cloud-tool into the CICD account (tr-tax-prof1-cicd-nonprod) as the a204820-PowerUser2 role
 * Login to the AWS console into the CICD account (tr-tax-prof1-cicd-nonprod) as the a204820-PowerUser2 role
 * In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a204820-PowerUser2 role
-* Clone this repo and open it in your favorite text editor as we will need to make several changes.
+* Clone the repo this REAME is in and open it in your favorite text editor as we will need to make several changes.
 * Do a recursive find and replace on all the files in this repo for the following items:
   * `TEN-Acct-Id` => your TEN account ID (e.g. u0106226)
   * `firstname.lastname@thomsonreuters.com` => Your email
