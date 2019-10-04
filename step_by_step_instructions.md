@@ -27,7 +27,7 @@ What you are installing is essentially a wrapper.  Most of the hard work is hand
 > If you get an error along the lines of `unable to find cumulus-installer`, this likely means you don't have BAMS setup as a pip repo.  See [Setup](#setup)
 
 2. Modify the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
-Change those lines with `# FIXME` in them.  The others can remain the same.  You should be able to do a find/replace for `TEN-Acct-Id` and replace with your TEN u account for most of the lines.  However, there may be some lines where you are unable to do this.  Please verify/change every line with `# FIXME` on it.
+Change those lines with `# FIXME` in them.  The others can remain the same.
 3. Run the command below to create your resources.  It will take about 10-15 minutes.  
 (Replace `${AWS_PROFILE}` with the profile you used when logging into cloud-tool.  If you didn't use one, omit the `--profile-name` argument.)  
 ```sh
