@@ -8,7 +8,7 @@ Defaults:
     SfnArn: "arn:aws:states:us-east-1:307097860667:stateMachine:a204820-TEN-Acct-Id-BlueGreenDeployMachine"  # FIXME The ARN of the stepfunction from the bluegreen-deployer-stepfunction CloudFormation Stack
     Service:
       EnvironmentType: DEVELOPMENT
-      ResourceOwner: ben.mcclain@thomsonreuters.com  # FIXME Your email
+      ResourceOwner: firstname.lastname@thomsonreuters.com  # FIXME Your email
     Notifications:
       FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
       TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
