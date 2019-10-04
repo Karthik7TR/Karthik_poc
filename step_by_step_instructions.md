@@ -11,7 +11,7 @@ You need to have the following installed on your machine:
 * In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a204820-PowerUser2 role
 * Clone the repo this REAME is in and open it in your favorite text editor as we will need to make several changes.
 * Do a recursive find and replace on all the files in this repo for the following items:
-  * `TEN-Acct-Id` => your TEN account ID (e.g. u0106226)
+  * `TEN-Acct-Id` => your TEN account ID (e.g. u0106226)  **This should be all lowercase**
   * `firstname.lastname@thomsonreuters.com` => Your email
 
 # Cumulus Installer
@@ -33,6 +33,7 @@ Change those lines with `# FIXME` in them.  The others can remain the same.
 ```sh
 cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install
 ```
+4.  Sometime after it completes, you'll get a standard email from your new SNS topic asking you to confirm your subscription.  Do so as we will be using it to approve promotions.
 
 # Pipeline
 We will now create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS services you created with Cloud IaC.  
@@ -80,7 +81,7 @@ rm ${SOURCE_ZIPFILE_NAME}
 1. When it gets to the Deploy-dev stage's Running step, click Details to see the step function driving the blue/green deployment.
 1. Eventually you will get an email letting you know that your application is ready for review.  As this is the initial deploy, go ahead and approve it.  Next time we deploy however, we will look at the listener rules to understand how we do blue/green.
 1. The step function should finish a few seconds later.
-1. Navigate into the console to EC2 | Loadbalancers.  You should be able to find your ALB by searching the name.  It will take the syntax `a204820-${projectName}-${GroupName}-dev`
+1. Navigate in the console to EC2 | Loadbalancers.  This should be done in the deployment account.  You should be able to find your ALB by searching the name.  It will take the syntax `a204820-dojo-${TEN-Acct-Id}-dev`
 1. Find the DNS name for your ALB.  For example, mine is `internal-a204820-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Run the following command using cloud-tool:  
 ```sh
