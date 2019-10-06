@@ -65,13 +65,13 @@ pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.ya
 1. Create the pipeline CloudFormation stack using the template output from command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  
 Eventually this will be automated but for now you'll have to do this in the console.  
 1. Navigate in the console to S3 where you told your pipeline to expect the source (the `Source` object in the `pipelinespec.yaml` file).
-1. zip up this repo and upload it to this place, ensuring the name of the file is what your pipeline expects.
+1. Zip up the source files from your local folder, ensuring the name of the zip file is what your pipeline expects.
 > You can use these commands to do this if you have aws-cli installed.  Modify the variables and run from within this directory.
 ```shell
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
 S3_BUCKET_NAME="a204820-cloud-iac-project-dojo-us-east-1-cfn"
 S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
-PROFILE="tr-tax-prof1-preprod"
+PROFILE="tr-tax-prof1-cicd-nonprod"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
 aws --profile ${PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
 rm ${SOURCE_ZIPFILE_NAME}
@@ -81,7 +81,7 @@ rm ${SOURCE_ZIPFILE_NAME}
 1. When it gets to the Deploy-dev stage's Running step, click Details to see the step function driving the blue/green deployment.
 1. Eventually you will get an email letting you know that your application is ready for review.  As this is the initial deploy, go ahead and approve it.  Next time we deploy however, we will look at the listener rules to understand how we do blue/green.
 1. The step function should finish a few seconds later.
-1. Navigate in the console to EC2 | Loadbalancers.  This should be done in the deployment account.  You should be able to find your ALB by searching the name.  It will take the syntax `a204820-dojo-${TEN-Acct-Id}-dev`
+1. Navigate to the console in the target account (as opposed to the CICD acct where we are working in) to EC2 | Loadbalancers.  This should be done in the deployment account.  You should be able to find your ALB by searching the name.  It will take the syntax `a204820-dojo-${TEN-Acct-Id}-dev`
 1. Find the DNS name for your ALB.  For example, mine is `internal-a204820-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Run the following command using cloud-tool:  
 ```sh
