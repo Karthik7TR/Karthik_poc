@@ -73,9 +73,9 @@ Eventually this will be automated but for now you'll have to do this in the cons
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
 S3_BUCKET_NAME="a204820-cloud-iac-project-dojo-us-east-1-cfn"
 S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
-PROFILE="tr-tax-prof1-cicd-nonprod"
+AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
-aws --profile ${PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
+aws --profile ${AWS_PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
 rm ${SOURCE_ZIPFILE_NAME}
 ```
 
@@ -87,7 +87,7 @@ rm ${SOURCE_ZIPFILE_NAME}
 1. Find the DNS name for your ALB.  For example, mine is `internal-a204820-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Run the following command using cloud-tool:  
 ```sh
-cloud-tool --profile ${PROFILE_NAME} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
+cloud-tool --profile ${AWS_PROFILE} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
 ```
 1. Open your browser and navigate to `http://localhost:8080`
 1. Notice the version in the top right.
