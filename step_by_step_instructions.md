@@ -35,6 +35,8 @@ cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input
 ```
 4.  Sometime after it completes, you'll get a standard email from your new SNS topic asking you to confirm your subscription.  Do so as we will be using it to approve promotions.
 
+1. Also, note the last line of output from the cumulus-installer. It will look similar to this: ` 'DeploymentEngine': {'Provider': 'a204820-u0106226-Engine', 'Version': '1'}}`.  This will be needed in a future step.
+
 # Pipeline
 We will now create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS services you created with Cloud IaC.  
 First though, let's walk through together and talk about what each of these files do.
