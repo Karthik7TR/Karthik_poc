@@ -1,18 +1,11 @@
 # Introduction
 In this workshop we will create all the resources necessary to use Project Cumulus.  We will then create a pipeline that will deploy a sample application to the two environments previously created using Cloud IaC.  The files in this repo are all that you will need.  We will go through them one by one and when we do, we will need to modify some of the values in some of the files.  We will walk you through this and explain the purpose of each file.  **Please** ask questions at any time and speak out if you need help or are unsure about something.
 
-# Setup
-You need to have the following installed on your machine:
+# Prerequisites
 * cloud-tool
 * Python 3.7 (preferably in a virtual environment such as with [Anaconda](https://www.anaconda.com/distribution/).)
 * BAMS setup as a [pip repository](https://thehub.thomsonreuters.com/docs/DOC-2735743)
-* Login to cloud-tool into the CICD account (tr-tax-prof1-cicd-nonprod) as the a204820-PowerUser2 role
-* Login to the AWS console into the CICD account (tr-tax-prof1-cicd-nonprod) as the a204820-PowerUser2 role
-* In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a204820-PowerUser2 role
-* Clone the repo this REAME is in and open it in your favorite text editor as we will need to make several changes.
-* Do a recursive find and replace on all the files in this repo for the following items:
-  * `TEN-Acct-Id` => your TEN account ID (e.g. u0106226)  **This should be all lowercase**
-  * `firstname.lastname@thomsonreuters.com` => Your email
+
 
 # Cumulus Installer
 The cumulus installer will install into the CICD account all the resources necessary to perform each of the stages in your pipeline.  These include the Deployment engine and the blue/green deployer.  
@@ -35,7 +28,7 @@ cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input
 ```
 4.  Sometime after it completes, you'll get a standard email from your new SNS topic asking you to confirm your subscription.  Do so as we will be using it to approve promotions.
 
-1. Also, note the last line of output from the cumulus-installer. It will look similar to this: ` 'DeploymentEngine': {'Provider': 'a204820-u0106226-Engine', 'Version': '1'}}`.  This will be needed in a future step.
+1. Also, note the last line of output from the cumulus-installer. It will look similar to this: ` 'DeploymentEngine': {'Provider': 'a206296-u0106226-Engine', 'Version': '1'}}`.  This will be needed in a future step.
 
 # Pipeline
 We will now create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS services you created with Cloud IaC.  
@@ -71,7 +64,7 @@ Eventually this will be automated but for now you'll have to do this in the cons
 > You can use these commands to do this if you have aws-cli installed.  Modify the variables and run from within this directory.
 ```shell
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-S3_BUCKET_NAME="a204820-cloud-iac-project-dojo-us-east-1-cfn"
+S3_BUCKET_NAME="a206296-cloud-iac-project-dojo-us-east-1-cfn"
 S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
@@ -83,8 +76,8 @@ rm ${SOURCE_ZIPFILE_NAME}
 1. When it gets to the Deploy-dev stage's Running step, click Details to see the step function driving the blue/green deployment.
 1. Eventually you will get an email letting you know that your application is ready for review.  As this is the initial deploy, go ahead and approve it.  Next time we deploy however, we will look at the listener rules to understand how we do blue/green.
 1. The step function should finish a few seconds later.
-1. Navigate to the console in the target account (as opposed to the CICD acct where we are working in) to EC2 | Loadbalancers.  This should be done in the deployment account.  You should be able to find your ALB by searching the name.  It will take the syntax `a204820-dojo-${TEN-Acct-Id}-dev`
-1. Find the DNS name for your ALB.  For example, mine is `internal-a204820-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
+1. Navigate to the console in the target account (as opposed to the CICD acct where we are working in) to EC2 | Loadbalancers.  This should be done in the deployment account.  You should be able to find your ALB by searching the name.  It will take the syntax `a206296-dojo-${TEN-Acct-Id}-dev`
+1. Find the DNS name for your ALB.  For example, mine is `internal-a206296-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Run the following command using cloud-tool:  
 ```sh
 cloud-tool --profile ${AWS_PROFILE} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
@@ -108,4 +101,4 @@ This is how you can test your app if you wish!
 When you are ready, you can run this to cleanup all of the stuff the cumulus installer created.  
 `cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml uninstall`
 
-To delete the services, you'll have to delete the CloudFormation stacks manually.  They will follow the syntax `a204820-${ServiceName}-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx is a random string.
+To delete the services, you'll have to delete the CloudFormation stacks manually.  They will follow the syntax `a206296-${ServiceName}-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx is a random string.
