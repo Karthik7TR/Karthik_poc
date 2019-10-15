@@ -1,15 +1,15 @@
 ---
-asset_id: "204820"
+asset_id: "206296"
 environment_type: DEVELOPMENT
-resource_owner: firstname.lastname@thomsonreuters.com  # FIXME Your email
+resource_owner: firstname.lastname@tr.com  # FIXME Your email
 group_name: "TEN-Acct-Id"  # FIXME  Something to distinguish your stuff from the person next to you (suggestion, your employee ID)
-built_in_template_bucket: a204820-TEN-Acct-Id-bucket  # FIXME This will be created if it does not already exist.  Ensure it starts with `a204820`  You can use your employee ID to ensure it is unique
+built_in_template_bucket: a206296-TEN-Acct-Id-bucket  # FIXME This will be created if it does not already exist.  Ensure it starts with `a206296`  You can use your employee ID to ensure it is unique
 # NOTE We will use the above bucket for uploading our source code to trigger the pipeline.
 deployment_engine: {}
 bluegreen_deployer:
   # The name of a bucket where SAM can upload lambdas and packaged templates to.
-  sam_bucket: "a204820-TEN-Acct-Id-sam-bucket"  # FIXME  This will be created if it does not already exist.  Ensure it starts with `a204820`
+  sam_bucket: "a206296-TEN-Acct-Id-sam-bucket"  # FIXME  This will be created if it does not already exist.  Ensure it starts with `a206296`
   # The rate (in minutes) at which to trigger the cleanup function.
   cleanup_run_rate: 10
   # The email to send alerts about the cleanup to.
-  cleanup_alert_email: "firstname.lastname@thomsonreuters.com"  # FIXME  Your email
+  cleanup_alert_email: "firstname.lastname@tr.com"  # FIXME  Your email

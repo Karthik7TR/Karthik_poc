@@ -3,7 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     app = express();
 // DB connect string
-var connect = 'postgres://ems:EjJaIwV2uaAWGMUMKTqk@a204820-dojo-dev-ems-rds.c1td4aupmsdf.us-east-1.rds.amazonaws.com:5432/postgres';
+var connect = 'postgres://ems:EjJaIwV2uaAWGMUMKTqk@a206296-dojo-dev-ems-rds.c1td4aupmsdf.us-east-1.rds.amazonaws.com:5432/postgres';
 const {Pool} = require("pg");
 const pool = new Pool({
     connectionString: connect
