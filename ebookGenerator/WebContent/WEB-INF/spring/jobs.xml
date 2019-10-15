@@ -113,6 +113,12 @@
 		
 		<step id="formatPreprocessXML">
 			<tasklet ref="formatPreprocessXMLTask"/>
+			<next on="COMPLETED" to="processAnnotations"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<step id="processAnnotations">
+			<tasklet ref="processAnnotationsTask"/>
 			<next on="COMPLETED" to="formatTransformXML"/>
 			<fail on="FAILED"/>
 		</step>
@@ -297,6 +303,7 @@
 	<beans:bean id="formatPreprocessXMLTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.PreprocessXML" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:preprocessService-ref="preprocessService"/>
+    <beans:bean id="processAnnotationsTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.ProcessAnnotationsStep"/>
 	<beans:bean id="formatTransformXMLTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML" parent="bookStep"/>
 				
 	<beans:bean id="splitBookDecider" class="com.thomsonreuters.uscl.ereader.decider.SplitBookDecider"/>

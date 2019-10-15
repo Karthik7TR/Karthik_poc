@@ -81,7 +81,7 @@ public class TransformerServiceImpl implements TransformerService {
      * transformed HTML files to the specified target directory. If the directory does not exist
      * the service creates it.
      *
-     * @param preprocessDir the directory that contains all the preprocessed XML files for this eBook.
+     * @param processAnnotationsDir the directory that contains all the preprocessed XML files with updated annotations for this eBook.
      * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
      * @param imgMetaDir the directory that contains all the ImageMetadata built files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
@@ -94,7 +94,7 @@ public class TransformerServiceImpl implements TransformerService {
      */
     @Override
     public int transformXMLDocuments(
-        final File preprocessDir,
+        final File processAnnotationsDir,
         final File metaDir,
         final File imgMetaDir,
         final File transDir,
@@ -103,20 +103,20 @@ public class TransformerServiceImpl implements TransformerService {
         final File staticContentDir) throws EBookFormatException {
         this.staticContentDir = staticContentDir;
 
-        if (preprocessDir == null || !preprocessDir.isDirectory()) {
-            throw new IllegalArgumentException("preprocessDir must be a directory, not null or a regular file.");
+        if (processAnnotationsDir == null || !processAnnotationsDir.isDirectory()) {
+            throw new IllegalArgumentException("processAnnotationsDir must be a directory, not null or a regular file.");
         }
 
         if (!transDir.exists()) {
             transDir.mkdirs();
         }
 
-        LOG.info("Transforming XML files from the following XML directory: " + preprocessDir.getAbsolutePath());
+        LOG.info("Transforming XML files from the following XML directory: " + processAnnotationsDir.getAbsolutePath());
 
         final List<File> xmlFiles = new ArrayList<>();
 
         try {
-            fileHandlingHelper.getFileList(preprocessDir, xmlFiles);
+            fileHandlingHelper.getFileList(processAnnotationsDir, xmlFiles);
         } catch (final FileNotFoundException e) {
             final String errMessage = "No XML files were found in specified directory. "
                 + "Please verify that the correct XML path was specified.";

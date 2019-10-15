@@ -42,6 +42,14 @@ public interface FormatFileSystem {
     File getPreprocessDirectory(@NotNull BookStep step);
 
     /**
+     * Returns process annotations directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /ProcessAnnotations}
+     */
+    @NotNull
+    File getProcessAnnotationsDirectory(@NotNull BookStep step);
+
+    /**
      * Returns transformed directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link getFormatDirectory Format}{@code /Transformed}

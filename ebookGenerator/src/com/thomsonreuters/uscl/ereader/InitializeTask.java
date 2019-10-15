@@ -15,6 +15,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_POST_TRANSFORM_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PROCESS_ANNOTATIONS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DIR;
@@ -186,6 +187,7 @@ public class InitializeTask extends AbstractSbTasklet {
             final File formatDirectory = newFile(workDirectory, FORMAT_DIR);
             final File frontMatterHTMLDiretory = newFile(formatDirectory, FORMAT_FRONT_MATTER_HTML_DIR);
             final File formatImageMetadataDirectory = newFile(formatDirectory, FORMAT_IMAGE_METADATA_DIR);
+            final File processAnnotationsDir = newFile(formatDirectory, FORMAT_PROCESS_ANNOTATIONS_DIR);
             final File preprocessDirectory = newFile(formatDirectory, FORMAT_PREPROCESS_DIR);
             final File transformedDirectory = newFile(formatDirectory, FORMAT_TRANSFORMED_DIR);
             final File splitEbookTocDirectory = newFile(formatDirectory, FORMAT_SPLIT_TOC_DIR);
@@ -198,6 +200,7 @@ public class InitializeTask extends AbstractSbTasklet {
             preprocessDirectory.mkdir();
             transformedDirectory.mkdir();
             formatImageMetadataDirectory.mkdir();
+            processAnnotationsDir.mkdir();
             splitEbookDirectory.mkdir();
             splitEbookTocDirectory.mkdir();
             postTransformDirectory.mkdir();
