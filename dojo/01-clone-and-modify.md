@@ -2,12 +2,30 @@
 Clone this repo and personalize it to distinguish it from others deployed in the same account.
 
 # Steps
-1. Login to cloud-tool into the CICD account (tr-tax-prof1-cicd-nonprod) as the a206296-PowerUser2 role
-```sh
-cloud-tool --profile tr-tax-prof1-cicd-nonprod --region us-east-1 login -a 307097860667 -r human-role/a206296-PowerUser2
+1. Using cloud-tool, login to `tr-tax-prof1-cicd-nonprod` (307097860667) account as a206296-PowerUser2.
+```shell
+# If you have push notifications from the Symantec VIP app setup on your phone.
+cloud-tool --profile "tr-tax-prof1-cicd-nonprod" --region us-east-1 vault-login --push-notification --vault-username TEN-Acct-Id --role human-role/a206296-PowerUser2 --account-id 307097860667
+```  
+OR  
+```shell
+# If you do not have push notifications setup on your phone.
+cloud-tool --profile "tr-tax-prof1-cicd-nonprod" --region us-east-1 login --role human-role/a206296-PowerUser2 --account-id 307097860667
 ```
-1. Login to the AWS console into the CICD account (tr-tax-prof1-cicd-nonprod) as the a206296-PowerUser2 role
-1. In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a206296-PowerUser2 role
+
+1. Follow the same steps to login to the pre-prod account.
+```shell
+# If you have push notifications from the Symantec VIP app setup on your phone.
+cloud-tool --profile "tr-tax-prof1-preprod" --region us-east-1 vault-login --push-notification --vault-username TEN-Acct-Id --role human-role/a206296-PowerUser2 --account-id 773476038677
+```  
+OR  
+```shell
+# If you do not have push notifications setup on your phone.
+cloud-tool --profile "tr-tax-prof1-preprod" --region us-east-1 login --role human-role/a206296-PowerUser2 --account-id 773476038677
+```
+
+1. Login to the AWS console in the CICD account (tr-tax-prof1-cicd-nonprod) as the a206296-PowerUser2 role.
+1. In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a206296-PowerUser2 role.
 1. Clone this repo to your machine.  
 `git clone git@git.sami.int.thomsonreuters.com:trta-techops/docker-ccng-sampleapp-v1.git`  
 or  
