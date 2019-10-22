@@ -4,7 +4,7 @@ Clone this repo and personalize it to distinguish it from others deployed in the
 # Steps
 1. Login to cloud-tool into the CICD account (tr-tax-prof1-cicd-nonprod) as the a206296-PowerUser2 role
 ```sh
-cloud-tool --profile tr-tax-prof1-cicd-nonprod login -a 307097860667 -r human-role/a206296-PowerUser2
+cloud-tool --profile tr-tax-prof1-cicd-nonprod --region us-east-1 login -a 307097860667 -r human-role/a206296-PowerUser2
 ```
 1. Login to the AWS console into the CICD account (tr-tax-prof1-cicd-nonprod) as the a206296-PowerUser2 role
 1. In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof1-preprod) as the a206296-PowerUser2 role

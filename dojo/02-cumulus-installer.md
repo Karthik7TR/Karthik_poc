@@ -10,11 +10,12 @@ Provision the infrastructure used by Cumulus pipelines.  This includes the Blue/
 1. Modify the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
 Change those lines with `# FIXME` in them.  The others can remain the same.
 1. Run the command below to create your resources.  It will take about 10-15 minutes.  
-(Replace `${AWS_PROFILE}` with the profile you used when logging into cloud-tool.  If you didn't use one, omit the `--profile-name` argument.)  
+(Replace `${AWS_PROFILE}` with the profile you used when logging into cloud-tool.)
 ```sh
+AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install
 ```
-1.  Sometime after it completes, you'll get a standard email from your new SNS topic asking you to confirm your subscription.  Do so as we will be using it to approve promotions.
+1. You should get an email from AWS SNS to confirm your subscription to a new topic.  Approve this.  If you don't get the email after 5 minutes, search through your Outlook folders as you may have a rule set up to move, mark as read, or even delete emails from SNS.
 
 1. Also, note the last line of output from the cumulus-installer. It will look similar to this: ` 'DeploymentEngine': {'Provider': 'a206296-u0106226-Engine', 'Version': '1'}}`.  This will be needed in a future step.
 

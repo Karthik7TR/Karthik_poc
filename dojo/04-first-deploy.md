@@ -10,8 +10,9 @@ SOURCE_ZIPFILE_NAME="pipeline-source.zip"
 S3_BUCKET_NAME="a206296-cloud-iac-project-dojo-us-east-1-cfn"
 S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
+REGION="us-east-1"
 zip -q -r ${SOURCE_ZIPFILE_NAME} .
-aws --profile ${AWS_PROFILE} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
+aws --profile ${AWS_PROFILE} --region ${REGION} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
 rm ${SOURCE_ZIPFILE_NAME}
 ```
 
@@ -25,7 +26,8 @@ rm ${SOURCE_ZIPFILE_NAME}
 ```sh
 ALB_DNS_NAME="Your alb DNS name"
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
-cloud-tool --profile ${AWS_PROFILE} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
+REGION="us-east-1"
+cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
 ```
 1. Open your browser and navigate to `http://localhost:8080`
 1. Notice the version in the top right.  To simulate a deploy, we will change this value in the source code and redeploy later.
