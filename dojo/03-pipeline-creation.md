@@ -3,14 +3,9 @@ Create your end-to-end pipeline.  This will be used to build the code, bake a co
 
 # Steps
 1. Run the following command in your virtual environment to install the installer:  
-`pip3 install pipeline-generator`
-1. Modify the following files, changing the `# FIXME` lines:
-  * [`pipelinespec.yaml`](pipelinespec.yaml)  
-  This file tells the pipeline-generator what the pipeline should look like, what stages to include, where to get the source information from, etc.
-  * [`DeploySpec.yaml`](DeploySpec.yaml)  
-  This tells the deployment engine what to do.  Among other things, it says to use the blue-green deployer (rather than the rolling deployer) and what CloudFormation templates to use as well as their parameters.
-  * [`bakespec.yml`](bakespec.yml)  
-  This is the file the bake stage of the pipeline uses to bake the container image.
+`pip install pipeline-generator`
+1. Modify the [`DeploySpec.yaml`](DeploySpec.yaml), changing the `# FIXME` lines.  The values for these lines will come from your Cloud IaC project.  Specifically, the CloudFormation stacks Cloud IaC created for your infrastructure.  
+This file tells the deployment engine what to do.  Among other things, it says to use the blue-green deployer (rather than the simple deployer) and what CloudFormation templates to use as well as their parameters.
 1. Create the pipeline CloudFormation template  
 ```sh
 pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml
@@ -19,7 +14,7 @@ pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.ya
 1. Create the pipeline CloudFormation stack using the template output from command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  
 Eventually this will be automated but for now you'll have to do this in the console.  Or, you could use the script below *if you change the parameters below first*:
 ```sh
-RESOURCE_OWNER="firtname.lastname@thomsonreuters.com"
+RESOURCE_OWNER="firtname.lastname@tr.com"
 TEN_ACCOUNT_ID="TEN-Acct-Id"
 
 ASSET_ID="206296"

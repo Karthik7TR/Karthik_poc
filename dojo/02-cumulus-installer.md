@@ -5,7 +5,7 @@ Provision the infrastructure used by Cumulus pipelines.  This includes the Blue/
 # Steps
 1. Run the following command in your virtual environment to install the installer:  
 `pip3 install cumulus-installer`  
-> If you get an error along the lines of `unable to find cumulus-installer`, this likely means you don't have BAMS setup as a pip repo.  See [Setup](../README.md#prerequisites)
+> If you get an error along the lines of `unable to find cumulus-installer`, this likely means you don't have BAMS setup as a pip repo.  See [Prerequisites](../README.md#prerequisites)
 
 1. Modify the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
 Change those lines with `# FIXME` in them.  The others can remain the same.

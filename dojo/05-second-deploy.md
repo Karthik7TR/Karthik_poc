@@ -7,7 +7,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 1. Run the same small script as before - repeated below - to zip up this code and upload to S3.  Modify the variables and run from within the root of this repo.
 ```sh
 SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-S3_BUCKET_NAME="a206296-cloud-iac-project-dojo-us-east-1-cfn"
+S3_BUCKET_NAME="a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn"
 S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 REGION="us-east-1"

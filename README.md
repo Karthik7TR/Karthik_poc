@@ -21,11 +21,11 @@ In this workshop we will create all the resources necessary to use Project Cumul
 ## Steps
 Perform the steps below in order.  However, if this is an onsite hands-on training, please do not progress to the next step until we are all there together.
 
-1. [01-clone-and-modify](01-clone-and-modify.md)
-1. [02-cumulus-installer](02-cumulus-installer.md)
-1. [03-pipeline-creation](03-pipeline-creation.md)
-1. [04-first-deploy](04-first-deploy.md)
-1. [05-second-deploy](05-second-deploy.md)
+1. [01-clone-and-modify](dojo/01-clone-and-modify.md)
+1. [02-cumulus-installer](dojo/02-cumulus-installer.md)
+1. [03-pipeline-creation](dojo/03-pipeline-creation.md)
+1. [04-first-deploy](dojo/04-first-deploy.md)
+1. [05-second-deploy](dojo/05-second-deploy.md)
 
 ## Cleanup
 When you are finished, you can run this to cleanup all of the stuff the cumulus installer created.  
