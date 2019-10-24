@@ -9,8 +9,9 @@ public final class PageNumberUtil {
     public static final String PB = "pb";
     public static final String LABEL = "label";
     public static final String PAGEBREAK = "pagebreak";
+    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open label=\"%s\" close-pagebreak}";
 
-    private PageNumberUtil() {}
+    private PageNumberUtil() { }
 
     public static void addPageNumber(final XMLFilterImpl xmlFilter, final boolean withPageNumber, final String pageNumberLabel) throws SAXException {
         if (withPageNumber) {
@@ -22,7 +23,15 @@ public final class PageNumberUtil {
         return new XmlDeclaration(PB, false).attr(LABEL, label);
     }
 
-    public static Node convertToProviewPagebreak(final XmlDeclaration pagebreak) {
+    public static Node convertToProviewPagebreak(final Node pagebreak) {
         return createPagebreak(pagebreak.attr(LABEL));
+    }
+
+    public static boolean isPagebreak(final Node node) {
+        return node instanceof XmlDeclaration && PAGEBREAK.equals(((XmlDeclaration) node).name());
+    }
+
+    public static String protectPagebreak(final Node pagebreak) {
+        return String.format(PAGEBREAK_PROTECTED, pagebreak.attr(LABEL));
     }
 }

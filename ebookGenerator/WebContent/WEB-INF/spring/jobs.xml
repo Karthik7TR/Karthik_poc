@@ -125,6 +125,12 @@
 		
 		<step id="formatTransformXML">
 			<tasklet ref="formatTransformXMLTask"/>
+			<next on="COMPLETED" to="addInlineIndex"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="addInlineIndex">
+			<tasklet ref="addInlineIndexTask"/>
 			<next on="COMPLETED" to="splitDecision"/>
 			<fail on="FAILED"/>
 		</step>
@@ -328,6 +334,7 @@
 	<beans:bean id="formatAddHTMLWrapperTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="generatorParentTask"
 				p:htmlWrapperService-ref="htmlWrapperService"
 				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="addInlineIndexTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineIndexStep" />
 	<beans:bean id="addInlineTocTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineTocStep" />
 	<beans:bean id="processPagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.ProcessPages" />
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="generatorParentTask"

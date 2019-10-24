@@ -3,8 +3,6 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
 
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,26 +24,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InlineTocService {
-    private static final BigDecimal FONT_SIZE_BIG_MULTIPLIER = BigDecimal.valueOf(6);
-    private static final BigDecimal FONT_SIZE_MEDIUM_MULTIPLIER = BigDecimal.valueOf(2.36d);
-    private static final BigDecimal FONT_SIZE_SMALL_MULTIPLIER = BigDecimal.valueOf(0.083d);
-    private static final BigDecimal LARGE_INDENT = BigDecimal.valueOf(3d);
-    private static final BigDecimal BIG_INDENT = BigDecimal.valueOf(2.5d);
-    private static final BigDecimal MEDIUM_INDENT = BigDecimal.ONE;
-    private static final BigDecimal SMALL_INDENT = BigDecimal.valueOf(0.1d);
-    private static final String P_UNIT = "p";
-    private static final String Q_UNIT = "q";
-    private static final String D_UNIT = "d";
-    private static final String Z_UNIT = "z";
-    private static final String M_UNIT = "m";
-    private static final String I_UNIT = "i";
-    private static final String LOWERCASE = "lower";
-    private static final String UPPERCASE = "upper";
-    private static final String SMALLCAP = "smallcap";
-    private static final int FONT_SCALE = 1;
-    private static final int BOLD = 1;
-    private static final int ITALIC = 2;
-    private static final int BOLD_ITALIC = 3;
     private static final String DOCUMENT_GUID = "DocumentGuid";
     private static final String EBOOK_TOC = "EBookToc";
     private static final String SUMMARY = "summary";
@@ -71,6 +49,9 @@ public class InlineTocService {
 
     @Autowired
     private DocMetadataService docMetadataService;
+
+    @Autowired
+    private CssStylingService stylingService;
 
     @Value("${proview.page.html.template}")
     private File proviewHtmlTemplate;
@@ -195,13 +176,13 @@ public class InlineTocService {
 
     private void appendHeader(final Element section, final Element heading) {
         section.appendElement(DIV)
-            .attr(STYLE, getStyleByElement(heading, ""))
+            .attr(STYLE, stylingService.getStyleByElement(heading))
             .text(heading.text());
     }
 
     private void appendSummaryTocItem(final Element section, final Element eBookToc) {
         section.appendElement(DIV)
-            .attr(STYLE, getStyleByElement(eBookToc, "sum_"))
+            .attr(STYLE, stylingService.getStyleByElement(eBookToc, "sum_"))
             .appendElement("a")
             .attr(HREF, String.format("er:#inlineToc/sum%s", eBookToc.selectFirst(GUID).text()))
             .text(eBookToc.selectFirst(NAME).text());
@@ -209,106 +190,11 @@ public class InlineTocService {
 
     private void appendDetailedTocItem(final Element section, final Element eBookToc, final Map<String, String> familyGuidMap) {
         section.appendElement(DIV)
-            .attr(STYLE, getStyleByElement(eBookToc, "det_"))
+            .attr(STYLE, stylingService.getStyleByElement(eBookToc, "det_"))
             .appendElement("a")
             .attr(NAME_ATTR, String.format("sum%s", eBookToc.selectFirst(GUID).text()))
             .attr(HREF, String.format("er:#%s/%s", familyGuidMap.get(eBookToc.selectFirst(DOCUMENT_GUID).text()), eBookToc.selectFirst(GUID).text()))
             .text(eBookToc.selectFirst(NAME).text());
-    }
-
-    private String getStyleByElement(final Element element, final String prefix) {
-        final StringBuilder style = new StringBuilder();
-        Optional.ofNullable(element.attr(String.format("%salign", prefix)))
-            .filter(StringUtils::isNotBlank)
-            .ifPresent(align -> style.append(String.format("text-align: %s; ", align)));
-        Optional.ofNullable(element.attr(String.format("%sprelead", prefix)))
-            .filter(StringUtils::isNotBlank)
-            .map(this::getIndentValue)
-            .ifPresent(prelead -> style.append(String.format("margin-top: %sem; ", prelead)));
-        Optional.ofNullable(element.attr(String.format("%slindent", prefix)))
-            .filter(lindent -> StringUtils.isNoneBlank(lindent) && !"0".equals(lindent))
-            .map(this::getIndentValue)
-            .ifPresent(lindent -> style.append(String.format("margin-left: %sem; ", lindent)));
-        Optional.ofNullable(element.attr(String.format("%sfv", prefix)))
-            .filter(StringUtils::isNotBlank)
-            .ifPresent(prelead -> style.append(getFontWeightStyle(prelead)).append(getFontStyle(prelead)));
-        Optional.ofNullable(element.attr(String.format("%ssize", prefix)))
-            .filter(StringUtils::isNotBlank)
-            .map(this::getFontSize)
-            .ifPresent(size -> style.append(String.format("font-size: %sem; ", size)));
-        Optional.ofNullable(element.attr(String.format("%scm", prefix)))
-            .filter(StringUtils::isNotBlank)
-            .ifPresent(cm -> style.append(getCmStyle(cm)));
-        Optional.ofNullable(element.attr(String.format("%sunderline", prefix)))
-            .filter(StringUtils::isNotBlank)
-            .ifPresent(underline -> style.append("text-decoration: underline; "));
-        return style.toString();
-    }
-
-    private String getIndentValue(final String value) {
-        if (value.length() <= 1) {
-            return value;
-        }
-        final BigDecimal indentValue = new BigDecimal(value.substring(0, value.length() - 1));
-        final BigDecimal multiplier;
-        if (value.endsWith(Q_UNIT)) {
-            multiplier = SMALL_INDENT;
-        } else if (value.endsWith(P_UNIT)) {
-            multiplier = LARGE_INDENT;
-        } else if (value.endsWith(I_UNIT)) {
-            multiplier = BIG_INDENT;
-        } else {
-            multiplier = MEDIUM_INDENT;
-        }
-        return indentValue.multiply(multiplier).toString();
-    }
-    private String getFontWeightStyle(final String value) {
-        String style = StringUtils.EMPTY;
-        final Integer intValue = Integer.valueOf(value);
-        if (intValue == BOLD || intValue == BOLD_ITALIC) {
-            style = "font-weight: bold; ";
-        }
-        return style;
-    }
-    private String getFontSize(final String value) {
-        final BigDecimal size = new BigDecimal(value.substring(0, value.length() - 1));
-        final BigDecimal result;
-        if (value.endsWith(Q_UNIT) || value.endsWith(D_UNIT)) {
-            result = size.multiply(FONT_SIZE_SMALL_MULTIPLIER);
-        } else if (value.endsWith(I_UNIT) || value.endsWith(M_UNIT)) {
-            result = size.multiply(FONT_SIZE_BIG_MULTIPLIER);
-        } else if (value.endsWith(Z_UNIT)) {
-            result = size.multiply(FONT_SIZE_MEDIUM_MULTIPLIER);
-        } else {
-            result = size;
-        }
-        return result.setScale(FONT_SCALE, RoundingMode.HALF_UP).toString();
-    }
-    private String getFontStyle(final String value) {
-        String style = StringUtils.EMPTY;
-        final Integer intValue = Integer.valueOf(value);
-        if (intValue == ITALIC || intValue == BOLD_ITALIC) {
-            style = "font-style: italic; ";
-        }
-        return style;
-    }
-    private String getCmStyle(final String value) {
-        final String style;
-        switch (value) {
-        case SMALLCAP:
-            style = "font-variant: small-caps; ";
-            break;
-        case UPPERCASE:
-            style = "text-transform: uppercase; ";
-            break;
-        case LOWERCASE:
-            style = "text-transform: lowercase; ";
-            break;
-        default:
-            style = StringUtils.EMPTY;
-            break;
-        }
-        return style;
     }
 
     @Getter

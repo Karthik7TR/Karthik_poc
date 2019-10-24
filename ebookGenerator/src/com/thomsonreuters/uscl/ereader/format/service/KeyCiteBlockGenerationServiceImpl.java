@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -36,35 +37,16 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         throws EBookFormatException {
         final DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(titleId, jobId, docGuid);
 
-        if (docMetadata == null) {
-            final String message = "Document metadata could not be found for given guid ="
-                + docGuid
-                + " and title Id ="
-                + titleId
-                + " and jobInstanceId ="
-                + jobId;
-            log.error(message);
-
-            throw new EBookFormatException(message);
+        if (docMetadata != null) {
+            return buildImageBlock(getUrl(docGuid, docMetadata));
+        } else {
+            return emptyStream();
         }
-
-        final String url = Optional.ofNullable(getUrl(docMetadata))
-                .orElse(getDefaultUrl(docMetadata));
-
-        return buildImageBlock(url);
     }
 
-    private String getDefaultUrl(final DocMetadata docMetadata) {
-        return hostname
-                + KEYCITE_DOC_PARAM
-                + "docGuid="
-                + docMetadata.getDocUuid()
-                + "&amp;originationContext="
-                + ORIGINATION_CONTEXT
-                + "&amp;transitionType=NegativeTreatment&amp;contextData=(sc.UserEnteredCitation)&amp;rs="
-                + mudParamRS
-                + "&amp;vr="
-                + mudParamVR;
+    private String getUrl(final String docGuid, final DocMetadata docMetadata) throws EBookFormatException {
+        return Optional.ofNullable(getUrl(docMetadata))
+                .orElse(getDefaultUrl(docMetadata.getDocUuid()));
     }
 
     private String getUrl(final DocMetadata docMetadata) throws EBookFormatException {
@@ -105,6 +87,19 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         }
     }
 
+    private String getDefaultUrl(final String docGuid) {
+        return hostname
+                + KEYCITE_DOC_PARAM
+                + "docGuid="
+                + docGuid
+                + "&amp;originationContext="
+                + ORIGINATION_CONTEXT
+                + "&amp;transitionType=NegativeTreatment&amp;contextData=(sc.UserEnteredCitation)&amp;rs="
+                + mudParamRS
+                + "&amp;vr="
+                + mudParamVR;
+    }
+
     /**
      * Builds Image block using passed in Url info .
      *
@@ -123,5 +118,9 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         keyCiteElement.append("</div>");
 
         return new ByteArrayInputStream(keyCiteElement.toString().getBytes());
+    }
+
+    private InputStream emptyStream() {
+        return new ByteArrayInputStream(StringUtils.EMPTY.getBytes());
     }
 }

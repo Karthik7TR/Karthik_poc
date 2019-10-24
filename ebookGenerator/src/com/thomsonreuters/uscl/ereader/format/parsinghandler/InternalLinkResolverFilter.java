@@ -248,12 +248,11 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 
         final StringBuilder ebookResourceIdentifier = new StringBuilder();
 
-        final String splitTitleId =
-            documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid().get(docGuid).getSplitBookTitle();
+        final String splitTitleId = Optional.ofNullable(documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid().get(docGuid))
+            .map(DocMetadata::getSplitBookTitle).orElse(null);
 
-        if (splitTitleId != null
-            && docMetadata.getSplitBookTitle() != null
-            && !splitTitleId.equalsIgnoreCase(docMetadata.getSplitBookTitle())) {
+        if (docMetadata.getSplitBookTitle() != null
+            && !docMetadata.getSplitBookTitle().equalsIgnoreCase(splitTitleId)) {
             ebookResourceIdentifier.append(docMetadata.getSplitBookTitle() + "/v" + version);
         }
 

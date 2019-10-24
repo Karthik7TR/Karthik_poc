@@ -64,7 +64,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 
         final TitleMetadataBuilder titleMetadataBuilder =
             TitleMetadata.builder(bookDefinition).versionNumber(versionNumber)
-                .inlineToc(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_INLINE_TOC));
+                .inlineToc(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_INLINE_TOC))
+                .indexIncluded(bookDefinition.isIndexIncluded());
 
         //TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);

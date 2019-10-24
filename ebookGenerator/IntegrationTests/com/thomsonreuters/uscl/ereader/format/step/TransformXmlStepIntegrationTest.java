@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyInt;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyString;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,7 +44,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public final class TransformXmlStepIntegrationTest {
     private static final String COLLECTION_NAME = "w_codesstatxnvdp";
     private static final String DOC_TYPE = "6A";
-    private static final String staticContentDir = "/apps/ebookbuilder/staticContent/";
+    private static final String STATIC_CONTENT_DIR = "/apps/ebookbuilder/staticContent/";
+    private static final int DOCS_NUMBER = 1;
 
     @Autowired
     private TransformXML step;
@@ -59,11 +62,8 @@ public final class TransformXmlStepIntegrationTest {
 
         final ExecutionContext context = step.getJobExecutionContext();
 
-        when(context.getString(JobExecutionKey.STATIC_CONTENT_DIR)).thenReturn(staticContentDir);
-        when(context.containsKey(JobExecutionKey.STATIC_CONTENT_DIR)).thenReturn(Boolean.TRUE);
-
-        when(context.getInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT)).thenReturn(1);
-        when(context.containsKey(JobExecutionKey.EBOOK_STATS_DOC_COUNT)).thenReturn(Boolean.TRUE);
+        whenJobExecutionPropertyString(context, JobExecutionKey.STATIC_CONTENT_DIR, STATIC_CONTENT_DIR);
+        whenJobExecutionPropertyInt(context, JobExecutionKey.EBOOK_STATS_DOC_COUNT, DOCS_NUMBER);
     }
 
     @Test
@@ -74,11 +74,6 @@ public final class TransformXmlStepIntegrationTest {
         bookDefinition.setIncludeNotesOfDecisions(false);
 
         runner.test(step, new File(resourceDir, "annotationsTest"));
-    }
-
-    public static void whenJobExecutionPropertyString(final ExecutionContext jobExecutionContext, final String name, final String value) {
-        when(jobExecutionContext.getString(name)).thenReturn(value);
-        when(jobExecutionContext.containsKey(name)).thenReturn(Boolean.TRUE);
     }
 
     @Configuration

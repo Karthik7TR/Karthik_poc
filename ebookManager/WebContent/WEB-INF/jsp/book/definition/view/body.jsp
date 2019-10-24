@@ -149,15 +149,11 @@ $(document).ready(function() {
                             </div>
 							<c:if test="${book.indexIncluded=='true'}">
 								<div class="row">
-									<label class="labelCol">Index TOC Collection Name</label>
+									<label class="labelCol">Index Collection</label>
 									<span class="field">${ book.indexTocCollectionName }</span>
 								</div>
 								<div class="row">
-									<label class="labelCol">Index DOC Collection Name</label>
-									<span class="field">${ book.indexDocCollectionName }</span>
-								</div>
-								<div class="row">
-									<label class="labelCol">Index TOC Root Guid</label>
+									<label class="labelCol">Index Root Guid</label>
 									<span class="field">${ book.indexTocRootGuid }</span>
 								</div>
 							</c:if>

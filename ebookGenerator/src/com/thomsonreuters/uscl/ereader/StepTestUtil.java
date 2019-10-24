@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.util.List;
@@ -93,6 +94,20 @@ public final class StepTestUtil {
                 .getJobExecution()
                 .getExecutionContext()
                 .get(parameterName)).willReturn(value);
+    }
+
+    public static void whenJobExecutionPropertyString(final ExecutionContext jobExecutionContext, final String name, final String value) {
+        when(jobExecutionContext.getString(name)).thenReturn(value);
+        whenContainsProperty(jobExecutionContext, name);
+    }
+
+    public static void whenJobExecutionPropertyInt(final ExecutionContext jobExecutionContext, final String name, final int value) {
+        when(jobExecutionContext.getInt(name)).thenReturn(value);
+        whenContainsProperty(jobExecutionContext, name);
+    }
+
+    private static void whenContainsProperty(final ExecutionContext jobExecutionContext, final String name) {
+        when(jobExecutionContext.containsKey(name)).thenReturn(Boolean.TRUE);
     }
 
     /**

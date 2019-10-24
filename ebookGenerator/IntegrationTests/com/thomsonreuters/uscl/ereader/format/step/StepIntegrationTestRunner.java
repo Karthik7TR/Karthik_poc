@@ -15,9 +15,11 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystemImpl;
+import com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BaseStep;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import org.apache.commons.io.FileUtils;
 import org.mockito.Answers;
 import org.mockito.Mockito;
@@ -34,6 +36,8 @@ import org.springframework.stereotype.Component;
 public class StepIntegrationTestRunner {
     private static final String SOURCE = "source";
     private static final String EXPECTED = "expected";
+    private static final String TITLE_ID = "uscl/an/test_book";
+    private static final int THRESHOLD_VALUE = 10;
 
     @Autowired
     private BookFileSystem bookFileSystem;
@@ -42,11 +46,23 @@ public class StepIntegrationTestRunner {
     public void setUp(final BaseStep step) {
         final ExecutionContext jobExecutionContext = Mockito.mock(ExecutionContext.class);
         final ChunkContext chunkContext = Mockito.mock(ChunkContext.class, Answers.RETURNS_DEEP_STUBS.get());
-        final BookDefinition bookDefinition = new BookDefinition();
 
         step.setChunkContext(chunkContext);
-        when(jobExecutionContext.get(JobParameterKey.EBOOK_DEFINITON)).thenReturn(bookDefinition);
+        when(jobExecutionContext.get(JobParameterKey.EBOOK_DEFINITON)).thenReturn(getBookDefinition());
         givenJobExecutionContext(chunkContext, jobExecutionContext);
+    }
+
+    private BookDefinition getBookDefinition() {
+        final BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
+        bookDefinition.setDocumentTypeCodes(getDocumentTypeCode());
+        return bookDefinition;
+    }
+
+    private DocumentTypeCode getDocumentTypeCode() {
+        final DocumentTypeCode documentTypeCode = new DocumentTypeCode();
+        documentTypeCode.setThresholdValue(THRESHOLD_VALUE);
+        return documentTypeCode;
     }
 
     public void test(final BaseStep step, final File resource) throws Exception {
@@ -66,6 +82,7 @@ public class StepIntegrationTestRunner {
 
     private void tearDown() {
         FileUtils.deleteQuietly(workDir);
+        ((TestBookFileSystemImpl) bookFileSystem).reset();
     }
 
     @Configuration

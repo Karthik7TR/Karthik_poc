@@ -18,9 +18,8 @@ import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -32,9 +31,8 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam Chatterjee</a> u0072938
  */
+@Slf4j
 public class GatherDocAndMetadataTask extends AbstractSbTasklet {
-    //TODO: Use logger API to get Logger instance to job-specific appender.
-    private static final Logger LOG = LogManager.getLogger(GatherDocAndMetadataTask.class);
     private DocMetaDataGuidParserService docMetaDataParserService;
     private GatherService gatherService;
     private PublishingStatsService publishingStatsService;
@@ -73,7 +71,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet {
                 bookDefinition.isFinalStage(),
                 bookDefinition.getUseReloadContent());
             final GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
-            LOG.debug(gatherResponse);
+            log.debug("{}", gatherResponse);
 
             jobstatsDoc.setGatherDocRetrievedCount(gatherResponse.getDocCount());
             jobstatsDoc.setGatherDocExpectedCount(gatherResponse.getNodeCount());

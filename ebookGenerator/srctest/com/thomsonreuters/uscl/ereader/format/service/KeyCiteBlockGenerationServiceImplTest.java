@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,9 +46,6 @@ public final class KeyCiteBlockGenerationServiceImplTest {
         jobId = 101;
         docGuid = "I770806320bbb11e1948492503fc0d37f";
 
-        EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, Long.valueOf(101), docGuid))
-            .andReturn(docMetadata);
-        EasyMock.replay(mockDocMetadataService);
         EasyMock.expect(mockCitationNormalizer.normalizeCitation("Title 1 §100")).andReturn("TITLE 1 S100");
         EasyMock.expect(mockCitationNormalizer.normalizeCitation("Title 2 §200")).andReturn("TITLE 2 S200");
         EasyMock.expect(mockCitationNormalizer.normalizeCitation("Title 3 §300")).andReturn("TITLE 3 S300");
@@ -54,6 +54,8 @@ public final class KeyCiteBlockGenerationServiceImplTest {
 
     @Test
     public void testGetKeyCite() {
+        expectDocMetadataService(docMetadata);
+
         InputStream keyCiteStream = null;
         try {
             keyCiteStream = service.getKeyCiteInfo(titleId, jobId, docGuid);
@@ -67,6 +69,8 @@ public final class KeyCiteBlockGenerationServiceImplTest {
 
     @Test
     public void testSymbolConversion() throws IOException {
+        expectDocMetadataService(docMetadata);
+
         docMetadata.setNormalizedFirstlineCite("Title 1 \u00A7100");
         docMetadata.setFirstlineCite("Title 2 \u00A7200");
         docMetadata.setSecondlineCite("Title 3 \u00A7300");
@@ -92,5 +96,22 @@ public final class KeyCiteBlockGenerationServiceImplTest {
         }
         EasyMock.verify(mockDocMetadataService);
         Assert.assertNotNull(keyCiteStream);
+    }
+
+    @Test
+    public void testGetKeyCiteDefault() throws IOException, EBookFormatException {
+        expectDocMetadataService(null);
+
+        final InputStream keyCiteStream = service.getKeyCiteInfo(titleId, jobId, docGuid);
+        final String result = IOUtils.toString(keyCiteStream);
+
+        assertEquals(result, StringUtils.EMPTY);
+        EasyMock.verify(mockDocMetadataService);
+    }
+
+    private void expectDocMetadataService(final DocMetadata docMetadata) {
+        EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, jobId, docGuid))
+        .andReturn(docMetadata);
+        EasyMock.replay(mockDocMetadataService);
     }
 }

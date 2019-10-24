@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -18,6 +19,8 @@ public final class PageNumberUtilTest {
     private static final String LABEL_VALUE = "1";
     private static final String TARGET = "pb";
     private static final String CONTENT = "label=\"1\"";
+    private static final String PAGEBREAK = "pagebreak";
+    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open label=\"1\" close-pagebreak}";
 
     @Mock
     private XMLFilterImpl xmlFilter;
@@ -39,5 +42,17 @@ public final class PageNumberUtilTest {
         final XmlDeclaration node = (XmlDeclaration) PageNumberUtil.createPagebreak(LABEL_VALUE);
         assertEquals(node.name(), TARGET);
         assertEquals(node.attr(PageNumberUtil.LABEL), LABEL_VALUE);
+    }
+
+    @Test
+    public void shouldDetectPagebreak() {
+        final XmlDeclaration node = new XmlDeclaration(PAGEBREAK, false);
+        assertTrue(PageNumberUtil.isPagebreak(node));
+    }
+
+    @Test
+    public void shouldProtectPagebreak() {
+        final XmlDeclaration node = (XmlDeclaration) PageNumberUtil.createPagebreak(LABEL_VALUE);
+        assertEquals(PageNumberUtil.protectPagebreak(node), PAGEBREAK_PROTECTED);
     }
 }

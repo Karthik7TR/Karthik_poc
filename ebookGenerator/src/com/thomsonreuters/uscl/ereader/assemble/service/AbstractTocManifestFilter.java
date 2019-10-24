@@ -23,6 +23,8 @@ import org.xml.sax.helpers.XMLFilterImpl;
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     private static final String INLINE_TOC_ITEM = "Inline TOC";
     private static final String INLINE_TOC_FILE = "inlineToc";
+    private static final String INLINE_INDEX_ITEM = "Index";
+    private static final String INLINE_INDEX_FILE = "inlineIndex";
     public static final String URI = "";
     public static final String TITLE_ELEMENT = "title";
     protected List<TocNode> nodesContainingDocuments = new ArrayList<>();
@@ -104,6 +106,10 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 
         if (titleMetadata.isInlineToc()) {
             createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
+        }
+
+        if (titleMetadata.isIndexIncluded()) {
+            createFrontMatterNode(INLINE_INDEX_FILE, INLINE_INDEX_ITEM, isSplitBook);
         }
 
         currentDepth--;

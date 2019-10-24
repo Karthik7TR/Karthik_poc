@@ -1245,18 +1245,12 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void testNoIndexDocCollectionName() {
-        form.setIndexDocCollectionName(null);
-        testIndexFieldIsEmpty("indexDocCollectionName");
-    }
-
-    @Test
     public void testNoIndexTocRootGuid() {
         form.setIndexTocRootGuid(null);
         testIndexFieldIsEmpty("indexTocRootGuid");
     }
 
-    private void testIndexFieldIsEmpty(String fieldName) {
+    private void testIndexFieldIsEmpty(final String fieldName) {
         form.setIndexIncluded(true);
 
         validator.validate(form, errors);

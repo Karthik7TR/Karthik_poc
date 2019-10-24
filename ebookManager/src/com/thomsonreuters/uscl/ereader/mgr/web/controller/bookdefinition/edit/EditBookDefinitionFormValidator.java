@@ -988,10 +988,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private void validateIndexFields(final EditBookDefinitionForm form, final Errors errors) {
         if (form.isIndexIncluded()) {
             checkSpecialCharacters(errors, form.getTocCollectionName(), "indexTocCollectionName", true);
-            checkSpecialCharacters(errors, form.getDocCollectionName(), "indexDocCollectionName", true);
             checkGuidFormat(errors, form.getRootTocGuid(), "indexTocRootGuid");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocCollectionName", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexDocCollectionName", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocRootGuid", "error.required");
 
             checkMaxLength(
@@ -999,19 +997,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 MAXIMUM_CHARACTER_64,
                 form.getIndexTocCollectionName(),
                 "indexTocCollectionName",
-                new Object[] {"Index TOC Collection", MAXIMUM_CHARACTER_64});
-            checkMaxLength(
-                errors,
-                MAXIMUM_CHARACTER_64,
-                form.getIndexDocCollectionName(),
-                "indexDocCollectionName",
-                new Object[] {"Index DOC Collection", MAXIMUM_CHARACTER_64});
+                new Object[] {"Index Collection", MAXIMUM_CHARACTER_64});
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_64,
                 form.getIndexTocRootGuid(),
                 "indexTocRootGuid",
-                new Object[] {"Index Root TOC Guid", MAXIMUM_CHARACTER_64});
+                new Object[] {"Index Root Guid", MAXIMUM_CHARACTER_64});
         }
     }
 

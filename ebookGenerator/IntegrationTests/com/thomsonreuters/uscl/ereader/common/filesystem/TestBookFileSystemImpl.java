@@ -29,4 +29,8 @@ public class TestBookFileSystemImpl implements BookFileSystem {
     public File getWorkDirectoryByJobId(final Long jobInstanceId) {
         return getWorkDirectory(null);
     }
+
+    public void reset() {
+        tempDir = null;
+    }
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineTocService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.junit.Before;
@@ -107,6 +108,11 @@ public final class InlineTocStepIntegrationTest {
         @Bean
         public InlineTocService inlineTocService() {
             return new InlineTocService();
+        }
+
+        @Bean
+        public CssStylingService cssStylingService() {
+            return new CssStylingService();
         }
 
         @Bean

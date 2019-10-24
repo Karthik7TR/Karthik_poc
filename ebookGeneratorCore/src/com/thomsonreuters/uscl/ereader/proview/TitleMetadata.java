@@ -98,6 +98,8 @@ public final class TitleMetadata implements Serializable {
     private Boolean isPilotBook;
     @XmlTransient
     private boolean inlineToc;
+    @XmlTransient
+    private boolean indexIncluded;
 
     private TitleMetadata() {
         //JaxB required default constructor
@@ -118,6 +120,7 @@ public final class TitleMetadata implements Serializable {
         frontMatterPages = builder.frontMatterPages;
         documents = builder.documents;
         inlineToc = builder.inlineToc;
+        indexIncluded = builder.indexIncluded;
 
         authorNames = Optional.ofNullable(builder.authors)
             .filter(CollectionUtils::isNotEmpty)
@@ -176,6 +179,7 @@ public final class TitleMetadata implements Serializable {
         private Set<String> assetFileNames;
         private List<Doc> documents;
         private boolean inlineToc;
+        private boolean indexIncluded;
 
         private TitleMetadataBuilder() {
             //No instances from the outside
@@ -304,6 +308,11 @@ public final class TitleMetadata implements Serializable {
 
         public TitleMetadataBuilder inlineToc(final boolean inlineToc) {
             this.inlineToc = inlineToc;
+            return this;
+        }
+
+        public TitleMetadataBuilder indexIncluded(final boolean indexIncluded) {
+            this.indexIncluded = indexIncluded;
             return this;
         }
 
