@@ -13,15 +13,14 @@ pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.ya
 
 1. Create the pipeline CloudFormation stack using the template output from command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  
 Eventually this will be automated but for now you'll have to do this in the console.  Or, you could use the script below *if you change the parameters below first*:
+
 ```sh
 RESOURCE_OWNER="firtname.lastname@tr.com"
 TEN_ACCOUNT_ID="TEN-Acct-Id"
-
 ASSET_ID="206296"
 STACK_NAME="a${ASSET_ID}-${TEN_ACCOUNT_ID}-cumulus-pipeline-pipeline"
 ENVIRONMENT_TYPE="DEVELOPMENT"
 TEMPLATE_FILENAME="pipeline-cfn.yaml"
-
 export AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 export AWS_REGION="us-east-1"
 
