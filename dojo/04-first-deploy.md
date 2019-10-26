@@ -25,7 +25,6 @@ Deploy the first version of your application.  See how the pipeline progresses t
 1. Navigate to the console in the target account (as opposed to the CICD account where we have been previously) to EC2 | Loadbalancers.  You should be able to find your ALB by searching the name.  It will take the syntax `a206296-dojo-TEN-Acct-Id-dev`
 1. Find the DNS name for your ALB.  For example, mine is `internal-a206296-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Modify the variables below and run the following command using cloud-tool:  
-
   ```sh
   ALB_DNS_NAME="Your alb DNS name"
   AWS_PROFILE="tr-tax-prof1-preprod"
