@@ -16,7 +16,7 @@ Eventually this will be automated but for now you'll have to do this in the cons
 
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
   ```sh
-  RESOURCE_OWNER="firtname.lastname@tr.com"
+  RESOURCE_OWNER="firstname.lastname@tr.com"
   TEN_ACCOUNT_ID="TEN-Acct-Id"
   ASSET_ID="206296"
   STACK_NAME="a${ASSET_ID}-${TEN_ACCOUNT_ID}-cumulus-pipeline-pipeline"
