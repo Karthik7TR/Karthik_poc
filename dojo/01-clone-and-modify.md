@@ -3,9 +3,7 @@ Clone this repo and personalize it to distinguish it from others deployed in the
 
 # Steps
 1. Using cloud-tool, login to `tr-tax-prof1-cicd-nonprod` (307097860667) account as a206296-PowerUser2.
-
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.  
-
   ```shell
   # If you have push notifications from the Symantec VIP app setup on your phone.
   cloud-tool --profile "tr-tax-prof1-cicd-nonprod" --region us-east-1 vault-login --push-notification --vault-username TEN-Acct-Id --role human-role/a206296-PowerUser2 --account-id 307097860667
@@ -17,9 +15,7 @@ Clone this repo and personalize it to distinguish it from others deployed in the
   ```
 
 1. Follow the same steps to login to the pre-prod account.
-
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
-
   ```shell
   # If you have push notifications from the Symantec VIP app setup on your phone.
   cloud-tool --profile "tr-tax-prof1-preprod" --region us-east-1 vault-login --push-notification --vault-username TEN-Acct-Id --role human-role/a206296-PowerUser2 --account-id 773476038677

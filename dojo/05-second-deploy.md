@@ -5,9 +5,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 1. Navigate in the source code to [`app/views/employee.ejs`](app/views/employee.ejs).
 1. On line 36 you will see where the version is set that you saw earlier.  Change this to whatever you want and save the file.  Then we'll redeploy to see the change.
 1. Run the same small script as before - repeated below - to zip up this code and upload to S3.  
-
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
-
   ```sh
   SOURCE_ZIPFILE_NAME="pipeline-source.zip"
   S3_BUCKET_NAME="a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn"
@@ -32,5 +30,4 @@ AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 REGION="us-east-1"
 cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
 ```
-
 1. Go back into the browser tab with your app and hit refresh.  
