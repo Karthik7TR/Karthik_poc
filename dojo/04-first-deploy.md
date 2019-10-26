@@ -26,11 +26,11 @@ Deploy the first version of your application.  See how the pipeline progresses t
 1. Find the DNS name for your ALB.  For example, mine is `internal-a206296-dojo-u6065223-dev-23278987.us-east-1.elb.amazonaws.com`
 1. Modify the variables below and run the following command using cloud-tool:  
 
-```sh
-ALB_DNS_NAME="Your alb DNS name"
-AWS_PROFILE="tr-tax-prof1-preprod"
-REGION="us-east-1"
-cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
-```
+  ```sh
+  ALB_DNS_NAME="Your alb DNS name"
+  AWS_PROFILE="tr-tax-prof1-preprod"
+  REGION="us-east-1"
+  cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
+  ```
 1. Open your browser and navigate to `http://localhost:8080`
 1. Notice the version in the top right.  To simulate a deploy, we will change this value in the source code and redeploy later.
