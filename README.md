@@ -13,6 +13,7 @@ All other infrastructure is contained in [this Cloud IaC project.](https://git.s
 In this workshop we will create all the resources necessary to use Project Cumulus.  We will then create a pipeline that will deploy a sample application to the two environments previously created using Cloud IaC.  The files in this repo are all that you will need, however, we assume that the infrastructure has already been created.  We will go through them one by one and when we do, we will need to modify some of the values in some of the files.  We will walk you through this and explain the purpose of each file.  **Please** ask questions at any time and speak out if you need help or are unsure about something.
 
 ## Prerequisites
+* [General prerequisites](https://thehub.thomsonreuters.com/docs/DOC-2914661)
 * cloud-tool
 * Python 3.7 (preferably in a virtual environment such as with [Anaconda](https://www.anaconda.com/distribution/).)
 * BAMS setup as a [pip repository](https://thehub.thomsonreuters.com/docs/DOC-2735743)

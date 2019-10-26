@@ -4,19 +4,18 @@ Provision the infrastructure used by Cumulus pipelines.  This includes the Blue/
 
 # Steps
 1. Run the following command in your virtual environment to install the installer:  
-`pip3 install cumulus-installer`  
+`pip install cumulus-installer`  
 > If you get an error along the lines of `unable to find cumulus-installer`, this likely means you don't have BAMS setup as a pip repo.  See [Prerequisites](../README.md#prerequisites)
 
-1. Modify the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
-Change those lines with `# FIXME` in them.  The others can remain the same.
+1. Inspect the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
+Ensure those lines with `# FIXME` in them are accurate.  The others can remain the same.  
+More information about this file can be found in the [configuration guide](https://thehub.thomsonreuters.com/docs/DOC-2914507).
 1. Run the command below to create your resources.  It will take about 10-15 minutes.  
 ```sh
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install
 ```
 1. You should get an email from AWS SNS to confirm your subscription to a new topic.  Approve this.  If you don't get the email after 5 minutes, search through your Outlook folders as you may have a rule set up to move, mark as read, or even delete emails from SNS.
-
-1. Also, note the last line of output from the cumulus-installer. It will look similar to this: ` 'DeploymentEngine': {'Provider': 'a206296-u0106226-Engine', 'Version': '1'}}`.  This will be needed in a future step.
 
 
 ### Details of how it Works (if you're interested)

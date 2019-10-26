@@ -2,7 +2,7 @@
 Clone this repo and personalize it to distinguish it from others deployed in the same account.
 
 # Steps
-1. Using cloud-tool, login to `tr-tax-prof1-cicd-nonprod` (307097860667) account as a206296-PowerUser2.
+1. Using cloud-tool, login to the `tr-tax-prof1-cicd-nonprod` (307097860667) account as a206296-PowerUser2.
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.  
   ```shell
   # If you have push notifications from the Symantec VIP app setup on your phone.
