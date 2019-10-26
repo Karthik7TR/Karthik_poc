@@ -4,17 +4,19 @@ Deploy the first version of your application.  See how the pipeline progresses t
 # Steps
 1. Navigate in the console to S3 where you told your pipeline to expect the source (the `Source` object in the `pipelinespec.yaml` file).
 1. Zip up the source files from your local folder, ensuring the name of the zip file is what your pipeline expects.
-> You can use these commands to do this if you have aws-cli installed.  Modify the variables and run from within the root of this repo.
-```sh
-SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-S3_BUCKET_NAME="a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn"
-S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
-AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
-REGION="us-east-1"
-zip -q -r ${SOURCE_ZIPFILE_NAME} .
-aws --profile ${AWS_PROFILE} --region ${REGION} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
-rm ${SOURCE_ZIPFILE_NAME}
-```
+
+  > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
+
+  ```sh
+  SOURCE_ZIPFILE_NAME="pipeline-source.zip"
+  S3_BUCKET_NAME="a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn"
+  S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
+  AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
+  REGION="us-east-1"
+  zip -q -r ${SOURCE_ZIPFILE_NAME} .
+  aws --profile ${AWS_PROFILE} --region ${REGION} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
+  rm ${SOURCE_ZIPFILE_NAME}
+  ```
 
 1. Navigate to the console | CodePipeline and search for TEN-Acct-Id and watch your pipeline work!
 1. When it gets to the Deploy_dev stage's Running step, click Details to see the step function driving the blue/green deployment.
