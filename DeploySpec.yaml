@@ -1,32 +1,34 @@
 ---
 Defaults:
   DeployerVersion: "1"
-  AssetId: 204820
+  AssetId: 206296
   DeployerType: blue_green_deployer
   ServiceName: TEN-Acct-Id  # FIXME  Same as your GroupName.  Outside this dojo, this would be the actual service name you are deploying.
   DeployerParameters:
-    SfnArn: "arn:aws:states:us-east-1:307097860667:stateMachine:a204820-TEN-Acct-Id-BlueGreenDeployMachine"  # FIXME The ARN of the stepfunction from the bluegreen-deployer-stepfunction CloudFormation Stack
+    SfnArn: "arn:aws:states:us-east-1:307097860667:stateMachine:a206296-TEN-Acct-Id-BlueGreenDeployMachine"  # FIXME The ARN of the stepfunction from the bluegreen-deployer-stepfunction CloudFormation Stack
     Service:
       EnvironmentType: DEVELOPMENT
-      ResourceOwner: firstname.lastname@thomsonreuters.com  # FIXME Your email
+      ResourceOwner: firstname.lastname@tr.com  # FIXME Your email
     Notifications:
-      FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
-      TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a204820-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+      FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
+      TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
     Cleanup:
       DenyDeployment: 3
       FailedTrafficShift: 5
       OldVersion: 1
     Stack:
       Template:
-        Url: "s3://a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn/ben-dojo/fargate_service.yaml"
-
-        # Use these to do the same thing as `Url` above.
-        # Bucket: a205930-cloud-scrum
-        # Key: test-rolling-deployment/service_cfn.yaml
-
         # Use these to use a built-in template
         # Name: ecs
         # Version: 1
+
+        # If your cfn template is in S3, it can be specified as below.
+        # Url: "s3://a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn/templates/fargate_service.yaml"
+
+        # Use these to do the same thing as `Url` above.
+        Bucket: a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn
+        Key: templates/fargate_service.yaml
+
       Parameters:
         ServiceName: TEN-Acct-Id  # FIXME  Same as your GroupName
         ContainerPort: 8080
@@ -39,17 +41,16 @@ Defaults:
         GreenRulePriority: 19999  # The priority the app should be deployed to initially.  Should be higher in priority (a lower number) than the TargetRulePriority
         Stack:
           Template:
-            # If your cfn template is in S3, it can be specified as below.
-            Url: "s3://a204820-cloud-iac-lab-ccng-bucket-us-east-1-cfn/ben-dojo/target_group.yaml"
-
             # Use these to use a built-in template
             # Name: target-group
             # Version: 1
 
-            # Use these to do the same thing as `Url` above.
-            # Bucket: a205930-cloud-scrum
-            # Key: test-rolling-deployment/service_cfn.yaml
+            # If your cfn template is in S3, it can be specified as below.
+            # Url: "s3://a205930-cloud-scrum/ben-dojo/target_group.yaml"
 
+            # Use these to do the same thing as `Url` above.
+            Bucket: a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn
+            Key: templates/target_group.yaml
           Parameters:
             RoutePathPatterns: /
             HealthCheckPath: /
@@ -62,12 +63,12 @@ dev:
       Parameters:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a204820-dojo-TEN-Acct-Id-dev  # FIXME From `ECSCluster` output in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
-        SecurityGroup: sg-085123378cd6a9235  # FIXME From output `FargateContainerSecurityGroup` in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From output `ECSTaskExecutionRoleArn` in a204820-${TEN-Acct-Id}-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        ClusterName: a206296-dojo-TEN-Acct-Id-dev  # FIXME From `ECSCluster` output in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        SecurityGroup: sg-085123378cd6a9235  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-TEN-Acct-Id-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From output `HTTPAlbListener` in a204820-${TEN-Acct-Id}-ems-dojo-dev-alb-ecs-allconfig stack in deployment account
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a206296-dojo-TEN-Acct-Id-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From output `HTTPAlbListener` in a206296-TEN-Acct-Id-ems-dojo-dev-alb-ecs-allconfig stack in deployment account
 
 qa:
   AccountId: "773476038677"
@@ -77,9 +78,9 @@ qa:
       Parameters:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a204820-dojo-TEN-Acct-Id-qa   # FIXME From `ECSCluster` output in a204820-${TEN-Acct-Id}-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
-        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From output `FargateContainerSecurityGroup` in a204820-${TEN-Acct-Id}-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a204820-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From output `ECSTaskExecutionRoleArn` in a204820-${TEN-Acct-Id}-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        ClusterName: a206296-dojo-TEN-Acct-Id-qa   # FIXME From `ECSCluster` output in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a204820-dojo-TEN-Acct-Id-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From output `HTTPAlbListener` in a204820-${TEN-Acct-Id}-ems-dojo-qa-alb-ecs-allconfig stack in deployment account
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a206296-dojo-TEN-Acct-Id-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From output `HTTPAlbListener` in a206296-TEN-Acct-Id-ems-dojo-qa-alb-ecs-allconfig stack in deployment account
