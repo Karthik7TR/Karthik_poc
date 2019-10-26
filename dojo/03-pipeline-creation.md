@@ -1,5 +1,5 @@
 # Goal
-Create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS services you created with Cloud IaC.  
+Create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS clusters you created with Cloud IaC.  
 
 # Steps
 1. Run the following command in your virtual environment to install the installer:  
