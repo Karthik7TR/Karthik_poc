@@ -3,9 +3,8 @@ Deploy the first version of your application.  See how the pipeline progresses t
 
 # Steps
 1. Navigate in the console to S3 where you told your pipeline to expect the source (the `Source` object in the `pipelinespec.yaml` file).
-1. Zip up the source files from your local folder, ensuring the name of the zip file is what your pipeline expects.
-  > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
-
+1. Zip up the source files from your local folder, ensuring the name of the zip file is what your pipeline expects.  
+  > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.  
   ```sh
   SOURCE_ZIPFILE_NAME="pipeline-source.zip"
   S3_BUCKET_NAME="a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn"
