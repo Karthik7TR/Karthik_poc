@@ -18,7 +18,7 @@ Eventually this will be automated but for now you'll have to do this in the cons
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
   ```sh
   RESOURCE_OWNER="firstname.lastname@tr.com"
-  TEN_ACCOUNT_ID="TEN-Acct-Id"
+  TEN_ACCOUNT_ID="TEN-Acct-Id" # FIXME Change this to your u ID (e.x. u0106226)
   ASSET_ID="206296"
   STACK_NAME="a${ASSET_ID}-${TEN_ACCOUNT_ID}-cumulus-pipeline-pipeline"
   ENVIRONMENT_TYPE="DEVELOPMENT"

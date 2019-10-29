@@ -7,7 +7,7 @@ Deploy the first version of your application.  See how the pipeline progresses t
   ```sh
   SOURCE_ZIPFILE_NAME="pipeline-source.zip"
   S3_BUCKET_NAME="a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn"
-  S3_SOURCE_BUCKET_DIR="TEN-Acct-Id"
+  S3_SOURCE_BUCKET_DIR="TEN-Acct-Id" # FIXME Change this to your u ID (e.x. u0106226)
   AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
   REGION="us-east-1"
   zip -q -r ${SOURCE_ZIPFILE_NAME} .
