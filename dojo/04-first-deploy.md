@@ -15,7 +15,7 @@ Deploy the first version of your application.  See how the pipeline progresses t
   rm ${SOURCE_ZIPFILE_NAME}
   ```
 
-1. Navigate to the console | CodePipeline and search for TEN-Acct-Id and watch your pipeline work!
+1. Navigate to the console | CodePipeline and search for your TEN-Acct-Id and watch your pipeline work!
 1. When it gets to the Deploy_dev stage's Running step, click Details to see the step function driving the blue/green deployment.
 1. Eventually you will get an email letting you know that your application is ready for review.  As this is the initial deploy, go ahead and approve it.  Next time we deploy however, we will look at the listener rules to understand how we do blue/green.
 1. The step function should finish a few seconds later.

@@ -12,12 +12,13 @@ This file tells the deployment engine what to do.  Among other things, it says t
 pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml
 ```
 
-1. Create the pipeline CloudFormation stack using the template output from the command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  
-Eventually this will be automated but for now you'll have to do this in the console.  Or, you could use the script below.
+1. Create the pipeline CloudFormation stack using the template output from the command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  Eventually this will be automated but for now you'll have to do this in the console.  
+  **OR**  
+  You could use the script below.
 
   > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
   ```sh
-  RESOURCE_OWNER="firstname.lastname@tr.com"
+  RESOURCE_OWNER="firstname.lastname@tr.com" # FIXME Change to your email.
   TEN_ACCOUNT_ID="TEN-Acct-Id" # FIXME Change this to your u ID (e.x. u0106226)
   ASSET_ID="206296"
   STACK_NAME="a${ASSET_ID}-${TEN_ACCOUNT_ID}-cumulus-pipeline-pipeline"
