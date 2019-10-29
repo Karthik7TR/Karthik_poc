@@ -14,10 +14,6 @@ In this workshop we will create all the resources necessary to use Project Cumul
 
 ## Prerequisites
 * [General prerequisites](https://thehub.thomsonreuters.com/docs/DOC-2914661)
-* cloud-tool
-* Python 3.7 (preferably in a virtual environment such as with [Anaconda](https://www.anaconda.com/distribution/).)
-* BAMS setup as a [pip repository](https://thehub.thomsonreuters.com/docs/DOC-2735743)
-
 
 ## Steps
 Perform the steps below in order.  However, if this is an onsite hands-on training, please do not progress to the next step until we are all there together.
