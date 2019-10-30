@@ -1,0 +1,10 @@
+.gradle
+.idea
+*.iml
+classes
+*.log
+out
+/ebookGenerator/build/
+/eBookGatherer/build/
+/ebookGeneratorCore/build/
+/ebookManager/build/

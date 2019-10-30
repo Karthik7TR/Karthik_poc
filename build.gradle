@@ -1,0 +1,37 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+
+    if (project.name != 'ebookGeneratorCore') {
+        apply plugin: "war"
+        war {
+            from 'WebContent'
+        }
+        compileJava.dependsOn ':ebookGeneratorCore:buildNeeded'
+    }
+
+    repositories {
+        flatDir {
+            dirs '../eBookGeneratorCore/lib', '../eBookGeneratorCore/lib/findbugs/lib', '../eBookGeneratorCore/lib/build/jacoco/lib'
+        }
+    }
+
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    checkstyle {
+        configFile file("./ant/checkStyleConfig.xml")
+        toolVersion '5.1'
+        maxErrors(9999)
+        maxWarnings(9999999)
+    }
+
+    findbugs {
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/reports/findbugs")
+        effort = "max"
+    }
+}

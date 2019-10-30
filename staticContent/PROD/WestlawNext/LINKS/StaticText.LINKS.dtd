@@ -1,9 +1,0 @@
-﻿<!-- Copyright 2010: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
-<!-- Static Text -->
-
-<!ENTITY tenUnderscores "__________">
-<!ENTITY draftersNotes "Drafter's Notes">
-
-<!-- Indexing : for BIN / TRNI -->
-<!ENTITY disclosureNumberLabel " Disclosure Number: (">
-<!ENTITY stockExchangeLabel "Stock Exchange : ">

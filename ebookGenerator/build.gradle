@@ -1,0 +1,25 @@
+sourceSets {
+    main {
+        java {
+            srcDirs = [ "src"]
+        }
+        resources {
+            srcDirs = [ "src", "resources" ]
+        }
+    }
+    test {
+        java {
+            srcDirs = ["srctest", "IntegrationTests"]
+        }
+        resources {
+            srcDirs = ["srctest", "IntegrationTests", "resources"]
+        }
+    }
+}
+
+dependencies {
+    compile project(":ebookGeneratorCore")
+    annotationProcessor files('../ebookGeneratorCore/lib/lombok-1.16.18.jar')
+    testAnnotationProcessor files('../ebookGeneratorCore/lib/lombok-1.16.18.jar')
+}
+

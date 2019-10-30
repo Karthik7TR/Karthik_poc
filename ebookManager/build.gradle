@@ -1,0 +1,30 @@
+sourceSets {
+    main {
+        java {
+            srcDirs = [ "src" ]
+        }
+        resources {
+            srcDirs = [ "src" ]
+        }
+    }
+    test {
+        java {
+            srcDirs = ["srctest"]
+        }
+        resources {
+            srcDirs = ["srctest"]
+        }
+    }
+}
+
+//processResources {
+//    from "${projectDir}/deploy"
+//    into "${buildDir}/libs/"
+//}
+dependencies {
+    compile project(":ebookGeneratorCore")
+    implementation fileTree(include: ['/**/*.jar'], dir: 'WebContent')
+    annotationProcessor files('../ebookGeneratorCore/lib/lombok-1.16.18.jar')
+    testAnnotationProcessor files('../ebookGeneratorCore/lib/lombok-1.16.18.jar')
+}
+

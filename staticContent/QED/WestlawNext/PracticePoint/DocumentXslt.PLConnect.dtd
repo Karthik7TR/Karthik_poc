@@ -1,9 +1,0 @@
-﻿<!ENTITY % document.PLConnect SYSTEM "../DefaultProductView/DocumentXslt.WLN.dtd">
-<!ENTITY % staticText.PLConnect SYSTEM "StaticText.PLConnect.dtd">
-<!ENTITY % cssClasses.PLConnect SYSTEM "CssClasses.PLConnect.dtd">
-<!ENTITY % elementIds.PLConnect SYSTEM "ElementIds.PLConnect.dtd">
-
-%staticText.PLConnect;
-%cssClasses.PLConnect;
-%elementIds.PLConnect;
-%document.PLConnect;
