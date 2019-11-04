@@ -17,6 +17,10 @@ sourceSets {
     }
 }
 
+war {
+    archiveFileName = 'eBookGatherer.war'
+}
+
 dependencies {
     compile project(":ebookGeneratorCore")
     implementation fileTree(include: ['/**/*.jar'], dir: 'WebContent')

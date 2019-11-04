@@ -17,6 +17,10 @@ sourceSets {
     }
 }
 
+war {
+    archiveFileName = 'eBookGenerator.war'
+}
+
 dependencies {
     compile project(":ebookGeneratorCore")
     annotationProcessor files('../ebookGeneratorCore/lib/lombok-1.16.18.jar')
