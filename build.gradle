@@ -6,9 +6,16 @@ subprojects {
     if (project.name != 'ebookGeneratorCore') {
         apply plugin: "war"
         war {
-            from 'WebContent'
+            from 'WebContent' exclude '/**/*.jar'
+        }
+        task copyDeployDir(type: Copy) {
+            from("$projectDir/deploy") {
+                include "**"
+            }
+            into "$buildDir/libs"
         }
         compileJava.dependsOn ':ebookGeneratorCore:buildNeeded'
+        assemble.dependsOn copyDeployDir
     }
 
     repositories {
@@ -23,7 +30,7 @@ subprojects {
     targetCompatibility = 1.8
 
     checkstyle {
-        configFile file("./ant/checkStyleConfig.xml")
+        configFile file("/../checkStyleConfig.xml")
         toolVersion '5.1'
         maxErrors(9999)
         maxWarnings(9999999)

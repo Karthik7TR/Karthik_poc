@@ -17,10 +17,6 @@ sourceSets {
     }
 }
 
-//processResources {
-//    from "${projectDir}/deploy"
-//    into "${buildDir}/libs/"
-//}
 dependencies {
     compile project(":ebookGeneratorCore")
     implementation fileTree(include: ['/**/*.jar'], dir: 'WebContent')
