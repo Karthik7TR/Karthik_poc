@@ -10,7 +10,7 @@ Provision the infrastructure used by Cumulus pipelines.  This includes the Blue/
 1. Inspect the file [installer_input.yaml](installer_input.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
 Ensure those lines with `# FIXME` in them are accurate.  The others can remain the same.  
 More information about this file can be found in the [configuration guide](https://thehub.thomsonreuters.com/docs/DOC-2914507).
-1. Run the command below to create your resources.  It will take about 10-15 minutes.  
+1. cd into your local repository (where the `installer_input.yaml` file is located and run the command below to create your resources.  It will take about 10-15 minutes.  
 ```sh
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
 cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml install
