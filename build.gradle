@@ -41,4 +41,8 @@ subprojects {
         reportsDir = file("$project.buildDir/reports/findbugs")
         effort = "max"
     }
+    test {
+        maxHeapSize = '1024m'
+        jvmArgs("-Xms256m", "-XX:MaxMetaspaceSize=256m")
+    }
 }
