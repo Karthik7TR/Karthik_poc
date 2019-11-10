@@ -1,2 +1,11 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
-* text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.transformed text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.preprocess text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.footnotes text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.main text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.page text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.part text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.html text eol=lf
+**/ebookGenerator/IntegrationTests/**/*.xml text eol=lf
+**/ebookGenerator/srctest/com/thomsonreuters/uscl/ereader/assemble/service/*.txt text eol=lf
+

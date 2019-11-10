@@ -43,6 +43,6 @@ subprojects {
     }
     test {
         maxHeapSize = '1024m'
-        jvmArgs("-Xms256m", "-XX:MaxMetaspaceSize=256m")
+        jvmArgs("-Xms1024m", "-XX:MaxMetaspaceSize=512m")
     }
 }
