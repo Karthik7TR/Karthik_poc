@@ -3,8 +3,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.step;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.DirectoryContentMatcher.hasSameContentAs;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -16,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
@@ -30,12 +28,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -53,6 +49,9 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
     private BookFileSystem bookFileSystem;
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
+    @Spy
+    @Resource(name = "resourcesFileSystemXpp")
+    private ResourcesFileSystem resourcesFileSystem;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
     @Mock
@@ -70,6 +69,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
         final File workDirectory = bookFileSystem.getWorkDirectory(sut);
         FileUtils.copyDirectory(new File(this.getClass().getResource("testdata").toURI()), workDirectory);
         createXppBundleMock();
+        doReturn(new File(this.getClass().getResource("coverArt.PNG").toURI())).when(resourcesFileSystem).getArtwork(any());
     }
 
     private void createXppBundleMock() {
@@ -122,11 +122,6 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
         @Bean(name = "moveResourcesToAssembleDirectoryXppTask")
         public MoveResourcesToAssembleDirectoryXpp moveResourcesToAssembleDirectoryXppTask() {
             return new MoveResourcesToAssembleDirectoryXpp();
-        }
-
-        @Bean
-        public ResourcesFileSystem resourcesFileSystemXpp() {
-            return new ResourcesFileSystemXppImpl();
         }
     }
 }
