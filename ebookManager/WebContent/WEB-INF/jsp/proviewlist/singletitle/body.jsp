@@ -29,12 +29,13 @@ function openFullcreenWindow(url)
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>"
 				   pagesize="10"
 				   partialList="false"
-				   size="resultSize" >
+				   size="resultSize"
+				   defaultsort="3">
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
 	  	<display:column title="ProView Display Name" property="title" sortable="true"/>
-	  	<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
+	  	<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparatorDesc" sortable="true"/>
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>

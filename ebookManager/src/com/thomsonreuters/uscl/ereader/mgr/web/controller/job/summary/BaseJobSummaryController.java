@@ -49,7 +49,7 @@ public abstract class BaseJobSummaryController {
             (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PageAndSort.class.getName());
         if (pageAndSort == null) {
             pageAndSort =
-                new PageAndSort<>(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE, DisplayTagSortProperty.START_TIME, false);
+                new PageAndSort<>(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE, DisplayTagSortProperty.JOB_EXECUTION_ID, false);
         }
         return pageAndSort;
     }

@@ -118,7 +118,7 @@ public final class JobSummaryControllerTest {
         final PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) session.getAttribute(PageAndSort.class.getName());
         Assert.assertEquals(false, pageAndSort.isAscendingSort());
-        Assert.assertEquals(DisplayTagSortProperty.START_TIME, pageAndSort.getSortProperty());
+        Assert.assertEquals(DisplayTagSortProperty.JOB_EXECUTION_ID, pageAndSort.getSortProperty());
 
         EasyMock.verify(mockJobService);
         EasyMock.verify(mockOutageService);
