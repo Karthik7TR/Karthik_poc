@@ -37,7 +37,7 @@ public class DocServiceMockImpl implements DocService {
 
         switch(collectionName) {
         case MOCK_COLLECTION_NAME:
-            return copyDocs(docGuids, MOCK_DOCS_DIR, contentDestinationDirectory);
+            return copyDocs(docGuids, MOCK_DOCS_DIR_SMALL, contentDestinationDirectory);
         case MOCK_COLLECTION_NAME_SMALL:
             return copyDocs(docGuids, MOCK_DOCS_DIR_SMALL, contentDestinationDirectory);
         default:

@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.stats.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -56,7 +57,7 @@ public interface PublishingStatsDao {
 
     Long findSuccessfullyPublishedGroupBook(Long ebookDefId);
 
-    List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId);
+    Set<String> findSuccessfullyPublishedIsbns();
 
     /**
      * Find Publishing stats

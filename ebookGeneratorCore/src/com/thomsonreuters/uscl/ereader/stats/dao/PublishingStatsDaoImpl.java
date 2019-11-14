@@ -4,7 +4,9 @@ import static org.hibernate.criterion.Restrictions.eq;
 import static org.hibernate.criterion.Restrictions.lt;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -104,15 +106,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
     }
 
     @Override
-    public List<String> findSuccessfullyPublishedIsbnByTitleId(final String titleId) {
+    public Set<String> findSuccessfullyPublishedIsbns() {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)
             .createAlias(AUDIT, "book")
             .setFetchMode(AUDIT, FetchMode.JOIN)
-            .add(Restrictions.eq("book.titleId", titleId))
             .add(getSuccessfulPublishStatusRestriction())
             .setProjection(Projections.distinct(Projections.property("book.isbn")));
-        return criteria.list();
+        return new HashSet<>(criteria.list());
     }
 
     @Override

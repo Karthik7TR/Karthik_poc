@@ -1,9 +1,12 @@
 package com.thomsonreuters.uscl.ereader.stats.service;
 
+import static java.util.Comparator.comparingLong;
+
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -18,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import static java.util.Comparator.comparingLong;
 
 @Service("publishingStatsService")
 public class PublishingStatsServiceImpl implements PublishingStatsService {
@@ -156,12 +157,13 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public Boolean hasIsbnBeenPublished(final String isbn, final String titleId) {
+    public Boolean hasIsbnBeenPublished(final String isbn) {
         final String digitalIsbn = isbn.replace("-", "");
 
-        final List<String> publishedIsbns = publishingStatsDAO.findSuccessfullyPublishedIsbnByTitleId(titleId);
+        final Set<String> publishedIsbns = publishingStatsDAO.findSuccessfullyPublishedIsbns();
 
         return publishedIsbns.stream()
+            .filter(Objects::nonNull)
             .map(publishedIsbn -> publishedIsbn.replace("-", ""))
             .anyMatch(digitalIsbn::equalsIgnoreCase);
     }

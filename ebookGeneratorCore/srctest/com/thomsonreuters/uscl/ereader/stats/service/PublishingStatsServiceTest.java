@@ -1,7 +1,9 @@
 package com.thomsonreuters.uscl.ereader.stats.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
@@ -70,32 +72,32 @@ public final class PublishingStatsServiceTest {
 
     @Test
     public void testHasIsbnBeenPublished() {
-        final List<String> isbns = new ArrayList<>();
+        final Set<String> isbns = new HashSet<>();
         isbns.add("1-2-3");
         isbns.add("1-1");
         isbns.add("1-2");
 
-        EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleId(TITLE_ID)).andReturn(isbns);
+        EasyMock.expect(mockDao.findSuccessfullyPublishedIsbns()).andReturn(isbns);
         EasyMock.replay(mockDao);
 
         final String isbn = "123";
-        final Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn, TITLE_ID);
+        final Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn);
         Assert.assertEquals(true, hasBeenPublished);
         EasyMock.verify(mockDao);
     }
 
     @Test
     public void testHasIsbnBeenPublished2() {
-        final List<String> isbns = new ArrayList<>();
+        final Set<String> isbns = new HashSet<>();
         isbns.add("1-2-3");
         isbns.add("1-1");
         isbns.add("1-2");
 
-        EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleId(TITLE_ID)).andReturn(isbns);
+        EasyMock.expect(mockDao.findSuccessfullyPublishedIsbns()).andReturn(isbns);
         EasyMock.replay(mockDao);
 
         final String isbn = "1";
-        final Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn, TITLE_ID);
+        final Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn);
         Assert.assertEquals(false, hasBeenPublished);
         EasyMock.verify(mockDao);
     }

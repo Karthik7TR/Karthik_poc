@@ -39,7 +39,7 @@ public interface PublishingStatsService {
 
     List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 
-    Boolean hasIsbnBeenPublished(String isbn, String titleId);
+    Boolean hasIsbnBeenPublished(String isbn);
 
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
 

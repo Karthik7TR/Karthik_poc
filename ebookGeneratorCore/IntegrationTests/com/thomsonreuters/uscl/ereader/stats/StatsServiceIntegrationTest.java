@@ -508,11 +508,11 @@ public class StatsServiceIntegrationTest {
 
     @Test
     public void testhasIsbnBeenPublished() {
-        Assert.assertFalse(service.hasIsbnBeenPublished("1", "titleid1"));
+        Assert.assertFalse(service.hasIsbnBeenPublished("1"));
         final PublishingStats jobstats = initStats(1);
         jobstats.setPublishStatus(PublishingStats.SUCCESFULL_PUBLISH_STATUS);
         service.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-        Assert.assertTrue(service.hasIsbnBeenPublished("1", "titleid1"));
+        Assert.assertTrue(service.hasIsbnBeenPublished("1"));
     }
 
     @Test

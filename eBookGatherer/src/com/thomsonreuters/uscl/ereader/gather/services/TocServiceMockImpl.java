@@ -48,9 +48,9 @@ public class TocServiceMockImpl implements TocService {
         throws GatherException {
         switch(collectionName) {
         case MOCK_COLLECTION_NAME:
-            return copyFile(MOCK_TOC_FILE, tocFile);
+            return copyFile(MOCK_TOC_FILE_SMALL, tocFile);
         case MOCK_INDEX_COLLECTION_NAME:
-            return copyFile(MOCK_INDEX_TOC_FILE, tocFile);
+            return copyFile(MOCK_INDEX_TOC_FILE_SMALL, tocFile);
         case MOCK_COLLECTION_NAME_SMALL:
             return copyFile(MOCK_TOC_FILE_SMALL, tocFile);
         case MOCK_INDEX_COLLECTION_NAME_SMALL:

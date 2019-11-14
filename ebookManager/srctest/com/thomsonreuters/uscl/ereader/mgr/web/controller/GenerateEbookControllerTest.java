@@ -137,7 +137,7 @@ public final class GenerateEbookControllerTest {
         given(mockMiscConfigService.getMiscConfig()).willReturn(new MiscConfig());
         given(mockGroupService.getLastGroup(eq(book))).willReturn(group);
         given(mockGroupService.createGroupDefinition(eq(book), eq("v1"), (List<String>) isNull())).willReturn(group);
-        given(mockPublishingStatsService.hasIsbnBeenPublished((String) isNull(), (String) isNull())).willReturn(false);
+        given(mockPublishingStatsService.hasIsbnBeenPublished((String) isNull())).willReturn(false);
 
         mockMvc
             .perform(
@@ -195,7 +195,7 @@ public final class GenerateEbookControllerTest {
         given(mockOutageService.getAllPlannedOutagesToDisplay()).willReturn(new ArrayList<PlannedOutage>());
         given(mockGroupService.getLastGroup(eq(book))).willReturn(group);
         given(mockGroupService.createGroupDefinition(any(), anyString(), anyList())).willReturn(group);
-        given(mockPublishingStatsService.hasIsbnBeenPublished((String) isNull(), (String) isNull())).willReturn(false);
+        given(mockPublishingStatsService.hasIsbnBeenPublished((String) isNull())).willReturn(false);
 
         mockMvc
             .perform(

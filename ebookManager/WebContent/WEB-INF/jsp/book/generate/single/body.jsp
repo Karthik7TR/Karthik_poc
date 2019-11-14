@@ -98,7 +98,7 @@
   }
   
   
-  function checkIsbn(){
+  function checkIsbn() {
 	  
 	  var confirmed = true;
 	  var isNewISBN = document.getElementById('isNewISBN').innerHTML;
@@ -108,13 +108,12 @@
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML;
 		
 	   
-	  if (isMajorVersion == "Y"){
+	  if (isMajorVersion == "Y") {
 	  	if(isNewISBN =="N"){
-			alert("Cannot generate book: Current ISBN " + isbn + " has already been used to publish a book. ISBN must be changed for major version.");
-		  	confirmed= false;
+	  		return confirm("WARNING: Current ISBN " + isbn + " has already been used to publish a book. Normally ISBN should be changed for major version.\nDo you still want to continue?");
 	  	}
 	  }
-	  else if (isMinorVersion == "Y" && isNewISBN =="Y" && newVersion == "1.0"){
+	  else if (isMinorVersion == "Y" && isNewISBN =="Y" && newVersion == "1.0") {
 		  //ignore as the book has not been generated yet
 	  }	 
 	  else {
@@ -122,7 +121,7 @@
 			confirmed = confirm("You are running a MINOR version with a new ISBN number\n" + isbn + "\nAre you sure this is not a MAJOR version? Do you still want to continue?");
 		}
 	  }
-	  if (confirmed){
+	  if (confirmed) {
 		  confirmed = confirm("Generate with ISBN: " + isbn);
   	  }
 	  return confirmed;
