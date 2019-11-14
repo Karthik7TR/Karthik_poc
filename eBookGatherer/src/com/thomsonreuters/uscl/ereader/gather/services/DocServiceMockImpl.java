@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.services;
 
+import static java.util.Optional.ofNullable;
+
 import java.io.File;
 import java.util.Collection;
 
@@ -34,8 +36,7 @@ public class DocServiceMockImpl implements DocService {
         final boolean isFinalStage,
         final boolean useReloadContent)
         throws GatherException {
-
-        switch(collectionName) {
+        switch(ofNullable(collectionName).orElse("")) {
         case MOCK_COLLECTION_NAME:
             return copyDocs(docGuids, MOCK_DOCS_DIR_SMALL, contentDestinationDirectory);
         case MOCK_COLLECTION_NAME_SMALL:
