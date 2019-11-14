@@ -20,7 +20,10 @@ subprojects {
 
     repositories {
         flatDir {
-            dirs '../eBookGeneratorCore/lib', '../eBookGeneratorCore/lib/findbugs/lib', '../eBookGeneratorCore/lib/build/jacoco/lib'
+            dirs '../eBookGeneratorCore/lib',
+                    '../eBookGeneratorCore/plugins/',
+                    '../eBookGeneratorCore/plugins/findbugs/lib',
+                    '../eBookGeneratorCore/lib/build/jacoco/lib'
         }
     }
 
