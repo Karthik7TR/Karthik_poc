@@ -16,6 +16,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
@@ -23,13 +24,16 @@ import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupI
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
 public class GroupServiceImpl implements GroupService {
     private static final Logger LOG = LogManager.getLogger(GroupServiceImpl.class);
+    private BookDefinitionService bookDefinitionService;
     private ProviewHandler proviewHandler;
     private List<String> pilotBooksNotFound;
 
@@ -123,6 +127,13 @@ public class GroupServiceImpl implements GroupService {
             return groups.get(0);
         }
         return null;
+    }
+
+    @SneakyThrows
+    @Override
+    public GroupDefinition getGroupOfTitle(final String title) {
+        BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(title);
+        return getLastGroup(book);
     }
 
     /**
@@ -587,6 +598,11 @@ public class GroupServiceImpl implements GroupService {
             }
         }
         return new ArrayList<>();
+    }
+
+    @Autowired
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
+        this.bookDefinitionService = bookDefinitionService;
     }
 
     @Required

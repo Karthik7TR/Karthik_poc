@@ -114,6 +114,7 @@ public class WebConstants {
     public static final String KEY_MAX_SPLIT_PARTS = "maxEbookSplitParts";
     public static final String KEY_SUBGROUP_HEADING = "subGroupHeading";
     public static final String KEY_IS_NEW_SUBGROUP = "isNewSUB";
+    public static final String KEY_IS_GROUP_FINAL = "isGroupFinal";
     public static final String KEY_GROUP_CURRENT_PREVIEW = "groupCurrentPreview";
     public static final String KEY_GROUP_NEXT_PREVIEW = "groupNextPreview";
     public static final String KEY_GROUP_NEXT_ERROR = "groupNextErrorMessage";

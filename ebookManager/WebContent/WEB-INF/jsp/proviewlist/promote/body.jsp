@@ -20,15 +20,13 @@
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
   			return true; 
   		}
- 		
- 		function disablePromoteButton() {
- 			var promoteButton = document.getElementById('promoteButton');
- 			promoteButton.disabled = true;
- 			promoteButton.classList.add('ui-state-disabled');
- 		}
 		
  		 function submitPromote(cmd){
- 			 var confirmed = confirm("Are you sure to promote this title version to Final?");
+ 			 var confirmMessage = "Are you sure to promote this title version to Final?";
+ 			 if ("false" === "${isGroupFinal}") {
+				 confirmMessage += "\n\n" + "WARNING: Group ${groupName} is not in Final stage.";
+			 }
+ 			 var confirmed = confirm(confirmMessage);
  			 if (confirmed){
  				 submitForm(cmd);
  			 }

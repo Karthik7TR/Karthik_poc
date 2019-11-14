@@ -23,6 +23,8 @@ public interface GroupService {
 
     GroupDefinition getLastGroup(String groupId) throws Exception;
 
+    GroupDefinition getGroupOfTitle(String title);
+
     void createGroup(GroupDefinition groupDefinition) throws ProviewException;
 
     boolean isTitleWithVersion(String fullyQualifiedTitle);

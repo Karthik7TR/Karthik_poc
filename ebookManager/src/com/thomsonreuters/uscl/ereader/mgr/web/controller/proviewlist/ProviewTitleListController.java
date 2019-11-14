@@ -25,9 +25,11 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -60,6 +62,7 @@ public class ProviewTitleListController {
     private static final String TITLE_ID_S_VERSION_S = "Title id: %s, version: %s %s";
     private static final String SUCCESS = "Success";
     private static final String UNSUCCESSFUL = "Unsuccessful";
+    private static final String FINAL_STATUS = "Final";
 
     private final ProviewHandler proviewHandler;
     private final BookDefinitionService bookDefinitionService;
@@ -67,6 +70,7 @@ public class ProviewTitleListController {
     private final ManagerService managerService;
     private final MessageSourceAccessor messageSourceAccessor;
     private final JobRequestService jobRequestService;
+    private final GroupService groupService;
     private final ProviewTitleListService proviewTitleListService;
     private final OutageService outageService;
     private final EmailUtil emailUtil;
@@ -81,6 +85,7 @@ public class ProviewTitleListController {
         final ManagerService managerService,
         final MessageSourceAccessor messageSourceAccessor,
         final JobRequestService jobRequestService,
+        final GroupService groupService,
         final ProviewTitleListService proviewTitleListService,
         final EmailUtil emailUtil,
         final EmailService emailService,
@@ -93,6 +98,7 @@ public class ProviewTitleListController {
         this.managerService = managerService;
         this.messageSourceAccessor = messageSourceAccessor;
         this.jobRequestService = jobRequestService;
+        this.groupService = groupService;
         this.proviewTitleListService = proviewTitleListService;
         this.emailUtil = emailUtil;
         this.emailService = emailService;
@@ -336,6 +342,7 @@ public class ProviewTitleListController {
         @RequestParam("lastUpdate") final String lastUpdate,
         final Model model) {
         addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model);
+        addGroupInfo(model, titleId);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
     }
 
@@ -351,6 +358,14 @@ public class ProviewTitleListController {
         model.addAttribute(
             WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
             new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
+    }
+
+    private void addGroupInfo(final Model model, final String titleId) {
+        GroupDefinition group = groupService.getGroupOfTitle(titleId);
+        if (group != null) {
+            model.addAttribute(WebConstants.KEY_IS_GROUP_FINAL, FINAL_STATUS.equalsIgnoreCase(group.getStatus()));
+            model.addAttribute(WebConstants.KEY_GROUP_NAME, group.getName());
+        }
     }
 
     private boolean isJobRunningForBook(final Model model, final String titleId, String version) {
