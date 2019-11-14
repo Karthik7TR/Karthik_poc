@@ -30,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
@@ -62,6 +63,8 @@ public final class ProviewTitleListControllerTest {
     private ManagerService mockManagerService;
     private BookDefinitionService mockBookDefinitionService;
     private ProviewAuditService mockProviewAuditService;
+    private GroupService mockGroupService;
+    private ProviewTitleListService mockTitleListService;
     private MessageSourceAccessor mockMessageSourceAccessor;
     private JobRequestService mockJobRequestService;
     private EmailUtil emailUtil;
@@ -78,6 +81,8 @@ public final class ProviewTitleListControllerTest {
         mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
+        mockTitleListService = EasyMock.createMock(ProviewTitleListService.class);
+        mockGroupService = EasyMock.createMock(GroupService.class);
         mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
         emailUtil = EasyMock.createMock(EmailUtil.class);
@@ -90,7 +95,8 @@ public final class ProviewTitleListControllerTest {
             mockManagerService,
             mockMessageSourceAccessor,
             mockJobRequestService,
-            null,
+            mockGroupService,
+            mockTitleListService,
             emailUtil,
             mockEmailService,
             mockOutageService,
