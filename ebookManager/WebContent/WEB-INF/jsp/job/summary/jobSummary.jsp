@@ -20,6 +20,7 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<script src="js/tables.js"></script>
 <script>
 $(document).ready(function() {
 	$('#selectAll').click(function () {
@@ -91,7 +92,7 @@ function submitJobSummaryForm(command) {
 	  <display:setProperty name="basic.msg.empty_list">No job executions were found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column title="${selectAllElement}"  style="text-align: center">
-  		<form:checkbox path="jobExecutionIds" value="${job.jobExecutionId}"/>
+  		<form:checkbox path="jobExecutionIds" class="simple-checkbox" value="${job.jobExecutionId}" onclick="updateSelectAll(this)"/>
   	  </display:column>
   	  <!-- The book name displayed in this column is what the name was when the job was run for this definition ID (it may be different now). -->
 	  <display:column title="ProView Display Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>

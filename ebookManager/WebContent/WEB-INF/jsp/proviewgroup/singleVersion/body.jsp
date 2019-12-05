@@ -19,6 +19,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 
+<script src="js/tables.js"></script>
 <script>
 $(document).ready(function() {
 	$('#selectAll').click(function () {
@@ -191,7 +192,7 @@ function submitGroupForm(command) {
 		<display:setProperty name="paging.banner.onepage" value=" " />
 		
 		<display:column title="${selectAllElement}"  style="text-align: center">
-			<form:checkbox path="groupMembers" value="${groupDetail.idWithVersion}" />
+			<form:checkbox path="groupMembers" class="simple-checkbox" value="${groupDetail.idWithVersion}" onclick="updateSelectAll(this)" />
 		</display:column>
 		<c:choose>
 		

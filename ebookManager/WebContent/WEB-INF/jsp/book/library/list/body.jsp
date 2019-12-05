@@ -17,7 +17,7 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-	 
+	<script src="js/tables.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#selectAll').click(function () {
@@ -28,17 +28,6 @@
 			$('#command').val(cmd);
 			$('<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
 		};
-		
-		$(document).ready(function() {
-		$('.libCheckBoxchildElement').change(function () {
-			 if ($('.libCheckBoxchildElement:checked').length == $('.libCheckBoxchildElement').length){
-			  $('#selectAll').prop('checked',true);
-			 }
-			 else {
-			  $('#selectAll').prop('checked',false);
-			 }
-			});
-		});
 		
 	</script>
 <%-- Select for how may items (rows) per page to show --%>
@@ -97,7 +86,7 @@
 	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
 	  <display:column title="${selectAll}"  style="text-align: center">
-	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}" cssClass="libCheckBoxchildElement"/>
+	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}" cssClass="simple-checkbox"/>
 	  </display:column>
 	  <display:column title="ProView Display Name" sortable="true" sortProperty="<%=DisplayTagSortProperty.PROVIEW_DISPLAY_NAME.toString() %>" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
