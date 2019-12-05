@@ -16,7 +16,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
@@ -33,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("publishingStatsService")
 public class PublishingStatsServiceImpl implements PublishingStatsService {
     public static final String AUTOMATIC_UPDATE = "AUTOMATIC UPDATE";
+    public static final String DOES_NOT_EXIST_ON_PROVIEW = "does not exist";
 
     private static final Logger LOG = LogManager.getLogger(PublishingStatsServiceImpl.class);
 
@@ -267,8 +270,20 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 
     @SneakyThrows
     private boolean isLastVersionWithIsbn(final String titleId, final String isbnToFind) {
-        return proviewHandler.getProviewTitleContainer(titleId).getProviewTitleInfos().stream()
+        try {
+            return isContainsIsbn(proviewHandler.getProviewTitleContainer(titleId), titleId, isbnToFind);
+        } catch (ProviewException e) {
+            if (e.getMessage().contains(DOES_NOT_EXIST_ON_PROVIEW)) {
+                return true;
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    private boolean isContainsIsbn(ProviewTitleContainer titleContainer, final String titleId, final String isbn) {
+        return titleContainer.getProviewTitleInfos().stream()
             .map(titleInfo -> getIsbnByTitleAndVersion(titleId, titleInfo.getVersion()))
-            .noneMatch(isbnToFind::equalsIgnoreCase);
+            .noneMatch(isbn::equalsIgnoreCase);
     }
 }

@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -44,6 +45,8 @@ public final class PublishingStatsServiceTest {
     private ProviewHandler mockProviewHandler;
     private ProviewTitleContainer titleContainer;
     private ProviewTitleInfo titleInfo;
+    private EbookAudit audit;
+    private BookDefinition book;
 
     @Before
     public void setUp() {
@@ -58,6 +61,8 @@ public final class PublishingStatsServiceTest {
 
         titleContainer = EasyMock.createMock(ProviewTitleContainer.class);
         titleInfo = EasyMock.createMock(ProviewTitleInfo.class);
+        audit = EasyMock.createMock(EbookAudit.class);
+        book = EasyMock.createMock(BookDefinition.class);
 
         for (int i = 0; i < 10; i++) {
             final PublishingStats stat = new PublishingStats();
@@ -129,9 +134,6 @@ public final class PublishingStatsServiceTest {
 
     @Test
     public void testDeleteIsbnLastVersion() {
-        EbookAudit audit = EasyMock.createMock(EbookAudit.class);
-        BookDefinition book = EasyMock.createMock(BookDefinition.class);
-
         EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleIdAndVersion(TITLE_ID, versionWithoutPrefix))
             .andReturn(ISBN);
         recordIsLastVersionWithIsbn(true);
@@ -159,6 +161,24 @@ public final class PublishingStatsServiceTest {
         service.deleteIsbn(TITLE_ID, VERSION);
 
         EasyMock.verify(mockDao, mockProviewHandler, titleContainer, titleInfo, mockAuditService);
+    }
+
+    @SneakyThrows
+    @Test
+    public void testDeleteIsbnFirstVersionOfBook() {
+        EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleIdAndVersion(TITLE_ID, versionWithoutPrefix))
+            .andReturn(ISBN);
+        EasyMock.expect(mockProviewHandler.getProviewTitleContainer(TITLE_ID))
+            .andThrow(new ProviewException(TITLE_ID + " " + PublishingStatsServiceImpl.DOES_NOT_EXIST_ON_PROVIEW));
+        EasyMock.expect(mockAuditService.modifyIsbn(TITLE_ID, ISBN, EbookAuditDao.DELETE_ISBN_TEXT))
+            .andReturn(Optional.of(audit));
+
+        recordRestoreIsbn(audit, book);
+        EasyMock.replay(mockDao, mockProviewHandler, mockAuditService, mockBookDefinitionService, audit, book);
+
+        service.deleteIsbn(TITLE_ID, VERSION);
+
+        EasyMock.verify(mockDao, mockProviewHandler, mockAuditService, mockBookDefinitionService, audit, book);
     }
 
     @Test
