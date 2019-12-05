@@ -7,6 +7,7 @@ import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,12 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
     @Override
     @Transactional(readOnly = true)
     public BookDefinition findBookDefinitionByTitle(final String titleId) {
-        return bookDefinitionDao.findBookDefinitionByTitle(titleId);
+        final TitleId title = new TitleId(titleId);
+        BookDefinition bookDef = bookDefinitionDao.findBookDefinitionByTitle(title.getTitleId());
+        if (bookDef == null) {
+            bookDef = bookDefinitionDao.findBookDefinitionByTitle(title.getHeadTitleId());
+        }
+        return bookDef;
     }
 
     @Override

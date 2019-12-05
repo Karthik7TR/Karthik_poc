@@ -34,6 +34,17 @@ public final class BookDefinitionServiceTest {
     }
 
     @Test
+    public void testFindBookDefinitionTitleIsNull() {
+        final String titleId = BOOK_KEY + "_pt2";
+        EasyMock.expect(bookDefinitionDao.findBookDefinitionByTitle(titleId)).andReturn(null);
+        EasyMock.expect(bookDefinitionDao.findBookDefinitionByTitle(BOOK_KEY)).andReturn(expectedBookDefinition);
+        EasyMock.replay(bookDefinitionDao);
+        final BookDefinition actualBookDefinition = service.findBookDefinitionByTitle(titleId);
+        Assert.assertEquals(expectedBookDefinition, actualBookDefinition);
+        EasyMock.verify(bookDefinitionDao);
+    }
+
+    @Test
     public void testSaveBookDefinition() {
         EasyMock.expect(bookDefinitionDao.saveBookDefinition(expectedBookDefinition)).andReturn(expectedBookDefinition);
         EasyMock.replay(bookDefinitionDao);
