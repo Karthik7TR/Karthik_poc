@@ -134,7 +134,7 @@ public final class PublishingStatsServiceTest {
 
         EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleIdAndVersion(TITLE_ID, versionWithoutPrefix))
             .andReturn(ISBN);
-        recordIsLastVersion();
+        recordIsLastVersionWithIsbn(true);
         EasyMock.expect(mockAuditService.modifyIsbn(TITLE_ID, ISBN, EbookAuditDao.DELETE_ISBN_TEXT))
             .andReturn(Optional.of(audit));
         recordRestoreIsbn(audit, book);
@@ -153,9 +153,7 @@ public final class PublishingStatsServiceTest {
     public void testDeleteIsbnNotLastVersion() {
         EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleIdAndVersion(TITLE_ID, versionWithoutPrefix))
             .andReturn(ISBN);
-        EasyMock.expect(mockProviewHandler.getProviewTitleContainer(TITLE_ID)).andReturn(titleContainer);
-        EasyMock.expect(titleContainer.getAllMajorVersions()).andReturn(Collections.singletonList(titleInfo));
-        EasyMock.expect(titleInfo.getMajorVersion()).andReturn(MAJOR_VERSION);
+        recordIsLastVersionWithIsbn(false);
         EasyMock.replay(mockDao,mockProviewHandler, titleContainer, titleInfo, mockAuditService);
 
         service.deleteIsbn(TITLE_ID, VERSION);
@@ -201,10 +199,14 @@ public final class PublishingStatsServiceTest {
     }
 
     @SneakyThrows
-    private void recordIsLastVersion() {
+    private void recordIsLastVersionWithIsbn(boolean isIsbnDifferent) {
+        String anotherVersion = "v33.3";
+        String isbn = isIsbnDifferent ? "40-40-40-5" : ISBN;
         EasyMock.expect(mockProviewHandler.getProviewTitleContainer(TITLE_ID)).andReturn(titleContainer);
-        EasyMock.expect(titleContainer.getAllMajorVersions()).andReturn(Collections.singletonList(titleInfo));
-        EasyMock.expect(titleInfo.getMajorVersion()).andReturn(MAJOR_VERSION + 3);
+        EasyMock.expect(titleContainer.getProviewTitleInfos()).andReturn(Collections.singletonList(titleInfo));
+        EasyMock.expect(titleInfo.getVersion()).andReturn(anotherVersion);
+        EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleIdAndVersion(TITLE_ID,
+            anotherVersion.replace(Version.VERSION_PREFIX, ""))).andReturn(isbn);
     }
 
     private void recordRestoreIsbn(EbookAudit audit, BookDefinition book) {
