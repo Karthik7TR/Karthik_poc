@@ -36,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +74,7 @@ public class ProviewTitleListController {
     private final GroupService groupService;
     private final ProviewTitleListService proviewTitleListService;
     private final OutageService outageService;
+    private final PublishingStatsService publishingStatsService;
     private final EmailUtil emailUtil;
     private final EmailService emailService;
     private final String environmentName;
@@ -87,6 +89,7 @@ public class ProviewTitleListController {
         final JobRequestService jobRequestService,
         final GroupService groupService,
         final ProviewTitleListService proviewTitleListService,
+        final PublishingStatsService publishingStatsService,
         final EmailUtil emailUtil,
         final EmailService emailService,
         final OutageService outageService,
@@ -100,6 +103,7 @@ public class ProviewTitleListController {
         this.jobRequestService = jobRequestService;
         this.groupService = groupService;
         this.proviewTitleListService = proviewTitleListService;
+        this.publishingStatsService = publishingStatsService;
         this.emailUtil = emailUtil;
         this.emailService = emailService;
         this.outageService = outageService;
@@ -489,31 +493,34 @@ public class ProviewTitleListController {
 
     @SneakyThrows
     private void deleteTitle(final ProviewTitleForm form, final HttpSession httpSession) {
-        if (proviewHandler.deleteTitle(form.getTitleId(), new Version(form.getVersion()))) {
+        final String titleId = form.getTitleId();
+        final String version = form.getVersion();
+        if (proviewHandler.deleteTitle(titleId, new Version(version))) {
             final Map<String, ProviewTitleContainer> proviewTitleContainerMap = fetchAllProviewTitleInfo(httpSession);
-            proviewTitleContainerMap.computeIfPresent(form.getTitleId(), (key, value) -> {
-                value.getProviewTitleInfos().removeIf(item -> item.getVersion().equals(form.getVersion()));
+            proviewTitleContainerMap.computeIfPresent(titleId, (key, value) -> {
+                value.getProviewTitleInfos().removeIf(item -> item.getVersion().equals(version));
                 return value;
             });
-            if (proviewTitleContainerMap.containsKey(form.getTitleId())
-                && CollectionUtils.isEmpty(proviewTitleContainerMap.get(form.getTitleId()).getProviewTitleInfos())) {
-                proviewTitleContainerMap.remove(form.getTitleId());
+            if (proviewTitleContainerMap.containsKey(titleId)
+                && CollectionUtils.isEmpty(proviewTitleContainerMap.get(titleId).getProviewTitleInfos())) {
+                proviewTitleContainerMap.remove(titleId);
             }
             final List<ProviewTitleInfo> latestProviewTitleInfo =
                 proviewHandler.getAllLatestProviewTitleInfo(proviewTitleContainerMap);
             final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
 
             if (selectedProviewTitleInfo.removeIf(item ->
-                item.getTitleId().equals(form.getTitleId()) && item.getVersion().equals(form.getVersion()))) {
-                if (proviewTitleContainerMap.containsKey(form.getTitleId())) {
+                item.getTitleId().equals(titleId) && item.getVersion().equals(version))) {
+                if (proviewTitleContainerMap.containsKey(titleId)) {
                     final ProviewTitleInfo updatedLatestVersion =
-                        proviewTitleContainerMap.get(form.getTitleId()).getLatestVersion();
+                        proviewTitleContainerMap.get(titleId).getLatestVersion();
                     selectedProviewTitleInfo.add(updatedLatestVersion);
                 }
             }
             saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
             saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
             saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
+            publishingStatsService.deleteIsbn(titleId, version);
         }
     }
 

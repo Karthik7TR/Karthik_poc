@@ -2,13 +2,14 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import static java.util.Comparator.comparingLong;
 
-import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
+import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MODIFY_ISBN_TEXT;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
@@ -92,13 +93,23 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 
     @Override
     @Transactional
-    public Optional<EbookAudit> modifyIsbn(final String titleId, final String isbn) {
+    public Optional<EbookAudit> modifyIsbn(final String titleId, final String isbn, final String modifyingText) {
         return eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn).stream()
                 .peek(audit -> {
-                    audit.setIsbn(MOD_TEXT + audit.getIsbn());
+                    audit.setIsbn(modifyingText + audit.getIsbn());
                     eBookAuditDAO.saveAudit(audit);
                 })
                 .max(comparingLong(EbookAudit::getAuditId));
+    }
+
+    @Override
+    public void restoreIsbn(BookDefinition book, String userName) {
+        EbookAudit auditRestoreIsbn = new EbookAudit();
+        auditRestoreIsbn.loadBookDefinition(book,
+            EbookAudit.AUDIT_TYPE.RESTORE,
+            userName,
+            "Restored ISBN");
+        saveEBookAudit(auditRestoreIsbn);
     }
 
     @Override
@@ -106,7 +117,7 @@ public class EBookAuditServiceImpl implements EBookAuditService {
     public void resetIsbn(final String titleId, final String isbn) {
         eBookAuditDAO.findEbookAuditByTitleIdAndModifiedIsbn(titleId, isbn)
                 .forEach(audit -> {
-                    audit.setIsbn(StringUtils.substringAfter(audit.getIsbn(), MOD_TEXT));
+                    audit.setIsbn(StringUtils.substringAfter(audit.getIsbn(), MODIFY_ISBN_TEXT));
                     eBookAuditDAO.saveAudit(audit);
                 });
     }

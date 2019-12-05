@@ -59,6 +59,8 @@ public interface PublishingStatsDao {
 
     Set<String> findSuccessfullyPublishedIsbns();
 
+    String findSuccessfullyPublishedIsbnByTitleIdAndVersion(final String titleId, final String version);
+
     /**
      * Find Publishing stats
      *

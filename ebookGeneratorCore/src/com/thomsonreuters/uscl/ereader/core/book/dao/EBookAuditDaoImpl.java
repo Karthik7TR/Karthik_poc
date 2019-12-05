@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
-import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
-
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -129,7 +127,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
         final Session session = sessionFactory.getCurrentSession();
         final Criteria criteria = session.createCriteria(EbookAudit.class);
         criteria.add(Restrictions.eq("titleId", titleId))
-                .add(Restrictions.eq("isbn", MOD_TEXT + isbn));
+                .add(Restrictions.eq("isbn", MODIFY_ISBN_TEXT + isbn));
         return criteria.list();
     }
 
@@ -139,7 +137,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
         final Session session = sessionFactory.getCurrentSession();
         final Criteria criteria = session.createCriteria(EbookAudit.class);
         criteria.add(Restrictions.eq("titleId", titleId))
-            .add(Restrictions.eq("isbn", MOD_TEXT + isbn))
+            .add(Restrictions.eq("isbn", MODIFY_ISBN_TEXT + isbn))
             .setMaxResults(1);
         return criteria.uniqueResult() != null;
     }
@@ -238,7 +236,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
             criteria.add(Restrictions.like("isbn", filter.getIsbn()).ignoreCase());
         }
         if (filter.getFilterEditedIsbn()) {
-            criteria.add(Restrictions.not(Restrictions.like("isbn", MOD_TEXT + "%")));
+            criteria.add(Restrictions.not(Restrictions.like("isbn", MODIFY_ISBN_TEXT + "%")));
         }
 
         return criteria;

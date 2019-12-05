@@ -117,6 +117,21 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
     }
 
     @Override
+    public String findSuccessfullyPublishedIsbnByTitleIdAndVersion(final String titleId, final String version) {
+        final Criteria criteria = sessionFactory.getCurrentSession()
+            .createCriteria(PublishingStats.class)
+            .createAlias(AUDIT, "book")
+            .setFetchMode(AUDIT, FetchMode.JOIN)
+            .add(Restrictions.eq("book.titleId", titleId))
+            .add(Restrictions.eq("bookVersionSubmitted", version))
+            .add(getSuccessfulPublishStatusRestriction())
+            .setProjection(Projections.distinct(Projections.property("book.isbn")))
+            .setFirstResult(0)
+            .setMaxResults(1);
+        return String.valueOf(criteria.uniqueResult());
+    }
+
+    @Override
     public Long findSuccessfullyPublishedGroupBook(final Long ebookDefId) {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)

@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
@@ -43,7 +44,9 @@ public interface EBookAuditService {
 
     int numberEbookAudits(EbookAuditFilter filter);
 
-    Optional<EbookAudit> modifyIsbn(String titleId, String isbn);
+    Optional<EbookAudit> modifyIsbn(String titleId, String isbn, String modifyText);
+
+    void restoreIsbn(BookDefinition book, String userName);
 
     void resetIsbn(String titleId, String isbn);
 

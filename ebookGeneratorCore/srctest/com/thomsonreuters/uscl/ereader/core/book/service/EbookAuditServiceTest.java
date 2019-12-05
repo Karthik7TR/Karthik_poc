@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
-import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
+import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MODIFY_ISBN_TEXT;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -90,9 +90,9 @@ public final class EbookAuditServiceTest {
         mockDao.saveAudit(expectedAudit);
         EasyMock.replay(mockDao);
 
-        final EbookAudit actualAudit = service.modifyIsbn(TITLE_ID, ISBN).get();
+        final EbookAudit actualAudit = service.modifyIsbn(TITLE_ID, ISBN, MODIFY_ISBN_TEXT).get();
 
-        assertEquals(MOD_TEXT + ISBN, actualAudit.getIsbn());
+        assertEquals(MODIFY_ISBN_TEXT + ISBN, actualAudit.getIsbn());
         EasyMock.verify(mockDao);
     }
 
@@ -111,7 +111,7 @@ public final class EbookAuditServiceTest {
     @Test
     public void shouldResetIsbn() {
         //given
-        expectedAudit.setIsbn(MOD_TEXT + expectedAudit.getIsbn());
+        expectedAudit.setIsbn(MODIFY_ISBN_TEXT + expectedAudit.getIsbn());
         auditList.add(expectedAudit);
         EasyMock.expect(mockDao.findEbookAuditByTitleIdAndModifiedIsbn(TITLE_ID, ISBN)).andReturn(auditList);
         mockDao.saveAudit(expectedAudit);

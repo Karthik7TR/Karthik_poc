@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
-import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
+import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MODIFY_ISBN_TEXT;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -104,7 +104,7 @@ public final class EbookAuditDaoTest {
         when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
         when(mockSession.createCriteria(EbookAudit.class)).thenReturn(mockCriteria);
         when(mockCriteria.add(any())).thenReturn(mockCriteria);
-        when(mockCriteria.add(eq(Restrictions.eq("ISBN", MOD_TEXT + ISBN)))).thenReturn(mockCriteria);
+        when(mockCriteria.add(eq(Restrictions.eq("ISBN", MODIFY_ISBN_TEXT + ISBN)))).thenReturn(mockCriteria);
         when(mockCriteria.setMaxResults(1)).thenReturn(mockCriteria);
         when(mockCriteria.uniqueResult()).thenReturn(expectedResult);
         //when
@@ -121,7 +121,7 @@ public final class EbookAuditDaoTest {
         when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
         when(mockSession.createCriteria(EbookAudit.class)).thenReturn(mockCriteria);
         when(mockCriteria.add(any())).thenReturn(mockCriteria);
-        when(mockCriteria.add(eq(Restrictions.eq("ISBN", MOD_TEXT + ISBN)))).thenReturn(mockCriteria);
+        when(mockCriteria.add(eq(Restrictions.eq("ISBN", MODIFY_ISBN_TEXT + ISBN)))).thenReturn(mockCriteria);
         when(mockCriteria.list()).thenReturn(expectedList);
         //when
         final List<EbookAudit> actualList = dao.findEbookAuditByTitleIdAndModifiedIsbn(TITLE_ID, ISBN);

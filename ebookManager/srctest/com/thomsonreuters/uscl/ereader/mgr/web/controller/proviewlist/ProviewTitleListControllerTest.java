@@ -37,6 +37,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -67,9 +68,14 @@ public final class ProviewTitleListControllerTest {
     private ProviewTitleListService mockTitleListService;
     private MessageSourceAccessor mockMessageSourceAccessor;
     private JobRequestService mockJobRequestService;
+    private PublishingStatsService mockPublishingStatsService;
     private EmailUtil emailUtil;
     private EmailService mockEmailService;
     private OutageService mockOutageService;
+
+    private String titleId;
+    private String version;
+    private String status;
 
     @Before
     public void SetUp() {
@@ -88,6 +94,7 @@ public final class ProviewTitleListControllerTest {
         emailUtil = EasyMock.createMock(EmailUtil.class);
         mockEmailService = EasyMock.createMock(EmailService.class);
         mockOutageService = EasyMock.createMock(OutageService.class);
+        mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
         controller = new ProviewTitleListController(
             mockProviewHandler,
             mockBookDefinitionService,
@@ -97,10 +104,15 @@ public final class ProviewTitleListControllerTest {
             mockJobRequestService,
             mockGroupService,
             mockTitleListService,
+            mockPublishingStatsService,
             emailUtil,
             mockEmailService,
             mockOutageService,
             "");
+
+        titleId = "anId";
+        version = "2";
+        status = "test";
     }
 
     @After
@@ -290,12 +302,7 @@ public final class ProviewTitleListControllerTest {
 
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_PROMOTE);
         request.setMethod(HttpMethod.POST.name());
-        final String titleId = "anId";
-        request.setParameter("titleId", titleId);
-        final String version = "2";
-        request.setParameter("version", version);
-        final String status = "test";
-        request.setParameter("status", status);
+        setRequestParameters(request);
         request.setParameter("command", ProviewTitleForm.Command.PROMOTE.toString());
 
         final BookDefinition bookDefinition = EasyMock.createNiceMock(BookDefinition.class);
@@ -315,7 +322,8 @@ public final class ProviewTitleListControllerTest {
         EasyMock.replay(bookDefinition);
 
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(definitionId)).andReturn(false);
-        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName)).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
+        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName))
+            .andReturn(Collections.singletonList(new InternetAddress("a@mail.com")));
         mockEmailService.send(EasyMock.anyObject());
         EasyMock.replay(mockEmailService);
         EasyMock.replay(mockJobRequestService);
@@ -337,12 +345,7 @@ public final class ProviewTitleListControllerTest {
 
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_REMOVE);
         request.setMethod(HttpMethod.POST.name());
-        final String titleId = "anId";
-        request.setParameter("titleId", titleId);
-        final String version = "v2.0";
-        request.setParameter("version", version);
-        final String status = "test";
-        request.setParameter("status", status);
+        setRequestParameters(request);
         request.setParameter("command", ProviewTitleForm.Command.REMOVE.toString());
 
         EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v2.0"))).andReturn(true);
@@ -367,20 +370,22 @@ public final class ProviewTitleListControllerTest {
 
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_DELETE);
         request.setMethod(HttpMethod.POST.name());
-        final String titleId = "anId";
-        request.setParameter("titleId", titleId);
-        final String version = "v2.0";
-        request.setParameter("version", version);
-        final String status = "test";
-        request.setParameter("status", status);
+        setRequestParameters(request);
         request.setParameter("command", ProviewTitleForm.Command.DELETE.toString());
 
         EasyMock.expect(mockProviewHandler.deleteTitle(titleId, new Version("v2.0"))).andReturn(true);
-        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName)).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
+        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName))
+            .andReturn(Collections.singletonList(new InternetAddress("a@mail.com")));
         mockEmailService.send(EasyMock.anyObject());
         EasyMock.replay(mockEmailService);
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, mav.getViewName());
+    }
+
+    private void setRequestParameters(MockHttpServletRequest request) {
+        request.setParameter("titleId", titleId);
+        request.setParameter("version", version);
+        request.setParameter("status", status);
     }
 }

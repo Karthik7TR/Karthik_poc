@@ -6,15 +6,23 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
+import lombok.SneakyThrows;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +32,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("publishingStatsService")
 public class PublishingStatsServiceImpl implements PublishingStatsService {
+    public static final String AUTOMATIC_UPDATE = "AUTOMATIC UPDATE";
+
     private static final Logger LOG = LogManager.getLogger(PublishingStatsServiceImpl.class);
 
+    private final EBookAuditService eBookAuditService;
+    private final BookDefinitionService bookDefinitionService;
     private final PublishingStatsDao publishingStatsDAO;
     private final PublishingStatsUtil publishingStatsUtil;
+    private final ProviewHandler proviewHandler;
 
     @Autowired
-    public PublishingStatsServiceImpl(final PublishingStatsDao publishingStatsDAO, final PublishingStatsUtil publishingStatsUtil) {
+    public PublishingStatsServiceImpl(final PublishingStatsDao publishingStatsDAO, final PublishingStatsUtil publishingStatsUtil,
+        final EBookAuditService eBookAuditService, final BookDefinitionService bookDefinitionService,
+        final ProviewHandler proviewHandler) {
         this.publishingStatsDAO = publishingStatsDAO;
         this.publishingStatsUtil = publishingStatsUtil;
+        this.eBookAuditService = eBookAuditService;
+        this.bookDefinitionService = bookDefinitionService;
+        this.proviewHandler = proviewHandler;
     }
 
     @Override
@@ -219,5 +237,38 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
     @Override
     public PublishingStats getPreviousPublishingStatsForSameBook(final long jobInstanceId) {
         return publishingStatsDAO.getPreviousPublishingStatsForSameBook(jobInstanceId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public void deleteIsbn(final String titleId, final String version) {
+        final String isbn = getIsbnByTitleAndVersion(titleId, version);
+        if (canBeDeleted(isbn) && isLastVersionWithIsbn(titleId, isbn)) {
+            final Optional<EbookAudit> auditUpdated = eBookAuditService.modifyIsbn(titleId, isbn, EbookAuditDao.DELETE_ISBN_TEXT);
+            if (auditUpdated.isPresent()) {
+                final Long bookDefinitionId = auditUpdated.get().getEbookDefinitionId();
+                final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
+                eBookAuditService.restoreIsbn(book, AUTOMATIC_UPDATE);
+            }
+        }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public String getIsbnByTitleAndVersion(final String title, final String fullVersion) {
+        final String version = new Version(fullVersion).getVersionWithoutPrefix();
+        return publishingStatsDAO.findSuccessfullyPublishedIsbnByTitleIdAndVersion(title, version);
+    }
+
+    private boolean canBeDeleted(String isbn) {
+        return isbn != null && !isbn.contains(EbookAuditDao.DELETE_ISBN_TEXT)
+            && !isbn.contains(EbookAuditDao.MODIFY_ISBN_TEXT);
+    }
+
+    @SneakyThrows
+    private boolean isLastVersionWithIsbn(final String titleId, final String isbnToFind) {
+        return proviewHandler.getProviewTitleContainer(titleId).getProviewTitleInfos().stream()
+            .map(titleInfo -> getIsbnByTitleAndVersion(titleId, titleInfo.getVersion()))
+            .noneMatch(isbnToFind::equalsIgnoreCase);
     }
 }

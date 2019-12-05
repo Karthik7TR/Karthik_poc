@@ -12,7 +12,8 @@ import org.springframework.dao.DataAccessException;
  *
  */
 public interface EbookAuditDao {
-    String MOD_TEXT = "modified-";
+    String MODIFY_ISBN_TEXT = "modified-";
+    String DELETE_ISBN_TEXT = "deleted-";
 
     /**
      * Query - findEbookAuditByPrimaryKey

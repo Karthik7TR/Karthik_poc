@@ -68,4 +68,8 @@ public interface PublishingStatsService {
      */
     @Nullable
     PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId);
+
+    void deleteIsbn(final String titleId, final String version);
+
+    String getIsbnByTitleAndVersion(String title, String version);
 }
