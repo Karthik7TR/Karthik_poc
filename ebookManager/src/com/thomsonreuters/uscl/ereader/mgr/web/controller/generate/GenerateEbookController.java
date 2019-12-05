@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.StringBool;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -25,7 +26,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperService;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -55,12 +55,12 @@ public class GenerateEbookController {
     private GroupService groupService;
     @Autowired(required = false)
     private JobRequestService jobRequestService;
-    @Autowired(required = false)
-    private PublishingStatsService publishingStatsService;
     @Autowired
     private OutageService outageService;
     @Autowired
     private GenerateHelperService generateFormService;
+    @Autowired
+    private VersionIsbnService versionIsbnService;
 
     @RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
     public ModelAndView generateBulkEbookPreview(@RequestParam("id") final List<Long> id, final Model model) {
@@ -187,7 +187,7 @@ public class GenerateEbookController {
             if (StringUtils.isNotBlank(form.getNewMajorVersion())) {
                 setModelGroup(book, model, form);
             }
-            setModelIsbn(id, book, model);
+            setModelIsbn(book, model);
         }
         final SecurityRole[] roles =
             {SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS};
@@ -395,11 +395,9 @@ public class GenerateEbookController {
      * @param book
      * @param model
      */
-    private void setModelIsbn(final Long bookDefinitionId, final BookDefinition book, final Model model) {
-        final boolean isPublished =
-            publishingStatsService.hasIsbnBeenPublished(book.getIsbn());
-
-        // If publised, ISBN is not new
+    private void setModelIsbn(final BookDefinition book, final Model model) {
+        final boolean isPublished = versionIsbnService.isIsbnExists(book.getIsbn());
+        // If published, ISBN is not new
         model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, StringBool.toString(!isPublished));
     }
 

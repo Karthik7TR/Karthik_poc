@@ -44,9 +44,7 @@ public interface EBookAuditService {
 
     int numberEbookAudits(EbookAuditFilter filter);
 
-    Optional<EbookAudit> modifyIsbn(String titleId, String isbn, String modifyText);
-
-    void restoreIsbn(BookDefinition book, String userName);
+    Optional<EbookAudit> modifyIsbn(String titleId, String isbn);
 
     void resetIsbn(String titleId, String isbn);
 

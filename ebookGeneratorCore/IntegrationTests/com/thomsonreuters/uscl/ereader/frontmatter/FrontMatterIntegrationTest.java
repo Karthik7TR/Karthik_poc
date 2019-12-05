@@ -18,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = FrontMatterIntegrationTestConf.class)
+@Transactional
 @ActiveProfiles("IntegrationTests")
-public final class FrontMatterIntegrationTest {
+public class FrontMatterIntegrationTest {
     private static String BOOK_TITLE = "uscl/an/frontmatter_test_123";
     @Autowired
     private BookDefinitionService bookDefinitionService;

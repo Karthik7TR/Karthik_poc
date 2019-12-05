@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBook
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
@@ -36,7 +37,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +74,7 @@ public class ProviewTitleListController {
     private final GroupService groupService;
     private final ProviewTitleListService proviewTitleListService;
     private final OutageService outageService;
-    private final PublishingStatsService publishingStatsService;
+    private final VersionIsbnService versionIsbnService;
     private final EmailUtil emailUtil;
     private final EmailService emailService;
     private final String environmentName;
@@ -89,7 +89,7 @@ public class ProviewTitleListController {
         final JobRequestService jobRequestService,
         final GroupService groupService,
         final ProviewTitleListService proviewTitleListService,
-        final PublishingStatsService publishingStatsService,
+        final VersionIsbnService versionIsbnService,
         final EmailUtil emailUtil,
         final EmailService emailService,
         final OutageService outageService,
@@ -103,7 +103,7 @@ public class ProviewTitleListController {
         this.jobRequestService = jobRequestService;
         this.groupService = groupService;
         this.proviewTitleListService = proviewTitleListService;
-        this.publishingStatsService = publishingStatsService;
+        this.versionIsbnService = versionIsbnService;
         this.emailUtil = emailUtil;
         this.emailService = emailService;
         this.outageService = outageService;
@@ -520,7 +520,7 @@ public class ProviewTitleListController {
             saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
             saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
             saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
-            publishingStatsService.deleteIsbn(titleId, version);
+            versionIsbnService.deleteIsbn(titleId, version);
         }
     }
 

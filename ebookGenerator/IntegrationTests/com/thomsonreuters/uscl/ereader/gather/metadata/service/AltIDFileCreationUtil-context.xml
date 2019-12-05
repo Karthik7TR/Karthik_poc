@@ -96,6 +96,8 @@
 				</value>
 				<value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook
 				</value>
+                <value>com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn
+                </value>
 			</list>
 		</property>
 	</bean>

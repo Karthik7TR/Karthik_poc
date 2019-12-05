@@ -25,12 +25,14 @@ public final class EbookAuditServiceTest {
     private EBookAuditServiceImpl service;
 
     private EbookAuditDao mockDao;
+    private VersionIsbnService mockVersionIsbnService;
 
     @Before
     public void setUp() {
         mockDao = EasyMock.createMock(EbookAuditDao.class);
+        mockVersionIsbnService = EasyMock.createMock(VersionIsbnService.class);
 
-        service = new EBookAuditServiceImpl(mockDao);
+        service = new EBookAuditServiceImpl(mockDao, mockVersionIsbnService);
 
         auditList = new ArrayList<>();
         expectedAudit = new EbookAudit();
@@ -90,7 +92,7 @@ public final class EbookAuditServiceTest {
         mockDao.saveAudit(expectedAudit);
         EasyMock.replay(mockDao);
 
-        final EbookAudit actualAudit = service.modifyIsbn(TITLE_ID, ISBN, MODIFY_ISBN_TEXT).get();
+        final EbookAudit actualAudit = service.modifyIsbn(TITLE_ID, ISBN).get();
 
         assertEquals(MODIFY_ISBN_TEXT + ISBN, actualAudit.getIsbn());
         EasyMock.verify(mockDao);

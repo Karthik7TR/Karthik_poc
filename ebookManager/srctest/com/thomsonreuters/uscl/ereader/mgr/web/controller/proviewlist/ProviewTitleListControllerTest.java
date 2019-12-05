@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
@@ -37,7 +38,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -68,7 +68,7 @@ public final class ProviewTitleListControllerTest {
     private ProviewTitleListService mockTitleListService;
     private MessageSourceAccessor mockMessageSourceAccessor;
     private JobRequestService mockJobRequestService;
-    private PublishingStatsService mockPublishingStatsService;
+    private VersionIsbnService mockVersionIsbnService;
     private EmailUtil emailUtil;
     private EmailService mockEmailService;
     private OutageService mockOutageService;
@@ -91,10 +91,10 @@ public final class ProviewTitleListControllerTest {
         mockGroupService = EasyMock.createMock(GroupService.class);
         mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
+        mockVersionIsbnService = EasyMock.createMock(VersionIsbnService.class);
         emailUtil = EasyMock.createMock(EmailUtil.class);
         mockEmailService = EasyMock.createMock(EmailService.class);
         mockOutageService = EasyMock.createMock(OutageService.class);
-        mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
         controller = new ProviewTitleListController(
             mockProviewHandler,
             mockBookDefinitionService,
@@ -104,7 +104,7 @@ public final class ProviewTitleListControllerTest {
             mockJobRequestService,
             mockGroupService,
             mockTitleListService,
-            mockPublishingStatsService,
+            mockVersionIsbnService,
             emailUtil,
             mockEmailService,
             mockOutageService,

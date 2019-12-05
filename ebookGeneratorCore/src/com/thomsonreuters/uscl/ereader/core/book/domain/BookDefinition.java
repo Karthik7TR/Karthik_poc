@@ -274,6 +274,10 @@ public class BookDefinition implements Serializable {
     @Cascade(CascadeType.ALL)
     private Set<Author> authors;
 
+    @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.LAZY, orphanRemoval = true)
+    @Cascade(CascadeType.ALL)
+    private Set<VersionIsbn> isbns;
+
     @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Cascade(CascadeType.ALL)
     private Set<PilotBook> pilotBooks;
@@ -648,6 +652,14 @@ public class BookDefinition implements Serializable {
     public List<Author> getAuthors() {
         authors = Optional.ofNullable(authors).orElseGet(LinkedHashSet::new);
         return getOrderedListFromCollection(authors);
+    }
+
+    public void setIsbns(final Collection<VersionIsbn> isbns) {
+        this.isbns = new LinkedHashSet<>(isbns);
+    }
+
+    public Set<VersionIsbn> getIsbns() {
+        return Optional.ofNullable(isbns).orElseGet(LinkedHashSet::new);
     }
 
     public void setPilotBooks(final Collection<PilotBook> pilotBooks) {

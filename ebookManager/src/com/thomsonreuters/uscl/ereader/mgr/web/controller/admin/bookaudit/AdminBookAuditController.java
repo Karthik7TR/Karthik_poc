@@ -5,10 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -39,18 +36,15 @@ import org.springframework.web.servlet.view.RedirectView;
 public class AdminBookAuditController {
     private final EBookAuditService auditService;
     private final PublishingStatsService publishingStatsService;
-    private final BookDefinitionService bookDefinitionService;
     private final Validator validator;
 
     @Autowired
     public AdminBookAuditController(
         final EBookAuditService auditService,
         final PublishingStatsService publishingStatsService,
-        final BookDefinitionService bookDefinitionService,
         @Qualifier("adminAuditFilterFormValidator") final Validator validator) {
         this.auditService = auditService;
         this.publishingStatsService = publishingStatsService;
-        this.bookDefinitionService = bookDefinitionService;
         this.validator = validator;
     }
 
@@ -140,7 +134,7 @@ public class AdminBookAuditController {
         final BindingResult bindingResult,
         final Model model) {
         if (!bindingResult.hasErrors()) {
-            auditService.modifyIsbn(form.getTitleId(), form.getIsbn(), EbookAuditDao.MODIFY_ISBN_TEXT)
+            auditService.modifyIsbn(form.getTitleId(), form.getIsbn())
                     .ifPresent(audit -> {
                         // Save audit record to determine user that modified ISBN
                         audit.setAuditId(null);
@@ -149,8 +143,6 @@ public class AdminBookAuditController {
                         audit.setAuditNote("Modify Audit ISBN");
                         auditService.saveEBookAudit(audit);
                     });
-            BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookDefinitionId());
-            auditService.restoreIsbn(book, UserUtils.getAuthenticatedUserName());
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST));
         }

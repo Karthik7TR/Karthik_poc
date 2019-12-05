@@ -15,6 +15,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import org.springframework.batch.core.ExitStatus;
@@ -29,6 +30,8 @@ public abstract class BaseDeliverStep extends BookStepImpl implements SplitBookT
     private AssembleFileSystem fileSystem;
     @Autowired
     private EBookAuditService eBookAuditService;
+    @Autowired
+    private VersionIsbnService versionIsbnService;
 
     private List<String> publishedSplitTitles = new ArrayList<>();
 
@@ -52,6 +55,7 @@ public abstract class BaseDeliverStep extends BookStepImpl implements SplitBookT
             final File assembledBookFile = fileSystem.getAssembledBookFile(this);
             proviewHandler.publishTitle(bookDefinition.getFullyQualifiedTitleId(), getBookVersion(), assembledBookFile);
         }
+        versionIsbnService.saveIsbn(bookDefinition, getBookVersionString(), bookDefinition.getIsbn());
     }
 
     private void publishSplitBook() throws ProviewException {

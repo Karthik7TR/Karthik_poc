@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -58,6 +59,8 @@ public final class DeliverXppStepTest {
     private AssembleFileSystem fileSystem;
     @Mock
     private EBookAuditService auditService;
+    @Mock
+    private VersionIsbnService versionIsbnService;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

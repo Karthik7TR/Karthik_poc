@@ -3,10 +3,13 @@ package com.thomsonreuters.uscl.ereader.stats;
 import com.thomsonreuters.uscl.ereader.config.AbstractDatabaseIntegrationTestConfig;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl;
+import com.thomsonreuters.uscl.ereader.core.book.dao.VersionIsbnDao;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnServiceImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -21,10 +24,16 @@ import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtilImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @Profile("IntegrationTests")
+@EnableJpaRepositories(
+    basePackages = "com.thomsonreuters.uscl.ereader",
+    entityManagerFactoryRef = "entityManagerFactory",
+    transactionManagerRef = "jpaTransactionManager"
+)
 @EnableTransactionManagement
 public class StatsServiceIntegrationTestConf extends AbstractDatabaseIntegrationTestConfig {
     public StatsServiceIntegrationTestConf() {
@@ -46,8 +55,13 @@ public class StatsServiceIntegrationTestConf extends AbstractDatabaseIntegration
     }
 
     @Bean
-    public EBookAuditService eBookAuditService() {
-        return new EBookAuditServiceImpl(new EBookAuditDaoImpl(sessionFactory()));
+    public EBookAuditService eBookAuditService(VersionIsbnService versionIsbnService) {
+        return new EBookAuditServiceImpl(new EBookAuditDaoImpl(sessionFactory()), versionIsbnService);
+    }
+
+    @Bean
+    public VersionIsbnService versionIsbnService(VersionIsbnDao versionIsbnDao) {
+        return new VersionIsbnServiceImpl(versionIsbnDao, bookDefinitionService());
     }
 
     @Bean
@@ -74,7 +88,6 @@ public class StatsServiceIntegrationTestConf extends AbstractDatabaseIntegration
 
     @Bean
     public PublishingStatsService publishingStatsService() {
-        return new PublishingStatsServiceImpl(publishingStatsDao(), publishingStatsUtil(),
-            eBookAuditService(), bookDefinitionService(), proviewHandler());
+        return new PublishingStatsServiceImpl(publishingStatsDao(), publishingStatsUtil());
     }
 }

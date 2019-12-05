@@ -35,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
+import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDaoImpl;
@@ -152,6 +153,7 @@ public abstract class CommonJPAConfig {
                 OutageType.class,
                 BookDefinition.class,
                 Author.class,
+                VersionIsbn.class,
                 DocumentTypeCode.class,
                 EbookAudit.class,
                 EbookName.class,

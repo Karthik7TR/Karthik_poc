@@ -26,10 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EBookAuditServiceImpl implements EBookAuditService {
     private final EbookAuditDao eBookAuditDAO;
+    private final VersionIsbnService versionIsbnService;
 
     @Autowired
-    public EBookAuditServiceImpl(final EbookAuditDao eBookAuditDAO) {
+    public EBookAuditServiceImpl(final EbookAuditDao eBookAuditDAO, final VersionIsbnService versionIsbnService) {
         this.eBookAuditDAO = eBookAuditDAO;
+        this.versionIsbnService = versionIsbnService;
     }
 
     /**
@@ -93,28 +95,20 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 
     @Override
     @Transactional
-    public Optional<EbookAudit> modifyIsbn(final String titleId, final String isbn, final String modifyingText) {
+    public Optional<EbookAudit> modifyIsbn(final String titleId, final String isbn) {
+        versionIsbnService.modifyIsbn(titleId, isbn);
         return eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn).stream()
                 .peek(audit -> {
-                    audit.setIsbn(modifyingText + audit.getIsbn());
+                    audit.setIsbn(MODIFY_ISBN_TEXT + audit.getIsbn());
                     eBookAuditDAO.saveAudit(audit);
                 })
                 .max(comparingLong(EbookAudit::getAuditId));
     }
 
     @Override
-    public void restoreIsbn(BookDefinition book, String userName) {
-        EbookAudit auditRestoreIsbn = new EbookAudit();
-        auditRestoreIsbn.loadBookDefinition(book,
-            EbookAudit.AUDIT_TYPE.RESTORE,
-            userName,
-            "Restored ISBN");
-        saveEBookAudit(auditRestoreIsbn);
-    }
-
-    @Override
     @Transactional
     public void resetIsbn(final String titleId, final String isbn) {
+        versionIsbnService.resetIsbn(titleId, isbn);
         eBookAuditDAO.findEbookAuditByTitleIdAndModifiedIsbn(titleId, isbn)
                 .forEach(audit -> {
                     audit.setIsbn(StringUtils.substringAfter(audit.getIsbn(), MODIFY_ISBN_TEXT));

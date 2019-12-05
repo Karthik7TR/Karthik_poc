@@ -56,6 +56,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -103,8 +104,6 @@ public final class GenerateEbookControllerTest {
     @Mock
     private JobRequestService mockJobRequestService;
     @Mock
-    private PublishingStatsService mockPublishingStatsService;
-    @Mock
     private ManagerService mockManagerService;
     @Mock
     private OutageService mockOutageService;
@@ -112,6 +111,8 @@ public final class GenerateEbookControllerTest {
     private MiscConfigSyncService mockMiscConfigService;
     @Mock
     private XppBundleArchiveService mockXppBundleArchiveService;
+    @Mock
+    private VersionIsbnService mockVersionIsbnService;
     @Mock
     private GenerateHelperService generateFormService;
 
@@ -137,7 +138,7 @@ public final class GenerateEbookControllerTest {
         given(mockMiscConfigService.getMiscConfig()).willReturn(new MiscConfig());
         given(mockGroupService.getLastGroup(eq(book))).willReturn(group);
         given(mockGroupService.createGroupDefinition(eq(book), eq("v1"), (List<String>) isNull())).willReturn(group);
-        given(mockPublishingStatsService.hasIsbnBeenPublished((String) isNull())).willReturn(false);
+        given(mockVersionIsbnService.isIsbnExists((String) isNull())).willReturn(false);
 
         mockMvc
             .perform(
@@ -195,7 +196,7 @@ public final class GenerateEbookControllerTest {
         given(mockOutageService.getAllPlannedOutagesToDisplay()).willReturn(new ArrayList<PlannedOutage>());
         given(mockGroupService.getLastGroup(eq(book))).willReturn(group);
         given(mockGroupService.createGroupDefinition(any(), anyString(), anyList())).willReturn(group);
-        given(mockPublishingStatsService.hasIsbnBeenPublished((String) isNull())).willReturn(false);
+        given(mockVersionIsbnService.isIsbnExists((String) isNull())).willReturn(false);
 
         mockMvc
             .perform(

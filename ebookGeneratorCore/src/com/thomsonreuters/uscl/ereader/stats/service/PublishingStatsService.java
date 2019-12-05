@@ -39,8 +39,6 @@ public interface PublishingStatsService {
 
     List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 
-    Boolean hasIsbnBeenPublished(String isbn);
-
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
 
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
@@ -68,8 +66,6 @@ public interface PublishingStatsService {
      */
     @Nullable
     PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId);
-
-    void deleteIsbn(final String titleId, final String version);
 
     String getIsbnByTitleAndVersion(String title, String version);
 }
