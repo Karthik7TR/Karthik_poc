@@ -63,6 +63,8 @@ public interface ProviewHandler {
 
     boolean promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
+    void markTitleSuperseded(String fullyQualifiedTitleId) throws ProviewException;
+
     boolean removeTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;
 
     boolean deleteTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;

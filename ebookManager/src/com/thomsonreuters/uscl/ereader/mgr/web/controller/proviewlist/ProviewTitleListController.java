@@ -56,6 +56,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Slf4j
 @Controller
@@ -338,6 +339,14 @@ public class ProviewTitleListController {
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
     }
 
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_TITLE_ID_NOT_FOUND)
+    public ModelAndView proviewTitleMarkSuperseded(
+        @RequestParam("titleId") final String titleId) throws ProviewException {
+        proviewHandler.markTitleSuperseded(titleId);
+        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+    }
+
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.GET)
     public ModelAndView proviewTitlePromote(
         @RequestParam("titleId") final String titleId,
@@ -365,7 +374,7 @@ public class ProviewTitleListController {
     }
 
     private void addGroupInfo(final Model model, final String titleId) {
-        GroupDefinition group = groupService.getGroupOfTitle(titleId);
+        final GroupDefinition group = groupService.getGroupOfTitle(titleId);
         if (group != null) {
             model.addAttribute(WebConstants.KEY_IS_GROUP_FINAL, FINAL_STATUS.equalsIgnoreCase(group.getStatus()));
             model.addAttribute(WebConstants.KEY_GROUP_NAME, group.getName());

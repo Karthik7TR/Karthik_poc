@@ -301,6 +301,7 @@ public class WebConstants {
     public static final String MVC_PROVIEW_TITLE_REMOVE = "proviewTitleRemove.mvc";
     public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
     public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
+    public static final String MVC_PROVIEW_TITLE_MARK_SUPERSEDED = "proviewTitleMarkSuperseded.mvc";
     public static final String MVC_PROVIEW_GROUP_PROMOTE = "proviewGroupPromote.mvc";
     public static final String MVC_PROVIEW_GROUP_REMOVE = "proviewGroupRemove.mvc";
     public static final String MVC_PROVIEW_GROUP_DELETE = "proviewGroupDelete.mvc";
@@ -410,6 +411,7 @@ public class WebConstants {
     public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
     public static final String VIEW_ERROR_BOOK_DEFINITION = "_errorBookDefinition";
     public static final String VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND = "_errorBookDefinitionNotFound";
+    public static final String VIEW_ERROR_TITLE_ID_NOT_FOUND = "_errorTitleIdNotFound";
     public static final String VIEW_SMOKE_TEST = "smokeTest";
     public static final String VIEW_SUPPORT_PAGE_VIEW = "_supportPageView";
     public static final String VIEW_PROVIEW_GROUPS = "_proviewGroups";

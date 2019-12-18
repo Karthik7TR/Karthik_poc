@@ -301,6 +301,11 @@ public class ProviewHandlerImpl implements ProviewHandler {
     }
 
     @Override
+    public void markTitleSuperseded(final String fullyQualifiedTitleId) throws ProviewException {
+        supersededHandler.markTitleSuperseded(fullyQualifiedTitleId, getAllProviewTitleInfo());
+    }
+
+    @Override
     public boolean removeTitle(final String fullyQualifiedTitleId, final Version version) throws ProviewException {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object

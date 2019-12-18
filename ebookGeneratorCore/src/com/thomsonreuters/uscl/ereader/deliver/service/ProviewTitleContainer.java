@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProviewTitleContainer implements Serializable {
     private static final long serialVersionUID = -1985883914988566602L;
@@ -88,6 +89,14 @@ public class ProviewTitleContainer implements Serializable {
         Collections.sort(list);
 
         return list;
+    }
+
+    public List<Integer> getFinalMajorVersions() {
+        return proviewTitleInfos.stream()
+            .filter(titleInfo -> PROVIEW_STATUS_FINAL.equalsIgnoreCase(titleInfo.getStatus()))
+            .map(titleInfo -> titleInfo.getMajorVersion())
+            .distinct()
+            .collect(Collectors.toList());
     }
 
     /**
