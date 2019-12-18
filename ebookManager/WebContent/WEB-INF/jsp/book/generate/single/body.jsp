@@ -100,7 +100,6 @@
       SHOULD_BE_MAJOR: "shouldBeMajor"
   };
   const warningMessages = {
-  [warningTypes.EXISTED_ISBN]: {},
       "existedIsbn": function (isbn) {
           return "\nWARNING: Current ISBN " + isbn + " has already been used to publish a book. ";
       },
