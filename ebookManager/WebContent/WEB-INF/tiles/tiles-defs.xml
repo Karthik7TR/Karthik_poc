@@ -54,6 +54,11 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/delete/body.jsp"/>
 	</definition>
 	
+	<definition name="_proviewTitleMarkSupersededSuccess" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/infoTitle.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/singletitle/titleSupersededSuccess.jsp"/>
+	</definition>
+	
 	<definition name="_proviewGroups" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/list/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/list/body.jsp"/>
