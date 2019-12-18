@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,4 +26,6 @@ public interface ProviewTitleListService {
      */
     @Nullable
     BookDefinition getBook(@NotNull TitleId titleId);
+
+    List<String> getAllSplitBookTitleIds(final BookDefinition bookDefinition, final Version version);
 }

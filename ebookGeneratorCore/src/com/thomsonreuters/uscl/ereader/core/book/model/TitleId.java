@@ -37,6 +37,16 @@ public class TitleId {
         return partNumber;
     }
 
+    public String getPartTitle(int partNumber) throws Exception {
+        if (partNumber < 1) {
+            throw new Exception("Split book part number should be greater than 0");
+        }
+        if (partNumber == 1) {
+            return headTitleId;
+        }
+        return headTitleId + _PT + partNumber;
+    }
+
     public String getTitleId() {
         if (partNumber == 1)
             return headTitleId;

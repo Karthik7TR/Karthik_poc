@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,17 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId.getHeadTitleId());
         }
         return bookDef;
+    }
+
+    @SneakyThrows
+    @Override
+    public List<String> getAllSplitBookTitleIds(final BookDefinition bookDefinition, final Version version) {
+        final List<String> splitBookTitles = new ArrayList<>();
+        final TitleId titleId = new TitleId(bookDefinition.getFullyQualifiedTitleId());
+        final int amountParts = bookDefinition.getSplitDocumentsAsList().size() + 1;
+        for (int i = 1; i <= amountParts; i++) {
+            splitBookTitles.add(titleId.getPartTitle(i));
+        }
+        return splitBookTitles;
     }
 }
