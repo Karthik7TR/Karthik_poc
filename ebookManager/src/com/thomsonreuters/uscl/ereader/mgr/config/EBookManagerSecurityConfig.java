@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.config;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -75,7 +76,8 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
                          "/generateBulkEbookPreview.mvc")
             .hasAnyRole("PUBLISHER", "PUBLISHER_PLUS", "SUPERUSER")
 
-            .antMatchers("/proviewTitlePromote*")
+            .antMatchers("/proviewTitlePromote*",
+                         "/" + WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED)
             .hasAnyRole("PUBLISHER_PLUS", "SUPERUSER")
 
             .antMatchers("/bookDefinitionEdit.mvc")

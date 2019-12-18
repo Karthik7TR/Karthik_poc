@@ -422,6 +422,7 @@ public class WebConstants {
     public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";
     public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
     public static final String VIEW_PROVIEW_TITLE_PROMOTE = "_proviewTitlePromote";
+    public static final String VIEW_PROVIEW_TITLE_MARK_SUPERSEDED_SUCCESS = "_proviewTitleMarkSupersededSuccess";
     public static final String VIEW_PROVIEW_GROUP_PROMOTE = "_proviewGroupPromote";
     public static final String VIEW_PROVIEW_GROUP_REMOVE = "_proviewGroupRemove";
     public static final String VIEW_PROVIEW_GROUP_DELETE = "_proviewGroupDelete";

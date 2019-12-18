@@ -57,7 +57,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Slf4j
 @Controller
@@ -345,7 +344,7 @@ public class ProviewTitleListController {
     public ModelAndView proviewTitleMarkSuperseded(
         @RequestParam("titleId") final String titleId) throws ProviewException {
         proviewHandler.markTitleSuperseded(titleId);
-        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+        return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_MARK_SUPERSEDED_SUCCESS);
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.GET)
