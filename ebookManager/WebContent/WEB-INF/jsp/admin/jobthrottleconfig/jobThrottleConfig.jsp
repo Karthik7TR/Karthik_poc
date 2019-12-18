@@ -41,65 +41,70 @@
 		<li style="${cssStyle}">${message.text}</li>
 	</c:forEach>
  	</ul>
-    </c:if>	   
-		   
-	Core Thread pool size: 
-	<form:select path="<%=Key.coreThreadPoolSize.toString()%>">
-		<form:option label="0" value="0"/>
-		<form:option label="1" value="1"/>
-		<form:option label="2" value="2"/>
-		<form:option label="3" value="3"/>
-		<form:option label="4" value="4"/>
-		<form:option label="5" value="5"/>
-		<form:option label="6" value="6"/>
-		<form:option label="7" value="7"/>
-		<form:option label="8" value="8"/>
-	</form:select><br/>
-	<br/>
-	
-	Step throttle enabled:
-	<form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
-	<form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
-	<br/>
-	
-	Novus pathway Throttle step name:
-	<form:select path="<%=Key.throttleStepName.toString()%>">
-		<form:option label="-- Select --" value=""/>
-		<form:options items="${stepNames.get(AvailableJobs.EBOOK_GENERATOR_JOB.getJobName())}"/>
-	</form:select><br/>
-	<br/>
-	
-	XPP pathway Throttle step name:
-	<form:select path="<%=Key.throttleStepNameXppPathway.toString()%>">
-		<form:option label="-- Select --" value=""/>
-		<form:options items="${stepNames.get(AvailableJobs.EBOOK_GENERATOR_XPP_JOB.getJobName())}"/>
-	</form:select><br/>
-	<br/>
-	
-	XPP bundle throttle step name:
-	<form:select path="<%=Key.throttleStepNameXppBundles.toString()%>">
-		<form:option label="-- Select --" value=""/>
-		<form:options items="${stepNames.get(AvailableJobs.EBOOK_BUNDLE_JOB.getJobName())}"/>
-	</form:select><br/>
-	<br/>
-	
-	Throttle step maximum jobs: 
-	<form:select path="<%=Key.throtttleStepMaxJobs.toString()%>">
-		<form:option label="0" value="0"/>
-		<form:option label="1" value="1"/>
-		<form:option label="2" value="2"/>
-		<form:option label="3" value="3"/>
-		<form:option label="4" value="4"/>
-		<form:option label="5" value="5"/>
-		<form:option label="6" value="6"/>
-		<form:option label="7" value="7"/>
-		<form:option label="8" value="8"/>
-	</form:select><br/>
-	<br/>
-<div class="buttons">
-		<form:button type="submit" id="Save">Save</form:button>
-		&nbsp;
-		<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_MAIN%>';">Cancel</button>
-</div>
+    </c:if>
+    <c:if test="${WebConstants.KEY_ERROR_OCCURRED}">
+        <h3 style="color: red">Generator is unavailable</h3>
+    </c:if>
+    <c:if test="${not WebConstants.KEY_ERROR_OCCURRED}">
+        Core Thread pool size:
+        <form:select path="<%=Key.coreThreadPoolSize.toString()%>">
+            <form:option label="0" value="0"/>
+            <form:option label="1" value="1"/>
+            <form:option label="2" value="2"/>
+            <form:option label="3" value="3"/>
+            <form:option label="4" value="4"/>
+            <form:option label="5" value="5"/>
+            <form:option label="6" value="6"/>
+            <form:option label="7" value="7"/>
+            <form:option label="8" value="8"/>
+        </form:select><br/>
+        <br/>
+
+        Step throttle enabled:
+        <form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
+        <form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
+        <br/>
+
+        Novus pathway Throttle step name:
+        <form:select path="<%=Key.throttleStepName.toString()%>">
+            <form:option label="-- Select --" value=""/>
+            <form:options items="${stepNames.get(AvailableJobs.EBOOK_GENERATOR_JOB.getJobName())}"/>
+        </form:select><br/>
+        <br/>
+
+        XPP pathway Throttle step name:
+        <form:select path="<%=Key.throttleStepNameXppPathway.toString()%>">
+            <form:option label="-- Select --" value=""/>
+            <form:options items="${stepNames.get(AvailableJobs.EBOOK_GENERATOR_XPP_JOB.getJobName())}"/>
+        </form:select><br/>
+        <br/>
+
+        XPP bundle throttle step name:
+        <form:select path="<%=Key.throttleStepNameXppBundles.toString()%>">
+            <form:option label="-- Select --" value=""/>
+            <form:options items="${stepNames.get(AvailableJobs.EBOOK_BUNDLE_JOB.getJobName())}"/>
+        </form:select><br/>
+        <br/>
+
+        Throttle step maximum jobs:
+        <form:select path="<%=Key.throtttleStepMaxJobs.toString()%>">
+            <form:option label="0" value="0"/>
+            <form:option label="1" value="1"/>
+            <form:option label="2" value="2"/>
+            <form:option label="3" value="3"/>
+            <form:option label="4" value="4"/>
+            <form:option label="5" value="5"/>
+            <form:option label="6" value="6"/>
+            <form:option label="7" value="7"/>
+            <form:option label="8" value="8"/>
+        </form:select><br/>
+        <br/>
+        <div class="buttons">
+            <form:button type="submit" id="Save">Save</form:button>
+            &nbsp;
+            <button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_MAIN%>';">Cancel</button>
+        </div>
+    </c:if>
+
 
 </form:form>
