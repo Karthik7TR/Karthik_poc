@@ -97,17 +97,21 @@
   const warningTypes = {
       EXISTED_ISBN: "existedIsbn",
       ISBN_SHOULD_BE_CHANGED_FOR_MAJOR_VERSION: "isbnShouldBeChangedForMajorVersion",
-      SHOULD_BE_MAJOR: "shouldBeMajor"
+      SHOULD_BE_MAJOR: "shouldBeMajor",
+      CONFIRMATION: "confirmation"
   };
   const warningMessages = {
       "existedIsbn": function (isbn) {
           return "\nWARNING: Current ISBN " + isbn + " has already been used to publish a book. ";
       },
       "isbnShouldBeChangedForMajorVersion": function () {
-          return "Normally ISBN should be changed for major version.\nDo you still want to continue? ";
+          return "Normally ISBN should be changed for major version.";
       },
       "shouldBeMajor": function (isbn, versionType) {
-          return "\nWARNING: You are running a " + versionType + " version with a new ISBN number " + isbn + ". Are you sure this is not a MAJOR version?\nDo you still want to continue? ";
+          return "\nWARNING: You are running a " + versionType + " version with a new ISBN number " + isbn + ". Are you sure this is not a MAJOR version?";
+      },
+      "confirmation": function () {
+          return "\nDo you still want to continue?";
       }
   };
 
@@ -139,6 +143,7 @@
 	  }
 
       if (message !== "") {
+          message += warningMessages[warningTypes.CONFIRMATION]();
           confirmed = confirm(message);
       }
       if (confirmed) {
