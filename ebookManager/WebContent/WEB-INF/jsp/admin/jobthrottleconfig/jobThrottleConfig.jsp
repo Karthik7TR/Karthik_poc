@@ -42,10 +42,10 @@
 	</c:forEach>
  	</ul>
     </c:if>
-    <c:if test="${WebConstants.KEY_ERROR_OCCURRED}">
+    <c:if test="${not empty errorOccurred}">
         <h3 style="color: red">Generator is unavailable</h3>
     </c:if>
-    <c:if test="${not WebConstants.KEY_ERROR_OCCURRED}">
+    <c:if test="${empty errorOccurred}">
         Core Thread pool size:
         <form:select path="<%=Key.coreThreadPoolSize.toString()%>">
             <form:option label="0" value="0"/>
