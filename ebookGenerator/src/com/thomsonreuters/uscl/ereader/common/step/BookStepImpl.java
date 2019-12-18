@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.common.step;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.timelogging.LogExecutionTime;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +16,7 @@ public abstract class BookStepImpl extends BaseStepImpl implements BookStep {
     /**
      * Used as an anchor for aspects.
      */
+    @LogExecutionTime
     @Override
     public RepeatStatus execute(final StepContribution stepContribution, final ChunkContext chunkContext)
         throws Exception {

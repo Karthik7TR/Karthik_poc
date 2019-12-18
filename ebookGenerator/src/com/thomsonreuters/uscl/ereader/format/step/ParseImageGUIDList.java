@@ -59,10 +59,7 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
         String publishingStatus = "Completed";
 
         try {
-            final long startTime = System.currentTimeMillis();
             final int numDocsParsed = xmlImageParserService.generateImageList(xmlDir, imgGuidList, imgDocMap);
-            final long endTime = System.currentTimeMillis();
-            final long elapsedTime = endTime - startTime;
 
             if (numDocsParsed != numDocsInTOC) {
                 final String message = "The number of documents wrapped by the HTMLWrapper Service did "
@@ -74,13 +71,6 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
                 LOG.error(message);
                 throw new EBookFormatException(message);
             }
-
-            LOG.debug(
-                "Generate Image Guid list in "
-                    + elapsedTime
-                    + " milliseconds from "
-                    + +numDocsParsed
-                    + " xml documents.");
         } catch (final Exception e) {
             publishingStatus = "Failed";
             throw e;

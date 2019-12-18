@@ -77,7 +77,6 @@ public class HTMLPostTransform extends AbstractSbTasklet {
         String stepStatus = "Completed";
 
         try {
-            final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerService.transformHTML(
                 transformDir,
                 postTransformDir,
@@ -92,8 +91,6 @@ public class HTMLPostTransform extends AbstractSbTasklet {
                 bookDefinition.isDelStyleFlag(),
                 bookDefinition.isRemoveEditorNoteHeadFlag(),
                 version);
-            final long endTime = System.currentTimeMillis();
-            final long elapsedTime = endTime - startTime;
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of post transformed documents did not match the number "
@@ -105,8 +102,6 @@ public class HTMLPostTransform extends AbstractSbTasklet {
                 LOG.error(message);
                 throw new EBookFormatException(message);
             }
-
-            LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
         } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;

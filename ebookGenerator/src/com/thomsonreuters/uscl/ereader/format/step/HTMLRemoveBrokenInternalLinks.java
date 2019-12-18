@@ -65,11 +65,8 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet {
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
         try {
-            final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerUnlinkService
                 .transformHTML(transformDir, postTransformDir, titleId, jobId, envName, emailRecipients);
-            final long endTime = System.currentTimeMillis();
-            final long elapsedTime = endTime - startTime;
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of post transformed documents did not match the number "
@@ -81,8 +78,6 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet {
                 LOG.error(message);
                 throw new EBookFormatException(message);
             }
-
-            LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
         } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;

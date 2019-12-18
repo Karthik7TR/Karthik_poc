@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import com.thomsonreuters.uscl.ereader.common.timelogging.LogExecutionTime;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
@@ -48,6 +49,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
     /**
      * Wrapper around the user implemented task logic that hides the repeat and transition calculations away.
      */
+    @LogExecutionTime
     @Override
     public final RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
         throws Exception {

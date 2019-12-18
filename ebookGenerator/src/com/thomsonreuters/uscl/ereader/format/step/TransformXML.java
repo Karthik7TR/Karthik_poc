@@ -59,7 +59,6 @@ public class TransformXML extends BookStepImpl {
         final File staticContentDir = new File(getJobExecutionPropertyString(JobExecutionKey.STATIC_CONTENT_DIR));
 
         try {
-            final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerService.transformXMLDocuments(
                 processAnnotationsDir,
                 metadataDir,
@@ -68,8 +67,6 @@ public class TransformXML extends BookStepImpl {
                 jobId,
                 bookDefinition,
                 staticContentDir);
-            final long endTime = System.currentTimeMillis();
-            final long elapsedTime = endTime - startTime;
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of documents transformed did not match the number "
@@ -81,8 +78,6 @@ public class TransformXML extends BookStepImpl {
                 log.error(message);
                 throw new EBookFormatException(message);
             }
-
-            log.debug("Transformed {} XML files in {} milliseconds", numDocsTransformed, elapsedTime);
         } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;

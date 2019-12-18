@@ -11,11 +11,13 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.format.service.TransformDoubleHyphensIntoEmDashesService;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
+@NoArgsConstructor
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class ProcessAnnotationsStep extends BookStepImpl {
@@ -23,20 +25,13 @@ public class ProcessAnnotationsStep extends BookStepImpl {
     private FormatFileSystem formatFileSystem;
 
     @Autowired
-    TransformDoubleHyphensIntoEmDashesService transformDoubleHyphensIntoEmDashesService;
+    private TransformDoubleHyphensIntoEmDashesService transformDoubleHyphensIntoEmDashesService;
 
-    @Override public ExitStatus executeStep() throws Exception {
+    @Override
+    public ExitStatus executeStep() throws Exception {
         final File srcDir = formatFileSystem.getPreprocessDirectory(this);
         final File destDir = formatFileSystem.getProcessAnnotationsDirectory(this);
-
-        final long startTime = System.currentTimeMillis();
-
         transformDoubleHyphensIntoEmDashesService.transformDoubleHyphensIntoEmDashes(srcDir, destDir);
-
-        final long endTime = System.currentTimeMillis();
-        final long operationTime = endTime - startTime;
-        log.debug("Processed annotations in {} milliseconds", operationTime);
-
         return ExitStatus.COMPLETED;
     }
 }

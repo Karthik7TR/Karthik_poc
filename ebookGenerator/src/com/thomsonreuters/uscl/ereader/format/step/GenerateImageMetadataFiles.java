@@ -58,11 +58,8 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
         String publishStatus = "Completed";
 
         try {
-            final long startTime = System.currentTimeMillis();
             final int numImgMetaDocsCreated =
                 imgMetaBlockService.generateImageMetadata(docToImgFile, imgMetadataDir, jobId);
-            final long endTime = System.currentTimeMillis();
-            final long elapsedTime = endTime - startTime;
 
             //TODO: Update to check value is equal to execution context value (numDocsInTOC)
             if (numImgMetaDocsCreated == 0) {
@@ -75,10 +72,6 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
                 LOG.error(message);
                 throw new EBookFormatException(message);
             }
-
-            //TODO: Improve metrics
-            LOG.debug(
-                "Created " + numImgMetaDocsCreated + " ImageMetadata documents in " + elapsedTime + " milliseconds");
         } catch (final EBookFormatException e) {
             publishStatus = "Failed";
             throw e;

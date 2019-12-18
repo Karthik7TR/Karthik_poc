@@ -52,7 +52,6 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
         final Long jobInstance =
             chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 
-        final long startTime = System.currentTimeMillis();
         String publishStatus = "generateFrontMatterHTML : Completed";
 
         final boolean withPageNumbers = checkForPagebreaks(jobExecutionContext, bookDefinition);
@@ -68,12 +67,6 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
             jobstats.setPublishStatus(publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
-
-        final long endTime = System.currentTimeMillis();
-        final long elapsedTime = endTime - startTime;
-
-        //TODO: Improve metrics
-        log.debug("Generated all the Front Matter HTML pages in " + elapsedTime + " milliseconds");
 
         return ExitStatus.COMPLETED;
     }

@@ -55,7 +55,6 @@ public class PreprocessXML extends AbstractSbTasklet {
         String stepStatus = "Completed";
 
         try {
-            final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = preprocessService.transformXML(
                 xmlDir,
                 preprocessDir,
@@ -63,8 +62,6 @@ public class PreprocessXML extends AbstractSbTasklet {
                 bookDefinition.getDocumentCopyrights(),
                 bookDefinition.getDocumentCurrencies(),
                 bookDefinition.isPrintPageNumbers());
-            final long endTime = System.currentTimeMillis();
-            final long elapsedTime = endTime - startTime;
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of documents preprocessed did not match the number "
@@ -76,8 +73,6 @@ public class PreprocessXML extends AbstractSbTasklet {
                 LOG.error(message);
                 throw new EBookFormatException(message);
             }
-
-            LOG.debug("Preprocessed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
         } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;

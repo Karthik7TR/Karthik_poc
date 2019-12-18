@@ -66,8 +66,6 @@ public class AddHTMLWrapper extends AbstractSbTasklet {
         final File htmlDir = new File(htmlDirectory);
         final File docToTocFile = new File(docToTocFileName);
 
-        final long startTime = System.currentTimeMillis();
-
         String stepStatus = "Completed";
         int numDocsWrapped = -1;
         try {
@@ -94,16 +92,6 @@ public class AddHTMLWrapper extends AbstractSbTasklet {
             jobstats.setPublishStatus("formatAddHTMLWrapper : " + stepStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FORMATDOC);
         }
-
-        final long endTime = System.currentTimeMillis();
-        final long elapsedTime = endTime - startTime;
-
-        LOG.debug(
-            "Added HTML and ProView document wrappers to "
-                + numDocsWrapped
-                + " documents in "
-                + elapsedTime
-                + " milliseconds");
 
         return ExitStatus.COMPLETED;
     }
