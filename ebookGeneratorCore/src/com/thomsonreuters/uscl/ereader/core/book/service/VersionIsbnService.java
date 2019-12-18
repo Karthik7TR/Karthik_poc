@@ -8,6 +8,8 @@ public interface VersionIsbnService {
 
     boolean isIsbnExists(String isbn);
 
+    boolean isIsbnChangedFromPreviousGeneration(BookDefinition bookDefinition, String currentProviewVersion);
+
     void deleteIsbn(String titleId, String version);
 
     void modifyIsbn(String titleId, String isbn);

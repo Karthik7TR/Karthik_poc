@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
@@ -130,6 +132,24 @@ public final class VersionIsbnServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void isIsbnChangedFromPreviousGeneration_changed() {
+        setUpChangedIsbnMocks(ISBN_2);
+
+        final boolean actual = versionIsbnService.isIsbnChangedFromPreviousGeneration(mockBookDefinition, VERSION);
+
+        assertTrue(actual);
+    }
+
+    @Test
+    public void isIsbnChangedFromPreviousGeneration_notChanged() {
+        setUpChangedIsbnMocks(ISBN_1);
+
+        final boolean actual = versionIsbnService.isIsbnChangedFromPreviousGeneration(mockBookDefinition, VERSION);
+
+        assertFalse(actual);
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void modifyIsbn() {
@@ -174,6 +194,13 @@ public final class VersionIsbnServiceTest {
         when(mockVersionIsbnDao.findAll()).thenReturn(versionIsbns);
         when(mockVersionIsbn1.getIsbn()).thenReturn(ISBN_1);
         when(mockVersionIsbn2.getIsbn()).thenReturn(ISBN_1);
+    }
+
+    private void setUpChangedIsbnMocks(final String isbn) {
+        when(mockBookDefinition.getIsbn()).thenReturn(isbn);
+        final VersionIsbn versionIsbn = new VersionIsbn(mockBookDefinition, VERSION, ISBN_1);
+        when(mockVersionIsbnDao.findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION))
+            .thenReturn(versionIsbn);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

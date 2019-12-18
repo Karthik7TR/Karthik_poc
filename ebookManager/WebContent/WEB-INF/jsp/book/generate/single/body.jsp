@@ -12,58 +12,55 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
   <script type="text/javascript">
+
+  const VERSION_TYPE = {
+      MAJOR : "<%=GenerateBookForm.Version.MAJOR.toString()%>",
+      MINOR : "<%=GenerateBookForm.Version.MINOR.toString()%>",
+      OVERWRITE : "<%=GenerateBookForm.Version.OVERWRITE.toString()%>"
+  };
+  const NOT_PUBLISHED = "Not published";
+
   function changeNewVersion(versionTypeSelection){
-	 var newVersionType = versionTypeSelection.options[versionTypeSelection.selectedIndex].value;
+	 var newVersionType = $(versionTypeSelection).val();
 	 var newVersion = "";
-	 var isMajorVersion;
-	 var isMinorVersion = "N";
+
 	 $("#nextMajorVersionGroup").hide();
 	 $("#currentMajorVersionGroup").hide();
-	 
-	 if (newVersionType == "OVERWRITE"){
-		 newVersion = '${newOverwriteVersionNumber}';
-		 isMajorVersion = "N";
-		 $("#currentMajorVersionGroup").show();
-	 }
-	 else if (newVersionType == "MINOR"){
-		 newVersion = '${newMinorVersionNumber}';
-		 isMajorVersion = "N";
-		 isMinorVersion = "Y";
-		 $("#currentMajorVersionGroup").show();
-	 }
-	 else if (newVersionType == "MAJOR"){
-		 newVersion = '${newMajorVersionNumber}';
-		 isMajorVersion = "Y";
-		 $("#nextMajorVersionGroup").show();
-	 }
-	 else if (newVersionType == ""){
-		 newVersion = "";
-		 isMajorVersion = "N";
-	 }
-	 
-	 
-	 document.getElementById('newVersionNumber').innerHTML = newVersion;
-	 document.getElementById('isMajorVersion').innerHTML = isMajorVersion;
-	 document.getElementById('isMinorVersion').innerHTML = isMinorVersion;
-	 
+
+	 switch (newVersionType) {
+         case VERSION_TYPE.OVERWRITE:
+             newVersion = "${newOverwriteVersionNumber}";
+             $("#currentMajorVersionGroup").show();
+             break;
+         case VERSION_TYPE.MINOR:
+             newVersion = "${newMinorVersionNumber}";
+             $("#currentMajorVersionGroup").show();
+             break;
+         case VERSION_TYPE.MAJOR:
+             newVersion = "${newMajorVersionNumber}";
+             $("#nextMajorVersionGroup").show();
+             break;
+     }
+	 $('#newVersionNumber').text(newVersion);
+
 	 return true;
   }
-  
+
   function submitForm(cmd){
 	$('#command').val(cmd);
   	$('#<%=GenerateBookForm.FORM_NAME%>').submit();
-  	return true; 
+  	return true;
   }
-  
+
   function submitEdit(cmd){
 	  return submitForm(cmd);
-	  
+
   }
-  
+
   function submitGenerate(cmd){
 	return checkCompleteFlag() && confirmValues() && submitForm(cmd);
   }
-  
+
   function checkCompleteFlag(){
 	  var  completeFlag = document.getElementById("isComplete").innerHTML;
 	  if (completeFlag=="false"){
@@ -73,18 +70,18 @@
 	  else{
 		  return true;
 	  }
-	  
+
   }
-  
+
   function checkPublishingCutoffDate(){
-	  
+
 	  var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
 	  var confirmed = true;
-			
+
 		if (publishingCutOffDate!=""){
-			
+
 			var publishingCutOffDateGreaterOrEqualToday = document.getElementById("publishingCutOffDateGreaterOrEqualToday").innerHTML;
-			
+
 			if (publishingCutOffDateGreaterOrEqualToday=="N"){
 				alert("Cannot generate book: Publishing cut off date must be greater or equal today.");
 				confirmed = false;
@@ -93,46 +90,70 @@
 				confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
 			}
 		}
-		
+
 		return confirmed;
   }
-  
-  
+
+  const warningTypes = {
+      EXISTED_ISBN: "existedIsbn",
+      ISBN_SHOULD_BE_CHANGED_FOR_MAJOR_VERSION: "isbnShouldBeChangedForMajorVersion",
+      SHOULD_BE_MAJOR: "shouldBeMajor"
+  };
+  const warningMessages = {
+  [warningTypes.EXISTED_ISBN]: {},
+      "existedIsbn": function (isbn) {
+          return "\nWARNING: Current ISBN " + isbn + " has already been used to publish a book. ";
+      },
+      "isbnShouldBeChangedForMajorVersion": function () {
+          return "Normally ISBN should be changed for major version.\nDo you still want to continue? ";
+      },
+      "shouldBeMajor": function (isbn, versionType) {
+          return "\nWARNING: You are running a " + versionType + " version with a new ISBN number " + isbn + ". Are you sure this is not a MAJOR version?\nDo you still want to continue? ";
+      }
+  };
+
   function checkIsbn() {
-	  
-	  var confirmed = true;
-	  var isNewISBN = document.getElementById('isNewISBN').innerHTML;
-	  var isbn = document.getElementById('isbn').innerHTML;
-	  var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
-	  var isMinorVersion = document.getElementById('isMinorVersion').innerHTML;
-	  var newVersion = document.getElementById('newVersionNumber').innerHTML;
-		
-	   
-	  if (isMajorVersion == "Y") {
-	  	if(isNewISBN =="N"){
-	  		return confirm("WARNING: Current ISBN " + isbn + " has already been used to publish a book. Normally ISBN should be changed for major version.\nDo you still want to continue?");
-	  	}
+      let confirmed = true;
+      const isNewISBN = document.getElementById('isNewISBN').innerHTML === "Y";
+      const isbn = document.getElementById('isbn').innerHTML;
+
+      let message = "";
+      const currentProviewVersion = "${versionNumber}";
+      if (currentProviewVersion === NOT_PUBLISHED){
+      		if (!isNewISBN) {
+				message += warningMessages[warningTypes.EXISTED_ISBN](isbn);
+			}
+      } else {
+          const isIsbnChanged = "${isbnChanged}" === "true";
+          const isCurrentProviewVersionMinor = currentProviewVersion.split('.')[1] !== '0';
+          const versionType = $('#newVersion option:selected').val();
+		  if (isIsbnChanged) {
+			  if (!isNewISBN) {
+				  message += warningMessages[warningTypes.EXISTED_ISBN](isbn);
+			  }
+			  if ((versionType === VERSION_TYPE.MINOR) || (versionType === VERSION_TYPE.OVERWRITE && isCurrentProviewVersionMinor)) {
+				  message += warningMessages[warningTypes.SHOULD_BE_MAJOR](isbn, versionType);
+			  }
+		  } else if (!isIsbnChanged && versionType === VERSION_TYPE.MAJOR) {
+			  message += warningMessages[warningTypes.EXISTED_ISBN](isbn) + warningMessages[warningTypes.ISBN_SHOULD_BE_CHANGED_FOR_MAJOR_VERSION]()
+		  }
 	  }
-	  else if (isMinorVersion == "Y" && isNewISBN =="Y" && newVersion == "1.0") {
-		  //ignore as the book has not been generated yet
-	  }	 
-	  else {
-		if (isNewISBN == "Y") {
-			confirmed = confirm("You are running a MINOR version with a new ISBN number\n" + isbn + "\nAre you sure this is not a MAJOR version? Do you still want to continue?");
-		}
-	  }
-	  if (confirmed) {
-		  confirmed = confirm("Generate with ISBN: " + isbn);
-  	  }
-	  return confirmed;
+
+      if (message !== "") {
+          confirmed = confirm(message);
+      }
+      if (confirmed) {
+          confirmed = confirm("Generate with ISBN: " + isbn);
+      }
+      return confirmed;
   }
-  
-  
+
+
   function checkVersion(){
-	  
+
 	  var confirmed = true;
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML;
-	  
+
 	  if (newVersion == ""){
 		  alert("Cannot generate book: Version must be selected.");
 		  confirmed = false;
@@ -140,27 +161,27 @@
 	  else{
 	  	confirmed = confirm("Generate with new version number: "+ newVersion);
 	  }
-	  
+
 	  return confirmed;
   }
-  
+
 	function checkPilotBookStatus(){
-  
+
 		var confirmed = true;
 		var pilotBookStatus = document.getElementById('pilotBookStatus').innerHTML;
-		
+
 		if (pilotBookStatus=="IN_PROGRESS"){
 			confirmed = confirm("You are about to generate a pilot book without notes migration. Customers will not see their annotations and/or notes.  Once the migration CSV file exists, please regenerate the book after updating the Notes Migration to 'True'.");
 		}
-		
+
 		return confirmed;
 	}
-	
+
 	function groupValidation() {
-		var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
+		const versionType = $('#newVersion option:selected').val();
 		var errorMessage = "${groupNextErrorMessage}";
 
-		if (errorMessage && isMajorVersion == "Y") {	
+		if (errorMessage && versionType === VERSION_TYPE.MAJOR) {
 			alert(errorMessage);
 			return false;
 		}
@@ -171,17 +192,17 @@
 	function confirmValues() {
 		return checkVersion() && checkPublishingCutoffDate() && checkIsbn() && checkPilotBookStatus() && groupValidation();
 	}
-	
+
 $(document).ready(function() {
 })
   </script>
-  
+
  <c:choose>
  <c:when test="${book != null}">
- 
+
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
 			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
-			   
+
 		<%-- Validation error Message Presentation --%>
 		<spring:hasBindErrors name="<%=GenerateBookForm.FORM_NAME%>">
 			<div class="errorBox">
@@ -197,7 +218,7 @@ $(document).ready(function() {
 		    </div>
 		    <br/>
 	    </spring:hasBindErrors>
-	    
+
 	    <table>
 		<tr>
 			<td>
@@ -209,17 +230,17 @@ $(document).ready(function() {
 				<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			</td>
 		</tr>
-		  
+
 		  <tr>
 		  	<td>ProView Status Current:</td>
 		  	<td id="bookStatusInProview">${bookStatusInProview}</td>
 		  </tr>
-		  
+
 		  <tr>
 		  	<td>ProView Version Current:</td>
 		  	<td id="currentVersionNumber">${versionNumber}</td>
 		  </tr>
-		
+
 		  <tr>
 		  	<td>ProView Version New:</td>
 		  	<td id="newVersionNumber"></td>
@@ -250,7 +271,7 @@ $(document).ready(function() {
 				</form:select>
 			 </td>
 		  </tr>
-		  
+
 		  <tr>
 			<td>Job Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
@@ -261,7 +282,7 @@ $(document).ready(function() {
 			 </td>
 		  </tr>
 		</table>
-		
+
 		<c:if test="${not empty book.groupName}">
 		<div id="currentMajorVersionGroup" style="display:none;">
 		<c:choose>
@@ -309,7 +330,7 @@ $(document).ready(function() {
 			</c:when>
 		</c:choose>
 		</div>
-		
+
 		<div id="nextMajorVersionGroup" style="display:none;">
 			<c:choose>
 				<c:when test="${not empty groupNextErrorMessage}">
@@ -363,15 +384,15 @@ $(document).ready(function() {
 			</c:choose>
 		</div>
 		</c:if>
-		
+
 		<%-- Warning Messages area --%>
 	    <c:if test="${warningMessage != null}">
 	    <div class="infoMessageWarning">
 	    	${warningMessage}
 	    </div>
-	    <br/> 
+	    <br/>
 	    </c:if>
-	   
+
 	    <%-- Error Messages area --%>
 	    <c:if test="${errMessage != null}">
 	    <div class="infoMessageError">
@@ -379,7 +400,7 @@ $(document).ready(function() {
 	    </div>
 	    <br/>
 	    </c:if>
-	    
+
 		<div class="buttons">
 			<c:if test="${empty errMessage}">
 				<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=GenerateBookForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
@@ -388,28 +409,26 @@ $(document).ready(function() {
 			<input id="groupButton" type="button" value="Create/Edit Group" onclick="submitEdit('<%=GenerateBookForm.Command.GROUP%>')" ${superUserVisibility}/>
 			<input id="editButton" type="button" value="Cancel" onclick="submitEdit('<%=GenerateBookForm.Command.CANCEL%>')" ${superPublisherPublisherplusVisibility} />
 		</div>
-		
+
 		<%-- Informational Messages area --%>
 	    <c:if test="${infoMessage != null}">
 	    <div class="infoMessageSuccess">
 	    	${infoMessage}
 	    </div>
-	    <br/> 
+	    <br/>
 	    </c:if>
-	    
-		<div style="visibility: hidden"> 
+
+		<div style="visibility: hidden">
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
-			<p id="isMajorVersion"></p>
-			<p id="isMinorVersion"></p>
 		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>
 		  	<p id="isComplete">${isComplete}</p>
 		 	<p id="isbn">${isbn}</p>
 		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
 		  	<p id="isNewSUB">${isNewSUB}</p>
-		 </div>	
-		
+		 </div>
+
 	</form:form>
   </c:when>
   <c:otherwise>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.StringBool;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -182,7 +183,7 @@ public class GenerateEbookController {
             model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, book.getPilotBookStatus());
 
             form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
-            setModelVersion(model, form, book.getFullyQualifiedTitleId());
+            setModelVersion(model, form, book);
 
             if (StringUtils.isNotBlank(form.getNewMajorVersion())) {
                 setModelGroup(book, model, form);
@@ -273,19 +274,22 @@ public class GenerateEbookController {
      * @param titleId
      * @throws Exception
      */
-    private void setModelVersion(final Model model, final GenerateBookForm form, final String titleId)
+    private void setModelVersion(final Model model, final GenerateBookForm form, final BookDefinition book)
         throws Exception {
         final String currentVersion;
         final String status;
 
         try {
-            final ProviewTitleInfo proviewTitleInfo = proviewHandler.getLatestProviewTitleInfo(titleId);
+            final ProviewTitleInfo proviewTitleInfo = proviewHandler.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
             if (proviewTitleInfo == null) {
                 currentVersion = "Not published";
                 status = null;
             } else {
                 currentVersion = proviewTitleInfo.getVersion();
                 status = proviewTitleInfo.getStatus();
+                boolean isIsbnChanged = versionIsbnService.isIsbnChangedFromPreviousGeneration(book,
+                    new Version(currentVersion).getVersionWithoutPrefix());
+                model.addAttribute(WebConstants.KEY_ISBN_CHANGED, isIsbnChanged);
             }
             form.setCurrentVersion(currentVersion);
             calculateVersionNumbers(model, form, currentVersion, status);

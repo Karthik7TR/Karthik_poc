@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.Optional;
+
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.VersionIsbnDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -59,6 +61,14 @@ public class VersionIsbnServiceImpl implements VersionIsbnService {
             .map(VersionIsbn::getIsbn)
             .map(this::getDigitalIsbn)
             .anyMatch(digitalIsbn::equals);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean isIsbnChangedFromPreviousGeneration(final BookDefinition bookDefinition, final String currentProviewVersion) {
+        return Optional.ofNullable(versionIsbnDao.findDistinctByEbookDefinitionAndVersion(bookDefinition, currentProviewVersion))
+            .map(item -> !getDigitalIsbn(bookDefinition.getIsbn()).equals(getDigitalIsbn(item.getIsbn())))
+            .orElse(false);
     }
 
     @Transactional
