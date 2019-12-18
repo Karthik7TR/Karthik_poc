@@ -67,7 +67,7 @@ public class JobThrottleConfigController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
-    @ShowOnException(errorViewName = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG)
     public ModelAndView inboundGet(
         @ModelAttribute(JobThrottleConfigForm.FORM_NAME) final JobThrottleConfigForm form,
         final Model model) {
@@ -78,7 +78,7 @@ public class JobThrottleConfigController {
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
-    @ShowOnException(errorViewName = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG)
     public ModelAndView submitForm(
         @ModelAttribute(JobThrottleConfigForm.FORM_NAME) @Valid final JobThrottleConfigForm form,
         final BindingResult errors,
