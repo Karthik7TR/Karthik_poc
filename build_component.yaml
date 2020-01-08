@@ -80,7 +80,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec:
-          Fn::Sub: '${BuildComponentSpecFolderPath}buildspec.yml'
+          Fn::Sub: '${BuildComponentSpecFolderPath}cumulus-buildspec.yaml'
       TimeoutInMinutes:
         Ref: CustomBuildActionTimeout
       Tags:
