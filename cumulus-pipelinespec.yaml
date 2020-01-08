@@ -35,7 +35,7 @@ Components:
   Deploy:
     - Environment: dev
       Provider: a206296-TEN-Acct-Id-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`
-      # NOTE Can get a list of them all with this command:  aws --profile techops codepipeline list-action-types | jq .actionTypes[].id.provider
+      # NOTE Can get a list of them all with this command:  aws codepipeline list-action-types | jq .actionTypes[].id.provider
       Version: 1
     - Environment: qa
       Provider: a206296-TEN-Acct-Id-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`

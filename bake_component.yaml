@@ -95,7 +95,7 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec:
-          Fn::Sub: '${BakeComponentSpecFolderPath}bakespec.yml'
+          Fn::Sub: '${BakeComponentSpecFolderPath}cumulus-bakespec.yaml'
       TimeoutInMinutes:
         Ref: CustomBakeActionTimeout
       Tags:

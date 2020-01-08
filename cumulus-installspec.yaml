@@ -5,7 +5,6 @@ resource_owner: firstname.lastname@tr.com  # FIXME Your email
 group_name: "TEN-Acct-Id"  # FIXME  Something to distinguish your stuff from the person next to you (suggestion, your employee ID)
 built_in_template_bucket: a206296-TEN-Acct-Id-bucket  # FIXME This will be created if it does not already exist.  Ensure it starts with `a206296`  You can use your employee ID to ensure it is unique
 # NOTE We will use the above bucket for uploading our source code to trigger the pipeline.
-deployment_engine: {}
 bluegreen_deployer:
   # The name of a bucket where SAM can upload lambdas and packaged templates to.
   sam_bucket: "a206296-TEN-Acct-Id-sam-bucket"  # FIXME  This will be created if it does not already exist.  Ensure it starts with `a206296`
