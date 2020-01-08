@@ -26,15 +26,15 @@ phases:
 
   post_build:
     commands:
-      # Modify DeploySpec.yaml to put location of container image.
+      # Modify cumulus-deployspec.yaml to put location of container image.
       # yq is run empty once to load the image (so layer downloads don't pollute the read)
       - >-
         yq () { docker run --rm -v ${PWD}:/workdir mikefarah/yq yq $@ ; } ;
         yq >/dev/null ;
-        ENVS=$(yq read DeploySpec.yaml | grep -v '^ ' | grep -v 'Defaults' | sed 's/:.*$//') ;
+        ENVS=$(yq read cumulus-deployspec.yaml | grep -v '^ ' | grep -v 'Defaults' | sed 's/:.*$//') ;
         for ENV in $ENVS ;
         do
-          yq write --inplace DeploySpec.yaml ${ENV}.DeployerParameters.Stack.Parameters.ImageUrl ${IMAGE_URI} ;
+          yq write --inplace cumulus-deployspec.yaml ${ENV}.DeployerParameters.Stack.Parameters.ImageUrl ${IMAGE_URI} ;
           echo "Modified ${ENV} ImageUrl to '${IMAGE_URI}'" ;
         done
 

@@ -22,7 +22,9 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 1. Click the listeners tab | view/edit rules
 1. Notice how the priorities are set up to allow for traffic without a header to get to the old version of your app.  Further, at a higher priority (lower numerically), there is another rule to allow traffic to your new version at the same path but with the addition of your header.  
 This is how you can test your app if you wish!
-1. Approve the release of your new version.
+1. Approve the release of your new version.  
+> :pushpin: **NOTE:** If you do not receive the email, see the Appendix at the bottom of this page.
+
 1. Reestablish the tunnel:
 ```sh
 ALB_DNS_NAME="Your alb DNS name"
@@ -31,3 +33,21 @@ REGION="us-east-1"
 cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
 ```
 1. Go back into the browser tab with your app and hit refresh.  
+
+
+# Appendix
+If you do not receive the email to approve the release, there is a way to do in from the command line.  To do so, follow these instructions:
+1. Run this command to list the cumulus tables in this account.
+    ```sh
+    cumulus bluegreen list-tables
+    ```
+
+1. Find the table with your group name, then use it to run the following command to find the deployment ID you need to approve.
+    ```sh
+    cumulus bluegreen list-pending-deployments --table a206296-u0106226-bluegreen-deployer-table-nonprod-v1
+    ```
+
+3. Use the blue green ID and the table name to approve the release.
+      ```sh
+    cumulus) bens-mbp:docker-ccng-sampleapp-v1 ben$ cumulus bluegreen approve-deployment --table a206296-u0106226-bluegreen-deployer-table-nonprod-v1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+      ```
