@@ -2,15 +2,15 @@
 Create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS clusters you created with Cloud IaC.  
 
 # Steps
-1. Run the following command in your virtual environment to install the installer:  
-`pip install pipeline-generator`
-1. Modify the [`DeploySpec.yaml`](DeploySpec.yaml), changing the `# FIXME` lines.  The values for these lines will come from your Cloud IaC project.  Specifically, the outputs from the CloudFormation stacks Cloud IaC created for your infrastructure.  
-**HINT**: There are four items under each environment that need changing.  All but the listener come from the ecs stack.  The listener comes from the ALB stack.  
-This file tells the deployment engine what to do.  Among other things, it says to use the blue-green deployer (rather than the simple deployer) and what CloudFormation templates to use as well as their parameters.
+1. Modify the [`cumulus-deployspec.yaml`](cumulus-deployspec.yaml), changing the `# FIXME` lines.  The values for these lines will come from your Cloud IaC project.  Specifically, the outputs from the CloudFormation stacks Cloud IaC created for your infrastructure.  
+    > :star: ***HINT***: There are four items under each environment that need changing.  All but the listener come from the ecs stack.  The listener comes from the ALB stack.  
+
+    This file tells the deployment engine what to do.  Among other things, it says to use the blue-green deployer (rather than the simple deployer) and what CloudFormation templates to use as well as their parameters.
+
 1. Create the pipeline CloudFormation template  
-```sh
-pipeline-generator --input-file pipelinespec.yaml  --output-file pipeline-cfn.yaml
-```
+    ```sh
+    cumulus pipelines generate --input-file cumulus-pipelinespec.yaml --output-file pipeline-cfn.yaml
+    ```
 
 1. Create the pipeline CloudFormation stack using the template output from the command above.  Do this in the CICD account and keep the default values for all the parameters.  If any parameters are blank, leave them blank.  Eventually this will be automated but for now you'll have to do this in the console.  
   **OR**  

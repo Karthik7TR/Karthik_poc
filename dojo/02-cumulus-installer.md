@@ -10,10 +10,11 @@ Provision the infrastructure used by Cumulus pipelines.  This includes the Blue/
 1. Inspect the file [cumulus-installspec.yaml](cumulus-installspec.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install everything.  
 In the installspec, Ensure those lines with `# FIXME` in them are accurate.  The others can remain the same.  
 More information about this file can be found in the [configuration guide](https://thehub.thomsonreuters.com/docs/DOC-2914507).
-1. cd into your local repository (where the `cumulus-installspec.yaml` file is located and run the command below to create your resources.  It will take about 10-15 minutes.  
+1. We will now run the installation.  In the script below, change the SAMI_USERNAME variable to what you use to login to SAMI Git (GitLab) or BAMS.  It is usually your firstname.lastname.  Also note that when you run the command, it will ask you for your artifactory password.  This is likely the same password you use to access your email.
 ```sh
+SAMI_USERNAME="firstname.lastname"
 AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
-cumulus installer install --profile-name ${AWS_PROFILE} --installer-file cumulus-installspec.yaml
+cumulus installer install --profile-name ${AWS_PROFILE} --installer-file cumulus-installspec.yaml --artifactory-username ${SAMI_USERNAME}
 ```
 1. You should get an email from AWS SNS to confirm your subscription to a new topic.  Approve this.  If you don't get the email after 5 minutes, search through your Outlook folders as you may have a rule set up to move, mark as read, or even delete emails from SNS.
 
