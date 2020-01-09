@@ -1,8 +1,8 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
-import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_CLOSE;
-import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_OPEN;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_CLOSE;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_OPEN;
 
 import java.util.List;
 

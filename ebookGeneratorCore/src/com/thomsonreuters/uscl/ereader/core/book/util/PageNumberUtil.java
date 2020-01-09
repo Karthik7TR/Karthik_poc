@@ -7,9 +7,13 @@ import org.xml.sax.helpers.XMLFilterImpl;
 
 public final class PageNumberUtil {
     public static final String PB = "pb";
+    public static final String PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION = "<?" + PB + " ";
+    public static final String PROCESSING_INSTRUCTION_CLOSE = "?>";
     public static final String LABEL = "label";
     public static final String PAGEBREAK = "pagebreak";
-    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open label=\"%s\" close-pagebreak}";
+    public static final String PAGEBREAK_WRAPPER_OPEN = "{pagebreak-open ";
+    public static final String PAGEBREAK_WRAPPER_CLOSE = " close-pagebreak}";
+    private static final String PAGEBREAK_PROTECTED = "%s label=\"%s\" %s";
 
     private PageNumberUtil() { }
 
@@ -32,6 +36,6 @@ public final class PageNumberUtil {
     }
 
     public static String protectPagebreak(final Node pagebreak) {
-        return String.format(PAGEBREAK_PROTECTED, pagebreak.attr(LABEL));
+        return String.format(PAGEBREAK_PROTECTED, PAGEBREAK_WRAPPER_OPEN, pagebreak.attr(LABEL), PAGEBREAK_WRAPPER_CLOSE);
     }
 }

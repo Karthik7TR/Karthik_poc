@@ -1,9 +1,9 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_CLOSE;
-import static com.thomsonreuters.uscl.ereader.core.EBConstants.PAGEBREAK_WRAPPER_OPEN;
-import static com.thomsonreuters.uscl.ereader.core.EBConstants.PROCESSING_INSTRUCTION_CLOSE;
-import static com.thomsonreuters.uscl.ereader.core.EBConstants.PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_CLOSE;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_OPEN;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PROCESSING_INSTRUCTION_CLOSE;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

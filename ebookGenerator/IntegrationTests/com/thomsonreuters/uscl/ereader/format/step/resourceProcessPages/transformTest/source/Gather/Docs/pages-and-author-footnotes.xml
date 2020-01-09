@@ -1,7 +1,6 @@
 <n-docbody>
 	<doc bill="Y">
 		<content.metadata.block>
-			<?pagebreak label="1"?>
 			<cmd.identifiers>
 				<cmd.cites>
 					<cmd.second.line.cite>
@@ -43,6 +42,7 @@
 				</para>
 			</intro.block>
 		</grade.notes>
+		<?pagebreak label="1"?>
 		<author.footnotes>
 			<footnote ID="If13cd1706b3e11e99b03e53d6dd36aa2">
 				<label.designator>a0</label.designator>

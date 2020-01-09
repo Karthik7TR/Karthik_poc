@@ -5,7 +5,6 @@
 				<cmd.cites>
 					<cmd.second.line.cite>
 						<bop/>
-						<?pagebreak label="1"?>
 						<bos/>Multidistrict Lit Man § 4:7<eos/>
 						<eop/>
 					</cmd.second.line.cite>
@@ -83,7 +82,7 @@
 							<paratext>Clerk of the Panel</paratext>
 						</para>
 						<para>
-							<?pagebreak label="2"?>
+							<?pagebreak label="1"?>
 							<paratext>Judicial Panel on Multidistrict Litigation</paratext>
 						</para>
 						<para>
@@ -131,6 +130,7 @@
 					<eop/>
 				</para>
 			</section.body>
+			<?pagebreak label="2"?>
 		</section>
 		<content.metadata.block>
 			<cmd.royalty>
