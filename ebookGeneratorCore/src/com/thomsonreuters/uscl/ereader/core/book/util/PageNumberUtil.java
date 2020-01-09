@@ -13,7 +13,7 @@ public final class PageNumberUtil {
     public static final String PAGEBREAK = "pagebreak";
     public static final String PAGEBREAK_WRAPPER_OPEN = "{pagebreak-open ";
     public static final String PAGEBREAK_WRAPPER_CLOSE = " close-pagebreak}";
-    private static final String PAGEBREAK_PROTECTED = "%s label=\"%s\" %s";
+    private static final String PAGEBREAK_PROTECTED = "%slabel=\"%s\"%s";
 
     private PageNumberUtil() { }
 
