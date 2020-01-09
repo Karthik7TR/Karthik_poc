@@ -27,5 +27,6 @@ public interface ProviewTitleListService {
     @Nullable
     BookDefinition getBook(@NotNull TitleId titleId);
 
-    List<String> getAllSplitBookTitleIds(final BookDefinition bookDefinition, final Version version);
+    List<String> getAllSplitBookTitleIdsOnProview(final String headTitle, final Version version,
+        final String... titleStatuses);
 }

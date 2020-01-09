@@ -1,7 +1,11 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
@@ -9,6 +13,8 @@ import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -20,12 +26,16 @@ import org.springframework.stereotype.Service;
 public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     private final BookDefinitionService bookDefinitionService;
     private final BookTitlesUtil bookTitlesUtil;
+    private final ProviewHandler proviewHandler;
 
     @Autowired
-    public ProviewTitleListServiceImpl(final BookDefinitionService bookDefinitionService,
-                                       final BookTitlesUtil bookTitlesUtil) {
+    public ProviewTitleListServiceImpl(
+        final BookDefinitionService bookDefinitionService,
+        final BookTitlesUtil bookTitlesUtil,
+        final ProviewHandler proviewHandler) {
         this.bookDefinitionService = bookDefinitionService;
         this.bookTitlesUtil = bookTitlesUtil;
+        this.proviewHandler = proviewHandler;
     }
 
     @Override
@@ -56,13 +66,18 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
 
     @SneakyThrows
     @Override
-    public List<String> getAllSplitBookTitleIds(final BookDefinition bookDefinition, final Version version) {
+    public List<String> getAllSplitBookTitleIdsOnProview(final String headTitle, final Version version,
+        final String... titleStatuses) {
         final List<String> splitBookTitles = new ArrayList<>();
-        final TitleId titleId = new TitleId(bookDefinition.getFullyQualifiedTitleId());
-        final int amountParts = bookDefinition.getSplitDocumentsAsList().size() + 1;
-        for (int i = 1; i <= amountParts; i++) {
-            splitBookTitles.add(titleId.getPartTitle(i));
-        }
+        final Set<String> includedStatuses = new HashSet<>(Arrays.asList(titleStatuses));
+        final Map<String, ProviewTitleContainer> proviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+        proviewTitleInfo.keySet().stream()
+            .filter(title -> headTitle.equals(new TitleId(title).getHeadTitleId()))
+            .forEach(title -> proviewTitleInfo.get(title).getProviewTitleInfos().stream()
+                .filter(titleInfo -> version.equals(new Version(titleInfo.getVersion())))
+                .filter(titleInfo -> includedStatuses.contains(titleInfo.getStatus()))
+                .findAny()
+                .ifPresent(titleInfo -> splitBookTitles.add(titleInfo.getTitleId())));
         return splitBookTitles;
     }
 }

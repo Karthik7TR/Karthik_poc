@@ -1,5 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -19,6 +23,7 @@ import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -40,6 +45,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
@@ -57,6 +63,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 public final class ProviewTitleListControllerTest {
+    private static final String EMAIL = "a@mail.com";
+    private static final String _PT = "_pt";
+    private static final String SUCCESS = "Success";
+    private static final String TITLE_ID = "titleId";
+    private static final String VERSION = "version";
+    private static final String STATUS = "status";
+    private static final String COMMAND = "command";
+
     private ProviewTitleListController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
@@ -77,15 +91,10 @@ public final class ProviewTitleListControllerTest {
     private BookDefinition bookDefinition;
     private String titleId;
     private Version version;
-    private String versionAsString;
+    private String versionString;
     private String status;
     private String userName;
-    private String password;
-    private String first;
-    private String last;
     private List<String> splitBookTitleIds;
-    private Collection<GrantedAuthority> authorities;
-    private CobaltUser user;
     private Authentication auth;
 
     @Before
@@ -124,18 +133,13 @@ public final class ProviewTitleListControllerTest {
         bookDefinition = EasyMock.createMock(BookDefinition.class);
 
         titleId = "anId";
-        version = new Version("v2.0");
-        versionAsString = "2";
+        versionString = "v2.0";
+        version = new Version(versionString);
         status = "test";
         userName = "tester";
-        password = "testing";
-        first = "first";
-        last = "last";
-        splitBookTitleIds = Arrays.asList("splitBookTitle1", "splitBookTitle2", "splitBookTitle3");
+        splitBookTitleIds = Arrays.asList(titleId + _PT + 2, titleId + _PT + 3);
 
-        authorities = new HashSet<>();
-        user = new CobaltUser(userName, first, last, password, authorities);
-        auth = new UsernamePasswordAuthenticationToken(user, null);
+        setUpAuthentication();
     }
 
     @After
@@ -175,7 +179,7 @@ public final class ProviewTitleListControllerTest {
     public void testPostSelectionsRefresh() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.POST.name());
-        request.setParameter("command", ProviewTitleForm.Command.REFRESH.toString());
+        request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
         final ProviewTitleForm mockTitleForm = new ProviewTitleForm();
         mockTitleForm.setCommand(Command.REFRESH);
 
@@ -212,7 +216,7 @@ public final class ProviewTitleListControllerTest {
     public void testPostSelectionsRefreshProviewExcepton() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.POST.name());
-        request.setParameter("command", ProviewTitleForm.Command.REFRESH.toString());
+        request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
 
         EasyMock.expect(mockProviewHandler.getAllProviewTitleInfo()).andThrow(new ProviewException(""));
         EasyMock.replay(mockProviewHandler);
@@ -224,7 +228,7 @@ public final class ProviewTitleListControllerTest {
     public void testPostSelectionsPageSize() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.POST.name());
-        request.setParameter("command", ProviewTitleForm.Command.PAGESIZE.toString());
+        request.setParameter(COMMAND, ProviewTitleForm.Command.PAGESIZE.toString());
         final HttpSession testSession = request.getSession();
         final List<ProviewTitleInfo> testTitleInfo = new ArrayList<>();
         final ProviewTitleInfo testInfo = new ProviewTitleInfo();
@@ -262,173 +266,167 @@ public final class ProviewTitleListControllerTest {
     public void testProviewTitleDelete() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_DELETE);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
+        request.setParameter(TITLE_ID, WebConstants.KEY_TITLE_ID);
         request.setParameter("versionNumber", WebConstants.KEY_VERSION_NUMBER);
-        request.setParameter("status", WebConstants.KEY_STATUS);
+        request.setParameter(STATUS, WebConstants.KEY_STATUS);
         request.setParameter("lastUpdate", "test");
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         final Map<String, Object> model = mav.getModel();
 
-        assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
+        assertEquals(WebConstants.KEY_TITLE_ID, model.get(TITLE_ID));
         assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
-        assertEquals(WebConstants.KEY_STATUS, model.get("status"));
+        assertEquals(WebConstants.KEY_STATUS, model.get(STATUS));
     }
 
     @Test
     public void testProviewTitleRemove() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_REMOVE);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
+        request.setParameter(TITLE_ID, WebConstants.KEY_TITLE_ID);
         request.setParameter("versionNumber", WebConstants.KEY_VERSION_NUMBER);
-        request.setParameter("status", WebConstants.KEY_STATUS);
+        request.setParameter(STATUS, WebConstants.KEY_STATUS);
         request.setParameter("lastUpdate", "test");
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         final Map<String, Object> model = mav.getModel();
 
-        assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
+        assertEquals(WebConstants.KEY_TITLE_ID, model.get(TITLE_ID));
         assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
-        assertEquals(WebConstants.KEY_STATUS, model.get("status"));
+        assertEquals(WebConstants.KEY_STATUS, model.get(STATUS));
     }
 
     @Test
     public void testProviewTitlePromote() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_PROMOTE);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
+        request.setParameter(TITLE_ID, WebConstants.KEY_TITLE_ID);
         request.setParameter("versionNumber", WebConstants.KEY_VERSION_NUMBER);
-        request.setParameter("status", WebConstants.KEY_STATUS);
+        request.setParameter(STATUS, WebConstants.KEY_STATUS);
         request.setParameter("lastUpdate", "test");
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         final Map<String, Object> model = mav.getModel();
 
-        assertEquals(WebConstants.KEY_TITLE_ID, model.get("titleId"));
+        assertEquals(WebConstants.KEY_TITLE_ID, model.get(TITLE_ID));
         assertEquals(WebConstants.KEY_VERSION_NUMBER, model.get("versionNumber"));
-        assertEquals(WebConstants.KEY_STATUS, model.get("status"));
-    }
-
-    @Test
-    public void testProviewTitlePromotePost() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        setPromoteRequestParameters();
-
-        final BookDefinition bookDefinition = EasyMock.createNiceMock(BookDefinition.class);
-        final long definitionId = 127L;
-
-        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, versionAsString)).andReturn(true);
-        EasyMock.replay(mockProviewHandler);
-
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId))
-            .andReturn(bookDefinition)
-            .times(2);
-        EasyMock.expect(mockBookDefinitionService.saveBookDefinition(bookDefinition)).andReturn(null);
-        EasyMock.replay(mockBookDefinitionService);
-
-        EasyMock.expect(bookDefinition.getEbookDefinitionId()).andReturn(definitionId).times(2);
-        EasyMock.expect(bookDefinition.isSplitBook()).andReturn(false);
-        EasyMock.replay(bookDefinition);
-
-        EasyMock.expect(mockJobRequestService.isBookInJobRequest(definitionId)).andReturn(false);
-        setUpEmailMocks();
-        EasyMock.replay(mockEmailService);
-        EasyMock.replay(mockJobRequestService);
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, mav.getViewName());
+        assertEquals(WebConstants.KEY_STATUS, model.get(STATUS));
     }
 
     @SneakyThrows
     @Test
-    public void testProviewTitleRemovePostSimpleBook() {
-        SecurityContextHolder.getContext().setAuthentication(auth);
+    public void testProviewTitlePromotePost() {
+        setUpProviewTitleActionMocks();
+        setPromoteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        splitBookTitleIds.forEach(this::setUpPromoteTitleMocks);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, modelAndView.getViewName());
+        assertSuccessEmail(email);
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleRemovePost() {
+        setUpProviewTitleActionMocks();
         setRemoveRequestParameters();
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).andReturn(bookDefinition);
-        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIds(bookDefinition, version))
-            .andReturn(Collections.singletonList(titleId));
-        setUpRemoveTitleMocks(titleId);
-        setUpEmailMocks();
-        EasyMock.replay(mockBookDefinitionService, mockTitleListService, mockEmailService,
-            mockProviewHandler, emailUtil);
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        splitBookTitleIds.forEach(this::setUpRemoveTitleMocks);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
 
         assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, modelAndView.getViewName());
+        assertSuccessEmail(email);
     }
 
     @SneakyThrows
     @Test
-    public void testProviewTitleDeletePostSimpleBook() {
-        SecurityContextHolder.getContext().setAuthentication(auth);
+    public void testProviewTitleDeletePost() {
+        setUpProviewTitleActionMocks();
         setDeleteRequestParameters();
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).andReturn(bookDefinition);
-        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIds(bookDefinition, version))
-            .andReturn(Collections.singletonList(titleId));
-        EasyMock.expect(mockProviewHandler.deleteTitle(titleId, version)).andReturn(true);
-        setUpEmailMocks();
-        EasyMock.replay(mockBookDefinitionService, mockTitleListService, mockEmailService,
-            mockProviewHandler, emailUtil);
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        setUpSplitBooksDelete();
+        mockVersionIsbnService.deleteIsbn(titleId, versionString);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
 
         assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, modelAndView.getViewName());
+        assertSuccessEmail(email);
+    }
+
+    private void setUpAuthentication() {
+        final Collection<GrantedAuthority> authorities = new HashSet<>();
+        final CobaltUser user = new CobaltUser(userName, "first", "last", "testing", authorities);
+        auth = new UsernamePasswordAuthenticationToken(user, null);
+    }
+
+    private void setUpProviewTitleActionMocks() {
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId))
+            .andReturn(bookDefinition);
+        mockRunningJobCheck();
+        mockChangeStatusForTitle();
+    }
+
+    private void mockRunningJobCheck() {
+        EasyMock.expect(bookDefinition.getEbookDefinitionId()).andReturn(1L);
+        EasyMock.expect(mockJobRequestService.isBookInJobRequest(1L)).andReturn(false);
+        EasyMock.expect(mockManagerService.findRunningJob(bookDefinition)).andReturn(null);
     }
 
     @SneakyThrows
-    @Test
-    public void testProviewTitleRemovePostSplitBook() {
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        setRemoveRequestParameters();
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).andReturn(bookDefinition);
-        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIds(bookDefinition, version))
-            .andReturn(splitBookTitleIds);
-        for (String title : splitBookTitleIds) {
-            setUpRemoveTitleMocks(title);
-        }
-        setUpEmailMocks();
-        EasyMock.replay(mockBookDefinitionService, mockTitleListService, mockEmailService,
-            mockProviewHandler, emailUtil);
-
-        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
-
-        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, modelAndView.getViewName());
+    private void mockChangeStatusForTitle() {
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, new HashMap<String, ProviewTitleContainer>());
+        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, new ArrayList<>());
+        EasyMock.expect(mockProviewHandler.getAllLatestProviewTitleInfo(EasyMock.anyObject()))
+            .andReturn(new ArrayList<>()).times(splitBookTitleIds.size());
     }
 
     @SneakyThrows
-    @Test
-    public void testProviewTitleDeletePostSplitBook() {
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        setDeleteRequestParameters();
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).andReturn(bookDefinition);
-        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIds(bookDefinition, version))
-            .andReturn(Collections.singletonList(titleId));
-        for (String title : splitBookTitleIds) {
+    private void setUpSplitBooksDelete() {
+        for (final String title : splitBookTitleIds) {
             EasyMock.expect(mockProviewHandler.deleteTitle(title, version)).andReturn(true);
         }
-        setUpEmailMocks();
-        EasyMock.replay(mockBookDefinitionService, mockTitleListService, mockEmailService,
-            mockProviewHandler, emailUtil);
-
-        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
-
-        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, modelAndView.getViewName());
     }
 
     @SneakyThrows
-    private void setUpRemoveTitleMocks(String titleId) {
-        EasyMock.expect(mockProviewHandler.isTitleInProview(titleId)).andReturn(true);
+    private void setUpPromoteTitleMocks(final String titleId) {
+        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, versionString)).andReturn(true);
+    }
+
+    @SneakyThrows
+    private void setUpRemoveTitleMocks(final String titleId) {
         EasyMock.expect(mockProviewHandler.removeTitle(titleId, version)).andReturn(true);
     }
 
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     @SneakyThrows
-    private void setUpEmailMocks() {
+    private Capture<NotificationEmail> getEmailCapture() {
         EasyMock.expect(emailUtil.getEmailRecipientsByUsername(userName))
-            .andReturn(Collections.singletonList(new InternetAddress("a@mail.com")));
-        mockEmailService.send(EasyMock.anyObject());
+            .andReturn(Collections.singletonList(new InternetAddress(EMAIL)));
+        final Capture<NotificationEmail> email = new Capture();
+        mockEmailService.send(EasyMock.capture(email));
+        return email;
+    }
+
+    private void assertSuccessEmail(final Capture<NotificationEmail> email) {
+        final NotificationEmail emailValue = email.getValue();
+        assertTrue(emailValue.getSubject().contains(SUCCESS));
     }
 
     private void setPromoteRequestParameters() {
@@ -443,16 +441,22 @@ public final class ProviewTitleListControllerTest {
         setTitleActionRequestParameters(WebConstants.MVC_PROVIEW_TITLE_DELETE, Command.DELETE);
     }
 
-    private void setTitleActionRequestParameters(String path, Command command) {
+    private void setTitleActionRequestParameters(final String path, final Command command) {
         request.setRequestURI("/" + path);
         request.setMethod(HttpMethod.POST.name());
         setRequestParameters(request);
-        request.setParameter("command", command.toString());
+        request.setParameter(COMMAND, command.toString());
     }
 
-    private void setRequestParameters(MockHttpServletRequest request) {
-        request.setParameter("titleId", titleId);
-        request.setParameter("version", versionAsString);
-        request.setParameter("status", status);
+    private void setRequestParameters(final MockHttpServletRequest request) {
+        request.setParameter(TITLE_ID, titleId);
+        request.setParameter(VERSION, versionString);
+        request.setParameter(STATUS, status);
+    }
+
+    private void replayProviewTitleActionsMocks() {
+        EasyMock.replay(mockBookDefinitionService, mockTitleListService, mockEmailService, mockProviewHandler,
+            emailUtil, bookDefinition, mockJobRequestService, mockMessageSourceAccessor, mockManagerService,
+            mockVersionIsbnService);
     }
 }

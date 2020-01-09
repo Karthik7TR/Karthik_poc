@@ -1,5 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
+
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -64,7 +69,6 @@ public class ProviewTitleListController {
     private static final String TITLE_ID_S_VERSION_S = "Title id: %s, version: %s %s";
     private static final String SUCCESS = "Success";
     private static final String UNSUCCESSFUL = "Unsuccessful";
-    private static final String FINAL_STATUS = "Final";
 
     private final ProviewHandler proviewHandler;
     private final BookDefinitionService bookDefinitionService;
@@ -376,7 +380,7 @@ public class ProviewTitleListController {
     private void addGroupInfo(final Model model, final String titleId) {
         final GroupDefinition group = groupService.getGroupOfTitle(titleId);
         if (group != null) {
-            model.addAttribute(WebConstants.KEY_IS_GROUP_FINAL, FINAL_STATUS.equalsIgnoreCase(group.getStatus()));
+            model.addAttribute(WebConstants.KEY_IS_GROUP_FINAL, FINAL_BOOK_STATUS.equalsIgnoreCase(group.getStatus()));
             model.addAttribute(WebConstants.KEY_GROUP_NAME, group.getName());
         }
     }
@@ -414,14 +418,14 @@ public class ProviewTitleListController {
         final HttpSession httpSession,
         final Model model) {
         final TitleAction action = new TitleAction(
-            () -> updateTitleStatusInProview(form,
-                (title) -> removeTitleFromProview(form, title, new Version(form.getVersion()), httpSession)),
+            () -> updateTitleStatusesInProview(form,
+                (title) -> removeTitleFromProview(form, title, httpSession), REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS),
             "Proview Remove Request Status: %s %s",
             "removed from Proview.",
             "could not be removed from Proview.",
             "Success: removed from Proview.",
             "Failed to remove from Proview. ");
-        sendEmailAndAudit(model, form, action);
+        executeTitleAction(model, form, action);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
     }
 
@@ -431,13 +435,14 @@ public class ProviewTitleListController {
         final HttpSession httpSession,
         final Model model) {
         final TitleAction action = new TitleAction(
-            () -> promoteTitle(form, httpSession),
-            "Proview Promote Request Status: %s %s",
-            "promoted to Final in Proview.",
-            "could not be promoted to Final in Proview.",
-            "Success: promoted to Final in Proview.",
-            "Failed to promote this version in Proview. ");
-        sendEmailAndAudit(model, form, action);
+            () -> updateTitleStatusesInProview(form,
+                (title) -> promoteTitleOnProview(form, title, httpSession), REVIEW_BOOK_STATUS),
+                "Proview Promote Request Status: %s %s",
+                "promoted to Final in Proview.",
+                "could not be promoted to Final in Proview.",
+                "Success: promoted to Final in Proview.",
+                "Failed to promote this version in Proview. ");
+        executeTitleAction(model, form, action);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
     }
 
@@ -447,36 +452,38 @@ public class ProviewTitleListController {
         final HttpSession httpSession,
         final Model model) {
         final TitleAction action = new TitleAction(
-            () -> updateTitleStatusInProview(form,
-                (title) -> deleteTitleFromProview(form, title, new Version(form.getVersion()), httpSession)),
+            () -> updateTitleStatusesInProview(form,
+                (title) -> deleteTitleFromProview(form, title, httpSession), REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS),
             "Proview Delete Request Status: %s %s",
             "deleted from Proview.",
             "could not be deleted from Proview.",
             "Success: deleted from Proview.",
             "Failed to delete from Proview. ");
-        sendEmailAndAudit(model, form, action);
+        executeTitleAction(model, form, action);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
     }
 
-    private void sendEmailAndAudit(final Model model, final ProviewTitleForm form, final TitleAction action) {
-        model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
+    private void executeTitleAction(final Model model, final ProviewTitleForm form, final TitleAction action) {
+        String titleId = form.getTitleId();
+        String headTitleId = new TitleId(titleId).getHeadTitleId();
+        model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
         model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
         model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
         try {
-            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
+            if (!isJobRunningForBook(model, headTitleId, form.getVersion())) {
                 action.action.run();
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.attributeSuccess);
                 final String emailBody =
-                    String.format(TITLE_ID_S_VERSION_S, form.getTitleId(), form.getVersion(), action.emailBodySuccess);
-                sendEmail(String.format(action.emailSubjectTemplate, SUCCESS, form.getTitleId()), emailBody);
+                    String.format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodySuccess);
+                sendEmail(String.format(action.emailSubjectTemplate, SUCCESS, titleId), emailBody);
                 proviewAuditService.save(form.createAudit());
             }
         } catch (final Exception e) {
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, action.attributeUnsuccessful + e.getMessage());
             final String emailBody =
-                String.format(TITLE_ID_S_VERSION_S, form.getTitleId(), form.getVersion(), action.emailBodyUnsuccessful);
-            sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL, form.getTitleId()), emailBody);
+                String.format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodyUnsuccessful);
+            sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL, titleId), emailBody);
             log.error(e.getMessage(), e);
         }
     }
@@ -489,48 +496,49 @@ public class ProviewTitleListController {
     }
 
     @SneakyThrows
-    private void promoteTitle(final ProviewTitleForm form, final HttpSession httpSession) {
-        if (proviewHandler.promoteTitle(form.getTitleId(), form.getVersion())) {
-            changeStatusForTitle(form, httpSession, "Final");
-        }
-    }
-
-    @SneakyThrows
-    private void updateTitleStatusInProview(final ProviewTitleForm form, Consumer<String> action) {
+    private void updateTitleStatusesInProview(final ProviewTitleForm form, final Consumer<String> action,
+        final String... titleStatuses) {
         final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
-        final BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(headTitleId);
-        proviewTitleListService.getAllSplitBookTitleIds(bookDefinition, new Version(form.getVersion()))
+        proviewTitleListService.getAllSplitBookTitleIdsOnProview(headTitleId, new Version(form.getVersion()), titleStatuses)
             .forEach(action);
     }
 
     @SneakyThrows
-    private void removeTitleFromProview(ProviewTitleForm form, String title, Version version, HttpSession httpSession) {
-        if (proviewHandler.isTitleInProview(title) && proviewHandler.removeTitle(title, version)) {
-            changeStatusForTitle(form, httpSession, "Removed");
+    private void promoteTitleOnProview(final ProviewTitleForm form,  final String title, final HttpSession httpSession) {
+        if (proviewHandler.promoteTitle(title, form.getVersion())) {
+            changeStatusForTitle(title, form.getVersion(), httpSession, FINAL_BOOK_STATUS);
         }
     }
 
     @SneakyThrows
-    private void deleteTitleFromProview(ProviewTitleForm form, String title, Version version, HttpSession httpSession) {
-        final String titleId = form.getTitleId();
-        final String versionAsString = form.getVersion();
+    private void removeTitleFromProview(final ProviewTitleForm form, final String title, final HttpSession httpSession) {
+        if (proviewHandler.removeTitle(title, new Version(form.getVersion()))) {
+            changeStatusForTitle(title, form.getVersion(), httpSession, REMOVED_BOOK_STATUS);
+        }
+    }
 
-        if (proviewHandler.deleteTitle(title, version)) {
-            final Map<String, ProviewTitleContainer> proviewTitleContainerMap = updateAllProviewTitleInfoAfterDeletingTitle(
-                title, versionAsString, httpSession);
-            updateSelectedProviewTitleInfoAfterDeletingTitle(proviewTitleContainerMap, title, versionAsString, httpSession);
-            updateLatestProviewTitleInfoAfterDeletingTitle(proviewTitleContainerMap, httpSession);
-            saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
-
-            if (titleId.equals(title)) {
-                versionIsbnService.deleteIsbn(titleId, versionAsString);
+    @SneakyThrows
+    private void deleteTitleFromProview(final ProviewTitleForm form, final String title, final HttpSession httpSession) {
+        final String version = form.getVersion();
+        if (proviewHandler.deleteTitle(title, new Version(version))) {
+            updateProviewTitleInfo(title, version, httpSession);
+            final String headTitle = new TitleId(title).getHeadTitleId();
+            if (headTitle.equals(title)) {
+                versionIsbnService.deleteIsbn(headTitle, version);
             }
         }
     }
 
-    private Map<String, ProviewTitleContainer> updateAllProviewTitleInfoAfterDeletingTitle(String title, String version,
-        HttpSession httpSession) {
+    private void updateProviewTitleInfo(final String title, final String version, final HttpSession httpSession) {
+        final Map<String, ProviewTitleContainer> proviewTitleContainerMap =
+            updateAllProviewTitleInfo(title, version, httpSession);
+        updateSelectedProviewTitleInfo(proviewTitleContainerMap, title, version, httpSession);
+        updateLatestProviewTitleInfo(proviewTitleContainerMap, httpSession);
+        saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
+    }
 
+    private Map<String, ProviewTitleContainer> updateAllProviewTitleInfo(final String title, final String version,
+        final HttpSession httpSession) {
         final Map<String, ProviewTitleContainer> proviewTitleContainerMap = fetchAllProviewTitleInfo(httpSession);
         proviewTitleContainerMap.computeIfPresent(title, (key, value) -> {
             value.getProviewTitleInfos().removeIf(item -> item.getVersion().equals(version));
@@ -543,9 +551,8 @@ public class ProviewTitleListController {
         return proviewTitleContainerMap;
     }
 
-    private void updateSelectedProviewTitleInfoAfterDeletingTitle(Map<String, ProviewTitleContainer> proviewTitleContainerMap,
-        String title, String version, HttpSession httpSession) {
-
+    private void updateSelectedProviewTitleInfo(final Map<String, ProviewTitleContainer> proviewTitleContainerMap,
+        final String title, final String version, final HttpSession httpSession) {
         final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
         if (selectedProviewTitleInfo.removeIf(item -> item.getTitleId().equals(title) && item.getVersion().equals(version))) {
             if (proviewTitleContainerMap.containsKey(title)) {
@@ -557,15 +564,10 @@ public class ProviewTitleListController {
     }
 
     @SneakyThrows
-    private void updateLatestProviewTitleInfoAfterDeletingTitle(final Map<String, ProviewTitleContainer> proviewTitleContainerMap,
+    private void updateLatestProviewTitleInfo(final Map<String, ProviewTitleContainer> proviewTitleContainerMap,
         final HttpSession httpSession) {
-
         final List<ProviewTitleInfo> latestProviewTitleInfo = proviewHandler.getAllLatestProviewTitleInfo(proviewTitleContainerMap);
         saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
-    }
-
-    private void changeStatusForTitle(final ProviewTitleForm form, final HttpSession httpSession, final String updatedStatus) {
-        changeStatusForTitle(form.getTitleId(), form.getVersion(), httpSession, updatedStatus);
     }
 
     @SneakyThrows

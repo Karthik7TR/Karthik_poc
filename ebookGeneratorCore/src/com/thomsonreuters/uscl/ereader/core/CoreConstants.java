@@ -23,6 +23,11 @@ public class CoreConstants {
     public static final String URI_GET_JOB_THROTTLE_CONFIG = "service/get/job/throttle/config";
     public static final String URI_GET_MISC_CONFIG = "service/get/misc/config";
 
+    public static final String REVIEW_BOOK_STATUS = "Review";
+    public static final String FINAL_BOOK_STATUS = "Final";
+    public static final String REMOVED_BOOK_STATUS = "Removed";
+    public static final String CLEANUP_BOOK_STATUS = "Cleanup";
+
     public static final String KEY_SIMPLE_REST_RESPONSE = "simpleResponse";
 
     public static final String KEY_PROVIEW_HOST = "proviewHost";
