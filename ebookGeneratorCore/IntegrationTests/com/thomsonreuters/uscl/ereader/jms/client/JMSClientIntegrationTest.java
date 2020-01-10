@@ -9,12 +9,10 @@ import javax.jms.TextMessage;
 
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import com.thomsonreuters.uscl.ereader.jms.service.impl.MQConnectionFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.jms.core.JmsTemplate;
 
+@Ignore
 public final class JMSClientIntegrationTest {
     /* configuration for test queue in CI Queue Manager */
     private static final String HOST = "CTCO002-04";
