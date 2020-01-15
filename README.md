@@ -1,5 +1,10 @@
 # ECS Sample App
-This is a Sample application created by the CCNG Techops team's interns that can be used to test deployments.
+This is a Sample application created by the CCNG Techops team's interns that can be used to test deployments.  
+> :star: ***HINT:***
+>
+> You can follow along with a Cumulus engineer as they describe Cumulus and walk you through these steps.  
+> [The videos are here.](https://thehub.thomsonreuters.com/docs/DOC-2945792)
+
 
 # Infrastructure
 Each implementer of the demo should have already deployed their infrastructure before following the Cumulus steps below.  The database is multi-tennant and will be shared by all apps deployed.  
