@@ -472,10 +472,10 @@ public class ProviewTitleListController {
 
     @SneakyThrows
     private void executeTitleAction(final Model model, final ProviewTitleForm form, final TitleAction action) {
-        String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
+        final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
         addTitleActionAttributesToModel(model, form);
         if (!isJobRunningForBook(model, headTitleId, form.getVersion())) {
-            TitleActionResult titleActionResult = action.action.call();
+            final TitleActionResult titleActionResult = action.action.call();
             String errorMessage = titleActionResult.getErrorMessage();
             if (errorMessage == null) {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.attributeSuccess);
