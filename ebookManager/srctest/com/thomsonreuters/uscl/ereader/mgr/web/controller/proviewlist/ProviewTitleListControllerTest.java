@@ -5,6 +5,7 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STAT
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -66,6 +67,10 @@ public final class ProviewTitleListControllerTest {
     private static final String EMAIL = "a@mail.com";
     private static final String _PT = "_pt";
     private static final String SUCCESS = "Success";
+    private static final String UNSUCCESSFUL = "Unsuccessful";
+    private static final String ERROR_MESSAGE = "Error message";
+    private static final String SUCCESSFULLY_UPDATED = "Successfully updated:";
+    private static final String FAILED_TO_UPDATE = "Failed to update:";
     private static final String TITLE_ID = "titleId";
     private static final String VERSION = "version";
     private static final String STATUS = "status";
@@ -137,7 +142,7 @@ public final class ProviewTitleListControllerTest {
         version = new Version(versionString);
         status = "test";
         userName = "tester";
-        splitBookTitleIds = Arrays.asList(titleId + _PT + 2, titleId + _PT + 3);
+        splitBookTitleIds = Arrays.asList(titleId, titleId + _PT + 2, titleId + _PT + 3);
 
         setUpAuthentication();
     }
@@ -335,6 +340,63 @@ public final class ProviewTitleListControllerTest {
 
     @SneakyThrows
     @Test
+    public void testProviewTitlePromotePostSomeFailed() {
+        setUpProviewTitleActionMocks();
+        setPromoteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        setUpPromoteTitleMocks(splitBookTitleIds.get(0));
+        setUpPromoteTitleMocks(splitBookTitleIds.get(1));
+        setUpPromoteTitleMocksFailure(splitBookTitleIds.get(2));
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesListedWhenSomeFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitlePromotePostAllFailed() {
+        setUpProviewTitleActionMocks();
+        setPromoteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        splitBookTitleIds.forEach(this::setUpPromoteTitleMocksFailure);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesListedWhenAllFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitlePromotePostSimpleBookFailed() {
+        setUpProviewTitleActionMocks();
+        setPromoteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS)).andReturn(Collections.singletonList(titleId));
+        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, versionString))
+            .andThrow(new RuntimeException(ERROR_MESSAGE));
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesNotListedWhenSimpleBookFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
     public void testProviewTitleRemovePost() {
         setUpProviewTitleActionMocks();
         setRemoveRequestParameters();
@@ -348,6 +410,63 @@ public final class ProviewTitleListControllerTest {
 
         assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, modelAndView.getViewName());
         assertSuccessEmail(email);
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleRemovePostSomeFailed() {
+        setUpProviewTitleActionMocks();
+        setRemoveRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        setUpRemoveTitleMocks(splitBookTitleIds.get(0));
+        setUpRemoveTitleMocks(splitBookTitleIds.get(1));
+        setUpRemoveTitleMocksFailure(splitBookTitleIds.get(2));
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesListedWhenSomeFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleRemovePostAllFailed() {
+        setUpProviewTitleActionMocks();
+        setRemoveRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        splitBookTitleIds.forEach(this::setUpRemoveTitleMocksFailure);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesListedWhenAllFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleRemovePostSimpleBookFailed() {
+        setUpProviewTitleActionMocks();
+        setRemoveRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS)).andReturn(Collections.singletonList(titleId));
+        EasyMock.expect(mockProviewHandler.removeTitle(titleId, version))
+            .andThrow(new RuntimeException(ERROR_MESSAGE));
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesNotListedWhenSimpleBookFailed(email.getValue().getBody());
     }
 
     @SneakyThrows
@@ -366,6 +485,64 @@ public final class ProviewTitleListControllerTest {
 
         assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, modelAndView.getViewName());
         assertSuccessEmail(email);
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleDeletePostSomeFailed() {
+        setUpProviewTitleActionMocks();
+        setDeleteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        setUpSplitBooksDeleteOneFailed();
+        mockVersionIsbnService.deleteIsbn(titleId, versionString);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesListedWhenSomeFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleDeletePostAllFailed() {
+        setUpProviewTitleActionMocks();
+        setDeleteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS)).andReturn(splitBookTitleIds);
+        setUpSplitBooksDeleteAllFailed();
+        mockVersionIsbnService.deleteIsbn(titleId, versionString);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesListedWhenAllFailed(email.getValue().getBody());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testProviewTitleDeletePostSimpleBookFailed() {
+        setUpProviewTitleActionMocks();
+        setDeleteRequestParameters();
+        EasyMock.expect(mockTitleListService.getAllSplitBookTitleIdsOnProview(titleId, version,
+            REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS)).andReturn(Collections.singletonList(titleId));
+        EasyMock.expect(mockProviewHandler.deleteTitle(titleId, version))
+            .andThrow(new RuntimeException(ERROR_MESSAGE));
+        mockVersionIsbnService.deleteIsbn(titleId, versionString);
+        final Capture<NotificationEmail> email = getEmailCapture();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, modelAndView.getViewName());
+        assertErrorMessageEmail(email);
+        assertTitlesNotListedWhenSimpleBookFailed(email.getValue().getBody());
     }
 
     private void setUpAuthentication() {
@@ -405,13 +582,41 @@ public final class ProviewTitleListControllerTest {
     }
 
     @SneakyThrows
+    private void setUpSplitBooksDeleteOneFailed() {
+        EasyMock.expect(mockProviewHandler.deleteTitle(splitBookTitleIds.get(0), version)).andReturn(true);
+        EasyMock.expect(mockProviewHandler.deleteTitle(splitBookTitleIds.get(1), version)).andReturn(true);
+        EasyMock.expect(mockProviewHandler.deleteTitle(splitBookTitleIds.get(2), version))
+            .andThrow(new RuntimeException(ERROR_MESSAGE));
+    }
+
+    @SneakyThrows
+    private void setUpSplitBooksDeleteAllFailed() {
+        for (final String title : splitBookTitleIds) {
+            EasyMock.expect(mockProviewHandler.deleteTitle(title, version))
+                .andThrow(new RuntimeException(ERROR_MESSAGE));
+        }
+    }
+
+    @SneakyThrows
     private void setUpPromoteTitleMocks(final String titleId) {
         EasyMock.expect(mockProviewHandler.promoteTitle(titleId, versionString)).andReturn(true);
     }
 
     @SneakyThrows
+    private void setUpPromoteTitleMocksFailure(final String titleId) {
+        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, versionString))
+            .andThrow(new RuntimeException(ERROR_MESSAGE));
+    }
+
+    @SneakyThrows
     private void setUpRemoveTitleMocks(final String titleId) {
         EasyMock.expect(mockProviewHandler.removeTitle(titleId, version)).andReturn(true);
+    }
+
+    @SneakyThrows
+    private void setUpRemoveTitleMocksFailure(final String titleId) {
+        EasyMock.expect(mockProviewHandler.removeTitle(titleId, version))
+            .andThrow(new RuntimeException(ERROR_MESSAGE));
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
@@ -425,8 +630,33 @@ public final class ProviewTitleListControllerTest {
     }
 
     private void assertSuccessEmail(final Capture<NotificationEmail> email) {
+        assertEmail(email, SUCCESS);
+    }
+
+    private void assertErrorMessageEmail(final Capture<NotificationEmail> email) {
+        assertEmail(email, UNSUCCESSFUL);
+    }
+
+    private void assertEmail(final Capture<NotificationEmail> email, final String subject) {
         final NotificationEmail emailValue = email.getValue();
-        assertTrue(emailValue.getSubject().contains(SUCCESS));
+        assertTrue(emailValue.getSubject().contains(subject));
+    }
+
+    private void assertTitlesListedWhenSomeFailed(final String emailBody) {
+        assertTrue(emailBody.contains(SUCCESSFULLY_UPDATED));
+        assertTrue(emailBody.contains(FAILED_TO_UPDATE));
+        splitBookTitleIds.forEach(title -> assertTrue(emailBody.contains(title)));
+    }
+
+    private void assertTitlesListedWhenAllFailed(final String emailBody) {
+        assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
+        assertTrue(emailBody.contains(FAILED_TO_UPDATE));
+        splitBookTitleIds.forEach(title -> assertTrue(emailBody.contains(title)));
+    }
+
+    private void assertTitlesNotListedWhenSimpleBookFailed(final String emailBody) {
+        assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
+        assertFalse(emailBody.contains(FAILED_TO_UPDATE));
     }
 
     private void setPromoteRequestParameters() {

@@ -6,12 +6,15 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_ST
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -44,6 +47,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -69,6 +73,9 @@ public class ProviewTitleListController {
     private static final String TITLE_ID_S_VERSION_S = "Title id: %s, version: %s %s";
     private static final String SUCCESS = "Success";
     private static final String UNSUCCESSFUL = "Unsuccessful";
+    private static final String EMAIL_BODY = "Environment: %s%n%s";
+    private static final String SUCCESSFULLY_UPDATED = "Successfully updated:";
+    private static final String FAILED_TO_UPDATE = "Failed to update:";
 
     private final ProviewHandler proviewHandler;
     private final BookDefinitionService bookDefinitionService;
@@ -463,44 +470,103 @@ public class ProviewTitleListController {
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
     }
 
+    @SneakyThrows
     private void executeTitleAction(final Model model, final ProviewTitleForm form, final TitleAction action) {
-        String titleId = form.getTitleId();
-        String headTitleId = new TitleId(titleId).getHeadTitleId();
-        model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
+        String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
+        addTitleActionAttributesToModel(model, form);
+        if (!isJobRunningForBook(model, headTitleId, form.getVersion())) {
+            TitleActionResult titleActionResult = action.action.call();
+            String errorMessage = titleActionResult.getErrorMessage();
+            if (errorMessage == null) {
+                model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.attributeSuccess);
+                sendSuccessEmail(form, action, headTitleId);
+            } else {
+                model.addAttribute(WebConstants.KEY_ERR_MESSAGE, action.attributeUnsuccessful + errorMessage);
+                sendFailureEmail(form, action, titleActionResult, headTitleId);
+            }
+            titleActionResult.getUpdatedTitles().forEach(form::createAudit);
+        }
+    }
+
+    private void addTitleActionAttributesToModel(final Model model, final ProviewTitleForm form) {
+        model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
         model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
         model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
-        try {
-            if (!isJobRunningForBook(model, headTitleId, form.getVersion())) {
-                action.action.run();
-                model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.attributeSuccess);
-                final String emailBody =
-                    String.format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodySuccess);
-                sendEmail(String.format(action.emailSubjectTemplate, SUCCESS, titleId), emailBody);
-                proviewAuditService.save(form.createAudit());
+    }
+
+    private void sendSuccessEmail(final ProviewTitleForm form, final TitleAction action, final String titleId) {
+        final String emailBody = String.format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodySuccess);
+        sendEmail(String.format(action.emailSubjectTemplate, SUCCESS, titleId), emailBody);
+    }
+
+    private void sendFailureEmail(final ProviewTitleForm form, final TitleAction action,
+        final TitleActionResult actionResult, final String titleId) {
+        StringBuilder partsInfo = new StringBuilder();
+        final List<String> updatedTitles = actionResult.getUpdatedTitles();
+        final List<String> titlesToUpdate = actionResult.getTitlesToUpdate();
+        if (isHasSeveralParts(updatedTitles, titlesToUpdate)) {
+            if (!updatedTitles.isEmpty()) {
+                addSuccessfullyUpdatedPartsToEmailBody(partsInfo, updatedTitles);
             }
-        } catch (final Exception e) {
-            model.addAttribute(WebConstants.KEY_ERR_MESSAGE, action.attributeUnsuccessful + e.getMessage());
-            final String emailBody =
-                String.format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodyUnsuccessful);
-            sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL, titleId), emailBody);
-            log.error(e.getMessage(), e);
+            addPartsFailedToUpdatedToEmailBody(partsInfo, titlesToUpdate);
         }
+        final String emailBody = String
+            .format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodyUnsuccessful);
+        sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL, titleId),
+            emailBody + System.lineSeparator() + partsInfo);
+    }
+
+    private boolean isHasSeveralParts(final List<String> updatedTitles, final List<String> titlesToUpdate) {
+        return updatedTitles.size() + titlesToUpdate.size() > 1;
+    }
+
+    private void addSuccessfullyUpdatedPartsToEmailBody(final StringBuilder partsInfo,
+        final List<String> updatedTitles) {
+        partsInfo.append(System.lineSeparator())
+            .append(SUCCESSFULLY_UPDATED)
+            .append(System.lineSeparator());
+        updatedTitles.sort(Comparator.naturalOrder());
+        updatedTitles.forEach(title -> partsInfo.append(title)
+            .append(System.lineSeparator()));
+    }
+
+    private void addPartsFailedToUpdatedToEmailBody(final StringBuilder partsInfo,
+        final List<String> titlesToUpdate) {
+        partsInfo.append(System.lineSeparator())
+            .append(FAILED_TO_UPDATE)
+            .append(System.lineSeparator());
+        titlesToUpdate.sort(Comparator.naturalOrder());
+        titlesToUpdate.forEach(title -> partsInfo.append(title)
+            .append(System.lineSeparator()));
     }
 
     private void sendEmail(final String subject, final String body) {
         final Collection<InternetAddress> emails =
             emailUtil.getEmailRecipientsByUsername(UserUtils.getAuthenticatedUserName());
         emailService
-            .send(new NotificationEmail(emails, subject, String.format("Environment: %s%n%s", environmentName, body)));
+            .send(new NotificationEmail(emails, subject, String.format(EMAIL_BODY, environmentName, body)));
     }
 
     @SneakyThrows
-    private void updateTitleStatusesInProview(final ProviewTitleForm form, final Consumer<String> action,
+    private TitleActionResult updateTitleStatusesInProview(final ProviewTitleForm form, final Consumer<String> action,
         final String... titleStatuses) {
+        final TitleActionResult actionResult = new TitleActionResult(new ArrayList<>(), new ArrayList<>());
         final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
-        proviewTitleListService.getAllSplitBookTitleIdsOnProview(headTitleId, new Version(form.getVersion()), titleStatuses)
-            .forEach(action);
+        final List<String> titleIds = proviewTitleListService.getAllSplitBookTitleIdsOnProview(headTitleId,
+                new Version(form.getVersion()), titleStatuses);
+        actionResult.getTitlesToUpdate().addAll(titleIds);
+        titleIds.forEach(title -> {
+            try {
+                action.accept(title);
+                actionResult.getTitlesToUpdate().remove(title);
+                actionResult.getUpdatedTitles().add(title);
+            } catch (Exception e) {
+                actionResult.setErrorMessage(e.getMessage());
+                log.error(e.getMessage(), e);
+            }
+        });
+        return actionResult;
     }
 
     @SneakyThrows
@@ -619,11 +685,20 @@ public class ProviewTitleListController {
 
     @Data
     private class TitleAction {
-        private final Runnable action;
+        private final Callable<TitleActionResult> action;
         private final String emailSubjectTemplate;
         private final String emailBodySuccess;
         private final String emailBodyUnsuccessful;
         private final String attributeSuccess;
         private final String attributeUnsuccessful;
+    }
+
+    @Data
+    private class TitleActionResult {
+        @NonNull
+        private List<String> titlesToUpdate;
+        @NonNull
+        private List<String> updatedTitles;
+        private String errorMessage;
     }
 }
