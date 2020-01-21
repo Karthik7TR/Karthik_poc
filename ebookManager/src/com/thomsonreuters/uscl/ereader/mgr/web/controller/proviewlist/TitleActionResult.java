@@ -12,4 +12,8 @@ public class TitleActionResult {
     @NonNull
     private List<String> updatedTitles;
     private String errorMessage;
+
+    public boolean hasErrorMessage() {
+        return errorMessage != null;
+    }
 }

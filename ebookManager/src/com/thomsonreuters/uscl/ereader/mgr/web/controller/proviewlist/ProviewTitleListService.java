@@ -42,6 +42,4 @@ public interface ProviewTitleListService {
 
     TitleActionResult executeTitleAction(final ProviewTitleForm form, final TitleAction action,
         final boolean isJobRunningForBook);
-
-    boolean hasErrorMessage(final TitleActionResult actionResult);
 }

@@ -452,7 +452,7 @@ public class ProviewTitleListController {
         TitleActionResult titleActionResult = proviewTitleListService.executeTitleAction(form, action,
             isJobRunningForBook);
         if (!isJobRunningForBook) {
-            if (proviewTitleListService.hasErrorMessage(titleActionResult)) {
+            if (titleActionResult.hasErrorMessage()) {
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
                     action.getAttributeUnsuccessful() + titleActionResult.getErrorMessage());
             } else {

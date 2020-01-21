@@ -365,7 +365,7 @@ public final class ProviewTitleListControllerTest {
     }
 
     private void prepareTitleActionPostMocks() {
-        expect(mockTitleListService.hasErrorMessage(titleActionResult)).andReturn(false);
+        expect(titleActionResult.hasErrorMessage()).andReturn(false);
         expect(titleActionResult.getUpdatedTitles()).andReturn(Collections.singletonList(titleId));
     }
 

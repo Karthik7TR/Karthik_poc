@@ -159,7 +159,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         TitleActionResult titleActionResult = new TitleActionResult(new ArrayList<>(), new ArrayList<>());
         if (!isJobRunningForBook) {
             titleActionResult = action.getAction().call();
-            if (hasErrorMessage(titleActionResult)) {
+            if (titleActionResult.hasErrorMessage()) {
                 sendFailureEmail(username, action, titleActionResult, headTitleId, version);
             } else {
                 sendSuccessEmail(username, action, headTitleId, version);
@@ -167,10 +167,6 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             titleActionResult.getUpdatedTitles().forEach(form::createAudit);
         }
         return titleActionResult;
-    }
-
-    public boolean hasErrorMessage(final TitleActionResult actionResult) {
-        return actionResult.getErrorMessage() != null;
     }
 
     private void sendSuccessEmail(final String username, final TitleAction action,

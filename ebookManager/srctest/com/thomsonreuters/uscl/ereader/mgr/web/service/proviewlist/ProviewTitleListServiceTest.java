@@ -44,7 +44,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -103,24 +102,11 @@ public final class ProviewTitleListServiceTest {
         proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService,
             bookTitlesUtil, proviewHandler, emailUtil, emailService, "environmentName");
 
-        username = "User";
-        setUpAuthentication();
-
-        version = new Version("v2.0");
-        versionString = version.getFullVersion();
-        anotherVersion1 = "v4.0";
-        anotherVersion2 = "v6.0";
-
-        headTitle = "an/uscl/book_title";
-        bookPartTitle1 = headTitle + _PT + 2;
-        bookPartTitle2 = headTitle + _PT + 3;
-        bookPartTitle3 = headTitle + _PT + 4;
-        anotherTitle = "uscl/an/another_book";
-
+        initiateVersions();
+        initiateTitleNames();
         setUpProviewTitles();
-
-        when(form.getTitleId()).thenReturn(bookPartTitle1);
-        when(form.getVersion()).thenReturn(versionString);
+        setUpForm();
+        setUpAuthentication();
 
         when(emailUtil.getEmailRecipientsByUsername(username))
             .thenReturn(Collections.singletonList(new InternetAddress(EMAIL)));
@@ -205,7 +191,7 @@ public final class ProviewTitleListServiceTest {
     public void executeTitleActionTestPartlyUpdated() {
         when(titleActionResult.getTitlesToUpdate()).thenReturn(getTitlesToUpdate());
         when(titleActionResult.getUpdatedTitles()).thenReturn(getUpdatedTitles());
-        when(titleActionResult.getErrorMessage()).thenReturn(ERROR_MESSAGE);
+        when(titleActionResult.hasErrorMessage()).thenReturn(true);
 
         when(titleAction.getAction()).thenReturn(callable);
         when(callable.call()).thenReturn(titleActionResult);
@@ -230,7 +216,7 @@ public final class ProviewTitleListServiceTest {
     public void executeTitleActionTestFailedToUpdate() {
         when(titleActionResult.getTitlesToUpdate()).thenReturn(getTitlesToUpdate());
         when(titleActionResult.getUpdatedTitles()).thenReturn(Collections.EMPTY_LIST);
-        when(titleActionResult.getErrorMessage()).thenReturn(ERROR_MESSAGE);
+        when(titleActionResult.hasErrorMessage()).thenReturn(true);
 
         when(titleAction.getAction()).thenReturn(callable);
         when(callable.call()).thenReturn(titleActionResult);
@@ -254,7 +240,7 @@ public final class ProviewTitleListServiceTest {
     public void executeTitleActionTestSimpleBookFailedToUpdate() {
         when(titleActionResult.getTitlesToUpdate()).thenReturn(Collections.singletonList(headTitle));
         when(titleActionResult.getUpdatedTitles()).thenReturn(Collections.EMPTY_LIST);
-        when(titleActionResult.getErrorMessage()).thenReturn(ERROR_MESSAGE);
+        when(titleActionResult.hasErrorMessage()).thenReturn(true);
 
         when(titleAction.getAction()).thenReturn(callable);
         when(callable.call()).thenReturn(titleActionResult);
@@ -291,6 +277,21 @@ public final class ProviewTitleListServiceTest {
         String emailBody = notificationEmail.getBody();
         assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
         assertFalse(emailBody.contains(FAILED_TO_UPDATE));
+    }
+
+    private void initiateTitleNames() {
+        headTitle = "an/uscl/book_title";
+        bookPartTitle1 = headTitle + _PT + 2;
+        bookPartTitle2 = headTitle + _PT + 3;
+        bookPartTitle3 = headTitle + _PT + 4;
+        anotherTitle = "uscl/an/another_book";
+    }
+
+    private void initiateVersions() {
+        version = new Version("v2.0");
+        versionString = version.getFullVersion();
+        anotherVersion1 = "v4.0";
+        anotherVersion2 = "v6.0";
     }
 
     @SneakyThrows
@@ -374,8 +375,14 @@ public final class ProviewTitleListServiceTest {
     }
 
     private void setUpAuthentication() {
+        username = "User";
         final Collection<GrantedAuthority> authorities = new HashSet<>();
         final CobaltUser user = new CobaltUser(username, "first", "last", "testing", authorities);
-        Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
+        new UsernamePasswordAuthenticationToken(user, null);
+    }
+
+    private void setUpForm() {
+        when(form.getTitleId()).thenReturn(bookPartTitle1);
+        when(form.getVersion()).thenReturn(versionString);
     }
 }
