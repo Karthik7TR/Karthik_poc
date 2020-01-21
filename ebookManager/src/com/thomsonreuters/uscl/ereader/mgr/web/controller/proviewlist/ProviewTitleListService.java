@@ -6,6 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,4 +30,18 @@ public interface ProviewTitleListService {
 
     List<String> getAllSplitBookTitleIdsOnProview(final String headTitle, final Version version,
         final String... titleStatuses);
+
+    TitleActionResult updateTitleStatusesInProview(final ProviewTitleForm form, final Consumer<String> action,
+        final String... titleStatuses);
+
+    void promoteTitleOnProview(final ProviewTitleForm form,  final String title);
+
+    void removeTitleFromProview(final ProviewTitleForm form, final String title);
+
+    void deleteTitleFromProview(final ProviewTitleForm form, final String title);
+
+    TitleActionResult executeTitleAction(final ProviewTitleForm form, final TitleAction action,
+        final boolean isJobRunningForBook);
+
+    boolean hasErrorMessage(final TitleActionResult actionResult);
 }

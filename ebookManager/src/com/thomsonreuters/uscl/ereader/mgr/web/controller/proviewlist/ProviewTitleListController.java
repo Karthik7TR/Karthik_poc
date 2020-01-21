@@ -6,34 +6,25 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_ST
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
-import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
-import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
-import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -41,13 +32,10 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
-import lombok.Data;
-import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -56,7 +44,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,13 +57,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Controller
 public class ProviewTitleListController {
-    private static final String TITLE_ID_S_VERSION_S = "Title id: %s, version: %s %s";
-    private static final String SUCCESS = "Success";
-    private static final String UNSUCCESSFUL = "Unsuccessful";
-    private static final String EMAIL_BODY = "Environment: %s%n%s";
-    private static final String SUCCESSFULLY_UPDATED = "Successfully updated:";
-    private static final String FAILED_TO_UPDATE = "Failed to update:";
-
     private final ProviewHandler proviewHandler;
     private final BookDefinitionService bookDefinitionService;
     private final ProviewAuditService proviewAuditService;
@@ -87,9 +67,6 @@ public class ProviewTitleListController {
     private final ProviewTitleListService proviewTitleListService;
     private final OutageService outageService;
     private final VersionIsbnService versionIsbnService;
-    private final EmailUtil emailUtil;
-    private final EmailService emailService;
-    private final String environmentName;
 
     @Autowired
     public ProviewTitleListController(
@@ -102,11 +79,7 @@ public class ProviewTitleListController {
         final GroupService groupService,
         final ProviewTitleListService proviewTitleListService,
         final VersionIsbnService versionIsbnService,
-        final EmailUtil emailUtil,
-        final EmailService emailService,
-        final OutageService outageService,
-        @Qualifier("environmentName")
-        final String environmentName) {
+        final OutageService outageService) {
         this.proviewHandler = proviewHandler;
         this.bookDefinitionService = bookDefinitionService;
         this.proviewAuditService = proviewAuditService;
@@ -116,10 +89,7 @@ public class ProviewTitleListController {
         this.groupService = groupService;
         this.proviewTitleListService = proviewTitleListService;
         this.versionIsbnService = versionIsbnService;
-        this.emailUtil = emailUtil;
-        this.emailService = emailService;
         this.outageService = outageService;
-        this.environmentName = environmentName;
     }
 
     private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(final HttpSession httpSession) {
@@ -424,15 +394,16 @@ public class ProviewTitleListController {
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
         final HttpSession httpSession,
         final Model model) {
-        final TitleAction action = new TitleAction(
-            () -> updateTitleStatusesInProview(form,
-                (title) -> removeTitleFromProview(form, title, httpSession), REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS),
+        final TitleAction action = new TitleAction(TitleActionName.REMOVE,
+            () -> proviewTitleListService.updateTitleStatusesInProview(form,
+                (title) -> proviewTitleListService.removeTitleFromProview(form, title),
+                REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS),
             "Proview Remove Request Status: %s %s",
             "removed from Proview.",
             "could not be removed from Proview.",
             "Success: removed from Proview.",
             "Failed to remove from Proview. ");
-        executeTitleAction(model, form, action);
+        executeTitleAction(model, form, action, httpSession);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
     }
 
@@ -441,15 +412,16 @@ public class ProviewTitleListController {
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
         final HttpSession httpSession,
         final Model model) {
-        final TitleAction action = new TitleAction(
-            () -> updateTitleStatusesInProview(form,
-                (title) -> promoteTitleOnProview(form, title, httpSession), REVIEW_BOOK_STATUS),
+        final TitleAction action = new TitleAction(TitleActionName.PROMOTE,
+            () -> proviewTitleListService.updateTitleStatusesInProview(form,
+                (title) -> proviewTitleListService.promoteTitleOnProview(form, title),
+                REVIEW_BOOK_STATUS),
                 "Proview Promote Request Status: %s %s",
                 "promoted to Final in Proview.",
                 "could not be promoted to Final in Proview.",
                 "Success: promoted to Final in Proview.",
                 "Failed to promote this version in Proview. ");
-        executeTitleAction(model, form, action);
+        executeTitleAction(model, form, action, httpSession);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
     }
 
@@ -458,34 +430,36 @@ public class ProviewTitleListController {
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
         final HttpSession httpSession,
         final Model model) {
-        final TitleAction action = new TitleAction(
-            () -> updateTitleStatusesInProview(form,
-                (title) -> deleteTitleFromProview(form, title, httpSession), REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS),
+        final TitleAction action = new TitleAction(TitleActionName.DELETE,
+            () -> proviewTitleListService.updateTitleStatusesInProview(form,
+                (title) -> proviewTitleListService.deleteTitleFromProview(form, title),
+                REMOVED_BOOK_STATUS, CLEANUP_BOOK_STATUS),
             "Proview Delete Request Status: %s %s",
             "deleted from Proview.",
             "could not be deleted from Proview.",
             "Success: deleted from Proview.",
             "Failed to delete from Proview. ");
-        executeTitleAction(model, form, action);
+        executeTitleAction(model, form, action, httpSession);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
     }
 
-    @SneakyThrows
-    private void executeTitleAction(final Model model, final ProviewTitleForm form, final TitleAction action) {
+    private void executeTitleAction(final Model model, final ProviewTitleForm form,
+        final TitleAction action, final HttpSession httpSession) {
         final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
+        final String version = form.getVersion();
+        boolean isJobRunningForBook = isJobRunningForBook(model, headTitleId, version);
         addTitleActionAttributesToModel(model, form);
-        if (!isJobRunningForBook(model, headTitleId, form.getVersion())) {
-            final TitleActionResult titleActionResult = action.action.call();
-            String errorMessage = titleActionResult.getErrorMessage();
-            if (errorMessage == null) {
-                model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.attributeSuccess);
-                sendSuccessEmail(form, action, headTitleId);
+        TitleActionResult titleActionResult = proviewTitleListService.executeTitleAction(form, action,
+            isJobRunningForBook);
+        if (!isJobRunningForBook) {
+            if (proviewTitleListService.hasErrorMessage(titleActionResult)) {
+                model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+                    action.getAttributeUnsuccessful() + titleActionResult.getErrorMessage());
             } else {
-                model.addAttribute(WebConstants.KEY_ERR_MESSAGE, action.attributeUnsuccessful + errorMessage);
-                sendFailureEmail(form, action, titleActionResult, headTitleId);
+                model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.getAttributeSuccess());
             }
-            titleActionResult.getUpdatedTitles().forEach(form::createAudit);
         }
+        updateTitleStatusesAfterAction(action, titleActionResult, version, httpSession);
     }
 
     private void addTitleActionAttributesToModel(final Model model, final ProviewTitleForm form) {
@@ -495,103 +469,25 @@ public class ProviewTitleListController {
         model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
     }
 
-    private void sendSuccessEmail(final ProviewTitleForm form, final TitleAction action, final String titleId) {
-        final String emailBody = String.format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodySuccess);
-        sendEmail(String.format(action.emailSubjectTemplate, SUCCESS, titleId), emailBody);
-    }
-
-    private void sendFailureEmail(final ProviewTitleForm form, final TitleAction action,
-        final TitleActionResult actionResult, final String titleId) {
-        StringBuilder partsInfo = new StringBuilder();
-        final List<String> updatedTitles = actionResult.getUpdatedTitles();
-        final List<String> titlesToUpdate = actionResult.getTitlesToUpdate();
-        if (isHasSeveralParts(updatedTitles, titlesToUpdate)) {
-            if (!updatedTitles.isEmpty()) {
-                addSuccessfullyUpdatedPartsToEmailBody(partsInfo, updatedTitles);
-            }
-            addPartsFailedToUpdatedToEmailBody(partsInfo, titlesToUpdate);
-        }
-        final String emailBody = String
-            .format(TITLE_ID_S_VERSION_S, titleId, form.getVersion(), action.emailBodyUnsuccessful);
-        sendEmail(String.format(action.emailSubjectTemplate, UNSUCCESSFUL, titleId),
-            emailBody + System.lineSeparator() + partsInfo);
-    }
-
-    private boolean isHasSeveralParts(final List<String> updatedTitles, final List<String> titlesToUpdate) {
-        return updatedTitles.size() + titlesToUpdate.size() > 1;
-    }
-
-    private void addSuccessfullyUpdatedPartsToEmailBody(final StringBuilder partsInfo,
-        final List<String> updatedTitles) {
-        partsInfo.append(System.lineSeparator())
-            .append(SUCCESSFULLY_UPDATED)
-            .append(System.lineSeparator());
-        updatedTitles.sort(Comparator.naturalOrder());
-        updatedTitles.forEach(title -> partsInfo.append(title)
-            .append(System.lineSeparator()));
-    }
-
-    private void addPartsFailedToUpdatedToEmailBody(final StringBuilder partsInfo,
-        final List<String> titlesToUpdate) {
-        partsInfo.append(System.lineSeparator())
-            .append(FAILED_TO_UPDATE)
-            .append(System.lineSeparator());
-        titlesToUpdate.sort(Comparator.naturalOrder());
-        titlesToUpdate.forEach(title -> partsInfo.append(title)
-            .append(System.lineSeparator()));
-    }
-
-    private void sendEmail(final String subject, final String body) {
-        final Collection<InternetAddress> emails =
-            emailUtil.getEmailRecipientsByUsername(UserUtils.getAuthenticatedUserName());
-        emailService
-            .send(new NotificationEmail(emails, subject, String.format(EMAIL_BODY, environmentName, body)));
-    }
-
-    @SneakyThrows
-    private TitleActionResult updateTitleStatusesInProview(final ProviewTitleForm form, final Consumer<String> action,
-        final String... titleStatuses) {
-        final TitleActionResult actionResult = new TitleActionResult(new ArrayList<>(), new ArrayList<>());
-        final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
-        final List<String> titleIds = proviewTitleListService.getAllSplitBookTitleIdsOnProview(headTitleId,
-                new Version(form.getVersion()), titleStatuses);
-        actionResult.getTitlesToUpdate().addAll(titleIds);
-        titleIds.forEach(title -> {
-            try {
-                action.accept(title);
-                actionResult.getTitlesToUpdate().remove(title);
-                actionResult.getUpdatedTitles().add(title);
-            } catch (Exception e) {
-                actionResult.setErrorMessage(e.getMessage());
-                log.error(e.getMessage(), e);
-            }
-        });
-        return actionResult;
-    }
-
-    @SneakyThrows
-    private void promoteTitleOnProview(final ProviewTitleForm form,  final String title, final HttpSession httpSession) {
-        if (proviewHandler.promoteTitle(title, form.getVersion())) {
-            changeStatusForTitle(title, form.getVersion(), httpSession, FINAL_BOOK_STATUS);
-        }
-    }
-
-    @SneakyThrows
-    private void removeTitleFromProview(final ProviewTitleForm form, final String title, final HttpSession httpSession) {
-        if (proviewHandler.removeTitle(title, new Version(form.getVersion()))) {
-            changeStatusForTitle(title, form.getVersion(), httpSession, REMOVED_BOOK_STATUS);
-        }
-    }
-
-    @SneakyThrows
-    private void deleteTitleFromProview(final ProviewTitleForm form, final String title, final HttpSession httpSession) {
-        final String version = form.getVersion();
-        if (proviewHandler.deleteTitle(title, new Version(version))) {
-            updateProviewTitleInfo(title, version, httpSession);
-            final String headTitle = new TitleId(title).getHeadTitleId();
-            if (headTitle.equals(title)) {
-                versionIsbnService.deleteIsbn(headTitle, version);
-            }
+    private void updateTitleStatusesAfterAction(final TitleAction action,
+        final TitleActionResult actionResult, final String titleVersion,
+        final HttpSession httpSession) {
+        TitleActionName actionName = action.getActionName();
+        List<String> updatedTitles = actionResult.getUpdatedTitles();
+        if (TitleActionName.PROMOTE.equals(actionName)) {
+            updatedTitles.forEach(title -> changeStatusForTitle(title, titleVersion,
+                httpSession, FINAL_BOOK_STATUS));
+        } else if (TitleActionName.REMOVE.equals(actionName)) {
+            updatedTitles.forEach(title -> changeStatusForTitle(title, titleVersion,
+                httpSession, REMOVED_BOOK_STATUS));
+        } else if (TitleActionName.DELETE.equals(actionName)) {
+            updatedTitles.forEach(title -> {
+                updateProviewTitleInfo(title, titleVersion, httpSession);
+                final String headTitle = new TitleId(title).getHeadTitleId();
+                if (headTitle.equals(title)) {
+                    versionIsbnService.deleteIsbn(headTitle, titleVersion);
+                }
+            });
         }
     }
 
@@ -681,24 +577,5 @@ public class ProviewTitleListController {
             .map(proviewAuditService::findMaxRequestDateByTitleIds)
             .orElseGet(Collections::emptyMap);
         session.setAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_TITLE, latestUpdateDates);
-    }
-
-    @Data
-    private class TitleAction {
-        private final Callable<TitleActionResult> action;
-        private final String emailSubjectTemplate;
-        private final String emailBodySuccess;
-        private final String emailBodyUnsuccessful;
-        private final String attributeSuccess;
-        private final String attributeUnsuccessful;
-    }
-
-    @Data
-    private class TitleActionResult {
-        @NonNull
-        private List<String> titlesToUpdate;
-        @NonNull
-        private List<String> updatedTitles;
-        private String errorMessage;
     }
 }
