@@ -483,11 +483,15 @@ public class ProviewTitleListController {
         } else if (TitleActionName.DELETE.equals(actionName)) {
             updatedTitles.forEach(title -> {
                 updateProviewTitleInfo(title, titleVersion, httpSession);
-                final String headTitle = new TitleId(title).getHeadTitleId();
-                if (headTitle.equals(title)) {
-                    versionIsbnService.deleteIsbn(headTitle, titleVersion);
-                }
+                deleteIsbnIfHeadTitle(title, titleVersion);
             });
+        }
+    }
+
+    private void deleteIsbnIfHeadTitle(final String title, final String titleVersion) {
+        final String headTitle = new TitleId(title).getHeadTitleId();
+        if (headTitle.equals(title)) {
+            versionIsbnService.deleteIsbn(headTitle, titleVersion);
         }
     }
 
