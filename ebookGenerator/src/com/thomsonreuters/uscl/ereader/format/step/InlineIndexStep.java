@@ -47,10 +47,12 @@ public class InlineIndexStep extends BookStepImpl {
             final File outputDir = formatFileSystem.getTransformedDirectory(this);
 
             gatherIndexPages(getBookDefinition(), indexXml);
-            final boolean inlineIndexGenerated = inlineIndexService.generateInlineIndex(indexXml, outputDir, pages);
 
-            if (inlineIndexGenerated) {
-                updateContext();
+            if (indexXml.exists()) {
+                final boolean inlineIndexGenerated = inlineIndexService.generateInlineIndex(indexXml, outputDir, pages);
+                if (inlineIndexGenerated) {
+                    updateContext();
+                }
             }
         }
         return ExitStatus.COMPLETED;

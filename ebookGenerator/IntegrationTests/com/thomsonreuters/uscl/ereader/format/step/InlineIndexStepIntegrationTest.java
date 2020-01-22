@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyInt;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,11 +64,25 @@ public final class InlineIndexStepIntegrationTest {
     @Test
     public void shouldCreateInlineIndex() throws Exception {
         test("inlineIndexWithoutPagesTest", false);
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
     @Test
     public void shouldCreateIndexWithPages() throws Exception {
         test("inlineIndexWithPagesTest", true);
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
+    }
+
+    @Test
+    public void shouldNotCreateInlineIndexIfNoIndexToc() throws Exception {
+        runner.test(step, new File(resourceDir, "noIndexTocTest"));
+        verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
+    }
+
+    @Test
+    public void shouldNotCreateInlineIndexIfNoIndexTocFile() throws Exception {
+        runner.test(step, new File(resourceDir, "noIndexTocNoFileTest"));
+        verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
     private void test(final String testDir, final boolean pageNumbers) throws Exception {
