@@ -47,10 +47,11 @@ public class InlineIndexStep extends BookStepImpl {
             final File outputDir = formatFileSystem.getTransformedDirectory(this);
 
             gatherIndexPages(getBookDefinition(), indexXml);
-            inlineIndexService.generateInlineIndex(indexXml, outputDir, pages);
+            final boolean inlineIndexGenerated = inlineIndexService.generateInlineIndex(indexXml, outputDir, pages);
 
-            updateStatsDocCount();
-            appendToGuildsFile();
+            if (inlineIndexGenerated) {
+                updateContext();
+            }
         }
         return ExitStatus.COMPLETED;
     }
@@ -67,13 +68,19 @@ public class InlineIndexStep extends BookStepImpl {
             bookDefinition.getDocumentTypeCodes().getThresholdValue()));
     }
 
-    private void appendToGuildsFile() throws IOException {
-        Files.write(Paths.get(getJobExecutionPropertyString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE)),
-            String.format("%s,%s|", INLINE_INDEX, INLINE_INDEX_ANCHOR).getBytes(), StandardOpenOption.APPEND);
+    private void updateContext() throws IOException {
+        updateStatsDocCount();
+        appendToGuildsFile();
+        setJobExecutionProperty(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
     private void updateStatsDocCount() {
         final int numDocsInTOC = getJobExecutionPropertyInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT);
         setJobExecutionProperty(JobExecutionKey.EBOOK_STATS_DOC_COUNT, numDocsInTOC + 1);
+    }
+
+    private void appendToGuildsFile() throws IOException {
+        Files.write(Paths.get(getJobExecutionPropertyString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE)),
+            String.format("%s,%s|", INLINE_INDEX, INLINE_INDEX_ANCHOR).getBytes(), StandardOpenOption.APPEND);
     }
 }

@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,26 +57,31 @@ public class InlineIndexService {
     @Autowired
     private CiteQueryAdapter citeQueryAdapter;
 
-    public void generateInlineIndex(final File source, final File destDir, final boolean pages) {
+    public boolean generateInlineIndex(final File source, final File destDir, final boolean pages) {
         final Document gatheredIndexXml = jsoup.loadDocument(source);
 
         final Element indexSection = new Element(DIV).addClass(SECTION);
 
-        gatheredIndexXml.select(DOCUMENT).forEach(indexDoc -> {
-            final String originatingDoc = indexDoc.getElementsByTag(MD_UUID).text();
-            final Element index = indexDoc.selectFirst(INDEX);
+        Elements documents = gatheredIndexXml.select(DOCUMENT);
+        if (!documents.isEmpty()) {
+            documents.forEach(indexDoc -> {
+                final String originatingDoc = indexDoc.getElementsByTag(MD_UUID).text();
+                final Element index = indexDoc.selectFirst(INDEX);
 
-            moveFirstPagebreakBefoeIndexItem(index, indexSection, pages);
-            index.attr(STYLE, getStyle(index, true));
-            index.tagName(DIV).addClass(CO_INDEX);
-            processTitle(index);
-            processIndexEntries(index);
-            transformCiteQueries(index, originatingDoc);
+                moveFirstPagebreakBefoeIndexItem(index, indexSection, pages);
+                index.attr(STYLE, getStyle(index, true));
+                index.tagName(DIV).addClass(CO_INDEX);
+                processTitle(index);
+                processIndexEntries(index);
+                transformCiteQueries(index, originatingDoc);
 
-            indexSection.appendChild(index);
-        });
+                indexSection.appendChild(index);
+            });
 
-        jsoup.saveDocument(destDir, INLINE_INDEX_FILE_NAME, indexSection);
+            jsoup.saveDocument(destDir, INLINE_INDEX_FILE_NAME, indexSection);
+            return true;
+        }
+        return false;
     }
 
     private void processTitle(final Element indexXml) {

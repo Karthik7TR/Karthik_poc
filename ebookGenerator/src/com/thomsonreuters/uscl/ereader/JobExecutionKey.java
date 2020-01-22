@@ -213,4 +213,5 @@ public class JobExecutionKey {
 
     public static final String WITH_PAGE_NUMBERS = "withPageNumbers";
     public static final String WITH_INLINE_TOC = "withInlineToc";
+    public static final String WITH_INLINE_INDEX = "withInlineIndex";
 }
