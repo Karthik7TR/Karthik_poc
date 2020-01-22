@@ -4,7 +4,13 @@
 classes
 *.log
 out
-/ebookGenerator/build/
-/eBookGatherer/build/
-/ebookGeneratorCore/build/
-/ebookManager/build/
+ebookGenerator/build/
+eBookGatherer/build/
+ebookGeneratorCore/build/
+ebookManager/build/
+eBookGatherer/MC-Prod.txt.*
+
+coreStatic/
+staticContent/
+workstation/
+
