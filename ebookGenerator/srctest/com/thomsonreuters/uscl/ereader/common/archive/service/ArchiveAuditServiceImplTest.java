@@ -13,6 +13,7 @@ import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
@@ -36,6 +37,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class ArchiveAuditServiceImplTest {
+    private static final String TITLE_ID_PT_2 = "titleId_pt2";
+    private static final String VERSION = "1.1";
+    private static final String TITLE_ID = "titleId";
+    private static final long ID = 1L;
+    private static final String TITLE_ID_PT_1 = "titleId_pt1";
+    private static final String TITLE_ID_PT_3 = "titleId_pt3";
+
     @InjectMocks
     private ArchiveAuditServiceImpl service;
     @Mock
@@ -60,10 +68,10 @@ public final class ArchiveAuditServiceImplTest {
     @Before
     public void setUp() {
         given(step.getBookDefinition()).willReturn(book);
-        given(step.getBookVersion()).willReturn(version("v1.1"));
-        given(step.getBookVersionString()).willReturn("1.1");
-        given(book.getFullyQualifiedTitleId()).willReturn("titleId");
-        given(book.getEbookDefinitionId()).willReturn(1L);
+        given(step.getBookVersion()).willReturn(version("v" + VERSION));
+        given(step.getBookVersionString()).willReturn(VERSION);
+        given(book.getFullyQualifiedTitleId()).willReturn(TITLE_ID);
+        given(book.getEbookDefinitionId()).willReturn(ID);
     }
 
     @Test
@@ -75,34 +83,46 @@ public final class ArchiveAuditServiceImplTest {
         //then
         then(proviewAuditService).should().save(captor.capture());
         final ProviewAudit audit = captor.getValue();
-        assertThat(audit.getTitleId(), is("titleId"));
+        assertThat(audit.getTitleId(), is(TITLE_ID));
     }
 
     @Test
     public void shouldSaveAuditForSplitTitles() {
         //given
         given(book.isSplitBook()).willReturn(true);
-        given(step.getSplitTitles()).willReturn(Arrays.asList("titleId_pt1", "titleId_pt2"));
+        given(step.getSplitTitles()).willReturn(Arrays.asList(TITLE_ID_PT_1, TITLE_ID_PT_2));
         //when
         service.saveAudit(step);
         //then
         then(proviewAuditService).should(times(2)).save(captor.capture());
         final ProviewAudit audit = captor.getAllValues().get(1);
-        assertThat(audit.getTitleId(), is("titleId_pt2"));
+        assertThat(audit.getTitleId(), is(TITLE_ID_PT_2));
     }
 
     @Test
     public void shouldUpdateSplitNodesIfChanged() {
         //given
         given(book.isSplitBook()).willReturn(true);
-        final Set<SplitNodeInfo> submittedSplitNodes = splitNodes(splitNode(book, "titleId_pt2", "1.1"));
+        final Set<SplitNodeInfo> submittedSplitNodes = splitNodes(splitNode(book, TITLE_ID_PT_2, VERSION));
         final Set<SplitNodeInfo> persistedSplitNodes =
-            splitNodes(splitNode(book, "titleId_pt2", "1.1"), splitNode(book, "titleId_pt3", "1.1"));
+            splitNodes(splitNode(book, TITLE_ID_PT_2, VERSION), splitNode(book, TITLE_ID_PT_3, VERSION));
         givenSplitNodes(submittedSplitNodes, persistedSplitNodes);
         //when
         service.saveAudit(step);
         //then
-        then(bookService).should().updateSplitNodeInfoSet(1L, submittedSplitNodes, "1.1");
+        then(bookService).should().updateSplitNodeInfoSet(ID, submittedSplitNodes, VERSION);
+    }
+
+    @Test
+    public void shouldUpdateSplitNodesIfChangedAndPersistedIsEmpty() {
+        given(book.isSplitBook()).willReturn(true);
+        final Set<SplitNodeInfo> submittedSplitNodes = splitNodes(splitNode(book, TITLE_ID_PT_2, VERSION));
+        final Set<SplitNodeInfo> persistedSplitNodes = new HashSet<>();
+        givenSplitNodes(submittedSplitNodes, persistedSplitNodes);
+        //when
+        service.saveAudit(step);
+        //then
+        then(bookService).should().updateSplitNodeInfoSet(ID, submittedSplitNodes, VERSION);
     }
 
     private void givenSplitNodes(
