@@ -31,7 +31,7 @@ public class ProviewTitleForm {
         super();
     }
 
-    public ProviewAudit createAudit() {
+    public ProviewAudit createAudit(final String titleId) {
         final ProviewAudit audit = new ProviewAudit();
         audit.setAuditNote(comments);
         audit.setBookLastUpdated(parseDate(lastUpdate));
