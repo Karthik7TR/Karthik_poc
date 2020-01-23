@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class InlineIndexStep extends BookStepImpl {
     private static final String INLINE_INDEX = "inlineIndex";
     private static final String INLINE_INDEX_ANCHOR = "inlineIndexAnchor";
+    private static final String DOCS_DYNAMIC_GUIDS_LINE = "%s,%s|";
 
     @Autowired
     private GatherFileSystem gatherFileSystem;
@@ -83,6 +84,6 @@ public class InlineIndexStep extends BookStepImpl {
 
     private void appendToGuildsFile() throws IOException {
         Files.write(Paths.get(getJobExecutionPropertyString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE)),
-            String.format("%s,%s|", INLINE_INDEX, INLINE_INDEX_ANCHOR).getBytes(), StandardOpenOption.APPEND);
+            String.format(DOCS_DYNAMIC_GUIDS_LINE, INLINE_INDEX, INLINE_INDEX_ANCHOR).getBytes(), StandardOpenOption.APPEND);
     }
 }

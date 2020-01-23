@@ -68,7 +68,7 @@ public class InlineIndexService {
                 final String originatingDoc = indexDoc.getElementsByTag(MD_UUID).text();
                 final Element index = indexDoc.selectFirst(INDEX);
 
-                moveFirstPagebreakBefoeIndexItem(index, indexSection, pages);
+                moveFirstPagebreakBeforeIndexItem(index, indexSection, pages);
                 index.attr(STYLE, getStyle(index, true));
                 index.tagName(DIV).addClass(CO_INDEX);
                 processTitle(index);
@@ -140,7 +140,7 @@ public class InlineIndexService {
         return style;
     }
 
-    private void moveFirstPagebreakBefoeIndexItem(final Element indexXml, final Element indexHtml, final boolean pages) {
+    private void moveFirstPagebreakBeforeIndexItem(final Element indexXml, final Element indexHtml, final boolean pages) {
         jsoup.firstChild(indexXml)
             .filter(PageNumberUtil::isPagebreak)
             .ifPresent(node -> {
