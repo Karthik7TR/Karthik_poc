@@ -113,7 +113,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     @Override
     public TitleActionResult updateTitleStatusesInProview(final ProviewTitleForm form, final Consumer<String> action,
         final String... titleStatuses) {
-        final TitleActionResult actionResult = new TitleActionResult(new ArrayList<>(), new ArrayList<>());
+        final TitleActionResult actionResult = new TitleActionResult();
         final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
         final List<String> titleIds = getAllSplitBookTitleIdsOnProview(headTitleId,
             new Version(form.getVersion()), titleStatuses);
@@ -156,7 +156,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
         final String version = form.getVersion();
         final String username = UserUtils.getAuthenticatedUserName();
-        TitleActionResult titleActionResult = new TitleActionResult(new ArrayList<>(), new ArrayList<>());
+        TitleActionResult titleActionResult = new TitleActionResult();
         if (!isJobRunningForBook) {
             titleActionResult = action.getAction().call();
             if (titleActionResult.hasErrorMessage()) {
@@ -195,12 +195,22 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
 
     private void addPartsFailedToUpdateToEmailBody(final StringBuilder partsInfo,
         final List<String> titlesToUpdate) {
+        addTitlesToEmailBody(partsInfo, FAILED_TO_UPDATE, titlesToUpdate);
+    }
+
+    private void addSuccessfullyUpdatedPartsToEmailBody(final StringBuilder partsInfo,
+        final List<String> updatedTitles) {
+        addTitlesToEmailBody(partsInfo, SUCCESSFULLY_UPDATED, updatedTitles);
+    }
+
+    private void addTitlesToEmailBody(final StringBuilder partsInfo, final String sectionTitle,
+        final List<String> titles) {
         partsInfo.append(System.lineSeparator())
-            .append(FAILED_TO_UPDATE)
-            .append(System.lineSeparator());
-        titlesToUpdate.sort(Comparator.naturalOrder());
-        titlesToUpdate.forEach(title -> partsInfo.append(title)
-            .append(System.lineSeparator()));
+                .append(sectionTitle)
+                .append(System.lineSeparator());
+        titles.sort(Comparator.naturalOrder());
+        titles.forEach(title -> partsInfo.append(title)
+                .append(System.lineSeparator()));
     }
 
     private void sendEmail(final String username, final String subject, final String body) {
@@ -212,15 +222,5 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
 
     private boolean hasSeveralParts(final List<String> updatedTitles, final List<String> titlesToUpdate) {
         return updatedTitles.size() + titlesToUpdate.size() > 1;
-    }
-
-    private void addSuccessfullyUpdatedPartsToEmailBody(final StringBuilder partsInfo,
-        final List<String> updatedTitles) {
-        partsInfo.append(System.lineSeparator())
-            .append(SUCCESSFULLY_UPDATED)
-            .append(System.lineSeparator());
-        updatedTitles.sort(Comparator.naturalOrder());
-        updatedTitles.forEach(title -> partsInfo.append(title)
-            .append(System.lineSeparator()));
     }
 }
