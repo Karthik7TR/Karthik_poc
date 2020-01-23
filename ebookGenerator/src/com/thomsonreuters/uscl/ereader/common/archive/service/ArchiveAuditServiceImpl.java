@@ -51,7 +51,7 @@ public class ArchiveAuditServiceImpl implements ArchiveAuditService {
             final Set<SplitNodeInfo> persistedSplitNodes =
                 bookTitlesUtil.getSplitNodeInfosByVersion(bookDefinition, step.getBookVersion());
 
-            if (!persistedSplitNodes.isEmpty() && !persistedSplitNodes.equals(submittedSplitNodes)) {
+            if (!persistedSplitNodes.equals(submittedSplitNodes)) {
                 bookService.updateSplitNodeInfoSet(
                     bookDefinition.getEbookDefinitionId(),
                     submittedSplitNodes,
