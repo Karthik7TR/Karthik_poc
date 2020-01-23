@@ -5,10 +5,24 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STAT
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleAction;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleActionResult;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -20,15 +34,25 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
+import java.util.concurrent.Callable;
+import javax.mail.internet.InternetAddress;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class ProviewTitleListServiceTest {
+    private static final String ERROR_MESSAGE = "Error message";
+    private static final String EMAIL_SUBJECT = "Subject";
+    private static final String SUCCESSFULLY_UPDATED = "Successfully updated:";
+    private static final String FAILED_TO_UPDATE = "Failed to update:";
+    private static final String EMAIL = "user@thomsonreuters.com";
     private static final String _PT = "_pt";
 
     private ProviewTitleListService proviewTitleListService;
@@ -42,6 +66,24 @@ public final class ProviewTitleListServiceTest {
     @Mock
     private BookTitlesUtil bookTitlesUtil;
 
+    @Mock
+    private EmailUtil emailUtil;
+
+    @Mock
+    private EmailServiceImpl emailService;
+
+    @Mock
+    private ProviewTitleForm form;
+
+    @Mock
+    private TitleAction titleAction;
+
+    @Mock
+    private TitleActionResult titleActionResult;
+
+    @Mock
+    private Callable<TitleActionResult> callable;
+
     private String headTitle;
     private String bookPartTitle1;
     private String bookPartTitle2;
@@ -51,24 +93,23 @@ public final class ProviewTitleListServiceTest {
     private String versionString;
     private String anotherVersion1;
     private String anotherVersion2;
+    private String username;
     private Map<String, ProviewTitleContainer> proviewTitleInfo;
 
+    @SneakyThrows
     @Before
     public void setUp() {
-        proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService, bookTitlesUtil, proviewHandler);
+        proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService,
+            bookTitlesUtil, proviewHandler, emailUtil, emailService, "environmentName");
 
-        version = new Version("v2.0");
-        versionString = version.getFullVersion();
-        anotherVersion1 = "v4.0";
-        anotherVersion2 = "v6.0";
-
-        headTitle = "an/uscl/book_title";
-        bookPartTitle1 = headTitle + _PT + 2;
-        bookPartTitle2 = headTitle + _PT + 3;
-        bookPartTitle3 = headTitle + _PT + 4;
-        anotherTitle = "uscl/an/another_book";
-
+        initiateVersions();
+        initiateTitleNames();
         setUpProviewTitles();
+        setUpForm();
+        setUpAuthentication();
+
+        when(emailUtil.getEmailRecipientsByUsername(username))
+            .thenReturn(Collections.singletonList(new InternetAddress(EMAIL)));
     }
 
     @Test
@@ -99,6 +140,158 @@ public final class ProviewTitleListServiceTest {
         assertEquals(2, splitBookTitleIds.size());
         assertTrue(splitBookTitleIds.contains(bookPartTitle2));
         assertTrue(splitBookTitleIds.contains(bookPartTitle3));
+    }
+
+    @SneakyThrows
+    @Test
+    public void updateTitleStatusesInProviewTest() {
+        when(proviewHandler.removeTitle(headTitle, version)).thenReturn(true);
+        when(proviewHandler.removeTitle(bookPartTitle1, version))
+            .thenThrow(new ProviewException(ERROR_MESSAGE));
+
+        TitleActionResult titleActionResult = proviewTitleListService.updateTitleStatusesInProview(form,
+            title -> proviewTitleListService.removeTitleFromProview(form, title),
+            FINAL_BOOK_STATUS, REVIEW_BOOK_STATUS);
+
+        List<String> titlesToUpdate = titleActionResult.getTitlesToUpdate();
+        assertEquals(1, titlesToUpdate.size());
+        assertTrue(titlesToUpdate.contains(bookPartTitle1));
+        List<String> updatedTitles = titleActionResult.getUpdatedTitles();
+        assertEquals(1, updatedTitles.size());
+        assertTrue(updatedTitles.contains(headTitle));
+        assertEquals(ERROR_MESSAGE, titleActionResult.getErrorMessage());
+    }
+
+    @SneakyThrows
+    @Test
+    public void promoteTitleOnProviewTest() {
+        proviewTitleListService.promoteTitleOnProview(form, headTitle);
+
+        verify(proviewHandler).promoteTitle(headTitle, versionString);
+    }
+
+    @SneakyThrows
+    @Test
+    public void removeTitleOnProviewTest() {
+        proviewTitleListService.removeTitleFromProview(form, headTitle);
+
+        verify(proviewHandler).removeTitle(headTitle, version);
+    }
+
+    @SneakyThrows
+    @Test
+    public void deleteTitleOnProviewTest() {
+        proviewTitleListService.deleteTitleFromProview(form, headTitle);
+
+        verify(proviewHandler).deleteTitle(headTitle, version);
+    }
+
+    @SneakyThrows
+    @Test
+    public void executeTitleActionTestPartlyUpdated() {
+        when(titleActionResult.getTitlesToUpdate()).thenReturn(getTitlesToUpdate());
+        when(titleActionResult.getUpdatedTitles()).thenReturn(getUpdatedTitles());
+        when(titleActionResult.hasErrorMessage()).thenReturn(true);
+
+        when(titleAction.getAction()).thenReturn(callable);
+        when(callable.call()).thenReturn(titleActionResult);
+        when(titleAction.getEmailSubjectTemplate()).thenReturn(EMAIL_SUBJECT);
+        ArgumentCaptor<NotificationEmail> argumentCaptor = ArgumentCaptor
+            .forClass(NotificationEmail.class);
+
+        proviewTitleListService.executeTitleAction(form, titleAction, false);
+
+        verify(emailService).send(argumentCaptor.capture());
+        NotificationEmail notificationEmail = argumentCaptor.getValue();
+        String emailBody = notificationEmail.getBody();
+        assertTrue(emailBody.contains(SUCCESSFULLY_UPDATED));
+        assertTrue(emailBody.contains(FAILED_TO_UPDATE));
+        verifyTitlesToUpdate(emailBody);
+        verifyUpdatedTitles(emailBody);
+    }
+
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    @Test
+    public void executeTitleActionTestFailedToUpdate() {
+        when(titleActionResult.getTitlesToUpdate()).thenReturn(getTitlesToUpdate());
+        when(titleActionResult.getUpdatedTitles()).thenReturn(Collections.EMPTY_LIST);
+        when(titleActionResult.hasErrorMessage()).thenReturn(true);
+
+        when(titleAction.getAction()).thenReturn(callable);
+        when(callable.call()).thenReturn(titleActionResult);
+        when(titleAction.getEmailSubjectTemplate()).thenReturn(EMAIL_SUBJECT);
+        ArgumentCaptor<NotificationEmail> argumentCaptor = ArgumentCaptor
+            .forClass(NotificationEmail.class);
+
+        proviewTitleListService.executeTitleAction(form, titleAction, false);
+
+        verify(emailService).send(argumentCaptor.capture());
+        NotificationEmail notificationEmail = argumentCaptor.getValue();
+        String emailBody = notificationEmail.getBody();
+        assertTrue(emailBody.contains(FAILED_TO_UPDATE));
+        verifyTitlesToUpdate(emailBody);
+        assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
+    }
+
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    @Test
+    public void executeTitleActionTestSimpleBookFailedToUpdate() {
+        when(titleActionResult.getTitlesToUpdate()).thenReturn(Collections.singletonList(headTitle));
+        when(titleActionResult.getUpdatedTitles()).thenReturn(Collections.EMPTY_LIST);
+        when(titleActionResult.hasErrorMessage()).thenReturn(true);
+
+        when(titleAction.getAction()).thenReturn(callable);
+        when(callable.call()).thenReturn(titleActionResult);
+        when(titleAction.getEmailSubjectTemplate()).thenReturn(EMAIL_SUBJECT);
+        ArgumentCaptor<NotificationEmail> argumentCaptor = ArgumentCaptor
+            .forClass(NotificationEmail.class);
+
+        proviewTitleListService.executeTitleAction(form, titleAction, false);
+
+        verify(emailService).send(argumentCaptor.capture());
+        NotificationEmail notificationEmail = argumentCaptor.getValue();
+        String emailBody = notificationEmail.getBody();
+        assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
+        assertFalse(emailBody.contains(FAILED_TO_UPDATE));
+    }
+
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    @Test
+    public void executeTitleActionTestFullyUpdated() {
+        when(titleActionResult.getTitlesToUpdate()).thenReturn(Collections.EMPTY_LIST);
+        when(titleActionResult.getUpdatedTitles()).thenReturn(getUpdatedTitles());
+
+        when(titleAction.getAction()).thenReturn(callable);
+        when(callable.call()).thenReturn(titleActionResult);
+        when(titleAction.getEmailSubjectTemplate()).thenReturn(EMAIL_SUBJECT);
+        ArgumentCaptor<NotificationEmail> argumentCaptor = ArgumentCaptor
+            .forClass(NotificationEmail.class);
+
+        proviewTitleListService.executeTitleAction(form, titleAction, false);
+
+        verify(emailService).send(argumentCaptor.capture());
+        NotificationEmail notificationEmail = argumentCaptor.getValue();
+        String emailBody = notificationEmail.getBody();
+        assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
+        assertFalse(emailBody.contains(FAILED_TO_UPDATE));
+    }
+
+    private void initiateTitleNames() {
+        headTitle = "an/uscl/book_title";
+        bookPartTitle1 = headTitle + _PT + 2;
+        bookPartTitle2 = headTitle + _PT + 3;
+        bookPartTitle3 = headTitle + _PT + 4;
+        anotherTitle = "uscl/an/another_book";
+    }
+
+    private void initiateVersions() {
+        version = new Version("v2.0");
+        versionString = version.getFullVersion();
+        anotherVersion1 = "v4.0";
+        anotherVersion2 = "v6.0";
     }
 
     @SneakyThrows
@@ -155,5 +348,41 @@ public final class ProviewTitleListServiceTest {
         titleInfo.setVersion(version);
         titleInfo.setStatus(status);
         titleContainer.getProviewTitleInfos().add(titleInfo);
+    }
+
+    private List<String> getTitlesToUpdate() {
+        List<String> titlesToUpdate = new ArrayList<>();
+        titlesToUpdate.add(headTitle);
+        titlesToUpdate.add(bookPartTitle3);
+        return titlesToUpdate;
+    }
+
+    private List<String> getUpdatedTitles() {
+        List<String> updatedTitles = new ArrayList<>();
+        updatedTitles.add(bookPartTitle2);
+        updatedTitles.add(bookPartTitle1);
+        return updatedTitles;
+    }
+
+    private void verifyTitlesToUpdate(String emailBody) {
+        String titlesToUpdate = headTitle + System.lineSeparator() + bookPartTitle3;
+        assertTrue(emailBody.contains(titlesToUpdate));
+    }
+
+    private void verifyUpdatedTitles(String emailBody) {
+        String updatedTitles = bookPartTitle1 + System.lineSeparator() + bookPartTitle2;
+        assertTrue(emailBody.contains(updatedTitles));
+    }
+
+    private void setUpAuthentication() {
+        username = "User";
+        final Collection<GrantedAuthority> authorities = new HashSet<>();
+        final CobaltUser user = new CobaltUser(username, "first", "last", "testing", authorities);
+        new UsernamePasswordAuthenticationToken(user, null);
+    }
+
+    private void setUpForm() {
+        when(form.getTitleId()).thenReturn(bookPartTitle1);
+        when(form.getVersion()).thenReturn(versionString);
     }
 }
