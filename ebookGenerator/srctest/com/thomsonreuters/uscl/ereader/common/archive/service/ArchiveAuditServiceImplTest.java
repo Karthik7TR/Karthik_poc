@@ -37,11 +37,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class ArchiveAuditServiceImplTest {
-
     private static final String TITLE_ID_PT_2 = "titleId_pt2";
     private static final String VERSION = "1.1";
-    public static final String TITLE_ID = "titleId";
-    public static final long ID = 1L;
+    private static final String TITLE_ID = "titleId";
+    private static final long ID = 1L;
     private static final String TITLE_ID_PT_1 = "titleId_pt1";
     private static final String TITLE_ID_PT_3 = "titleId_pt3";
 
