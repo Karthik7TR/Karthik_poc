@@ -36,6 +36,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
 import java.util.concurrent.Callable;
 import javax.mail.internet.InternetAddress;
+
+import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +61,9 @@ public final class ProviewTitleListServiceTest {
 
     @Mock
     private BookDefinitionService bookDefinitionService;
+
+    @Mock
+    private ProviewAuditService proviewAuditService;
 
     @Mock
     private ProviewHandler proviewHandler;
@@ -100,7 +105,8 @@ public final class ProviewTitleListServiceTest {
     @Before
     public void setUp() {
         proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService,
-            bookTitlesUtil, proviewHandler, emailUtil, emailService, "environmentName");
+                proviewAuditService, bookTitlesUtil, proviewHandler, emailUtil, emailService,
+                "environmentName");
 
         initiateVersions();
         initiateTitleNames();

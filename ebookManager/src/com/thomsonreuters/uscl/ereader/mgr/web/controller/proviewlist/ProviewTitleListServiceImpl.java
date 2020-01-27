@@ -24,6 +24,8 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import java.util.function.Consumer;
 import javax.mail.internet.InternetAddress;
+
+import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +45,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     private static final String FAILED_TO_UPDATE = "Failed to update:";
 
     private final BookDefinitionService bookDefinitionService;
+    private final ProviewAuditService proviewAuditService;
     private final BookTitlesUtil bookTitlesUtil;
     private final ProviewHandler proviewHandler;
     private final EmailUtil emailUtil;
@@ -52,6 +55,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     @Autowired
     public ProviewTitleListServiceImpl(
         final BookDefinitionService bookDefinitionService,
+        final ProviewAuditService proviewAuditService,
         final BookTitlesUtil bookTitlesUtil,
         final ProviewHandler proviewHandler,
         EmailUtil emailUtil,
@@ -59,6 +63,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         @Qualifier("environmentName")
         String environmentName) {
         this.bookDefinitionService = bookDefinitionService;
+        this.proviewAuditService = proviewAuditService;
         this.bookTitlesUtil = bookTitlesUtil;
         this.proviewHandler = proviewHandler;
         this.emailUtil = emailUtil;
@@ -164,7 +169,8 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             } else {
                 sendSuccessEmail(username, action, headTitleId, version);
             }
-            titleActionResult.getUpdatedTitles().forEach(form::createAudit);
+            titleActionResult.getUpdatedTitles().forEach(title ->
+                    proviewAuditService.save(form.createAudit(title)));
         }
         return titleActionResult;
     }
