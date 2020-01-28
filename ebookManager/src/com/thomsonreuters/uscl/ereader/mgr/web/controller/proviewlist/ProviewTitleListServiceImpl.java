@@ -74,10 +74,10 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                 .map(titleInfo -> Optional.ofNullable(book)
                         .map(item -> {
                             final String status = titleInfo.getStatus();
-                            final boolean canPromoteBook = book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS && status.equals(REVIEW_BOOK_STATUS);
+                            final boolean canPromote = book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS && REVIEW_BOOK_STATUS.equals(status);
                             final boolean canRemove = CAN_REMOVE_STATUSES.contains(status);
                             final boolean canDelete = CAN_DELETE_STATUSES.contains(status);
-                            return new ProviewTitle(titleInfo, canPromoteBook, canRemove, canDelete);
+                            return new ProviewTitle(titleInfo, canPromote, canRemove, canDelete);
                         })
                         .orElse(new ProviewTitle(titleInfo)))
                 .collect(Collectors.toList());
