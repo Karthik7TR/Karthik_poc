@@ -23,7 +23,7 @@ public class ProviewListMatchers {
     }
 
     public static ProviewTitle title(final String version, final String status) {
-        return new ProviewTitle(titleInfo(version, status), false, false);
+        return new ProviewTitle(titleInfo(version, status));
     }
 
     public static Matcher<ProviewTitle> isTitle(final boolean canRemove, final boolean canPromote) {

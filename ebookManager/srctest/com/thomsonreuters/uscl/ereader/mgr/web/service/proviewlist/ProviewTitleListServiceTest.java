@@ -69,9 +69,6 @@ public final class ProviewTitleListServiceTest {
     private ProviewHandler proviewHandler;
 
     @Mock
-    private BookTitlesUtil bookTitlesUtil;
-
-    @Mock
     private EmailUtil emailUtil;
 
     @Mock
@@ -105,7 +102,7 @@ public final class ProviewTitleListServiceTest {
     @Before
     public void setUp() {
         proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService,
-                proviewAuditService, bookTitlesUtil, proviewHandler, emailUtil, emailService,
+                proviewAuditService, proviewHandler, emailUtil, emailService,
                 "environmentName");
 
         initiateVersions();
