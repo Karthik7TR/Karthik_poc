@@ -23,21 +23,22 @@ public class ProviewListMatchers {
     }
 
     public static ProviewTitle title(final String version, final String status) {
-        return new ProviewTitle(titleInfo(version, status), false, false);
+        return new ProviewTitle(titleInfo(version, status));
     }
 
-    public static Matcher<ProviewTitle> isTitle(final boolean canRemove, final boolean canPromote) {
+    public static Matcher<ProviewTitle> isTitle(final boolean canRemove, final boolean canPromote, final boolean canDelete) {
         return new BaseMatcher<ProviewTitle>() {
             @Override
             public boolean matches(final Object item) {
                 final ProviewTitle title = (ProviewTitle) item;
-                return canRemove == title.isCanRemove() && canPromote == title.isCanPromote();
+                return canRemove == title.isCanRemove() && canPromote == title.isCanPromote() && canDelete == title.isCanDelete();
             }
 
             @Override
             public void describeTo(final Description description) {
                 description.appendText("canRemove should be ").appendValue(canRemove);
                 description.appendText("; canPromote should be ").appendValue(canPromote);
+                description.appendText("; canDelete should be ").appendValue(canDelete);
             }
 
             @Override
@@ -45,6 +46,7 @@ public class ProviewListMatchers {
                 final ProviewTitle title = (ProviewTitle) item;
                 description.appendText("canRemove was ").appendValue(title.isCanRemove());
                 description.appendText("; canPromote was ").appendValue(title.isCanPromote());
+                description.appendText("; canDelete was ").appendValue(title.isCanDelete());
             }
         };
     }

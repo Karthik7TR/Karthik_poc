@@ -2,37 +2,32 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
-import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import java.util.function.Consumer;
-import javax.mail.internet.InternetAddress;
-
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import javax.mail.internet.InternetAddress;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.*;
 
 @Service("proviewTitleListService")
 @Slf4j
@@ -43,10 +38,11 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     private static final String EMAIL_BODY = "Environment: %s%n%s";
     private static final String SUCCESSFULLY_UPDATED = "Successfully updated:";
     private static final String FAILED_TO_UPDATE = "Failed to update:";
+    private static final Set<String> CAN_REMOVE_STATUSES = Sets.newSet(REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS);
+    private static final Set<String> CAN_DELETE_STATUSES = Sets.newSet(CLEANUP_BOOK_STATUS, REMOVED_BOOK_STATUS);
 
-    private final BookDefinitionService bookDefinitionService;
     private final ProviewAuditService proviewAuditService;
-    private final BookTitlesUtil bookTitlesUtil;
+    private final BookDefinitionService bookDefinitionService;
     private final ProviewHandler proviewHandler;
     private final EmailUtil emailUtil;
     private final EmailService emailService;
@@ -56,7 +52,6 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     public ProviewTitleListServiceImpl(
         final BookDefinitionService bookDefinitionService,
         final ProviewAuditService proviewAuditService,
-        final BookTitlesUtil bookTitlesUtil,
         final ProviewHandler proviewHandler,
         EmailUtil emailUtil,
         EmailService emailService,
@@ -64,7 +59,6 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         String environmentName) {
         this.bookDefinitionService = bookDefinitionService;
         this.proviewAuditService = proviewAuditService;
-        this.bookTitlesUtil = bookTitlesUtil;
         this.proviewHandler = proviewHandler;
         this.emailUtil = emailUtil;
         this.emailService = emailService;
@@ -76,15 +70,17 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     public List<ProviewTitle> getProviewTitles(
         @NotNull final List<ProviewTitleInfo> titleInfos,
         @Nullable final BookDefinition book) {
-        final List<ProviewTitle> titles = new ArrayList<>();
-        for (final ProviewTitleInfo ti : titleInfos) {
-            final Version version = new Version(ti.getVersion());
-            final boolean isSingleBook = book == null ? false : !bookTitlesUtil.isSplitBook(book, version);
-            final boolean canPromoteBook =
-                book == null ? false : isSingleBook && book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS;
-            titles.add(new ProviewTitle(ti, isSingleBook, canPromoteBook));
-        }
-        return titles;
+        return titleInfos.stream()
+                .map(titleInfo -> Optional.ofNullable(book)
+                        .map(item -> {
+                            final String status = titleInfo.getStatus();
+                            final boolean canPromote = book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS && REVIEW_BOOK_STATUS.equals(status);
+                            final boolean canRemove = CAN_REMOVE_STATUSES.contains(status);
+                            final boolean canDelete = CAN_DELETE_STATUSES.contains(status);
+                            return new ProviewTitle(titleInfo, canPromote, canRemove, canDelete);
+                        })
+                        .orElse(new ProviewTitle(titleInfo)))
+                .collect(Collectors.toList());
     }
 
     @Override
