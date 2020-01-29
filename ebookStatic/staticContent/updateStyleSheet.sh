@@ -92,7 +92,7 @@ sed -i '/<\/h2>/a \
 \t-->' Platform/Universal/Head.xsl
 
 echo "Add head condition in Head.xsl" >> log.txt
-sed -i "s/<xsl:template match=\"head | prop.head | form.head | fa.head\" name=\"head\">/<xsl:template match=\"head[not(following-sibling::paratext)] | prop.head | form.head | fa.head\" name=\"head\">/g"
+sed -i "s/<xsl:template match=\"head | prop.head | form.head | fa.head\" name=\"head\">/<xsl:template match=\"head[not(following-sibling::paratext)] | prop.head | form.head | fa.head\" name=\"head\">/g" Platform/Universal/Head.xsl
 
 echo "Remove duplicated templates" >> log.txt
 sed -i 's/<xsl:template name="historicalStatutesAndRegulationsHeader" \/>//g' Platform/Universal/HistoricalHeader.xsl
@@ -131,5 +131,135 @@ echo "Replace ampersands" >> log.txt
 sed -i 's/&P/\&amp;P/g' ContentTypeMapData.xml
 sed -i 's/&A/\&amp;A/g' ContentTypeMapData.xml
 sed -i 's/& /\&amp; /g' ContentTypeMapData.xml
+
+echo "O'Connor's annotations" >> log.txt
+echo "Remove instruction which turnes off oconnos.annotations for all cases" >> log.txt
+sed -i 's/<xsl:template match="oconnor.annotations" \/>/\
+<!-- <updateStyleSheet.sh> -->\
+<!--xsl:template match="oconnor.annotations" \/-->\
+<!-- <\/updateStyleSheet.sh> -->\
+/g' WestlawNext/DefaultProductView/ContentTypes/CodesStatutes.xsl
+
+echo "Add instruction which turnes off oconnos.annotations only for ContextAndAnalysis.xsl" >> log.txt
+sed -i 's/<\/xsl:stylesheet>/\
+<!-- <updateStyleSheet.sh> -->\
+<xsl:template match="oconnor.annotations" \/>\
+<!-- <\/updateStyleSheet.sh> -->\
+&/g' Platform/ContentBlocks/ContextAndAnalysis.xsl
+
+echo "Remove usage of oconnor.annotations template defined by Cobalt Document from CodesAdminCode.xsl" >> log.txt
+sed -i '/^\s*<xsl:template match="oconnor.annotations">\s*$/,/<\/xsl:template>/s/.*/<!-- updateStyleSheet.sh: & -->/g' WestlawNext/DefaultProductView/ContentTypes/CodesAdminCode.xsl
+
+echo "Remove usage of oconnor.annotations template defined by Cobalt Document from CodesStateAdminCodes.xsl" >> log.txt
+sed -i '/^\s*<xsl:template match="oconnor.annotations">\s*$/,/<\/xsl:template>/s/.*/<!-- updateStyleSheet.sh: & -->/g' WestlawNext/DefaultProductView/ContentTypes/CodesStateAdminCodes.xsl
+
+echo "Remove usage of oconnor.annotations template defined by Cobalt Document from CodesStatutes.xsl" >> log.txt
+sed -i '/^\s*<xsl:template match="oconnor.annotations">\s*$/,/<\/xsl:template>/s/.*/<!-- updateStyleSheet.sh: & -->/g' WestlawNext/DefaultProductView/ContentTypes/CodesStatutes.xsl
+
+echo "Add oconnor.annotations related templates to eBookContextAndAnalysis.xsl" >> log.txt
+sed -i 's!</xsl:stylesheet>!\
+<\!-- <updateStyleSheet.sh> -->\
+	<xsl:template match="annotations/reference.block/author.reference.block/head/head.info">\
+		<div class="\&headtextClass;">\
+			<xsl:apply-templates/>\
+		</div>\
+	</xsl:template>\
+\
+	<\!--OConnors-->\
+	<xsl:template match="oconnor.annotations/other.annotation.block |\
+						 oconnor.annotations/other.comment.block |\
+						 oconnor.annotations/other.legislative.note.block |\
+						 oconnor.annotations/other.chart.block">\
+		 <div>\
+			<xsl:apply-templates/>\
+		 </div>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.ed.note.block | \
+						 oconnor.annotations/other.cross.reference.block">\
+		 <div class="\&indentTopClass;">\
+			<xsl:apply-templates/>\
+		 </div>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.ed.note.block/head |\
+						 oconnor.annotations/other.cross.reference.block/head |\
+						 oconnor.annotations/other.comment.block/head"/>\
+\
+	<xsl:template match="oconnor.annotations/other.annotation.block/head">\
+		<h2 class="\&centerClass;">\
+			<xsl:text>ANNOTATIONS</xsl:text>\
+		</h2>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.chart.block/head">\
+		<h2 class="\&centerClass;">\
+			<xsl:text>CHARTS</xsl:text>\
+		</h2>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.annotation.block/other.annotation.body/head |\
+						 oconnor.annotations/other.comment.block/other.comment.body/head |\
+						 oconnor.annotations/other.legislative.note.block/head">\
+						 \
+		<h2 class="\&centerClass;">\
+			<xsl:apply-templates/>\
+		</h2>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.comment.block/other.comment.body/other.comment |\
+						 oconnor.annotations/other.legislative.note.block/other.legislative.note.body/other.legislative.note |\
+						 oconnor.annotations/other.chart.block/other.chart.body/other.chart">\
+		<div class="\&indentTopClass;">\
+			<xsl:apply-templates/>\
+		</div>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.annotation.block/other.annotation.body/other.annotation">\
+		<div class="\&indentTopClass; \&paraIndentClass;">\
+			<xsl:apply-templates/>\
+		</div>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.ed.note.block/other.ed.note.body/other.ed.note |\
+						 oconnor.annotations/other.cross.reference.block/other.cross.reference.body/other.cross.reference">\
+		<div class="\&paratextMainClass;">\
+			<xsl:apply-templates/>\
+		</div>\
+	</xsl:template>\
+<\!-- <\/updateStyleSheet.sh> -->\
+&!g' Platform/ContentBlocks/eBookContextAndAnalysis.xsl
+
+echo "Add indentations to V.T.C.A. line" >> log.txt
+sed -i 's/.co_indentBottom + .co_indentTop {/\
+\/* <updateStyleSheet.sh> *\/\
+.co_indentTop05 {\
+	padding-top: .5em; }\
+\
+.co_indentBottom05 {\
+  padding-bottom: .5em; }\
+\
+.co_page_number {\
+  text-align: center;\
+  font-weight: bold;\
+}\
+\/* <\/updateStyleSheet.sh> *\/\
+&/g' document.css
+sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
+<!-- <updateStyleSheet.sh> -->\
+<!ENTITY indentTop05Class "co_indentTop05">\
+<!ENTITY indentBottom05Class "co_indentBottom05">\
+<!-- <\/updateStyleSheet.sh> -->\
+&/g' Platform/CssClasses.dtd
+sed -i 's/<\/xsl:stylesheet>/\
+<!-- <updateStyleSheet.sh> -->\
+	<xsl:template match="content.metadata.block\/cmd.identifiers\/cmd.cites\/cmd.expandedcite">\
+		<div class="\&indentTop05Class; \&indentBottom05Class;">\
+			<xsl:apply-templates\/>\
+		<\/div>\
+	<\/xsl:template>\
+<!-- <\/updateStyleSheet.sh> -->\
+&/g' WestlawNext/DefaultProductView/ContentTypes/CodesStatutes.xsl
+
 
 echo "**************Done**********" >> log.txt
