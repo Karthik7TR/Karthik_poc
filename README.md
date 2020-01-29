@@ -1,5 +1,5 @@
 # ECS Sample App
-This is a Sample application created by the CCNG Techops team's interns that can be used to test deployments.  
+This is a Sample application created by the CCNG TechOps team's interns that can be used to test deployments.  
 > :star: ***HINT:***
 >
 > You can follow along with a Cumulus engineer as they describe Cumulus and walk you through these steps.  
@@ -7,15 +7,15 @@ This is a Sample application created by the CCNG Techops team's interns that can
 
 
 # Infrastructure
-Each implementer of the demo should have already deployed their infrastructure before following the Cumulus steps below.  The database is multi-tennant and will be shared by all apps deployed.  
+Each implementer of the demo should have already deployed their infrastructure before following the Cumulus steps below.  The database is multi-tennant and will be shared by all apps deployed, so you do not have to deploy that.  
 
-The database for this app is located in [this Cloud IaC project.](https://git.sami.int.thomsonreuters.com/ccng/iac-dojo-ems-rds-infra).  
-All other infrastructure is contained in [this Cloud IaC project.](https://git.sami.int.thomsonreuters.com/ccng/iac-dojo-ems-ecs-infra).  For a typical app, the two would be in the same IaC project.  However, to speed up demo times we separated out the database.  It does so in these ways:
+The database for this app is located in [this Cloud IaC project.](https://github.com/tr/cumulus_iac-sample-application-nodejs-rds).  
+All other infrastructure is contained in [this Cloud IaC project.](https://github.com/tr/cumulus_iac-sample-application-nodejs-ecs).  For a typical app, the two would be in the same IaC project.  However, to speed up demo times we separated out the database.  It does so in these ways:
 * It takes about 20 minutes per environment to create an RDS instance.
 * No need for each member of a demo to deploy schemas.  The proper way to do this is with the DB change pipeline which really deserves its own dojo!
 
 # Hands-On Cumulus Instructions
-In this workshop we will create all the resources necessary to use Project Cumulus.  We will then create a pipeline that will deploy a sample application to the two environments previously created using Cloud IaC.  The files in this repo are all that you will need, however, we assume that the infrastructure has already been created.  We will go through them one by one and when we do, we will need to modify some of the values in some of the files.  We will walk you through this and explain the purpose of each file.  **Please** ask questions at any time and speak out if you need help or are unsure about something.
+You will have the opportunity to create Cumulus pipelines and use them to deploy an ECS backed application in a blue/green fashion.  Please follow along with the videos linked to at the top of this page.  The videos will go more in-depth into what you're doing than the written instructions.  The files in this repo are all that you will need, however, we assume that the infrastructure has already been created.  If you have questions during this process, **Please** reach out to the Cumulus team on our [Teams Channel](https://teams.microsoft.com/l/channel/19%3ac72f735f407a48f1902ad18ad14f1265%40thread.skype/General?groupId=09374222-95d8-4cb6-bd1d-1bb9f8dfc625&tenantId=62ccb864-6a1a-4b5d-8e1c-397dec1a8258).  There are no dumb questions!
 
 ## Prerequisites
 * [General prerequisites](https://thehub.thomsonreuters.com/docs/DOC-2914661)
@@ -31,6 +31,6 @@ Perform the steps below in order.  However, if this is an onsite hands-on traini
 
 ## Cleanup
 When you are finished, you can run this to cleanup all of the stuff the cumulus installer created.  
-`cumulus-installer --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml uninstall`
+`cumulus installer uninstall --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml -a ${SAMI_USERNAME}`
 
 To delete the services, you'll have to delete the CloudFormation stacks manually.  They will follow the syntax `a206296-${ServiceName}-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx is a random string.

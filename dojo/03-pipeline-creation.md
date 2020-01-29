@@ -2,10 +2,6 @@
 Create your end-to-end pipeline.  This will be used to build the code, bake a container image and publish it to ECR, and deploy this image to the two ECS clusters you created with Cloud IaC.  
 
 # Steps
-1. Modify the [`cumulus-deployspec.yaml`](cumulus-deployspec.yaml), changing the `# FIXME` lines.  The values for these lines will come from your Cloud IaC project.  Specifically, the outputs from the CloudFormation stacks Cloud IaC created for your infrastructure.  
-    > :star: ***HINT***: There are four items under each environment that need changing.  All but the listener come from the ecs stack.  The listener comes from the ALB stack.  
-
-    This file tells the deployment engine what to do.  Among other things, it says to use the blue-green deployer (rather than the simple deployer) and what CloudFormation templates to use as well as their parameters.
 
 1. Create the pipeline CloudFormation template  
     ```sh
