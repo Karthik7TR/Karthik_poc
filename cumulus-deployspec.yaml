@@ -76,7 +76,7 @@ dev:
       Parameters: # Environment specific stack parameters
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a206296-dojo-TEN-Acct-Id-dev  # FIXME From `ECSCluster` output in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        ClusterName: a206296-dojo-TEN-Acct-Id-dev
         SecurityGroup: sg-085123378cd6a9235  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
         ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
     Routing:
@@ -91,7 +91,7 @@ qa:
       Parameters: # Environment specific stack parameters
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
-        ClusterName: a206296-dojo-TEN-Acct-Id-qa   # FIXME From `ECSCluster` output in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        ClusterName: a206296-dojo-TEN-Acct-Id-qa
         SecurityGroup: sg-043de10eb20e6f39b  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
         ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
     Routing:
