@@ -1,0 +1,66 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: TargetGroup and ALB Listener Rule for the BlueGreen deployer
+
+Parameters:
+  VpcID:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Name of SSM parameter that contains the ID of the TR VPC
+    AllowedValues: [tr-vpc-1-id]
+    Default: tr-vpc-1-id
+  HealthCheckPath:
+    Type: String
+    Description: Health check pack for target group
+    Default: "/"
+  ListenerARN:
+    Type: String
+    Description: HTTP Listener ARN for which the listener rule will be created
+  RoutePathPatterns:
+    Type: CommaDelimitedList
+    Description: List of route path patterns for the listener rule that will be created
+  InitialRulePriority:
+    Type: Number
+    Description: "Initial priority for listener rule. That will be the latest available priority."
+  TargetGroupPort:
+    Type: Number
+    Description: "The port on the target group"
+    Default: "80"
+  TargetGroupProtocol:
+    Type: String
+    Description: "The protocol of the target group"
+    Default: "HTTP"
+
+Resources:
+  ListenerRule:
+    Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
+    Properties:
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroupGreen
+      Conditions:
+        - Field: path-pattern
+          PathPatternConfig:
+            Values: !Ref RoutePathPatterns
+      ListenerArn: !Ref ListenerARN
+      Priority: !Ref InitialRulePriority
+  TargetGroupGreen:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      Protocol: !Ref TargetGroupProtocol
+      VpcId: !Ref VpcID
+      Port: !Ref TargetGroupPort
+      HealthCheckPath: !Ref HealthCheckPath
+      TargetType: ip
+      HealthCheckIntervalSeconds: 6
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+Outputs:
+  TargetGroup:
+    Description: The ARN of the target group
+    Value: !Ref TargetGroupGreen
+  ListenerRuleArn:
+    Description: Listener Rule Arn
+    Value: !Ref ListenerRule
