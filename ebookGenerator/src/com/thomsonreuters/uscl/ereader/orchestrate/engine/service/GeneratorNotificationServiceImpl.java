@@ -8,10 +8,10 @@ import java.util.List;
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +21,7 @@ import org.springframework.batch.item.ExecutionContext;
 @Slf4j
 @Setter
 public class GeneratorNotificationServiceImpl implements NotificationService {
+    private EmailService emailService;
     private EmailUtil emailUtil;
 
     @Override
@@ -51,9 +52,9 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
         getImageMissingGuidsFileFromGatherDocsDir(jobExecutionContext, fileList);
 
         if (!fileList.isEmpty()) {
-            EmailNotification.sendWithAttachment(emailRecipients, subject, body, fileList);
+            emailService.sendWithAttachment(emailRecipients, subject, body, fileList);
         } else {
-            EmailNotification.send(emailRecipients, subject, body);
+            emailService.send(emailRecipients, subject, body);
         }
     }
 

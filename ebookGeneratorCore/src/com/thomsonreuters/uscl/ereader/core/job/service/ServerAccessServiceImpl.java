@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import com.thomsonreuters.uscl.ereader.util.Ssh;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -37,11 +37,14 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 
     private final JobCleanupService jobCleanupService;
     private final UserPreferenceService userPreferenceService;
+    private final EmailService emailService;
 
     @Autowired
-    public ServerAccessServiceImpl(final JobCleanupService jobCleanupService, final UserPreferenceService userPreferenceService) {
+    public ServerAccessServiceImpl(final JobCleanupService jobCleanupService,
+        final UserPreferenceService userPreferenceService, final EmailService emailService) {
         this.jobCleanupService = jobCleanupService;
         this.userPreferenceService = userPreferenceService;
+        this.emailService = emailService;
     }
 
     /**
@@ -218,7 +221,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
             log.debug("Notification email subject : " + subject);
             log.debug("Notification email body : " + emailBody);
 
-            EmailNotification.send(emailGroup, subject, emailBody);
+            emailService.send(emailGroup, subject, emailBody);
         }
     }
 
@@ -244,7 +247,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
             log.debug("Notification email subject : " + subject);
             log.debug("Notification email body : " + emailBody);
 
-            EmailNotification.send(emailGroup, subject, emailBody);
+            emailService.send(emailGroup, subject, emailBody);
         }
     }
 
@@ -292,7 +295,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
         log.debug("Notification email body : " + emailBodySB.toString());
 
         // Send email to email group
-        EmailNotification.send(emailGroup, subject, emailBodySB.toString());
+        emailService.send(emailGroup, subject, emailBodySB.toString());
 
         // Send individual emails to users
         for (final Map.Entry<String, List<JobUserInfo>> entry : userMap.entrySet()) {
@@ -315,7 +318,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
                     userEmailBodySB.append(beginningMessage);
                     userEmailBodySB.append(userJobInfoListSB);
 
-                    EmailNotification.send(emails, subject, userEmailBodySB.toString());
+                    emailService.send(emails, subject, userEmailBodySB.toString());
                 }
             }
         }

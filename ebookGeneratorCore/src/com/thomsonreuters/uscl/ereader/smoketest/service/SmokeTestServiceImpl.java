@@ -29,7 +29,6 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -61,6 +60,8 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     private String deltaTextftpServerPath;
     @Value("${xpp.quality.webservice}")
     private String deltaTextApiUrl;
+    @Value("${mail.smtp.host}")
+    public String smtpHost;
     @Resource
     private SapService sapService;
     @Resource
@@ -220,9 +221,9 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     }
 
     private SmokeTest testSMTPStatus() {
-        final SmokeTest smokeTest = getServerStatus(EmailNotification.HOST);
+        final SmokeTest smokeTest = getServerStatus(smtpHost);
         smokeTest.setName("SMTP");
-        smokeTest.setAddress(EmailNotification.HOST);
+        smokeTest.setAddress(smtpHost);
         return smokeTest;
     }
 

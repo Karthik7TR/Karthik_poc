@@ -284,7 +284,8 @@
 	<beans:bean id="generateTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateTocTask" parent="generatorParentTask"
 				p:novusNortFileService-ref="novusNortFileService"
 				p:publishingStatsService-ref="publishingStatsService"
-				p:bookDefinitionService-ref="bookDefinitionService"/>				
+				p:bookDefinitionService-ref="bookDefinitionService"
+				p:emailService-ref="emailService"/>
 	<beans:bean id="generateDocAndMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateDocAndMetadataTask" parent="generatorParentTask"
 				p:novusDocFileService-ref="novusDocFileService"
 				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"

@@ -10,8 +10,6 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            ">
-                           
-    
     
     <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <constructor-arg value="vm://localhost?broker.persistent=false"/>
@@ -105,8 +103,6 @@
         </property>
     </bean>
     
-    <bean id="emailNotification" class="com.thomsonreuters.uscl.ereader.util.EmailNotification"/>
-    
     <bean id="simpleResponseMessageConverter"
         class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="simpleResponseMarshaller" />
@@ -154,7 +150,6 @@
     </bean>
     
     <bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
-    
     
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
           p:sessionFactory-ref="sessionFactory"/>
