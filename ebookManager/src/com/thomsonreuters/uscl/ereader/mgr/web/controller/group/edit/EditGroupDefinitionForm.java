@@ -1,24 +1,26 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AutoPopulatingList;
 
-public class EditGroupDefinitionForm {
-    //private static final Logger log = LogManager.getLogger(EditGroupDefinitionForm.class);
-    public static final String FORM_NAME = "editGroupDefinitionForm";
+import java.util.*;
+import java.util.stream.Collectors;
 
-    public enum Version {
+@Getter
+@Setter
+public class EditGroupDefinitionForm {
+    public static final String FORM_NAME = "editGroupDefinitionForm";
+    public static final String SPLIT_PART_PATTERN = " (eBook";
+
+    public enum VersionType {
         NONE,
         MAJOR,
         OVERWRITE
@@ -28,7 +30,7 @@ public class EditGroupDefinitionForm {
     private String fullyQualifiedTitleId;
     private String groupId;
     private String groupType;
-    private Version versionType;
+    private VersionType versionType;
     private Boolean hasSplitTitles;
     private Boolean includeSubgroup;
     private Boolean includePilotBook;
@@ -47,7 +49,7 @@ public class EditGroupDefinitionForm {
         includeSubgroup = false;
     }
 
-    public GroupDefinition createGroupDefinition(final Collection<ProviewTitleInfo> proviewTitleInfos) {
+    public GroupDefinition createGroupDefinition(final Collection<ProviewTitleInfo> proviewTitleInfos, Map<String, List<String>> titleIdToPartsMap) {
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setGroupId(groupId);
         groupDefinition.setName(groupName);
@@ -58,14 +60,13 @@ public class EditGroupDefinitionForm {
             for (final Subgroup subgroup : subgroups) {
                 final SubGroupInfo subgroupInfo = new SubGroupInfo();
                 subgroupInfo.setHeading(subgroup.getHeading());
-
                 for (final Title titleInfo : subgroup.getTitles()) {
                     final String titleId = titleInfo.getTitleId() + "/v" + titleInfo.getVersion();
                     // Set first book as head title
                     if (StringUtils.isBlank(groupDefinition.getHeadTitle())) {
                         groupDefinition.setHeadTitle(titleId);
                     }
-                    subgroupInfo.addTitle(titleId);
+                    titleIdToPartsMap.get(titleId).forEach(subgroupInfo::addTitle);
                 }
                 subgroupInfos.add(subgroupInfo);
             }
@@ -77,7 +78,7 @@ public class EditGroupDefinitionForm {
             // Get unique fully qualified title ids.
             final Set<String> proViewTitles = new LinkedHashSet<>();
             for (final ProviewTitleInfo info : proviewTitleInfos) {
-                proViewTitles.add(info.getTitleId());
+                proViewTitles.add(new BookTitleId(info.getTitleId(), new Version(info.getVersion())).getTitleIdWithMajorVersion());
             }
 
             final SubGroupInfo subgroupInfo = new SubGroupInfo();
@@ -105,28 +106,25 @@ public class EditGroupDefinitionForm {
             }
             setHasSplitTitles(containsSplitTitle);
         }
-
         if (group != null) {
             setGroupName(group.getName());
 
             if (group.subgroupExists()) {
                 includeSubgroup = true;
-
                 // Create current ProView group in form
-                final List<SubGroupInfo> subgroupInfos = group.getSubGroupInfoList();
-                for (final SubGroupInfo subgroupInfo : subgroupInfos) {
+                for (final SubGroupInfo subgroupInfo : group.getSubGroupInfoList()) {
                     final Subgroup subgroup = new Subgroup();
                     subgroup.setHeading(subgroupInfo.getHeading());
-
-                    final List<String> titleStrs = subgroupInfo.getTitles();
-                    for (final String titleStr : titleStrs) {
-                        final ProviewTitleInfo info = proviewTitleMap.remove(titleStr);
-
+                    Map<String, List<String>> titleIdToPartsMap = subgroupInfo.getTitles().stream()
+                            .collect(Collectors.groupingBy(item -> new BookTitleId(item).getHeadTitleIdWithMajorVersion()));
+                    for (final  Map.Entry<String, List<String>> titleIdToParts : titleIdToPartsMap.entrySet()) {
+                        final ProviewTitleInfo info = proviewTitleMap.remove(titleIdToParts.getKey());
                         if (info != null) {
                             final Title title = new Title();
-                            title.setProviewName(info.getTitle());
+                            title.setProviewName(StringUtils.substringBeforeLast(info.getTitle(), SPLIT_PART_PATTERN));
                             title.setVersion(info.getMajorVersion());
                             title.setTitleId(info.getTitleId());
+                            title.setNumberOfParts(titleIdToParts.getValue().size());
                             subgroup.addTitle(title);
                         }
                     }
@@ -151,112 +149,9 @@ public class EditGroupDefinitionForm {
             title.setProviewName(titleInfo.getTitle());
             title.setVersion(titleInfo.getMajorVersion());
             title.setTitleId(titleInfo.getTitleId());
+            title.setNumberOfParts(1);
             subgroup.addTitle(title);
         }
         notGrouped = subgroup;
-    }
-
-    public Long getBookDefinitionId() {
-        return bookDefinitionId;
-    }
-
-    public void setBookDefinitionId(final Long bookDefinitionId) {
-        this.bookDefinitionId = bookDefinitionId;
-    }
-
-    public String getFullyQualifiedTitleId() {
-        return fullyQualifiedTitleId;
-    }
-
-    public void setFullyQualifiedTitleId(final String fullyQualifiedTitleId) {
-        this.fullyQualifiedTitleId = fullyQualifiedTitleId;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(final String groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupType() {
-        return groupType;
-    }
-
-    public void setGroupType(final String groupType) {
-        this.groupType = groupType;
-    }
-
-    public Version getVersionType() {
-        return versionType;
-    }
-
-    public void setVersionType(final Version versionType) {
-        this.versionType = versionType;
-    }
-
-    public Boolean getHasSplitTitles() {
-        return hasSplitTitles;
-    }
-
-    public void setHasSplitTitles(final Boolean hasSplitTitles) {
-        this.hasSplitTitles = hasSplitTitles;
-    }
-
-    public Boolean getIncludeSubgroup() {
-        return includeSubgroup;
-    }
-
-    public void setIncludeSubgroup(final Boolean includeSubgroup) {
-        this.includeSubgroup = includeSubgroup;
-    }
-
-    public Boolean getIncludePilotBook() {
-        return includePilotBook;
-    }
-
-    public void setIncludePilotBook(final Boolean includePilotBook) {
-        this.includePilotBook = includePilotBook;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(final String groupName) {
-        this.groupName = groupName;
-    }
-
-    public Subgroup getNotGrouped() {
-        return notGrouped;
-    }
-
-    public void setNotGrouped(final Subgroup notGrouped) {
-        this.notGrouped = notGrouped;
-    }
-
-    public Subgroup getPilotBooks() {
-        return pilotBooks;
-    }
-
-    public void setPilotBooks(final Subgroup pilotBooks) {
-        this.pilotBooks = pilotBooks;
-    }
-
-    public List<Subgroup> getSubgroups() {
-        return subgroups;
-    }
-
-    public void setSubgroups(final List<Subgroup> subgroups) {
-        this.subgroups = subgroups;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(final String comment) {
-        this.comment = comment;
     }
 }

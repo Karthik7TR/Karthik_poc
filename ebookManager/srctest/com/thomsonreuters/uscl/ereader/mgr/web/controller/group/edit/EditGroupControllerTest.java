@@ -3,9 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -89,10 +87,10 @@ public final class EditGroupControllerTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        final Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(fullyQualifiedTitleId);
+        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(fullyQualifiedTitleId);
         EasyMock.expect(mockGroupService.getGroupId(book)).andReturn(groupId);
         EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
-        EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
+        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
         EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
             .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
         EasyMock.expect(mockGroupService.getPilotBooksNotFound()).andReturn(new ArrayList<String>());
@@ -113,7 +111,7 @@ public final class EditGroupControllerTest {
             final BookDefinition actualBook = (BookDefinition) model.get(WebConstants.KEY_BOOK_DEFINITION);
             Assert.assertEquals(book, actualBook);
             final int actualProviewTitles = Integer.valueOf(model.get(WebConstants.KEY_ALL_PROVIEW_TITLES).toString());
-            Assert.assertEquals(proviewTitleMap.size(), actualProviewTitles);
+            Assert.assertEquals(proviewTitleList.size(), actualProviewTitles);
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -168,7 +166,7 @@ public final class EditGroupControllerTest {
         request.setParameter("bookDefinitionId", Long.toString(BOOK_DEFINITION_ID));
         request.setParameter("groupId", groupId);
         request.setParameter("groupType", "standard");
-        request.setParameter("versionType", EditGroupDefinitionForm.Version.OVERWRITE.toString());
+        request.setParameter("versionType", EditGroupDefinitionForm.VersionType.OVERWRITE.toString());
         request.setParameter("hasSplitTitles", "false");
         request.setParameter("includeSubgroup", "false");
         request.setParameter("groupName", "Group Name");
@@ -182,8 +180,8 @@ public final class EditGroupControllerTest {
             .andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        final Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(fullyQualifiedTitleId);
-        EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
+        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(fullyQualifiedTitleId);
+        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
         EasyMock.expect(mockGroupService.getLastGroup(groupId)).andReturn(null);
         EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
             .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
@@ -231,7 +229,7 @@ public final class EditGroupControllerTest {
         request.setParameter("bookDefinitionId", Long.toString(BOOK_DEFINITION_ID));
         request.setParameter("groupId", groupId);
         request.setParameter("groupType", "standard");
-        request.setParameter("versionType", EditGroupDefinitionForm.Version.OVERWRITE.toString());
+        request.setParameter("versionType", EditGroupDefinitionForm.VersionType.OVERWRITE.toString());
         request.setParameter("hasSplitTitles", "false");
         request.setParameter("includeSubgroup", "false");
         request.setParameter("includePilotBook", "true");
@@ -242,8 +240,8 @@ public final class EditGroupControllerTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        final Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(fullyQualifiedTitleId);
-        EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
+        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(fullyQualifiedTitleId);
+        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
         EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
             .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
         EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
@@ -273,7 +271,7 @@ public final class EditGroupControllerTest {
         EasyMock.verify(mockBookDefinitionService);
     }
 
-    private Map<String, ProviewTitleInfo> createProviewTitleMap(final String fullyQualifiedTitleId) {
+    private List<ProviewTitleInfo> createProviewTitleList(final String fullyQualifiedTitleId) {
         final ProviewTitleInfo info = new ProviewTitleInfo();
         info.setLastupdate("date");
         info.setPublisher(publisherCode.getName());
@@ -282,10 +280,7 @@ public final class EditGroupControllerTest {
         info.setTitleId(fullyQualifiedTitleId);
         info.setTotalNumberOfVersions(1);
         info.setVersion("v1.0");
-
-        final Map<String, ProviewTitleInfo> map = new LinkedHashMap<>();
-        map.put(fullyQualifiedTitleId + "/v" + info.getMajorVersion(), info);
-        return map;
+        return Arrays.asList(info);
     }
 
     private BookDefinition createBookDef(final String fullyQualifiedTitleId) {

@@ -107,12 +107,14 @@
 				<c:forEach items="${editGroupDefinitionForm.notGrouped.titles}" var="notGroupedTitle" varStatus ="notGroupedStatusTitleStatus">
 					<li class="ui-state-default">
 						<div class="bookInfo">
-							<div>ProView Name: ${notGroupedTitle.proviewName}</div>
+							<div>Base ProView Name: ${notGroupedTitle.proviewName}</div>
 							<div>Title ID: ${notGroupedTitle.titleId}</div>
 							<div>Major Version: ${notGroupedTitle.version}</div>
+							<div>Number of parts: ${notGroupedTitle.numberOfParts}</div>
 							<form:hidden attr="titleId" path="notGrouped.titles[${notGroupedStatusTitleStatus.index}].titleId" />
 							<form:hidden attr="proviewName" path="notGrouped.titles[${notGroupedStatusTitleStatus.index}].proviewName" />
 							<form:hidden attr="version" path="notGrouped.titles[${notGroupedStatusTitleStatus.index}].version" />
+							<form:hidden attr="numberOfParts" path="notGrouped.titles[${notGroupedStatusTitleStatus.index}].numberOfParts" />
 						</div>
 					</li>
 				</c:forEach>
@@ -136,12 +138,14 @@
 						<c:forEach items="${subgroup.titles}" var="title" varStatus ="titleStatus">
 							<li class="ui-state-default">
 								<div class="bookInfo">
-									<div>ProView Name: ${title.proviewName}</div>
+									<div>Base ProView Name: ${title.proviewName}</div>
 									<div>Title ID: ${title.titleId}</div>
 									<div>Major Version: ${title.version}</div>
+									<div>Number of parts: ${title.numberOfParts}</div>
 									<form:hidden attr="titleId" path="subgroups[${status.index}].titles[${titleStatus.index}].titleId" />
 									<form:hidden attr="proviewName" path="subgroups[${status.index}].titles[${titleStatus.index}].proviewName" />
 									<form:hidden attr="version" path="subgroups[${status.index}].titles[${titleStatus.index}].version" />
+									<form:hidden attr="numberOfParts" path="subgroups[${status.index}].titles[${titleStatus.index}].numberOfParts" />
 								</div>
 							</li>
 						</c:forEach>
