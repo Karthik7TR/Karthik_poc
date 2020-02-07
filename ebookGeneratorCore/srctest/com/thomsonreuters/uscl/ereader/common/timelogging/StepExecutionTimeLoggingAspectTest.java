@@ -5,9 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
+import com.thomsonreuters.uscl.ereader.TestUtils;
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Before;
@@ -44,7 +42,7 @@ public final class StepExecutionTimeLoggingAspectTest {
         timeLoggingAspect = spy(new StepExecutionTimeLoggingAspect());
         mockStatic(System.class);
         target = new Object();
-        setLogger(log);
+        TestUtils.setLogger(StepExecutionTimeLoggingAspect.class, log);
         startTime = 10L;
         endTime = 20L;
     }
@@ -62,15 +60,5 @@ public final class StepExecutionTimeLoggingAspectTest {
 
         verify(joinPoint).proceed();
         verify(log).debug("{} executed in {} milliseconds", target.getClass().getSimpleName(), endTime - startTime);
-    }
-
-    @SneakyThrows
-    private static void setLogger(Logger log) {
-        Field field = StepExecutionTimeLoggingAspect.class.getDeclaredField("log");
-        field.setAccessible(true);
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-        field.set(null, log);
     }
 }

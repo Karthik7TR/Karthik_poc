@@ -19,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -37,7 +38,8 @@ import com.thomsonreuters.uscl.ereader.gather.service.NovusNortFileService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.log4j.LogManager;
@@ -63,6 +65,9 @@ public class GenerateTocTask extends AbstractSbTasklet {
     private NovusNortFileService novusNortFileService;
 
     private BookDefinitionService bookDefinitionService;
+
+    @Getter @Setter
+    private EmailService emailService;
 
     @Override
     public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
@@ -345,7 +350,7 @@ public class GenerateTocTask extends AbstractSbTasklet {
         LOG.debug("Notification email body : " + emailBody);
         final List<String> filenames = new ArrayList<>();
         filenames.add(removedNodesListFile.getAbsolutePath());
-        EmailNotification.sendWithAttachment(emailRecipients, subject, emailBody, filenames);
+        emailService.sendWithAttachment(emailRecipients, subject, emailBody, filenames);
     }
 
     @Required
