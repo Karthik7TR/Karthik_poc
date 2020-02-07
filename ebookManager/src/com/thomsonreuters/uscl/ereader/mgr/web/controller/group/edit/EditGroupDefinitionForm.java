@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Setter
 public class EditGroupDefinitionForm {
     public static final String FORM_NAME = "editGroupDefinitionForm";
-    public static final String SPLIT_PART_PATTERN = " (eBook";
+    private static final String SPLIT_PART_PATTERN = " (eBook";
 
     public enum VersionType {
         NONE,
@@ -66,7 +66,7 @@ public class EditGroupDefinitionForm {
                     if (StringUtils.isBlank(groupDefinition.getHeadTitle())) {
                         groupDefinition.setHeadTitle(titleId);
                     }
-                    titleIdToPartsMap.get(titleId).forEach(subgroupInfo::addTitle);
+                    titleIdToPartsMap.getOrDefault(titleId, Collections.singletonList(titleId)).forEach(subgroupInfo::addTitle);
                 }
                 subgroupInfos.add(subgroupInfo);
             }
