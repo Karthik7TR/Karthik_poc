@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.Version;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.VersionType;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -41,7 +41,7 @@ public class EditGroupDefinitionFormValidator extends BaseFormValidator implemen
             "groupName",
             new Object[] {"Group Name", MAXIMUM_CHARACTER_1024});
 
-        if (Version.NONE.equals(form.getVersionType())) {
+        if (VersionType.NONE.equals(form.getVersionType())) {
             errors.rejectValue("versionType", "error.required");
         }
 

@@ -1,13 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -17,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -25,13 +22,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.validation.Valid;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 public class EditGroupController {
@@ -62,7 +60,7 @@ public class EditGroupController {
 
     /**
      * Handle the in-bound GET to the Group Definition edit view page.
-     * @param titleId the primary key of the book as required query string parameter.
+     * @param id the primary key of the book as required query string parameter.
      */
     @RequestMapping(value = WebConstants.MVC_GROUP_DEFINITION_EDIT, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
@@ -93,7 +91,7 @@ public class EditGroupController {
                 // TODO: Need to refactor to account for types standard, periodicals, ereference.
                 form.setGroupType("standard");
 
-                final Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
+                final Map<String, ProviewTitleInfo> proviewTitleMap = getMajorVersionForTitleMap(bookDef.getFullyQualifiedTitleId());
                 final Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
                 if (pilotBookMap.size() > 0) {
                     proviewTitleMap.putAll(pilotBookMap);
@@ -128,11 +126,11 @@ public class EditGroupController {
 
         model.addAttribute(WebConstants.KEY_GROUP_STATUS_IN_PROVIEW, status);
         if ("review".equalsIgnoreCase(status)) {
-            String formatedVersion = EditGroupDefinitionForm.Version.OVERWRITE.toString();
+            String formatedVersion = EditGroupDefinitionForm.VersionType.OVERWRITE.toString();
             formatedVersion = formatedVersion.charAt(0) + formatedVersion.substring(1).toLowerCase();
             model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
         } else {
-            String formatedVersion = EditGroupDefinitionForm.Version.MAJOR.toString();
+            String formatedVersion = EditGroupDefinitionForm.VersionType.MAJOR.toString();
             formatedVersion = formatedVersion.charAt(0) + formatedVersion.substring(1).toLowerCase();
             model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
         }
@@ -141,7 +139,6 @@ public class EditGroupController {
     /**
      * Handle the in-bound POST to the Book Definition edit view page.
      *
-     * @param titleId
      * @param form
      * @param bindingResult
      * @param model
@@ -149,10 +146,9 @@ public class EditGroupController {
      */
     @RequestMapping(value = WebConstants.MVC_GROUP_DEFINITION_EDIT, method = RequestMethod.POST)
     public ModelAndView editGroupDefinitionPost(
-        final HttpSession httpSession,
-        @ModelAttribute(EditGroupDefinitionForm.FORM_NAME) @Valid final EditGroupDefinitionForm form,
-        final BindingResult bindingResult,
-        final Model model) throws Exception {
+            @ModelAttribute(EditGroupDefinitionForm.FORM_NAME) @Valid final EditGroupDefinitionForm form,
+            final BindingResult bindingResult,
+            final Model model) throws Exception {
         BookDefinition bookDef = null;
         try {
             // Lookup the book by its primary key
@@ -168,7 +164,7 @@ public class EditGroupController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
         }
 
-        final Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
+        final Map<String, ProviewTitleInfo> proviewTitleMap = getMajorVersionForTitleMap(bookDef.getFullyQualifiedTitleId());
         if (form.getIncludePilotBook()) {
             final Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
             proviewTitleMap.putAll(pilotBookMap);
@@ -176,10 +172,14 @@ public class EditGroupController {
 
         if (!bindingResult.hasErrors()) {
             try {
-                final GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap.values());
-
+                final GroupDefinition lastGroup = groupService.getLastGroup(form.getGroupId());
+                Map<String, List<String>> titleIdToPartsMap = Optional.ofNullable(lastGroup)
+                        .map(group -> group.getSubGroupInfoList().stream()
+                                .flatMap(item -> item.getTitles().stream())
+                                .collect(Collectors.groupingBy(item -> new BookTitleId(item).getHeadTitleIdWithMajorVersion())))
+                        .orElse(Collections.emptyMap());
+                final GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap.values(), titleIdToPartsMap);
                 // determine group version
-                final GroupDefinition lastGroup = groupService.getLastGroup(groupDefinition.getGroupId());
                 if (lastGroup != null) {
                     if (lastGroup.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS)) {
                         groupDefinition.setGroupVersion(lastGroup.getGroupVersion());
@@ -218,6 +218,13 @@ public class EditGroupController {
         setupVersion(group, form, model);
         setupModel(model, bookDef, proviewTitleMap.size());
         return new ModelAndView(WebConstants.VIEW_GROUP_DEFINITION_EDIT);
+    }
+
+    @NotNull
+    private Map<String, ProviewTitleInfo> getMajorVersionForTitleMap(final String fullyQualifiedTitleId) throws ProviewException {
+        return groupService.getMajorVersionProviewTitles(fullyQualifiedTitleId).stream()
+                .collect(Collectors.toMap(info ->
+                        new BookTitleId(info.getTitleId(), new Version(info.getVersion())).getTitleIdWithMajorVersion(), Function.identity()));
     }
 
     private void setupModel(final Model model, final BookDefinition bookDef, final Integer numOfProviewTitles) {

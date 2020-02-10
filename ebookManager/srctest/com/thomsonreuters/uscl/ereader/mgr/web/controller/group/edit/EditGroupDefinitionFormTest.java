@@ -1,16 +1,12 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.Version;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.VersionType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +14,16 @@ import org.junit.Test;
 public final class EditGroupDefinitionFormTest {
     private static final Long BOOK_DEFINITION_ID = 1L;
     private static final String PROVIEW_DISPLAY_NAME = "Book Name";
+    private static final String MAJOR_VERSION = "v1";
+    private static final String VERSION = MAJOR_VERSION + ".0";
     private static final String TITLE_ID = "uscl/an/abcd";
+    private static final String TITLE_ID_PART_2 = TITLE_ID + "_pt2";
+    private static final String TITLE_ID_WITH_MAJOR_VERSION = TITLE_ID + "/" + MAJOR_VERSION;
+    private static final String TITLE_ID_PART_2_WITH_MAJOR_VERSION = TITLE_ID_PART_2 + "/" + MAJOR_VERSION;
     private static final String GROUP_ID = "uscl/an_abcd";
     private static final String GROUP_NAME = "Group name";
     private static final String GROUP_TYPE = "standard";
+
 
     private EditGroupDefinitionForm form;
 
@@ -35,7 +37,7 @@ public final class EditGroupDefinitionFormTest {
         form.setGroupName(GROUP_NAME);
         form.setGroupType(GROUP_TYPE);
         form.setHasSplitTitles(false);
-        form.setVersionType(Version.MAJOR);
+        form.setVersionType(VersionType.MAJOR);
     }
 
     @Test
@@ -57,9 +59,10 @@ public final class EditGroupDefinitionFormTest {
         final Collection<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
         final ProviewTitleInfo info = new ProviewTitleInfo();
         info.setTitleId(TITLE_ID);
+        info.setVersion(VERSION);
         proviewTitleInfos.add(info);
 
-        final GroupDefinition group = form.createGroupDefinition(proviewTitleInfos);
+        final GroupDefinition group = form.createGroupDefinition(proviewTitleInfos, Collections.emptyMap());
         Assert.assertEquals(GROUP_ID, group.getGroupId());
         Assert.assertNull(group.getFirstSubgroupHeading());
         Assert.assertEquals(TITLE_ID, group.getHeadTitle());
@@ -69,7 +72,7 @@ public final class EditGroupDefinitionFormTest {
         final List<SubGroupInfo> subgroupInfos = group.getSubGroupInfoList();
         final SubGroupInfo subgroupInfo = subgroupInfos.get(0);
         Assert.assertNull(subgroupInfo.getHeading());
-        Assert.assertEquals(TITLE_ID, subgroupInfo.getTitles().get(0));
+        Assert.assertEquals(TITLE_ID_WITH_MAJOR_VERSION, subgroupInfo.getTitles().get(0));
     }
 
     @Test
@@ -92,9 +95,12 @@ public final class EditGroupDefinitionFormTest {
         final Collection<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
         final ProviewTitleInfo info = new ProviewTitleInfo();
         info.setTitleId(TITLE_ID);
+        info.setVersion(VERSION);
         proviewTitleInfos.add(info);
 
-        final GroupDefinition group = form.createGroupDefinition(proviewTitleInfos);
+        Map<String, List<String>> titleIdToPartsMap = new HashMap<>();
+        titleIdToPartsMap.put(TITLE_ID_WITH_MAJOR_VERSION, Arrays.asList(TITLE_ID_WITH_MAJOR_VERSION));
+        final GroupDefinition group = form.createGroupDefinition(proviewTitleInfos, titleIdToPartsMap);
         Assert.assertEquals(GROUP_ID, group.getGroupId());
         Assert.assertEquals(subgroupHeading, group.getFirstSubgroupHeading());
         Assert.assertEquals(TITLE_ID + "/v" + title.getVersion(), group.getHeadTitle());
@@ -104,7 +110,7 @@ public final class EditGroupDefinitionFormTest {
         final List<SubGroupInfo> subgroupInfos = group.getSubGroupInfoList();
         final SubGroupInfo subgroupInfo = subgroupInfos.get(0);
         Assert.assertEquals(subgroupHeading, subgroupInfo.getHeading());
-        Assert.assertEquals(TITLE_ID + "/v" + title.getVersion(), subgroupInfo.getTitles().get(0));
+        Assert.assertEquals(TITLE_ID_WITH_MAJOR_VERSION, subgroupInfo.getTitles().get(0));
     }
 
     @Test
@@ -113,23 +119,21 @@ public final class EditGroupDefinitionFormTest {
         final Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(TITLE_ID);
         final GroupDefinition group = new GroupDefinition();
 
-        final ProviewTitleInfo proviewTitleInfo = new ProviewTitleInfo();
-        proviewTitleInfo.setTitleId(TITLE_ID + "_pt2");
-        proviewTitleInfo.setVersion("v1.0");
-        proviewTitleMap.put(TITLE_ID, proviewTitleInfo);
 
         final List<SubGroupInfo> subgroupList = new ArrayList<>();
         group.setSubGroupInfoList(subgroupList);
         final SubGroupInfo subgroup = new SubGroupInfo();
         subgroupList.add(subgroup);
         subgroup.setHeading("a");
-        subgroup.addTitle(TITLE_ID);
+        subgroup.addTitle(TITLE_ID_WITH_MAJOR_VERSION);
+        subgroup.addTitle(TITLE_ID_PART_2_WITH_MAJOR_VERSION);
 
         form.initialize(book, proviewTitleMap, proviewTitleMap, group);
 
         Assert.assertTrue(form.getIncludeSubgroup());
         Assert.assertEquals(1, form.getSubgroups().size());
-        Assert.assertEquals(1, form.getNotGrouped().getTitles().size());
+        Assert.assertEquals(2, form.getSubgroups().get(0).getTitles().get(0).getNumberOfParts());
+        Assert.assertTrue(form.getNotGrouped().getTitles().isEmpty());
     }
 
     private Map<String, ProviewTitleInfo> createProviewTitleMap(final String fullyQualifiedTitleId) {

@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
 import java.util.Arrays;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.Version;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.VersionType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public final class EditGroupDefinitionFormValidatorTest {
 
     @Test
     public void noVersionTypeTest() {
-        form.setVersionType(Version.NONE);
+        form.setVersionType(VersionType.NONE);
         form.setHasSplitTitles(true);
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
