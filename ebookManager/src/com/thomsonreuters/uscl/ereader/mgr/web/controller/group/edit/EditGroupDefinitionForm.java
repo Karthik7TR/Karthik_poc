@@ -49,7 +49,7 @@ public class EditGroupDefinitionForm {
         includeSubgroup = false;
     }
 
-    public GroupDefinition createGroupDefinition(final Collection<ProviewTitleInfo> proviewTitleInfos, Map<String, List<String>> titleIdToPartsMap) {
+    public GroupDefinition createGroupDefinition(final Collection<ProviewTitleInfo> proviewTitleInfos, final Map<String, List<String>> titleIdToPartsMap) {
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setGroupId(groupId);
         groupDefinition.setName(groupName);

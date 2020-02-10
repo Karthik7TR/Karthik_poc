@@ -221,7 +221,7 @@ public class EditGroupController {
     }
 
     @NotNull
-    private Map<String, ProviewTitleInfo> getMajorVersionForTitleMap(String fullyQualifiedTitleId) throws ProviewException {
+    private Map<String, ProviewTitleInfo> getMajorVersionForTitleMap(final String fullyQualifiedTitleId) throws ProviewException {
         return groupService.getMajorVersionProviewTitles(fullyQualifiedTitleId).stream()
                 .collect(Collectors.toMap(info ->
                         new BookTitleId(info.getTitleId(), new Version(info.getVersion())).getTitleIdWithMajorVersion(), Function.identity()));
