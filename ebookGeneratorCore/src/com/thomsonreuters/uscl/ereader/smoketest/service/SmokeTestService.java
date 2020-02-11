@@ -18,5 +18,5 @@ public interface SmokeTestService {
 
     List<SmokeTest> getExternalSystemsStatuses();
 
-    List<String> getRunningApplications();
+    Map<String, List<String>> getRunningApplications();
 }

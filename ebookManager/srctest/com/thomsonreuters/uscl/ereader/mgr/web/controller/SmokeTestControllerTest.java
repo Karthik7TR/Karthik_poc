@@ -1,9 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
@@ -28,7 +29,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 public final class SmokeTestControllerTest {
     private SmokeTest SMOKE_TEST;
     private List<SmokeTest> SMOKE_TEST_LIST;
-    private List<String> APP_NAMES;
+    private Map<String, List<String>> APP_NAMES;
 
     private SmokeTestService mockService;
     private MiscConfigSyncService mockMiscConfigSyncService;
@@ -58,9 +59,8 @@ public final class SmokeTestControllerTest {
         SMOKE_TEST_LIST = new ArrayList<>();
         SMOKE_TEST_LIST.add(SMOKE_TEST);
 
-        APP_NAMES = new ArrayList<>();
-        APP_NAMES.add("1");
-        APP_NAMES.add("2");
+        List<String> versions = Arrays.asList("a","b", "c");
+        APP_NAMES = Stream.of("ci", "test", "qed", "prod").collect(Collectors.toMap(Function.identity(), item -> versions));
 
         EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
         EasyMock.expect(mockMiscConfigSyncService.getNovusEnvironment()).andReturn(NovusEnvironment.Client);

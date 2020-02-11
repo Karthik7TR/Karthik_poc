@@ -1,18 +1,12 @@
 package com.thomsonreuters.uscl.ereader.smoketest.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -29,6 +23,8 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
+import com.thomsonreuters.uscl.ereader.util.Ssh;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -39,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.westgroup.novus.productapi.Novus;
 
+import static org.apache.commons.lang3.StringUtils.LF;
+
 /**
  * Service that returns Server statuses
  *
@@ -47,8 +45,10 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     private static Logger LOG = LogManager.getLogger(SmokeTestServiceImpl.class);
 
     private static final String NOVUS_CLIENT_TEST_DOC_ID = "I41077696b67411d9947c9ea867b7826a";
-    public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
     private static final int TIME_OUT = 3000; // In milliseconds
+    private static final String PROJECTS_PATTERN = "eBook";
+    private static final String OLD_VERSION_PATTERN = "_X";
+    private static final String APPLICATION_LIST_COMMAND = "cd /appserver/tomcat && ls";
 
     @Resource(name = "smokeTestDao")
     private SmokeTestDao dao;
@@ -68,6 +68,10 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     private MiscConfigSyncService miscConfigSyncService;
     @Value("${image.vertical.context.url}")
     private String imageVertical;
+    @Value("${ftp.login}")
+    private String ftpLogin;
+    @Value("${ftp.password}")
+    private String ftpPassword;
 
     @Override
     public Map<String, List<SmokeTest>> getServerStatuses() {
@@ -259,18 +263,31 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     }
 
     @Override
-    public List<String> getRunningApplications() {
-        List<String> appNames = null;
+    public Map<String, List<String>> getRunningApplications() {
+        Map<String, List<String>> applications = new LinkedHashMap<>();
+        applications.put("CI", getApplicationNamesForEnv(EBookApps::ciServers));
+        applications.put("Test", getApplicationNamesForEnv(EBookApps::testServers));
+        applications.put("QED", getApplicationNamesForEnv(EBookApps::qedServers));
+        applications.put("Prod", getApplicationNamesForEnv(EBookApps::prodServers));
+        return applications;
+    }
 
-        try {
-            final AppFilenameFilter filter = new AppFilenameFilter();
-            if (APPSERVER_TOMCAT_DIR.exists()) {
-                appNames = new ArrayList<>(Arrays.asList(APPSERVER_TOMCAT_DIR.list(filter)));
-            }
-        } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-
-        return appNames;
+    private List<String> getApplicationNamesForEnv(final Supplier<List<String>> serversSupplier) {
+        return serversSupplier.get().stream()
+                .map(item -> {
+                    try {
+                        return Ssh.executeCommand(item, ftpLogin, ftpPassword, APPLICATION_LIST_COMMAND);
+                    } catch (EBookServerException e) {
+                        LOG.error(e.getMessage(), e);
+                    }
+                    return StringUtils.EMPTY;
+                })
+                .filter(StringUtils::isNotEmpty)
+                .flatMap(item -> Arrays.stream(item.split(LF)))
+                .filter(item -> item.contains(PROJECTS_PATTERN) && !item.endsWith(OLD_VERSION_PATTERN))
+                .map(item -> StringUtils.substringBeforeLast(item, "_"))
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

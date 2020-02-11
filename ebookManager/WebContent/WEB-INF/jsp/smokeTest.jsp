@@ -18,7 +18,6 @@
 		}
 		.displayTagTable th, .displayTagTable td {
 		    padding: 2px 4px !important;
-		    vertical-align: top;
 		}
 		.tableHeader {
 			text-align: left;
@@ -39,6 +38,10 @@
 		
 		hr {
 			margin: 1em 0em;
+		}
+
+		.noBull {
+			list-style-type: none;
 		}
 	</style>
 </head>
@@ -65,17 +68,6 @@
 			<td>${ novusEnvironment }</td>
 		</tr>
 		<tr>
-			<th class="tableHeader">Applications:</th>
-			<td>
-				<c:if test="${applications != null}">
-					${applications}
-				</c:if>
-				<c:if test="${applications == null}">
-					Expected filesystem folder structure (<%=SmokeTestServiceImpl.APPSERVER_TOMCAT_DIR%>) does not exist!
-				</c:if>
-			</td>
-		</tr>
-		<tr>
 			<th class="tableHeader">as of:</th>
 			<td><fmt:formatDate value="${date}" type="both" pattern="<%= CoreConstants.DATE_TIME_MS_FORMAT_PATTERN %>" /> </td>
 		</tr>
@@ -83,6 +75,30 @@
 </table>
 
 <hr></hr>
+
+<h3>Current application version</h3>
+<table class="displayTagTable">
+	<thead>
+	<tr>
+		<th>Environment</th>
+		<th>Application Version</th>
+	</tr>
+	</thead>
+	<tbody>
+	<c:forEach var="application" items="${applications}">
+		<tr>
+			<td style="text-align: center">${application.key}</td>
+			<td>
+				<ul class="noBull">
+					<c:forEach var="version" items="${application.value}">
+						<li>${version}</li>
+					</c:forEach>
+				</ul>
+			</td>
+		</tr>
+	</c:forEach>
+	</tbody>
+</table>
 
 <h3>Current Image Vertical, ProView Server, and Database Connection</h3>
 <display:table id="<%= WebConstants.KEY_VDO %>" name="currentProperties" class="displayTagTable" cellpadding="2">
