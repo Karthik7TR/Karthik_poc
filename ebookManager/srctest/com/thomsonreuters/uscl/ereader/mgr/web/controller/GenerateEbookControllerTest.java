@@ -64,6 +64,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
@@ -71,7 +72,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbook
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperService;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.SneakyThrows;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -87,6 +87,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class GenerateEbookControllerTest {
+    private static final String BOOK_TITLE_ID = "title_id";
+    private static final String ID_PARAM = "id";
+    private static final String NEW_VERSION_PARAM = "newVersion";
+
     private static Long BOOK_DEFINITION_ID = 127L;
     private MockMvc mockMvc;
 
@@ -115,6 +119,10 @@ public final class GenerateEbookControllerTest {
     private VersionIsbnService mockVersionIsbnService;
     @Mock
     private GenerateHelperService generateFormService;
+    @Mock
+    private ProviewTitleInfo latestProviewTitleInfo;
+    @Mock
+    private ProviewTitleInfo latestPublishedProviewTitleInfo;
 
     @Before
     public void setUp() {
@@ -131,19 +139,12 @@ public final class GenerateEbookControllerTest {
     public void shouldGenerateEbookPreviewGET() {
         final BookDefinition book = givenBook();
         final GroupDefinition group = new GroupDefinition();
-
-        given(mockBookDefinitionService.findBookDefinitionByEbookDefId(eq(BOOK_DEFINITION_ID))).willReturn(book);
-
-        given(mockOutageService.getAllPlannedOutagesToDisplay()).willReturn(emptyList());
-        given(mockMiscConfigService.getMiscConfig()).willReturn(new MiscConfig());
-        given(mockGroupService.getLastGroup(eq(book))).willReturn(group);
-        given(mockGroupService.createGroupDefinition(eq(book), eq("v1"), (List<String>) isNull())).willReturn(group);
-        given(mockVersionIsbnService.isIsbnExists((String) isNull())).willReturn(false);
+        prepareMocksForBookGenerationPreview(book, group);
 
         mockMvc
             .perform(
-                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param("id", BOOK_DEFINITION_ID.toString())
-                    .param("newVersion", GenerateBookForm.Version.OVERWRITE.toString()))
+                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param(ID_PARAM, BOOK_DEFINITION_ID.toString())
+                    .param(NEW_VERSION_PARAM, GenerateBookForm.Version.OVERWRITE.toString()))
             .andExpect(status().is(200))
             .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
             .andExpect(
@@ -166,6 +167,29 @@ public final class GenerateEbookControllerTest {
                     KEY_GROUP_NEXT_PREVIEW,
                     KEY_IS_NEW_ISBN))
             .andExpect(model().attributeDoesNotExist(KEY_ERR_MESSAGE));
+    }
+
+    @SneakyThrows
+    @Test
+    public void shouldGenerateEbookPreviewLastVersionRemoved() {
+        final BookDefinition book = givenBook();
+        final GroupDefinition group = new GroupDefinition();
+        prepareMocksForBookGenerationPreview(book, group);
+
+        final String latestVersion = "v2.0";
+        final String latestPublishedVersion = "v1.8";
+        setUpProviewTitleInfo(latestVersion, latestPublishedVersion);
+
+        mockMvc.perform(get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW)
+                .param(ID_PARAM, BOOK_DEFINITION_ID.toString())
+                .param(NEW_VERSION_PARAM, GenerateBookForm.Version.OVERWRITE.toString()))
+                .andExpect(status().is(200))
+                .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
+                .andExpect(model().attribute(KEY_VERSION_NUMBER, "1.8"))
+                .andExpect(model().attribute(KEY_NEW_MAJOR_VERSION_NUMBER, "3.0"))
+                .andExpect(model().attribute(KEY_NEW_MINOR_VERSION_NUMBER, "2.1"))
+                .andExpect(model().attribute(KEY_NEW_OVERWRITE_VERSION_NUMBER, "2.0"))
+                .andExpect(model().attributeDoesNotExist(KEY_ERR_MESSAGE));
     }
 
     @Test
@@ -296,6 +320,29 @@ public final class GenerateEbookControllerTest {
             .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_BULK_PREVIEW));
     }
 
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    private void prepareMocksForBookGenerationPreview(final BookDefinition book, final GroupDefinition group) {
+        given(mockBookDefinitionService.findBookDefinitionByEbookDefId(eq(BOOK_DEFINITION_ID)))
+                .willReturn(book);
+        given(mockOutageService.getAllPlannedOutagesToDisplay()).willReturn(emptyList());
+        given(mockMiscConfigService.getMiscConfig()).willReturn(new MiscConfig());
+        given(mockGroupService.getLastGroup(eq(book))).willReturn(group);
+        given(mockGroupService.createGroupDefinition(eq(book), eq("v1"), (List<String>) isNull()))
+                .willReturn(group);
+        given(mockVersionIsbnService.isIsbnExists((String) isNull())).willReturn(false);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    @SneakyThrows
+    private void setUpProviewTitleInfo(final String latestVersion, final String latestPublishedVersion) {
+        given(mockProviewHandler.getLatestProviewTitleInfo(BOOK_TITLE_ID)).willReturn(latestProviewTitleInfo);
+        given(latestProviewTitleInfo.getVersion()).willReturn(latestVersion);
+        given(mockProviewHandler.getLatestPublishedProviewTitleInfo(BOOK_TITLE_ID))
+                .willReturn(latestPublishedProviewTitleInfo);
+        given(latestPublishedProviewTitleInfo.getVersion()).willReturn(latestPublishedVersion);
+    }
+
     private BookDefinition givenBook() {
         final DocumentTypeCode docType = new DocumentTypeCode();
         docType.setUsePublishCutoffDateFlag(true);
@@ -303,7 +350,7 @@ public final class GenerateEbookControllerTest {
         book.setEbookDefinitionId(BOOK_DEFINITION_ID);
         book.setIsDeletedFlag(false);
         book.setPublishedOnceFlag(true);
-        book.setFullyQualifiedTitleId("");
+        book.setFullyQualifiedTitleId(BOOK_TITLE_ID);
         book.setProviewDisplayName("");
         book.setIsbn("isbn");
         book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());

@@ -49,6 +49,8 @@ public interface ProviewHandler {
     List<ProviewTitleInfo> getAllLatestProviewTitleInfo(Map<String, ProviewTitleContainer> titleMap)
         throws ProviewException;
 
+    ProviewTitleInfo getLatestPublishedProviewTitleInfo(String fullyQualifiedTitleId) throws ProviewException;
+
     ProviewTitleInfo getLatestProviewTitleInfo(String fullyQualifiedTitleId) throws ProviewException;
 
     // ProviewTitleInfo getProviewTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException;

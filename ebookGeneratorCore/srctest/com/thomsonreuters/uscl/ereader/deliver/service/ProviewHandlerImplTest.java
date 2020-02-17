@@ -269,7 +269,7 @@ public final class ProviewHandlerImplTest {
             + "\" status=\"Cleanup\">Test Book Name</title></titles>";
         when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(response);
 
-        final ProviewTitleInfo titleInfo = proviewHandler.getLatestProviewTitleInfo(titleId);
+        final ProviewTitleInfo titleInfo = proviewHandler.getLatestPublishedProviewTitleInfo(titleId);
 
         assertEquals(titleId, titleInfo.getTitleId());
         assertEquals(latest, titleInfo.getLastupdate());
