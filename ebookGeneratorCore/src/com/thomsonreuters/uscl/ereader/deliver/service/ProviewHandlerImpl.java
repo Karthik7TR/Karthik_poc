@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -208,7 +209,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
      * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient# getCurrentProviewTitleInfo(java.lang.String)
      */
     @Override
-    public ProviewTitleInfo getLatestProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException {
+    public ProviewTitleInfo getLatestPublishedProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException {
         ProviewTitleInfo latestProviewVersion = null;
         try {
             final ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
@@ -224,6 +225,15 @@ public class ProviewHandlerImpl implements ProviewHandler {
         }
         return latestProviewVersion;
     }
+
+    @Override
+    public ProviewTitleInfo getLatestProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException {
+        final ProviewTitleContainer titleContainer = getAllProviewTitleInfo().get(fullyQualifiedTitleId);
+        return Optional.ofNullable(titleContainer)
+                .map(ProviewTitleContainer::getLatestVersion)
+                .orElse(null);
+    }
+
     /*
     @Override
     public ProviewTitleInfo getProviewTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException {

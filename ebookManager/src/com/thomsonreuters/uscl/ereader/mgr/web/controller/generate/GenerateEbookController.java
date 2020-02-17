@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.TitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -47,6 +48,7 @@ public class GenerateEbookController {
     private static final Logger log = LogManager.getLogger(GenerateEbookController.class);
     private static final String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
     private static final String REVIEW_STATUS = "Review";
+    private static final String NOT_PUBLISHED = "Not published";
 
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -144,7 +146,7 @@ public class GenerateEbookController {
 
     /**
      *
-     * @param titleId
+     * @param id
      * @param form
      * @param model
      * @return
@@ -209,13 +211,13 @@ public class GenerateEbookController {
      *
      * @param model
      * @param form
-     * @param currentVersion
+     * @param latestVersion
      * @param status
      */
     private void calculateVersionNumbers(
         final Model model,
         final GenerateBookForm form,
-        String currentVersion,
+        String latestVersion,
         final String status) {
         final String newMajorVersion;
         final String newMinorVersion;
@@ -225,23 +227,23 @@ public class GenerateEbookController {
         final Integer newMajorPartInteger;
         final Integer newMinorPartInteger;
 
-        if (currentVersion.equals("Not published")) {
+        if (latestVersion == null) {
             newMajorVersion = "1.0";
             newMinorVersion = "1.0";
             newOverwriteVersion = "1.0";
         } else {
-            if (currentVersion.startsWith("v")) {
-                currentVersion = currentVersion.substring(1);
+            if (latestVersion.startsWith("v")) {
+                latestVersion = latestVersion.substring(1);
             }
 
-            if (currentVersion.contains(".")) {
-                majorPart = currentVersion.substring(0, currentVersion.indexOf("."));
-                minorPart = currentVersion.substring(currentVersion.indexOf(".") + 1);
+            if (latestVersion.contains(".")) {
+                majorPart = latestVersion.substring(0, latestVersion.indexOf("."));
+                minorPart = latestVersion.substring(latestVersion.indexOf(".") + 1);
 
                 newMajorPartInteger = Integer.parseInt(majorPart) + 1;
                 newMinorPartInteger = Integer.parseInt(minorPart) + 1;
             } else {
-                majorPart = currentVersion;
+                majorPart = latestVersion;
 
                 newMajorPartInteger = Integer.parseInt(majorPart) + 1;
                 newMinorPartInteger = 1;
@@ -249,15 +251,13 @@ public class GenerateEbookController {
 
             newMajorVersion = newMajorPartInteger.toString() + ".0";
             newMinorVersion = majorPart + "." + newMinorPartInteger.toString();
-            newOverwriteVersion = currentVersion;
+            newOverwriteVersion = latestVersion;
         }
 
-        form.setCurrentVersion(currentVersion);
         form.setNewOverwriteVersion(newOverwriteVersion);
         form.setNewMajorVersion(newMajorVersion);
         form.setNewMinorVersion(newMinorVersion);
 
-        model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
         model.addAttribute(WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER, newOverwriteVersion);
         model.addAttribute(WebConstants.KEY_NEW_MAJOR_VERSION_NUMBER, newMajorVersion);
         model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER, newMinorVersion);
@@ -271,33 +271,54 @@ public class GenerateEbookController {
      *
      * @param model
      * @param form
-     * @param titleId
+     * @param book
      * @throws Exception
      */
-    private void setModelVersion(final Model model, final GenerateBookForm form, final BookDefinition book)
-        throws Exception {
-        final String currentVersion;
-        final String status;
-
+    private void setModelVersion(final Model model, final GenerateBookForm form, final BookDefinition book) {
         try {
-            final ProviewTitleInfo proviewTitleInfo = proviewHandler.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
-            if (proviewTitleInfo == null) {
-                currentVersion = "Not published";
-                status = null;
-            } else {
-                currentVersion = proviewTitleInfo.getVersion();
-                status = proviewTitleInfo.getStatus();
-                boolean isIsbnChanged = versionIsbnService.isIsbnChangedFromPreviousGeneration(book,
-                    new Version(currentVersion).getVersionWithoutPrefix());
-                model.addAttribute(WebConstants.KEY_ISBN_CHANGED, isIsbnChanged);
-            }
-            form.setCurrentVersion(currentVersion);
-            calculateVersionNumbers(model, form, currentVersion, status);
+            final String titleId = book.getFullyQualifiedTitleId();
+            final String latestProviewVersion = getLatestProviewVersion(proviewHandler.getLatestProviewTitleInfo(titleId));
+            setIsIsbnChanged(model, book, latestProviewVersion);
+            final ProviewTitleInfo publishedProviewTitleInfo = proviewHandler.getLatestPublishedProviewTitleInfo(titleId);
+            setCurrentVersion(model, form, publishedProviewTitleInfo);
+            calculateVersionNumbers(model, form, latestProviewVersion, getStatus(publishedProviewTitleInfo));
         } catch (final ProviewException e) {
-            model.addAttribute(
-                WebConstants.KEY_ERR_MESSAGE,
+            model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
                 "Proview Exception occured. Please contact your administrator.");
             log.debug(e);
+        }
+    }
+
+    private void setCurrentVersion(final Model model, final GenerateBookForm form,
+        final ProviewTitleInfo publishedProviewTitleInfo) {
+        final String currentVersion = getCurrentVersion(publishedProviewTitleInfo);
+        form.setCurrentVersion(currentVersion);
+        model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
+    }
+
+    private String getLatestProviewVersion(final ProviewTitleInfo latestProviewTitleInfo) {
+        return Optional.ofNullable(latestProviewTitleInfo)
+                .map(TitleInfo::getVersion)
+                .orElse(null);
+    }
+
+    private String getCurrentVersion(final ProviewTitleInfo publishedProviewTitleInfo) {
+        return Optional.ofNullable(publishedProviewTitleInfo)
+                .map(titleInfo -> new Version(titleInfo.getVersion()).getVersionWithoutPrefix())
+                .orElse(NOT_PUBLISHED);
+    }
+
+    private String getStatus(final ProviewTitleInfo publishedProviewTitleInfo) {
+        return Optional.ofNullable(publishedProviewTitleInfo)
+                .map(TitleInfo::getStatus)
+                .orElse(null);
+    }
+
+    private void setIsIsbnChanged(final Model model, final BookDefinition book, final String latestProviewTitleInfoVersion) {
+        if (latestProviewTitleInfoVersion != null) {
+            boolean isIsbnChanged = versionIsbnService.isIsbnChangedFromPreviousGeneration(book,
+                    latestProviewTitleInfoVersion);
+            model.addAttribute(WebConstants.KEY_ISBN_CHANGED, isIsbnChanged);
         }
     }
 
@@ -395,7 +416,6 @@ public class GenerateEbookController {
 
     /**
      *
-     * @param bookDefinitionId
      * @param book
      * @param model
      */
