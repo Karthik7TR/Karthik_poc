@@ -77,7 +77,10 @@ public class QueueController {
         log.debug(">>>");
         final PageAndSort<DisplayTagSortProperty> queuedPageAndSort = fetchSavedQueuedPageAndSort(httpSession);
         final List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
-
+        final int startIndex = (queuedPageAndSort.getPageNumber() - 1) * queuedPageAndSort.getObjectsPerPage();
+        if (startIndex >= allQueuedJobs.size()) {
+            queuedPageAndSort.setPageNumber(1);
+        }
         setUpModel(allQueuedJobs, queuedPageAndSort, httpSession, model);
         return new ModelAndView(WebConstants.VIEW_JOB_QUEUE);
     }
@@ -90,7 +93,6 @@ public class QueueController {
         log.debug(form);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedQueuedPageAndSort(httpSession);
         final List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
-
         Integer nextPageNumber = form.getPage();
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.

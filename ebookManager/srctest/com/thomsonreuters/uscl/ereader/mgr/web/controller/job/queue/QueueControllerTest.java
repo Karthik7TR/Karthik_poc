@@ -1,16 +1,17 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
@@ -30,99 +31,75 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 public final class QueueControllerTest {
     private static final int OBJECTS_PER_PAGE = 20;
     private static final int JOB_REQUEST_COUNT = 21;
+    private static final String PAGE = "page";
+    private static final String SORT = "sort";
+    private static final String DIR = "dir";
+    private static final String DESC = "desc";
     private static final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT =
         new PageAndSort<>(1, OBJECTS_PER_PAGE, DisplayTagSortProperty.BOOK_NAME, true);
+    private static final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT_WITH_INCORRECT_PAGE
+            = new PageAndSort<>(3, OBJECTS_PER_PAGE, DisplayTagSortProperty.BOOK_NAME, true);
+    private static final String JOB_QUEUE_URI = "/" + WebConstants.MVC_JOB_QUEUE;
+    private static final String JOB_QUEUE_PAGE_AND_SORT_URI = "/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT;
     private static final BookDefinition BOOK_DEF = new BookDefinition();
-    private static List<JobRequest> JOB_REQUESTS;
+    private List<JobRequest> jobRequests;
 
     private QueueController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private JobRequestService mockJobRequestService;
     private OutageService mockOutageService;
-    //private BookDefinitionService mockBookDefinitionService;
     private HandlerAdapter handlerAdapter;
 
     @Before
     public void setUp() {
-        JOB_REQUESTS = new ArrayList<>();
-        for (long pk = 0; pk < JOB_REQUEST_COUNT; pk++) {
-            BOOK_DEF.setEbookDefinitionId(pk + 345);
-            final int priority = (int) pk;
-            final JobRequest jr = JobRequest.createQueuedJobRequest(BOOK_DEF, "ver" + pk, priority, "auser");
-            jr.setSubmittedAt(new Date(System.currentTimeMillis() - (pk * 1000)));
-            jr.setJobRequestId(pk);
-            JOB_REQUESTS.add(jr);
-        }
-
+        jobRequests = LongStream.range(0, JOB_REQUEST_COUNT)
+                .mapToObj(pk -> {
+                    BOOK_DEF.setEbookDefinitionId(pk + 345L);
+                    final JobRequest jr = JobRequest.createQueuedJobRequest(BOOK_DEF, "ver" + pk, (int) pk, "auser");
+                    jr.setSubmittedAt(new Date(System.currentTimeMillis() - (pk * 1000)));
+                    jr.setJobRequestId(pk);
+                    return jr;
+                })
+                .collect(Collectors.toList());
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         request.getSession().setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, PAGE_AND_SORT);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
         mockOutageService = EasyMock.createMock(OutageService.class);
-        //this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         controller = new QueueController(mockJobRequestService, mockOutageService, new QueueFormValidator());
+
+        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(jobRequests);
+        EasyMock.replay(mockJobRequestService);
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(Collections.emptyList());
+        EasyMock.replay(mockOutageService);
     }
 
-    /**
-     * Test the inbound GET to the page
-     */
     @Test
     public void testInboundGet() throws Exception {
-        // Set up the request URL
-        request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE));
+        request.setRequestURI(JOB_QUEUE_URI);
         request.setMethod(HttpMethod.GET.name());
-        final HttpSession httpSession = request.getSession();
 
-        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-        EasyMock.replay(mockJobRequestService);
-
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-        EasyMock.replay(mockOutageService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_JOB_QUEUE, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-        verifyModel(model, httpSession);
-        EasyMock.verify(mockJobRequestService);
-        EasyMock.verify(mockOutageService);
+        commonAssertions(mav);
     }
 
     @Test
     public void testPaging() throws Exception {
-        final Integer pageNumber = Integer.valueOf(1);
-        // Set up the request URL
-        request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
+        final Integer pageNumber = 2;
+        request.setRequestURI(JOB_QUEUE_PAGE_AND_SORT_URI);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("page", pageNumber.toString());
-        final HttpSession httpSession = request.getSession();
+        request.setParameter(PAGE, pageNumber.toString());
 
-        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-        EasyMock.replay(mockJobRequestService);
-
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-        EasyMock.replay(mockOutageService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_JOB_QUEUE, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-
-        final PageAndSort<DisplayTagSortProperty> actualPageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
+        commonAssertions(mav);
+        final PageAndSort<DisplayTagSortProperty> actualPageAndSort = getPageAndSortFromSession();
         Assert.assertEquals(pageNumber, actualPageAndSort.getPageNumber());
-        verifyModel(model, httpSession);
-
-        EasyMock.verify(mockJobRequestService);
-        EasyMock.verify(mockOutageService);
     }
 
     /**
@@ -131,77 +108,62 @@ public final class QueueControllerTest {
      */
     @Test
     public void testPagingOnEmptyList() throws Exception {
-        final int nextPageNumber = 2; // but the list is going to be empty
-        JOB_REQUESTS.remove(0); // Lower the list size to OBJECTS_PER_PAGE
-        Assert.assertEquals(OBJECTS_PER_PAGE, JOB_REQUESTS.size());
-
-        // Set up the request URL
-        request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
+        final String nextPageNumber = "2";
+        jobRequests.remove(0);
+        Assert.assertEquals(OBJECTS_PER_PAGE, jobRequests.size());
+        request.setRequestURI(JOB_QUEUE_PAGE_AND_SORT_URI);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("page", String.valueOf(nextPageNumber));
-        final HttpSession httpSession = request.getSession();
+        request.setParameter(PAGE, nextPageNumber);
 
-        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-        EasyMock.replay(mockJobRequestService);
-
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-        EasyMock.replay(mockOutageService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_JOB_QUEUE, mav.getViewName());
 
-        final PageAndSort<DisplayTagSortProperty> actualPageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
-        // The saved page number should be back to 1 since the list is now empty
-        Assert.assertEquals(Integer.valueOf(nextPageNumber - 1), actualPageAndSort.getPageNumber());
-        EasyMock.verify(mockJobRequestService);
-        EasyMock.verify(mockOutageService);
+        commonAssertions(mav);
     }
 
     @Test
-    public void testSorting() throws Exception {
-        // Set up the request URL
-        request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
+    public void testDefaultViewOnWrongPageNumber() throws Exception {
+
+        request.setRequestURI(JOB_QUEUE_URI);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("sort", DisplayTagSortProperty.PRIORITY.toString()); // Sort on book name
-        request.setParameter("dir", "asc"); // ascending order
-        final HttpSession httpSession = request.getSession();
+        request.getSession().setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, PAGE_AND_SORT_WITH_INCORRECT_PAGE);
 
-        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-        EasyMock.replay(mockJobRequestService);
-
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-        EasyMock.replay(mockOutageService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
+        commonAssertions(mav);
+    }
+
+
+    @Test
+    public void testSorting() throws Exception {
+        request.setRequestURI(JOB_QUEUE_PAGE_AND_SORT_URI);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(SORT, DisplayTagSortProperty.PRIORITY.toString());
+        request.setParameter(DIR, DESC);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        commonAssertions(mav);
+        final List<JobRequest> actualJobRequestRows = ((PaginatedList) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST)).getList();
+        final List<JobRequest> expectedJobRequest = jobRequests.stream()
+                .sorted((item1, item2) -> item2.getPriority() - item1.getPriority())
+                .limit(OBJECTS_PER_PAGE)
+                .collect(Collectors.toList());
+        Assert.assertEquals(expectedJobRequest, actualJobRequestRows);
+    }
+
+    private PageAndSort<DisplayTagSortProperty> getPageAndSortFromSession() {
+        return (PageAndSort<DisplayTagSortProperty>) request.getSession().getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
+    }
+
+    private void commonAssertions(ModelAndView mav) {
         Assert.assertNotNull(mav);
         Assert.assertEquals(WebConstants.VIEW_JOB_QUEUE, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-
-        verifyModel(model, httpSession);
-        final PageAndSort<DisplayTagSortProperty> actualPageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
-
-        final PaginatedList paginatedList = (PaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
-        final List<JobRequest> actualJobRequestRows = paginatedList.getList();
-        // Verify that the job request priorities are in ascending order or run (highest to lowest is considered ascending in this case).
-        int lastPriority = Integer.MIN_VALUE;
-        for (int i = 0; i < actualPageAndSort.getObjectsPerPage(); i++) {
-            final JobRequest row = actualJobRequestRows.get(i);
-            final int priority = row.getPriority();
-            Assert.assertTrue(priority > lastPriority);
-            lastPriority = priority;
-        }
+        final HttpSession httpSession = request.getSession();
+        Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
+        Assert.assertEquals(PAGE_AND_SORT, httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT));
         EasyMock.verify(mockJobRequestService);
         EasyMock.verify(mockOutageService);
     }
 
-    private void verifyModel(final Map<String, Object> model, final HttpSession httpSession) {
-        Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
-        Assert.assertEquals(PAGE_AND_SORT, httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT));
-    }
 }
