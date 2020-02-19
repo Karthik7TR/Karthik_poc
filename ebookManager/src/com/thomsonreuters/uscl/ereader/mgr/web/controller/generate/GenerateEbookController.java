@@ -317,7 +317,7 @@ public class GenerateEbookController {
     private void setIsIsbnChanged(final Model model, final BookDefinition book, final String latestProviewTitleInfoVersion) {
         if (latestProviewTitleInfoVersion != null) {
             boolean isIsbnChanged = versionIsbnService.isIsbnChangedFromPreviousGeneration(book,
-                    latestProviewTitleInfoVersion);
+                    new Version(latestProviewTitleInfoVersion).getVersionWithoutPrefix());
             model.addAttribute(WebConstants.KEY_ISBN_CHANGED, isIsbnChanged);
         }
     }
