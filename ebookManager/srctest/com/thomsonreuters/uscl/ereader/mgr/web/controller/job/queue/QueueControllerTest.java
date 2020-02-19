@@ -35,13 +35,13 @@ public final class QueueControllerTest {
     private static final String SORT = "sort";
     private static final String DIR = "dir";
     private static final String DESC = "desc";
-    private static final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT =
-        new PageAndSort<>(1, OBJECTS_PER_PAGE, DisplayTagSortProperty.BOOK_NAME, true);
     private static final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT_WITH_INCORRECT_PAGE
             = new PageAndSort<>(3, OBJECTS_PER_PAGE, DisplayTagSortProperty.BOOK_NAME, true);
     private static final String JOB_QUEUE_URI = "/" + WebConstants.MVC_JOB_QUEUE;
     private static final String JOB_QUEUE_PAGE_AND_SORT_URI = "/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT;
     private static final BookDefinition BOOK_DEF = new BookDefinition();
+    private final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT =
+            new PageAndSort<>(1, OBJECTS_PER_PAGE, DisplayTagSortProperty.BOOK_NAME, true);
     private List<JobRequest> jobRequests;
 
     private QueueController controller;
