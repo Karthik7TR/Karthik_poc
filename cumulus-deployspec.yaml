@@ -26,9 +26,12 @@ Defaults:
       # Conditional: SQS Queue Url to post to in order to begin testing of a new unreleased version.
       # TestingSqsUrl: "https://sqs.us-east-1.amazonaws.com/307097860667/a205930-cumulus-testing-sqs-queue-Queue-1CTE0LBZIVV16"
     Cleanup:
-      DenyDeployment: 3 # Optional: Days to keep deployments that were denied before release.  Defaults to 10 days.
-      FailedTrafficShift: 5 # Optional: Days to keep deployments that failed during traffic shift.  Defaults to 10 days.
-      OldVersion: 1 # Optional: Days to keep old versions of deployment after they are replaced.  Defaults to 10 days.
+      DenyDeploymentMinutes: 0 # Optional: Minutes to keep deployments that were denied before release.  Defaults to GenericFailureMinutes.
+      FailedTrafficShiftMinutes: 30 # Optional: Minutes to keep deployments that failed during traffic shift.  Defaults to GenericFailureMinutes.
+      OldVersionMinutes: 600 # Optional: Minutes to keep old versions of deployment after they are replaced.  Defaults to GenericFailureMinutes.
+
+      GenericFailureMintues: 20 # Optional: Minutes to keep deployments for a reason that isn't one of the above. Defaults to 60 minutes.
+      
     Stack:
       Template: # Mandatory:
         # Use these to use a built-in template
