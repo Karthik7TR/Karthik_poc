@@ -1,46 +1,5 @@
 <n-docbody>
 	<doc bill="Y">
-		<content.metadata.block>
-			<cmd.identifiers>
-				<cmd.cites>
-					<cmd.second.line.cite>
-						<bop/>
-						<bos/>Multidistrict Lit Man Highlights<eos/>
-						<eop/>
-					</cmd.second.line.cite>
-				</cmd.cites>
-			</cmd.identifiers>
-		</content.metadata.block>
-		<prop.block>
-			<prop.head toc-guid="">
-				<bop/>
-				<bos/>
-				<headtext>Multidistrict Litigation Manual</headtext>
-				<eos/>
-				<eop/>
-			</prop.head>
-			<prop.head toc-guid="I67919ab1114511e69f7284fc34408711">
-				<bop/>
-				<headtext/>
-				<eop/>
-			</prop.head>
-			<content.metadata.block>
-				<cmd.dates>
-					<cmd.currency.default iso.d="20190501">
-						<bop/>
-						<bos/>May 2019 Update<eos/>
-						<eop/>
-					</cmd.currency.default>
-				</cmd.dates>
-			</content.metadata.block>
-			<author.line>
-				<bop/>
-				<bos/>
-				<author>David F. Herr</author>
-				<eos/>
-				<eop/>
-			</author.line>
-		</prop.block>
 		<message.block>
 			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
 		</message.block>
@@ -56,21 +15,35 @@
 			</section.front>
 			<section.body>
 					<para>
-						<paratext>THE BUYER OF A ONE-FAMILY OR TWO-FAMILY RESIDENTIAL DWELLING UNIT HAS THE RIGHT TO HAVE ALL DEPOSIT FUNDS (UP TO 10% OF THE PURCHASE PRICE) DEPOS- <?pagebreak label="27"?>ITED IN AN ESCROW ACCOUNT. THIS RIGHT MAY BE WAIVED, IN WRITING, BY THE BUYER.2</paratext>
+						<paratext>THE BUYER OF A ONE-FAMILY OR TWO-FAMILY RESIDENTIAL<footnote.reference refid="I01a2f010680911e88f4a9c1f64101101">1</footnote.reference> DWELLING UNIT HAS THE RIGHT TO HAVE ALL DEPOSIT FUNDS (UP TO 10% OF THE PURCHASE PRICE) DEPOS- <?pagebreak label="27"?>ITED IN AN ESCROW<footnote.reference refid="I01a2f010680911e88f4a9c1f64101102">2</footnote.reference> ACCOUNT. THIS RIGHT MAY BE WAIVED, IN WRITING, BY THE BUYER.2</paratext>
 					</para>
 			</section.body>
 			<?pagebreak label="28"?>
 		</section>
+		<footnote.block>
+			[Section 1:9]
+            <footnote ID="I01a2f010680911e88f4a9c1f64101101">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>section 1:9 footnote on page 27
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+			<?pagebreak label="27"?>
+            <footnote ID="I01a2f010680911e88f4a9c1f64101102">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>section 1:9 footnote on page 28 
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+			<?pagebreak label="28"?>
+		</footnote.block>
 		<content.metadata.block>
-			<cmd.royalty>
-				<cmd.copyright>
-					<bop/>
-					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
-					<bos/>No Claim to Orig. U.S. Govt. <eos/>
-					<bos/>Works.<eos/>
-					<eop/>
-				</cmd.copyright>
-			</cmd.royalty>
 			<cmd.identifiers>
 				<cmd.cites>
 					<cmd.first.line.cite>

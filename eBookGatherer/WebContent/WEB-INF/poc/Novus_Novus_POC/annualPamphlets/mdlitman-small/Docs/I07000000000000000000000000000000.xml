@@ -1,46 +1,5 @@
 <n-docbody>
 	<doc bill="Y">
-		<content.metadata.block>
-			<cmd.identifiers>
-				<cmd.cites>
-					<cmd.second.line.cite>
-						<bop/>
-						<bos/>Multidistrict Lit Man Highlights<eos/>
-						<eop/>
-					</cmd.second.line.cite>
-				</cmd.cites>
-			</cmd.identifiers>
-		</content.metadata.block>
-		<prop.block>
-			<prop.head toc-guid="">
-				<bop/>
-				<bos/>
-				<headtext>Multidistrict Litigation Manual</headtext>
-				<eos/>
-				<eop/>
-			</prop.head>
-			<prop.head toc-guid="I67919ab1114511e69f7284fc34408711">
-				<bop/>
-				<headtext/>
-				<eop/>
-			</prop.head>
-			<content.metadata.block>
-				<cmd.dates>
-					<cmd.currency.default iso.d="20190501">
-						<bop/>
-						<bos/>May 2019 Update<eos/>
-						<eop/>
-					</cmd.currency.default>
-				</cmd.dates>
-			</content.metadata.block>
-			<author.line>
-				<bop/>
-				<bos/>
-				<author>David F. Herr</author>
-				<eos/>
-				<eop/>
-			</author.line>
-		</prop.block>
 		<message.block>
 			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
 		</message.block>
@@ -49,27 +8,40 @@
 				<doc.title toc-guid="I0d4b947bc08511d88885080020ab8e66">
 					<head parent="doc.title">
 						<label.name>&#167; </label.name>
-						<label.designator>1:15.</label.designator>
+						<label.designator>1:5.</label.designator>
 						<headtext>Sales involving business or agricultural property</headtext>
 					</head>
 				</doc.title>
 			</section.front>
 			<section.body>
 					<para>
-						<paratext>A dealer's sale of property leads to ordinary income or loss, the amount of which is determined by deducting the taxpayer's basis in the property from the selling price of the property.</paratext>
+						<paratext>A dealer's sale<footnote.reference refid="I01a2f010680911e88f4a9c1f64100701">1</footnote.reference> of property leads to ordinary income or loss, the amount of which is determined<footnote.reference refid="I01a2f010680911e88f4a9c1f64100702">2</footnote.reference> by deducting the taxpayer's basis in the property from the selling price of the property.</paratext>
 					</para>
 			</section.body>
 		</section>
+		<footnote.block>
+			[Section 1:5]
+            <footnote ID="I01a2f010680911e88f4a9c1f64100701">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>§ 607.1202, Fla. Stat.<br/>
+						For forms and materials, see Business Corporations §§ 28:1 et seq. (section 1:5 footnote on page 24)
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+            <footnote ID="I01a2f010680911e88f4a9c1f64100702">
+                <label.designator>2</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>Legal Encyclopedias: Fla. Jur. 2d, Agriculture and Crops §§ 2 et seq. (section 1:5 footnote on page 24)
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+		</footnote.block>
 		<content.metadata.block>
-			<cmd.royalty>
-				<cmd.copyright>
-					<bop/>
-					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
-					<bos/>No Claim to Orig. U.S. Govt. <eos/>
-					<bos/>Works.<eos/>
-					<eop/>
-				</cmd.copyright>
-			</cmd.royalty>
 			<cmd.identifiers>
 				<cmd.cites>
 					<cmd.first.line.cite>
