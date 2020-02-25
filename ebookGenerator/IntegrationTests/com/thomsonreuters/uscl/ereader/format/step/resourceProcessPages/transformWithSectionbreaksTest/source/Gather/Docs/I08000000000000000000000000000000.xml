@@ -49,14 +49,22 @@
 				<doc.title toc-guid="I0d4b947bc08511d88885080020ab8e66">
 					<head parent="doc.title">
 						<label.name>&#167; </label.name>
-						<label.designator>1:18.</label.designator>
-						<headtext>Applicability of the Florida Vacation and TimeSharing Act</headtext>
+						<label.designator>1:16.</label.designator>
+						<headtext>Applicability of Federal Truth in Lending Act, Real Estate Settlement Procedures Act, and Interstate Land Sales Full Disclosure Act</headtext>
 					</head>
 				</doc.title>
 			</section.front>
 			<section.body>
 					<para>
-						<paratext>The Florida Vacation and Timesharing Act1 establishes procedures for the creation, sale, and operation of timesharing plans, by which is meant any arrangement, plan, scheme, or similar device, but not including exchange programs, whether by membership, agreement, tenancy in <?pagebreak label="26"?>common, sale, lease, deed, rental agreement, license, rightto-use agreement, or by any other means, whereby a purchaser, in exchange for consideration, receives a right to use accommodation or facilities, or both, for a speciﬁc period of time less than a full year during any given year, but not necessarily for consecutive years, and which extends for a period of more than three years. </paratext>
+						<paratext>The taxpayer is conducting a business and the ordinary and reasonable expenses of the business are deductible against income realized from the operation.</paratext>
+					</para>
+					<?pagebreak label="24"?>
+					<para>
+						<paratext>The second category of real estate is property used as a personal residence. This is technically a capital asset, which is the next category to be discussed.</paratext>
+					</para>
+					<?pagebreak label="25"?>
+					<para>
+						<paratext>Being a personal residence, however, causes different tax doctrines to apply. Gain on the sale of a residence held for longer than one year is taxed as long-term capital gain.</paratext>
 					</para>
 			</section.body>
 		</section>
@@ -74,7 +82,7 @@
 				<cmd.cites>
 					<cmd.first.line.cite>
 						<bop/>
-						<bos/>MDLITMAN I10<eos/>
+						<bos/>MDLITMAN I08<eos/>
 						<eop/>
 					</cmd.first.line.cite>
 				</cmd.cites>

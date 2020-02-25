@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+	<EBookToc>
+		<Name>Multidistrict Litigation Manual--Practice Before the Judicial Panel on Multidistrict Litigation</Name>
+		<Guid>I97a8da30933b11da99e2b07024dacc26</Guid>
+		<EBookToc>
+			<Name>WHAT’S NEW2019 Edition</Name>
+			<Guid>I67919ab1114511e69f7284fc34408711</Guid>
+			<DocumentGuid>no-pages-no-footnotes</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Preliminary Materials</Name>
+			<Guid>Icbcfa40095cb11e4a7a2f300942ac02c</Guid>
+			<DocumentGuid>pages-and-author-footnotes</DocumentGuid>
+		</EBookToc>
+		<EBookToc detailed="true" summary="true" sum_align="left" sum_prelead="0.17i" sum_lindent="0" sum_serial_pg="5" sum_print_pg="v" sum_fv="0" sum_size="0.15i" sum_cm="upper" det_align="center" det_prelead="0.17i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="1" det_size="0.19i" det_cm="upper">
+			<Name>Part I. Handling Cases Before the Judicial Panel on Multidistrict Litigation</Name>
+			<Guid>I97b7f560933b11da99e2b07024dacc26</Guid>
+			<EBookToc detailed="true" summary="true" sum_align="left" sum_prelead="0.06i" sum_lindent="0" sum_serial_pg="5" sum_print_pg="v" sum_fv="0" sum_size="0.15i" sum_cm="normal" det_align="left" det_prelead="0.17i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="1" det_size="0.19i" det_cm="upper">
+				<Name>Chapter 1. Overview of the Panel&apos;s Role</Name>
+				<Guid>I97c45170933b11da99e2b07024dacc26</Guid>
+				<EBookToc detailed="true" det_align="left" det_prelead="0.01i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="0" det_size="0.14i" det_cm="normal">
+					<Name>§  1:1. Overview</Name>
+					<Guid>I94cba210e1e311da9c26e67ca3b71335</Guid>
+					<DocumentGuid>pages-and-footnotes</DocumentGuid>
+				</EBookToc>
+			</EBookToc>
+		</EBookToc>
+		<EBookToc detailed="true" summary="true" sum_align="left" sum_prelead="0.17i" sum_lindent="0" sum_serial_pg="5" sum_print_pg="v" sum_fv="0" sum_size="0.15i" sum_cm="upper" det_align="center" det_prelead="0.17i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="1" det_size="0.19i" det_cm="upper">
+			<Name>Part II. § 1407 in the Courts</Name>
+			<Guid>I6e16cdc0933c11da99e2b07024dacc26</Guid>
+			<EBookToc>
+				<Name>Primary Source with Annotations</Name>
+				<Guid>I6e185460933c11da99e2b07024dacc26</Guid>
+				<EBookToc detailed="true" det_align="left" det_prelead="0.01i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="0" det_size="0.14i" det_cm="normal">
+					<Name>§  1407. Multidistrict litigation</Name>
+					<Guid>Iee975f90e42d11dab5319dfadde9ea3f</Guid>
+					<DocumentGuid>pages-footnotes-author-footnotes</DocumentGuid>
+				</EBookToc>
+			</EBookToc>
+		</EBookToc>
+		<EBookToc>
+			<Name>Bibliography</Name>
+			<Guid>I95acc6a0933c11da99e2b07024dacc26</Guid>
+			<EBookToc detailed="true" summary="true" sum_align="left" sum_prelead="0.08i" sum_lindent="0" sum_serial_pg="5" sum_print_pg="v" sum_fv="0" sum_size="0.15i" sum_cm="normal" det_align="left" det_prelead="0.08i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="1" det_size="0.14i" det_cm="normal">
+				<Name>Bibliography</Name>
+				<Guid>I403894d0558a11dca5f9d46486b7845f</Guid>
+				<DocumentGuid>pages-only</DocumentGuid>
+			</EBookToc>
+		</EBookToc>
+	</EBookToc>
+	<SummaryHeading align="left" fv="1" size="0.25i" cm="normal">
+		Summary of Contents
+	</SummaryHeading>
+	 <DetailedHeading align="left" fv="1" size="0.25i" cm="normal">
+	  Table of Contents
+	 </DetailedHeading>
+</EBook>

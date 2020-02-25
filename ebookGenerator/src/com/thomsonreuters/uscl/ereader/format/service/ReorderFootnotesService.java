@@ -4,6 +4,7 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.LABE
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +21,9 @@ import java.util.stream.Stream;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.XmlDeclaration;
+import org.jsoup.nodes.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -57,10 +56,12 @@ public class ReorderFootnotesService {
     private static final String CO_FOOTNOTE_NUMBER_CLASS = ".co_footnoteNumber";
     private static final String DIV_CO_FOOTNOTE_BODY = "div.co_footnoteBody";
     private static final String DIV_CO_FOOTNOTE_NUMBER = "div.co_footnoteNumber";
+    private static final String DOCUMENT_GUID = "DocumentGuid";
 
     private static final String PAGE_NUMBER_REFERENCE_TEMPLATE = "<a ftnname=\"page_number_footnote_PAGE_NUMBER_FOOTNOTE_ID\" name=\"page_number_fnRef_PAGE_NUMBER_FOOTNOTE_ID\" href=\"#page_number_footnote_PAGE_NUMBER_FOOTNOTE_ID\" class=\"tr_ftn\" />";
     private static final String PAGE_NUMBER_FOOTNOTE_ID_PLACEHOLDER = "PAGE_NUMBER_FOOTNOTE_ID";
     private static final String PAGE_NUMBER_PLACEHOLDER = "PAGE_NUMBER";
+    public static final String INITIAL_PAGE_LABEL = "extractPageNumbersInitialPageLabel";
 
     @Autowired
     private JsoupService jsoup;
@@ -70,17 +71,35 @@ public class ReorderFootnotesService {
 
     private String pageNumberFootnoteTemplate;
 
-    public void reorderFootnotes(final File srcGatherDir, final File srcDir, final File destDir) throws IOException {
-        pageNumberFootnoteTemplate = FileUtils.readFileToString(pageNumberFootnoteTemplateFile);
-        final Map<String, File> nameToXmlFile = Stream.of(srcGatherDir.listFiles())
-            .collect(Collectors.toMap(file -> FilenameUtils.removeExtension(file.getName()), Function.identity()));
+    private List<File> orderedDocuments(final File gatherToc, final File srcDir) {
+        final Map<String, File> nameToSrcFile = getNameFileMap(srcDir);
+        return orderedDocumentIds(gatherToc).stream().map(nameToSrcFile::get).collect(Collectors.toList());
+    }
 
-        Stream.of(srcDir.listFiles()).forEach(file -> {
+    private List<String> orderedDocumentIds(final File gatherToc) {
+        final Document toc = jsoup.loadDocument(gatherToc);
+        return toc.select(DOCUMENT_GUID).eachText();
+    }
+
+    public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir) throws IOException {
+        pageNumberFootnoteTemplate = FileUtils.readFileToString(pageNumberFootnoteTemplateFile);
+        final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
+
+        List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);
+        Map<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered);
+//        convertPageEndsToPageStarts(srcFilesOrdered);
+//        final Element placeholder = new Element(DIV);
+
+        String currentPage[] = new String[] {INITIAL_PAGE_LABEL};
+        boolean fromTopOfPage[] = new boolean[] {true};
+
+
+        srcFilesOrdered.forEach(file -> {
             final Document doc = jsoup.loadDocument(file);
             final String fileUuid = FilenameUtils.removeExtension(file.getName());
             final Element mainSection = doc.selectFirst(SECTION);
             final Optional<Element> footnotesBlock = Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
-            convertPageEndsToPageStarts(mainSection);
+            convertPageEndsToPageStarts(mainSection, fromTopOfPage, currentPage, pageNumbers);
 
             final List<XmlDeclaration> pagebreaksFromMain = getProviewPagebreaks(mainSection);
             if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0) {
@@ -95,6 +114,31 @@ public class ReorderFootnotesService {
 
             jsoup.saveDocument(destDir, file.getName(), doc);
         });
+    }
+
+    private Map<String, String> extractPageNumbers(List<File> srcFilesOrdered) {
+        Map<String, String> pageNumbers = new HashMap<>();
+        String pagebreakPrevious = INITIAL_PAGE_LABEL;
+        for (File file : srcFilesOrdered) {
+            final Document doc = jsoup.loadDocument(file);
+            final Element mainSection = doc.selectFirst(SECTION);
+            final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(mainSection);
+            for (XmlDeclaration pagebreak : pagebreakEnds) {
+                if (pagebreakPrevious == null) {
+                    pagebreakPrevious = pagebreak.attr("label");
+                    continue;
+                }
+                pageNumbers.put(pagebreakPrevious, pagebreak.attr("label"));
+                pagebreakPrevious = pagebreak.attr("label");
+            }
+        }
+        return pageNumbers;
+    }
+
+    @NotNull
+    private Map<String, File> getNameFileMap(File dir) {
+        return Stream.of(dir.listFiles())
+                .collect(Collectors.toMap(file -> FilenameUtils.removeExtension(file.getName()), Function.identity()));
     }
 
     private void convertFootnotes(final Document doc, final Optional<Element> footnotesSection) {
@@ -263,6 +307,67 @@ public class ReorderFootnotesService {
         });
 
         footnotesSection.appendChild(createPageNumberFootnote(pagebreaks.get(pagebreaks.size() - 1).attr(LABEL), fileUuid));
+    }
+
+
+//    private void convertPageEndsToPageStarts(List<File> srcFilesOrdered) {
+//        for(int i = 0; i < srcFilesOrdered.size(); i++) {
+//
+//        }
+//    }
+    private void convertPageEndsToPageStarts(final Element section, final boolean[] fromTopOfPage, String[] currentPage, Map<String, String> pageNumbers) {
+        final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(section);
+//        final Element placeholder = new Element(DIV);
+        if (fromTopOfPage[0]) {
+            section.childNode(0).before(createPagebreak(pageNumbers.get(currentPage[0])));
+            fromTopOfPage[0] = false;
+        }
+
+
+        for (int i = 0; i < pagebreakEnds.size(); i++) {
+            final XmlDeclaration pagebreakEnd = pagebreakEnds.get(i);
+            currentPage[0] = pagebreakEnd.attr("label");
+
+            if (isLastElementInSection(pagebreakEnd)) {
+                fromTopOfPage[0] = true;
+            } else {
+                pagebreakEnd.after(createPagebreak(pageNumbers.get(currentPage[0])));
+            }
+            pagebreakEnd.remove();
+        }
+    }
+
+    private boolean isLastElementInSection(XmlDeclaration pagebreakEnd) {
+        Node next = pagebreakEnd;
+        do {
+            if (hasNextSibling(next)) {
+                next = next.nextSibling();
+
+                if (next instanceof TextNode && !((TextNode)next).isBlank()) return false;
+                if (next instanceof Element) {
+                    Element element = (Element) next;
+                    if ("br".equalsIgnoreCase(element.tagName())) continue;
+                    return element.hasClass("co_copyright");
+                }
+            } else {
+                next = next.parentNode();
+                if (isSectionNode(next)) return true;
+            }
+        } while(true);
+    }
+
+    private boolean hasNextSibling(Node node) {
+        return node.nextSibling() != null;
+    }
+
+    private boolean isSectionNode(Node node) {
+        if (node instanceof Element) {
+            Element element = (Element) node;
+            String tagName = element.tagName().toLowerCase();
+            String className = element.className().toLowerCase();
+            return tagName.matches("section|body") || className.matches("co_docDisplay|co_footnoteSection");
+        }
+        return false;
     }
 
     private void convertPageEndsToPageStarts(final Element section) {

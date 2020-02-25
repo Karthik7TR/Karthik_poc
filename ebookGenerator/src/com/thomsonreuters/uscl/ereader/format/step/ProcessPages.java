@@ -32,12 +32,13 @@ public class ProcessPages extends BookStepImpl {
 
     @Override
     public ExitStatus executeStep() throws Exception {
+        final File gatherToc = gatherFileSystem.getGatherTocFile(this);
         final File srcGatherDir = getGatherDir(NortTocCwbFileSystemConstants.GATHER_DOCS_DIR);
         final File srcDir = getDir(NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR);
         final File destDir = getDir(NortTocCwbFileSystemConstants.FORMAT_PROCESS_PAGES_DIR);
 
         if (shouldReorderFootnotes()) {
-            reorderFootnotesService.reorderFootnotes(srcGatherDir, srcDir, destDir);
+            reorderFootnotesService.reorderFootnotes(gatherToc, srcGatherDir, srcDir, destDir);
         } else {
             FileUtils.copyDirectory(srcDir, destDir);
         }

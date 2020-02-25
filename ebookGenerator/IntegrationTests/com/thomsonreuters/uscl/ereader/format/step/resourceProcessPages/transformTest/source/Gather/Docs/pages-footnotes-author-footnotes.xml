@@ -151,7 +151,7 @@
 			</footnote>
 		</author.footnotes>
 		<footnote.block>
-			<?pagebreak label="1"?>
+			<?pagebreak label="7"?>
 			<footnote ID="If27244306b3e11e99b03e53d6dd36aa2">
 				<label.designator>1</label.designator>
 				<footnote.body>
@@ -170,7 +170,7 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<?pagebreak label="2"?>
+			<?pagebreak label="8"?>
 			<footnote ID="If2726b416b3e11e99b03e53d6dd36aa2">
 				<label.designator>2</label.designator>
 				<footnote.body>
@@ -199,7 +199,7 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<?pagebreak label="3"?>
+			<?pagebreak label="9"?>
 			<footnote ID="If27292506b3e11e99b03e53d6dd36aa2">
 				<label.designator>4</label.designator>
 				<footnote.body>
@@ -214,7 +214,7 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<?pagebreak label="4"?>
+			<?pagebreak label="10"?>
 		</footnote.block>
 		<content.metadata.block>
 			<cmd.royalty>
