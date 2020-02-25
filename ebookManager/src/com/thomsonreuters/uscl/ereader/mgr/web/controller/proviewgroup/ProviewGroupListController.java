@@ -563,10 +563,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE, method = RequestMethod.POST)
     public ModelAndView proviewTitlePromotePost(
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm form,
-        final Model model) {
+        final Model model, final HttpSession httpSession) {
         sendEmailAndSetAttribute(
             model,
             form,
+            httpSession,
             "Proview Promote Request Status: %s %s",
             "Group: %s could not be promoted to Proview.\n %s",
             PROMOTE,
@@ -577,10 +578,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_BOOK_REMOVE, method = RequestMethod.POST)
     public ModelAndView proviewGroupRemovePost(
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm form,
-        final Model model) {
+        final Model model, final HttpSession httpSession) {
         sendEmailAndSetAttribute(
             model,
             form,
+            httpSession,
             "Proview Remove Request Status: %s %s",
             "Group: %s could not be removed from Proview.\n %s",
             REMOVE,
@@ -591,10 +593,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_BOOK_DELETE, method = RequestMethod.POST)
     public ModelAndView proviewGroupDeletePost(
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm form,
-        final Model model) {
+        final Model model, final HttpSession httpSession) {
         sendEmailAndSetAttribute(
             model,
             form,
+            httpSession,
             "Proview Delete Request Status: %s %s",
             "Group: %s could not be Deleted from Proview.\n %s",
             DELETE,
@@ -605,6 +608,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     private void sendEmailAndSetAttribute(
         final Model model,
         final ProviewGroupListFilterForm form,
+        final HttpSession httpSession,
         final String emailSubject,
         final String emailBodyTemplate,
         final String operation,
@@ -612,6 +616,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
         try {
             if (performGroupOperation(form, model, operation, emailSubject)) {
+                updateGroupStatus(httpSession, form.getProviewGroupID(), form.getGroupVersion(), groupStatus);
                 model.addAttribute(WebConstants.KEY_GROUP_STATUS, groupStatus);
             }
         } catch (final Exception e) {

@@ -166,6 +166,18 @@ public abstract class BaseProviewGroupListController {
         return (List<ProviewGroup>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS);
     }
 
+    protected void updateGroupStatus(final HttpSession httpSession, final String groupId,
+        final String groupVersion, final String newStatus) {
+        final Map<String, ProviewGroupContainer> proviewGroups = fetchAllProviewGroups(httpSession);
+        proviewGroups.computeIfPresent(groupId, (key, value) -> {
+            value.getProviewGroups().stream()
+                    .filter(item -> item.getVersion().toString().equals(groupVersion))
+                    .forEach(item -> item.setGroupStatus(newStatus));
+            return value;
+        });
+        saveAllProviewGroups(httpSession, proviewGroups);
+    }
+
     protected void savePaginatedList(final HttpSession httpSession, final List<GroupDetails> groupDetailsList) {
         httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, groupDetailsList);
     }
