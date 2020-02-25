@@ -17,6 +17,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -38,10 +39,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -63,6 +61,8 @@ public final class ProviewGroupListControllerTest {
     private EmailUtil emailUtil;
     private EmailService mockEmailService;
     private OutageService mockOutageService;
+    private Map<String, ProviewGroupContainer> proviewGroups;
+    private List<ProviewGroup> selectedProviewGroups;
 
     @Before
     public void setUp() {
@@ -86,6 +86,8 @@ public final class ProviewGroupListControllerTest {
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "emailUtil", emailUtil);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "emailService", mockEmailService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "outageService", mockOutageService);
+
+        proviewGroups = new HashMap<>();
     }
 
     @After
@@ -449,11 +451,14 @@ public final class ProviewGroupListControllerTest {
         request.setParameter("groupOperation", Boolean.valueOf(true).toString());
         request.setParameter("proviewGroupID", groupId);
         request.setParameter("GroupVersion", groupVersion);
+        final HttpSession httpSession = request.getSession();
+        prepareGroupAttributes(httpSession, groupId, groupVersion);
         EasyMock.expect(mockProviewHandler.promoteGroup(groupId, "v" + groupVersion)).andReturn("");
         EasyMock.replay(mockProviewHandler);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE);
+        checkUpdatedStatus(httpSession, groupId);
     }
 
     /**
@@ -543,5 +548,37 @@ public final class ProviewGroupListControllerTest {
         EasyMock.replay(mockProviewHandler);
 
         handlerAdapter.handle(request, response, controller);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private void prepareGroupAttributes(final HttpSession httpSession, final String groupId, final String groupVersion) {
+        final ProviewGroupContainer proviewGroupContainer = new ProviewGroupContainer();
+        final ProviewGroup group = getGroup(groupId, groupVersion);
+        proviewGroupContainer.setProviewGroups(Collections.singletonList(group));
+        proviewGroups.put(groupId, proviewGroupContainer);
+        selectedProviewGroups = Collections.singletonList(group);
+        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, proviewGroups);
+        httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroups);
+    }
+
+    @SuppressWarnings({"unchecked", "SameParameterValue"})
+    private void checkUpdatedStatus(final HttpSession httpSession, final String groupId) {
+        final Map<String, ProviewGroupContainer> groupContainerMap = (Map<String, ProviewGroupContainer>)
+                httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS);
+        Assert.assertEquals(CoreConstants.FINAL_BOOK_STATUS,
+                groupContainerMap.get(groupId).getProviewGroups().get(0).getGroupStatus());
+        final List<ProviewGroup> selectedProviewGroups = (List<ProviewGroup>)
+                httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS);
+        Assert.assertEquals(CoreConstants.FINAL_BOOK_STATUS,
+                selectedProviewGroups.get(0).getGroupStatus());
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private ProviewGroup getGroup(final String groupId, final String groupVersion) {
+        final ProviewGroup group = new ProviewGroup();
+        group.setGroupId(groupId);
+        group.setGroupVersion(Version.VERSION_PREFIX + groupVersion);
+        group.setGroupStatus(CoreConstants.REVIEW_BOOK_STATUS);
+        return group;
     }
 }
