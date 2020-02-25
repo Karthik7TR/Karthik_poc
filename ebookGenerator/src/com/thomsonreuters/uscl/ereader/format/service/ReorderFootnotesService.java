@@ -112,6 +112,7 @@ public class ReorderFootnotesService {
                 convertFootnotes(doc, footnotesBlock);
 
                 final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
+//                TODO: resolve case: pagebreak in the middle of footnote
 //                addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
                 mainSection.after(footnotesSectionToAppend);
             }
