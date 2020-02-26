@@ -46,6 +46,12 @@ public final class ProcessPagesIntegrationTest {
     }
 
     @Test
+    public void shouldTransformPagesWithSectionbreaks() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, new File(resourceDir, "transformWithSectionbreaksTest"));
+    }
+
+    @Test
     public void shouldCopyPages() throws Exception {
         runner.test(step, new File(resourceDir, "copyTest"));
     }

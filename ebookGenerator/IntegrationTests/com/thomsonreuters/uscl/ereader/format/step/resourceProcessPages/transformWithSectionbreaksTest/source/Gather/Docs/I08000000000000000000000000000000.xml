@@ -1,0 +1,65 @@
+<n-docbody>
+	<doc bill="Y">
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I0d4b947bc08511d88885080020ab8e66">
+					<head parent="doc.title">
+						<label.name>&#167; </label.name>
+						<label.designator>1:6.</label.designator>
+						<headtext>Applicability of Federal Truth in Lending Act, Real Estate Settlement Procedures Act, and Interstate Land Sales Full Disclosure Act</headtext>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+					<para>
+						<paratext>The taxpayer is conducting a business and the ordinary and reasonable expenses of the business are deductible against income realized from the operation.</paratext>
+					</para>
+					<?pagebreak label="24"?>
+					<para>
+						<paratext>The second category<footnote.reference refid="I01a2f010680911e88f4a9c1f64100801">1</footnote.reference> of real estate is property used as a personal residence. This is technically a capital asset, which is the next category to be discussed.</paratext>
+					</para>
+					<?pagebreak label="25"?>
+					<para>
+						<paratext>Being a personal<footnote.reference refid="I01a2f010680911e88f4a9c1f64100802">9</footnote.reference> residence, however, causes different tax doctrines to apply. Gain on the sale of a residence held for longer than one year is taxed as long-term capital gain.</paratext>
+					</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<?pagebreak label="24"?>
+			[Section 1:6]
+            <footnote ID="I01a2f010680911e88f4a9c1f64100801">
+                <label.designator>1</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>15 U.S.C.A. §§ 1601 et seq. (section 1:6 footnote on page 25)
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+			<?pagebreak label="25"?>
+            <footnote ID="I01a2f010680911e88f4a9c1f64100802">
+                <label.designator>9</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>See 12 U.S.C.A. § 2603. (section 1:6 footnote on page 26)
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>MDLITMAN I08<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

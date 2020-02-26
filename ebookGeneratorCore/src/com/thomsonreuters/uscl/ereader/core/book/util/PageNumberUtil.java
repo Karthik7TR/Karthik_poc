@@ -38,4 +38,8 @@ public final class PageNumberUtil {
     public static String protectPagebreak(final Node pagebreak) {
         return String.format(PAGEBREAK_PROTECTED, PAGEBREAK_WRAPPER_OPEN, pagebreak.attr(LABEL), PAGEBREAK_WRAPPER_CLOSE);
     }
+
+    public static String getLabel(final Node pagebreak) {
+        return pagebreak.attr(LABEL);
+    }
 }
