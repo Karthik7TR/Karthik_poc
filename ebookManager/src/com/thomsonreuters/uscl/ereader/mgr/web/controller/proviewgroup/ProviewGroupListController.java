@@ -442,8 +442,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     /**
      * For single titles. Gets book details from Proview and removed/deleted details from ProviewAudit
      *
-     * @param fullyQualifiedTitleId
-     * @param bookdefId
+     * @param proviewGroup
      * @return
      */
     protected List<GroupDetails> getGroupDetailsWithNoSubgroups(final ProviewGroup proviewGroup) throws Exception {
@@ -616,7 +615,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
         try {
             if (performGroupOperation(form, model, operation, emailSubject)) {
-                updateGroupStatus(httpSession, form.getProviewGroupID(), form.getGroupVersion(), groupStatus);
+                if (form.isGroupOperation()) {
+                    updateGroupStatus(httpSession, form.getProviewGroupID(), form.getGroupVersion(), groupStatus);
+                }
                 model.addAttribute(WebConstants.KEY_GROUP_STATUS, groupStatus);
             }
         } catch (final Exception e) {
