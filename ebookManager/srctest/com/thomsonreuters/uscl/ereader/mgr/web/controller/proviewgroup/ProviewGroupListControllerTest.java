@@ -2,15 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
@@ -51,6 +43,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 public final class ProviewGroupListControllerTest {
+    private static final String TITLE_ID = "titleId";
+    private static final String TITLE_VERSION = "v1.1";
+    private static final String GROUP_ID = "groupId";
+    private static final String GROUP_VERSION = "2";
+    private static final String REMOVE_STATUS = "Remove";
+
     private ProviewGroupListController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
@@ -180,7 +178,6 @@ public final class ProviewGroupListControllerTest {
     @Test
     public void testAllLatestProviewGroupsList() throws Exception {
         final String groupName = "GroupName";
-        final String groupId = "GroupID";
 
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.GET.name());
@@ -188,7 +185,7 @@ public final class ProviewGroupListControllerTest {
 
         final ProviewGroupListFilterForm filterForm = new ProviewGroupListFilterForm();
         filterForm.setGroupName("%" + groupName);
-        filterForm.setProviewGroupID("%" + groupId);
+        filterForm.setProviewGroupID("%" + GROUP_ID);
         session.setAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
         session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
 
@@ -200,7 +197,7 @@ public final class ProviewGroupListControllerTest {
         final List<ProviewGroup> allLatestProviewGroups = new ArrayList<>();
         final ProviewGroup proviewGroup = new ProviewGroup();
         proviewGroup.setGroupName(groupName);
-        proviewGroup.setGroupId(groupId);
+        proviewGroup.setGroupId(GROUP_ID);
         allLatestProviewGroups.add(proviewGroup);
 
         EasyMock.expect(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups))
@@ -225,11 +222,9 @@ public final class ProviewGroupListControllerTest {
      */
     @Test
     public void testSingleGroupAllVersions() throws Exception {
-        final String groupId = "groupID";
-
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("groupIds", groupId);
+        request.setParameter("groupIds", GROUP_ID);
         final HttpSession session = request.getSession();
         session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
 
@@ -237,7 +232,7 @@ public final class ProviewGroupListControllerTest {
         final ProviewGroupContainer groupContainer = new ProviewGroupContainer();
         groupContainer.setProviewGroups(groupList);
         final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
-        allProviewGroups.put(groupId, groupContainer);
+        allProviewGroups.put(GROUP_ID, groupContainer);
 
         EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andReturn(allProviewGroups);
         EasyMock.replay(mockProviewHandler);
@@ -420,6 +415,28 @@ public final class ProviewGroupListControllerTest {
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
     }
 
+    @Test
+    public void testProviewTitlePromotePost() throws Exception {
+        setUser();
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE);
+        request.setMethod(HttpMethod.POST.name());
+        setUpGroupIds();
+
+        EasyMock.expect(mockProviewHandler.promoteTitle(TITLE_ID, TITLE_VERSION)).andReturn(true);
+
+        setGroupRequestParameters();
+        final HttpSession httpSession = request.getSession();
+        prepareGroupAttributes(httpSession, GROUP_ID, GROUP_VERSION);
+        EasyMock.expect(mockProviewHandler.promoteGroup(GROUP_ID, Version.VERSION_PREFIX + GROUP_VERSION))
+                .andReturn("");
+        EasyMock.replay(mockProviewHandler);
+
+        request.setParameter("groupOperation", Boolean.valueOf(false).toString());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE);
+        checkGroupStatus(httpSession, GROUP_ID, CoreConstants.REVIEW_BOOK_STATUS);
+    }
+
     /**
      * Note: runs very slowly due to the "wait 3 seconds" command in
      * doTitleOperation(..)
@@ -427,38 +444,25 @@ public final class ProviewGroupListControllerTest {
      * @throws Exception
      */
     @Test
-    public void testProviewTitlePromotePost() throws Exception {
-        final String uName = "tester";
-        final String first = "first";
-        final String last = "last";
-        final String pWord = "testing";
-        final Collection<GrantedAuthority> authorities = new HashSet<>();
-        final CobaltUser user = new CobaltUser(uName, first, last, pWord, authorities);
-        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
+    public void testProviewTitlePromotePostGroupOperation() throws Exception {
+        setUser();
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE);
         request.setMethod(HttpMethod.POST.name());
-        final List<String> groupIds = new ArrayList<>();
-        final String titleId = "anId";
-        groupIds.add(titleId);
-        request.setParameter("groupIds", groupIds.toString());
+        setUpGroupIds();
 
-        EasyMock.expect(mockProviewHandler.promoteTitle(titleId, "")).andReturn(true);
+        EasyMock.expect(mockProviewHandler.promoteTitle(TITLE_ID, TITLE_VERSION)).andReturn(true);
 
-        final String groupId = "testId";
-        final String groupVersion = "2";
-        request.setParameter("groupOperation", Boolean.valueOf(true).toString());
-        request.setParameter("proviewGroupID", groupId);
-        request.setParameter("GroupVersion", groupVersion);
+        setGroupRequestParameters();
         final HttpSession httpSession = request.getSession();
-        prepareGroupAttributes(httpSession, groupId, groupVersion);
-        EasyMock.expect(mockProviewHandler.promoteGroup(groupId, "v" + groupVersion)).andReturn("");
+        prepareGroupAttributes(httpSession, GROUP_ID, GROUP_VERSION);
+        EasyMock.expect(mockProviewHandler.promoteGroup(GROUP_ID, Version.VERSION_PREFIX + GROUP_VERSION))
+                .andReturn("");
         EasyMock.replay(mockProviewHandler);
 
+        request.setParameter("groupOperation", Boolean.valueOf(true).toString());
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE);
-        checkUpdatedStatus(httpSession, groupId);
+        checkGroupStatus(httpSession, GROUP_ID, CoreConstants.FINAL_BOOK_STATUS);
     }
 
     /**
@@ -469,35 +473,50 @@ public final class ProviewGroupListControllerTest {
      */
     @Test
     public void testProviewTitleRemovePost() throws Exception {
-        final String uName = "tester";
-        final String first = "first";
-        final String last = "last";
-        final String pWord = "testing";
-        final Collection<GrantedAuthority> authorities = new HashSet<>();
-        final CobaltUser user = new CobaltUser(uName, first, last, pWord, authorities);
-        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
+        setUser();
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_BOOK_REMOVE);
         request.setMethod(HttpMethod.POST.name());
-        final List<String> groupIds = new ArrayList<>();
-        final String titleId = "anId";
-        groupIds.add(titleId);
-        request.setParameter("groupIds", groupIds.toString());
+        setUpGroupIds();
 
-        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v1.1"))).andReturn(true);
+        EasyMock.expect(mockProviewHandler.removeTitle(TITLE_ID, new Version(TITLE_VERSION))).andReturn(true);
 
-        final String groupId = "testId";
-        final String groupVersion = "2";
-        request.setParameter("groupOperation", Boolean.valueOf(true).toString());
-        request.setParameter("proviewGroupID", groupId);
-        request.setParameter("GroupVersion", groupVersion);
-        EasyMock.expect(mockProviewHandler.removeGroup(groupId, "v" + groupVersion)).andReturn("");
-        EasyMock.expect(mockProviewHandler.deleteGroup(groupId, "v" + groupVersion)).andReturn("");
+        final HttpSession httpSession = request.getSession();
+        prepareGroupAttributes(httpSession, GROUP_ID, GROUP_VERSION);
+        setGroupRequestParameters();
+        EasyMock.expect(mockProviewHandler.removeGroup(GROUP_ID, Version.VERSION_PREFIX + GROUP_VERSION))
+                .andReturn("");
+        EasyMock.expect(mockProviewHandler.deleteGroup(GROUP_ID, Version.VERSION_PREFIX + GROUP_VERSION))
+                .andReturn("");
         EasyMock.replay(mockProviewHandler);
 
+        request.setParameter("groupOperation", Boolean.valueOf(false).toString());
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_REMOVE);
+        checkGroupStatus(httpSession, GROUP_ID, CoreConstants.REVIEW_BOOK_STATUS);
+    }
+
+    @Test
+    public void testProviewTitleRemovePostGroupOperation() throws Exception {
+        setUser();
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_BOOK_REMOVE);
+        request.setMethod(HttpMethod.POST.name());
+        setUpGroupIds();
+
+        EasyMock.expect(mockProviewHandler.removeTitle(TITLE_ID, new Version(TITLE_VERSION))).andReturn(true);
+
+        final HttpSession httpSession = request.getSession();
+        prepareGroupAttributes(httpSession, GROUP_ID, GROUP_VERSION);
+        setGroupRequestParameters();
+        EasyMock.expect(mockProviewHandler.removeGroup(GROUP_ID, Version.VERSION_PREFIX + GROUP_VERSION))
+                .andReturn("");
+        EasyMock.expect(mockProviewHandler.deleteGroup(GROUP_ID, Version.VERSION_PREFIX + GROUP_VERSION))
+                .andReturn("");
+        EasyMock.replay(mockProviewHandler);
+
+        request.setParameter("groupOperation", Boolean.valueOf(true).toString());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_REMOVE);
+        checkGroupStatus(httpSession, GROUP_ID, REMOVE_STATUS);
     }
 
     /**
@@ -562,15 +581,13 @@ public final class ProviewGroupListControllerTest {
     }
 
     @SuppressWarnings({"unchecked", "SameParameterValue"})
-    private void checkUpdatedStatus(final HttpSession httpSession, final String groupId) {
+    private void checkGroupStatus(final HttpSession httpSession, final String groupId, final String groupStatus) {
         final Map<String, ProviewGroupContainer> groupContainerMap = (Map<String, ProviewGroupContainer>)
                 httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS);
-        Assert.assertEquals(CoreConstants.FINAL_BOOK_STATUS,
-                groupContainerMap.get(groupId).getProviewGroups().get(0).getGroupStatus());
+        Assert.assertEquals(groupStatus, groupContainerMap.get(groupId).getProviewGroups().get(0).getGroupStatus());
         final List<ProviewGroup> selectedProviewGroups = (List<ProviewGroup>)
                 httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS);
-        Assert.assertEquals(CoreConstants.FINAL_BOOK_STATUS,
-                selectedProviewGroups.get(0).getGroupStatus());
+        Assert.assertEquals(groupStatus, selectedProviewGroups.get(0).getGroupStatus());
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -580,5 +597,16 @@ public final class ProviewGroupListControllerTest {
         group.setGroupVersion(Version.VERSION_PREFIX + groupVersion);
         group.setGroupStatus(CoreConstants.REVIEW_BOOK_STATUS);
         return group;
+    }
+
+    private void setUpGroupIds() {
+        final List<String> groupIds = new ArrayList<>();
+        groupIds.add(TITLE_ID + "/" + TITLE_VERSION);
+        request.setParameter("groupIds", groupIds.toString());
+    }
+
+    private void setGroupRequestParameters() {
+        request.setParameter("proviewGroupID", GROUP_ID);
+        request.setParameter("GroupVersion", GROUP_VERSION);
     }
 }
