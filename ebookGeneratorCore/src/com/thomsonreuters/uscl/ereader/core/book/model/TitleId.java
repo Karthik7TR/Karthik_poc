@@ -33,6 +33,10 @@ public class TitleId {
         return headTitleId;
     }
 
+    public boolean isHeadTitle() {
+        return partNumber == 1;
+    }
+
     public int getPartNumber() {
         return partNumber;
     }

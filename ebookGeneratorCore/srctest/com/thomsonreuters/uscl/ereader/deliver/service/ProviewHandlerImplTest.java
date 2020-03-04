@@ -6,10 +6,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,6 +41,9 @@ public final class ProviewHandlerImplTest {
     private ProviewHandlerImpl proviewHandler;
 
     private static final String GROUP_ID = "uscl/test_group_id";
+    private static final String TITLE_ID = "testTileId";
+    private static final String VERSION = "v1.2";
+    private static final String TITLES = "<titles></titles>";
 
     @Mock
     private ProviewClient mockProviewClient;
@@ -361,18 +361,27 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testPromoteTitle() throws Exception {
-        final String titleId = "testTileId";
-        final String bookVersion = "v1.2";
-
         doNothing().when(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
-        when(mockProviewClient.promoteTitle(titleId, bookVersion)).thenReturn(HttpStatus.OK);
-        when(mockProviewClient.getAllPublishedTitles()).thenReturn("<titles></titles>");
+        when(mockProviewClient.promoteTitle(TITLE_ID, VERSION)).thenReturn(HttpStatus.OK);
+        when(mockProviewClient.getAllPublishedTitles()).thenReturn(TITLES);
 
-        final boolean response = proviewHandler.promoteTitle(titleId, bookVersion);
+        final boolean response = proviewHandler.promoteTitle(TITLE_ID, VERSION);
 
         verify(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
+        assertTrue(response);
+    }
+
+    @Test
+    public void testPromoteTitlePart() throws Exception {
+        final String titleId = TITLE_ID + "_pt2";
+
+        when(mockProviewClient.promoteTitle(titleId, VERSION)).thenReturn(HttpStatus.OK);
+        when(mockProviewClient.getAllPublishedTitles()).thenReturn(TITLES);
+
+        final boolean response = proviewHandler.promoteTitle(titleId, VERSION);
 
         assertTrue(response);
+        verifyNoMoreInteractions(mockSupersededHandler);
     }
 
     @Test
