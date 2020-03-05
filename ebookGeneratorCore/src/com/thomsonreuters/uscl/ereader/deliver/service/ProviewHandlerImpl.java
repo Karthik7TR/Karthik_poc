@@ -13,6 +13,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
@@ -303,7 +304,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object
         final boolean isSuccessful = proviewClient.promoteTitle(fullyQualifiedTitleId, eBookVersionNumber).is2xxSuccessful();
-        if (isSuccessful) {
+        if (new TitleId(fullyQualifiedTitleId).isHeadTitle() && isSuccessful) {
             supersededHandler.markTitleVersionAsSupersededInThread(fullyQualifiedTitleId, new Version(eBookVersionNumber), getAllProviewTitleInfo());
         }
 
