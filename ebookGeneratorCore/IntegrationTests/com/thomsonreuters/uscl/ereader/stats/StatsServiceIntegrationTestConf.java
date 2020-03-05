@@ -15,6 +15,8 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.SupersededProviewHandlerHelper;
+import com.thomsonreuters.uscl.ereader.deliver.service.SplitPartsUniteService;
+import com.thomsonreuters.uscl.ereader.deliver.service.SplitPartsUniteServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -84,6 +86,11 @@ public class StatsServiceIntegrationTestConf extends AbstractDatabaseIntegration
     @Bean
     public SupersededProviewHandlerHelper supersededProviewHandlerHelper() {
         return new SupersededProviewHandlerHelper();
+    }
+
+    @Bean
+    public SplitPartsUniteService splitPartsUniteService() {
+        return new SplitPartsUniteServiceImpl();
     }
 
     @Bean

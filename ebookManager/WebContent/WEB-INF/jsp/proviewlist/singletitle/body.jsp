@@ -24,18 +24,19 @@ function openFullcreenWindow(url)
 		<c:set var="isPlusOrSuperUser" value="true"/>
 	</sec:authorize>
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
-	
-	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
+	<jsp:include page="../tableLegend.jsp"/>
+	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2"
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>"
 				   pagesize="10"
 				   partialList="false"
 				   size="resultSize"
-				   defaultsort="3">
+				   defaultsort="4">
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
 	  	<display:column title="ProView Display Name" property="title" sortable="true"/>
-	  	<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparatorDesc" sortable="true"/>
+		<display:column title="Split Parts" property="splitParts" sortable="true"/>
+		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparatorDesc" sortable="true"/>
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>

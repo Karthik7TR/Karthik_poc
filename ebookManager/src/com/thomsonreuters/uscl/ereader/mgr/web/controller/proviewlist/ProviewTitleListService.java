@@ -42,4 +42,10 @@ public interface ProviewTitleListService {
 
     TitleActionResult executeTitleAction(final ProviewTitleForm form, final TitleAction action,
         final boolean isJobRunningForBook);
+
+    boolean canDelete(String status);
+
+    boolean canRemove(String status);
+
+    boolean canPromote(String status);
 }

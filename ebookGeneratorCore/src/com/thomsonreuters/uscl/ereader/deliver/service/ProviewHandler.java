@@ -42,6 +42,8 @@ public interface ProviewHandler {
     /* ProView Title */
     Map<String, ProviewTitleContainer> getAllProviewTitleInfo() throws ProviewException;
 
+    Map<String, ProviewTitleContainer> getTitlesWithUnitedParts() throws ProviewException;
+
     ProviewTitleContainer getProviewTitleContainer(String fullyQualifiedTitleId) throws ProviewException;
 
     List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException;

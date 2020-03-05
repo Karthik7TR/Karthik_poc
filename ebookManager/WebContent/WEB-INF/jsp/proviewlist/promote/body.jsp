@@ -44,7 +44,7 @@
 	</script>
 	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
-	
+		<jsp:include page="../tableLegend.jsp"/>
 		<table>		   
 		<tr>
 			<td id="titleId"><b>Title Id:</b></td> 
@@ -66,7 +66,7 @@
 		
 		<div class="buttons">
 			<input id="returnToList" type="button" value="Return to list" onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${titleId}'"/>
-       		<c:if test="${status == 'Review' && infoMessage == null && errMessage == null }">
+       		<c:if test="${isOperationAllowed && infoMessage == null && errMessage == null }">
                 <input 
                 	id="promoteButton"
 					type="button" 
@@ -75,6 +75,9 @@
 				/>
           	</c:if>
         </div>
+		<c:if test="${!isOperationAllowed}">
+			<p>Only books in <b>'Review'</b> status can be promoted.</p>
+		</c:if>
 		<td>
 				<form:hidden path="titleId"/>
 				<form:hidden path="version"/>

@@ -17,6 +17,8 @@ public class ProviewListMatchers {
 
     public static ProviewTitleInfo titleInfo(final String version, final String status) {
         final ProviewTitleInfo proviewTitleInfo = new ProviewTitleInfo();
+        proviewTitleInfo.setTitleId("titleId");
+        proviewTitleInfo.setTitle("title");
         proviewTitleInfo.setVersion(version);
         proviewTitleInfo.setStatus(status);
         return proviewTitleInfo;

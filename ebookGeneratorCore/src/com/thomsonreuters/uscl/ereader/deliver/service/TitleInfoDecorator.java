@@ -56,4 +56,9 @@ public abstract class TitleInfoDecorator implements TitleInfo {
     public String getStatus() {
         return titleInfo.getStatus();
     }
+
+    @Override
+    public Integer getSplitParts() {
+        return titleInfo.getSplitParts();
+    }
 }

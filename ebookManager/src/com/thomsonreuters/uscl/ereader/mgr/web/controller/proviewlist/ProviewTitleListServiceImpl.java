@@ -17,7 +17,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -38,8 +37,9 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     private static final String EMAIL_BODY = "Environment: %s%n%s";
     private static final String SUCCESSFULLY_UPDATED = "Successfully updated:";
     private static final String FAILED_TO_UPDATE = "Failed to update:";
-    private static final Set<String> CAN_REMOVE_STATUSES = Sets.newSet(REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS);
-    private static final Set<String> CAN_DELETE_STATUSES = Sets.newSet(CLEANUP_BOOK_STATUS, REMOVED_BOOK_STATUS);
+    private static final String PURE_STATUS_PATTERN = String.format("\\%s?\\%s?",
+            ERROR_SIGN_SOME_PARTS_ARE_IN_FINAL_SOME_IN_REVIEW_STATE,
+            ERROR_SIGN_SOME_PARTS_HAVE_INCONSISTENT_STATUS_OR_ABSENT);
 
     private final ProviewAuditService proviewAuditService;
     private final BookDefinitionService bookDefinitionService;
@@ -74,13 +74,33 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                 .map(titleInfo -> Optional.ofNullable(book)
                         .map(item -> {
                             final String status = titleInfo.getStatus();
-                            final boolean canPromote = book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS && REVIEW_BOOK_STATUS.equals(status);
-                            final boolean canRemove = CAN_REMOVE_STATUSES.contains(status);
-                            final boolean canDelete = CAN_DELETE_STATUSES.contains(status);
+                            final boolean canPromote = book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS && canPromote(status);
+                            final boolean canRemove = canRemove(status);
+                            final boolean canDelete = canDelete(status);
                             return new ProviewTitle(titleInfo, canPromote, canRemove, canDelete);
                         })
                         .orElse(new ProviewTitle(titleInfo)))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean canDelete(String status) {
+        return CAN_DELETE_STATUSES.contains(getPureStatus(status));
+    }
+
+    @Override
+    public boolean canRemove(String status) {
+        return CAN_REMOVE_STATUSES.contains(getPureStatus(status));
+    }
+
+    @Override
+    public boolean canPromote(String status) {
+        return CAN_PROMOTE_STATUSES.contains(status);
+    }
+
+    @NotNull
+    private String getPureStatus(String status) {
+        return status.replaceAll(PURE_STATUS_PATTERN,"");
     }
 
     @Override

@@ -152,7 +152,7 @@ public final class ProviewTitleListControllerTest {
         final Map<String, ProviewTitleContainer> testAllTitleInfo = new HashMap<>();
         final List<ProviewTitleInfo> testAllLatestTitleInfo = new ArrayList<>();
 
-        expect(mockProviewHandler.getAllProviewTitleInfo()).andReturn(testAllTitleInfo);
+        expect(mockProviewHandler.getTitlesWithUnitedParts()).andReturn(testAllTitleInfo);
         expect(mockProviewHandler.getAllLatestProviewTitleInfo(testAllTitleInfo))
             .andReturn(testAllLatestTitleInfo);
         replay(mockProviewHandler);
@@ -183,7 +183,7 @@ public final class ProviewTitleListControllerTest {
         testInfo.setTitleId("test");
         mockAllLatestProviewTitleInfo.add(testInfo);
 
-        expect(mockProviewHandler.getAllProviewTitleInfo()).andReturn(mockAllProviewTitleInfo);
+        expect(mockProviewHandler.getTitlesWithUnitedParts()).andReturn(mockAllProviewTitleInfo);
         expect(mockProviewHandler.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo))
             .andReturn(mockAllLatestProviewTitleInfo);
         replay(mockProviewHandler);
@@ -210,7 +210,7 @@ public final class ProviewTitleListControllerTest {
         request.setMethod(HttpMethod.POST.name());
         request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
 
-        expect(mockProviewHandler.getAllProviewTitleInfo()).andThrow(new ProviewException(""));
+        expect(mockProviewHandler.getTitlesWithUnitedParts()).andThrow(new ProviewException(""));
         replay(mockProviewHandler);
 
         handlerAdapter.handle(request, response, controller);
@@ -367,6 +367,7 @@ public final class ProviewTitleListControllerTest {
     private void prepareTitleActionPostMocks() {
         expect(titleActionResult.hasErrorMessage()).andReturn(false);
         expect(titleActionResult.getUpdatedTitles()).andReturn(Collections.singletonList(titleId));
+        expect(titleActionResult.getOperationResult()).andReturn(OperationResult.SUCCESSFUL);
     }
 
     private void validateActionArguments(TitleActionName actionName) {

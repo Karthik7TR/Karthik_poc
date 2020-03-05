@@ -4,6 +4,7 @@ public class WebConstants {
     public static final String FRONT_MATTER_PREVIEW_WINDOW_SPECS =
         "height=800,width=768,top=0,resizable=yes,scrollbars=yes";
 
+    public static final String KEY_IS_OPERATION_ALLOWED = "isOperationAllowed";
     public static final String KEY_ENVIRONMENT_NAME = "environmentName";
     public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library search criteria
     public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";

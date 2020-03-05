@@ -29,6 +29,7 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
     private String title;
     private Integer totalNumberOfVersions;
     private String lastStatusUpdateDate;
+    private Integer splitParts;
 
     @Override
     public Integer getMajorVersion() {

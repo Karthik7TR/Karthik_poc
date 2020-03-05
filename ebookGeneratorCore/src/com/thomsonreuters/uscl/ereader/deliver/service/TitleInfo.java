@@ -7,6 +7,8 @@ public interface TitleInfo {
 
     Integer getTotalNumberOfVersions();
 
+    Integer getSplitParts();
+
     String getVersion();
 
     Integer getMajorVersion();

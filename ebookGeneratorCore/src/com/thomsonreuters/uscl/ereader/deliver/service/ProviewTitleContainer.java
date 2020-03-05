@@ -1,5 +1,9 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,18 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class ProviewTitleContainer implements Serializable {
     private static final long serialVersionUID = -1985883914988566602L;
     private static final String PROVIEW_STATUS_FINAL = "final";
     private List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
-
-    public List<ProviewTitleInfo> getProviewTitleInfos() {
-        return proviewTitleInfos;
-    }
-
-    public void setProviewTitleInfos(final List<ProviewTitleInfo> proviewTitleInfos) {
-        this.proviewTitleInfos = proviewTitleInfos;
-    }
 
     public ProviewTitleInfo getLatestVersion() {
         int latestIntMajorPart = 0;

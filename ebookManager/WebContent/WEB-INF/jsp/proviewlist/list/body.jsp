@@ -42,7 +42,7 @@
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
 			   
 	<form:hidden path="command"/>
-	
+	<jsp:include page="../tableLegend.jsp"/>
 	Items per page:
 	<form:select path="objectsPerPage" onchange="changePageSize();">
 		<form:option label="20" value="20"/>
@@ -52,8 +52,8 @@
 		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
 	</form:select>
 	<br>
-	
-	<display:table id="proviewList" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
+
+	<display:table id="proviewList" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2"
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLES%>"
 				   pagesize="${pageSize}"
 				   partialList="false"
@@ -70,6 +70,7 @@
 		<display:column title="ProView Display Name" property="title" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
 		<display:column title="Title ID" property="titleId" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
 		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
+		<display:column title="Split Parts" property="splitParts" sortable="true"/>
 		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
 		<display:column title="Status" property="status" sortable="true"/>
 		<display:column title="Publisher" property="publisher" sortable="true"/>

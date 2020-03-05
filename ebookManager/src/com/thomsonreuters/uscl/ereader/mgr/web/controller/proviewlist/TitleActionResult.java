@@ -22,4 +22,19 @@ public class TitleActionResult {
     public boolean hasErrorMessage() {
         return errorMessage != null;
     }
+
+    public OperationResult getOperationResult() {
+        OperationResult operationResult;
+        if (titlesToUpdate.size() != 0) {
+            if (updatedTitles.size() != 0) {
+                operationResult = OperationResult.PARTIALLY_SUCCESSFUL;
+            } else {
+                operationResult = OperationResult.UNSUCCESSFUL;
+            }
+        } else {
+            operationResult = OperationResult.SUCCESSFUL;
+        }
+        return operationResult;
+    }
+
 }

@@ -34,7 +34,7 @@
 	</script>
 	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
-	
+		<jsp:include page="../tableLegend.jsp"/>
 		<table>		   
 		<tr>
 			<td id="titleId"><b>Title Id:</b></td> 
@@ -56,7 +56,7 @@
 		
 		<div class="buttons">
 			<input id="returnToList" type="button" value="Return to list" onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${titleId}'"/>
-       		<c:if test="${(status == 'Review' || status == 'Final') && infoMessage == null && errMessage == null }">
+       		<c:if test="${isOperationAllowed && infoMessage == null && errMessage == null }">
                 <input 
                 	id="removeButton"
 					type="button" 
@@ -65,7 +65,10 @@
 				/>
           	</c:if>
         </div>
-		
+
+		<c:if test="${!isOperationAllowed}">
+			<p>Only books in <b>'Review'</b> or <b>'Final'</b> status can be removed.</p>
+		</c:if>
 		<td>
 				<form:hidden path="titleId"/>
 				<form:hidden path="version"/>

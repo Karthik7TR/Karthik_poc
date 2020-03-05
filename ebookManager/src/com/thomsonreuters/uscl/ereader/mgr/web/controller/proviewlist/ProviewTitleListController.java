@@ -1,23 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
-import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_STATUS;
-import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
-import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
-import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
-
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
@@ -53,6 +35,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
 
 @Slf4j
 @Controller
@@ -147,7 +146,7 @@ public class ProviewTitleListController {
         final Command command = form.getCommand();
         switch (command) {
         case REFRESH:
-            final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+            final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
             final List<ProviewTitleInfo> allLatestProviewTitleInfo =
                 proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
 	        updateLatestUpdateDates(allProviewTitleInfo.keySet(), httpSession);
@@ -219,7 +218,7 @@ public class ProviewTitleListController {
                 Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
                 try {
                     if (allProviewTitleInfo == null) {
-                        allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+                        allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
                         updateLatestUpdateDates(allProviewTitleInfo.keySet(), httpSession);
                         saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
                     }
@@ -267,7 +266,7 @@ public class ProviewTitleListController {
 
         Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
         if (allProviewTitleInfo == null) {
-            allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+            allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
             saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
         }
 
@@ -305,7 +304,7 @@ public class ProviewTitleListController {
         @RequestParam("status") final String status,
         @RequestParam("lastUpdate") final String lastUpdate,
         final Model model) {
-        addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model);
+        addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model, proviewTitleListService::canDelete);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
     }
 
@@ -316,7 +315,7 @@ public class ProviewTitleListController {
         @RequestParam("status") final String status,
         @RequestParam("lastUpdate") final String lastUpdate,
         final Model model) {
-        addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model);
+        addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model, proviewTitleListService::canRemove);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
     }
 
@@ -335,7 +334,7 @@ public class ProviewTitleListController {
         @RequestParam("status") final String status,
         @RequestParam("lastUpdate") final String lastUpdate,
         final Model model) {
-        addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model);
+        addDefaultAttributes(titleId, versionNumber, status, lastUpdate, model, proviewTitleListService::canPromote);
         addGroupInfo(model, titleId);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
     }
@@ -345,10 +344,12 @@ public class ProviewTitleListController {
         final String versionNumber,
         final String status,
         final String lastUpdate,
-        final Model model) {
+        final Model model,
+        final Function<String, Boolean> isOperationAllowed) {
         model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
         model.addAttribute(WebConstants.KEY_STATUS, status);
+        model.addAttribute(WebConstants.KEY_IS_OPERATION_ALLOWED, isOperationAllowed.apply(status));
         model.addAttribute(
             WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
             new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
@@ -447,6 +448,7 @@ public class ProviewTitleListController {
         final TitleAction action, final HttpSession httpSession) {
         final String headTitleId = new TitleId(form.getTitleId()).getHeadTitleId();
         final String version = form.getVersion();
+        final String previousStatus = form.getStatus();
         boolean isJobRunningForBook = isJobRunningForBook(model, headTitleId, version);
         addTitleActionAttributesToModel(model, form);
         TitleActionResult titleActionResult = proviewTitleListService.executeTitleAction(form, action,
@@ -459,7 +461,7 @@ public class ProviewTitleListController {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.getAttributeSuccess());
             }
         }
-        updateTitleStatusesAfterAction(action, titleActionResult, version, httpSession);
+        updateTitleStatusesAfterAction(headTitleId, action, previousStatus, titleActionResult, version, httpSession);
     }
 
     private void addTitleActionAttributesToModel(final Model model, final ProviewTitleForm form) {
@@ -469,31 +471,23 @@ public class ProviewTitleListController {
         model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
     }
 
-    private void updateTitleStatusesAfterAction(final TitleAction action,
-        final TitleActionResult actionResult, final String titleVersion,
+    private void updateTitleStatusesAfterAction(final String headTitleId, final TitleAction action,
+        final String previousStatus, final TitleActionResult actionResult, final String titleVersion,
         final HttpSession httpSession) {
         TitleActionName actionName = action.getActionName();
-        List<String> updatedTitles = actionResult.getUpdatedTitles();
-        if (TitleActionName.PROMOTE.equals(actionName)) {
-            updatedTitles.forEach(title -> changeStatusForTitle(title, titleVersion,
-                httpSession, FINAL_BOOK_STATUS));
-        } else if (TitleActionName.REMOVE.equals(actionName)) {
-            updatedTitles.forEach(title -> changeStatusForTitle(title, titleVersion,
-                httpSession, REMOVED_BOOK_STATUS));
-        } else if (TitleActionName.DELETE.equals(actionName)) {
-            updatedTitles.forEach(title -> {
-                updateProviewTitleInfo(title, titleVersion, httpSession);
-                deleteIsbnIfHeadTitle(title, titleVersion);
-            });
+        OperationResult operationResult = actionResult.getOperationResult();
+        if (TitleActionName.PROMOTE == actionName || TitleActionName.REMOVE == actionName) {
+            changeStatusForTitle(headTitleId, titleVersion, httpSession, actionName.getStatus(operationResult, previousStatus));
+        } else if (TitleActionName.DELETE == actionName) {
+            if (operationResult != OperationResult.SUCCESSFUL) {
+                changeStatusForTitle(headTitleId, titleVersion, httpSession, actionName.getStatus(operationResult, previousStatus));
+            } else {
+                updateProviewTitleInfo(headTitleId, titleVersion, httpSession);
+                versionIsbnService.deleteIsbn(headTitleId, titleVersion);
+            }
         }
     }
 
-    private void deleteIsbnIfHeadTitle(final String title, final String titleVersion) {
-        final String headTitle = new TitleId(title).getHeadTitleId();
-        if (headTitle.equals(title)) {
-            versionIsbnService.deleteIsbn(headTitle, titleVersion);
-        }
-    }
 
     private void updateProviewTitleInfo(final String title, final String version, final HttpSession httpSession) {
         final Map<String, ProviewTitleContainer> proviewTitleContainerMap =

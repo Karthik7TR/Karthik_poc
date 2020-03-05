@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -37,6 +38,8 @@ public class ProviewHandlerImpl implements ProviewHandler {
     private ProviewClient proviewClient;
     @Autowired
     private SupersededProviewHandlerHelper supersededHandler;
+    @Autowired
+    private SplitPartsUniteService splitPartsUniteService;
 
     /*----------------------ProView Group--------------------------*/
 
@@ -160,6 +163,12 @@ public class ProviewHandlerImpl implements ProviewHandler {
         return parser.process(allPublishedTitleResponse);
     }
 
+    @Override
+    public Map<String, ProviewTitleContainer> getTitlesWithUnitedParts() throws ProviewException {
+        Map<String, ProviewTitleContainer> allProviewTitleInfo = getAllProviewTitleInfo();
+        return splitPartsUniteService.getTitlesWithUnitedParts(allProviewTitleInfo);
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -192,16 +201,13 @@ public class ProviewHandlerImpl implements ProviewHandler {
     @Override
     public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(final Map<String, ProviewTitleContainer> titleMap)
         throws ProviewException {
-        final List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<>();
-
-        for (final String bookId : titleMap.keySet()) {
-            final ProviewTitleContainer titleContainer = titleMap.get(bookId);
-            final ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
-            latestVersion.setTotalNumberOfVersions(titleContainer.getProviewTitleInfos().size());
-            allLatestProviewTitles.add(latestVersion);
-        }
-
-        return allLatestProviewTitles;
+        return titleMap.values().stream()
+                .map(titleContainer -> {
+                    ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+                    latestVersion.setTotalNumberOfVersions(titleContainer.getProviewTitleInfos().size());
+                    return latestVersion;
+                })
+                .collect(Collectors.toList());
     }
 
     /*

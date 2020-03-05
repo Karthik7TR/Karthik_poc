@@ -1,5 +1,9 @@
 package com.thomsonreuters.uscl.ereader.core;
 
+import org.mockito.internal.util.collections.Sets;
+
+import java.util.Set;
+
 public class CoreConstants {
     /** The name of the current Novus environment */
     public enum NovusEnvironment {
@@ -27,6 +31,13 @@ public class CoreConstants {
     public static final String FINAL_BOOK_STATUS = "Final";
     public static final String REMOVED_BOOK_STATUS = "Removed";
     public static final String CLEANUP_BOOK_STATUS = "Cleanup";
+
+    public static final String ERROR_SIGN_SOME_PARTS_HAVE_INCONSISTENT_STATUS_OR_ABSENT = "^";
+    public static final String ERROR_SIGN_SOME_PARTS_ARE_IN_FINAL_SOME_IN_REVIEW_STATE = "*";
+
+    public static final Set<String> CAN_DELETE_STATUSES = Sets.newSet(CLEANUP_BOOK_STATUS, REMOVED_BOOK_STATUS);
+    public static final Set<String> CAN_REMOVE_STATUSES = Sets.newSet(REVIEW_BOOK_STATUS, FINAL_BOOK_STATUS);
+    public static final Set<String> CAN_PROMOTE_STATUSES = Sets.newSet(REVIEW_BOOK_STATUS, REVIEW_BOOK_STATUS + ERROR_SIGN_SOME_PARTS_ARE_IN_FINAL_SOME_IN_REVIEW_STATE);
 
     public static final String KEY_SIMPLE_REST_RESPONSE = "simpleResponse";
 
