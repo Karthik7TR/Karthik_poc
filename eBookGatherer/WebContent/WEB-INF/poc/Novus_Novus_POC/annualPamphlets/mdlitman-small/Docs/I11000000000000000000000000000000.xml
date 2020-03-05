@@ -19,6 +19,10 @@
 					</para>
 			</section.body>
 			<?pagebreak label="28"?>
+			Content on page 29<footnote.reference refid="I01a2f010680911e88f4a9c1f64101103">3</footnote.reference>
+			<?pagebreak label="29"?>
+			<?pagebreak label="30"?>
+			<?pagebreak label="31"?>
 		</section>
 		<footnote.block>
 			[Section 1:9]
@@ -42,6 +46,16 @@
                 </footnote.body>
             </footnote>
 			<?pagebreak label="28"?>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101103">
+                <label.designator>3</label.designator>
+                <footnote.body>
+                    <para>
+                        <paratext>section 1:9 footnote on page 29,<?pagebreak label="29"?> on page 30,<?pagebreak label="30"?>and on page 31 
+                        </paratext>
+                    </para>
+                </footnote.body>
+            </footnote>
+			<?pagebreak label="31"?>
 		</footnote.block>
 		<content.metadata.block>
 			<cmd.identifiers>

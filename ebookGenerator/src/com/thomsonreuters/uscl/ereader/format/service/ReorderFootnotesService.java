@@ -68,6 +68,11 @@ public class ReorderFootnotesService {
     private static final String INITIAL_PAGE_LABEL = "extractPageNumbersInitialPageLabel";
     private static final String PARA = "para";
     private static final String PARATEXT = "paratext";
+    public static final String BOP = "bop";
+    public static final String BOS = "bos";
+    public static final String EOP = "eop";
+    public static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
+    public static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
 
     @Autowired
     private JsoupService jsoup;
@@ -104,16 +109,16 @@ public class ReorderFootnotesService {
             final Optional<Element> footnotesBlock = Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
             footnotesBlock.ifPresent(Element::remove);
 
-            convertPageEndsToPageStarts(mainSection, mainPage);
-
             final List<XmlDeclaration> pagebreaksFromMain = getProviewPagebreaks(mainSection);
             if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0) {
                 convertFootnoteReferencesInMainSection(mainSection);
                 convertFootnotes(doc, footnotesBlock);
 
                 final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
-//                TODO: resolve case: pagebreak in the middle of footnote
-//                addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
+                movePagebreakOutOfFootnotes(footnotesSectionToAppend);
+                addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
+                convertPageEndsToPageStarts(mainSection, mainPage);
+                convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage);
                 mainSection.after(footnotesSectionToAppend);
             }
 
@@ -226,7 +231,6 @@ public class ReorderFootnotesService {
         final Document xmlDoc,
         final PagePointer pagePointer) {
         convertPagebreaksToProviewPbs(footnotesTemplate);
-        convertPageEndsToPageStarts(footnotesTemplate, pagePointer);
         convertTopToFootnotesSection(footnotesTemplate);
 
         fillTemplateWithFootnotes(idToFootnote, footnotesTemplate);
@@ -275,6 +279,7 @@ public class ReorderFootnotesService {
     }
 
     private Node convertToHtml(Element element) {
+        boolean converted = true;
         switch(element.tagName()) {
             case FOOTNOTE_BODY_TAG:
                 element.addClass(FOOTNOTE_BODY);
@@ -285,8 +290,16 @@ public class ReorderFootnotesService {
             case PARATEXT:
                 element.addClass(CO_PARAGRAPH_TEXT);
                 break;
+            case BOP:
+            case BOS:
+            case EOP:
+                break;
+            default:
+                converted = false;
         }
-        element.tagName(DIV);
+        if (converted) {
+            element.tagName(DIV);
+        }
 
         element.children().forEach(this::convertToHtml);
 
@@ -353,13 +366,9 @@ public class ReorderFootnotesService {
     }
 
     private void appendPagenumbersToFootnotesSection(final Element footnotesSection, final String fileUuid) {
-        final List<XmlDeclaration> pagebreaks = getProviewPagebreaks(footnotesSection);
-
-        IntStream.range(1, pagebreaks.size()).forEach(index -> {
-            pagebreaks.get(index).before(createPageNumberFootnote(getLabel(pagebreaks.get(index - 1)), fileUuid));
-        });
-
-        footnotesSection.appendChild(createPageNumberFootnote(getLabel(pagebreaks.get(pagebreaks.size() - 1)), fileUuid));
+        getProviewPagebreaks(footnotesSection).forEach(pagebreak ->
+            pagebreak.before(createPageNumberFootnote(getLabel(pagebreak), fileUuid))
+        );
     }
 
     private void convertPageEndsToPageStarts(final Element section, PagePointer pagePointer) {
@@ -374,6 +383,73 @@ public class ReorderFootnotesService {
         });
     }
 
+    private void movePagebreakOutOfFootnotes(final Element footnoteSection) {
+        final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(footnoteSection);
+        pagebreakEnds.forEach(this::movePagebreakOutOfFootnote);
+    }
+
+    private void movePagebreakOutOfFootnote(XmlDeclaration pagebreak) {
+        if (isInsideFootnote(pagebreak)) {
+            Element previousLevel;
+            do {
+                previousLevel = movePagebreakOnUpperLevel(pagebreak);
+            } while (!isFootnote(previousLevel));
+        }
+    }
+
+    private Element movePagebreakOnUpperLevel(XmlDeclaration pagebreak) {
+        Element parent = (Element) pagebreak.parent();
+
+        List<Node> childrenAfterPagebreak = getChildrenAfterPagebreak(pagebreak, parent);
+
+        pagebreak.remove();
+        childrenAfterPagebreak.forEach(Node::remove);
+
+        Element after = generateFootnoteContentTag(parent);
+
+        parent.after(pagebreak);
+        pagebreak.after(after);
+
+        childrenAfterPagebreak.forEach(after::appendChild);
+        return parent;
+    }
+
+    private Element generateFootnoteContentTag(Element base) {
+        if (base.tagName().matches(FOOTNOTE + "|" + FOOTNOTE_BODY_TAG) || base.className().matches(FOOTNOTE_IN_CLASS_REG)) {
+            return new Element(DIV);
+        }
+        return base.shallowClone();
+    }
+
+    @NotNull
+    private List<Node> getChildrenAfterPagebreak(XmlDeclaration pagebreak, Element parent) {
+        List<Node> childrenAfterPagebreak = new ArrayList<>();
+
+        boolean beforePagebreak = true;
+        for (Node child : parent.childNodes()) {
+            if (child.equals(pagebreak)) {
+                beforePagebreak = false;
+                continue;
+            }
+            if (!beforePagebreak) {
+                childrenAfterPagebreak.add(child);
+            }
+        }
+        return childrenAfterPagebreak;
+    }
+
+    private boolean isInsideFootnote(XmlDeclaration pagebreak) {
+        if (pagebreak.hasParent()) {
+            Element parent = (Element) pagebreak.parent();
+            return isFootnote(parent) || parent.parents().stream().anyMatch(this::isFootnote);
+        }
+        return false;
+    }
+
+    private boolean isFootnote(Element element) {
+        return FOOTNOTE.equals(element.tagName()) || element.className().matches(TR_FOOTNOTE_CLASS_REG);
+    }
+
     private Element createPageNumberFootnote(final String label, final String fileUuid) {
         return Jsoup.parse(prepareHtmlFromTemplate(pageNumberFootnoteTemplate, label, fileUuid)).selectFirst(TR_FOOTNOTE_CLASS);
     }
@@ -386,7 +462,7 @@ public class ReorderFootnotesService {
     private void addPageReferencesInMainSection(final Element mainSection, final String fileUuid) {
         getProviewPagebreaks(mainSection)
             .forEach(pagebreak ->
-                pagebreak.after(prepareHtmlFromTemplate(PAGE_NUMBER_REFERENCE_TEMPLATE, getLabel(pagebreak), fileUuid))
+                pagebreak.before(prepareHtmlFromTemplate(PAGE_NUMBER_REFERENCE_TEMPLATE, getLabel(pagebreak), fileUuid))
             );
     }
 
