@@ -600,6 +600,10 @@ $(document).ready(function() {
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 		<c:set var="superUser" value=""/>
 	</sec:authorize>
+	<c:set var="editGroup" value="disabled"/>
+	<sec:authorize access="hasAnyRole('ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
+		<c:set var="editGroup" value=""/>
+	</sec:authorize>
 	<c:set var="generateButtonDisable" value=""/>
 	<c:if test="${form.generateButtonDisabled}">
 		<c:set var="generateButtonDisable" value="disabled"/>
@@ -619,7 +623,7 @@ $(document).ready(function() {
 						</c:if>
 						<input id="copy" type="submit" ${copyGenerateBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
 						<input id="generate" type="submit" ${generateButtonDisable} ${copyGenerateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
-						<input id="createEdit" type="submit" ${superUser} value="Create/Edit Group" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GROUP%>')"/>
+						<input id="createEdit" type="submit" ${editGroup} value="Create/Edit Group" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GROUP%>')"/>
 						<input id="delete" type="submit" ${superUser} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 					</c:when>
 					<c:otherwise>

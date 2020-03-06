@@ -57,7 +57,6 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
                          "/adminQualityReportsView*",
                          "/adminDocTypeMetricView.mvc",
                          "/adminDocTypeMetricEdit*",
-                         "/proviewGroupDefinitionEdit.mvc",
                          "/proviewTitleRemove*",
                          "/proviewTitleDelete*")
             .hasRole("SUPERUSER")
@@ -77,7 +76,8 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
             .hasAnyRole("PUBLISHER", "PUBLISHER_PLUS", "SUPERUSER")
 
             .antMatchers("/proviewTitlePromote*",
-                         "/" + WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED)
+                    "/proviewGroupDefinitionEdit.mvc",
+                    "/" + WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED)
             .hasAnyRole("PUBLISHER_PLUS", "SUPERUSER")
 
             .antMatchers("/bookDefinitionEdit.mvc")

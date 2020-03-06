@@ -9,13 +9,13 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm"%>
 
 <%-- Check if user has Super User role --%>
-<c:set var="onlySuperUser" value="false"/>
-<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-	<c:set var="onlySuperUser" value="true"/>
+<c:set var="onlySuperUserAndPublisherPlus" value="false"/>
+<sec:authorize access="hasAnyRole('ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
+	<c:set var="onlySuperUserAndPublisherPlus" value="true"/>
 </sec:authorize>
 
-<%-- Group create/edit section only Super User can access --%>
-<c:if test="${onlySuperUser}">
+<%-- Group create/edit section only Super User or ROLE_PUBLISHER_PLUS can access --%>
+<c:if test="${onlySuperUserAndPublisherPlus}">
 	<%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
 	<c:choose>
 		<%-- Error Messages area --%>
