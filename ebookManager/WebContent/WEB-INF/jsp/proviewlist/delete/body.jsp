@@ -60,10 +60,10 @@
 		</tr>
 		</table>
 
-		
-        <div class="buttons">
+		<c:set var="isEmptyMessages" value="${infoMessage == null && errMessage == null}"/>
+		<div class="buttons">
        		<input id="returnToList" type="button" value="Return to list" onclick="location.href='<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${titleId}'"/>
-       		<c:if test="${isOperationAllowed && infoMessage == null && errMessage == null }">
+       		<c:if test="${isOperationAllowed && isEmptyMessages}">
                 <input 
                 	id="deleteButton"
 					type="button" 
@@ -73,7 +73,7 @@
           	</c:if>
         </div>
 
-		<c:if test="${!isOperationAllowed}">
+		<c:if test="${!isOperationAllowed && isEmptyMessages}">
             <p>Only books in <b>'Removed'</b> or  <b>'Cleanup'</b> status can be deleted.</p>
 		</c:if>
 		
