@@ -30,6 +30,7 @@ public final class ProviewListExcelExportServiceTest {
         title.setTitle("");
         title.setTitleId("");
         title.setTotalNumberOfVersions(2);
+        title.setSplitParts(1);
         title.setVersion("");
         title.setStatus("");
         title.setPublisher("");
@@ -46,6 +47,7 @@ public final class ProviewListExcelExportServiceTest {
     public void testMaxExcelRows() {
         final ProviewTitleInfo title = new ProviewTitleInfo();
         title.setTotalNumberOfVersions(1);
+        title.setSplitParts(1);
         final List<ProviewTitleInfo> titles = new ArrayList<>();
 
         for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++) {

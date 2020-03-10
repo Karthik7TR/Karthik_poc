@@ -199,9 +199,10 @@ public class GenerateEbookController {
                 WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
                 UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
         }
+        final SecurityRole[] superUserPublisherPlusRoles = {SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS};
         model.addAttribute(
-            WebConstants.KEY_SUPER_USER_ONLY,
-            UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
+            WebConstants.KEY_SUPER_PUBLISHER_PLUS,
+            UserUtils.isUserInRole(superUserPublisherPlusRoles) ? "" : "disabled=\"disabled\"");
 
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);

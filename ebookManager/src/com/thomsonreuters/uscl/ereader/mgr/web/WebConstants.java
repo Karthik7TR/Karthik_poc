@@ -80,7 +80,7 @@ public class WebConstants {
     public static final String KEY_DISPLAY_OUTAGE = "displayOutage";
     public static final String KEY_IS_PUBLISHED = "isPublished";
     public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
-    public static final String KEY_SUPER_USER_ONLY = "superUserVisibility";
+    public static final String KEY_SUPER_PUBLISHER_PLUS = "superUserPublisherPlusVisibility";
     public static final String KEY_IS_IN_JOB_REQUEST = "isInJobRequest";
     public static final String KEY_VERSION_NUMBER = "versionNumber";
     public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
