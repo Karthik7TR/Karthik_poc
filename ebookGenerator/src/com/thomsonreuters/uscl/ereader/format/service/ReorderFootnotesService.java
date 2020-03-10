@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
@@ -102,49 +101,60 @@ public class ReorderFootnotesService {
         final PagePointer mainPage = new PagePointer(pageNumbers);
         final PagePointer footnotePage = new PagePointer(pageNumbers);
 
-        srcFilesOrdered.forEach(file -> {
-            final Document doc = jsoup.loadDocument(file);
-            final String fileUuid = FilenameUtils.removeExtension(file.getName());
-            final Element mainSection = doc.selectFirst(SECTION);
-            final Optional<Element> footnotesBlock = Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
-            footnotesBlock.ifPresent(Element::remove);
+        srcFilesOrdered.forEach(file ->
+            processDocument(destDir, nameToXmlFile, mainPage, footnotePage, file)
+        );
+        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir);
+    }
 
-            final List<XmlDeclaration> pagebreaksFromMain = getProviewPagebreaks(mainSection);
-            if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0) {
-                convertFootnoteReferencesInMainSection(mainSection);
-                convertFootnotes(doc, footnotesBlock);
+    private void processDocument(final File destDir, final Map<String, File> nameToXmlFile, final PagePointer mainPage, final PagePointer footnotePage, final File file) {
+        final Document doc = jsoup.loadDocument(file);
+        final String fileUuid = FilenameUtils.removeExtension(file.getName());
+        final Element mainSection = doc.selectFirst(SECTION);
+        final Optional<Element> footnotesBlock = Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
+        mainPage.nextDocument();
+        footnotePage.nextDocument();
 
-                final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
-                movePagebreakOutOfFootnotes(footnotesSectionToAppend);
-                addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
-                convertPageEndsToPageStarts(mainSection, mainPage);
-                convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage);
-                mainSection.after(footnotesSectionToAppend);
-            }
+        footnotesBlock.ifPresent(Element::remove);
 
-            doc.getElementsByClass(CO_DIVIDER).remove();
-            doc.getElementsByClass(CO_COPYRIGHT).remove();
-            doc.getElementById(CO_END_OF_DOCUMENT).remove();
+        final List<XmlDeclaration> pagebreaksFromMain = getProviewPagebreaks(mainSection);
+        if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0) {
+            convertFootnoteReferencesInMainSection(mainSection);
+            convertFootnotes(doc, footnotesBlock);
 
-            jsoup.saveDocument(destDir, file.getName(), doc);
+            final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
+            movePagebreakOutOfFootnotes(footnotesSectionToAppend);
+            addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
+            convertPageEndsToPageStarts(mainSection, mainPage);
+            convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage);
+            mainSection.after(footnotesSectionToAppend);
+        }
+
+        doc.getElementsByClass(CO_DIVIDER).remove();
+        doc.getElementsByClass(CO_COPYRIGHT).remove();
+        remove(doc.getElementById(CO_END_OF_DOCUMENT));
+
+        jsoup.saveDocument(destDir, file.getName(), doc);
+    }
+
+    private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir) {
+        List<File> auxiliaryFiles = getAuxiliaryFiles(srcDir, processedFiles);
+        auxiliaryFiles.forEach(file -> {
+            Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
+            final PagePointer mainPage = new PagePointer(pageNumbers);
+            final PagePointer footnotePage = new PagePointer(pageNumbers);
+            processDocument(destDir, Collections.emptyMap(), mainPage, footnotePage, file);
         });
-
-        copyAuxiliaryFiles(srcDir, srcFilesOrdered, destDir);
     }
 
-    private void copyAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir) throws IOException {
+    private List<File> getAuxiliaryFiles(final File srcDir, final List<File> processedFiles) {
         Set<File> processed = new HashSet<>(processedFiles);
-        Arrays.stream(Objects.requireNonNull(srcDir.listFiles()))
+        return Arrays.stream(Objects.requireNonNull(srcDir.listFiles()))
                 .filter(file -> !processed.contains(file))
-                .forEach(file -> copy(file, destDir));
+                .collect(Collectors.toList());
     }
 
-    @SneakyThrows
-    private void copy(final File srcFile, final File destDir) {
-        FileUtils.copyFileToDirectory(srcFile, destDir);
-    }
-
-    private Map<String, String> extractPageNumbers(List<File> srcFilesOrdered) {
+    private Map<String, String> extractPageNumbers(final List<File> srcFilesOrdered) {
         Map<String, String> pageNumbers = new HashMap<>();
         String pagebreakPrevious = INITIAL_PAGE_LABEL;
         for (File file : srcFilesOrdered) {
@@ -165,7 +175,7 @@ public class ReorderFootnotesService {
     }
 
     @NotNull
-    private Map<String, File> getNameFileMap(File dir) {
+    private Map<String, File> getNameFileMap(final File dir) {
         return Stream.of(Objects.requireNonNull(dir.listFiles()))
                 .collect(Collectors.toMap(file -> FilenameUtils.removeExtension(file.getName()), Function.identity()));
     }
@@ -278,7 +288,7 @@ public class ReorderFootnotesService {
             });
     }
 
-    private Node convertToHtml(Element element) {
+    private Node convertToHtml(final Element element) {
         boolean converted = true;
         switch(element.tagName()) {
             case FOOTNOTE_BODY_TAG:
@@ -371,12 +381,16 @@ public class ReorderFootnotesService {
         );
     }
 
-    private void convertPageEndsToPageStarts(final Element section, PagePointer pagePointer) {
+    private void convertPageEndsToPageStarts(final Element section, final PagePointer pagePointer) {
         final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(section);
+
+        if(pagePointer.isStartDocument()) {
+            section.prependChild(createPagebreak(pagePointer.firstPage()));
+        }
 
         pagebreakEnds.forEach(pagebreakEnd -> {
             pagePointer.setCurrentPage(getLabel(pagebreakEnd));
-            if (pagePointer.hasNext()) {
+            if (pagePointer.hasNextPage()) {
                 pagebreakEnd.after(createPagebreak(pagePointer.nextPage()));
             }
             pagebreakEnd.remove();
@@ -388,7 +402,7 @@ public class ReorderFootnotesService {
         pagebreakEnds.forEach(this::movePagebreakOutOfFootnote);
     }
 
-    private void movePagebreakOutOfFootnote(XmlDeclaration pagebreak) {
+    private void movePagebreakOutOfFootnote(final XmlDeclaration pagebreak) {
         if (isInsideFootnote(pagebreak)) {
             Element previousLevel;
             do {
@@ -397,7 +411,7 @@ public class ReorderFootnotesService {
         }
     }
 
-    private Element movePagebreakOnUpperLevel(XmlDeclaration pagebreak) {
+    private Element movePagebreakOnUpperLevel(final XmlDeclaration pagebreak) {
         Element parent = (Element) pagebreak.parent();
 
         List<Node> childrenAfterPagebreak = getChildrenAfterPagebreak(pagebreak, parent);
@@ -414,7 +428,7 @@ public class ReorderFootnotesService {
         return parent;
     }
 
-    private Element generateFootnoteContentTag(Element base) {
+    private Element generateFootnoteContentTag(final Element base) {
         if (base.tagName().matches(FOOTNOTE + "|" + FOOTNOTE_BODY_TAG) || base.className().matches(FOOTNOTE_IN_CLASS_REG)) {
             return new Element(DIV);
         }
@@ -422,7 +436,7 @@ public class ReorderFootnotesService {
     }
 
     @NotNull
-    private List<Node> getChildrenAfterPagebreak(XmlDeclaration pagebreak, Element parent) {
+    private List<Node> getChildrenAfterPagebreak(final XmlDeclaration pagebreak, final Element parent) {
         List<Node> childrenAfterPagebreak = new ArrayList<>();
 
         boolean beforePagebreak = true;
@@ -438,7 +452,7 @@ public class ReorderFootnotesService {
         return childrenAfterPagebreak;
     }
 
-    private boolean isInsideFootnote(XmlDeclaration pagebreak) {
+    private boolean isInsideFootnote(final XmlDeclaration pagebreak) {
         if (pagebreak.hasParent()) {
             Element parent = (Element) pagebreak.parent();
             return isFootnote(parent) || parent.parents().stream().anyMatch(this::isFootnote);
@@ -446,7 +460,7 @@ public class ReorderFootnotesService {
         return false;
     }
 
-    private boolean isFootnote(Element element) {
+    private boolean isFootnote(final Element element) {
         return FOOTNOTE.equals(element.tagName()) || element.className().matches(TR_FOOTNOTE_CLASS_REG);
     }
 
@@ -482,19 +496,38 @@ public class ReorderFootnotesService {
     private List<XmlDeclaration> getProviewPagebreaks(final Element element) {
         return jsoup.selectXmlProcessingInstructions(element, PB);
     }
+    
+    private void remove(final Element element) {
+        if (Objects.nonNull(element)) {
+            element.remove();
+        }
+    }
 
     @Data
     @RequiredArgsConstructor
     private static class PagePointer {
         private final Map<String, String> pageNumbers;
         private String currentPage = INITIAL_PAGE_LABEL;
+        private String initialPageInCurrentDocument = INITIAL_PAGE_LABEL;
 
         public String nextPage() {
             return pageNumbers.get(currentPage);
         }
 
-        public boolean hasNext() {
+        public String firstPage() {
+            return pageNumbers.get(INITIAL_PAGE_LABEL);
+        }
+
+        public boolean hasNextPage() {
             return pageNumbers.containsKey(currentPage);
+        }
+
+        public void nextDocument() {
+            initialPageInCurrentDocument = currentPage;
+        }
+
+        public boolean isStartDocument() {
+            return INITIAL_PAGE_LABEL.equals(initialPageInCurrentDocument);
         }
     }
 }
