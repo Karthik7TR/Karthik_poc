@@ -172,6 +172,24 @@ public final class JobSummaryControllerTest {
     }
 
     @Test
+    @SneakyThrows
+    public void testIncorrectPageNumber() {
+        // Set up the request URL
+        final String newPageNumber = "0";
+        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("page", newPageNumber);
+        final HttpSession session = request.getSession();
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        assertNotNull(mav);
+        assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
+        final Map<String, Object> model = mav.getModel();
+        validateModel(session, model);
+    }
+
+    @Test
     public void testJobSummarySorting() throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);

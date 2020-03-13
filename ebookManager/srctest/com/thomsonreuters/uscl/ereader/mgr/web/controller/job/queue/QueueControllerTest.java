@@ -121,6 +121,18 @@ public final class QueueControllerTest {
     }
 
     @Test
+    public void testIncorrectPageNumber() throws Exception {
+        final String nextPageNumber = "0";
+        request.setRequestURI(JOB_QUEUE_PAGE_AND_SORT_URI);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(PAGE, nextPageNumber);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        commonAssertions(mav);
+    }
+
+    @Test
     public void testDefaultViewOnWrongPageNumber() throws Exception {
 
         request.setRequestURI(JOB_QUEUE_URI);

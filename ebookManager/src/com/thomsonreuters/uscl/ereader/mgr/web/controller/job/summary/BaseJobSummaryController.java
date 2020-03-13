@@ -112,9 +112,11 @@ public abstract class BaseJobSummaryController {
         final List<Long> jobExecutionIds,
         final PageAndSort<DisplayTagSortProperty> pageAndSort) {
         // Calculate begin and end index for the current page number
-        final int fromIndex = (pageAndSort.getPageNumber() - 1) * pageAndSort.getObjectsPerPage();
-        int toIndex = fromIndex + pageAndSort.getObjectsPerPage();
-        toIndex = (toIndex < jobExecutionIds.size()) ? toIndex : jobExecutionIds.size();
+        int fromIndex = (pageAndSort.getPageNumber() - 1) * pageAndSort.getObjectsPerPage();
+        if (fromIndex >= jobExecutionIds.size() || fromIndex < 0) {
+            fromIndex = 0;
+        }
+        final int toIndex = Math.min(fromIndex + pageAndSort.getObjectsPerPage(), jobExecutionIds.size());
 
         // Get the subset of jobExecutionIds that will be displayed on the current page
         final List<Long> jobExecutionIdSubList = jobExecutionIds.subList(fromIndex, toIndex);
