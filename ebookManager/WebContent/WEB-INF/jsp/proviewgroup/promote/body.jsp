@@ -47,6 +47,9 @@
 				<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
 				<form:hidden path="groupName" value="${groupName}"/>
 				<form:hidden path="groupOperation" value="${groupOperation}"/>
+				<c:forEach var="member" items="${proviewGroupListFilterForm.groupMembers}">
+					<input name="groupMembers" type="hidden" value="${member}"/>
+				</c:forEach>
 		</td>
 		
 		<table>
@@ -84,7 +87,6 @@
 					<c:when test="${showSubgroup}">
 					
 						<display:column title="Subgroup Name" property="subGroupName" />
-					
 						<c:set var="values" value="${groupDetail.titleIdList}" />
 						<display:column title="Title ID" style="text-align: left">
 							<table class="displayTagTable">

@@ -31,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.easymock.EasyMock;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -45,8 +46,10 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 public final class ProviewGroupListControllerTest {
     private static final String TITLE_ID = "titleId";
     private static final String TITLE_VERSION = "v1.1";
+    private static final String TITLE_VERSION_2 = "v2.1";
     private static final String GROUP_ID = "groupId";
     private static final String GROUP_VERSION = "2";
+    private static final String REVIEW_STATUS = "Review";
     private static final String REMOVE_STATUS = "Remove";
 
     private ProviewGroupListController controller;
@@ -435,6 +438,7 @@ public final class ProviewGroupListControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE);
         checkGroupStatus(httpSession, GROUP_ID, CoreConstants.REVIEW_BOOK_STATUS);
+        checkModelAttributes(mav);
     }
 
     /**
@@ -463,6 +467,7 @@ public final class ProviewGroupListControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE);
         checkGroupStatus(httpSession, GROUP_ID, CoreConstants.FINAL_BOOK_STATUS);
+        checkModelAttributes(mav);
     }
 
     /**
@@ -493,6 +498,7 @@ public final class ProviewGroupListControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_REMOVE);
         checkGroupStatus(httpSession, GROUP_ID, CoreConstants.REVIEW_BOOK_STATUS);
+        checkModelAttributes(mav);
     }
 
     @Test
@@ -517,6 +523,14 @@ public final class ProviewGroupListControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_REMOVE);
         checkGroupStatus(httpSession, GROUP_ID, REMOVE_STATUS);
+        checkModelAttributes(mav);
+    }
+
+    private void checkModelAttributes(final ModelAndView mav) {
+        final List<GroupDetails> subgroups = (List<GroupDetails>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST);
+        Assert.assertEquals(2, subgroups.size());
+        Assert.assertEquals(TITLE_ID + "/" + TITLE_VERSION, subgroups.get(0).getTitleIdListWithVersion().get(0));
+        Assert.assertEquals(TITLE_ID + "/" + TITLE_VERSION_2, subgroups.get(1).getTitleIdListWithVersion().get(0));
     }
 
     /**
@@ -578,6 +592,8 @@ public final class ProviewGroupListControllerTest {
         selectedProviewGroups = Collections.singletonList(group);
         httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, proviewGroups);
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroups);
+
+        httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, getGroupDetails());
     }
 
     @SuppressWarnings({"unchecked", "SameParameterValue"})
@@ -608,5 +624,33 @@ public final class ProviewGroupListControllerTest {
     private void setGroupRequestParameters() {
         request.setParameter("proviewGroupID", GROUP_ID);
         request.setParameter("GroupVersion", GROUP_VERSION);
+
+        request.addParameter("groupMembers", TITLE_ID + "/" + TITLE_VERSION);
+        request.addParameter("groupMembers", TITLE_ID + "/" + TITLE_VERSION_2);
+    }
+
+    @NotNull
+    private List<GroupDetails> getGroupDetails() {
+        GroupDetails subgroup = getSubgroup(TITLE_VERSION);
+        GroupDetails subgroup2 = getSubgroup(TITLE_VERSION_2);
+        return Arrays.asList(subgroup, subgroup2);
+    }
+
+    @NotNull
+    private GroupDetails getSubgroup(final String titleVersion) {
+        GroupDetails subgroup = new GroupDetails();
+        subgroup.setId(TITLE_ID);
+        subgroup.setBookVersion(titleVersion);
+        subgroup.setTitleIdList(Collections.singletonList(getProviewTitleInfo(titleVersion)));
+        return subgroup;
+    }
+
+    @NotNull
+    private ProviewTitleInfo getProviewTitleInfo(final String titleVersion) {
+        ProviewTitleInfo proviewTitleInfo = new ProviewTitleInfo();
+        proviewTitleInfo.setTitleId(TITLE_ID);
+        proviewTitleInfo.setVersion(titleVersion);
+        proviewTitleInfo.setStatus(REVIEW_STATUS);
+        return proviewTitleInfo;
     }
 }

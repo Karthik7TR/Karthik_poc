@@ -43,11 +43,13 @@
 		<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
 		<form:hidden path="groupVersion" value="${groupVersion}"/>
 		<form:hidden path="groupIds" value="${groupIds}"/>
-		<form:hidden path="groupMembers" value="${groupMembers}"/>
 		<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
 		<form:hidden path="groupName" value="${groupName}"/>
 		<form:hidden path="groupOperation" value="${groupOperation}"/>
-		
+		<c:forEach var="member" items="${proviewGroupListFilterForm.groupMembers}">
+			<input name="groupMembers" type="hidden" value="${member}"/>
+		</c:forEach>
+
 		<table>
 			<c:choose>
 				<c:when test="${proviewGroupListFilterForm.groupOperation}">

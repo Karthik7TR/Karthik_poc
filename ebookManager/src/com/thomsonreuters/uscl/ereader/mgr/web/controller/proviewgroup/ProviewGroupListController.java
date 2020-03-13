@@ -50,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -499,23 +500,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
         if (!errors.hasErrors()) {
             final GroupCmd command = form.getGroupCmd();
-            final List<GroupDetails> groupDetails = new ArrayList<>();
-            final List<String> groupIds = new ArrayList<>();
-            for (final String id : ((form.getGroupMembers() == null) ? groupIds : form.getGroupMembers())) {
-                for (final GroupDetails subgroup : fetchPaginatedList(httpSession)) {
-                    if (subgroup.getIdWithVersion().equals(id)) {
-                        groupDetails.add(subgroup);
-                        if (subgroup.getTitleId() == null) {
-                            groupIds.add(subgroup.getTitleIdListWithVersion().toString());
-                        } else {
-                            groupIds.add(Arrays.toString(subgroup.getTitleIdWithVersionArray()));
-                        }
-                        break;
-                    }
-                }
-            }
-            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, groupDetails);
-            form.setGroupIds(groupIds);
+
+            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, getGroupDetails(httpSession, form));
+
             if (form.getGroupMembers() != null && !form.getGroupMembers().isEmpty()) {
                 model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
                 model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
@@ -557,6 +544,26 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
         model.addAttribute(WebConstants.KEY_GROUP_VERSION, httpSession.getAttribute(WebConstants.KEY_GROUP_VERSION));
         return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
+    }
+
+    @NotNull
+    private List<GroupDetails> getGroupDetails(final HttpSession httpSession, final ProviewGroupListFilterForm form) {
+        final List<GroupDetails> groupDetails = new ArrayList<>();
+        final List<String> groupIds = new ArrayList<>();
+        form.setGroupIds(groupIds);
+        Optional.ofNullable(form.getGroupMembers()).ifPresent(list -> list.forEach(id ->
+            fetchPaginatedList(httpSession).stream()
+                    .filter(subgroup -> subgroup.getIdWithVersion().equals(id))
+                    .forEach(subgroup -> {
+                        groupDetails.add(subgroup);
+                        if (subgroup.getTitleId() == null) {
+                            groupIds.add(subgroup.getTitleIdListWithVersion().toString());
+                        } else {
+                            groupIds.add(Arrays.toString(subgroup.getTitleIdWithVersionArray()));
+                        }
+                    })
+        ));
+        return groupDetails;
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE, method = RequestMethod.POST)
@@ -626,6 +633,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             sendEmail(String.format(emailSubject, UNSUCCESSFUL, form.getGroupName()), emailBody);
             log.error(e.getMessage(), e);
         }
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, getGroupDetails(httpSession, form));
     }
 
     private void sendEmail(final String subject, final String body) {
