@@ -182,9 +182,11 @@ public final class JobSummaryControllerTest {
         final HttpSession session = request.getSession();
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
+        final PageAndSort<DisplayTagSortProperty> pageAndSort =
+                (PageAndSort<DisplayTagSortProperty>) session.getAttribute(PageAndSort.class.getName());
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
+        assertEquals(1, pageAndSort.getPageNumber().intValue());
         final Map<String, Object> model = mav.getModel();
         validateModel(session, model);
     }

@@ -108,8 +108,13 @@ public class JobSummaryController extends BaseJobSummaryController {
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.
         if (nextPageNumber != null) { // PAGING
-            pageAndSort.setPageNumber(nextPageNumber);
             jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
+            final int fromIndex = (nextPageNumber - 1) * pageAndSort.getObjectsPerPage();
+            if (fromIndex >= jobExecutionIds.size() || fromIndex < 0) {
+                pageAndSort.setPageNumber(1);
+            } else {
+                pageAndSort.setPageNumber(nextPageNumber);
+            }
         } else if (form.getSort() != null) { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
