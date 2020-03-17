@@ -14,13 +14,13 @@ import org.springframework.security.ldap.authentication.LdapAuthenticationProvid
 @EnableWebSecurity
 public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private LdapAuthenticationProvider ldsLdapAuthenticationProvider;
+    private LdapAuthenticationProvider vdsLdapAuthenticationProvider;
     @Autowired
     private AuthenticationProvider testingAuthenticationProvider;
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(ldsLdapAuthenticationProvider)
+        auth.authenticationProvider(vdsLdapAuthenticationProvider)
             .authenticationProvider(testingAuthenticationProvider);
     }
 
