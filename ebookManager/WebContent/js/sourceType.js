@@ -176,6 +176,7 @@ $(function() {
 			$("#displaySplitDocument").hide();
 		} else {
 			$("#displayFILE").show();
+			$(".cwbHideClass").css("display","none");
 			$("#rootTocGuid").val("");
 			$("#tocCollectionName").val("");
 			$("#docCollectionName").val("");

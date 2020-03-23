@@ -10,6 +10,7 @@
 
 <script type="text/javascript" src="js/create-book.js"></script>
 <script type="text/javascript" src="js/book/definition/view.js"></script>
+<script type="text/javascript" src="js/book/book-fields.js"></script>
 <script>
 function submitForm(cmd)
 {
@@ -18,11 +19,7 @@ function submitForm(cmd)
 	return true;
 };
 $(document).ready(function() {
-	if(${ book.sourceType == 'XPP' } == true) {
-		$(".xppHideClass").css("display","none");
-	} else {
-		$(".xppHideClass").css("display","block");
-	}
+	hideFields("${ book.sourceType }");
 });
 </script>
 
@@ -244,7 +241,7 @@ $(document).ready(function() {
 						<label class="labelCol">Publication Cut-off Date</label>
 						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
 					</div>
-					<div class="row" ${xppHide}>
+					<div class="row xppHideClass cwbHideClass">
 						<label class="labelCol">Novus Stage</label>
 						<span class="field">
 							<c:choose>
