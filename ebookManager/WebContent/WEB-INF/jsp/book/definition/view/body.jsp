@@ -237,6 +237,10 @@ $(document).ready(function() {
 					</c:otherwise>
 					</c:choose>
 					<div class="row">
+						<label class="labelCol">eLooseleafs Enabled</label>
+						<span class="field">${ book.ELooseleafsEnabled }</span>
+					</div>
+					<div class="row">
 						<label class="labelCol">KeyCite Topline Flag</label>
 						<span class="field">${ book.keyciteToplineFlag }</span>
 					</div>

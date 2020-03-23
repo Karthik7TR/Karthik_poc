@@ -149,6 +149,9 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private String currency;
 
+    @Column(name = "ELOOSELEAFS_ENABLED")
+    private String eLooseleafsEnabled;
+
     @Column(name = "KEYCITE_TOPLINE_FLAG", length = 1)
     @Basic(fetch = FetchType.EAGER)
     private String keyciteToplineFlag;
@@ -386,6 +389,14 @@ public class EbookAudit implements Serializable {
         return isEqualsYes(isTocFlag);
     }
 
+    public void setIsELooseleafsEnabled(final boolean isELooseleafsEnabled) {
+        this.eLooseleafsEnabled = getStringForBooleanValue(isELooseleafsEnabled);
+    }
+
+    public boolean isELooseleafsEnabled() {
+        return isEqualsYes(eLooseleafsEnabled);
+    }
+
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
         this.keyciteToplineFlag = getStringForBooleanValue(keyciteToplineFlag);
     }
@@ -462,6 +473,7 @@ public class EbookAudit implements Serializable {
         setPublishDateText(that.getPublishDateText());
         setPublisherCodesId(that.getPublisherCodesId());
         setCurrency(that.getCurrency());
+        setIsELooseleafsEnabled(that.isELooseleafsEnabled());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());
         setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
         setSearchIndexFlag(that.getSearchIndexFlag());
@@ -543,6 +555,7 @@ public class EbookAudit implements Serializable {
         setPublishDateText(that.getPublishDateText());
         setPublisherCodesId(that.getPublisherCodes().getId());
         setCurrency(that.getCurrency());
+        setIsELooseleafsEnabled(that.isELooseleafsEnabled());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());
         setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
         setSearchIndexFlag(that.getSearchIndexFlag());
@@ -639,6 +652,7 @@ public class EbookAudit implements Serializable {
         buffer.append("publishDateText=[").append(publishDateText).append("] ");
         buffer.append("publisherCodesId=[").append(publisherCodesId).append("] ");
         buffer.append("currency=[").append(currency).append("] ");
+        buffer.append("eLooseleafsEnabled=[").append(eLooseleafsEnabled).append("] ");
         buffer.append("keyciteToplineFlag=[").append(keyciteToplineFlag).append("] ");
         buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
         buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");
