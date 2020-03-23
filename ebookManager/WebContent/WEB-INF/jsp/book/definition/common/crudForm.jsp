@@ -475,7 +475,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="displayFinalStage" class="row xppHideClass">
+			<div id="displayFinalStage" class="row xppHideClass cwbHideClass">
 				<form:label path="finalStage" class="labelCol">Novus Stage</form:label>
 				<form:radiobutton path="finalStage" value="true" />Final
 				<form:radiobutton path="finalStage" value="false" />Review

@@ -11,6 +11,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
+  <script type="text/javascript" src="js/book/book-fields.js"></script>
   <script type="text/javascript">
 
   const VERSION_TYPE = {
@@ -198,6 +199,7 @@
 	}
 
 $(document).ready(function() {
+	hideFields("${ book.sourceType }");
 })
   </script>
 
@@ -249,7 +251,7 @@ $(document).ready(function() {
 		  	<td>ProView Version New:</td>
 		  	<td id="newVersionNumber"></td>
 		  </tr>
-		  <tr>
+		  <tr class="cwbHideClass">
 		  	<td>Novus Stage:</td>
 		  	<td>
 		  		<c:choose>
