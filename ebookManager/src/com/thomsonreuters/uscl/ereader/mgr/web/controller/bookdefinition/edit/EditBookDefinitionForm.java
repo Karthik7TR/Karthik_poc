@@ -120,6 +120,8 @@ public class EditBookDefinitionForm {
     private String codesWorkbenchBookName;
     @Getter @Setter
     private SourceType sourceType = SourceType.NORT;
+    @Getter @Setter
+    private boolean isELooseleafsEnabled;
 
     @Getter @Setter
     private boolean isFinalStage = true;
@@ -327,6 +329,7 @@ public class EditBookDefinitionForm {
             frontMatters = book.getFrontMatterPages();
             publishDateText = book.getPublishDateText();
             currency = book.getCurrency();
+            isELooseleafsEnabled = book.isELooseleafsEnabled();
             notes = book.getNotes();
             isComplete = book.getEbookDefinitionCompleteFlag();
             keyCiteToplineFlag = book.getKeyciteToplineFlag();
@@ -511,6 +514,7 @@ public class EditBookDefinitionForm {
         book.setCopyright(copyright);
         book.setCopyrightPageText(copyrightPageText);
         book.setCurrency(currency);
+        book.setELooseleafsEnabled(isELooseleafsEnabled);
         book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
 
         final DocumentTypeCode dtc = new DocumentTypeCode();

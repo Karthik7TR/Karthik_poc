@@ -60,8 +60,9 @@ import org.hibernate.annotations.CascadeType;
 @ToString(includeFieldNames = true, of = {"ebookDefinitionId", "fullyQualifiedTitleId", "proviewDisplayName", "copyright", "copyrightPageText",
                                           "materialId", "isTocFlag", "rootTocGuid", "docCollectionName", "tocCollectionName",
                                           "nortDomain", "nortFilterView", "coverImage", "isbn", "publishDateText",
-                                          "currency", "isProviewTableViewFlag", "keyciteToplineFlag", "autoUpdateSupportFlag", "searchIndexFlag",
-                                          "onePassSsoLinkFlag", "publishCutoffDate", "ebookDefinitionCompleteFlag", "publishedOnceFlag", "isDeletedFlag",
+                                          "currency", "isProviewTableViewFlag", "eLooseleafsEnabled", "keyciteToplineFlag",
+                                          "autoUpdateSupportFlag", "searchIndexFlag", "onePassSsoLinkFlag", "publishCutoffDate",
+                                          "ebookDefinitionCompleteFlag", "publishedOnceFlag", "isDeletedFlag",
                                           "lastUpdated", "frontMatterTocLabel", "isAuthorDisplayVertical", "additionalTrademarkInfo", "enableCopyFeatureFlag",
                                           "isPilotBook", "includeAnnotations", "includeNotesOfDecisions", "isFinalStage", "useReloadContent",
                                           "sourceType", "cwbBookName", "isInsStyleFlag", "isDelStyleFlag", "isRemoveEditorNoteHeadFlag",
@@ -167,6 +168,9 @@ public class BookDefinition implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     @Getter @Setter
     private String currency;
+
+    @Column(name = "ELOOSELEAFS_ENABLED")
+    private String eLooseleafsEnabled;
 
     @Column(name = "KEYCITE_TOPLINE_FLAG")
     @Basic(fetch = FetchType.EAGER)
@@ -435,6 +439,14 @@ public class BookDefinition implements Serializable {
 
     public boolean isFinalStage() {
         return isEqualsYes(isFinalStage);
+    }
+
+    public void setELooseleafsEnabled(final boolean isELooseleafsEnabled) {
+        this.eLooseleafsEnabled = getStringForBooleanValue(isELooseleafsEnabled);
+    }
+
+    public boolean isELooseleafsEnabled() {
+        return isEqualsYes(eLooseleafsEnabled);
     }
 
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
@@ -873,6 +885,7 @@ public class BookDefinition implements Serializable {
         setIsbn(that.getIsbn());
         setPublishDateText(that.getPublishDateText());
         setCurrency(that.getCurrency());
+        setELooseleafsEnabled(that.isELooseleafsEnabled());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());
         setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
         setSearchIndexFlag(that.getSearchIndexFlag());

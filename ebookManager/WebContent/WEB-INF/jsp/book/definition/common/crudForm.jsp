@@ -451,6 +451,11 @@
 				</div>
 			</div>
 			<div class="row">
+				<form:label path="eLooseleafsEnabled" class="labelCol">eLooseleafs Enabled</form:label>
+				<form:radiobutton disabled="${disableOptions}" path="eLooseleafsEnabled" value="true"/>True
+				<form:radiobutton disabled="${disableOptions}" path="eLooseleafsEnabled" value="false"/>False
+			</div>
+			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
 				<form:radiobutton disabled="${disableOptions}" path="keyCiteToplineFlag" value="true" />True
 				<form:radiobutton disabled="${disableOptions}" path="keyCiteToplineFlag" value="false" />False
