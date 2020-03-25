@@ -1,7 +1,7 @@
 <n-docbody>
     <doc bill="Y">
         <content.metadata.block>
-            <?pagebreak label="3"?>
+            <?page no="3"?>
             <cmd.identifiers>
                 <cmd.cites>
                     <cmd.second.line.cite>
@@ -145,7 +145,7 @@
                         <bos/>
                         <footnote.reference refid="I01a2f010680911e88f4a9c1f64101294">1</footnote.reference>] The Panel
                         exists primarily just to determine whether cases pending in more than one district should be
-                        transferred to a single district court for coordinated or consolidated pretrial proceed-<?pagebreak label="4"?>ings
+                        transferred to a single district court for coordinated or consolidated pretrial proceed-<?page no="4"?>ings
                         before a single judge and, if so, which judicial district and judge should handle the cases.
                         <eos/>
                         <bos/>The judges are sitting federal circuit and district court judges assigned to courts
@@ -269,7 +269,7 @@
                     <bos/>
                     <paratext>The practical nature of the Panel&apos;s task also reduces the importance of precedent.
                         <eos/>
-                        <bos/>In many cases there is no precedent that dictates the Panel&apos;s<?pagebreak label="5"?> decision; the Panel
+                        <bos/>In many cases there is no precedent that dictates the Panel&apos;s<?page no="5"?> decision; the Panel
                         decides each matter of transfer on the unique facts of the cases before it.
                         <eos/>
                         <bos/>The decisions of the Panel are useful in establishing the factors the Panel considers in
@@ -354,7 +354,7 @@
                     <paratext>This book approaches the subject of handling matters before the Panel in the order matters
                         are likely to be considered by the Panel.
                         <eos/>
-                        <bos/>Chapter 2 <?pagebreak label="6"?> discusses the history of the Panel, including the legislative history of the
+                        <bos/>Chapter 2 <?page no="6"?> discusses the history of the Panel, including the legislative history of the
                         statute creating it, <cite.query w-src-number="0304913942" w-seq-number="00013" w-ref-type="LQ"
                                                          w-normalized-cite="28USCAS1407" w-pub-number="1000546"
                                                          ID="I00125a70680811e88b0db243518bf1b6">28 U.S.C.A. §
@@ -450,7 +450,7 @@
                         <eos/>
                         <bos/>Because the Panel&apos;s decision is inherently one arising from the exercise of its
                         discretion, this book focuses on understanding the interests affected by the Panel decision and
-                        the factors relied on by it in attempting to exercise that discretion soundly.<?pagebreak label="7"?>
+                        the factors relied on by it in attempting to exercise that discretion soundly.<?page no="7"?>
                         <eos/>
                     </paratext>
                     <eop/>

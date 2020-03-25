@@ -82,7 +82,7 @@
 							<paratext>Clerk of the Panel</paratext>
 						</para>
 						<para>
-							<?pagebreak label="11"?>
+							<?page no="11"?>
 							<paratext>Judicial Panel on Multidistrict Litigation</paratext>
 						</para>
 						<para>
@@ -130,7 +130,7 @@
 					<eop/>
 				</para>
 			</section.body>
-			<?pagebreak label="12"?>
+			<?page no="12"?>
 		</section>
 		<content.metadata.block>
 			<cmd.royalty>

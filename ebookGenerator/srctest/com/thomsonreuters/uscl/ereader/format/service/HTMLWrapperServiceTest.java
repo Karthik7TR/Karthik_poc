@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
 public final class HTMLWrapperServiceTest {
-    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open label=\"i\" close-pagebreak}";
+    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open no=\"i\" close-pagebreak}";
     private static final String PAGEBREAK_PROVIEW_PROCESSING_INSTRUCTION = "<?pb label=\"i\"?>";
     /**
      * The service being tested, injected by Spring.

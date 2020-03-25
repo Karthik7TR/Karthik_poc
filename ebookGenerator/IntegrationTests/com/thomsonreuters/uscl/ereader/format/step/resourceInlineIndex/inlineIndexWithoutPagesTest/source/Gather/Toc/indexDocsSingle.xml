@@ -104,7 +104,7 @@
 					<include.copyright n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA" n-include_collection="w_wlnv_msg"/>
 				</message.block>
 				<index align="left" prelead="0.01i" lindent="0.14i" fv="0" size="0.14i" cm="normal" column="1">
-				    <?pagebreak label="Index-1"?>
+				    <?page no="Index-1"?>
 					<doc.title>
 						<head>
 							<headtext>PROCEDURE</headtext>
@@ -559,7 +559,7 @@
 					<include.copyright n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA" n-include_collection="w_wlnv_msg"/>
 				</message.block>
 				<index align="left" prelead="0.01i" lindent="0.14i" fv="0" size="0.14i" cm="normal" column="1">
-					<?pagebreak label="Index-2"?>
+					<?page no="Index-2"?>
 					<doc.title>
 						<head>
 							<headtext>REQUIREMENTS FOR TRANSFER</headtext>

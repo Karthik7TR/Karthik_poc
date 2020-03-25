@@ -124,9 +124,9 @@ public final class XMLContentChangerFilterTest {
     @Test
     public void testCopyrightValueChange() {
         final String xmlTestStr =
-            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?pagebreak label=\"i\"?></test>";
+            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?page no=\"i\"?></test>";
         final String expectedResult =
-            "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open label=\"i\" close-pagebreak}</test>";
+            "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open no=\"i\" close-pagebreak}</test>";
 
         testHelper(xmlTestStr, expectedResult);
     }
@@ -134,10 +134,10 @@ public final class XMLContentChangerFilterTest {
     @Test
     public void testCopyrightAndCurrencyChange() {
         final String xmlTestStr =
-            "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?pagebreak label=\"i\"?></test>"
+            "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?page no=\"i\"?></test>"
                 + "<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
         final String expectedResult =
-            "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open label=\"i\" close-pagebreak}</test>"
+            "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open no=\"i\" close-pagebreak}</test>"
                 + "<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test></body>";
 
         testHelper(xmlTestStr, expectedResult);
@@ -157,7 +157,7 @@ public final class XMLContentChangerFilterTest {
     public void testDoNotProtectPagebreaks() {
         contentChangeFilter.setProtectPagebreaks(false);
         final String xmlTestStr =
-            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?pagebreak label=\"i\"?></test>";
+            "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><?page no=\"i\"?></test>";
         final String expectedResult =
             "<test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>";
 

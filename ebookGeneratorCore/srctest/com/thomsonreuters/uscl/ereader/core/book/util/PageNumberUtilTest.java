@@ -6,6 +6,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +21,8 @@ public final class PageNumberUtilTest {
     private static final String LABEL_VALUE = "1";
     private static final String TARGET = "pb";
     private static final String CONTENT = "label=\"1\"";
-    private static final String PAGEBREAK = "pagebreak";
-    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open label=\"1\" close-pagebreak}";
+    private static final String PAGEBREAK = "page";
+    private static final String PAGEBREAK_PROTECTED = "{pagebreak-open no=\"1\" close-pagebreak}";
 
     @Mock
     private XMLFilterImpl xmlFilter;
@@ -40,8 +42,8 @@ public final class PageNumberUtilTest {
     @Test
     public void shouldCreatePagebreak() {
         final XmlDeclaration node = (XmlDeclaration) PageNumberUtil.createPagebreak(LABEL_VALUE);
-        assertEquals(node.name(), TARGET);
-        assertEquals(node.attr(PageNumberUtil.LABEL), LABEL_VALUE);
+        assertEquals(TARGET, node.name());
+        assertEquals(LABEL_VALUE, node.attr(PageNumberUtil.LABEL));
     }
 
     @Test
@@ -52,7 +54,8 @@ public final class PageNumberUtilTest {
 
     @Test
     public void shouldProtectPagebreak() {
-        final XmlDeclaration node = (XmlDeclaration) PageNumberUtil.createPagebreak(LABEL_VALUE);
-        assertEquals(PageNumberUtil.protectPagebreak(node), PAGEBREAK_PROTECTED);
+        final XmlDeclaration node = new XmlDeclaration(PAGEBREAK, false);
+        node.attr(PageNumberUtil.LABEL_NO, LABEL_VALUE);
+        assertEquals(PAGEBREAK_PROTECTED, PageNumberUtil.protectPagebreak(node));
     }
 }

@@ -18,7 +18,7 @@
 		<section>
 		</section>
 		<footnote.block>
-			<?pagebreak label="3"?>
+			<?page no="3"?>
 			<footnote ID="If27244306b3e11e99b03e53d6dd36aa2">
 				<label.designator>1</label.designator>
 				<footnote.body>
@@ -37,7 +37,7 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<?pagebreak label="4"?>
+			<?page no="4"?>
 			<footnote ID="If2726b416b3e11e99b03e53d6dd36aa2">
 				<label.designator>2</label.designator>
 				<footnote.body>
@@ -66,7 +66,7 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<?pagebreak label="5"?>
+			<?page no="5"?>
 			<footnote ID="If27292506b3e11e99b03e53d6dd36aa2">
 				<label.designator>4</label.designator>
 				<footnote.body>
@@ -81,7 +81,7 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<?pagebreak label="6"?>
+			<?page no="6"?>
 		</footnote.block>
 		<content.metadata.block>
 			<cmd.royalty>

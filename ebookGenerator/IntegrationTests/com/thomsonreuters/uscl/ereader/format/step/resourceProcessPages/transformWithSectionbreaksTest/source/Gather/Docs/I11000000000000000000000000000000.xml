@@ -15,14 +15,14 @@
 			</section.front>
 			<section.body>
 					<para>
-						<paratext>THE BUYER OF A ONE-FAMILY OR TWO-FAMILY RESIDENTIAL<footnote.reference refid="I01a2f010680911e88f4a9c1f64101101">1</footnote.reference> DWELLING UNIT HAS THE RIGHT TO HAVE ALL DEPOSIT FUNDS (UP TO 10% OF THE PURCHASE PRICE) DEPOS- <?pagebreak label="27"?>ITED IN AN ESCROW<footnote.reference refid="I01a2f010680911e88f4a9c1f64101102">2</footnote.reference> ACCOUNT. THIS RIGHT MAY BE WAIVED, IN WRITING, BY THE BUYER.2</paratext>
+						<paratext>THE BUYER OF A ONE-FAMILY OR TWO-FAMILY RESIDENTIAL<footnote.reference refid="I01a2f010680911e88f4a9c1f64101101">1</footnote.reference> DWELLING UNIT HAS THE RIGHT TO HAVE ALL DEPOSIT FUNDS (UP TO 10% OF THE PURCHASE PRICE) DEPOS- <?page no="27"?>ITED IN AN ESCROW<footnote.reference refid="I01a2f010680911e88f4a9c1f64101102">2</footnote.reference> ACCOUNT. THIS RIGHT MAY BE WAIVED, IN WRITING, BY THE BUYER.2</paratext>
 					</para>
 			</section.body>
-			<?pagebreak label="28"?>
+			<?page no="28"?>
 			Content on page 29<footnote.reference refid="I01a2f010680911e88f4a9c1f64101103">3</footnote.reference>
-			<?pagebreak label="29"?>
-			<?pagebreak label="30"?>
-			<?pagebreak label="31"?>
+			<?page no="29"?>
+			<?page no="30"?>
+			<?page no="31"?>
 		</section>
 		<footnote.block>
 			[Section 1:9]
@@ -35,7 +35,7 @@
                     </para>
                 </footnote.body>
             </footnote>
-			<?pagebreak label="27"?>
+			<?page no="27"?>
             <footnote ID="I01a2f010680911e88f4a9c1f64101102">
                 <label.designator>2</label.designator>
                 <footnote.body>
@@ -45,17 +45,17 @@
                     </para>
                 </footnote.body>
             </footnote>
-			<?pagebreak label="28"?>
+			<?page no="28"?>
 			<footnote ID="I01a2f010680911e88f4a9c1f64101103">
                 <label.designator>3</label.designator>
                 <footnote.body>
                     <para>
-                        <paratext>section 1:9 footnote on page 29,<?pagebreak label="29"?> on page 30,<?pagebreak label="30"?>and on page 31 
+                        <paratext>section 1:9 footnote on page 29,<?page no="29"?> on page 30,<?page no="30"?>and on page 31
                         </paratext>
                     </para>
                 </footnote.body>
             </footnote>
-			<?pagebreak label="31"?>
+			<?page no="31"?>
 		</footnote.block>
 		<content.metadata.block>
 			<cmd.identifiers>

@@ -251,7 +251,7 @@ public final class XMLPreprocessServiceTest {
         tempXMLfile = makeFile(
             srcDir,
             "temp4.xml",
-            "<body><test><?pagebreak label=\"i\"?></test></body>");
+            "<body><test><?page no=\"i\"?></test></body>");
 
         //when
         preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies, protectPagebreaks);

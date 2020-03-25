@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_CLOSE;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_OPEN;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_OPEN_WITH_LABEL;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PROCESSING_INSTRUCTION_CLOSE;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION;
 
@@ -161,7 +161,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
             InputStream transFileStream =
                 new ReplacingInputStream(new ReplacingInputStream(
                 new FileInputStream(transformedFile),
-                PAGEBREAK_WRAPPER_OPEN.getBytes(), PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION.getBytes()),
+                PAGEBREAK_WRAPPER_OPEN_WITH_LABEL.getBytes(), PROVIEW_PAGEBREAK_PROCESSING_INSTRUCTION.getBytes()),
                 PAGEBREAK_WRAPPER_CLOSE.getBytes(), PROCESSING_INSTRUCTION_CLOSE.getBytes());
             InputStream footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
             ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());

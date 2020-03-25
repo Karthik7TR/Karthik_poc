@@ -1,8 +1,8 @@
 <n-docbody>
     <doc bill="Y">
         <content.metadata.block>
-            <?pagebreak label="8"?>
-            <?pagebreak label="9"?>
+            <?page no="8"?>
+            <?page no="9"?>
             <cmd.identifiers>
                 <cmd.cites>
                     <cmd.second.line.cite>
