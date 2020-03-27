@@ -30,8 +30,6 @@ Components:
       TemplateName: CustomBake
     # custom_bake.yaml parameters
     CustomBakeActionTimeout: 10
-    EcrRegion: us-east-1
-    EcrAccount: 773476038677
   Deploy:
     - Environment: dev
       Provider: a206296-TEN-Acct-Id-Engine  # FIXME  # CodePipeline Custom Action action type name. Takes the form `a${AssetId}-${GroupName}-Engine`

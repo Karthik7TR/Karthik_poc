@@ -4,40 +4,29 @@ phases:
   install:
     runtime-versions:
       docker: 18
+      python: 3.8
 
   pre_build:
     commands:
       # Get ecr credentials and login
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region ${ECR_REGION} --registry-ids ${ECR_ACCOUNT})
+      - $(aws ecr get-login --no-include-email --region ${REGION} --registry-ids ${ACCOUNT_ID})
+      - pip3 install boto3 docker pyyaml  # Requirements for helper script
 
   build:
     commands:
-
       # Build image
       - echo "Building the Docker image..."
       - IMAGE_NAME=a206296-TEN-Acct-Id-dojo-repo  # FIXME From output `ECRName` in a206296-${TEN-Acct-Id}-ems-dojo-dev-ecr-repository-ecrconfig stack in deployment account
       - HASH=`date +%s`
-      - IMAGE_URI="${ECR_ACCOUNT}.dkr.ecr.${ECR_REGION}.amazonaws.com/${IMAGE_NAME}:${HASH}"
-      - echo "Pushing Image ${IMAGE_URI}"
       - docker build . --tag ${IMAGE_NAME}:latest
-      - docker tag ${IMAGE_NAME}:latest ${IMAGE_URI} ;
-      - docker push ${IMAGE_URI} ;
 
   post_build:
     commands:
-      # Modify cumulus-deployspec.yaml to put location of container image.
-      # yq is run empty once to load the image (so layer downloads don't pollute the read)
-      - >-
-        yq () { docker run --rm -v ${PWD}:/workdir mikefarah/yq yq $@ ; } ;
-        yq >/dev/null ;
-        ENVS=$(yq read cumulus-deployspec.yaml | grep -v '^ ' | grep -v 'Defaults' | sed 's/:.*$//') ;
-        for ENV in $ENVS ;
-        do
-          yq write --inplace cumulus-deployspec.yaml ${ENV}.DeployerParameters.Stack.Parameters.ImageUrl ${IMAGE_URI} ;
-          echo "Modified ${ENV} ImageUrl to '${IMAGE_URI}'" ;
-        done
-
+      # This Python script tags and pushes the images to the ECRs in the accounts and regions in the environments in your deployspec.
+      # It also modifies the deployspec to put the right image URL in the given path in your deployspec environents.
+      - |-
+        python3 bake_helper.py --image ${IMAGE_NAME} --tag ${HASH} --param-path DeployerParameters.Stack.Parameters.ImageUrl
 
 artifacts:
   files:

@@ -38,12 +38,6 @@ Parameters:
     MinValue: 5
     MaxValue: 480
     Default: 10
-  EcrAccount:
-    Description: The account the ECR repository is located in.
-    Type: Number
-  EcrRegion:
-    Description: The region the ECR repository is located in.
-    Type: String
 
 Resources:
   # yamllint disable rule:line-length
@@ -84,14 +78,13 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/docker:18.09.0
+        Image: aws/codebuild/standard:3.0  # Supports docker and python runtimes in buildspec
+        PrivilegedMode: true # Allows building Docker images inside the container
         EnvironmentVariables:
           - {"Name": "ASSET_ID", "Value": {"Ref": ApplicationAssetInsightId}}
           - {"Name": "ACCOUNT_ID", "Value": {"Ref": "AWS::AccountId"}}
           - {"Name": "REGION", "Value": {"Ref": "AWS::Region"}}
           - {"Name": "SERVICE_NAME", "Value": {"Ref": ServiceName}}
-          - {"Name": "ECR_ACCOUNT", "Value": {"Ref": EcrAccount}}
-          - {"Name": "ECR_REGION", "Value": {"Ref": EcrRegion}}
       Source:
         Type: CODEPIPELINE
         BuildSpec:
