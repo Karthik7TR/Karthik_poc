@@ -33,6 +33,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.RELEASE_NOTES_HEADER;
+
 /**
  * This class represents the metadata within a title. Instances of this class are mutable.
  *
@@ -65,6 +67,8 @@ public final class TitleMetadata implements Serializable {
     private String lastUpdated;
     @XmlElement(name = "name")
     private String displayName;
+    @XmlTransient
+    private List<InfoField> infoFields;
     @XmlElement(name = "material")
     private String materialId;
     @XmlElement(name = "copyright")
@@ -111,6 +115,7 @@ public final class TitleMetadata implements Serializable {
         lastUpdated = DATE_FORMAT.format(new Date());
         proviewFeatures = builder.proviewFeatures;
         keywords = builder.keywords;
+        infoFields = builder.infoFields;
         isPilotBook = builder.isPilotBook;
         isbn = builder.isbn;
         materialId = builder.materialId;
@@ -148,6 +153,7 @@ public final class TitleMetadata implements Serializable {
         return builder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
             .keywords(bookDefinition.getKeyWords())
             .authors(bookDefinition.getAuthors())
+            .infoFields(getInfoFields(bookDefinition))
             .isPilotBook(bookDefinition.getIsPilotBook())
             .isbn(bookDefinition.getIsbnNormalized())
             .materialId(bookDefinition.getMaterialId())
@@ -155,6 +161,17 @@ public final class TitleMetadata implements Serializable {
             .displayName(bookDefinition.getProviewDisplayName())
             .frontMatterTocLabel(bookDefinition.getFrontMatterTocLabel())
             .frontMatterPages(bookDefinition.getFrontMatterPages());
+    }
+
+    private static List<InfoField> getInfoFields(final BookDefinition bookDefinition) {
+        final List<InfoField> infoFields = new ArrayList<>();
+        String releaseNotesText = bookDefinition.getReleaseNotes();
+        if (!StringUtils.isBlank(releaseNotesText)) {
+            InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER,
+                    releaseNotesText);
+            infoFields.add(releaseNotes);
+        }
+        return infoFields;
     }
 
     /**
@@ -168,6 +185,7 @@ public final class TitleMetadata implements Serializable {
         private List<Feature> proviewFeatures;
         private List<Keyword> keywords;
         private List<Author> authors;
+        private List<InfoField> infoFields;
         private boolean isPilotBook;
         private String isbn;
         private String materialId;
@@ -212,6 +230,12 @@ public final class TitleMetadata implements Serializable {
         @NotNull
         public TitleMetadataBuilder authors(@NotNull final List<Author> authors) {
             this.authors = authors;
+            return this;
+        }
+
+        @NotNull
+        public TitleMetadataBuilder infoFields(@NotNull final List<InfoField> infoFields) {
+            this.infoFields = infoFields;
             return this;
         }
 

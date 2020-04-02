@@ -170,6 +170,7 @@ $(function() {
 			$("#docCollectionName").val("");
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");
+			$("#releaseNotes").val("");
 			$(".xppHideClass").css("display","none");
 			$("#splitTypeDiv").hide();
 			$("#ebookSizeDiv").hide();
@@ -182,6 +183,7 @@ $(function() {
 			$("#docCollectionName").val("");
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");
+			$("#releaseNotes").val("");
 		}
 	};
 	

@@ -632,7 +632,11 @@ $(function() {
 		$('input:radio[name=splitBook]').change(function () {splitChanged()});
 		$('input:radio[name=splitTypeAuto]').change(function() {splitAutoChanged()});		
 		$('#splitEBookParts').change(function() {splitSizeChanged()});
-		
+
+		$('input:radio[name=eLooseleafsEnabled]').change(function() {
+			$('.displayELooseleafs').toggle();
+		});
+
 		$('#state').change(function () {
 			state = $(this).val();
 			updateTitleId();
@@ -822,6 +826,7 @@ $(function() {
 		$('#titleIdBox').val($('#titleId').val());
 		showPubCutoffDateBox();
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
+		showSelectOptions($("input:radio[name=eLooseleafsEnabled]:checked").val(), ".displayELooseleafs");
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");

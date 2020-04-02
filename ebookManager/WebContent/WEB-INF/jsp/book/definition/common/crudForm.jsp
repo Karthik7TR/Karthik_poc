@@ -450,7 +450,7 @@
 					<input type="button" id="performSapRequest" value="Request data from SAP" onclick="requestDataFromSap();"/>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row xppHideClass cwbHideClass">
 				<form:label path="eLooseleafsEnabled" class="labelCol">eLooseleafs Enabled</form:label>
 				<form:radiobutton disabled="${disableOptions}" path="eLooseleafsEnabled" value="true"/>True
 				<form:radiobutton disabled="${disableOptions}" path="eLooseleafsEnabled" value="false"/>False
@@ -544,7 +544,7 @@
 			</div>
 
 			<div id="displaySplitDocument" style="display:none;">
-				<div class="row" style="font-size:.7em; text-align: center;">
+				<div class="row field-note">
 						Enter Toc/Nort GUID of split location(s). GUID entered indicates the beginning of the next eBook part.
 				</div>
 
@@ -760,12 +760,30 @@
 	<div id="addDocumentCurrencyHere"></div>
 </div>
 
-<div id="notes" class="dynamicContent">
-	<div class="row">
-		<label class="labelCol">Notes</label>
-	</div>
-	<div class="row">
-		<form:textarea path="notes" rows="10" cols="54" maxlength="2048" />
+<div class="section">
+	<div class="centerSection">
+		<div id="notes" class="dynamicContent leftDefinitionForm">
+			<div class="row">
+				<label class="labelCol">Notes</label>
+				<form:textarea path="notes" rows="10" cols="54" maxlength="2048" />
+			</div>
+		</div>
+		<div class="dynamicContent rightDefinitionForm">
+			<div class="displayELooseleafs">
+				<div class="row xppHideClass cwbHideClass">
+					<div class="row">
+						<label class="labelCol">Release notes</label>
+						<form:textarea path="releaseNotes" rows="10" cols="54" maxlength="1024"/>
+					</div>
+					<div class="row field-note">
+						*Content of this field is visible to Proview users
+					</div>
+					<div class="errorDiv">
+						<form:errors path="releaseNotes" cssClass="errorMessage"/>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -872,7 +890,7 @@
 					<form:errors path="pilotBook" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" style="font-size:.7em; text-align: center;">
+			<div class="row field-note">
 				*Only Super Users are able to modify above options.
 			</div>
 

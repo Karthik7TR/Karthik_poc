@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.RELEASE_NOTES_HEADER;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -28,6 +30,7 @@ public final class TitleMetadataTest {
     private static final String BLACK_PEARLS_ASSET_NAME = "BlackPearl.png";
     private static final String PIRATES_COVE_ASSET_NAME = "PiratesCove.png";
     private static final String TORTUGA_ASSET_NAME = "Tortuga.png";
+    private static final String RELEASE_NOTES = "Test release notes";
 
     private String titleId = "yarr/pirates";
     private String displayName = "YARR! The Comprehensive Guide to Plundering the Seven Seas.";
@@ -49,6 +52,7 @@ public final class TitleMetadataTest {
     public void testBuilderWithBookDefinition() {
         final BookDefinition bookDefinitionMock = mock(BookDefinition.class);
         when(bookDefinitionMock.getFullyQualifiedTitleId()).thenReturn(titleId);
+        when(bookDefinitionMock.getReleaseNotes()).thenReturn(RELEASE_NOTES);
         when(bookDefinitionMock.getKeyWords()).thenReturn(keywords);
         when(bookDefinitionMock.getAuthors()).thenReturn(createAuthors());
         when(bookDefinitionMock.getIsPilotBook()).thenReturn(true);
@@ -64,6 +68,7 @@ public final class TitleMetadataTest {
 
     private void checkFieldsValues(final TitleMetadata actualMetadata) {
         assertEquals(titleId, actualMetadata.getTitleId());
+        checkInfoFields(actualMetadata.getInfoFields());
         checkCollectionValues(actualMetadata.getKeywords(), keywords.toArray(new Keyword[0]));
         checkCollectionValues(actualMetadata.getAuthorNames(), "Jack Sparrow", "Davey Jones");
         assertTrue(actualMetadata.getIsPilotBook());
@@ -206,6 +211,14 @@ public final class TitleMetadataTest {
         final File file = mock(File.class);
         when(file.getName()).thenReturn(fileName);
         return file;
+    }
+
+    private void checkInfoFields(final List<InfoField> infoFields) {
+        assertNotNull(infoFields);
+        assertEquals(1, infoFields.size());
+        InfoField releaseNotes = infoFields.get(0);
+        assertEquals(RELEASE_NOTES_HEADER, releaseNotes.getHeader());
+        assertEquals(RELEASE_NOTES, releaseNotes.getNote());
     }
 
     private <I> void checkCollectionValues(final Collection<I> actualCollection, final I... expectedValues) {

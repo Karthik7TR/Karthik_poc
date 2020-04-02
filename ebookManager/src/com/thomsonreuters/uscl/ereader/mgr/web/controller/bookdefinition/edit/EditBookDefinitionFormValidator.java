@@ -198,6 +198,16 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "frontMatterSeries.bookNameText",
             new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 
+        String releaseNotes = form.getReleaseNotes()
+                .replace("\r", "")
+                .replace("\n", "");
+        checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_1024,
+                releaseNotes,
+                "releaseNotes",
+                new Object[] {"Release notes", MAXIMUM_CHARACTER_1024});
+
         validateIndexFields(form, errors);
         validateAuthors(form, errors);
         validatePilotBooks(form, errors);
