@@ -10,6 +10,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +21,14 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.proview.InfoField;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
@@ -42,6 +45,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.RELEASE_NOTES_HEADER;
 
 /**
  * Test suite for the title manifest filter.
@@ -76,6 +81,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     private static final String EXPECTED_COPYRIGHT = "<copyright>The High Seas Trading Company.</copyright>";
     private static final String EXPECTED_DISPLAYNAME =
         "<name>YARR - The Comprehensive Guide to &amp;&lt;&gt; Plundering the Seven Seas.</name>";
+    private static final String RELEASE_NOTES = "Test release notes";
+    private static final String EXPECTED_LIBFIELDS = "<libfields><infofield><header>Release notes</header><note>"
+            + RELEASE_NOTES + "</note></infofield></libfields>";
     private static final String EXPECTED_FEATURES =
         "<features><feature name=\"AutoUpdate\"/><feature name=\"SearchIndex\"/><feature name=\"OnePassSSO\" value=\"www.westlaw.com\"/></features>";
     private static final String EXPECTED_MATERIAL_ID = "<material>Plunder2</material>";
@@ -212,6 +220,18 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         titleManifestFilter.endDocument();
         Assert.assertEquals(
             EXPECTED_DISPLAYNAME + EXPECTED_ISBN + EXPECTED_END_MANIFEST,
+            resultStreamToString(resultStream));
+    }
+
+    @SneakyThrows
+    @Test
+    public void testWriteLibfields() {
+        InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
+        titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
+        titleManifestFilter.writeLibfields();
+        titleManifestFilter.endDocument();
+
+        Assert.assertEquals(EXPECTED_LIBFIELDS + EXPECTED_ISBN + EXPECTED_END_MANIFEST,
             resultStreamToString(resultStream));
     }
 

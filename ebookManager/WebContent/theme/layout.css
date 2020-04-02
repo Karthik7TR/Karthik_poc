@@ -358,6 +358,12 @@ td.field {
 .bold {
     font-weight: bold;
 }
+
+.field-note {
+	font-size:.7em;
+	text-align: center;
+}
+
 .bookDefinitionCRUD .leftDefinitionForm,
 .bookDefinitionCRUD .rightDefinitionForm {
 	width: 520px;
@@ -961,9 +967,8 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 	border-bottom: dashed 0.05em;
 }
 .notes-view {
-	display: flex;
 	user-select: none;
-	max-width: 7em;
+	max-width: 15em;
 	-moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
 }

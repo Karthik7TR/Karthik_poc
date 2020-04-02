@@ -122,6 +122,8 @@ public class EditBookDefinitionForm {
     private SourceType sourceType = SourceType.NORT;
     @Getter @Setter
     private boolean isELooseleafsEnabled;
+    @Getter @Setter
+    private String releaseNotes;
 
     @Getter @Setter
     private boolean isFinalStage = true;
@@ -330,6 +332,7 @@ public class EditBookDefinitionForm {
             publishDateText = book.getPublishDateText();
             currency = book.getCurrency();
             isELooseleafsEnabled = book.isELooseleafsEnabled();
+            releaseNotes = book.getReleaseNotes();
             notes = book.getNotes();
             isComplete = book.getEbookDefinitionCompleteFlag();
             keyCiteToplineFlag = book.getKeyciteToplineFlag();
@@ -515,6 +518,7 @@ public class EditBookDefinitionForm {
         book.setCopyrightPageText(copyrightPageText);
         book.setCurrency(currency);
         book.setELooseleafsEnabled(isELooseleafsEnabled);
+        book.setReleaseNotes(releaseNotes);
         book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
 
         final DocumentTypeCode dtc = new DocumentTypeCode();

@@ -78,11 +78,20 @@ $(document).ready(function() {
 					</div>
 					<c:if test="${not empty book.notes}">
 						<div class="row">
-							<div class="notes-view" onclick="toggleNotes()">
+							<div id ="notes" class="notes-view" onclick="toggleNotes(this)">
 								<label class="labelCol notes-label">Notes</label>
 								<img src="theme/images/pencil.png" class="notes-icon" />
 							</div>
-							<blockquote class="notes-quote">${ book.notes }</blockquote>
+							<blockquote class="notes-quote" id="notes-quote">${ book.notes }</blockquote>
+						</div>
+					</c:if>
+					<c:if test="${ book.ELooseleafsEnabled && not empty book.releaseNotes }">
+						<div class="row xppHideClass cwbHideClass">
+							<div id="release-notes" class="notes-view" onclick="toggleNotes(this)">
+								<label class="labelCol notes-label">Release notes</label>
+								<img src="theme/images/pencil.png" class="notes-icon" />
+							</div>
+							<blockquote class="notes-quote" id="release-notes-quote">${ book.releaseNotes }</blockquote>
 						</div>
 					</c:if>
 				</div>
@@ -233,7 +242,7 @@ $(document).ready(function() {
 						</div>
 					</c:otherwise>
 					</c:choose>
-					<div class="row">
+					<div class="row xppHideClass cwbHideClass">
 						<label class="labelCol">eLooseleafs Enabled</label>
 						<span class="field">${ book.ELooseleafsEnabled }</span>
 					</div>
