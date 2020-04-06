@@ -44,6 +44,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import static org.apache.commons.lang3.StringUtils.CR;
+
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
     private static final String PRINT_COMPONENT = "printComponents";
@@ -198,9 +200,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "frontMatterSeries.bookNameText",
             new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 
-        String releaseNotes = form.getReleaseNotes()
-                .replace("\r", "")
-                .replace("\n", "");
+        String releaseNotes = form.getReleaseNotes();
+        if (releaseNotes != null) {
+            releaseNotes = releaseNotes.replace(CR, "");
+        }
         checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_1024,

@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringUtils.LF;
+
 abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
     protected static final String SRC_ATTRIBUTE = "src";
     protected static final String ID_ATTRIBUTE = "id";
@@ -49,6 +51,8 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
     private static final String ALT_ID_ATTRIBUTE = "altid";
     private static final String ENTRY = "entry";
     private static final String TEXT = "text";
+    private static final String HTML_LINE_BREAK = "<br/>";
+    private static final String CRLF = "\r\n";
 
     protected TableOfContents tableOfContents = new TableOfContents();
     protected Map<String, String> altIdMap = new HashMap<>();
@@ -136,7 +140,7 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
 
     protected void writeLibfields() throws SAXException {
         List<InfoField> infoFields = titleMetadata.getInfoFields();
-        if (infoFields != null && !infoFields.isEmpty()) {
+        if (titleMetadata.isElooseleafsEnabled() && infoFields != null && !infoFields.isEmpty()) {
             super.startElement(URI, LIBFIELDS_ELEMENT, LIBFIELDS_ELEMENT, EMPTY_ATTRIBUTES);
             for (final InfoField infoField : infoFields) {
                 super.startElement(URI, INFOFIELD_ELEMENT, INFOFIELD_ELEMENT, EMPTY_ATTRIBUTES);
@@ -156,6 +160,8 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
 
     protected void writeInfoFieldNote(String note) throws SAXException {
         super.startElement(URI, NOTE_ELEMENT, NOTE_ELEMENT, EMPTY_ATTRIBUTES);
+        note = note.replace(CRLF, HTML_LINE_BREAK)
+                .replace(LF, HTML_LINE_BREAK);
         super.characters(note.toCharArray(), 0, note.length());
         super.endElement(URI, NOTE_ELEMENT, NOTE_ELEMENT);
     }

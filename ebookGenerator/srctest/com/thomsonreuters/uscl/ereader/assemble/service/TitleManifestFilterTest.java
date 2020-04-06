@@ -227,11 +227,25 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     @Test
     public void testWriteLibfields() {
         InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
+        titleMetadata.setElooseleafsEnabled(true);
         titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
         titleManifestFilter.writeLibfields();
         titleManifestFilter.endDocument();
 
         Assert.assertEquals(EXPECTED_LIBFIELDS + EXPECTED_ISBN + EXPECTED_END_MANIFEST,
+            resultStreamToString(resultStream));
+    }
+
+    @SneakyThrows
+    @Test
+    public void testWriteLibfields_eLooseleafsDisabled() {
+        InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
+        titleMetadata.setElooseleafsEnabled(false);
+        titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
+        titleManifestFilter.writeLibfields();
+        titleManifestFilter.endDocument();
+
+        Assert.assertEquals(EXPECTED_ISBN + EXPECTED_END_MANIFEST,
             resultStreamToString(resultStream));
     }
 

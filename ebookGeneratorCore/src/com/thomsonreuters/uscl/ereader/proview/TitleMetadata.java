@@ -104,6 +104,8 @@ public final class TitleMetadata implements Serializable {
     private boolean inlineToc;
     @XmlTransient
     private boolean indexIncluded;
+    @XmlTransient
+    private boolean isElooseleafsEnabled;
 
     private TitleMetadata() {
         //JaxB required default constructor
@@ -126,6 +128,7 @@ public final class TitleMetadata implements Serializable {
         documents = builder.documents;
         inlineToc = builder.inlineToc;
         indexIncluded = builder.indexIncluded;
+        isElooseleafsEnabled = builder.isElooseleafsEnabled;
 
         authorNames = Optional.ofNullable(builder.authors)
             .filter(CollectionUtils::isNotEmpty)
@@ -154,6 +157,7 @@ public final class TitleMetadata implements Serializable {
             .keywords(bookDefinition.getKeyWords())
             .authors(bookDefinition.getAuthors())
             .infoFields(getInfoFields(bookDefinition))
+            .isElooseleafsEnabled(bookDefinition.isELooseleafsEnabled())
             .isPilotBook(bookDefinition.getIsPilotBook())
             .isbn(bookDefinition.getIsbnNormalized())
             .materialId(bookDefinition.getMaterialId())
@@ -198,6 +202,7 @@ public final class TitleMetadata implements Serializable {
         private List<Doc> documents;
         private boolean inlineToc;
         private boolean indexIncluded;
+        private boolean isElooseleafsEnabled;
 
         private TitleMetadataBuilder() {
             //No instances from the outside
@@ -337,6 +342,11 @@ public final class TitleMetadata implements Serializable {
 
         public TitleMetadataBuilder indexIncluded(final boolean indexIncluded) {
             this.indexIncluded = indexIncluded;
+            return this;
+        }
+
+        public TitleMetadataBuilder isElooseleafsEnabled(final boolean isElooseleafsEnabled) {
+            this.isElooseleafsEnabled = isElooseleafsEnabled;
             return this;
         }
 

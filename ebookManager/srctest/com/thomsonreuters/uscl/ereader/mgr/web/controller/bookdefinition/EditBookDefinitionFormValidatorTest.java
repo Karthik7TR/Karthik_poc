@@ -61,7 +61,7 @@ public final class EditBookDefinitionFormValidatorTest {
     private DocumentTypeCode analyticalCode;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // Mock up the dashboard service
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
