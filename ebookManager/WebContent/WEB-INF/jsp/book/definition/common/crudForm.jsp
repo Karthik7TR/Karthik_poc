@@ -773,7 +773,7 @@
 				<div class="row xppHideClass cwbHideClass">
 					<div class="row">
 						<label class="labelCol">Release notes</label>
-						<form:textarea path="releaseNotes" rows="10" cols="54" maxlength="1024"/>
+						<form:textarea path="releaseNotes" rows="10" cols="54" maxlength="2000"/>
 					</div>
 					<div class="row field-note">
 						*Content of this field is visible to Proview users

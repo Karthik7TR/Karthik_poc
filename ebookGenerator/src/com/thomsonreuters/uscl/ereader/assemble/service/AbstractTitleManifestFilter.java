@@ -160,7 +160,8 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
 
     protected void writeInfoFieldNote(String note) throws SAXException {
         super.startElement(URI, NOTE_ELEMENT, NOTE_ELEMENT, EMPTY_ATTRIBUTES);
-        note = note.replace(CRLF, HTML_LINE_BREAK)
+        note = note.replaceAll(" +", " ")
+                .replace(CRLF, HTML_LINE_BREAK)
                 .replace(LF, HTML_LINE_BREAK);
         super.characters(note.toCharArray(), 0, note.length());
         super.endElement(URI, NOTE_ELEMENT, NOTE_ELEMENT);
