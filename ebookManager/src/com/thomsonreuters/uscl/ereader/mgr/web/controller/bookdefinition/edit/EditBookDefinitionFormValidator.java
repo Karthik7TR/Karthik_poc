@@ -44,7 +44,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import static org.apache.commons.lang3.StringUtils.CR;
+import static org.apache.commons.lang3.StringUtils.LF;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
@@ -53,11 +53,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_512 = 512;
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
+    private static final int MAXIMUM_CHARACTER_2000 = 2000;
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
     private static final int ISBN_TOTAL_CHARACTER_LENGTH = 17;
     private static final int ISBN_NUMBER_LENGTH = 13;
     private static final int MAX_NUMBER_SUBJECT_KEYWORDS = 3;
+    private static final int LINE_BREAK_LENGTH = 5;
     private static final String ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED = "error.keyword.max.subjecs.number.exceeded";
+    private static final String CRLF = "\r\n";
 
     private final BookDefinitionService bookDefinitionService;
     private final KeywordTypeCodeSevice keywordTypeCodeSevice;
@@ -200,17 +203,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "frontMatterSeries.bookNameText",
             new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 
-        String releaseNotes = form.getReleaseNotes();
-        if (releaseNotes != null) {
-            releaseNotes = releaseNotes.replace(CR, "");
-        }
-        checkMaxLength(
-                errors,
-                MAXIMUM_CHARACTER_1024,
-                releaseNotes,
-                "releaseNotes",
-                new Object[] {"Release notes", MAXIMUM_CHARACTER_1024});
-
+        validateReleaseNotes(form.getReleaseNotes(), errors);
         validateIndexFields(form, errors);
         validateAuthors(form, errors);
         validatePilotBooks(form, errors);
@@ -996,6 +989,26 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (form.getKeywords().computeIfAbsent(subjectKeywordTypeId, k -> Collections.emptyList()).size() > MAX_NUMBER_SUBJECT_KEYWORDS) {
             errors.rejectValue("keywords[" + subjectKeywordTypeId + "]", ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED);
         }
+    }
+
+    private void validateReleaseNotes(String releaseNotes, final Errors errors) {
+        if (!StringUtils.isBlank(releaseNotes) && countReleaseNotesLength(releaseNotes) > MAXIMUM_CHARACTER_2000) {
+            errors.rejectValue(
+                    "releaseNotes",
+                    "error.max.length",
+                    new Object[] {"Release notes", MAXIMUM_CHARACTER_2000},
+                    "Must be maximum of " + MAXIMUM_CHARACTER_2000 + " characters or under");
+        }
+    }
+
+    private int countReleaseNotesLength(String releaseNotes) {
+        int releaseNotesLength = 0;
+        releaseNotesLength += StringUtils.countMatches(releaseNotes, CRLF) * LINE_BREAK_LENGTH;
+        releaseNotes = releaseNotes.replace(CRLF, "");
+        releaseNotesLength += StringUtils.countMatches(releaseNotes, LF) * LINE_BREAK_LENGTH;
+        releaseNotes = releaseNotes.replace(LF, "");
+        releaseNotesLength += releaseNotes.replaceAll(" +", " ").length();
+        return releaseNotesLength;
     }
 
     private void validateIndexFields(final EditBookDefinitionForm form, final Errors errors) {

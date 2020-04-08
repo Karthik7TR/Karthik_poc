@@ -285,6 +285,7 @@ public class EditBookDefinitionForm {
         bookDef.setUseReloadContent(false);
         bookDef.setSubGroupHeading(null);
         bookDef.setIsSplitTypeAuto(true);
+        bookDef.setReleaseNotes(null);
 
         // Need to null surrogate and foreign keys.
         // New keys will be made when Copy of Book Definition is saved.
