@@ -33,6 +33,10 @@ public final class EditGroupControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + EditGroupDefinitionForm.FORM_NAME;
     private static final Long BOOK_DEFINITION_ID = 1L;
+    private static final String GROUP_ID = "uscl/an_abcd";
+    public static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/abcd";
+    public static final String GROUP_NAME = "Group Name";
+
     private EditGroupController controller;
     private EditGroupDefinitionFormValidator validator;
     private MockHttpServletRequest request;
@@ -159,62 +163,24 @@ public final class EditGroupControllerTest {
      * @throws Exception
      */
     @Test
-    public void testEditGroupDefintionPost() throws Exception {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
-        final String groupId = "uscl/an_abcd";
-        request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
-        request.setParameter("bookDefinitionId", Long.toString(BOOK_DEFINITION_ID));
-        request.setParameter("groupId", groupId);
-        request.setParameter("groupType", "standard");
-        request.setParameter("versionType", EditGroupDefinitionForm.VersionType.OVERWRITE.toString());
-        request.setParameter("hasSplitTitles", "false");
-        request.setParameter("includeSubgroup", "false");
-        request.setParameter("groupName", "Group Name");
-        request.setParameter("includePilotBook", "true");
+    public void testEditGroupDefinitionPost() throws Exception {
+        createRequestPost();
+        mockAll(null);
 
-        request.setMethod(HttpMethod.POST.name());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        final BookDefinition book = createBookDef(fullyQualifiedTitleId);
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
-        EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class)))
-            .andReturn(book);
-        EasyMock.replay(mockBookDefinitionService);
+        verifyAll(mav);
+    }
 
-        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(fullyQualifiedTitleId);
-        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
-        EasyMock.expect(mockGroupService.getLastGroup(groupId)).andReturn(null);
-        EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
-            .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
-        mockGroupService.createGroup(EasyMock.anyObject(GroupDefinition.class));
-        EasyMock.replay(mockGroupService);
+    @Test
+    public void testEditGroupDefinitionAddSubgroupsPost() throws Exception {
+        createRequestPost();
+        GroupDefinition groupDefinition = createGroupDefinition();
+        mockAll(groupDefinition);
 
-        mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
-        EasyMock.replay(mockAuditService);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        final ModelAndView mav;
-        try {
-            mav = handlerAdapter.handle(request, response, controller);
-
-            assertNotNull(mav);
-            // Verify mav is a RedirectView
-            final View view = mav.getView();
-            assertEquals(RedirectView.class, view.getClass());
-
-            // Check the state of the model
-            final Map<String, Object> model = mav.getModel();
-
-            // Check binding state
-            final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
-            assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
-        } catch (final Exception e) {
-            e.printStackTrace();
-            Assert.fail(e.getMessage());
-        }
-
-        EasyMock.verify(mockAuditService);
-        EasyMock.verify(mockGroupService);
-        EasyMock.verify(mockBookDefinitionService);
+        verifyAll(mav);
     }
 
     /**
@@ -302,5 +268,65 @@ public final class EditGroupControllerTest {
         book.setIsSplitBook(false);
         book.setIsSplitTypeAuto(true);
         return book;
+    }
+
+    private void verifyAll(ModelAndView mav) {
+        assertNotNull(mav);
+        final View view = mav.getView();
+        assertEquals(RedirectView.class, view.getClass());
+
+        final Map<String, Object> model = mav.getModel();
+
+        final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+        assertNotNull(bindingResult);
+        Assert.assertFalse(bindingResult.hasErrors());
+
+        EasyMock.verify(mockAuditService);
+        EasyMock.verify(mockGroupService);
+        EasyMock.verify(mockBookDefinitionService);
+    }
+
+    private void mockAll(GroupDefinition groupDefinition) throws Exception {
+        final BookDefinition book = createBookDef(FULLY_QUALIFIED_TITLE_ID);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
+        EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class)))
+                .andReturn(book);
+        EasyMock.replay(mockBookDefinitionService);
+
+        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(FULLY_QUALIFIED_TITLE_ID);
+        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
+        EasyMock.expect(mockGroupService.getLastGroup(GROUP_ID)).andReturn(groupDefinition);
+        mockGroupService.createGroup(EasyMock.anyObject(GroupDefinition.class));
+        EasyMock.replay(mockGroupService);
+
+        mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
+        EasyMock.replay(mockAuditService);
+    }
+
+    private void createRequestPost() {
+        request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
+        request.setParameter("bookDefinitionId", Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter("groupId", GROUP_ID);
+        request.setParameter("groupType", "standard");
+        request.setParameter("versionType", EditGroupDefinitionForm.VersionType.OVERWRITE.toString());
+        request.setParameter("hasSplitTitles", "false");
+        request.setParameter("includeSubgroup", "true");
+        request.setParameter("includePilotBook", "false");
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("groupName", GROUP_NAME);
+    }
+
+    private GroupDefinition createGroupDefinition() {
+        GroupDefinition groupDefinition = new GroupDefinition();
+        groupDefinition.setGroupId(GROUP_ID);
+        groupDefinition.setName(GROUP_NAME);
+        groupDefinition.setStatus(GroupDefinition.REVIEW_STATUS);
+        groupDefinition.setHeadTitle(FULLY_QUALIFIED_TITLE_ID);
+        groupDefinition.setGroupVersion(2L);
+        GroupDefinition.SubGroupInfo subGroupInfo = new GroupDefinition.SubGroupInfo();
+        subGroupInfo.setHeading("");
+        subGroupInfo.setTitles(Collections.singletonList(FULLY_QUALIFIED_TITLE_ID));
+        groupDefinition.setSubGroupInfoList(Collections.singletonList(subGroupInfo));
+        return groupDefinition;
     }
 }

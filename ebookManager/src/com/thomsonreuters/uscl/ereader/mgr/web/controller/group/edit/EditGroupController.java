@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -30,6 +31,8 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId.VERSION_SPLITTER;
 
 @Controller
 public class EditGroupController {
@@ -176,7 +179,9 @@ public class EditGroupController {
                 Map<String, List<String>> titleIdToPartsMap = Optional.ofNullable(lastGroup)
                         .map(group -> group.getSubGroupInfoList().stream()
                                 .flatMap(item -> item.getTitles().stream())
-                                .collect(Collectors.groupingBy(item -> new BookTitleId(item).getHeadTitleIdWithMajorVersion())))
+                                .collect(Collectors.groupingBy(item -> item.contains(VERSION_SPLITTER)
+                                        ? new BookTitleId(item).getHeadTitleIdWithMajorVersion()
+                                        : new TitleId(item).getHeadTitleId())))
                         .orElse(Collections.emptyMap());
                 final GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap.values(), titleIdToPartsMap);
                 // determine group version

@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 @AllArgsConstructor
 public class BookTitleId implements Comparable<BookTitleId> {
     private static final String TITLE_WITH_VERSION = "%s/%s";
-    private static final String VERSION_SPLITTER = "/v";
+    public static final String VERSION_SPLITTER = "/v";
     @NonNull
     private final String titleId;
     @NonNull
