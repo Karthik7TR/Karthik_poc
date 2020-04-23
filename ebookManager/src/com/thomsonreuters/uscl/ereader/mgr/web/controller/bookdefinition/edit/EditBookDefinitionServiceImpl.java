@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.Bucket;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.sap.comparsion.MaterialComponentComparatorProvider;
 import com.thomsonreuters.uscl.ereader.sap.component.Material;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
@@ -123,6 +125,15 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
         final Function<T, String> getNameFunction) {
         return dataSupplier.get().stream().map(getNameFunction).collect(
             Collectors.toMap(String::toLowerCase, Function.identity(), (oldVal, newVal) -> newVal, LinkedHashMap::new));
+    }
+
+    @Override
+    public List<String> getBuckets() {
+        List<String> buckets = new LinkedList<>();
+        for (Bucket bucket : Bucket.values()) {
+            buckets.add(bucket.toString());
+        }
+        return buckets;
     }
 
     @Override

@@ -51,6 +51,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.common.CopyAware;
 import com.thomsonreuters.uscl.ereader.core.book.domain.common.EbookDefinitionAware;
 import com.thomsonreuters.uscl.ereader.core.book.domain.common.SequenceNumAware;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.Bucket;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 import lombok.Getter;
@@ -121,7 +122,7 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private SourceType sourceType = SourceType.NORT;
     @Getter @Setter
-    private boolean isELooseleafsEnabled;
+    private String bucket;
     @Getter @Setter
     private String releaseNotes;
 
@@ -332,7 +333,7 @@ public class EditBookDefinitionForm {
             frontMatters = book.getFrontMatterPages();
             publishDateText = book.getPublishDateText();
             currency = book.getCurrency();
-            isELooseleafsEnabled = book.isELooseleafsEnabled();
+            bucket = Bucket.getBucket(book.isELooseleafsEnabled());
             releaseNotes = book.getReleaseNotes();
             notes = book.getNotes();
             isComplete = book.getEbookDefinitionCompleteFlag();
@@ -518,7 +519,7 @@ public class EditBookDefinitionForm {
         book.setCopyright(copyright);
         book.setCopyrightPageText(copyrightPageText);
         book.setCurrency(currency);
-        book.setELooseleafsEnabled(isELooseleafsEnabled);
+        book.setELooseleafsEnabled(Bucket.isElooseLeafsEnabled(bucket));
         book.setReleaseNotes(releaseNotes);
         book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
 

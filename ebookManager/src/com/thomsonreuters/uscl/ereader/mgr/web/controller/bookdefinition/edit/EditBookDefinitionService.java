@@ -22,6 +22,8 @@ public interface EditBookDefinitionService {
 
     Map<String, String> getPublishers();
 
+    List<String> getBuckets();
+
     List<KeywordTypeCode> getKeywordCodes();
 
     DocumentTypeCode getContentTypeById(Long id);

@@ -314,6 +314,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
         // Validate publisher information
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "bucket", "error.required");
 
         // Validate publication and title ID
         if (StringUtils.isNotEmpty(titleId)) {

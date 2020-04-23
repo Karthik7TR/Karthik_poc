@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -90,8 +91,10 @@ public final class EditBookDefinitionControllerTest {
 
         final List<String> frontMatterThemes = new ArrayList<>();
         frontMatterThemes.add("WestLaw Next");
+        final List<String> buckets = Collections.singletonList(Bucket.BOOKS.toString());
 
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
+        EasyMock.expect(mockEditBookDefinitionService.getBuckets()).andReturn(buckets);
         subject.setId(4L);
         validator = new EditBookDefinitionFormValidator(
             mockBookDefinitionService,
@@ -237,6 +240,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("publisher", "uscl");
         request.setParameter("titleId", titleId);
         request.setParameter("groupsEnabled", "false");
+        request.setParameter("bucket", Bucket.BOOKS.toString());
 
         setupDropdownMenuAndKeywords(2);
 
@@ -286,6 +290,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("pubAbbr", "abcd");
         request.setParameter("publisher", "uscl");
         request.setParameter("titleId", "uscl/an/abcd");
+        request.setParameter("bucket", Bucket.BOOKS.toString());
         request.setParameter("isComplete", "true");
 
         EasyMock.expect(keywordTypeCodeSevice
@@ -353,6 +358,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("isComplete", "true");
         request.setParameter("validateForm", "false");
         request.setParameter("printPageNumbers", "true");
+        request.setParameter("bucket", Bucket.BOOKS.toString());
 
         setupDropdownMenuAndKeywords(2);
 
@@ -590,6 +596,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("groupsEnabled", "false");
         request.setParameter("validateForm", "false");
         request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter("bucket", Bucket.BOOKS.toString());
         request.setMethod(HttpMethod.POST.name());
 
         final BookDefinition book = createBookDef(fullyQualifiedTitleId);
@@ -672,6 +679,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("isComplete", "true");
         request.setParameter("validateForm", "false");
         request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter("bucket", Bucket.BOOKS.toString());
         request.setMethod(HttpMethod.POST.name());
 
         final BookDefinition book = createBookDef(fullyQualifiedTitleId);
@@ -759,6 +767,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("groupsEnabled", "false");
         request.setParameter("validateForm", "false");
         request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter("bucket", Bucket.BOOKS.toString());
         request.setMethod(HttpMethod.POST.name());
 
         final BookDefinition book = createBookDef(fullyQualifiedTitleId);
@@ -954,6 +963,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("publisher", "uscl");
         request.setParameter("titleId", titleId);
         request.setParameter("groupsEnabled", "false");
+        request.setParameter("bucket", Bucket.BOOKS.toString());
 
         final BookDefinition expectedBook = createBookDef(titleId);
         EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class)))
@@ -1003,6 +1013,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("publisher", "uscl");
         request.setParameter("titleId", "uscl/an/abcd");
         request.setParameter("isComplete", "true");
+        request.setParameter("bucket", Bucket.BOOKS.toString());
 
         EasyMock.expect(keywordTypeCodeSevice
             .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
@@ -1069,6 +1080,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("isComplete", "true");
         request.setParameter("groupsEnabled", "false");
         request.setParameter("validateForm", "false");
+        request.setParameter("bucket", Bucket.BOOKS.toString());
 
         final BookDefinition expectedBook = createBookDef(titleId);
         EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class)))

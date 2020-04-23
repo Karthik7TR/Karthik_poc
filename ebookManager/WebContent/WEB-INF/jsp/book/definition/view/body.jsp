@@ -7,6 +7,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
+<%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.Bucket" %>
 
 <script type="text/javascript" src="js/create-book.js"></script>
 <script type="text/javascript" src="js/book/definition/view.js"></script>
@@ -126,6 +127,19 @@ $(document).ready(function() {
 							</c:choose>
 						</span>
 					</div>
+					<div class="row xppHideClass cwbHideClass">
+						<label class="labelCol">Bucket</label>
+						<span class="field">
+							<c:choose>
+								<c:when test="${book.ELooseleafsEnabled}">
+									<%= Bucket.ELOOSELEAFS.toString() %>
+								</c:when>
+								<c:otherwise>
+									<%= Bucket.BOOKS.toString() %>
+								</c:otherwise>
+							</c:choose>
+						</span>
+					</div>
 					<c:choose>
 					<c:when test="${ book.sourceType == 'TOC' }">
 						<div id="displayTOC">
@@ -242,10 +256,6 @@ $(document).ready(function() {
 						</div>
 					</c:otherwise>
 					</c:choose>
-					<div class="row xppHideClass cwbHideClass">
-						<label class="labelCol">eLooseleafs Enabled</label>
-						<span class="field">${ book.ELooseleafsEnabled }</span>
-					</div>
 					<div class="row">
 						<label class="labelCol">KeyCite Topline Flag</label>
 						<span class="field">${ book.keyciteToplineFlag }</span>

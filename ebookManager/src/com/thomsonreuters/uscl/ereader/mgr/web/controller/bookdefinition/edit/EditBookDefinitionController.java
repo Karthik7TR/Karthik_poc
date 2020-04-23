@@ -435,6 +435,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
         model.addAttribute(WebConstants.KEY_FRONT_MATTER_THEMES, editBookDefinitionService.getFrontMatterThemes());
         model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
+        model.addAttribute(WebConstants.KEY_BUCKETS, editBookDefinitionService.getBuckets());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         model.addAttribute(WebConstants.KEY_FORM, form);

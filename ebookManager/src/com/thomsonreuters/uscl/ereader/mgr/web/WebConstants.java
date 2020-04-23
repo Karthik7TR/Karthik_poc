@@ -74,6 +74,7 @@ public class WebConstants {
     public static final String KEY_JURISDICTIONS = "jurisdictions";
     public static final String KEY_FRONT_MATTER_THEMES = "frontMatterThemes";
     public static final String KEY_PUBLISHERS = "publishers";
+    public static final String KEY_BUCKETS = "buckets";
     public static final String KEY_OUTAGE = "outage";
     public static final String KEY_PLANNED_OUTAGE_TYPE = "plannedOutage";
     public static final String KEY_PLANNED_OUTAGE_INFO_MESSAGES = "plannedOutageInfoMessage";
