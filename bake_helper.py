@@ -63,7 +63,10 @@ for env, env_values in deployspec.items():
     image_uri = f"{registry}/{image_name}"
     docker_client.images.get(image_name).tag(image_uri, tag=tag)
     image_uri = f"{image_uri}:{tag}"
-    docker_client.images.push(image_uri)
+    for line in docker_client.images.push(image_uri, stream=True, decode=True):
+        print(line)
+        if "error" in line.keys():
+            raise ValueError("An error occurred when pushing the image.")
 
     deepset(env_values, image_uri, *update_path)
 
