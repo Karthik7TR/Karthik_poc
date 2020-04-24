@@ -47,7 +47,9 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String KEYWORDS_FIELD = "keywords[4]";
     private static final long SUBJECT_KEYWORD_ID = 4L;
     private static final String SUBJECT_KEYWORD = "subject";
+    private static final String BUCKET = "bucket";
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
+    private static final String FIELD_REQUIRED_ERROR = "error.required";
 
     private List<KeywordTypeCode> KEYWORD_CODES;
 
@@ -111,7 +113,7 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-        Assert.assertEquals(8, errors.getAllErrors().size());
+        Assert.assertEquals(9, errors.getAllErrors().size());
     }
 
     /**
@@ -126,7 +128,14 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-        Assert.assertEquals(4, errors.getAllErrors().size());
+        Assert.assertEquals(5, errors.getAllErrors().size());
+    }
+
+    @Test
+    public void testNoBuckets() {
+        form.setBucket(null);
+        validator.validate(form, errors);
+        Assert.assertEquals(FIELD_REQUIRED_ERROR, errors.getFieldError(BUCKET).getCode());
     }
 
     @Test
@@ -135,7 +144,7 @@ public final class EditBookDefinitionFormValidatorTest {
         // verify errors
         validator.validate(form, errors);
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-        Assert.assertEquals(7, errors.getAllErrors().size());
+        Assert.assertEquals(8, errors.getAllErrors().size());
     }
 
     @Test
@@ -145,7 +154,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
         Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-        Assert.assertEquals(8, errors.getAllErrors().size());
+        Assert.assertEquals(9, errors.getAllErrors().size());
     }
 
     @Test
@@ -157,7 +166,7 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("subGroupHeading").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-        Assert.assertEquals(9, errors.getAllErrors().size());
+        Assert.assertEquals(10, errors.getAllErrors().size());
     }
 
     @Test
@@ -215,7 +224,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
-        Assert.assertEquals(14, errors.getAllErrors().size());
+        Assert.assertEquals(15, errors.getAllErrors().size());
     }
 
     /**
