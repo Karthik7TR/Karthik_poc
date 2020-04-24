@@ -633,7 +633,7 @@ $(function() {
 		$('input:radio[name=splitTypeAuto]').change(function() {splitAutoChanged()});		
 		$('#splitEBookParts').change(function() {splitSizeChanged()});
 
-		$('input:radio[name=eLooseleafsEnabled]').change(function() {
+		$('#bucket').change(function() {
 			$('.displayELooseleafs').toggle();
 		});
 
@@ -826,7 +826,7 @@ $(function() {
 		$('#titleIdBox').val($('#titleId').val());
 		showPubCutoffDateBox();
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
-		showSelectOptions($("input:radio[name=eLooseleafsEnabled]:checked").val(), ".displayELooseleafs");
+		showSelectOptions($("#bucket").val() === "ELOOSELEAFS", ".displayELooseleafs");
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");

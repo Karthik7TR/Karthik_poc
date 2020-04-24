@@ -289,6 +289,16 @@
 					<form:errors path="sourceType" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div class="row xppHideClass cwbHideClass">
+				<form:label path="bucket" class="labelCol">Bucket</form:label>
+				<form:select path="bucket" >
+					<form:option value="" label="SELECT" />
+					<form:options items="${buckets}" />
+				</form:select>
+				<div class="errorDiv">
+					<form:errors path="bucket" cssClass="errorMessage" />
+				</div>
+			</div>
 			<div id="displayTOC" style="display:none">
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>
@@ -449,11 +459,6 @@
 				<div class="row">
 					<input type="button" id="performSapRequest" value="Request data from SAP" onclick="requestDataFromSap();"/>
 				</div>
-			</div>
-			<div class="row xppHideClass cwbHideClass">
-				<form:label path="eLooseleafsEnabled" class="labelCol">eLooseleafs Enabled</form:label>
-				<form:radiobutton disabled="${disableOptions}" path="eLooseleafsEnabled" value="true"/>True
-				<form:radiobutton disabled="${disableOptions}" path="eLooseleafsEnabled" value="false"/>False
 			</div>
 			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
