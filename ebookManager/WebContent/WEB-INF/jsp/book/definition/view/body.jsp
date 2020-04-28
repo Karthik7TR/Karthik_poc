@@ -41,6 +41,15 @@ $(document).ready(function() {
 		<c:set var="xppHide" value="style=\"display: none;\""/>
 		<c:set var="xppDisablePreviewButton" value="disabled"/>
 	</c:if>
+	<c:set var="bucket" value=""/>
+	<c:choose>
+		<c:when test="${book.ELooseleafsEnabled}">
+			<c:set var="bucket" value="<%= Bucket.ELOOSELEAFS.toString() %>"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="bucket" value="<%= Bucket.BOOKS.toString() %>"/>
+		</c:otherwise>
+	</c:choose>
 	<div class="bookDefinitionView">
 		<div class="section">
 			<div class="sectionLabel">
@@ -129,16 +138,7 @@ $(document).ready(function() {
 					</div>
 					<div class="row xppHideClass cwbHideClass">
 						<label class="labelCol">Bucket</label>
-						<span class="field">
-							<c:choose>
-								<c:when test="${book.ELooseleafsEnabled}">
-									<%= Bucket.ELOOSELEAFS.toString() %>
-								</c:when>
-								<c:otherwise>
-									<%= Bucket.BOOKS.toString() %>
-								</c:otherwise>
-							</c:choose>
-						</span>
+						<span class="field">${ bucket }</span>
 					</div>
 					<c:choose>
 					<c:when test="${ book.sourceType == 'TOC' }">
