@@ -633,8 +633,14 @@ $(function() {
 		$('input:radio[name=splitTypeAuto]').change(function() {splitAutoChanged()});		
 		$('#splitEBookParts').change(function() {splitSizeChanged()});
 
-		$('#bucket').change(function() {
-			$('.displayELooseleafs').toggle();
+		const bucket = $('#bucket');
+		const eLooseleafsFields = $('.displayELooseleafs');
+		bucket.change(function() {
+			if (bucket.val() === 'ELOOSELEAFS') {
+				eLooseleafsFields.show();
+			} else {
+				eLooseleafsFields.hide();
+			}
 		});
 
 		$('#state').change(function () {

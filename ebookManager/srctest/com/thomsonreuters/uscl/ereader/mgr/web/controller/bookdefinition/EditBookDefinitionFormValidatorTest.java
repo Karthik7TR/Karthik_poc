@@ -132,10 +132,43 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void testNoBuckets() {
+    public void testNoBucketToc() {
+        form.setSourceType(SourceType.TOC);
         form.setBucket(null);
+
         validator.validate(form, errors);
+
         Assert.assertEquals(FIELD_REQUIRED_ERROR, errors.getFieldError(BUCKET).getCode());
+    }
+
+    @Test
+    public void testNoBucketNort() {
+        form.setSourceType(SourceType.NORT);
+        form.setBucket(null);
+
+        validator.validate(form, errors);
+
+        Assert.assertEquals(FIELD_REQUIRED_ERROR, errors.getFieldError(BUCKET).getCode());
+    }
+
+    @Test
+    public void testNoBucketCwb() {
+        form.setSourceType(SourceType.FILE);
+        form.setBucket(null);
+
+        validator.validate(form, errors);
+
+        Assert.assertNull(errors.getFieldError(BUCKET));
+    }
+
+    @Test
+    public void testNoBucketsXpp() {
+        form.setSourceType(SourceType.XPP);
+        form.setBucket(null);
+
+        validator.validate(form, errors);
+
+        Assert.assertNull(errors.getFieldError(BUCKET));
     }
 
     @Test
@@ -224,7 +257,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
-        Assert.assertEquals(15, errors.getAllErrors().size());
+        Assert.assertEquals(14, errors.getAllErrors().size());
     }
 
     /**
