@@ -28,6 +28,8 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
     private static final String ANNOS_SOURCE = "AnnosSource";
     private static final String PAGE_NOS = "PageNos";
     private static final String SPAN_PAGES = "SpanPages";
+    private static final String ELL_BUCKET_FEATURE_NAME = "tr_opt_TitleType";
+    private static final String ELL_BUCKET_FEATURE_VALUE = "eReference";
 
     @Override
     protected FeaturesListBuilder createFeatureListBuilder(
@@ -78,6 +80,27 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
         final List<Feature> expectedFeatures = getExpectedFeatures(bookDefinition);
         expectedFeatures.add(new Feature(ANNOS_SOURCE, ANNOS_SOURCE_VALUE));
         assertTrue(CollectionUtils.isEqualCollection(features, expectedFeatures));
+    }
+
+    @Test
+    public void testELooseLeafsBucketFeatureEnabled() {
+        given(bookDefinition.isELooseleafsEnabled()).willReturn(true);
+
+        final List<Feature> features = featuresListBuilder.getFeatures();
+
+        assertTrue(features.stream().anyMatch(feature
+                -> ELL_BUCKET_FEATURE_NAME.equals(feature.getName())
+                && ELL_BUCKET_FEATURE_VALUE.equals(feature.getValue())));
+    }
+
+    @Test
+    public void testELooseLeafsBucketFeatureDisabled() {
+        given(bookDefinition.isELooseleafsEnabled()).willReturn(false);
+
+        final List<Feature> features = featuresListBuilder.getFeatures();
+
+        assertTrue(features.stream().noneMatch(feature
+                -> ELL_BUCKET_FEATURE_NAME.equals(feature.getName())));
     }
 
     @Test
