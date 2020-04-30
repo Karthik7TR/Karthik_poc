@@ -78,6 +78,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
                 DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
         }
 
+        if (bookDefinition.isELooseleafsEnabled()) {
+            features.add(DefaultProviewFeatures.ELOOSELEAFS_BUCKET.feature);
+        }
+
         if (withPageNumbers) {
             Collections.addAll(features, DefaultProviewFeatures.PAGE_NUMBERS.feature,
                 DefaultProviewFeatures.SPAN_PAGES.feature);
@@ -124,6 +128,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         COPY(new Feature("Copy")),
         ONE_PASS_SSO_WWW_WESTLAW(new Feature("OnePassSSO", "www.westlaw.com")),
         ONE_PASS_SSO_NEXT_WESTLAW(new Feature("OnePassSSO", "next.westlaw.com")),
+        ELOOSELEAFS_BUCKET(new Feature("tr_opt_TitleType", "eReference")),
         PAGE_NUMBERS(new Feature("PageNos")),
         SPAN_PAGES(new Feature("SpanPages"));
 
