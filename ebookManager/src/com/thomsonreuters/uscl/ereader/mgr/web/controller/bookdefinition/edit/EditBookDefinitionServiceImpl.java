@@ -96,6 +96,13 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     }
 
     @Override
+    public Map<String, List<DocumentTypeCode>> getDocumentTypesByPublishers() {
+        return publisherCodeService.getAllPublisherCodes().stream()
+                .collect(Collectors.toMap(PublisherCode::getName,
+                        PublisherCode::getDocumentTypeCodes));
+    }
+
+    @Override
     public Map<String, String> getStates() {
         return buildNamesMap(stateCodeService::getAllStateCodes, StateCode::getName);
     }

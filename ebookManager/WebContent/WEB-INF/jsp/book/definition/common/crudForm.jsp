@@ -64,14 +64,29 @@
 					<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
 					<form:select path="contentTypeId" >
 						<form:option value="" label="SELECT" />
-						<c:forEach items="${contentTypes}" var="contentType">
-							<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
+						<c:forEach items="${contentTypes_uscl}" var="contentType">
+							<form:option cssStyle="display: none" class="uscl_show" path="contentTypeId" value="${ contentType.id }"
+										 label="${ contentType.name }" abbr="${ contentType.abbreviation }"
+										 usecutoffdate="${contentType.usePublishCutoffDateFlag}"/>
+						</c:forEach>
+						<c:forEach items="${contentTypes_cw}" var="contentType">
+							<form:option cssStyle="display: none" class="cw_show" path="contentTypeId" value="${ contentType.id }"
+										 label="${ contentType.name }" abbr="${ contentType.abbreviation }"
+										 usecutoffdate="${contentType.usePublishCutoffDateFlag}"/>
 						</c:forEach>
 					</form:select>
 					<form:errors path="contentTypeId" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div id="publishDetailDiv" style="display:none">
+				<div id="bookLanguageDiv">
+					<form:label path="bookLanguage" class="labelCol">Language</form:label>
+					<form:select path="bookLanguage">
+						<c:forTokens items="en,fr" delims="," var="language">
+							<form:option path="language" value="${language}" label="${language}"/>
+						</c:forTokens>
+					</form:select>
+				</div>
 				<div id="stateDiv">
 					<form:label path="state" class="labelCol">State</form:label>
 					<form:select path="state" >
@@ -292,8 +307,7 @@
 			<div class="row xppHideClass cwbHideClass">
 				<form:label path="bucket" class="labelCol">Bucket</form:label>
 				<form:select path="bucket" >
-					<form:option value="" label="SELECT" />
-					<form:options items="${buckets}" />
+					<form:options items="${buckets}"/>
 				</form:select>
 				<div class="errorDiv">
 					<form:errors path="bucket" cssClass="errorMessage" />

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,8 @@ public final class EditBookDefinitionControllerTest {
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
     private PublisherCode publisherCode;
+    private List<String> buckets;
+    private Map<String, List<DocumentTypeCode>> documentTypesByPublishers;
 
     @Before
     public void setUp() throws Exception {
@@ -91,10 +94,8 @@ public final class EditBookDefinitionControllerTest {
 
         final List<String> frontMatterThemes = new ArrayList<>();
         frontMatterThemes.add("WestLaw Next");
-        final List<String> buckets = Collections.singletonList(Bucket.BOOKS.toString());
 
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
-        EasyMock.expect(mockEditBookDefinitionService.getBuckets()).andReturn(buckets);
         subject.setId(4L);
         validator = new EditBookDefinitionFormValidator(
             mockBookDefinitionService,
@@ -140,6 +141,9 @@ public final class EditBookDefinitionControllerTest {
         bookDefinitionLock.setEbookDefinitionLockId(1L);
         bookDefinitionLock.setFullName("name");
         bookDefinitionLock.setUsername("username");
+
+        buckets = Collections.singletonList(Bucket.BOOKS.toString());
+        documentTypesByPublishers = new HashMap<>();
     }
 
     /**
@@ -1180,12 +1184,15 @@ public final class EditBookDefinitionControllerTest {
     private void setupDropdownMenuAndKeywords(final int keywordCodeTimes) {
         EasyMock.expect(mockEditBookDefinitionService.getStates()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getDocumentTypes()).andReturn(null);
+        EasyMock.expect(mockEditBookDefinitionService.getDocumentTypesByPublishers())
+                .andReturn(documentTypesByPublishers);
         EasyMock.expect(mockEditBookDefinitionService.getJurisdictions()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getKeywordCodes())
-            .andReturn(new ArrayList<KeywordTypeCode>())
+            .andReturn(new ArrayList<>())
             .times(keywordCodeTimes);
         EasyMock.expect(mockEditBookDefinitionService.getPublishers()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getPubTypes()).andReturn(null);
+        EasyMock.expect(mockEditBookDefinitionService.getBuckets()).andReturn(buckets);
         EasyMock.replay(mockEditBookDefinitionService);
     }
 }

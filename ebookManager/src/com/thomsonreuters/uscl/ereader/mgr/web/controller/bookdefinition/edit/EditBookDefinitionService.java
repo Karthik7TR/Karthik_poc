@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 public interface EditBookDefinitionService {
     List<DocumentTypeCode> getDocumentTypes();
 
+    Map<String, List<DocumentTypeCode>> getDocumentTypesByPublishers();
+
     Map<String, String> getStates();
 
     Map<String, String> getJurisdictions();
