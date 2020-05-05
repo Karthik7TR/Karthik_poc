@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -57,6 +59,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class EditBookDefinitionController {
+    private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
     @Autowired
     private BookDefinitionService bookDefinitionService;
     @Autowired
@@ -429,8 +432,8 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_NUMBER_OF_NORT_FILE_LOCATIONS, form.getNortFileLocations().size());
 
         // Set drop down lists
+        addContentTypesToModel(model, editBookDefinitionService.getDocumentTypesByPublishers());
         model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());
-        model.addAttribute(WebConstants.KEY_CONTENT_TYPES, editBookDefinitionService.getDocumentTypes());
         model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
         model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
         model.addAttribute(WebConstants.KEY_FRONT_MATTER_THEMES, editBookDefinitionService.getFrontMatterThemes());
@@ -460,5 +463,12 @@ public class EditBookDefinitionController {
             page.setId(pk);
         }
         return book;
+    }
+
+    private void addContentTypesToModel(final Model model, final Map<String, List<DocumentTypeCode>> contentTypes) {
+        model.addAttribute(WebConstants.KEY_CONTENT_TYPES, editBookDefinitionService.getDocumentTypes());
+        contentTypes.keySet().forEach(publisher
+                -> model.addAttribute(String.format(PUBLISHER_CONTENT_TYPES_FORMAT,
+                WebConstants.KEY_CONTENT_TYPES, publisher), contentTypes.get(publisher)));
     }
 }

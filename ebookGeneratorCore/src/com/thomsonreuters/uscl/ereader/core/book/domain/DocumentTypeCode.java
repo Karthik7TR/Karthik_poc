@@ -5,8 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,6 +41,11 @@ public class DocumentTypeCode implements Serializable {
     @SequenceGenerator(name = "documentTypeCodesIdSequence", sequenceName = "DOC_TYPE_CODES_ID_SEQ")
     @GeneratedValue(generator = "documentTypeCodesIdSequence")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "PUBLISHER_CODES_ID", referencedColumnName = "PUBLISHER_CODES_ID", nullable = false)})
+    private PublisherCode publisherCode;
 
     @Column(name = "DOCUMENT_TYPE_CODES_NAME", nullable = false, length = 1024)
     private String name;

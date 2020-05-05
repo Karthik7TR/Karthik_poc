@@ -152,7 +152,8 @@ $(function() {
 		var pubAbbr = "";
 		var pubInfo = "";
 		var jurisdiction = "";
-		var productCode = "";	
+		var productCode = "";
+		var bookLanguage = "en";
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
 		var updateTitleId = function() {
@@ -160,7 +161,9 @@ $(function() {
 			var titleId = [];
 			
 			// Set up Title ID
-			if(contentType == $("#documentTypeAnalyticalAbbr").val()) {
+			if ($('#publisher').val() === 'cw') {
+				titleId.push(pubInfo, bookLanguage);
+			} else if(contentType == $("#documentTypeAnalyticalAbbr").val()) {
 				if (pubInfo) {
 					titleId.push(pubAbbr, pubInfo);
 				} else {
@@ -209,27 +212,39 @@ $(function() {
 			$('#pubAbbrDiv').hide();
 			$('#publishDetailDiv').hide();
 			$('#productCodeDiv').hide();
+			$('#bookLanguageDiv').hide();
 			$('#contentTypeDiv').hide();
 			
-			if (publisher && publisher != "uscl") {
-				$('#productCodeDiv').show();
-				$('#publishDetailDiv').show();
-
-			} else if (publisher) {
-				$('#contentTypeDiv').show();
-				if(contentType == $("#documentTypeAnalyticalAbbr").val()) {
-					$('#pubAbbrDiv').show();
-				} else if(contentType == $("#documentTypeCourtRulesAbbr").val()) {
-					$('#stateDiv').show();
-					$('#pubTypeDiv').show();
-				} else if(contentType == $("#documentTypeSliceCodesAbbr").val()) {
-					$('#jurisdictionDiv').show();
-				}
-				
-				if (contentType) {
+			if (publisher) {
+				if (publisher === "cw") {
+					$('#contentTypeDiv').show();
+					$('#bookLanguageDiv').show();
 					$('#publishDetailDiv').show();
+					$('#bucket').val('ELOOSELEAFS');
+					$('.uscl_show').hide();
+					$('.cw_show').show();
+				} else if (publisher === "uscl") {
+					$('#contentTypeDiv').show();
+					if (contentType == $("#documentTypeAnalyticalAbbr").val()) {
+						$('#pubAbbrDiv').show();
+					} else if (contentType == $("#documentTypeCourtRulesAbbr").val()) {
+						$('#stateDiv').show();
+						$('#pubTypeDiv').show();
+					} else if (contentType == $("#documentTypeSliceCodesAbbr").val()) {
+						$('#jurisdictionDiv').show();
+					}
+					if (contentType) {
+						$('#publishDetailDiv').show();
+					} else {
+						$('#publishDetailDiv').hide();
+					}
+					$('#bucket').val('BOOKS');
+					$('.cw_show').hide();
+					$('.uscl_show').show();
 				} else {
-					$('#publishDetailDiv').hide();
+					$('#productCodeDiv').show();
+					$('#publishDetailDiv').show();
+					$('#bucket').val('BOOKS');
 				}
 			}
 		};
@@ -520,6 +535,8 @@ $(function() {
 			$('#jurisdiction').val("");
 			productCode = "";
 			$('#productCode').val("");
+			bookLanguage = "en";
+			$('#bookLanguage').val("en");
 		};
 		
 		// Only allow number inputs
@@ -617,14 +634,12 @@ $(function() {
 		});
 		$('#publisher').change(function () {
 			publisher = $(this).val();
-			if(publisher == "uscl") {
+			if (publisher === "uscl" || publisher === "cw") {
 				$('#contentTypeDiv').show();
 			} else {
 				$('#contentTypeDiv').hide();
 			}
 			determineOptions();
-			
-			// Clear out information when publisher changes
 			clearTitleAndContentInformation();
 			updateTitleId();
 		});
@@ -665,6 +680,10 @@ $(function() {
 		});
 		$('#productCode').change(function () {
 			productCode = $.trim($(this).val());
+			updateTitleId();
+		});
+		$('#bookLanguage').change(function () {
+			bookLanguage = $(this).val();
 			updateTitleId();
 		});
 		

@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
@@ -10,10 +12,12 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
@@ -48,6 +52,10 @@ public final class EditBookDefinitionServiceImplTest {
     private static final String INVALID_SUB_NUMBER = "12345670";
     private static final String UNAVAILABLE_SUB_NUMBER = "1234567";
     private static final String TITLE_ID = "titleId";
+    private static final String USCL_PUBLISHER_NAME = "uscl";
+    private static final String CW_PUBLISHER_NAME = "cw";
+    private static final String ANALYTICAL_DOCUMENT_TYPE_NAME = "Analytical";
+    private static final String ONE_TIME_SALE_DOCUMENT_TYPE_NAME = "One Time Sale";
 
     private EditBookDefinitionServiceImpl bookService;
     private File tempRootDir;
@@ -195,7 +203,7 @@ public final class EditBookDefinitionServiceImplTest {
         final Map<String, String> states = bookService.getStates();
         // then
         Assert.assertNotNull(states);
-        Assert.assertEquals(1, states.size());
+        assertEquals(1, states.size());
     }
 
     @Test
@@ -210,7 +218,7 @@ public final class EditBookDefinitionServiceImplTest {
         final Map<String, String> juris = bookService.getJurisdictions();
         // then
         Assert.assertNotNull(juris);
-        Assert.assertEquals(1, juris.size());
+        assertEquals(1, juris.size());
     }
 
     @Test
@@ -225,7 +233,7 @@ public final class EditBookDefinitionServiceImplTest {
         final Map<String, String> pubType = bookService.getPubTypes();
         // then
         Assert.assertNotNull(pubType);
-        Assert.assertEquals(1, pubType.size());
+        assertEquals(1, pubType.size());
     }
 
     @Test
@@ -240,7 +248,18 @@ public final class EditBookDefinitionServiceImplTest {
         final Map<String, String> pubs = bookService.getPublishers();
         // then
         Assert.assertNotNull(pubs);
-        Assert.assertEquals(1, pubs.size());
+        assertEquals(1, pubs.size());
+    }
+
+    @Test
+    public void testGetDocumentTypesByPublishers() {
+        List<PublisherCode> publishers = setUpPublishers();
+        when(publisherCodeService.getAllPublisherCodes()).thenReturn(publishers);
+
+        Map<String, List<DocumentTypeCode>> documentTypes = bookService.getDocumentTypesByPublishers();
+
+        checkUsclDocumentTypes(documentTypes.get(USCL_PUBLISHER_NAME));
+        checkCwDocumentTypes(documentTypes.get(CW_PUBLISHER_NAME));
     }
 
     @Test
@@ -251,10 +270,10 @@ public final class EditBookDefinitionServiceImplTest {
         file.createNewFile();
 
         List<String> fileList = bookService.getCodesWorkbenchDirectory(folder.getName());
-        Assert.assertEquals(1, fileList.size());
+        assertEquals(1, fileList.size());
 
         fileList = bookService.getCodesWorkbenchDirectory("");
-        Assert.assertEquals(1, fileList.size());
+        assertEquals(1, fileList.size());
     }
 
     @Test
@@ -324,5 +343,52 @@ public final class EditBookDefinitionServiceImplTest {
         assertThat(response.getMessage(), equalTo("OK"));
         assertThat(response.getMaterialComponents(), hasSize(1));
         assertThat(response.getMaterialComponents().get(0).getBomComponent(), equalTo("4"));
+    }
+
+    private List<PublisherCode> setUpPublishers() {
+        final List<PublisherCode> publishers = new ArrayList<>();
+        publishers.add(getPublisherUscl());
+        publishers.add(getPublisherCw());
+        return publishers;
+    }
+
+    private PublisherCode getPublisherUscl() {
+        final PublisherCode uscl = new PublisherCode();
+        uscl.setName(USCL_PUBLISHER_NAME);
+        uscl.setDocumentTypeCodes(getUsclDocumentTypeCodes(uscl));
+        return uscl;
+    }
+
+    private List<DocumentTypeCode> getUsclDocumentTypeCodes(final PublisherCode uscl) {
+        DocumentTypeCode usclDocumentType = new DocumentTypeCode();
+        usclDocumentType.setName(ANALYTICAL_DOCUMENT_TYPE_NAME);
+        usclDocumentType.setPublisherCode(uscl);
+        return Collections.singletonList(usclDocumentType);
+    }
+
+    private PublisherCode getPublisherCw() {
+        final PublisherCode cw = new PublisherCode();
+        cw.setName(CW_PUBLISHER_NAME);
+        cw.setDocumentTypeCodes(getCwDocumentTypeCodes(cw));
+        return cw;
+    }
+
+    private List<DocumentTypeCode> getCwDocumentTypeCodes(final PublisherCode cw) {
+        DocumentTypeCode cwDocumentType = new DocumentTypeCode();
+        cwDocumentType.setName(ONE_TIME_SALE_DOCUMENT_TYPE_NAME);
+        cwDocumentType.setPublisherCode(cw);
+        return Collections.singletonList(cwDocumentType);
+    }
+
+    private void checkUsclDocumentTypes(final List<DocumentTypeCode> documentTypes) {
+        DocumentTypeCode usclDocumentType = documentTypes.get(0);
+        assertNotNull(usclDocumentType);
+        assertEquals(usclDocumentType.getName(), ANALYTICAL_DOCUMENT_TYPE_NAME);
+    }
+
+    private void checkCwDocumentTypes(final List<DocumentTypeCode> documentTypes) {
+        DocumentTypeCode cwDocumentType = documentTypes.get(0);
+        assertNotNull(cwDocumentType);
+        assertEquals(cwDocumentType.getName(), ONE_TIME_SALE_DOCUMENT_TYPE_NAME);
     }
 }

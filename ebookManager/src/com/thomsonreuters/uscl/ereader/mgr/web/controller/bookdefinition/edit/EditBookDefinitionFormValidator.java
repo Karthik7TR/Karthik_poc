@@ -61,6 +61,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int LINE_BREAK_LENGTH = 5;
     private static final String ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED = "error.keyword.max.subjecs.number.exceeded";
     private static final String CRLF = "\r\n";
+    private static final String USCL_PUBLISHER_NAME = "uscl";
+    private static final String CW_PUBLISHER_NAME = "cw";
 
     private final BookDefinitionService bookDefinitionService;
     private final KeywordTypeCodeSevice keywordTypeCodeSevice;
@@ -323,7 +325,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             final DocumentTypeCode contentType =
                 (contentTypeId != null) ? documentTypeCodeService.getDocumentTypeCodeById(contentTypeId) : null;
 
-            if ("uscl".equalsIgnoreCase(publisher)) {
+            if (USCL_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
                 if (contentType != null
                     && WebConstants.DOCUMENT_TYPE_ANALYTICAL.equalsIgnoreCase(contentType.getName())) {
                     // Validate Analytical fields are filled out
@@ -345,6 +347,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
                 }
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
+            } else if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
             } else {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
 

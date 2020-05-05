@@ -230,6 +230,8 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String productCode;
     @Getter @Setter
+    private String bookLanguage;
+    @Getter @Setter
     private String comment;
     @Getter @Setter
     private EbookName frontMatterTitle = new EbookName();

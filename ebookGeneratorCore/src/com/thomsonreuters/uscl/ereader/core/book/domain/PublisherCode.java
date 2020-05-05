@@ -2,11 +2,14 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 /**
  * A publisher code database table entity.
@@ -41,4 +45,8 @@ public class PublisherCode implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdatedTimeStampForPubCode;
+
+    @OneToMany(mappedBy = "publisherCode", fetch = FetchType.EAGER, orphanRemoval = true)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<DocumentTypeCode> documentTypeCodes;
 }
