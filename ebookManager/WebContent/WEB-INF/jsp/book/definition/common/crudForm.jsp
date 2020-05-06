@@ -48,7 +48,7 @@
 <%-- Check if book has been published --%>
 <c:choose>
 	<c:when test="${!isPublished}">
-		<div class="generateTitleID">
+		<div id="generateTitleId" class="generateTitleID">
 			<div id="publisherChooseDiv">
 				<div id="publisherDiv">
 					<form:label path="publisher" class="labelCol">Publisher</form:label>

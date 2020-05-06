@@ -220,7 +220,7 @@ $(function() {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
 					$('#publishDetailDiv').show();
-					$('#bucket').val('ELOOSELEAFS');
+					enableElooseLeafsBucket();
 					$('.uscl_show').hide();
 					$('.cw_show').show();
 				} else if (publisher === "uscl") {
@@ -238,14 +238,28 @@ $(function() {
 					} else {
 						$('#publishDetailDiv').hide();
 					}
-					$('#bucket').val('BOOKS');
+					enableBooksBucket();
 					$('.cw_show').hide();
 					$('.uscl_show').show();
 				} else {
 					$('#productCodeDiv').show();
 					$('#publishDetailDiv').show();
-					$('#bucket').val('BOOKS');
+					enableBooksBucket();
 				}
+			}
+		};
+
+		var enableBooksBucket = function() {
+			if ($('#generateTitleId').length) {
+				$('#bucket').val('BOOKS');
+				eLooseleafsFields.hide();
+			}
+		};
+
+		var enableElooseLeafsBucket = function() {
+			if ($('#generateTitleId').length) {
+				$('#bucket').val('ELOOSELEAFS');
+				eLooseleafsFields.show();
 			}
 		};
 		
@@ -518,7 +532,7 @@ $(function() {
 		
 		var clearTitleAndContentInformation = function() {
 			contentType = "";
-			$('#contentTypeId option:first-child').attr("selected", true);
+			$('#contentTypeId').val($('#contentTypeId option:first').val());
 			clearTitleInformation();
 		};
 		
