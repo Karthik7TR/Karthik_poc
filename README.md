@@ -31,6 +31,6 @@ Perform the steps below in order.  However, if this is an onsite hands-on traini
 
 ## Cleanup
 When you are finished, you can run this to cleanup all of the stuff the cumulus installer created.  
-`cumulus installer uninstall --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml -a ${SAMI_USERNAME}`
+`cumulus installer uninstall --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}`
 
 To delete the services, you'll have to delete the CloudFormation stacks manually.  They will follow the syntax `a206296-${ServiceName}-${Environment}-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx is a random string.
