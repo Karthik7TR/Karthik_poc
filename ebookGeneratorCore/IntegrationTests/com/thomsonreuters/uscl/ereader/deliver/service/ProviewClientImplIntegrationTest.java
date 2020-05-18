@@ -37,7 +37,7 @@ public final class ProviewClientImplIntegrationTest {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
-    private String getTitlesUriTemplate = "/v1/titles/uscl/all";
+    private String getTitlesUriTemplate = "/v1/titles/";
     private String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
     private String removeTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/removed";
     private String promoteTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/final";
@@ -46,9 +46,10 @@ public final class ProviewClientImplIntegrationTest {
     private String getSingleGroupTemplate = "/v1/group/{groupId}";
     private String validateTitleUriTemplate = "";
 
+    private static final String USCL = "uscl";
+
     private static final String PROVIEW_USERNAME = "publisher";
     private static final String PROVIEW_PASSWORD = "f9R_zBq37a";
-
     private static final String PROVIEW_INVALID_USERNAME = "YARR";
     private static final String PROVIEW_INVALID_PASSWORD = "PIRATES!";
 
@@ -87,7 +88,7 @@ public final class ProviewClientImplIntegrationTest {
     @Test
     public void testGetAllTitlesHappyPath() throws Exception {
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
-        final String publisherInformation = proviewClient.getAllPublishedTitles();
+        final String publisherInformation = proviewClient.getAllPublishedTitles(USCL);
         System.out.println(publisherInformation);
         assertTrue(publisherInformation.startsWith("<titles apiversion=\"v1\" publisher=\"uscl\""));
     }
@@ -162,15 +163,15 @@ public final class ProviewClientImplIntegrationTest {
     public void testGetAllGroupsHappyPath() throws Exception {
         proviewClient.setProviewHost(InetAddress.getLocalHost());
         proviewClient
-            .setAllGroupsUriTemplate("http://" + "proviewpublishing.int.qed.thomsonreuters.com" + "/v1/group/uscl");
+            .setAllGroupsUriTemplate("http://" + "proviewpublishing.int.qed.thomsonreuters.com" + "/v1/group/");
         boolean thrown = false;
         try {
-            proviewClient.getAllProviewGroups();
+            proviewClient.getAllProviewGroups(USCL);
         } catch (final ProviewRuntimeException e) {
             thrown = true;
         }
 
-        Assert.assertEquals(false, thrown);
+        Assert.assertFalse(thrown);
     }
 
     @Ignore
@@ -270,8 +271,7 @@ public final class ProviewClientImplIntegrationTest {
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 
         try {
-            proviewClient.getAllPublishedTitles();
-
+            proviewClient.getAllPublishedTitles(USCL);
         } catch (final Exception e) {
             fail("Expected an exception as invalid username/password for ProView!");
             System.out.println(e.getMessage()); // expected
