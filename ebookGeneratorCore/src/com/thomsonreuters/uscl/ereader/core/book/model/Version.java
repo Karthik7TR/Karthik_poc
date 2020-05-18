@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.core.book.model;
 
+import java.math.BigInteger;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
@@ -13,30 +15,30 @@ public class Version implements Comparable<Version> {
     private static final String MINOR = "minorV";
     private static final Pattern VERSION_PATTERN = Pattern.compile(String.format("v(?<%s>\\d+)(\\.(?<%s>\\d+))?", MAJOR, MINOR));
 
-    private Integer majorVersion;
-    private Integer minorVersion;
+    private BigInteger majorVersion;
+    private BigInteger minorVersion;
 
+    @SneakyThrows
     public Version(@NotNull final String version) {
         Assert.notNull(version);
         final Matcher matcher = VERSION_PATTERN.matcher(version);
         Assert.isTrue(matcher.matches(), "Version should match pattern: v<major_version>.[<minor_version>]");
-
-        majorVersion = Integer.valueOf(matcher.group(MAJOR));
+        majorVersion = new BigInteger(matcher.group(MAJOR));
         minorVersion = Optional.ofNullable(matcher.group(MINOR))
-            .map(Integer::valueOf)
-            .orElse(0);
+            .map(BigInteger::new)
+            .orElse(BigInteger.ZERO);
     }
 
-    public Version(final int majorVersion, final int minorVersion) {
+    public Version(final BigInteger majorVersion, final BigInteger minorVersion) {
         this.majorVersion = majorVersion;
         this.minorVersion = minorVersion;
     }
 
-    public int getMajorNumber() {
+    public BigInteger getMajorNumber() {
         return majorVersion;
     }
 
-    public int getMinorNumber() {
+    public BigInteger getMinorNumber() {
         return minorVersion;
     }
 
@@ -61,7 +63,7 @@ public class Version implements Comparable<Version> {
     }
 
     public boolean isNewMajorVersion() {
-        return minorVersion == 0;
+        return minorVersion.equals(BigInteger.ZERO);
     }
 
     @Override

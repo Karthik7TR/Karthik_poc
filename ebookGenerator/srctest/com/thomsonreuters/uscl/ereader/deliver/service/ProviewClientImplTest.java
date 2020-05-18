@@ -29,8 +29,10 @@ public final class ProviewClientImplTest {
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
     private static final String PROVIEW_HOST_PARAM = "proviewHost";
+    private static final String USCL = "uscl";
+    private static final String ALL = "/all";
     private static InetAddress PROVIEW_HOST;
-    private String getTitlesUriTemplate = "/v1/titles/uscl/all";
+    private String getTitlesUriTemplate = "/v1/titles/";
 
     private ProviewClientImpl proviewClient;
     private RestTemplate mockRestTemplate;
@@ -74,7 +76,7 @@ public final class ProviewClientImplTest {
         urlParameters.put(PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         EasyMock.expect(
             mockRestTemplate.execute(
-                "http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate,
+                "http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate + USCL + ALL,
                 HttpMethod.GET,
                 mockRequestCallback,
                 mockResponseExtractor,
@@ -82,7 +84,7 @@ public final class ProviewClientImplTest {
             .andReturn("YARR!");
 
         replayAll();
-        final String response = proviewClient.getAllPublishedTitles();
+        final String response = proviewClient.getAllPublishedTitles(USCL);
         verifyAll();
 
         assertTrue("Response did not match expected result!", response.equals(expectedResponse));

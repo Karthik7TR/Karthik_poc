@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class SupersededProviewHandlerHelper {
 
     public void markTitleSuperseded(final String fullyQualifiedTitleId, final Map<String, ProviewTitleContainer> allPublishedTitles) {
         final List<ProviewTitleContainer> splitBookTitles = groupTitlesBySplitBooks(allPublishedTitles).get(new TitleId(fullyQualifiedTitleId).getHeadTitleId());
-        final List<Integer> lowerMajorVersions = getLowerFinalMajorVersions(splitBookTitles);
+        final List<BigInteger> lowerMajorVersions = getLowerFinalMajorVersions(splitBookTitles);
         lowerMajorVersions.forEach(majorVersion -> markTitleVersionAsSuperseded(splitBookTitles, majorVersion));
         log.debug("Successfully marked as Superseded old major versions {} of {}", lowerMajorVersions, fullyQualifiedTitleId);
     }
@@ -40,12 +41,13 @@ public class SupersededProviewHandlerHelper {
         markTitleVersionAsSuperseded(splitBookTitles, version.getMajorNumber());
     }
 
-    private void markTitleVersionAsSuperseded(final List<ProviewTitleContainer> splitBookTitles, final int majorVersion) {
-        final int maxFinalMajorVersion = splitBookTitles.stream().flatMap(titleContainer -> titleContainer.getProviewTitleInfos().stream())
+    private void markTitleVersionAsSuperseded(final List<ProviewTitleContainer> splitBookTitles, final BigInteger majorVersion) {
+        final BigInteger maxFinalMajorVersion = splitBookTitles.stream()
+            .flatMap(titleContainer -> titleContainer.getProviewTitleInfos().stream())
             .filter(info -> FINAL_STATUS.equalsIgnoreCase(info.getStatus()))
             .map(ProviewTitleInfo::getMajorVersion)
             .distinct()
-            .max(Comparator.naturalOrder()).orElse(0);
+            .max(Comparator.naturalOrder()).orElse(BigInteger.ZERO);
 
         splitBookTitles.forEach(titleContainer -> markPreviousFinalVersionAsSuperseded(titleContainer, majorVersion, maxFinalMajorVersion));
     }
@@ -57,33 +59,37 @@ public class SupersededProviewHandlerHelper {
             ));
     }
 
-    private void markPreviousFinalVersionAsSuperseded(final ProviewTitleContainer titleContainer, final int newFinalMajorVersion, final int maxFinalMajorVersion) {
-        final int majorVersionToMarkSuperseded = getFinalMajorVersionToMarkSuperseded(titleContainer, newFinalMajorVersion, maxFinalMajorVersion);
+    private void markPreviousFinalVersionAsSuperseded(final ProviewTitleContainer titleContainer,
+        final BigInteger newFinalMajorVersion, final BigInteger maxFinalMajorVersion) {
+        final BigInteger majorVersionToMarkSuperseded = getFinalMajorVersionToMarkSuperseded(titleContainer, newFinalMajorVersion, maxFinalMajorVersion);
 
         titleContainer.getProviewTitleInfos().stream()
-            .filter(info -> info.getMajorVersion() == majorVersionToMarkSuperseded)
-            .max(Comparator.comparingInt(ProviewTitleInfo::getMinorVersion))
-            .ifPresent(info -> markVersionAsSuperseededAndPromoteToFinal(info.getTitleId(), info.getMajorVersion(), info.getMinorVersion() + 1));
+            .filter(info -> info.getMajorVersion().equals(majorVersionToMarkSuperseded))
+            .max(Comparator.comparing(ProviewTitleInfo::getMinorVersion))
+            .ifPresent(info -> markVersionAsSuperseededAndPromoteToFinal(info.getTitleId(),
+                    info.getMajorVersion(), info.getMinorVersion().add(BigInteger.ONE)));
     }
 
-    private int getFinalMajorVersionToMarkSuperseded(final ProviewTitleContainer titleContainer, final int newFinalMajorVersion, final int maxFinalMajorVersion) {
+    private BigInteger getFinalMajorVersionToMarkSuperseded(final ProviewTitleContainer titleContainer,
+        final BigInteger newFinalMajorVersion, final BigInteger maxFinalMajorVersion) {
         return titleContainer.getProviewTitleInfos().stream()
             .filter(info -> FINAL_STATUS.equalsIgnoreCase(info.getStatus()))
             .map(ProviewTitleInfo::getMajorVersion)
-            .filter(majorVersion -> majorVersion < maxFinalMajorVersion)
-            .filter(majorVersion -> majorVersion <= newFinalMajorVersion)
+            .filter(majorVersion -> majorVersion.compareTo(maxFinalMajorVersion) < 0)
+            .filter(majorVersion -> majorVersion.compareTo(newFinalMajorVersion) <= 0)
             .max(Comparator.naturalOrder())
-            .orElse(0);
+            .orElse(BigInteger.ZERO);
     }
 
-    private List<Integer> getLowerFinalMajorVersions(final List<ProviewTitleContainer> splitBookTitles) {
-        final List<Integer> allMajorVersions = splitBookTitles.stream().flatMap(title -> title.getFinalMajorVersions().stream())
+    private List<BigInteger> getLowerFinalMajorVersions(final List<ProviewTitleContainer> splitBookTitles) {
+        final List<BigInteger> allMajorVersions = splitBookTitles.stream().flatMap(title -> title.getFinalMajorVersions().stream())
             .distinct().sorted().collect(Collectors.toList());
         return allMajorVersions.subList(0, Math.max(allMajorVersions.size() - 1, 0));
     }
 
     @SneakyThrows
-    private void markVersionAsSuperseededAndPromoteToFinal(final String fullyQualifiedTitleId, final Integer majorVersion, final Integer minorVersion) {
+    private void markVersionAsSuperseededAndPromoteToFinal(final String fullyQualifiedTitleId,
+        final BigInteger majorVersion, final BigInteger minorVersion) {
         final String version = new Version(majorVersion, minorVersion).getFullVersion();
         try {
             final HttpStatus status = proviewClient.changeTitleVersionToSuperseded(fullyQualifiedTitleId, version);

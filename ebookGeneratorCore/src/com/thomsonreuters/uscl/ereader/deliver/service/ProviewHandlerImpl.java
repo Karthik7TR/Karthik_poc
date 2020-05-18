@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,8 +15,10 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
@@ -40,14 +43,21 @@ public class ProviewHandlerImpl implements ProviewHandler {
     private SupersededProviewHandlerHelper supersededHandler;
     @Autowired
     private SplitPartsUniteService splitPartsUniteService;
+    @Autowired
+    private PublisherCodeService publisherCodeService;
 
     /*----------------------ProView Group--------------------------*/
 
     @Override
     public Map<String, ProviewGroupContainer> getAllProviewGroupInfo() throws ProviewException {
-        final String allGroupsResponse = proviewClient.getAllProviewGroups();
+        Map<String, ProviewGroupContainer> allGroups = new HashMap<>();
+        List<PublisherCode> publishers = publisherCodeService.getAllPublisherCodes();
         final ProviewGroupsParser parser = new ProviewGroupsParser();
-        return parser.process(allGroupsResponse);
+        for (PublisherCode publisher : publishers) {
+            final String groupsResponse = proviewClient.getAllProviewGroups(publisher.getName());
+            allGroups.putAll(parser.process(groupsResponse));
+        }
+        return allGroups;
     }
 
     @Override
@@ -156,11 +166,14 @@ public class ProviewHandlerImpl implements ProviewHandler {
      */
     @Override
     public Map<String, ProviewTitleContainer> getAllProviewTitleInfo() throws ProviewException {
-        final String allPublishedTitleResponse = proviewClient.getAllPublishedTitles();
-
+        Map<String, ProviewTitleContainer> allTitles = new HashMap<>();
         final PublishedTitleParser parser = new PublishedTitleParser();
-
-        return parser.process(allPublishedTitleResponse);
+        List<PublisherCode> publishers = publisherCodeService.getAllPublisherCodes();
+        for (PublisherCode publisher : publishers) {
+            final String publishedTitleResponse = proviewClient.getAllPublishedTitles(publisher.getName());
+            allTitles.putAll(parser.process(publishedTitleResponse));
+        }
+        return allTitles;
     }
 
     @Override

@@ -44,7 +44,7 @@
     
     <bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
           p:proviewHostname="${proview.host}"
-          p:getTitlesUriTemplate="http://{proviewHost}/v1/titles/uscl/all"
+          p:getTitlesUriTemplate="http://{proviewHost}/v1/titles/"
           p:singleTitleTemplate="http://{proviewHost}/v1/titles/{titleId}"
           p:publishTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}"
           p:removeTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}/status/removed"
@@ -57,7 +57,7 @@
           p:removeGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/removed"
           p:promoteGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/final"
           p:getGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/info"
-          p:allGroupsUriTemplate="http://{proviewHost}/v1/group/uscl"
+          p:allGroupsUriTemplate="http://{proviewHost}/v1/group/"
           p:singleGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}"
           p:deleteGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
           p:singleTitleByVersionUriTemplate="http://{proviewHost}/v1/titles/{titleId}/{eBookVersionNumber}"/>

@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -122,7 +123,8 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
             .withBookVersion(getBookVersion())
             .withPageNumbers(true);
         Optional.ofNullable(splitPartNumber)
-            .map(partNumber -> new BookTitleId(partNumber.toString(), new Version(0, 0)))
+            .map(partNumber -> new BookTitleId(partNumber.toString(),
+                    new Version(BigInteger.ZERO, BigInteger.ZERO)))
             .ifPresent(titleId -> featureListBuilder.forTitleId(titleId)
                 .withTitleDocs(Collections.singletonMap(titleId, documents)));
         return featureListBuilder.getFeatures();

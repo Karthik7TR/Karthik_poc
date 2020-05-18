@@ -38,10 +38,12 @@ public final class ProviewClientImplTest {
     private static final String PROVIEW_HOST_PARAM = "proviewHost";
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
+    private static final String USCL = "uscl";
+    private static final String ALL = "/all";
     private static InetAddress PROVIEW_HOST;
     private Map<String, String> urlParameters = new HashMap<>();
-    private String allGroupsUriTemplate = "http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}";
-    private String getTitlesUriTemplate = "/v1/titles/uscl/all";
+    private String allGroupsUriTemplate = "http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/";
+    private String getTitlesUriTemplate = "/v1/titles/";
     private ProviewClientImpl proviewClient;
     private RestTemplate mockRestTemplate;
     private ResponseEntity<?> mockResponseEntity;
@@ -100,7 +102,7 @@ public final class ProviewClientImplTest {
         EasyMock
             .expect(
                 mockRestTemplate.execute(
-                    allGroupsUriTemplate,
+                    allGroupsUriTemplate + USCL,
                     HttpMethod.GET,
                     mockRequestCallback,
                     mockResponseExtractor,
@@ -108,7 +110,7 @@ public final class ProviewClientImplTest {
             .andReturn(response);
 
         replayAll();
-        final String proviewGroups = proviewClient.getAllProviewGroups();
+        final String proviewGroups = proviewClient.getAllProviewGroups(USCL);
         Assert.assertEquals(response, proviewGroups);
     }
 
@@ -347,7 +349,7 @@ public final class ProviewClientImplTest {
         EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
         EasyMock.expect(
             mockRestTemplate.execute(
-                "http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate,
+                "http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate + USCL + ALL,
                 HttpMethod.GET,
                 mockRequestCallback,
                 mockResponseExtractor,
@@ -355,7 +357,7 @@ public final class ProviewClientImplTest {
             .andReturn(response);
 
         replayAll();
-        final String titleInfo = proviewClient.getAllPublishedTitles();
+        final String titleInfo = proviewClient.getAllPublishedTitles(USCL);
         verifyAll();
 
         Assert.assertEquals(response, titleInfo);

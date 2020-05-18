@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public class ProviewClientImpl implements ProviewClient {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImpl.class);
+    private static final String ALL = "/all";
     private static final String TITLE_ID = "titleId";
     private static final String EBOOK_VERSION_NUMBER = "eBookVersionNumber";
     private static final String PROVIEW_HOST_PARAM = "proviewHost";
@@ -86,19 +88,19 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will get group definition
      *
-     * @param groupDefinition
+     * @param publisher
      * @return
      * @throws ProviewException
      */
     @Override
-    public String getAllProviewGroups() throws ProviewException {
+    public String getAllProviewGroups(final String publisher) throws ProviewException {
         String proviewResponse = null;
         try {
             final Map<String, String> urlParameters = new HashMap<>();
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 
             proviewResponse = restTemplate.execute(
-                allGroupsUriTemplate,
+                allGroupsUriTemplate + publisher,
                 HttpMethod.GET,
                 proviewRequestCallbackFactory.getStreamRequestCallback(),
                 proviewResponseExtractorFactory.getResponseExtractor(),
@@ -275,14 +277,14 @@ public class ProviewClientImpl implements ProviewClient {
     /*-----------------------Proview Title operations-----------------------------*/
 
     @Override
-    public String getAllPublishedTitles() throws ProviewException {
+    public String getAllPublishedTitles(final String publisher) throws ProviewException {
         String response = null;
         try {
             final Map<String, String> urlParameters = new HashMap<>();
             LOG.debug("Proview host: " + proviewHost.getHostName());
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
             response = restTemplate.execute(
-                getTitlesUriTemplate,
+                getTitlesUriTemplate + publisher + ALL,
                 HttpMethod.GET,
                 proviewRequestCallbackFactory.getStreamRequestCallback(),
                 proviewResponseExtractorFactory.getResponseExtractor(),
@@ -549,7 +551,7 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Allows for the dynamic setting of this host name "on the fly".
      *
-     * @param host the new host name to use. For example a production or test host.
+     * @param hostname the new host name to use. For example a production or test host.
      */
     @Override
     public void setProviewHostname(final String hostname) throws UnknownHostException {
