@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -150,7 +151,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
                     firstSplitBook = true;
                 }
 
-                featuresListBuilder.forTitleId(new BookTitleId(key, new Version(0, 0)));
+                featuresListBuilder.forTitleId(new BookTitleId(key,
+                        new Version(BigInteger.ZERO, BigInteger.ZERO)));
                 titleMetadataBuilder.proviewFeatures(featuresListBuilder.getFeatures());
 
                 final File ebookDirectory = new File(assembleDirectory, splitTitle);
@@ -188,7 +190,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
     @NotNull
     private Map<BookTitleId, List<Doc>> getDocsByTitles(@NotNull final Map<String, List<Doc>> docMap) {
         return docMap.entrySet().stream()
-            .collect(Collectors.toMap(entry -> new BookTitleId(entry.getKey(), new Version(0, 0)),
+            .collect(Collectors.toMap(entry -> new BookTitleId(entry.getKey(),
+                            new Version(BigInteger.ZERO, BigInteger.ZERO)),
                 Entry::getValue, (oldVal, newVal) -> newVal, HashMap::new));
     }
 

@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import java.math.BigInteger;
+
 public interface TitleInfo {
     String getTitle();
 
@@ -11,9 +13,9 @@ public interface TitleInfo {
 
     String getVersion();
 
-    Integer getMajorVersion();
+    BigInteger getMajorVersion();
 
-    Integer getMinorVersion();
+    BigInteger getMinorVersion();
 
     String getPublisher();
 

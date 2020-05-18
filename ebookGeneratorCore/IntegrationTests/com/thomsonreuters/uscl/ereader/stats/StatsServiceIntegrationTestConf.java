@@ -3,11 +3,14 @@ package com.thomsonreuters.uscl.ereader.stats;
 import com.thomsonreuters.uscl.ereader.config.AbstractDatabaseIntegrationTestConfig;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl;
+import com.thomsonreuters.uscl.ereader.core.book.dao.PublisherCodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.VersionIsbnDao;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnServiceImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
@@ -91,6 +94,11 @@ public class StatsServiceIntegrationTestConf extends AbstractDatabaseIntegration
     @Bean
     public SplitPartsUniteService splitPartsUniteService() {
         return new SplitPartsUniteServiceImpl();
+    }
+
+    @Bean
+    public PublisherCodeService publisherCodeService(PublisherCodeDao publisherCodeDao) {
+        return new PublisherCodeServiceImpl(publisherCodeDao);
     }
 
     @Bean

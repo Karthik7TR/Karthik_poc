@@ -11,13 +11,17 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
+import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -44,17 +48,32 @@ public final class ProviewHandlerImplTest {
     private static final String TITLE_ID = "testTileId";
     private static final String VERSION = "v1.2";
     private static final String TITLES = "<titles></titles>";
+    private static final String GROUPS = "<groups></groups>";
+    private static final String USCL = "uscl";
+    private static final String CW = "cw";
 
     @Mock
     private ProviewClient mockProviewClient;
+    @Mock
+    private PublisherCodeService publisherCodeService;
+    @Mock
+    PublisherCode uscl;
+    @Mock
+    PublisherCode cw;
     private GroupDefinition groupDefinition;
+    private List<PublisherCode> allPublisherCodes;
 
     @Mock
     private SupersededProviewHandlerHelper mockSupersededHandler;
 
+    @SneakyThrows
     @Before
     public void setUp() {
         proviewHandler.setProviewClient(mockProviewClient);
+        when(uscl.getName()).thenReturn("uscl");
+        when(cw.getName()).thenReturn("cw");
+        allPublisherCodes = Arrays.asList(uscl, cw);
+        when(publisherCodeService.getAllPublisherCodes()).thenReturn(allPublisherCodes);
     }
 
     @After
@@ -139,14 +158,16 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testGetAllLatestProviewGroupInfo() throws Exception {
-        final String response = "<groups><group id=\"uscl/abook_testgroup\" status=\"Review\" version=\"v2\">"
+        final String usclResponse = "<groups><group id=\"uscl/abook_testgroup\" status=\"Review\" version=\"v2\">"
             + "<name>Group1</name><type>standard</type><headtitle>uscl/an/abook_testgroup/v1</headtitle>"
             + "<members><subgroup heading=\"2010\"><title>uscl/an/abook_testgroup/v1</title>"
             + "<title>uscl/an/abook_testgroup_pt2/v1</title></subgroup></members></group>"
             + "<group id=\"uscl/abook_testgroup\" status=\"Final\" version=\"v1\"><name>Group1</name>"
             + "<type>standard</type><headtitle>uscl/an/abook_testgroup</headtitle><members><subgroup>"
             + "<title>uscl/an/abook_testgroup</title></subgroup></members></group></groups>";
-        when(mockProviewClient.getAllProviewGroups()).thenReturn(response);
+        final String cwResponse = "<groups></groups>";
+        when(mockProviewClient.getAllProviewGroups(USCL)).thenReturn(usclResponse);
+        when(mockProviewClient.getAllProviewGroups(CW)).thenReturn(GROUPS);
 
         final List<ProviewGroup> proviewGroups = proviewHandler.getAllLatestProviewGroupInfo();
         assertEquals(1, proviewGroups.size());
@@ -304,18 +325,25 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testGetAllLatestProviewTitleInfo() throws Exception {
-        final String response = "<titles apiversion=\"v1\" publisher=\"uscl\" status=\"all\">"
+        final String usclResponse = "<titles apiversion=\"v1\" publisher=\"uscl\" status=\"all\">"
             + "<title id=\"uscl/abadocs/art\" version=\"v1.0\" publisher=\"uscl\" "
             + "lastupdate=\"20150508\" status=\"Cleanup\"> Handbook of Practical "
             + "Planning for Art Collectors and Their Advisors</title>"
             + "<title id=\"uscl/abadocs/art\" version=\"v1.1\" publisher=\"uscl\" "
             + "lastupdate=\"20150508\" status=\"Review\">Handbook of Practical "
             + "Planning for Art Collectors and Their Advisors </title></titles>";
-        when(mockProviewClient.getAllPublishedTitles()).thenReturn(response);
+        final String cwResponse = "<titles apiversion=\"v1\" publisher=\"cw\" status=\"all\">"
+            + "<title id=\"cw/eg/book_en\" version=\"v1.0\" publisher=\"cw\" "
+            + "lastupdate=\"20150508\" status=\"Removed\">Test cw book</title>"
+            + "<title id=\"cw/eg/book_en\" version=\"v2.0\" publisher=\"cw\" "
+            + "lastupdate=\"20150508\" status=\"Review\">Test cw book</title></titles>";
+
+        when(mockProviewClient.getAllPublishedTitles(USCL)).thenReturn(usclResponse);
+        when(mockProviewClient.getAllPublishedTitles(CW)).thenReturn(cwResponse);
 
         final List<ProviewTitleInfo> titleInfo = proviewHandler.getAllLatestProviewTitleInfo();
 
-        assertEquals(1, titleInfo.size());
+        assertEquals(2, titleInfo.size());
     }
 
     @Test
@@ -363,7 +391,8 @@ public final class ProviewHandlerImplTest {
     public void testPromoteTitle() throws Exception {
         doNothing().when(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
         when(mockProviewClient.promoteTitle(TITLE_ID, VERSION)).thenReturn(HttpStatus.OK);
-        when(mockProviewClient.getAllPublishedTitles()).thenReturn(TITLES);
+        when(mockProviewClient.getAllPublishedTitles(USCL)).thenReturn(TITLES);
+        when(mockProviewClient.getAllPublishedTitles(CW)).thenReturn(TITLES);
 
         final boolean response = proviewHandler.promoteTitle(TITLE_ID, VERSION);
 
@@ -376,7 +405,8 @@ public final class ProviewHandlerImplTest {
         final String titleId = TITLE_ID + "_pt2";
 
         when(mockProviewClient.promoteTitle(titleId, VERSION)).thenReturn(HttpStatus.OK);
-        when(mockProviewClient.getAllPublishedTitles()).thenReturn(TITLES);
+        when(mockProviewClient.getAllPublishedTitles(USCL)).thenReturn(TITLES);
+        when(mockProviewClient.getAllPublishedTitles(CW)).thenReturn(TITLES);
 
         final boolean response = proviewHandler.promoteTitle(titleId, VERSION);
 

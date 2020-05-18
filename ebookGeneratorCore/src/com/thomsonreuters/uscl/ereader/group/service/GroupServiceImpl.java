@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.group.service;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -41,7 +42,6 @@ public class GroupServiceImpl implements GroupService {
      * Group ID is unique to each major version
      *
      * @param bookDefinition
-     * @param versionNumber
      * @return
      */
     @Override
@@ -221,7 +221,7 @@ public class GroupServiceImpl implements GroupService {
 
         // Get list of titles in ProView so invalid versions are not added to the group from previous
         final List<ProviewTitleInfo> proviewTitleInfoList = getMajorVersionProviewTitles(fullyQualifiedTitleId);
-        final Set<Integer> majorVersionList = new HashSet<>();
+        final Set<BigInteger> majorVersionList = new HashSet<>();
         for (final ProviewTitleInfo ProviewTitleInfo : proviewTitleInfoList) {
             majorVersionList.add(ProviewTitleInfo.getMajorVersion());
         }
@@ -360,7 +360,7 @@ public class GroupServiceImpl implements GroupService {
         final String titleId,
         final List<SubGroupInfo> subGroupInfoList,
         final List<String> pilotBooks,
-        final Set<Integer> majorVersions) throws ProviewException {
+        final Set<BigInteger> majorVersions) throws ProviewException {
         List<String> removedTitles;
         final List<SubGroupInfo> emptySubGroups = new ArrayList<>();
         for (final SubGroupInfo subgroup : subGroupInfoList) {
@@ -467,15 +467,13 @@ public class GroupServiceImpl implements GroupService {
      */
     private boolean isTitleInProview(
         String title,
-        final Set<Integer> majorVersionList,
+        final Set<BigInteger> majorVersionList,
         final String fullyQualifiedTitleId) throws ProviewException {
         if (StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId)) {
             if (isTitleWithVersion(title)) {
                 final String version = StringUtils.substringAfterLast(title, "/v");
-                final Integer majorVersion = Integer.valueOf(StringUtils.substringBefore(version, "."));
-                if (majorVersionList.contains(majorVersion)) {
-                    return true;
-                }
+                final BigInteger majorVersion = new BigInteger(StringUtils.substringBefore(version, "."));
+                return majorVersionList.contains(majorVersion);
             }
         }
         // It must be a pilot book
@@ -562,7 +560,7 @@ public class GroupServiceImpl implements GroupService {
                     for (final ProviewTitleInfo titleInfo : singleBook.getAllMajorVersions()) {
                         totalNumberOfVersions++;
                         titleInfo.setTotalNumberOfVersions(totalNumberOfVersions);
-                        if (latest.getMajorVersion() < titleInfo.getMajorVersion()) {
+                        if (latest.getMajorVersion().compareTo(titleInfo.getMajorVersion()) < 0) {
                             latest = titleInfo;
                         }
                     }

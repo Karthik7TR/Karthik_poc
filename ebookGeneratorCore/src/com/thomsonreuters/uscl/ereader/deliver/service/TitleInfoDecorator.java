@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
+import java.math.BigInteger;
+
 public abstract class TitleInfoDecorator implements TitleInfo {
     @NotNull
     protected TitleInfo titleInfo;
@@ -33,12 +35,12 @@ public abstract class TitleInfoDecorator implements TitleInfo {
     }
 
     @Override
-    public Integer getMajorVersion() {
+    public BigInteger getMajorVersion() {
         return titleInfo.getMajorVersion();
     }
 
     @Override
-    public Integer getMinorVersion() {
+    public BigInteger getMinorVersion() {
         return titleInfo.getMinorVersion();
     }
 

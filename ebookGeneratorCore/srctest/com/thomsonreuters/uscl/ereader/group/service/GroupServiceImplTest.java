@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.group.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -1718,7 +1719,7 @@ public final class GroupServiceImplTest {
             EasyMock.replay(mockProviewHandler);
 
             final List<ProviewTitleInfo> proviewTitleInfo = groupService.getMajorVersionProviewTitles(titleId);
-            Assert.assertEquals(Integer.valueOf(3), proviewTitleInfo.get(0).getMajorVersion());
+            Assert.assertEquals(BigInteger.valueOf(3L), proviewTitleInfo.get(0).getMajorVersion());
             Assert.assertEquals(2, proviewTitleInfo.size());
         } catch (final Exception e) {
             e.printStackTrace();

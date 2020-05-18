@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
+import java.math.BigInteger;
 import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -47,7 +48,7 @@ public final class EditGroupDefinitionFormTest {
         final Title title = new Title();
         title.setProviewName("Book Title");
         title.setTitleId(TITLE_ID);
-        title.setVersion(1);
+        title.setVersion(BigInteger.ONE);
 
         final Subgroup subgroup = new Subgroup();
         subgroup.setHeading(null);
@@ -83,7 +84,7 @@ public final class EditGroupDefinitionFormTest {
         final Title title = new Title();
         title.setProviewName("Book Title");
         title.setTitleId(TITLE_ID);
-        title.setVersion(1);
+        title.setVersion(BigInteger.ONE);
 
         final Subgroup subgroup = new Subgroup();
         subgroup.setHeading(subgroupHeading);
@@ -99,7 +100,7 @@ public final class EditGroupDefinitionFormTest {
         proviewTitleInfos.add(info);
 
         Map<String, List<String>> titleIdToPartsMap = new HashMap<>();
-        titleIdToPartsMap.put(TITLE_ID_WITH_MAJOR_VERSION, Arrays.asList(TITLE_ID_WITH_MAJOR_VERSION));
+        titleIdToPartsMap.put(TITLE_ID_WITH_MAJOR_VERSION, Collections.singletonList(TITLE_ID_WITH_MAJOR_VERSION));
         final GroupDefinition group = form.createGroupDefinition(proviewTitleInfos, titleIdToPartsMap);
         Assert.assertEquals(GROUP_ID, group.getGroupId());
         Assert.assertEquals(subgroupHeading, group.getFirstSubgroupHeading());

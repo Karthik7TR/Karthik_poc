@@ -1,10 +1,12 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,30 +23,33 @@ public class ProviewTitleContainer implements Serializable {
     private List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
 
     public ProviewTitleInfo getLatestVersion() {
-        int latestIntMajorPart = 0;
-        int latestIntMinorPart = 0;
+        BigInteger latestIntMajorPart = BigInteger.ZERO;
+        BigInteger latestIntMinorPart = BigInteger.ZERO;
         ProviewTitleInfo latestProviewTitleInfo = null;
 
         for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
-            final String currentVersion = proviewTitleInfo.getVersion().substring(1);
+            final String currentVersion = new Version(proviewTitleInfo.getVersion())
+                    .getFullVersion()
+                    .substring(1);
             final String majorPart;
             final String minorPart;
-            int intMajorPart = 0;
-            int intMinorPart = 0;
+            BigInteger intMajorPart;
+            BigInteger intMinorPart = BigInteger.ZERO;
 
             if (currentVersion.contains(".")) {
                 majorPart = currentVersion.substring(0, currentVersion.indexOf('.'));
                 minorPart = currentVersion.substring(currentVersion.indexOf('.') + 1);
 
-                intMajorPart = Integer.parseInt(majorPart);
-                intMinorPart = Integer.parseInt(minorPart);
+                intMajorPart = new BigInteger(majorPart);
+                intMinorPart = new BigInteger(minorPart);
             } else {
                 majorPart = currentVersion;
-                intMajorPart = Integer.parseInt(majorPart);
+                intMajorPart = new BigInteger(majorPart);
             }
 
-            final boolean nextMajorVersion = intMajorPart > latestIntMajorPart;
-            final boolean nextMinorVersion = intMajorPart == latestIntMajorPart && intMinorPart >= latestIntMinorPart;
+            final boolean nextMajorVersion = intMajorPart.compareTo(latestIntMajorPart) > 0;
+            final boolean nextMinorVersion = intMajorPart.equals(latestIntMajorPart)
+                    && latestIntMinorPart.compareTo(intMinorPart) < 0;
             if (nextMajorVersion || nextMinorVersion) {
                 latestProviewTitleInfo = proviewTitleInfo;
                 latestIntMajorPart = intMajorPart;
@@ -55,30 +60,30 @@ public class ProviewTitleContainer implements Serializable {
     }
 
     public List<ProviewTitleInfo> getAllMajorVersions() {
-        final Map<Integer, ProviewTitleInfo> map = new HashMap<>();
+        final Map<BigInteger, ProviewTitleInfo> map = new HashMap<>();
 
         for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
-            final Integer majorVersion = proviewTitleInfo.getMajorVersion();
-            final Integer minorVersion = proviewTitleInfo.getMinorVersion();
+            final BigInteger majorVersion = proviewTitleInfo.getMajorVersion();
+            final BigInteger minorVersion = proviewTitleInfo.getMinorVersion();
             if (minorVersion != null) {
                 // Using Proview new versioning system with major/minor
                 if (!map.containsKey(majorVersion)) {
                     map.put(majorVersion, proviewTitleInfo);
                 } else {
                     final ProviewTitleInfo currentInfo = map.get(majorVersion);
-                    final Integer currentMinorVersion = currentInfo.getMinorVersion();
-                    if (minorVersion > currentMinorVersion) {
+                    final BigInteger currentMinorVersion = currentInfo.getMinorVersion();
+                    if (minorVersion.compareTo(currentMinorVersion) > 0) {
                         map.put(majorVersion, proviewTitleInfo);
                     }
                 }
             } else {
                 // Using Proview old versioning system.  Only has major version.
-                final Integer key = 0;
+                final BigInteger key = BigInteger.ZERO;
                 if (!map.containsKey(key)) {
                     map.put(key, proviewTitleInfo);
                 } else {
                     final ProviewTitleInfo previousTitleInfo = map.get(key);
-                    if (proviewTitleInfo.getMajorVersion() > previousTitleInfo.getMajorVersion()) {
+                    if (proviewTitleInfo.getMajorVersion().compareTo(previousTitleInfo.getMajorVersion()) > 0) {
                         map.put(key, proviewTitleInfo);
                     }
                 }
@@ -90,10 +95,10 @@ public class ProviewTitleContainer implements Serializable {
         return list;
     }
 
-    public List<Integer> getFinalMajorVersions() {
+    public List<BigInteger> getFinalMajorVersions() {
         return proviewTitleInfos.stream()
             .filter(titleInfo -> PROVIEW_STATUS_FINAL.equalsIgnoreCase(titleInfo.getStatus()))
-            .map(titleInfo -> titleInfo.getMajorVersion())
+            .map(ProviewTitleInfo::getMajorVersion)
             .distinct()
             .collect(Collectors.toList());
     }

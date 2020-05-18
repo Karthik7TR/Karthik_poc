@@ -26,7 +26,7 @@ public interface ProviewClient {
     void setProviewHost(InetAddress host);
 
     /* proview group */
-    String getAllProviewGroups() throws ProviewException;
+    String getAllProviewGroups(String publisher) throws ProviewException;
 
     String getProviewGroupById(String groupId) throws ProviewException;
 
@@ -45,7 +45,7 @@ public interface ProviewClient {
     String getTitleInfo(@NotNull String titleId, @NotNull String version) throws ProviewException;
 
     /* proview list */
-    String getAllPublishedTitles() throws ProviewException;
+    String getAllPublishedTitles(String publisher) throws ProviewException;
 
     String getSinglePublishedTitle(String fullyQualifiedTitleId) throws ProviewException;
 
