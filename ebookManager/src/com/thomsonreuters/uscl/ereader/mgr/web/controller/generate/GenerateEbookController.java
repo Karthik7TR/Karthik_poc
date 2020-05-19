@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -225,8 +226,8 @@ public class GenerateEbookController {
         final String newOverwriteVersion;
         final String majorPart;
         final String minorPart;
-        final Integer newMajorPartInteger;
-        final Integer newMinorPartInteger;
+        final BigInteger newMajorPartInteger;
+        final BigInteger newMinorPartInteger;
 
         if (latestVersion == null) {
             newMajorVersion = "1.0";
@@ -241,13 +242,13 @@ public class GenerateEbookController {
                 majorPart = latestVersion.substring(0, latestVersion.indexOf("."));
                 minorPart = latestVersion.substring(latestVersion.indexOf(".") + 1);
 
-                newMajorPartInteger = Integer.parseInt(majorPart) + 1;
-                newMinorPartInteger = Integer.parseInt(minorPart) + 1;
+                newMajorPartInteger = new BigInteger(majorPart).add(BigInteger.ONE);
+                newMinorPartInteger = new BigInteger(minorPart).add(BigInteger.ONE);
             } else {
                 majorPart = latestVersion;
 
-                newMajorPartInteger = Integer.parseInt(majorPart) + 1;
-                newMinorPartInteger = 1;
+                newMajorPartInteger = new BigInteger(majorPart).add(BigInteger.ONE);
+                newMinorPartInteger = BigInteger.ONE;
             }
 
             newMajorVersion = newMajorPartInteger.toString() + ".0";
