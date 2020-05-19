@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,12 +13,19 @@ public class ProviewListFilterForm {
         RESET
     };
 
+    @Getter
     private String proviewDisplayName;
+    @Getter
     private String titleId;
+    @Getter
     private String minVersions;
+    @Getter
     private String maxVersions;
+    @Getter @Setter
     private Integer minVersionsInt;
+    @Getter @Setter
     private Integer maxVersionsInt;
+    @Getter @Setter
     private FilterCommand filterCommand;
 
     public void initNull() {
@@ -34,34 +43,6 @@ public class ProviewListFilterForm {
         this.maxVersions = maxVersions;
     }
 
-    public Integer getMinVersionsInt() {
-        return minVersionsInt;
-    }
-
-    public void setMinVersionsInt(final Integer minVersionsInt) {
-        this.minVersionsInt = minVersionsInt;
-    }
-
-    public Integer getMaxVersionsInt() {
-        return maxVersionsInt;
-    }
-
-    public void setMaxVersionsInt(final Integer maxVersionsInt) {
-        this.maxVersionsInt = maxVersionsInt;
-    }
-
-    public FilterCommand getFilterCommand() {
-        return filterCommand;
-    }
-
-    public void setFilterCommand(final FilterCommand filterCommand) {
-        this.filterCommand = filterCommand;
-    }
-
-    public String getMinVersions() {
-        return minVersions;
-    }
-
     public void setMinVersions(final String minVersions) {
         this.minVersions = minVersions == null ? null : minVersions.trim();
         try {
@@ -70,10 +51,6 @@ public class ProviewListFilterForm {
             this.minVersions = null;
             minVersionsInt = 0;
         }
-    }
-
-    public String getMaxVersions() {
-        return maxVersions;
     }
 
     public void setMaxVersions(final String maxVersions) {
@@ -86,16 +63,8 @@ public class ProviewListFilterForm {
         }
     }
 
-    public String getProviewDisplayName() {
-        return proviewDisplayName;
-    }
-
     public void setProviewDisplayName(final String proviewDisplayName) {
         this.proviewDisplayName = proviewDisplayName == null ? null : proviewDisplayName.trim();
-    }
-
-    public String getTitleId() {
-        return titleId;
     }
 
     public void setTitleId(final String titleId) {

@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -384,9 +385,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                 // gather Identifying information for the title
                 final String titleId = StringUtils.substringBeforeLast(titleIdVersion, "/v").trim();
                 final String titleMajorVersion = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();
-                Integer majorVersion = null;
+                BigInteger majorVersion = null;
                 if (!titleMajorVersion.equals("")) {
-                    majorVersion = Integer.valueOf(titleMajorVersion);
+                    majorVersion = new BigInteger(titleMajorVersion);
                 }
 
                 try {
