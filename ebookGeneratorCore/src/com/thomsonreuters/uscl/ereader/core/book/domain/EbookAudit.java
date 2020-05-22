@@ -152,6 +152,15 @@ public class EbookAudit implements Serializable {
     @Column(name = "ELOOSELEAFS_ENABLED")
     private String eLooseleafsEnabled;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "PUBLISHED_DATE")
+    @Getter @Setter
+    private Date publishedDate;
+
+    @Column(name = "RELEASE_NOTES")
+    @Getter @Setter
+    private String releaseNotes;
+
     @Column(name = "KEYCITE_TOPLINE_FLAG", length = 1)
     @Basic(fetch = FetchType.EAGER)
     private String keyciteToplineFlag;
@@ -474,6 +483,8 @@ public class EbookAudit implements Serializable {
         setPublisherCodesId(that.getPublisherCodesId());
         setCurrency(that.getCurrency());
         setIsELooseleafsEnabled(that.isELooseleafsEnabled());
+        setPublishedDate(that.getPublishedDate());
+        setReleaseNotes(that.getReleaseNotes());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());
         setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
         setSearchIndexFlag(that.getSearchIndexFlag());
@@ -556,6 +567,8 @@ public class EbookAudit implements Serializable {
         setPublisherCodesId(that.getPublisherCodes().getId());
         setCurrency(that.getCurrency());
         setIsELooseleafsEnabled(that.isELooseleafsEnabled());
+        setPublishedDate(that.getPublishedDate());
+        setReleaseNotes(that.getReleaseNotes());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());
         setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
         setSearchIndexFlag(that.getSearchIndexFlag());
@@ -653,6 +666,8 @@ public class EbookAudit implements Serializable {
         buffer.append("publisherCodesId=[").append(publisherCodesId).append("] ");
         buffer.append("currency=[").append(currency).append("] ");
         buffer.append("eLooseleafsEnabled=[").append(eLooseleafsEnabled).append("] ");
+        buffer.append("publishedDate=[").append(publishedDate).append("] ");
+        buffer.append("releaseNotes=[").append(releaseNotes).append("] ");
         buffer.append("keyciteToplineFlag=[").append(keyciteToplineFlag).append("] ");
         buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
         buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");

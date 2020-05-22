@@ -124,6 +124,8 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String bucket;
     @Getter @Setter
+    private String publishedDate;
+    @Getter @Setter
     private String releaseNotes;
 
     @Getter @Setter
@@ -288,6 +290,7 @@ public class EditBookDefinitionForm {
         bookDef.setUseReloadContent(false);
         bookDef.setSubGroupHeading(null);
         bookDef.setIsSplitTypeAuto(true);
+        bookDef.setPublishedDate(null);
         bookDef.setReleaseNotes(null);
 
         // Need to null surrogate and foreign keys.
@@ -336,6 +339,13 @@ public class EditBookDefinitionForm {
             publishDateText = book.getPublishDateText();
             currency = book.getCurrency();
             bucket = Bucket.getBucket(book.isELooseleafsEnabled());
+
+            final SimpleDateFormat dateFormat = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
+            final Date publishedDateInDateFormat = book.getPublishedDate();
+            if (publishedDateInDateFormat != null) {
+                publishedDate = dateFormat.format(publishedDateInDateFormat);
+            }
+
             releaseNotes = book.getReleaseNotes();
             notes = book.getNotes();
             isComplete = book.getEbookDefinitionCompleteFlag();
@@ -398,8 +408,7 @@ public class EditBookDefinitionForm {
             // Determine if Publish Cut-off Date is used
             final Date date = book.getPublishCutoffDate();
             if (date != null) {
-                final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
-                publicationCutoffDate = sdf.format(date);
+                publicationCutoffDate = dateFormat.format(date);
                 isPublicationCutoffDateUsed = true;
             }
 
@@ -548,8 +557,11 @@ public class EditBookDefinitionForm {
 
         // Parse Date
         final DateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
-        final Date date = publicationCutoffDate != null ? formatter.parse(publicationCutoffDate) : null;
-        book.setPublishCutoffDate(date);
+        final Date parsedPublishedDate = publishedDate != null ? formatter.parse(publishedDate) : null;
+        book.setPublishedDate(parsedPublishedDate);
+        final Date parsedPublicationCutoffDate = publicationCutoffDate != null
+                ? formatter.parse(publicationCutoffDate) : null;
+        book.setPublishCutoffDate(parsedPublicationCutoffDate);
 
         book.setPublishDateText(publishDateText);
 

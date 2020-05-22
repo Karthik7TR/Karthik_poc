@@ -68,6 +68,8 @@ public final class TitleMetadata implements Serializable {
     @XmlElement(name = "name")
     private String displayName;
     @XmlTransient
+    private String publishedDate;
+    @XmlTransient
     private List<InfoField> infoFields;
     @XmlElement(name = "material")
     private String materialId;
@@ -117,6 +119,7 @@ public final class TitleMetadata implements Serializable {
         lastUpdated = DATE_FORMAT.format(new Date());
         proviewFeatures = builder.proviewFeatures;
         keywords = builder.keywords;
+        publishedDate = builder.publishedDate;
         infoFields = builder.infoFields;
         isPilotBook = builder.isPilotBook;
         isbn = builder.isbn;
@@ -156,6 +159,7 @@ public final class TitleMetadata implements Serializable {
         return builder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
             .keywords(bookDefinition.getKeyWords())
             .authors(bookDefinition.getAuthors())
+            .publishedDate(getFormattedPublishedDate(bookDefinition.getPublishedDate()))
             .infoFields(getInfoFields(bookDefinition))
             .isElooseleafsEnabled(bookDefinition.isELooseleafsEnabled())
             .isPilotBook(bookDefinition.getIsPilotBook())
@@ -165,6 +169,14 @@ public final class TitleMetadata implements Serializable {
             .displayName(bookDefinition.getProviewDisplayName())
             .frontMatterTocLabel(bookDefinition.getFrontMatterTocLabel())
             .frontMatterPages(bookDefinition.getFrontMatterPages());
+    }
+
+    private static String getFormattedPublishedDate(final Date publishedDate) {
+        String formattedPublishedDate = null;
+        if (publishedDate != null) {
+            formattedPublishedDate = DATE_FORMAT.format(publishedDate);
+        }
+        return formattedPublishedDate;
     }
 
     private static List<InfoField> getInfoFields(final BookDefinition bookDefinition) {
@@ -189,6 +201,7 @@ public final class TitleMetadata implements Serializable {
         private List<Feature> proviewFeatures;
         private List<Keyword> keywords;
         private List<Author> authors;
+        private String publishedDate;
         private List<InfoField> infoFields;
         private boolean isPilotBook;
         private String isbn;
@@ -235,6 +248,12 @@ public final class TitleMetadata implements Serializable {
         @NotNull
         public TitleMetadataBuilder authors(@NotNull final List<Author> authors) {
             this.authors = authors;
+            return this;
+        }
+
+        @NotNull
+        public TitleMetadataBuilder publishedDate(@NotNull final String publishedDate) {
+            this.publishedDate = publishedDate;
             return this;
         }
 

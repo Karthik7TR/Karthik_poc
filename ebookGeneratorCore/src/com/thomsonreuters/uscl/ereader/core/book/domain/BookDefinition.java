@@ -60,7 +60,7 @@ import org.hibernate.annotations.CascadeType;
 @ToString(includeFieldNames = true, of = {"ebookDefinitionId", "fullyQualifiedTitleId", "proviewDisplayName", "copyright", "copyrightPageText",
                                           "materialId", "isTocFlag", "rootTocGuid", "docCollectionName", "tocCollectionName",
                                           "nortDomain", "nortFilterView", "coverImage", "isbn", "publishDateText",
-                                          "currency", "isProviewTableViewFlag", "eLooseleafsEnabled", "releaseNotes", "keyciteToplineFlag",
+                                          "currency", "isProviewTableViewFlag", "eLooseleafsEnabled", "publishedDate", "releaseNotes", "keyciteToplineFlag",
                                           "autoUpdateSupportFlag", "searchIndexFlag", "onePassSsoLinkFlag", "publishCutoffDate",
                                           "ebookDefinitionCompleteFlag", "publishedOnceFlag", "isDeletedFlag",
                                           "lastUpdated", "frontMatterTocLabel", "isAuthorDisplayVertical", "additionalTrademarkInfo", "enableCopyFeatureFlag",
@@ -171,6 +171,11 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "ELOOSELEAFS_ENABLED")
     private String eLooseleafsEnabled;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "PUBLISHED_DATE")
+    @Getter @Setter
+    private Date publishedDate;
 
     @Column(name = "RELEASE_NOTES")
     @Getter @Setter
@@ -890,6 +895,7 @@ public class BookDefinition implements Serializable {
         setPublishDateText(that.getPublishDateText());
         setCurrency(that.getCurrency());
         setELooseleafsEnabled(that.isELooseleafsEnabled());
+        setPublishedDate(that.getPublishedDate());
         setReleaseNotes(that.getReleaseNotes());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());
         setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +47,7 @@ import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PUBLISHED_DATE_DATEFIELD_NAME;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.RELEASE_NOTES_HEADER;
 
 /**
@@ -71,6 +73,8 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     private TitleMetadataServiceImpl titleMetadataService;
     private File altIdFile;
 
+    private static final String DATE_FORMAT = "yyyyMMdd";
+
     private static final String EXPECTED_ARTWORK = "<artwork src=\"swashbuckling.gif\" type=\"cover\"/>";
     private static final String EXPECTED_ASSETS =
         "<assets><asset id=\"BlackPearl\" src=\"BlackPearl.png\"/><asset id=\"PiratesCove\" src=\"PiratesCove.png\"/><asset id=\"Tortuga\" src=\"Tortuga.png\"/></assets>";
@@ -82,7 +86,8 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     private static final String EXPECTED_DISPLAYNAME =
         "<name>YARR - The Comprehensive Guide to &amp;&lt;&gt; Plundering the Seven Seas.</name>";
     private static final String RELEASE_NOTES = "Test release notes";
-    private static final String EXPECTED_LIBFIELDS = "<libfields><infofield><header>Release notes</header><note>"
+    private static final String EXPECTED_LIBFIELDS = "<libfields><datefield date=\"%s\">"
+            + PUBLISHED_DATE_DATEFIELD_NAME + "</datefield><infofield><header>Release notes</header><note>"
             + RELEASE_NOTES + "</note></infofield></libfields>";
     private static final String EXPECTED_FEATURES =
         "<features><feature name=\"AutoUpdate\"/><feature name=\"SearchIndex\"/><feature name=\"OnePassSSO\" value=\"www.westlaw.com\"/></features>";
@@ -105,8 +110,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     private static final String EXPECTED_END_MANIFEST = "</title>";
     File altIdDir;
 
-    String lastupdated = new SimpleDateFormat("yyyyMMdd").format(new Date());
-    String onlineexpiration = "29991231";
+    private String lastUpdated;
+    private String publishedDate;
+    private String onlineExpiration = "29991231";
 
     @Rule
     public static TemporaryFolder tempDirectory = new TemporaryFolder();
@@ -148,7 +154,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final Map<String, String> altIdMap = new HashMap<>();
         titleManifestFilter = new TitleManifestFilter(
             titleMetadata,
-            new HashMap<String, String>(),
+            new HashMap<>(),
             uuidGenerator,
             temporaryDirectory,
             mockFileUtilsFacade,
@@ -156,6 +162,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
             altIdMap);
         titleManifestFilter.setParent(xmlReader);
         titleManifestFilter.setContentHandler(serializer.asContentHandler());
+
+        lastUpdated = getCurrentFormattedDate();
+        publishedDate = getCurrentFormattedDate();
     }
 
     @Override
@@ -205,9 +214,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         Assert
             .assertEquals(
                 EXPECTED_START_MANIFEST_PREFIX
-                    + lastupdated
+                    + lastUpdated
                     + EXPECTED_START_MANIFEST_SUFFIX_SINGLETON
-                    + onlineexpiration
+                    + onlineExpiration
                     + "\">"
                     + EXPECTED_ISBN
                     + EXPECTED_END_MANIFEST,
@@ -228,12 +237,15 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     public void testWriteLibfields() {
         InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
         titleMetadata.setElooseleafsEnabled(true);
+        titleMetadata.setPublishedDate(publishedDate);
         titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
         titleManifestFilter.writeLibfields();
         titleManifestFilter.endDocument();
 
-        Assert.assertEquals(EXPECTED_LIBFIELDS + EXPECTED_ISBN + EXPECTED_END_MANIFEST,
-            resultStreamToString(resultStream));
+        String expectedResult = String.format(EXPECTED_LIBFIELDS + EXPECTED_ISBN + EXPECTED_END_MANIFEST,
+            publishedDate);
+        String actualResult = resultStreamToString(resultStream);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
     @SneakyThrows
@@ -281,9 +293,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         titleManifestFilter.endDocument();
         Assert.assertEquals(
             EXPECTED_START_MANIFEST_PREFIX
-                + lastupdated
+                + lastUpdated
                 + EXPECTED_START_MANIFEST_SUFFIX
-                + onlineexpiration
+                + onlineExpiration
                 + "\">"
                 + EXPECTED_FEATURES
                 + EXPECTED_MATERIAL_ID
@@ -309,9 +321,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         titleManifestFilter.parse(new InputSource(tocXml));
         Assert.assertEquals(
             EXPECTED_START_MANIFEST_PREFIX
-                + lastupdated
+                + lastUpdated
                 + EXPECTED_START_MANIFEST_SUFFIX
-                + onlineexpiration
+                + onlineExpiration
                 + "\">"
                 + EXPECTED_FEATURES
                 + EXPECTED_MATERIAL_ID
@@ -373,9 +385,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
             "<toc><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"AdditionalFrontMatter1/AdditionalFrontMatter1Anchor\"><text>Pirates Toc Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"Westlaw/WestlawAnchor\"><text>Westlaw</text></entry></entry><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
 
         final String expected = EXPECTED_START_MANIFEST_PREFIX
-            + lastupdated
+            + lastUpdated
             + EXPECTED_START_MANIFEST_SUFFIX
-            + onlineexpiration
+            + onlineExpiration
             + "\">"
             + EXPECTED_FEATURES
             + EXPECTED_MATERIAL_ID
@@ -433,9 +445,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final String expectedToc = EXPECTED_TOC
             + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
         final String expected = EXPECTED_START_MANIFEST_PREFIX
-            + lastupdated
+            + lastUpdated
             + EXPECTED_START_MANIFEST_SUFFIX
-            + onlineexpiration
+            + onlineExpiration
             + "\">"
             + EXPECTED_FEATURES
             + EXPECTED_MATERIAL_ID
@@ -498,9 +510,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final String expectedToc = EXPECTED_TOC
             + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry></toc>";
         final String expected = EXPECTED_START_MANIFEST_PREFIX
-            + lastupdated
+            + lastUpdated
             + EXPECTED_START_MANIFEST_SUFFIX
-            + onlineexpiration
+            + onlineExpiration
             + "\">"
             + EXPECTED_FEATURES
             + EXPECTED_MATERIAL_ID
@@ -563,9 +575,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final String expectedToc = EXPECTED_TOC
             + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
         final String expected = EXPECTED_START_MANIFEST_PREFIX
-            + lastupdated
+            + lastUpdated
             + EXPECTED_START_MANIFEST_SUFFIX
-            + onlineexpiration
+            + onlineExpiration
             + "\">"
             + EXPECTED_FEATURES
             + EXPECTED_MATERIAL_ID
@@ -746,9 +758,9 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final String expectedToc = EXPECTED_TOC
             + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
         final String expected = EXPECTED_START_MANIFEST_PREFIX
-            + lastupdated
+            + lastUpdated
             + EXPECTED_START_MANIFEST_SUFFIX
-            + onlineexpiration
+            + onlineExpiration
             + "\">"
             + EXPECTED_FEATURES
             + EXPECTED_MATERIAL_ID
@@ -794,5 +806,10 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
         final InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
         assertXMLEqual(expectedInputSource, resultInputSource);
+    }
+
+    private String getCurrentFormattedDate() {
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        return dateFormat.format(new Date());
     }
 }

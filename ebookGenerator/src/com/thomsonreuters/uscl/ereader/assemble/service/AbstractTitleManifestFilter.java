@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.proview.InfoField;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PUBLISHED_DATE_DATEFIELD_NAME;
 import static org.apache.commons.lang3.StringUtils.LF;
 
 abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
@@ -41,6 +43,8 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
     private static final String KEYWORDS_ELEMENT = "keywords";
     private static final String ARTWORK_ELEMENT = "artwork";
     private static final String LIBFIELDS_ELEMENT = "libfields";
+    private static final String DATEFIELD_ELEMENT = "datefield";
+    private static final String DATE_ATTRIBUTE = "date";
     private static final String INFOFIELD_ELEMENT = "infofield";
     private static final String HEADER_ELEMENT = "header";
     private static final String NOTE_ELEMENT = "note";
@@ -139,16 +143,38 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
     }
 
     protected void writeLibfields() throws SAXException {
-        List<InfoField> infoFields = titleMetadata.getInfoFields();
-        if (titleMetadata.isElooseleafsEnabled() && infoFields != null && !infoFields.isEmpty()) {
+        if (isElooseLeafsMetadataExists()) {
             super.startElement(URI, LIBFIELDS_ELEMENT, LIBFIELDS_ELEMENT, EMPTY_ATTRIBUTES);
+            writePublishedDate(titleMetadata.getPublishedDate());
+            writeInfoFields(titleMetadata.getInfoFields());
+            super.endElement(URI, LIBFIELDS_ELEMENT, LIBFIELDS_ELEMENT);
+        }
+    }
+
+    private boolean isElooseLeafsMetadataExists() {
+        List<InfoField> infoFields = titleMetadata.getInfoFields();
+        return titleMetadata.isElooseleafsEnabled() && (StringUtils.isNotBlank(titleMetadata.getPublishedDate())
+                || CollectionUtils.isNotEmpty(infoFields));
+    }
+
+    protected void writePublishedDate(final String publishedDate) throws SAXException {
+        if (StringUtils.isNotBlank(publishedDate)) {
+            final AttributesImpl attributes = new AttributesImpl();
+            attributes.addAttribute(URI, DATE_ATTRIBUTE, DATE_ATTRIBUTE, CDATA, publishedDate);
+            super.startElement(URI, DATEFIELD_ELEMENT, DATEFIELD_ELEMENT, attributes);
+            super.characters(PUBLISHED_DATE_DATEFIELD_NAME.toCharArray(), 0, PUBLISHED_DATE_DATEFIELD_NAME.length());
+            super.endElement(URI, DATEFIELD_ELEMENT, DATEFIELD_ELEMENT);
+        }
+    }
+
+    protected void writeInfoFields(final List<InfoField> infoFields) throws SAXException {
+        if (CollectionUtils.isNotEmpty(infoFields)) {
             for (final InfoField infoField : infoFields) {
                 super.startElement(URI, INFOFIELD_ELEMENT, INFOFIELD_ELEMENT, EMPTY_ATTRIBUTES);
                 writeInfoFieldHeader(infoField.getHeader());
                 writeInfoFieldNote(infoField.getNote());
                 super.endElement(URI, INFOFIELD_ELEMENT, INFOFIELD_ELEMENT);
             }
-            super.endElement(URI, LIBFIELDS_ELEMENT, LIBFIELDS_ELEMENT);
         }
     }
 
