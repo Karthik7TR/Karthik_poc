@@ -2,9 +2,12 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +51,11 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final long SUBJECT_KEYWORD_ID = 4L;
     private static final String SUBJECT_KEYWORD = "subject";
     private static final String BUCKET = "bucket";
+    private static final String PUBLISHED_DATE = "publishedDate";
+    private static final String WRONG_DATE_PATTERN = "dd-mm-yyyy";
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
     private static final String FIELD_REQUIRED_ERROR = "error.required";
+    private static final String WRONG_DATE_FORMAT_ERROR = "error.date.format";
 
     private List<KeywordTypeCode> KEYWORD_CODES;
 
@@ -1299,6 +1305,18 @@ public final class EditBookDefinitionFormValidatorTest {
 
         Assert.assertTrue(errors.hasErrors());
         Assert.assertEquals("error.required", errors.getFieldError(fieldName).getCode());
+    }
+
+    @Test
+    public void testPublishedDateWrongFormat() {
+        DateFormat wrongDateFormat = new SimpleDateFormat(WRONG_DATE_PATTERN);
+        form.setPublishedDate(wrongDateFormat.format(new Date()));
+
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
+                errors.getFieldError(PUBLISHED_DATE).getCode());
     }
 
     @Test

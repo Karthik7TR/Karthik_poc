@@ -886,9 +886,11 @@ $(function() {
 		}
 		
 		textboxHint("additionFrontMatterBlock");
+
+		$('#publishedDate').datepicker().attr('autocomplete', 'off');
 		$('#publicationCutoffDate').datepicker({
 			minDate: new Date()
-		});
+		}).attr('autocomplete', 'off');
 		
 		// Set validateForm
 		$('#validateForm').val(false);

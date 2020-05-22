@@ -78,6 +78,13 @@ $(document).ready(function() {
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ book.materialId }</span>
 					</div>
+					<c:if test="${ book.ELooseleafsEnabled && not empty book.publishedDate }">
+						<div class="row xppHideClass cwbHideClass">
+							<label class="labelCol">Published Date</label>
+							<span class="field"><fmt:formatDate value="${ book.publishedDate }"
+								pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>"/></span>
+						</div>
+					</c:if>
 					<div class="row xppHideClass">
 						<label class="labelCol">Include Annotations</label>
 						<span class="field">${ book.includeAnnotations }</span>

@@ -12,8 +12,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,12 +24,14 @@ import java.util.Set;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class TitleMetadataTest {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
     private static final String BLACK_PEARLS_ASSET_NAME = "BlackPearl.png";
     private static final String PIRATES_COVE_ASSET_NAME = "PiratesCove.png";
     private static final String TORTUGA_ASSET_NAME = "Tortuga.png";
@@ -39,6 +44,7 @@ public final class TitleMetadataTest {
     private String isbnNormalized = "9783161484100";
     private String frontMatterTocLabel = "tocLabel";
     private Artwork artwork = new Artwork("swashbuckling.gif");
+    private Date publishedDate;
 
     private final List<Asset> assets = Arrays.asList(
         new Asset("BlackPearl", BLACK_PEARLS_ASSET_NAME),
@@ -48,10 +54,16 @@ public final class TitleMetadataTest {
         new Keyword("publisher", "High Seas Trading Company"),
         new Keyword("jurisdiction", "International Waters"));
 
+    @Before
+    public void setUp() {
+        publishedDate = new Date();
+    }
+
     @Test
     public void testBuilderWithBookDefinition() {
         final BookDefinition bookDefinitionMock = mock(BookDefinition.class);
         when(bookDefinitionMock.getFullyQualifiedTitleId()).thenReturn(titleId);
+        when(bookDefinitionMock.getPublishedDate()).thenReturn(publishedDate);
         when(bookDefinitionMock.getReleaseNotes()).thenReturn(RELEASE_NOTES);
         when(bookDefinitionMock.getKeyWords()).thenReturn(keywords);
         when(bookDefinitionMock.getAuthors()).thenReturn(createAuthors());
@@ -68,6 +80,7 @@ public final class TitleMetadataTest {
 
     private void checkFieldsValues(final TitleMetadata actualMetadata) {
         assertEquals(titleId, actualMetadata.getTitleId());
+        checkPublishedDate(actualMetadata.getPublishedDate());
         checkInfoFields(actualMetadata.getInfoFields());
         checkCollectionValues(actualMetadata.getKeywords(), keywords.toArray(new Keyword[0]));
         checkCollectionValues(actualMetadata.getAuthorNames(), "Jack Sparrow", "Davey Jones");
@@ -211,6 +224,10 @@ public final class TitleMetadataTest {
         final File file = mock(File.class);
         when(file.getName()).thenReturn(fileName);
         return file;
+    }
+
+    private void checkPublishedDate(final String actualPublishedDate) {
+        assertEquals(DATE_FORMAT.format(publishedDate), actualPublishedDate);
     }
 
     private void checkInfoFields(final List<InfoField> infoFields) {

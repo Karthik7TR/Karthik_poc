@@ -219,6 +219,15 @@
 					<form:errors path="materialId" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div class="displayELooseleafs">
+				<div id="publishedDateRow" class="row xppHideClass cwbHideClass">
+					<form:label path="publishedDate" class="labelCol">Published Date</form:label>
+					<form:input path="publishedDate"/>
+					<div class="errorDiv">
+						<form:errors path="publishedDate" cssClass="errorMessage" />
+					</div>
+				</div>
+			</div>
 			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>

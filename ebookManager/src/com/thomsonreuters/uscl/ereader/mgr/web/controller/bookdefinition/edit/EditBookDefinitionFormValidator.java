@@ -217,6 +217,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         validateDocumentCurrencies(form, errors);
         validateDocumentCopyrights(form, errors);
 
+        if (form.getPublishedDate() != null) {
+            checkDateFormat(errors, form.getPublishedDate(), "publishedDate");
+        }
+
         if (form.isPublicationCutoffDateUsed()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
         }
