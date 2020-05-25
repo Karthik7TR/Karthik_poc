@@ -28,6 +28,10 @@ public class TocServiceMockImpl implements TocService {
     private final String MOCK_TOC_FILE_SMALL = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Toc/toc.xml";
     private final String MOCK_INDEX_COLLECTION_NAME_SMALL = "w_an_ea_texts2_index_toc_mock_small";
     private final String MOCK_INDEX_TOC_FILE_SMALL = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Toc/indexDocsSingle.xml";
+    private final String MOCK_COLLECTION_NAME_GAEVIDENCE = "w_an_ea_texts2_toc_mock_gaevidence";
+    private final String MOCK_TOC_FILE_GAEVIDENCE = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/gaevidence/Toc/toc.xml";
+    private final String MOCK_COLLECTION_NAME_THORBURN = "mock_thorburn";
+    private final String MOCK_TOC_FILE_THORBURN = "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn/Toc/toc.xml";
 
     @Autowired
     private ServletContext servletContext;
@@ -55,6 +59,10 @@ public class TocServiceMockImpl implements TocService {
             return copyFile(MOCK_TOC_FILE_SMALL, tocFile);
         case MOCK_INDEX_COLLECTION_NAME_SMALL:
             return copyFile(MOCK_INDEX_TOC_FILE_SMALL, tocFile);
+        case MOCK_COLLECTION_NAME_GAEVIDENCE:
+            return copyFile(MOCK_TOC_FILE_GAEVIDENCE, tocFile);
+        case MOCK_COLLECTION_NAME_THORBURN:
+            return copyFile(MOCK_TOC_FILE_THORBURN, tocFile);
         default:
             return tocService.findTableOfContents(
                 guid,
