@@ -99,14 +99,14 @@ public class InlineTocService {
         jsoup.saveDocument(outputDir, INLINE_TOC_FILE_NAME, doc.getDocument());
     }
 
-    private void assignDefaultInlineTocAttributes(Document tocXml) {
+    private void assignDefaultInlineTocAttributes(final Document tocXml) {
         Element root = tocXml.select(E_BOOK).first();
         root.append(DEFAULT_SUMMARY_HEADING);
         root.append(DEFAULT_DETAILED_HEADING);
         assignDefaultInlineTocAttributes(root.select(EBOOK_TOC).first(), 0);
     }
 
-    private void assignDefaultInlineTocAttributes(Element toc, int level) {
+    private void assignDefaultInlineTocAttributes(final Element toc, final int level) {
         if (level < 2) {
             toc.attr(SUMMARY, Boolean.TRUE.toString());
             toc.attr(SUM_ALIGN, ALIGN_LEFT);

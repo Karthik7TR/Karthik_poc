@@ -133,7 +133,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         nodesContainingDocuments.add(currentNode);
     }
 
-    private void createInlineTocNode(boolean isSplitBook) throws SAXException {
+    private void createInlineTocNode(final boolean isSplitBook) throws SAXException {
         if (titleMetadata.isInlineToc()) {
             createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
         }
