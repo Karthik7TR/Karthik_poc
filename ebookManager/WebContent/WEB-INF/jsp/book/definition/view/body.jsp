@@ -167,10 +167,6 @@ $(document).ready(function() {
                                 <span class="field">${ book.printPageNumbers }</span>
                             </div>
                             <div class="row">
-                                <label class="labelCol">Inline TOC Included</label>
-                                <span class="field">${ book.inlineTocIncluded }</span>
-                            </div>
-                            <div class="row">
                                 <label class="labelCol">Index Included</label>
                                 <span class="field">${ book.indexIncluded }</span>
                             </div>
@@ -263,6 +259,10 @@ $(document).ready(function() {
 						</div>
 					</c:otherwise>
 					</c:choose>
+					<div class="row">
+						<label class="labelCol">Inline TOC Included</label>
+						<span class="field">${ book.inlineTocIncluded }</span>
+					</div>
 					<div class="row">
 						<label class="labelCol">KeyCite Topline Flag</label>
 						<span class="field">${ book.keyciteToplineFlag }</span>
