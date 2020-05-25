@@ -399,6 +399,11 @@
 						<form:errors path="useReloadContent" cssClass="errorMessage" />
 					</div>
 				</div>
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" class="labelCol">Inline TOC:</form:label>
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="true" />Enabled
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="false" />Disabled
+				</div>
 			</div>
 			<div id="displayFILE" style="display:none">
 				<div class="row">
@@ -440,6 +445,11 @@
 							</div>
 						</c:forEach>
 					</div>
+				</div>
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" class="labelCol">Inline TOC:</form:label>
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="true" />Enabled
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="inlineTocIncluded" value="false" />Disabled
 				</div>
 			</div>
 			<div id="displayXPP" style="display:none">
