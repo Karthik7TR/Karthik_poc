@@ -1,0 +1,143 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 2:5<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2561f160630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>2.</label.designator>
+				<headtext>Witnesses</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I25623f80630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.designator>A.</label.designator>
+				<headtext>Subpoenas; Attendance</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f05b6682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>2:5.</label.designator>
+						<headtext>Witness fees</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287018078" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-13-25" w-pub-number="1000468" ID="I90d5b42074d211eab2f0b920da2605c5">O.C.G.A. § 24-13-25</cite.query> sets the general witness fee at $25 per diem and the traveling expense at 20 cents per mile. <eos/>
+						<bos/>Only a properly subpoenaed witness may collect the fee. <eos/>
+						<bos/>An in-county witness may not condition his attendance upon payment of his fees. <eos/>
+						<bos/>A subpoena for an out-of-county witness must tender the fee for one day&apos;s attendance plus roundtrip mileage for the shortest practical route.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="10"?>
+					<bos/>
+					<paratext>A subpoena issued on behalf of the state or an officer, agency, or political subdivision thereof or the defendant in a criminal case does not require an advance tender of fees. <eos/>
+						<bos/>However, the defendant in a criminal case and either party in a civil case desiring production of a prisoner pursuant to <cite.query w-src-number="0287018078" w-seq-number="00002" w-ref-type="LQ" w-normalized-cite="GAST24-13-60" w-pub-number="1000468" ID="I90d6506074d211eab2f0b920da2605c5">O.C.G.A. § 24-13-60</cite.query> must pay for the expenses of transporting and keeping the prisoner. <eos/>
+						<bos/>If the requesting party is financially unable to make the required deposit, he must make a showing of need for the witness as well as inability to make the deposit.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7645aa6074d311ea92c4fb7908f1a7b5">1</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287018078" w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="GAST24-13-28" w-pub-number="1000468" ID="I90d6eca074d211eab2f0b920da2605c5">O.C.G.A. § 24-13-28</cite.query> establishes the manner of payment for various types of witnesses including members of municipal, county, and campus police forces, the Georgia State Patrol, Georgia Bureau of Investigation, correctional officers, arson investigators, and deputy sheriffs.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<?page no="10"?>
+			<footnote ID="I7645aa6074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287018078" w-serial-number="1978110250" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="I90d69e8274d211eab2f0b920da2605c5">Edwards v. State, 144 Ga. App. 665, 242 S.E.2d 326 (1978)</cite.query>, the trial court properly refused to order production of a prisoner when the defendant “thought” that the witness would testify a certain way.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 2:5<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

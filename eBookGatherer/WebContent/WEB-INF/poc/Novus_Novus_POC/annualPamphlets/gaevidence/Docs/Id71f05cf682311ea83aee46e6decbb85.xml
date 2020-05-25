@@ -1,0 +1,139 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 2:13<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2561f160630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>2.</label.designator>
+				<headtext>Witnesses</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I257d4190630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.designator>B.</label.designator>
+				<headtext>Competency</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f05ce682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>2:13.</label.designator>
+						<headtext>Spouse</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The spouse of a party in a civil action is both competent and compellable as a witness; however certain admissions and communications are excluded from evidence under <cite.query w-src-number="0287018086" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-5-501" w-pub-number="1000468" ID="I93479e8074d211eab2f0b920da2605c5">O.C.G.A. § 24-5-501(a)(1)</cite.query>. <eos/>
+						<bos/>Spouses are competent to testify as to the adultery of the other spouse in any civil proceeding and a party is competent to testify to his or her innocence of adultery. <eos/>
+						<bos/>The spouse of a criminal defendant is competent as a witness, but not compellable.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76798ba074d311ea92c4fb7908f1a7b5">1</footnote.reference>] However, This privilege does not apply where the husband or wife is charged with a crime against the person of a child under age 18, a crime against his or her spouse, causing physical damage to property belonging to their spouse, or when the alleged crime against the spouse occurred prior to the lawful marriage of the husband and wife.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76798ba174d311ea92c4fb7908f1a7b5">2</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I76798ba074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018086" w-seq-number="00002" w-ref-type="LQ" w-normalized-cite="GAST24-5-503" w-pub-number="1000468" ID="I9347c59074d211eab2f0b920da2605c5">O.C.G.A. § 24-5-503(a)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76798ba174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018086" w-seq-number="00003" w-ref-type="LQ" w-normalized-cite="GAST24-5-503" w-pub-number="1000468" ID="I934813b074d211eab2f0b920da2605c5">O.C.G.A. § 24-5-503(b)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 2:13<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

@@ -1,0 +1,107 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 10:10<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I295dd720630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>10.</label.designator>
+				<headtext>Documentary and Demonstrative Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id7210174682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>10:10.</label.designator>
+						<headtext>Laws of other jurisdictions</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287017208" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-9-922" w-pub-number="1000468" ID="I1611acc074d311eab2f0b920da2605c5">O.C.G.A. § 24-9-922</cite.query>, <begin.quote ID="QT_0001"/>“Laws and judicial proceedings of other states,”<end.quote refid="QT_0001"/> provides as follows:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0002"/>
+								<?page no="362"?>The acts of the legislature of any other state, territory, or possession of the United States, the records and judicial proceedings of any court of any such state, territory, or possession, and the nonjudicial records or books kept in the public offices in any such state, territory, or possession, if properly authenticated, shall have the same full faith and credit in every court within this state as they have by law or usage in the courts of such state, territory, or possession from which they are taken.<eos/>
+								<end.quote refid="QT_0002"/>
+							</paratext>
+						</para>
+					</display.quote>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="362"?>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 10:10<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

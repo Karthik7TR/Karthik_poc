@@ -1,0 +1,308 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 7:12<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2774a4c0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>7.</label.designator>
+				<headtext>Lay and Expert Opinion Testimony</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71fa1f9682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>7:12.</label.designator>
+						<headtext>Subjects of expert testimony—Physical condition</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Opinion testimony is admissible to show physical condition. <eos/>
+						<bos/>A lay witness may state an opinion about physical condition, such as that a person appeared to be very sick,[<footnote.reference refid="I78b1533074d311ea92c4fb7908f1a7b5">1</footnote.reference>] if he includes the facts on which his opinion is based.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78b1533174d311ea92c4fb7908f1a7b5">2</footnote.reference>] Only experts may offer opinions concerning diagnosis, treatment, effect, and continuance of a person&apos;s physical condition.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78b1533274d311ea92c4fb7908f1a7b5">3</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287017119" w-serial-number="1997050769" w-seq-number="00012" w-ref-type="RT" w-pub-number="0000711" ID="Idc2d6c6274d211eab2f0b920da2605c5">
+							<ital>Hutcheson v. Daniels</ital>
+						</cite.query>,[<footnote.reference refid="I78b17a4074d311ea92c4fb7908f1a7b5">4</footnote.reference>
+						<?page no="198"?>] the plaintiff noticed problems with his left wrist a few days after a collision with defendant and sought medical treatment within four months of the onset of these symptoms. <eos/>
+						<bos/>The Georgia Court of Appeals held that a jury could conclude from common knowledge that a causal connection existed between the plaintiff&apos;s injury and the accident in light of the short lapse of time between the collision, the onset of symptoms, and receipt of medical treatment. <eos/>
+						<bos/>The Court cited <cite.query w-src-number="0287017119" w-serial-number="1990142446" w-seq-number="00014" w-ref-type="RT" w-pub-number="0000711" ID="Idc2e2fb274d211eab2f0b920da2605c5">
+							<ital>Madden v. Solomon</ital>
+						</cite.query>[<footnote.reference refid="I78b17a4174d311ea92c4fb7908f1a7b5">5</footnote.reference>] where it also held that a jury could determine, without expert testimony, that medical expenses after an automobile collision were related to injuries sustained in the collision.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>However, in <cite.query w-src-number="0287017119" w-serial-number="1987022299" w-seq-number="00016" w-ref-type="RT" w-pub-number="0000960" ID="Idc2f1a1374d211eab2f0b920da2605c5">
+							<ital>Eberhart v. Morris Brown College</ital>
+						</cite.query>,[<footnote.reference refid="I78b17a4274d311ea92c4fb7908f1a7b5">6</footnote.reference>] the court held that a medical expert was necessary to establish a causal connection between the plaintiff&apos;s injury and his football career due to a gap of several years.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Since a witness can testify about the extent of another person&apos;s intoxication based on his observation,[<footnote.reference refid="I78b17a4374d311ea92c4fb7908f1a7b5">7</footnote.reference>] the court held in <cite.query w-src-number="0287017119" w-serial-number="1990026111" w-seq-number="00021" w-ref-type="RT" w-pub-number="0000711" ID="Idc30529274d211eab2f0b920da2605c5">
+							<ital>Chance v. State</ital>
+						</cite.query>[<footnote.reference refid="I78b1a15074d311ea92c4fb7908f1a7b5">8</footnote.reference>] that law enforcement officers could testify that the defendant in a driving-under-the-influence (DUI) case was both under the influence of alcohol and that the extent of the defendant&apos;s drunkenness rendered him “a less safe driver.”<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The trial court cannot discount expert testimony providing evidence of specific causation where a plaintiff is overexposed to a dangerous chemical without conducting the requisite <ital>Daubert</ital> analysis. <eos/>
+						<bos/>Further, such proof that exposure to a toxic chemical is dangerous renders moot the question of how many doses it takes to cause the disease, since the only cause of the disease is exposure to the chemical.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78b1a15174d311ea92c4fb7908f1a7b5">9</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The Court of Appeals has rejected expert testimony regarding a defendant&apos;s post-traumatic stress disorder as irrelevant to the issue of criminal intent.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78b1a15274d311ea92c4fb7908f1a7b5">10</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The Court has held that expert testimony is necessary to support a defendant&apos;s claim of justification where they are claiming battered person syndrome.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78b1a15374d311ea92c4fb7908f1a7b5">11</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I78b1533074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1955105467" w-seq-number="00001" w-ref-type="RP" w-pub-number="0000711" ID="Idc2b97a274d211eab2f0b920da2605c5">Northwestern University v. Crisp, 211 Ga. 636, 88 S.E.2d 26 (1955)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1969134038" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="Idc2b97a574d211eab2f0b920da2605c5">Ashley v. Standard Oil Co., 119 Ga. App. 786, 168 S.E.2d 656 (1969)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b1533174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1938106636" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000710" ID="Idc2c0cd274d211eab2f0b920da2605c5">Elliott v. Georgia Power Co., 58 Ga. App. 151, 197 S.E. 914 (1938)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b1533274d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1939106657" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c820274d211eab2f0b920da2605c5">Metropolitan Life Ins. Co. v. Saul, 189 Ga. 1, 5 S.E.2d 214 (1939)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1958122427" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c820574d211eab2f0b920da2605c5">Gregory v. Ross, 214 Ga. 306, 104 S.E.2d 452 (1958)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1938106446" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000710" ID="Idc2c820874d211eab2f0b920da2605c5">New York Life Ins. Co. v. Bradford, 57 Ga. App. 657, 196 S.E. 92 (1938)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1951104638" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c820b74d211eab2f0b920da2605c5">Mayo v. McClung, 83 Ga. App. 548, 64 S.E.2d 330 (1951)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1956125614" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c820e74d211eab2f0b920da2605c5">Atlantic Coast Line R. Co. v. Godard, 93 Ga. App. 671, 92 S.E.2d 626 (1956)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1958122382" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c821174d211eab2f0b920da2605c5">Emory University v. Lee, 97 Ga. App. 680, 104 S.E.2d 234 (1958)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1968133163" w-seq-number="00010" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c821474d211eab2f0b920da2605c5">Thomason v. Willingham, 118 Ga. App. 821, 165 S.E.2d 865 (1968)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1972128596" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="Idc2c821774d211eab2f0b920da2605c5">Everett v. Holmes, 126 Ga. App. 208, 190 S.E.2d 568 (1972)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b17a4074d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1997050769" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="Idc2d937274d211eab2f0b920da2605c5">Hutcheson v. Daniels, 224 Ga. App. 560, 481 S.E.2d 567 (1997)</cite.query>
+							<?page no="198"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b17a4174d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1990142446" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000711" ID="Idc2e7dd274d211eab2f0b920da2605c5">Madden v. Solomon, 196 Ga. App. 512, 513, 396 S.E.2d 245 (1990)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b17a4274d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1987022299" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000960" ID="Idc2f412374d211eab2f0b920da2605c5">Eberhart v. Morris Brown College, 181 Ga. App. 516, 517, 352 S.E.2d 832, 37 Ed. Law Rep. 720 (1987)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b17a4374d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1981113387" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000711" ID="Idc2fdd6274d211eab2f0b920da2605c5">Lawrence v. State, 157 Ga. App. 264, 277 S.E.2d 60 (1981)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1986110981" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="Idc2fdd6574d211eab2f0b920da2605c5">Luke v. State, 177 Ga. App. 518, 340 S.E.2d 30 (1986)</cite.query>; <cite.query w-src-number="0287017119" w-serial-number="1986113439" w-seq-number="00020" w-ref-type="RP" w-pub-number="0000711" ID="Idc2fdd6874d211eab2f0b920da2605c5">Howard v. State, 177 Ga. App. 589, 340 S.E.2d 212 (1986)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b1a15074d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="1990026111" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000711" w-pinpoint-page="438" ID="Idc30a0b274d211eab2f0b920da2605c5">Chance v. State, 193 Ga. App. 242, 387 S.E.2d 437, 438 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b1a15174d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="2032934934" w-seq-number="00023" w-ref-type="RP" w-pub-number="0000711" ID="Idc313cf274d211eab2f0b920da2605c5">Fouch v. Bicknell Supply Co., 326 Ga. App. 863, 756 S.E.2d 682 (2014)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b1a15274d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="2037460840" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000711" ID="Idc31b22274d211eab2f0b920da2605c5">Brower v. State, 334 Ga. App. 262, 779 S.E.2d 32 (2015)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78b1a15374d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017119" w-serial-number="2039356355" w-seq-number="00025" w-ref-type="RP" w-pub-number="0000711" ID="Idc32275274d211eab2f0b920da2605c5">McLaughlin v. State, 338 Ga. App. 1, 789 S.E.2d 247 (2016)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 7:12<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

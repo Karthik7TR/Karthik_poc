@@ -1,0 +1,144 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 8:9<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I27da1d50630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>8.</label.designator>
+				<headtext>Relevancy</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71ff001682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>8:9.</label.designator>
+						<headtext>Similar transactions—Course of conduct</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<?page no="241"?>
+					<bos/>
+					<paratext>The new Evidence Code omits course of conduct from the listed purposes for which acts may be admitted.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79212c0074d311ea92c4fb7908f1a7b5">1</footnote.reference>] Consequently, the Court of Appeals held in <cite.query w-src-number="0287017134" w-serial-number="2037971288" w-seq-number="00002" w-ref-type="RT" w-pub-number="0000711" ID="Iebc398c274d211eab2f0b920da2605c5">
+							<ital>Paschal v. State</ital>
+						</cite.query>[<footnote.reference refid="I79212c0174d311ea92c4fb7908f1a7b5">2</footnote.reference>] that while <cite.query w-src-number="0287017134" w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="GAST24-4-404" w-pub-number="1000468" ID="Iebc4350074d211eab2f0b920da2605c5">O.C.G.A. § 24-4-404(b)</cite.query> is a rule of inclusion which contains a nonexhaustive list of purposes for which similar transactions may be introduced, by deleting course of conduct from the list, it was the intent of the legislature to no longer offer that justification for the admissibility of similar transaction evidence. <eos/>
+						<bos/>Thus, course of conduct is no longer a viable exception with regards to the admissibility of similar transaction evidence under the new Evidence Code.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7921531074d311ea92c4fb7908f1a7b5">3</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="241"?>
+			<footnote ID="I79212c0074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See <cite.query w-src-number="0287017134" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-4-404" w-pub-number="1000468" ID="Iebc3239074d211eab2f0b920da2605c5">O.C.G.A. § 24-4-404(b)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79212c0174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017134" w-serial-number="2037971288" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="Iebc3e6e274d211eab2f0b920da2605c5">Paschal v. State, 335 Ga. App. 411, 780 S.E.2d 681 (2015)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7921531074d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017134" w-serial-number="2038422720" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Iebc4832274d211eab2f0b920da2605c5">Brooks v. State, 298 Ga. 722, 783 S.E.2d 895 (2016)</cite.query>; <cite.query w-src-number="0287017134" w-serial-number="2037971288" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="Iebc4832574d211eab2f0b920da2605c5">Paschal v. State, 335 Ga. App. 411, 414, 780 S.E.2d 681 (2015)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 8:9<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

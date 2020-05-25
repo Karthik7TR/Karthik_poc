@@ -1,0 +1,429 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 5:3<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I27171b70630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>5.</label.designator>
+				<headtext>Admission and Exclusion of Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f7ada682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>5:3.</label.designator>
+						<headtext>Motions in limine</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<?page no="143"?>
+					<bos/>
+					<paratext>Georgia practice utilizes the motion in limine in both civil and criminal cases to determine the admissibility of evidence prior to trial. <eos/>
+						<bos/>The Georgia Supreme Court has stated that such a motion was a <begin.quote ID="QT_0001"/>“necessary adjunct to the trial court&apos;s inherent power to admit and exclude evidence.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0001"/>[<footnote.reference refid="I7809c89074d311ea92c4fb7908f1a7b5">1</footnote.reference>] Like any pretrial order, the court&apos;s ruling on a motion in limine is an interlocutory ruling and is subject to appeal after final judgment. <eos/>
+						<bos/>A denial of a motion in limine is reviewed for an abuse of discretion that occurs when a trial court misapplies the law.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7809c89174d311ea92c4fb7908f1a7b5">2</footnote.reference>] The grant of a motion in limine excluding evidence is a judicial power that must be exercised with great care.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7809efa074d311ea92c4fb7908f1a7b5">3</footnote.reference>] Moreover there should be no circumstance under which the evidence at issue could be admissible at trial. <eos/>
+						<bos/>In <cite.query w-src-number="0287018134" w-serial-number="2047646331" w-seq-number="00006" w-ref-type="RT" w-pub-number="0000711" ID="Ic7a64be274d211eab2f0b920da2605c5">
+							<ital>Barrett v. Burnette,</ital>
+						</cite.query>[<footnote.reference refid="I7809efa174d311ea92c4fb7908f1a7b5">4</footnote.reference>] the trial court excluded all evidence related to a driver being impaired by alcohol consumption. <eos/>
+						<bos/>The Court of Appeals reversed, holding that the jury was the ultimate trier of fact, and while the totality of circumstances may have required the trial court to exclude some evidence regarding the alcohol consumption, such as the driver&apos;s arrest several hours after the collision occurred, from being presented to the jury as highly prejudicial, the court erred because it deprived the plaintiff any opportunity to examine the defendant with regards to his alcohol consumption and his recollection of the night in question.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <ital>State v. Strickman</ital>,[<footnote.reference refid="I7809efa274d311ea92c4fb7908f1a7b5">5</footnote.reference>] the Georgia Court of Appeals certified the following question: <begin.quote ID="QT_0002"/>“Although otherwise considered an interlocutory ruling, in a criminal case where the defendant&apos;s pre-trial motion in limine to suppress evidence is granted based upon allegations not involving illegal search and seizure, is the grant of such motion in limine subject to direct appeal by the state under <cite.query w-src-number="0287018134" w-seq-number="00010" w-ref-type="LQ" w-normalized-cite="GAST5-7-1" w-pub-number="1000468" ID="Ic7a86ec074d211eab2f0b920da2605c5">O.C.G.A. § 5-7-1(4)</cite.query>?”<eos/>
+						<bos/>
+						<end.quote refid="QT_0002"/> The Georgia Supreme Court responded affirmatively and stated that the statute was not limited to a motion to suppress and that the manner in which the pleader named his motion did not matter. <eos/>
+						<bos/>Subsequently, the Court of Appeals held that the trial court&apos;s grant of the motion was error and reversed.[<eos/>
+						<?page no="144"?>
+						<bos/>
+						<footnote.reference refid="I7809efa374d311ea92c4fb7908f1a7b5">6</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>An improperly designated motion to suppress may be treated and considered as a motion in limine.[<eos/>
+						<bos/>
+						<footnote.reference refid="I780a16b074d311ea92c4fb7908f1a7b5">7</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287018134" w-seq-number="00014" w-ref-type="LQ" w-normalized-cite="GAST9-11-6" w-pub-number="1000468" ID="Ic7aa1c7074d211eab2f0b920da2605c5">O.C.G.A. § 9-11-6(d)</cite.query> requires a written motion to be served not later than five days before the time specified for the hearing. <eos/>
+						<bos/>The Georgia Court of Appeals considered a written motion in limine filed on the day of the trial in <cite.query w-src-number="0287018134" w-serial-number="1988009161" w-seq-number="00015" w-ref-type="RT" w-pub-number="0000711" ID="Ic7aa1c7374d211eab2f0b920da2605c5">
+							<ital>Walton v. Datry</ital>
+						</cite.query>.[<eos/>
+						<bos/>
+						<footnote.reference refid="I780a16b174d311ea92c4fb7908f1a7b5">8</footnote.reference>] The court stated that a motion in limine may be made either in writing or orally at the time of trial and that the court was “disinclined” to apply the statute to a motion in limine. <eos/>
+						<bos/>
+						<begin.quote ID="QT_0003"/>“This would have a negative effect on written motions, for to apply the Code section strictly would penalize one who submitted a written motion rather than an oral one which has no time requirement.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0003"/> However, the court held that even if the Code section were applied there was no cause for reversal since no harm was shown.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The ruling on a motion in limine will control the trial unless modified at trial. <eos/>
+						<bos/>The judge may modify the ruling at the trial.[<eos/>
+						<bos/>
+						<footnote.reference refid="I780a16b274d311ea92c4fb7908f1a7b5">9</footnote.reference>] When a trial court grants a motion in limine to exclude evidence from trial, the lawyers have a duty to inform their clients and witnesses of the court&apos;s ruling so they will not violate the order by mentioning the evidence in front of the jury during their testimony.[<eos/>
+						<bos/>
+						<footnote.reference refid="I780a16b374d311ea92c4fb7908f1a7b5">10</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The Georgia Court of Appeals held in <cite.query w-src-number="0287018134" w-serial-number="1985117331" w-seq-number="00020" w-ref-type="RT" w-pub-number="0000711" ID="Ic7ac3f5274d211eab2f0b920da2605c5">
+							<ital>Pierce v. State</ital>
+						</cite.query>[<footnote.reference refid="I780a3dc074d311ea92c4fb7908f1a7b5">11</footnote.reference>] that, unlike a motion to suppress, a judge need not make a pretrial ruling on a motion in limine, but may wait until the evidence is offered at trial. <eos/>
+						<bos/>Moreover, the court may review its decision and change its ruling if it considers there&apos;s an evidentiary reason for doing so. <eos/>
+						<bos/>In <cite.query w-src-number="0287018134" w-serial-number="2039591171" w-seq-number="00026" w-ref-type="RT" w-pub-number="0000711" ID="Ic7ad77d274d211eab2f0b920da2605c5">
+							<ital>Mordecai v. Cain</ital>
+						</cite.query>,[<footnote.reference refid="I780a3dc174d311ea92c4fb7908f1a7b5">12</footnote.reference>
+						<?page no="145"?>] the trial court correctly counseled the parties that it may allow evidence of the defendant&apos;s guilty plea and bond forfeiture that was previously excluded by its ruling on a motion in limine where the defendant was expected to testify that he had crossed the center line, but at trial first testified that he did not remember.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018134" w-serial-number="1996269284" w-seq-number="00028" w-ref-type="RT" w-pub-number="0000711" ID="Ic7ae623274d211eab2f0b920da2605c5">
+							<ital>Jordan v. Johnson</ital>
+						</cite.query>,[<footnote.reference refid="I780a3dc274d311ea92c4fb7908f1a7b5">13</footnote.reference>] Judge Birdsong clarified the use of motions in limine to exclude evidence under Georgia precedent:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0004"/>The purpose of filing a motion in limine to suppress evidence or to instruct opposing counsel not to offer it is to prevent the asking of prejudicial questions and the making of prejudicial statements in the presence of the jury with respect to matters which have no proper bearing on the issues in the case or on the rights of the parties to the suit. <eos/>
+								<bos/>It is the prejudicial effect of the questions asked or statements made in connection with the offer of the evidence, not [just] the prejudicial effect of the evidence itself, which the motion in limine is intended to reach ….<eos/>
+								<bos/> To hold otherwise, and require the successful movant to object when evidence encompassed by the motion in limine is nevertheless offered at trial, <ital>would defeat the purpose</ital> of the motion in limine, as the movant would be forced, in the presence of the jury, to call special attention to prejudicial evidence which the trial court had previously ordered to be excluded from the jury&apos;s consideration.<eos/>
+								<bos/>
+								<end.quote refid="QT_0004"/>[<footnote.reference refid="I780a3dc374d311ea92c4fb7908f1a7b5">14</footnote.reference>]</paratext>
+						</para>
+					</display.quote>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>This leaves open a question about what action a party must take to preserve, for appeal, the issue of the ruling on the motion in limine. <eos/>
+						<bos/>In <cite.query w-src-number="0287018134" w-serial-number="1985154473" w-seq-number="00032" w-ref-type="RT" w-pub-number="0000711" ID="Ic7b00fe274d211eab2f0b920da2605c5">
+							<ital>Holland v. State</ital>
+						</cite.query>[<footnote.reference refid="I780a64d074d311ea92c4fb7908f1a7b5">15</footnote.reference>] it was unclear whether the trial court had ruled on the motion in limine prior to trial. <eos/>
+						<bos/>However, the withdrawal of a motion in limine to exclude evidence at trial, and then the failure to object to such evidence, limits the court&apos;s review to plain error.[<eos/>
+						<bos/>
+						<footnote.reference refid="I780a64d174d311ea92c4fb7908f1a7b5">16</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="143"?>
+			<footnote ID="I7809c89074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1979126986" w-seq-number="00001" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a4c54274d211eab2f0b920da2605c5">Harley-Davidson Motor Co., Inc. v. Daniel, 149 Ga. App. 120, 253 S.E.2d 783 (1979)</cite.query>, quoting <cite.query w-src-number="0287018134" w-serial-number="1973113344" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000108" ID="Ic7a4c54674d211eab2f0b920da2605c5">Burrus v. Silhavy, 155 Ind. App. 558, 293 N.E.2d 794, 63 A.L.R.3d 304 (1973)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7809c89174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="2034833450" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a53a7274d211eab2f0b920da2605c5">One Bluff Drive, LLC v. K.A.P., Inc., 330 Ga. App. 45, 766 S.E.2d 508 (2014)</cite.query>; <cite.query w-src-number="0287018134" w-serial-number="2041622040" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a53a7574d211eab2f0b920da2605c5">Central Georgia Women&apos;s Health Center, LLC v. Dean, 342 Ga. App. 127, 800 S.E.2d 594 (2017)</cite.query> (trial court could in its discretion deny a motion in limine where a physician had corrected statements in a medical record that were subsequently found not to be true).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7809efa074d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="2006316179" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a5afa274d211eab2f0b920da2605c5">Forsyth County v. Martin, 279 Ga. 215, 610 S.E.2d 512 (2005)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7809efa174d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="2047646331" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a672f274d211eab2f0b920da2605c5">Barrett v. Burnette, 348 Ga. App. 838, 824 S.E.2d 701 (2019)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7809efa274d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1984142672" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a7ab7274d211eab2f0b920da2605c5">Strickman v. State, 253 Ga. 287, 319 S.E.2d 864 (1984)</cite.query>; <cite.query w-src-number="0287018134" w-serial-number="1985114653" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a7ab7574d211eab2f0b920da2605c5">State v. McCard, 173 Ga. App. 504, 326 S.E.2d 856 (1985)</cite.query> (trial court had <case.history>granted</case.history> defendant&apos;s motion to suppress breath test results).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7809efa374d311ea92c4fb7908f1a7b5">
+				<label.designator>
+					<?page no="144"?>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1985107599" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a895d274d211eab2f0b920da2605c5">State v. Strickman, 173 Ga. App. 1, 325 S.E.2d 775 (1984)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1988037623" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a8e3f274d211eab2f0b920da2605c5">State v. Brown, 185 Ga. App. 701, 365 S.E.2d 865 (1988)</cite.query>
+							<?page no="144"?>, indicated that the state could take a direct appeal from the grant of a motion to suppress or a motion in limine only where the defendant had claimed that the evidence had been “obtained in violation of law.”<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a16b074d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1983101998" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="Ic7a9592274d211eab2f0b920da2605c5">State v. Chumley, 164 Ga. App. 828, 299 S.E.2d 564 (1982)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a16b174d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1988009161" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000711" ID="Ic7aa6a9274d211eab2f0b920da2605c5">Walton v. Datry, 185 Ga. App. 88, 363 S.E.2d 295 (1987)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a16b274d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1986113445" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000711" ID="Ic7ab2de274d211eab2f0b920da2605c5">Frink v. State, 177 Ga. App. 604, 340 S.E.2d 631 (1986)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a16b374d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See <cite.query w-src-number="0287018134" w-serial-number="2004490390" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000711" ID="Ic7aba31274d211eab2f0b920da2605c5">Payne v. State, 267 Ga. App. 498, 502, 600 S.E.2d 422 (2004)</cite.query> (<case.history>overruled on other grounds by</case.history>, <cite.query w-src-number="0287018134" w-serial-number="2047461843" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="Ic7aba31574d211eab2f0b920da2605c5">White v. State, 305 Ga. 111, 823 S.E.2d 794 (2019)</cite.query>).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a3dc074d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1985117331" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000711" ID="Ic7acb48274d211eab2f0b920da2605c5">Pierce v. State, 173 Ga. App. 551, 327 S.E.2d 531 (1985)</cite.query>; <cite.query w-src-number="0287018134" w-serial-number="1986150294" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000711" ID="Ic7acb48574d211eab2f0b920da2605c5">Morris v. Southern Bell Tel. &amp; Tel. Co., 180 Ga. App. 145, 348 S.E.2d 573 (1986)</cite.query>. <eos/>
+							<bos/>
+							<cite.query w-src-number="0287018134" w-serial-number="1987042773" w-seq-number="00023" w-ref-type="RP" w-pub-number="0000711" ID="Ic7acb48874d211eab2f0b920da2605c5">Holt v. State, 181 Ga. App. 798, 354 S.E.2d 167 (1987)</cite.query> held that even where a motion in limine was made, the trial judge has an “absolute right” to refuse to decide the admissibility of evidence prior to trial. <eos/>
+							<bos/>See also <cite.query w-src-number="0287018134" w-serial-number="1982124339" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000711" ID="Ic7acb48b74d211eab2f0b920da2605c5">State v. Johnston, 249 Ga. 413, 291 S.E.2d 543 (1982)</cite.query>; <cite.query w-src-number="0287018134" w-serial-number="1987111340" w-seq-number="00025" w-ref-type="RP" w-pub-number="0000711" ID="Ic7acb48e74d211eab2f0b920da2605c5">Anderson v. State, 183 Ga. App. 669, 359 S.E.2d 688 (1987)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a3dc174d311ea92c4fb7908f1a7b5">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="2039591171" w-seq-number="00027" w-ref-type="RP" w-pub-number="0000711" ID="Ic7adc5f274d211eab2f0b920da2605c5">Mordecai v. Cain, 338 Ga. App. 526, 790 S.E.2d 539 (2016)</cite.query>
+							<?page no="145"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a3dc274d311ea92c4fb7908f1a7b5">
+				<label.designator>13</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1996269284" w-seq-number="00029" w-ref-type="RP" w-pub-number="0000711" ID="Ic7ae894274d211eab2f0b920da2605c5">Jordan v. Johnson, 223 Ga. App. 875, 479 S.E.2d 175 (1996)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a3dc374d311ea92c4fb7908f1a7b5">
+				<label.designator>14</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1996269284" w-seq-number="00030" w-ref-type="RP" w-pub-number="0000711" ID="Ic7af73a274d211eab2f0b920da2605c5">Jordan v. Johnson, 223 Ga. App. 875, 878, 479 S.E.2d 175 (1996)</cite.query> (emphasis supplied) (quoting <cite.query w-src-number="0287018134" w-serial-number="1982142256" w-seq-number="00031" w-ref-type="RP" w-pub-number="0000711" ID="Ic7af73a574d211eab2f0b920da2605c5">Reno v. Reno, 249 Ga. 855, 295 S.E.2d 94 (1982)</cite.query>).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a64d074d311ea92c4fb7908f1a7b5">
+				<label.designator>15</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="1985154473" w-seq-number="00033" w-ref-type="RP" w-pub-number="0000711" ID="Ic7b05e0274d211eab2f0b920da2605c5">Holland v. State, 176 Ga. App. 343, 335 S.E.2d 739 (1985)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I780a64d174d311ea92c4fb7908f1a7b5">
+				<label.designator>16</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018134" w-serial-number="2043943553" w-seq-number="00034" w-ref-type="RP" w-pub-number="0000711" ID="Ic7b0ac2274d211eab2f0b920da2605c5">Nations v. State, 303 Ga. 221, 811 S.E.2d 292 (2018)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 5:3<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

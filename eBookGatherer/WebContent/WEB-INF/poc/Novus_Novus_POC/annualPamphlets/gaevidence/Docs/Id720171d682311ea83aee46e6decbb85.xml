@@ -1,0 +1,378 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 8:24<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I27da1d50630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>8.</label.designator>
+				<headtext>Relevancy</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id720171c682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>8:24.</label.designator>
+						<headtext>Comparable sales</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Evidence of comparable sales of similar property is relevant to prove market value. <eos/>
+						<bos/>Although not restricted to real estate, most cases considering comparable sales occur in this area.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972ce7074d311ea92c4fb7908f1a7b5">1</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Generally, a voluntary sale of similar property in the vicinity, not too far removed in point of time, will be admissible to prove market value of the tract in question.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972ce7174d311ea92c4fb7908f1a7b5">2</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Data concerning comparable sales is the best test of market value in condemnation cases.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972ce7274d311ea92c4fb7908f1a7b5">3</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A lay or expert witness may offer direct evidence of the comparable sale.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972f58074d311ea92c4fb7908f1a7b5">4</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>An expert witness may testify about comparable sales based upon research done by his staff.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972f58174d311ea92c4fb7908f1a7b5">5</footnote.reference>] The comparable sale must have been a voluntary sale.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Sales of other property to a condemnor are not admissible.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972f58274d311ea92c4fb7908f1a7b5">6</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The other sale offered as evidence must have been a completed sale.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7972f58374d311ea92c4fb7908f1a7b5">7</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="262"?>
+					<bos/>
+					<paratext>The determination of whether the sale offered in evidence is in fact a comparable sale lies within the discretion of the trial judge.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79731c9074d311ea92c4fb7908f1a7b5">8</footnote.reference>] It is error to exclude a comparable sale and error to admit an incomparable sale. <eos/>
+						<bos/>Moreover, the differences in geographical locations and dates of comparable sales go to the weight, rather than the admissibility, of the comparable sales.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79731c9174d311ea92c4fb7908f1a7b5">9</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287017149" w-serial-number="1965126873" w-seq-number="00026" w-ref-type="RT" w-pub-number="0000711" ID="If3641c8274d211eab2f0b920da2605c5">
+							<ital>State Highway Dept. v. Rutland</ital>
+						</cite.query>,[<footnote.reference refid="I79731c9274d311ea92c4fb7908f1a7b5">10</footnote.reference>] the Georgia Court of Appeals held that a tract of similar farmland one-half mile away from the property in question was sufficiently comparable, even though the soil was different, and excluding evidence of the value of that land when sold a year before was erroneous.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Comparable sales evidence is admissible in criminal cases to prove the value of stolen or destroyed property. <eos/>
+						<bos/>The value of the property may be shown by (1) <begin.quote ID="QT_0003"/>“the cost of an item, as long as it is coupled with other evidence of its condition before and after the damage,”<end.quote refid="QT_0003"/> (2) evidence of the cost of repair, or (3) testimony from a lay witness as long as the witness states <begin.quote ID="QT_0004"/>“the facts on which she bases her opinion or otherwise shows she had the opportunity to form a correct opinion.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0004"/>[<footnote.reference refid="I79731c9374d311ea92c4fb7908f1a7b5">11</footnote.reference>] The value of property in criminal cases must be shown beyond a reasonable doubt.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79731c9474d311ea92c4fb7908f1a7b5">12</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I7972ce7074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1961126565" w-seq-number="00001" w-ref-type="RP" w-pub-number="0000711" ID="If35cc98274d211eab2f0b920da2605c5">Drennon Food Products Co. v. Drennon, 104 Ga. App. 19, 120 S.E.2d 902 (1961)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="2039087120" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="If35cc98574d211eab2f0b920da2605c5">Barking Hound Village, LLC v. Monyak, 299 Ga. 144, 787 S.E.2d 191 (2016)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7972ce7174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1962127986" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="If35d65c274d211eab2f0b920da2605c5">Alabama Power Co. v. Chandler, 217 Ga. 550, 123 S.E.2d 767 (1962)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1959124881" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000711" ID="If35d65c574d211eab2f0b920da2605c5">Fulton County v. Cox, 99 Ga. App. 743, 109 S.E.2d 849 (1959)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1962129209" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="If35d65c874d211eab2f0b920da2605c5">State Highway Dept. v. Willis, 106 Ga. App. 821, 128 S.E.2d 351 (1962)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1964125779" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="If35d65cb74d211eab2f0b920da2605c5">Fulton County v. Power, 109 Ga. App. 783, 137 S.E.2d 474 (1964)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1971128052" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="If35d65ce74d211eab2f0b920da2605c5">State Highway Dept. v. Clark, 123 Ga. App. 627, 181 S.E.2d 881 (1971)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7972ce7274d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1962116387" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000350" ID="If35e9e4174d211eab2f0b920da2605c5">U.S. v. 2,872.88 Acres of Land, More or Less, in Clay and Quitman Counties, State of Ga., 310 F.2d 775 (5th Cir. 1962)</cite.query>, <case.history>judgment modified</case.history>, <cite.query w-src-number="0287017149" w-serial-number="1964105788" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000708" ID="If35e9e4474d211eab2f0b920da2605c5">376 U.S. 192, 84 S. Ct. 639, 11 L. Ed. 2d 629 (1964)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7972f58074d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See <cite.query w-src-number="0287017149" w-seq-number="00010" w-ref-type="LQ" w-normalized-cite="GAST24-7-701" w-pub-number="1000468" ID="If35f137074d211eab2f0b920da2605c5">O.C.G.A. § 24-7-701(b)</cite.query>, which provides:</paratext>
+						<display.quote>
+							<para>
+								<paratext>
+									<begin.quote ID="QT_0002"/>Direct testimony as to market value is in the nature of opinion evidence. <eos/>
+									<bos/>A witness need not be an expert or dealer in the article or property to testify as to its value if he or she has had an opportunity to form a reasoned opinion.<eos/>
+									<end.quote refid="QT_0002"/>
+								</paratext>
+							</para>
+						</display.quote>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Also see <cite.query w-src-number="0287017149" w-seq-number="00011" w-ref-type="LQ" w-normalized-cite="GAST22-1-14" w-pub-number="1000468" ID="If35fafb074d211eab2f0b920da2605c5">O.C.G.A. § 22-1-14</cite.query>, providing that, when property is condemned, <begin.quote ID="QT_0001"/>“the value of the condemned property may be determined through lay or expert testimony and its admissibility shall be addressed to the sound discretion of the court.”<eos/>
+							<end.quote refid="QT_0001"/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7972f58174d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1976135553" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000711" ID="If360c12274d211eab2f0b920da2605c5">White v. Georgia Power Co., 237 Ga. 341, 227 S.E.2d 385 (1976)</cite.query> (<case.history>overruled on other grounds by</case.history>, <cite.query w-src-number="0287017149" w-serial-number="1979144357" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="If360c12574d211eab2f0b920da2605c5">DeKalb County v. Trustees, Decatur Lodge No. 1602, B. P. O. Elks, 242 Ga. 707, 251 S.E.2d 243 (1978)</cite.query>).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See also <cite.query w-src-number="0287017149" w-serial-number="1977114107" w-seq-number="00014" w-ref-type="RP" w-pub-number="0000711" ID="If3610f4274d211eab2f0b920da2605c5">Slenker v. Department of Transp., 141 Ga. App. 504, 233 S.E.2d 871 (1977)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7972f58274d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1953104743" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000711" ID="If361847274d211eab2f0b920da2605c5">Garden Parks, Inc. v. Fulton County, 88 Ga. App. 97, 76 S.E.2d 31 (1953)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1961125894" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000711" ID="If361847574d211eab2f0b920da2605c5">State Highway Dept. v. J. A. Worley &amp; Co., 103 Ga. App. 25, 118 S.E.2d 298 (1961)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1970135787" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000711" ID="If361847874d211eab2f0b920da2605c5">DeKalb County v. Noble, 122 Ga. App. 373, 177 S.E.2d 117 (1970)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>The same rule applies to sales to other condemnors. <eos/>
+							<bos/>
+							<cite.query w-src-number="0287017149" w-serial-number="1977196956" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000711" ID="If361f9a274d211eab2f0b920da2605c5">Department of Transp. v. El Carlo Motel, Inc., 140 Ga. App. 779, 232 S.E.2d 126 (1976)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7972f58374d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1961126900" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="If3626ed274d211eab2f0b920da2605c5">Southwell v. State Highway Dept., 104 Ga. App. 479, 122 S.E.2d 131 (1961)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1961126649" w-seq-number="00020" w-ref-type="RP" w-pub-number="0000711" ID="If3626ed574d211eab2f0b920da2605c5">
+								<?page no="262"?>Klein v. State, 104 Ga. App. 126, 121 S.E.2d 253 (1961)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1986123028" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000711" ID="If3626ed874d211eab2f0b920da2605c5">Jordan v. Department of Transp., 178 Ga. App. 133, 342 S.E.2d 482 (1986)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79731c9074d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1959124209" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000711" ID="If3630b1274d211eab2f0b920da2605c5">Sheppard v. Broome, 214 Ga. 659, 107 S.E.2d 219 (1959)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1960123344" w-seq-number="00023" w-ref-type="RP" w-pub-number="0000107" ID="If3630b1674d211eab2f0b920da2605c5">Georgia Power Co. v. Walker, 101 Ga. App. 454, 114 S.E.2d 159, 80 A.L.R.2d 1264 (1960)</cite.query>; <cite.query w-src-number="0287017149" w-serial-number="1964125779" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000711" ID="If3630b1974d211eab2f0b920da2605c5">Fulton County v. Power, 109 Ga. App. 783, 137 S.E.2d 474 (1964)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79731c9174d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="2023824768" w-seq-number="00025" w-ref-type="RP" w-pub-number="0000711" ID="If363804274d211eab2f0b920da2605c5">Miller v. Miller, 288 Ga. 274, 705 S.E.2d 839 (2010)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79731c9274d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="1965126873" w-seq-number="00027" w-ref-type="RP" w-pub-number="0000711" ID="If364439274d211eab2f0b920da2605c5">State Highway Dept. v. Rutland, 112 Ga. App. 792, 146 S.E.2d 544 (1965)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79731c9374d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="2012294137" w-seq-number="00028" w-ref-type="RP" w-pub-number="0000711" ID="If36506e274d211eab2f0b920da2605c5">In re J.T., 285 Ga. App. 465, 465, 646 S.E.2d 523 (2007)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79731c9474d311ea92c4fb7908f1a7b5">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017149" w-serial-number="2012294137" w-seq-number="00029" w-ref-type="RP" w-pub-number="0000711" ID="If365550274d211eab2f0b920da2605c5">In re J.T., 285 Ga. App. 465, 646 S.E.2d 523 (2007)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 8:24<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

@@ -1,0 +1,605 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 6:2<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2741d4f0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>6.</label.designator>
+				<headtext>Judicial Notice of Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f7aec682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>6:2.</label.designator>
+						<headtext>Matters of common knowledge</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The court may judicially notice facts of common knowledge that are known to be certain and indisputable or that are subject to verification.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7833e5d074d311ea92c4fb7908f1a7b5">1</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A judge is “refreshing the judicial memory” when he consults a source regarding a fact. <eos/>
+						<bos/>This is entirely a fiction since the judge may take judicial notice of a fact which he never knew before. <eos/>
+						<bos/>The judge has broad discretion in taking judicial notice, especially in areas where he will refer to a source to refresh his judicial recollection. <eos/>
+						<bos/>A judge should never take judicial notice of any fact that may be disproved.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78340ce074d311ea92c4fb7908f1a7b5">2</footnote.reference>] Once a court takes judicial notice, a party may not introduce contrary evidence.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78340ce174d311ea92c4fb7908f1a7b5">3</footnote.reference>] The court may take judicial notice in situations like ruling on motions where evidence could not be used. <eos/>
+						<bos/>The court will disregard any allegation that contradicts anything of which the court took judicial notice. <eos/>
+						<bos/>This may result in dismissal of the petition.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78340ce274d311ea92c4fb7908f1a7b5">4</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="158"?>
+					<bos/>
+					<paratext>The judge should not take judicial notice of a disputed fact, but jurisdictions vary on when there is a dispute. <eos/>
+						<bos/>For example, the Georgia Court of Appeals dismissed a petition on demurrer because a trial court took judicial notice of the fact that a train headlight and automobile headlights would cross each other without effect.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78340ce374d311ea92c4fb7908f1a7b5">5</footnote.reference>] A federal court refused to take judicial notice of the same fact.[<eos/>
+						<bos/>
+						<footnote.reference refid="I78340ce474d311ea92c4fb7908f1a7b5">6</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The cases in this area cover many areas of human experience. <eos/>
+						<bos/>For example, it is common knowledge that: kerosene is used for cooking, heating, and lighting purposes;[<footnote.reference refid="I783433f074d311ea92c4fb7908f1a7b5">7</footnote.reference>] scatter rugs have a tendency to slide on a smooth surface;[<footnote.reference refid="I783433f174d311ea92c4fb7908f1a7b5">8</footnote.reference>] excessive use of intoxicants impairs the operator of a motor vehicle,[<footnote.reference refid="I783433f274d311ea92c4fb7908f1a7b5">9</footnote.reference>] <begin.quote ID="QT_0001"/>“an automobile is a heavy metal vehicle, and for it to be overturned upon the person of a female would likely crush and inflict serious or mortal wounds upon her”<end.quote refid="QT_0001"/>;[<footnote.reference refid="I783433f374d311ea92c4fb7908f1a7b5">10</footnote.reference>] and “termination of pregnancy” means the pregnancy ended by abortion or miscarriage.[<eos/>
+						<bos/>
+						<footnote.reference refid="I783433f474d311ea92c4fb7908f1a7b5">11</footnote.reference>] Our common knowledge includes laws of nature and the effect of natural forces,[<footnote.reference refid="I783433f574d311ea92c4fb7908f1a7b5">12</footnote.reference>] geographical facts,[<footnote.reference refid="I78345b0074d311ea92c4fb7908f1a7b5">13</footnote.reference>] historical facts,[<footnote.reference refid="I78345b0174d311ea92c4fb7908f1a7b5">14</footnote.reference>] statistical facts,[<footnote.reference refid="I7834821074d311ea92c4fb7908f1a7b5">15</footnote.reference>
+						<?page no="159"?>] abbreviations,[<footnote.reference refid="I7834821174d311ea92c4fb7908f1a7b5">16</footnote.reference>] calendar,[<footnote.reference refid="I7834821274d311ea92c4fb7908f1a7b5">17</footnote.reference>] certain customs and usages,[<footnote.reference refid="I7834821374d311ea92c4fb7908f1a7b5">18</footnote.reference>] and the intoxicating character of certain alcoholic beverages.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7834821474d311ea92c4fb7908f1a7b5">19</footnote.reference>] The Georgia Court of Appeals authorized a trial court to take judicial notice of the recent deaths of the trial judge and his court reporter because it was a matter of public knowledge and it satisfied the requirements of <cite.query w-src-number="0287017098" w-seq-number="00053" w-ref-type="LQ" w-normalized-cite="GAST50-2-21" w-pub-number="1000468" ID="Icdecbde074d211eab2f0b920da2605c5">O.C.G.A. § 50-2-21(b)(5)</cite.query>.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7834a92074d311ea92c4fb7908f1a7b5">20</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In a prosecution for driving under the influence of alcohol, a trial court may judicially notice that the standardized horizontal gaze nystagmus test has been verified.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7834a92174d311ea92c4fb7908f1a7b5">21</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Sometimes, the court may need to consult reference sources to ascertain a fact, especially for scientific facts or principles[<footnote.reference refid="I7834a92274d311ea92c4fb7908f1a7b5">22</footnote.reference>] and medical facts.[<eos/>
+						<?page no="160"?>
+						<bos/>
+						<footnote.reference refid="I7834a92374d311ea92c4fb7908f1a7b5">23</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<feature.para.block>
+					<para>
+						<bop/>
+						<bos/>
+						<head parent="para">
+							<headtext>
+								<bold>Practice Tip:</bold>
+							</headtext>
+						</head>
+						<paratext>Especially for scientific facts, counsel should have a source of information available for the judge before making a request for judicial notice.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</feature.para.block>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In ascertaining a fact, the judge may resort to any helpful source of knowledge, but should not introduce the source into evidence. <eos/>
+						<bos/>Two Georgia cases might cause some confusion here. <eos/>
+						<bos/>In <cite.query w-src-number="0287017098" w-serial-number="1960123796" w-seq-number="00063" w-ref-type="RT" w-pub-number="0000711" ID="Icdefa41274d211eab2f0b920da2605c5">
+							<ital>Fields v. Jackson</ital>
+						</cite.query>,[<footnote.reference refid="I7834d03074d311ea92c4fb7908f1a7b5">24</footnote.reference>] the trial court admitted a letter from the Director of the U. S. Naval Observatory stating the time of sunrise on a particular day. <eos/>
+						<bos/>The Georgia Court of Appeals held that admitting the letter was harmless error since the court could consult an almanac or other source and could take judicial notice of the time of sunrise on a given day. <eos/>
+						<bos/>Oddly, <ital>Pentry v. Addison</ital>[<footnote.reference refid="I7834d03174d311ea92c4fb7908f1a7b5">25</footnote.reference>] cited the <cite.query w-src-number="0287017098" w-serial-number="1960123796" w-seq-number="00067" w-ref-type="RT" w-pub-number="0000711" ID="Icdf23c2274d211eab2f0b920da2605c5">
+							<ital>Fields</ital>
+						</cite.query> case as holding that the court could introduce the almanac or other source into evidence after it took judicial of the time of sunrise.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Some areas that are not candidates for judicial notice are the prime rate of interest since the prime rate fluctuates and the particular prime rate at any given moment is not the type of fact normally found within a person&apos;s <begin.quote ID="QT_0004"/>“general knowledge and experience”<end.quote refid="QT_0004"/>[<footnote.reference refid="I7834d03274d311ea92c4fb7908f1a7b5">26</footnote.reference>] and the operation of the locking device on a cement truck chutes.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7834f74074d311ea92c4fb7908f1a7b5">27</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I7833e5d074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-2-201" w-pub-number="1000468" ID="Icdddf0d074d211eab2f0b920da2605c5">O.C.G.A. § 24-2-201</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78340ce074d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1962128531" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="Icdde8d1274d211eab2f0b920da2605c5">Genesco, Inc. v. Greeson, 105 Ga. App. 798, 125 S.E.2d 786 (1962)</cite.query> (6th ed.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78340ce174d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="0280312825" w-seq-number="00003" w-ref-type="TS" w-pub-number="0134642" ID="Icde013b074d211eab2f0b920da2605c5">McCormick on Evidence § 333 (6th ed.)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78340ce274d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1896009217" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000710" ID="Icde0aff274d211eab2f0b920da2605c5">Southern Ry. Co. v. Covenia, 100 Ga. 46, 29 S.E. 219 (1896)</cite.query>; <cite.query w-src-number="0287017098" w-serial-number="1949104637" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Icde0d70174d211eab2f0b920da2605c5">Mutual Life Ins. Co. of N. Y. v. Davis, 79 Ga. App. 336, 53 S.E.2d 571 (1949)</cite.query>; <cite.query w-src-number="0287017098" w-serial-number="1956125847" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="Icde0d70474d211eab2f0b920da2605c5">McGowans v. Speed Oil Co., 94 Ga. App. 35, 93 S.E.2d 597 (1956)</cite.query> (<case.history>overruled on other grounds by</case.history>, <cite.query w-src-number="0287017098" w-serial-number="1984120863" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="Icde0d70774d211eab2f0b920da2605c5">Franklyn Gesner Fine Paintings, Inc. v. Ketcham, 252 Ga. 537, 314 S.E.2d 903 (1984)</cite.query>
+							<?page no="158"?>).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78340ce374d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1936106054" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000710" ID="Icde1734274d211eab2f0b920da2605c5">Cowan v. Georgia Railroad &amp; Banking Co., 52 Ga. App. 677, 184 S.E. 635 (1936)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78340ce474d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1937128053" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000350" ID="Icde1e87174d211eab2f0b920da2605c5">Wm. A. Smith Const. Co. v. Brumley, 88 F.2d 803 (C.C.A. 10th Cir. 1937)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I783433f074d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1936106504" w-seq-number="00010" w-ref-type="RP" w-pub-number="0000710" ID="Icde25da274d211eab2f0b920da2605c5">Shermer v. Crowe, 53 Ga. App. 418, 186 S.E. 224 (1936)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I783433f174d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1948104507" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="Icde2f9e274d211eab2f0b920da2605c5">Wilkinson v. Rich&apos;s Inc., 77 Ga. App. 239, 48 S.E.2d 552 (1948)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I783433f274d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1947116121" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000350" ID="Icde3480174d211eab2f0b920da2605c5">Murray v. Pasotex Pipe Line Co., 161 F.2d 5 (C.C.A. 5th Cir. 1947)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I783433f374d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1952104421" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="Icde3962274d211eab2f0b920da2605c5">McGraw v. State, 85 Ga. App. 857, 70 S.E.2d 141 (1952)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I783433f474d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1994239196" w-seq-number="00014" w-ref-type="RP" w-pub-number="0000711" ID="Icde3e44274d211eab2f0b920da2605c5">Lemieux v. Blue Cross &amp; Blue Shield of Georgia, Inc., 216 Ga. App. 230, 453 S.E.2d 749 (1994)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I783433f574d311ea92c4fb7908f1a7b5">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1951104538" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000711" ID="Icde4597274d211eab2f0b920da2605c5">City of Bainbridge v. Cox, 83 Ga. App. 453, 64 S.E.2d 192 (1951)</cite.query> (decay of trees); <cite.query w-src-number="0287017098" w-serial-number="1956125504" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000711" ID="Icde4597574d211eab2f0b920da2605c5">Armor Gas Corp. v. Davis, 93 Ga. App. 563, 92 S.E.2d 244 (1956)</cite.query> (escape of inflammable gas).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287017098" w-serial-number="1977135079" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000711" ID="Icde4cea274d211eab2f0b920da2605c5">Cornett v. Agee, 143 Ga. App. 55, 237 S.E.2d 522 (1977)</cite.query>, the court took judicial notice of “The Second Law of Thermodynamics,” stating: <begin.quote ID="QT_0002"/>“The court can take judicial notice of anything in the scientific world scientifically provable.”<eos/>
+							<end.quote refid="QT_0002"/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287017098" w-serial-number="1982107884" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000711" ID="Icde51cc274d211eab2f0b920da2605c5">Thornton v. State, 161 Ga. App. 296, 287 S.E.2d 749 (1982)</cite.query>, the court said that evidence was not admissible against the <begin.quote ID="QT_0003"/>“great physical laws of the universe,”<end.quote refid="QT_0003"/> relying on <cite.query w-src-number="0287017098" w-serial-number="1946103959" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="Icde51cc574d211eab2f0b920da2605c5">Oakes v. State, 201 Ga. 365, 39 S.E.2d 866 (1946)</cite.query>, but the testimony in that case was proper.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287017098" w-serial-number="1993173361" w-seq-number="00020" w-ref-type="RP" w-pub-number="0000711" ID="Icde591f274d211eab2f0b920da2605c5">Taft v. Taft, 209 Ga. App. 499, 433 S.E.2d 667 (1993)</cite.query>, the court refused to take judicial notice that bulls, as a class, are dangerous.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78345b0074d311ea92c4fb7908f1a7b5">
+				<label.designator>13</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1883013511" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000359" ID="Icde6a36174d211eab2f0b920da2605c5">Central R.R. v. DeBray, 71 Ga. 406, 1883 WL 2712 (1883)</cite.query> (location of named town in certain county); <cite.query w-src-number="0287017098" w-serial-number="1905011587" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000710" ID="Icde6a36574d211eab2f0b920da2605c5">Stanford v. Bailey, 122 Ga. 404, 50 S.E. 161 (1905)</cite.query> (boundaries and locations of counties); <cite.query w-src-number="0287017098" w-serial-number="1936107226" w-seq-number="00023" w-ref-type="RP" w-pub-number="0000710" ID="Icde6a36874d211eab2f0b920da2605c5">Benton v. Munday, 183 Ga. 228, 187 S.E. 874 (1936)</cite.query> (location of land lot lines); <cite.query w-src-number="0287017098" w-serial-number="1953105014" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000711" ID="Icde6a36b74d211eab2f0b920da2605c5">Harmon v. Harmon, 209 Ga. 474, 74 S.E.2d 75 (1953)</cite.query> (cannot take judicial notice of location of streets in the City of Atlanta), followed in <cite.query w-src-number="0287017098" w-serial-number="1984154274" w-seq-number="00025" w-ref-type="RP" w-pub-number="0000711" ID="Icde6a36e74d211eab2f0b920da2605c5">Collins v. State, 172 Ga. App. 100, 321 S.E.2d 823 (1984)</cite.query>. <eos/>
+							<bos/>See <cite.query w-src-number="0287017098" w-serial-number="1981101736" w-seq-number="00026" w-ref-type="RP" w-pub-number="0000711" ID="Icde6a37174d211eab2f0b920da2605c5">Buice v. Satellite Sec. Corp., 156 Ga. App. 348, 274 S.E.2d 608 (1980)</cite.query> (same as in <cite.query w-src-number="0287017098" w-serial-number="1953105014" w-seq-number="00027" w-ref-type="RT" w-pub-number="0000711" ID="Icde6a37474d211eab2f0b920da2605c5">
+								<ital>Harmon</ital>
+							</cite.query> case as to streets in College Park).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287017098" w-serial-number="1977113938" w-seq-number="00028" w-ref-type="RP" w-pub-number="0000711" ID="Icde78dc274d211eab2f0b920da2605c5">Phillips v. Abel, 141 Ga. App. 291, 233 S.E.2d 384 (1977)</cite.query>, there was no evidence that northwest quadrant of Atlanta was not in Fulton County, so street address with “N. W.” added fixed venue and may have been judicial notice. <eos/>
+							<bos/>See <cite.query w-src-number="0287017098" w-serial-number="1978018966" w-seq-number="00029" w-ref-type="RP" w-pub-number="0000108" ID="Icde78dc474d211eab2f0b920da2605c5">Judicial notice as to location of street address within particular political subdivision, 86 A.L.R.3d 484</cite.query> as to judicial notice of location of street address.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I78345b0174d311ea92c4fb7908f1a7b5">
+				<label.designator>14</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1881014628" w-seq-number="00030" w-ref-type="RP" w-pub-number="0000359" ID="Icde8511174d211eab2f0b920da2605c5">Williams v. State, 67 Ga. 260, 1881 WL 3365 (1881)</cite.query> (Sherman&apos;s march to the sea); <cite.query w-src-number="0287017098" w-serial-number="1921103650" w-seq-number="00031" w-ref-type="RP" w-pub-number="0000710" ID="Icde8511574d211eab2f0b920da2605c5">
+								<?page no="159"?>Railey v. United Life &amp; Acc. Ins. Co., 26 Ga. App. 269, 106 S.E. 203 (1921)</cite.query> (sinking of transport Otranto); <cite.query w-src-number="0287017098" w-serial-number="1945103873" w-seq-number="00032" w-ref-type="RP" w-pub-number="0000711" ID="Icde8511874d211eab2f0b920da2605c5">State Mut. Ins. Co. v. Harmon, 72 Ga. App. 117, 33 S.E.2d 105 (1945)</cite.query> (existence of a state of war).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834821074d311ea92c4fb7908f1a7b5">
+				<label.designator>15</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1953105118" w-seq-number="00033" w-ref-type="RP" w-pub-number="0000711" ID="Icde8ed5274d211eab2f0b920da2605c5">Tift v. Bush, 209 Ga. 769, 75 S.E.2d 805 (1953)</cite.query> (official U. S. census figure); <cite.query w-src-number="0287017098" w-serial-number="1954105277" w-seq-number="00034" w-ref-type="RP" w-pub-number="0000711" ID="Icde8ed5574d211eab2f0b920da2605c5">City of East Point v. Henry Chanin Corp., 210 Ga. 628, 81 S.E.2d 812 (1954)</cite.query> (population of city); <cite.query w-src-number="0287017098" w-serial-number="1960123855" w-seq-number="00035" w-ref-type="RP" w-pub-number="0000711" ID="Icde8ed5874d211eab2f0b920da2605c5">Studstill v. Gary, 216 Ga. 268, 116 S.E.2d 213 (1960)</cite.query> (population of county).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834821174d311ea92c4fb7908f1a7b5">
+				<label.designator>16</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1908013652" w-seq-number="00036" w-ref-type="RP" w-pub-number="0000710" ID="Icde9628274d211eab2f0b920da2605c5">Towler v. Carithers, 4 Ga. App. 517, 61 S.E. 1132 (1908)</cite.query> (N. P.); <cite.query w-src-number="0287017098" w-serial-number="1926104567" w-seq-number="00037" w-ref-type="RP" w-pub-number="0000710" ID="Icde9628574d211eab2f0b920da2605c5">Becker v. Humphries, 34 Ga. App. 644, 130 S.E. 379 (1925)</cite.query> (M. D.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834821274d311ea92c4fb7908f1a7b5">
+				<label.designator>17</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1903011154" w-seq-number="00038" w-ref-type="RP" w-pub-number="0000710" ID="Icde9d7b274d211eab2f0b920da2605c5">Dorough v. Equitable Mortg. Co., 118 Ga. 178, 45 S.E. 22 (1903)</cite.query>; <cite.query w-src-number="0287017098" w-serial-number="1957121721" w-seq-number="00039" w-ref-type="RP" w-pub-number="0000711" ID="Icde9d7b574d211eab2f0b920da2605c5">Gay v. Laurens County, 213 Ga. 518, 100 S.E.2d 271 (1957)</cite.query>; <cite.query w-src-number="0287017098" w-serial-number="1958122013" w-seq-number="00040" w-ref-type="RP" w-pub-number="0000711" ID="Icde9d7b874d211eab2f0b920da2605c5">Browne v. Snipes, 97 Ga. App. 149, 102 S.E.2d 634 (1958)</cite.query> (above three cases on coincidence of days of the week with days of the month); <cite.query w-src-number="0287017098" w-serial-number="1962129377" w-seq-number="00041" w-ref-type="RP" w-pub-number="0000711" ID="Icde9d7bb74d211eab2f0b920da2605c5">Purcell v. Hill, 107 Ga. App. 85, 129 S.E.2d 341 (1962)</cite.query> (time of sunrise and sunset).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834821374d311ea92c4fb7908f1a7b5">
+				<label.designator>18</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1918016936" w-seq-number="00042" w-ref-type="RP" w-pub-number="0000710" ID="Icdeb374274d211eab2f0b920da2605c5">Great Eastern Cas. Co. v. Blackwelder, 21 Ga. App. 586, 94 S.E. 843 (1918)</cite.query> (custom of insurance companies to prepare their contracts of insurance).<eos/>
+							<bos/> Compare <cite.query w-src-number="0287017098" w-serial-number="1923105188" w-seq-number="00043" w-ref-type="RP" w-pub-number="0000710" ID="Icdeb374574d211eab2f0b920da2605c5">Petree v. Davison-Paxon-Stokes Co., 30 Ga. App. 490, 118 S.E. 697 (1923)</cite.query> (<case.history>overruled in part on other grounds by</case.history>, <cite.query w-src-number="0287017098" w-serial-number="1958121775" w-seq-number="00044" w-ref-type="RP" w-pub-number="0000711" ID="Icdeb374874d211eab2f0b920da2605c5">Cooper v. Anderson, 96 Ga. App. 800, 101 S.E.2d 770 (1957)</cite.query>), with <cite.query w-src-number="0287017098" w-serial-number="1958121775" w-seq-number="00045" w-ref-type="RP" w-pub-number="0000711" ID="Icdeb374b74d211eab2f0b920da2605c5">Cooper v. Anderson, 96 Ga. App. 800, 101 S.E.2d 770 (1957)</cite.query>, as to custom of children to accompany or be carried by parents into stores.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834821474d311ea92c4fb7908f1a7b5">
+				<label.designator>19</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1892007506" w-seq-number="00046" w-ref-type="RP" w-pub-number="0000710" ID="Icdec21a274d211eab2f0b920da2605c5">Bell v. State, 91 Ga. 227, 18 S.E. 288 (1892)</cite.query> (rice beer not recognized as intoxicating); <cite.query w-src-number="0287017098" w-serial-number="1898010961" w-seq-number="00047" w-ref-type="RP" w-pub-number="0000710" ID="Icdec21a574d211eab2f0b920da2605c5">Loid v. State, 104 Ga. 726, 30 S.E. 949 (1898)</cite.query> (cannot take judicial notice that domestic blackberry wine intoxicating); <cite.query w-src-number="0287017098" w-serial-number="1901010913" w-seq-number="00048" w-ref-type="RP" w-pub-number="0000710" ID="Icdec21a874d211eab2f0b920da2605c5">Eaves v. State, 113 Ga. 749, 39 S.E. 318 (1901)</cite.query> (cannot take judicial notice that all malt liquor intoxicating); <cite.query w-src-number="0287017098" w-serial-number="1906012084" w-seq-number="00049" w-ref-type="RP" w-pub-number="0000710" ID="Icdec21ab74d211eab2f0b920da2605c5">Fears v. State, 125 Ga. 740, 54 S.E. 661 (1906)</cite.query> (corn whiskey is intoxicating); <cite.query w-src-number="0287017098" w-serial-number="1914020020" w-seq-number="00050" w-ref-type="RP" w-pub-number="0000710" ID="Icdec21ae74d211eab2f0b920da2605c5">Norris v. Town of Thomson, 15 Ga. App. 511, 83 S.E. 866 (1914)</cite.query> (gin is intoxicating and not changed by prefix “Bolo”); <cite.query w-src-number="0287017098" w-serial-number="1957121446" w-seq-number="00051" w-ref-type="RP" w-pub-number="0000711" ID="Icdec21b174d211eab2f0b920da2605c5">Daniels v. State, 95 Ga. App. 862, 99 S.E.2d 292 (1957)</cite.query> (“moonshine liquor” means whiskey illegally made).<eos/>
+							<bos/> See <cite.query w-src-number="0287017098" w-serial-number="1956011013" w-seq-number="00052" w-ref-type="RP" w-pub-number="0000107" ID="Icdec21b374d211eab2f0b920da2605c5">49 A.L.R.2d 764 (1956)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834a92074d311ea92c4fb7908f1a7b5">
+				<label.designator>20</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="2006514751" w-seq-number="00054" w-ref-type="RP" w-pub-number="0000711" ID="Icdece4f274d211eab2f0b920da2605c5">Triguero v. ABN AMRO Bank N.V., 273 Ga. App. 92, 614 S.E.2d 209 (2005)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834a92174d311ea92c4fb7908f1a7b5">
+				<label.designator>21</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="2014946395" w-seq-number="00055" w-ref-type="RP" w-pub-number="0000711" ID="Icded5a2274d211eab2f0b920da2605c5">Sultan v. State, 289 Ga. App. 405, 657 S.E.2d 311 (2008)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834a92274d311ea92c4fb7908f1a7b5">
+				<label.designator>22</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1954104878" w-seq-number="00056" w-ref-type="RP" w-pub-number="0000711" ID="Icdedcf5274d211eab2f0b920da2605c5">Lamar Elec. Membership Corp. v. Carroll, 89 Ga. App. 440, 79 S.E.2d 832 (1953)</cite.query> (science of mathematics); <cite.query w-src-number="0287017098" w-serial-number="1963125558" w-seq-number="00057" w-ref-type="RP" w-pub-number="0000711" ID="Icdedcf5574d211eab2f0b920da2605c5">Derrick v. Rabun County, 107 Ga. App. 229, 129 S.E.2d 583 (1963)</cite.query> (science of mensuration is branch of pure mathematics).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834a92374d311ea92c4fb7908f1a7b5">
+				<label.designator>
+					<?page no="160"?>23</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1943105053" w-seq-number="00058" w-ref-type="RP" w-pub-number="0000104" ID="Icdee92a374d211eab2f0b920da2605c5">Preston v. National Life &amp; Acc. Ins. Co., 196 Ga. 217, 26 S.E.2d 439, 148 A.L.R. 897 (1943)</cite.query> (cancer is a dangerous disease); <cite.query w-src-number="0287017098" w-serial-number="1946103675" w-seq-number="00059" w-ref-type="RP" w-pub-number="0000711" ID="Icdee92a674d211eab2f0b920da2605c5">Metropolitan Life Ins. Co. v. Milton, 74 Ga. App. 160, 38 S.E.2d 885 (1946)</cite.query> (cancer and diabetes are dangerous diseases); <cite.query w-src-number="0287017098" w-serial-number="1949104804" w-seq-number="00060" w-ref-type="RP" w-pub-number="0000711" ID="Icdee92a974d211eab2f0b920da2605c5">
+								<?page no="160"?>Steed v. State, 80 Ga. App. 360, 56 S.E.2d 171 (1949)</cite.query> (normal period of gestation from consultation of medical books); <cite.query w-src-number="0287017098" w-serial-number="1956125596" w-seq-number="00061" w-ref-type="RP" w-pub-number="0000711" ID="Icdee92ac74d211eab2f0b920da2605c5">Wooten v. Life Ins. Co. of Ga., 93 Ga. App. 665, 92 S.E.2d 567 (1956)</cite.query> (will not take judicial notice of progress of disease or incidence of illness).<eos/>
+							<bos/> See <cite.query w-src-number="0287017098" w-serial-number="1960012959" w-seq-number="00062" w-ref-type="RP" w-pub-number="0000107" ID="Icdee92ae74d211eab2f0b920da2605c5">72 A.L.R.2d 554 (1960)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834d03074d311ea92c4fb7908f1a7b5">
+				<label.designator>24</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1960123796" w-seq-number="00064" w-ref-type="RP" w-pub-number="0000711" ID="Icdeff23274d211eab2f0b920da2605c5">Fields v. Jackson, 102 Ga. App. 117, 115 S.E.2d 877 (1960)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287017098" w-serial-number="1979106130" w-seq-number="00065" w-ref-type="RP" w-pub-number="0000711" ID="Icdf0dc9274d211eab2f0b920da2605c5">State v. Dancy, 297 N.C. 40, 252 S.E.2d 514 (1979)</cite.query>, the trial judge refused to take judicial notice of the moon condition based on the “Ladies Birthday Almanac.” <eos/>
+							<bos/>The Supreme Court did take judicial notice, based on records of the U.S. Naval Observatory. <eos/>
+							<bos/>This was a “Lincolnesque” case, since a witness had identified the defendant because the moon was shining bright at 9:45 P.M. on January 30, 1978. <eos/>
+							<bos/>The Supreme Court reversed, based on their judicial notice that on that night the moon was in the last quarter and did not rise until midnight.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834d03174d311ea92c4fb7908f1a7b5">
+				<label.designator>25</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1962128443" w-seq-number="00066" w-ref-type="RP" w-pub-number="0000711" ID="Icdf1c6f274d211eab2f0b920da2605c5">Pendry v. Addison, 105 Ga. App. 673, 125 S.E.2d 523 (1962)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834d03274d311ea92c4fb7908f1a7b5">
+				<label.designator>26</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1991142252" w-seq-number="00068" w-ref-type="RP" w-pub-number="0000711" ID="Icdf2b15274d211eab2f0b920da2605c5">Read v. Benedict, 200 Ga. App. 4, 406 S.E.2d 488 (1991)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7834f74074d311ea92c4fb7908f1a7b5">
+				<label.designator>27</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017098" w-serial-number="1994233732" w-seq-number="00069" w-ref-type="RP" w-pub-number="0000711" ID="Icdf2ff7274d211eab2f0b920da2605c5">Turner v. Sumter Self Storage Co., 215 Ga. App. 92, 449 S.E.2d 618 (1994)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 6:2<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>
