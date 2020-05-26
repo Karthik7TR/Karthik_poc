@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
@@ -90,9 +91,7 @@ public class EditGroupController {
 
                 final GroupDefinition group = groupService.getLastGroup(bookDef);
                 setupVersion(group, form, model);
-
-                // TODO: Need to refactor to account for types standard, periodicals, ereference.
-                form.setGroupType("standard");
+                setGroupType(form, group, bookDef.isELooseleafsEnabled());
 
                 final Map<String, ProviewTitleInfo> proviewTitleMap = getMajorVersionForTitleMap(bookDef.getFullyQualifiedTitleId());
                 final Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
@@ -137,6 +136,18 @@ public class EditGroupController {
             formatedVersion = formatedVersion.charAt(0) + formatedVersion.substring(1).toLowerCase();
             model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
         }
+    }
+
+    private void setGroupType(final EditGroupDefinitionForm form, final GroupDefinition lastGroup,
+        final boolean isElooseleafsEnabled) {
+        String groupType;
+        if (lastGroup != null) {
+            groupType = lastGroup.getType();
+        } else {
+            groupType = isElooseleafsEnabled ? CoreConstants.GROUP_TYPE_EREFERENCE
+                    : CoreConstants.GROUP_TYPE_STANDARD;
+        }
+        form.setGroupType(groupType);
     }
 
     /**

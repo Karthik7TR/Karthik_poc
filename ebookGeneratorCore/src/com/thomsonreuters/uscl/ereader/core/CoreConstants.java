@@ -32,6 +32,9 @@ public class CoreConstants {
     public static final String REMOVED_BOOK_STATUS = "Removed";
     public static final String CLEANUP_BOOK_STATUS = "Cleanup";
 
+    public static final String GROUP_TYPE_STANDARD = "standard";
+    public static final String GROUP_TYPE_EREFERENCE = "ereference";
+
     public static final String ERROR_SIGN_SOME_PARTS_HAVE_INCONSISTENT_STATUS_OR_ABSENT = "^";
     public static final String ERROR_SIGN_SOME_PARTS_ARE_IN_FINAL_SOME_IN_REVIEW_STATE = "*";
 
