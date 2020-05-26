@@ -32,6 +32,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_EREFERENCE;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_STANDARD;
+
 public class GroupServiceImpl implements GroupService {
     private static final Logger LOG = LogManager.getLogger(GroupServiceImpl.class);
     private BookDefinitionService bookDefinitionService;
@@ -438,7 +441,7 @@ public class GroupServiceImpl implements GroupService {
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setName(groupName);
         groupDefinition.setGroupId(groupId);
-        groupDefinition.setType("standard");
+        groupDefinition.setType(getGroupType(fullyQualifiedTitleId));
         final List<SubGroupInfo> subGroupInfoList = new ArrayList<>();
         groupDefinition.setSubGroupInfoList(subGroupInfoList);
 
@@ -448,6 +451,11 @@ public class GroupServiceImpl implements GroupService {
             groupDefinition.setHeadTitle(fullyQualifiedTitleId);
         }
         return groupDefinition;
+    }
+
+    private String getGroupType(String titleId) {
+        BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(titleId);
+        return bookDefinition.isELooseleafsEnabled() ? GROUP_TYPE_EREFERENCE : GROUP_TYPE_STANDARD;
     }
 
     private List<String> getPilotBooks(final BookDefinition book) {
