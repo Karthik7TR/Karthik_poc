@@ -1,0 +1,139 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 2:14<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2561f160630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>2.</label.designator>
+				<headtext>Witnesses</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I259d25a0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.designator>C.</label.designator>
+				<headtext>Examination</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f05d1682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>2:14.</label.designator>
+						<headtext>In general</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In federal practice, <cite.query w-src-number="0287018087" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="USFRCPR43" w-pub-number="1000600" ID="I9376ebe074d211eab2f0b920da2605c5">Fed. R. Civ. P. Rule 43(a)</cite.query> and <cite.query w-src-number="0287018087" w-seq-number="00002" w-ref-type="LQ" w-normalized-cite="USFRCRPR26" w-pub-number="1000598" ID="I9376ebe174d211eab2f0b920da2605c5">Fed. R. Crim. P. 26</cite.query> govern the presentation of testimony in court. <eos/>
+						<bos/>Both rules provide that <begin.quote ID="QT_0001"/>
+						<?page no="16"?>“(i)n all trials the testimony of witnesses shall be taken orally in open court, unless otherwise provided by an Act of Congress”<end.quote refid="QT_0001"/> or other <cite.query w-src-number="0287018087" w-seq-number="00003" w-ref-type="LQ" w-normalized-cite="USFRCPR26" w-pub-number="1000600" ID="I9376ebe274d211eab2f0b920da2605c5">federal rules. Rule 26</cite.query> provides that the court has broad discretion in controlling the examination of witnesses. <eos/>
+						<bos/>In Georgia, the court has broad discretion in controlling witness examination.[<eos/>
+						<bos/>
+						<footnote.reference refid="I767fa62074d311ea92c4fb7908f1a7b5">1</footnote.reference>] A court may allow an unlisted witness in a criminal trial to testify if the accused is given an opportunity to interview the witness prior to the time he takes the stand.[<eos/>
+						<bos/>
+						<footnote.reference refid="I767fcd3074d311ea92c4fb7908f1a7b5">2</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="16"?>
+			<footnote ID="I767fa62074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018087" w-serial-number="1930106033" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000710" ID="I93773a0274d211eab2f0b920da2605c5">National Land &amp; Coal Co. v. Zugar, 171 Ga. 228, 155 S.E. 7 (1930)</cite.query>; <cite.query w-src-number="0287018087" w-serial-number="1946103464" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="I93773a0574d211eab2f0b920da2605c5">Dorsey v. State, 73 Ga. App. 271, 36 S.E.2d 178 (1945)</cite.query>; <cite.query w-src-number="0287018087" w-serial-number="1960123796" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="I93773a0874d211eab2f0b920da2605c5">Fields v. Jackson, 102 Ga. App. 117, 115 S.E.2d 877 (1960)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I767fcd3074d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018087" w-serial-number="1995109975" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="I9377d64274d211eab2f0b920da2605c5">Thrasher v. State, 265 Ga. 401, 456 S.E.2d 578 (1995)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 2:14<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

@@ -1,0 +1,325 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 9:5<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I288e2b10630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>9.</label.designator>
+				<headtext>Hearsay</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id7203e37682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>9:5.</label.designator>
+						<headtext>Credibility of declarant</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287017164" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-8-806" w-pub-number="1000468" ID="Ifb9128d074d211eab2f0b920da2605c5">O.C.G.A. § 24-8-806</cite.query>, <begin.quote ID="QT_0001"/>“Attacking and supporting credibility of a declarant,”<end.quote refid="QT_0001"/> provides as follows:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0002"/>When a hearsay statement has been admitted in evidence, the credibility of the declarant may be attacked and, if attacked, may be supported by any evidence which would be admissible for those purposes if the declarant had testified as a witness. <eos/>
+								<bos/>Evidence of a statement or conduct by the declarant at any time, inconsistent with the declarant&apos;s hearsay statement, shall not be subject to any requirement that the declarant may have been afforded an opportunity to deny or explain. <eos/>
+								<bos/>If the party against whom a hearsay statement has been admitted calls the declarant as a witness, the party shall be entitled to examine the declarant on the statement as if under cross-examination.<eos/>
+								<end.quote refid="QT_0002"/>
+							</paratext>
+						</para>
+					</display.quote>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="285"?>
+					<bos/>
+					<paratext>Georgia courts have already expressly adopted the view expressed in <cite.query w-src-number="0287017164" w-seq-number="00002" w-ref-type="LQ" w-normalized-cite="USFRER806" w-pub-number="1000607" ID="Ifb91ec2074d211eab2f0b920da2605c5">Fed. R. Evid. 806</cite.query>, and now the language of <cite.query w-src-number="0287017164" w-seq-number="00003" w-ref-type="LQ" w-normalized-cite="GAST24-8-806" w-pub-number="1000468" ID="Ifb91ec2174d211eab2f0b920da2605c5">O.C.G.A. § 24-8-806</cite.query> mirrors the federal rule as well. <eos/>
+						<bos/>For example, when a dying declaration is admitted against a criminal defendant, he is permitted to show the general bad character of the declarant.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c979f074d311ea92c4fb7908f1a7b5">1</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Difficulty arises when the attack is made by showing other statements contradictory to the declaration. <eos/>
+						<bos/>
+						<cite.query w-src-number="0287017164" w-seq-number="00006" w-ref-type="LQ" w-normalized-cite="GAST24-4-405" w-pub-number="1000468" ID="Ifb92886074d211eab2f0b920da2605c5">O.C.G.A. §§ 24-4-405</cite.query> and <cite.query w-src-number="0287017164" w-seq-number="00007" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="Ifb92886174d211eab2f0b920da2605c5">24-6-608</cite.query> require a foundation for this method of impeachment. <eos/>
+						<bos/>The courts have so strictly construed this foundational requirement that depositional testimony of a witness cannot be used because he cannot be asked about the contradictory statement.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c979f174d311ea92c4fb7908f1a7b5">2</footnote.reference>] If no foundation can be established because a declarant is unavailable, then the contradictory declaration cannot be used for impeachment.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c979f274d311ea92c4fb7908f1a7b5">3</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>However, this requirement had been relaxed in a few areas. <eos/>
+						<bos/>Where a dying declaration is introduced either by or against a criminal defendant, a contradictory statement by the declarant may be shown without laying a foundation.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c979f374d311ea92c4fb7908f1a7b5">4</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In a probate case, <cite.query w-src-number="0287017164" w-serial-number="1910013130" w-seq-number="00014" w-ref-type="RT" w-pub-number="0000710" ID="Ifb945d2274d211eab2f0b920da2605c5">
+							<ital>Mobley v. Lyon</ital>
+						</cite.query>,[<footnote.reference refid="I79c9a10074d311ea92c4fb7908f1a7b5">5</footnote.reference>] the attesting witnesses were deceased and evidence was introduced as to their signatures. <eos/>
+						<bos/>The court held that it was proper to show a statement by one of the witnesses that the testatrix had not made a will.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In a case of first impression, the Georgia Court of Appeals clarified the rule regarding the foundational requirement for a statement by a now unavailable witness in <cite.query w-src-number="0287017164" w-serial-number="1986104051" w-seq-number="00016" w-ref-type="RT" w-pub-number="0000711" ID="Ifb95478274d211eab2f0b920da2605c5">
+							<ital>Brantley v. State.</ital>
+						</cite.query>[<footnote.reference refid="I79c9a10174d311ea92c4fb7908f1a7b5">6</footnote.reference>] That case involved impeachment of a declarant who had not testified, but whose hearsay declaration had been admitted as res gestae. <eos/>
+						<bos/>The court followed <cite.query w-src-number="0287017164" w-seq-number="00018" w-ref-type="LQ" w-normalized-cite="USFRER806" w-pub-number="1000607" ID="Ifb95bcb074d211eab2f0b920da2605c5">Fed. R. Evid. 806</cite.query> and held that the declarant was subject to impeachment.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c9a10274d311ea92c4fb7908f1a7b5">7</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="286"?>
+					<bos/>
+					<paratext>Subsequently, the Georgia Court of Appeals expanded this rationale by holding that a party must be given the opportunity to impeach the credibility of a declarant whose statement is admitted under the medical diagnosis or treatment exception to the hearsay rule.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c9a10374d311ea92c4fb7908f1a7b5">8</footnote.reference>] A party may also impeach the credibility of an accountant that prepared a chart of business finances to be used at trial, even though the witness testified that she had aided in creating the chart.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c9a10474d311ea92c4fb7908f1a7b5">9</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The courts have held that it is not ineffective assistance of counsel where defense attorney does not object to hearsay testimony of declarants where defense attorney had a reasonable trial strategy for doing so, including the fact that the declarants may be called to testify.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c9c81074d311ea92c4fb7908f1a7b5">10</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="285"?>
+			<footnote ID="I79c979f074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1871004307" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000359" ID="Ifb92133174d211eab2f0b920da2605c5">Nesbit v. State, 43 Ga. 238, 1871 WL 2513 (1871)</cite.query>; <cite.query w-src-number="0287017164" w-serial-number="1896009625" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000710" ID="Ifb92133574d211eab2f0b920da2605c5">Redd v. State, 99 Ga. 210, 25 S.E. 268 (1896)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c979f174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1922105395" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000710" ID="Ifb92af7274d211eab2f0b920da2605c5">Estill v. Citizens&apos; &amp; Southern Bank, 153 Ga. 618, 113 S.E. 552 (1922)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c979f274d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1894009164" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000710" ID="Ifb9324a274d211eab2f0b920da2605c5">Sharp v. Hicks, 94 Ga. 624, 21 S.E. 208 (1894)</cite.query>; <cite.query w-src-number="0287017164" w-serial-number="1934106325" w-seq-number="00010" w-ref-type="RP" w-pub-number="0000710" ID="Ifb9324a574d211eab2f0b920da2605c5">Baker v. Wyatt, 49 Ga. App. 410, 175 S.E. 678 (1934)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c979f374d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1884014507" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000359" ID="Ifb93c0e174d211eab2f0b920da2605c5">Battle v. State, 74 Ga. 101, 1885 WL 2663 (1885)</cite.query>; <cite.query w-src-number="0287017164" w-serial-number="1911012659" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000710" ID="Ifb93c0e574d211eab2f0b920da2605c5">Washington v. State, 137 Ga. 218, 73 S.E. 512 (1911)</cite.query>; <cite.query w-src-number="0287017164" w-serial-number="1930105683" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000710" ID="Ifb93c0e874d211eab2f0b920da2605c5">Johnson v. State, 169 Ga. 814, 152 S.E. 76 (1930)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c9a10074d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1910013130" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000710" ID="Ifb94843274d211eab2f0b920da2605c5">Mobley v. Lyon, 134 Ga. 125, 67 S.E. 668 (1910)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c9a10174d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1986104051" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000711" ID="Ifb956e9274d211eab2f0b920da2605c5">Brantley v. State, 177 Ga. App. 13, 338 S.E.2d 694 (1985)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c9a10274d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="1986104051" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="Ifb95e3c274d211eab2f0b920da2605c5">Brantley v. State, 177 Ga. App. 13, 338 S.E.2d 694 (1985)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See also <cite.query w-src-number="0287017164" w-serial-number="1998237893" w-seq-number="00020" w-ref-type="RP" w-pub-number="0000711" ID="Ifb9658f274d211eab2f0b920da2605c5">Smith v. State, 270 Ga. 240, 244, 510 S.E.2d 1 (1998)</cite.query> (<case.history>overruled on other grounds by</case.history>, <cite.query w-src-number="0287017164" w-serial-number="2017391010" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000711" ID="Ifb9658f574d211eab2f0b920da2605c5">O&apos;Kelley v. State, 284 Ga. 758, 670 S.E.2d 388 (2008)</cite.query>), <begin.quote ID="QT_0003"/>“Georgia law permits impeachment of the hearsay declarant.”<eos/>
+							<?page no="286"?>
+							<end.quote refid="QT_0003"/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c9a10374d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="2000621796" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000711" ID="Ifb96ce2274d211eab2f0b920da2605c5">Allen v. State, 247 Ga. App. 10, 543 S.E.2d 45 (2000)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c9a10474d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="2048547516" w-seq-number="00023" w-ref-type="RP" w-pub-number="0000999" ID="Ifb97435174d211eab2f0b920da2605c5">Hawkins v. State, 2019 WL 2574063 (Ga. Ct. App. 2019)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c9c81074d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017164" w-serial-number="2032987817" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000711" ID="Ifb97df9274d211eab2f0b920da2605c5">Hartsfield v. State, 294 Ga. 883, 757 S.E.2d 90 (2014)</cite.query>; <cite.query w-src-number="0287017164" w-serial-number="2036384072" w-seq-number="00025" w-ref-type="RP" w-pub-number="0000711" ID="Ifb97df9574d211eab2f0b920da2605c5">Arbegast v. State, 332 Ga. App. 414, 773 S.E.2d 283 (2015)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 9:5<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

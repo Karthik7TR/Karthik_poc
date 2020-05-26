@@ -46,6 +46,28 @@ public class InlineTocService {
     private static final String STYLE = "style";
     private static final String GUID = "Guid";
     private static final String NAME = "Name";
+    private static final String DEFAULT_SUMMARY_HEADING = "<SummaryHeading align=\"left\" fv=\"1\" size=\"0.25i\" prelead=\"0.51i\" cm=\"normal\">Summary of Contents</SummaryHeading>";
+    private static final String DEFAULT_DETAILED_HEADING = "<DetailedHeading align=\"left\" fv=\"1\" size=\"0.25i\" prelead=\"0.51i\" cm=\"normal\">Table of Contents</DetailedHeading>";
+    private static final String E_BOOK = "EBook";
+    private static final String SUM_ALIGN = "sum_align";
+    private static final String SUM_LINDENT = "sum_lindent";
+    private static final String SUMMARY_OF_CONTENTS = "Summary of Contents";
+    private static final String DET_PRELEAD = "det_prelead";
+    private static final String DET_CM = "det_cm";
+    private static final String DET_FV = "det_fv";
+    private static final String SUM_PRELEAD = "sum_prelead";
+    private static final String DET_ALIGN = "det_align";
+    private static final String DET_LINDENT = "det_lindent";
+    private static final String ALIGN_LEFT = "left";
+    private static final String TABLE_OF_CONTENTS = "Table of Contents";
+    private static final double BASE_INDENT = 0.2;
+    private static final String MAJOR_PRELEAD = "0.34i";
+    private static final String MINOR_PRELEAD = "0.17i";
+    private static final String UNIT = "i";
+    private static final String SUMMARY_PAGE = "1";
+    private static final String DETAILED_PAGE = "2";
+    private static final String CM_UPPER = "upper";
+    private static final String DETAILED_FV = "1";
 
     @Autowired
     private DocMetadataService docMetadataService;
@@ -59,23 +81,56 @@ public class InlineTocService {
     @Autowired
     private JsoupService jsoup;
 
-    public boolean generateInlineToc(final File tocXmlFile, final File outputDir, final boolean pages, final long jobId) {
+    public void generateInlineToc(final File tocXmlFile, final File outputDir, final boolean pages, final long jobId) {
         final Document tocXml = jsoup.loadDocument(tocXmlFile);
 
-        if (inlineTocAttributesExist(tocXml)) {
-            final TocDocument doc = loadInputElements(jobId, tocXml);
-
-            if (pages) {
-                generateWithPages(doc);
-            } else {
-                generateWithoutPages(doc);
-            }
-
-            jsoup.saveDocument(outputDir, INLINE_TOC_FILE_NAME, doc.getDocument());
-
-            return true;
+        if (!inlineTocAttributesExist(tocXml)) {
+            assignDefaultInlineTocAttributes(tocXml);
         }
-        return false;
+
+        final TocDocument doc = loadInputElements(jobId, tocXml);
+
+        if (pages) {
+            generateWithPages(doc);
+        } else {
+            generateWithoutPages(doc);
+        }
+
+        jsoup.saveDocument(outputDir, INLINE_TOC_FILE_NAME, doc.getDocument());
+    }
+
+    private void assignDefaultInlineTocAttributes(final Document tocXml) {
+        Element root = tocXml.select(E_BOOK).first();
+        root.append(DEFAULT_SUMMARY_HEADING);
+        root.append(DEFAULT_DETAILED_HEADING);
+        assignDefaultInlineTocAttributes(root.select(EBOOK_TOC).first(), 0);
+    }
+
+    private void assignDefaultInlineTocAttributes(final Element toc, final int level) {
+        if (level < 2) {
+            toc.attr(SUMMARY, Boolean.TRUE.toString());
+            toc.attr(SUM_ALIGN, ALIGN_LEFT);
+            toc.attr(SUM_LINDENT, (BASE_INDENT * level) + UNIT);
+            toc.attr(SUM_SERIAL_PG, SUMMARY_PAGE);
+            toc.attr(SUM_PRINT_PG, SUMMARY_OF_CONTENTS);
+
+            toc.attr(DET_PRELEAD, MAJOR_PRELEAD);
+            toc.attr(DET_CM, CM_UPPER);
+            toc.attr(DET_FV, DETAILED_FV);
+        } else {
+            toc.attr(DET_PRELEAD, MINOR_PRELEAD);
+        }
+
+        toc.attr(SUM_PRELEAD, MINOR_PRELEAD);
+        toc.attr(DETAILED, Boolean.TRUE.toString());
+        toc.attr(DET_ALIGN, ALIGN_LEFT);
+        toc.attr(DET_LINDENT, (BASE_INDENT * level) + UNIT);
+        toc.attr(DET_SERIAL_PG, DETAILED_PAGE);
+        toc.attr(DET_PRINT_PG, TABLE_OF_CONTENTS);
+
+        toc.children().stream()
+                .filter(el -> el.nodeName().equals(EBOOK_TOC))
+                .forEach(el -> assignDefaultInlineTocAttributes(el, level + 1));
     }
 
     private TocDocument loadInputElements(final long jobId, final Document tocXml) {

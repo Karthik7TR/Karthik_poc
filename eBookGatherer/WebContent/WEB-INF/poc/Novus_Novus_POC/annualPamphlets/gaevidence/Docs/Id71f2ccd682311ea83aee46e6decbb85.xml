@@ -1,0 +1,374 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 3:5<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I260dc1c0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>3.</label.designator>
+				<headtext>Statutory Privileges</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f2ccc682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>3:5.</label.designator>
+						<headtext>Attorney-client privilege—Corporate clients</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The attorney-client privilege extends to corporate clients.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770be09074d311ea92c4fb7908f1a7b5">1</footnote.reference>] Yet, as noted by the Georgia Court of Appeals, <begin.quote ID="QT_0002"/>“the structure of corporate hierarchies has become increasingly complex with numerous levels of communication generating a seemingly infinite volume of intra-office correspondence,”<end.quote refid="QT_0002"/> and as a result, <begin.quote ID="QT_0003"/>“significant difficulties have developed in the application of this privilege.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0003"/>[<footnote.reference refid="I770be09174d311ea92c4fb7908f1a7b5">2</footnote.reference>] In the corporate setting, the scope of the privilege is best understood when divided in terms of communications from corporate employees to counsel and communication disseminated from counsel to the corporation. <eos/>
+						<bos/>The Georgia Court of Appeals addressed the scope of privilege for corporate employee communications in <cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00003" w-ref-type="RT" w-pub-number="0000711" ID="Ia47e0d6274d211eab2f0b920da2605c5">
+							<ital>Marriott Corp. v. American Academy of Psychotherapists, Inc.</ital>
+						</cite.query>[<footnote.reference refid="I770c07a074d311ea92c4fb7908f1a7b5">3</footnote.reference>] by adopting a five-part test for determining which employee communications can be classified as the corporate client&apos;s communications to its attorney for the purposes of applying the attorney-client privilege. <eos/>
+						<bos/>The attorney-client privilege is applicable to an employee&apos;s communication if it can be shown that <begin.quote ID="QT_0001"/>“(1) the communication was made for the purpose of securing legal advice, (2) the employee making the communication did so at the direction of his corporate superior, (3) the superior made the request so that the corporation could secure legal advice, (4) the subject matter of the communication is within the scope of the employee&apos;s corporate duties, and (5) the communication is not disseminated beyond those persons who, because of the corporate structure, need to know its contents.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0001"/>[<footnote.reference refid="I770c07a174d311ea92c4fb7908f1a7b5">4</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>However, the attorney-client privilege does not apply to evidence which is otherwise admissible simply because the evidence is made available to the corporate attorney. <eos/>
+						<bos/>In <cite.query w-src-number="0287018102" w-serial-number="1994175591" w-seq-number="00007" w-ref-type="RT" w-pub-number="0000711" ID="Ia480575274d211eab2f0b920da2605c5">
+							<ital>
+								<?page no="58"?>General Motors Corp. v. Moseley</ital>
+						</cite.query>,[<footnote.reference refid="I770c07a274d311ea92c4fb7908f1a7b5">5</footnote.reference>] the defendant sought to exclude all testimony by one of its former employees as privileged. <eos/>
+						<bos/>The former employee had worked with a defense team for General Motors in other cases which involved the same subject as the <cite.query w-src-number="0287018102" w-serial-number="1994175591" w-seq-number="00010" w-ref-type="RT" w-pub-number="0000711" ID="Ia482532274d211eab2f0b920da2605c5">
+							<ital>Moseley</ital>
+						</cite.query> case. <eos/>
+						<bos/>In ruling the ex-employee&apos;s testimony was admissible, the court held that communications between a principal and an agent are not privileged in Georgia, even if these communications are forwarded to the principal&apos;s lawyer and are used in preparing for litigation. <eos/>
+						<bos/>Additionally, no privilege applies to an employee&apos;s testimony or knowledge about a subject simply because the employee has previously worked with his principal&apos;s litigation team in other cases involving the same subject. <eos/>
+						<bos/>In other words, evidence within the knowledge of a party&apos;s employee cannot be suppressed simply because the knowledge has been provided to the party&apos;s attorney or because the witness has helped the party in similar litigation.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The <cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00011" w-ref-type="RT" w-pub-number="0000711" ID="Ia482c85274d211eab2f0b920da2605c5">
+							<ital>Marriott</ital>
+						</cite.query> test for identifying privileged communications by an employee is not applicable to the second category of corporate attorney communications—the attorney&apos;s communications to a corporate client.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770c2eb074d311ea92c4fb7908f1a7b5">6</footnote.reference>] The Georgia Court of Appeals first outlined the law in this area in the 1989 decision of <cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00013" w-ref-type="RT" w-pub-number="0000711" ID="Ia483b2b274d211eab2f0b920da2605c5">
+							<ital>Southern Guaranty Ins. Co. of Ga. v. Ash</ital>
+						</cite.query>.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770c2eb174d311ea92c4fb7908f1a7b5">7</footnote.reference>] The court held that, once an attorney-client relationship has been duly established between an attorney and his corporate client, all legal advice confidentially communicated to the authorized agents of the corporation is protected from discovery and testimony concerning the content of such advice is inadmissible on grounds of public policy. <eos/>
+						<bos/>Explaining this rule, the court noted that legal advice given to a client was privileged regardless of whether the advice related to pending litigation or to a client&apos;s day to day legal affairs. <eos/>
+						<bos/>The privilege covers all legal advice given, not just advice expressly requested by the client. <eos/>
+						<bos/>However, if the attorney acts merely as a business adviser, the privilege is inapplicable. <eos/>
+						<bos/>The privilege will never be available to allow a corporation to funnel its papers and documents into the hands of its lawyers for the purpose of avoiding disclosure. <eos/>
+						<bos/>Likewise, the privilege is inapplicable if the attorney merely provides personal advice to the agents of the corporation. <eos/>
+						<?page no="59"?>
+						<bos/>
+						<begin.quote ID="QT_0004"/>“It seems well settled that the requisite professional relationship is not established when the client seeks business or personal advice as opposed to legal assistance.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0004"/>[<footnote.reference refid="I770c55c074d311ea92c4fb7908f1a7b5">8</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The Georgia Court of Appeals has held that the confidential nature of legal advice will not be destroyed by its communication to employees within the corporate structure who are authorized, expressly or by business practice, to receive and act on the advice.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770c55c174d311ea92c4fb7908f1a7b5">9</footnote.reference>] However, disseminating legal advice in a newsletter format might be viewed as a manner of communication which waives the privilege since newsletters are typically used to disseminate routine business advice. <eos/>
+						<bos/>On this point, the court stated that the “totality of the circumstances” should be strictly scrutinized when determining if the attorney-client privilege had been waived by including legal advice in a newsletter or some other like format.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770c55c274d311ea92c4fb7908f1a7b5">10</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Ultimately, the burden of proving the existence of the attorney-client privilege lies with the corporation.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770c7cd074d311ea92c4fb7908f1a7b5">11</footnote.reference>] In determining whether the privilege should be applied, the trial court should consider the totality of the circumstances. <eos/>
+						<bos/>
+						<begin.quote ID="QT_0005"/>“In addition to the requirement that an attorney-client relationship exists, relevant factors generally include, but are not limited to, the nature and purpose of the communication and how and to whom the communication was made.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0005"/>[<footnote.reference refid="I770c7cd174d311ea92c4fb7908f1a7b5">12</footnote.reference>] This could properly require an in camera inspection <begin.quote ID="QT_0006"/>“when the underlying facts demonstrating the existence of the privilege may be presented only by revealing the very information [to the court that is] sought to be protected by the privilege.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0006"/>[<footnote.reference refid="I770c7cd274d311ea92c4fb7908f1a7b5">13</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="60"?>
+					<bos/>
+					<paratext>Additionally, the Georgia courts have extended the attorney-client privilege to a law firm&apos;s in-house counsel where the communications meet a four-part test: (1) there must exist a genuine attorney-client relationship between the firm&apos;s lawyers and in-house counsel, (2) the communications in question must be intended to advance the firm&apos;s interest in limiting exposure to liability rather than the client&apos;s interest in obtaining sound legal representation, (3) the communications must be conducted and maintained in confidence, and (4) no exceptions to the privilege exist.[<eos/>
+						<bos/>
+						<footnote.reference refid="I770ca3e074d311ea92c4fb7908f1a7b5">14</footnote.reference>] Moreover, <begin.quote ID="QT_0007"/>“once the relationship between the attorney and client develops into an adversarial one, the work product protection will attach under the same principles as to the attorney-client privilege.”<eos/>
+						<end.quote refid="QT_0007"/>
+					</paratext>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I770be09074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00001" w-ref-type="RP" w-pub-number="0000711" ID="Ia47cd4e274d211eab2f0b920da2605c5">Marriott Corp. v. American Academy of Psychotherapists, Inc., 157 Ga. App. 497, 277 S.E.2d 785 (1981)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770be09174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="Ia47d4a1274d211eab2f0b920da2605c5">Marriott Corp. v. American Academy of Psychotherapists, Inc., 157 Ga. App. 497, 503, 277 S.E.2d 785 (1981)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c07a074d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000711" ID="Ia47e5b8274d211eab2f0b920da2605c5">Marriott Corp. v. American Academy of Psychotherapists, Inc., 157 Ga. App. 497, 277 S.E.2d 785 (1981)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c07a174d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Ia47f940274d211eab2f0b920da2605c5">Marriott Corp. v. American Academy of Psychotherapists, Inc., 157 Ga. App. 497, 505, 277 S.E.2d 785 (1981)</cite.query> (quoting <cite.query w-src-number="0287018102" w-serial-number="1977125046" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000350" w-pinpoint-page="609" ID="Ia47f940474d211eab2f0b920da2605c5">Diversified Industries, Inc. v. Meredith, 572 F.2d 596, 609, 23 Fed. R. Serv. 2d 1473, 24 Fed. R. Serv. 2d 1201 (8th Cir. 1977)</cite.query>
+							<?page no="58"?>).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c07a274d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1994175591" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000711" ID="Ia480a57274d211eab2f0b920da2605c5">General Motors Corp. v. Moseley, 213 Ga. App. 875, 447 S.E.2d 302 (1994)</cite.query> (<case.history>abrogated on other grounds by</case.history>, <cite.query w-src-number="0287018102" w-serial-number="1998061925" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000711" ID="Ia480a57574d211eab2f0b920da2605c5">Webster v. Boyett, 269 Ga. 191, 496 S.E.2d 459 (1998)</cite.query>).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c2eb074d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000711" ID="Ia483167274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 383 S.E.2d 579 (1989)</cite.query>
+							<?page no="59"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c2eb174d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00014" w-ref-type="RP" w-pub-number="0000711" ID="Ia483d9c274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 383 S.E.2d 579 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c55c074d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000711" ID="Ia484c42274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 28, 383 S.E.2d 579 (1989)</cite.query>
+							<?page no="60"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c55c174d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000711" ID="Ia485395274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 383 S.E.2d 579 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c55c274d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000711" ID="Ia485ae8274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 28, 383 S.E.2d 579 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c7cd074d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1981116958" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000711" ID="Ia48623b274d211eab2f0b920da2605c5">Marriott Corp. v. American Academy of Psychotherapists, Inc., 157 Ga. App. 497, 277 S.E.2d 785 (1981)</cite.query>; <cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="Ia48623b574d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 383 S.E.2d 579 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c7cd174d311ea92c4fb7908f1a7b5">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00020" w-ref-type="RP" w-pub-number="0000711" ID="Ia486bff274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 28, 383 S.E.2d 579 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770c7cd274d311ea92c4fb7908f1a7b5">
+				<label.designator>13</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="1989137365" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000711" ID="Ia4870e1274d211eab2f0b920da2605c5">Southern Guar. Ins. Co. of Georgia v. Ash, 192 Ga. App. 24, 28, 383 S.E.2d 579 (1989)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I770ca3e074d311ea92c4fb7908f1a7b5">
+				<label.designator>14</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018102" w-serial-number="2030972907" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000711" ID="Ia487aa5274d211eab2f0b920da2605c5">St. Simons Waterfront, LLC v. Hunter, Maclean, Exley &amp; Dunn, P.C., 293 Ga. 419, 746 S.E.2d 98 (2013)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 3:5<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

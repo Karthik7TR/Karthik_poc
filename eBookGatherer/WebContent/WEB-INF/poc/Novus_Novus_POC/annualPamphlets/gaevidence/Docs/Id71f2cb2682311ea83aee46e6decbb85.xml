@@ -1,0 +1,485 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 2:20<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2561f160630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>2.</label.designator>
+				<headtext>Witnesses</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I25cc24e0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.designator>D.</label.designator>
+				<headtext>Credibility; Impeachment</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f2cb1682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>2:20.</label.designator>
+						<headtext>Bolstering and discrediting</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Under <cite.query w-src-number="0287018093" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="I992fc3e074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-608(a)</cite.query>,[<footnote.reference refid="I76b757f074d311ea92c4fb7908f1a7b5">1</footnote.reference>] witnesses cannot testify about another witness&apos; credibility unless the other witness has been impeached and the testimony is being offered to rehabilitate the witness.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The new Code provides very specific, limited methods for attacking or supporting the credibility of a witness by evidence in the form of opinion or reputation.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b77f0074d311ea92c4fb7908f1a7b5">2</footnote.reference>] In <cite.query w-src-number="0287018093" w-serial-number="2043896751" w-seq-number="00004" w-ref-type="RT" w-pub-number="0000711" ID="I9930fc6274d211eab2f0b920da2605c5">
+							<ital>Belcher v. State,</ital>
+						</cite.query>[<footnote.reference refid="I76b77f0174d311ea92c4fb7908f1a7b5">3</footnote.reference>] the Court of Appeals analyzed the manner in which <cite.query w-src-number="0287018093" w-seq-number="00006" w-ref-type="LQ" w-normalized-cite="USFRER608" w-pub-number="1000607" ID="I9939d60674d211eab2f0b920da2605c5">Rule 608</cite.query> permits supporting a witness&apos;s credibility in order to rehabilitate a witness under the rule. <eos/>
+						<bos/>
+						<cite.query w-src-number="0287018093" w-seq-number="00007" w-ref-type="LQ" w-normalized-cite="USFRER608" w-pub-number="1000607" ID="I9939d60774d211eab2f0b920da2605c5">Rule 608(a)</cite.query> allows supporting a witness&apos;s credibility by opinion or reputation evidence (a) where the evidence only refers to character for truthfulness, and (b) only after the character of the witness for truthfulness has been attacked by opinion or reputation evidence or otherwise. <eos/>
+						<bos/>In <cite.query w-src-number="0287018093" w-serial-number="2043896751" w-seq-number="00008" w-ref-type="RT" w-pub-number="0000711" ID="I9939d60274d211eab2f0b920da2605c5">
+							<ital>Belcher,</ital>
+						</cite.query> the court determined the testimony was not the type of rehabilitative evidence covered by the rule where the victim testified he had been offered a bribe to change his testimony. <eos/>
+						<bos/>The court further held that the rule does not support the admission of the testimony because it was elicited on redirect and not cross-examination. <eos/>
+						<bos/>In <cite.query w-src-number="0287018093" w-serial-number="2003557409" w-seq-number="00009" w-ref-type="RT" w-pub-number="0000711" ID="I9939d60574d211eab2f0b920da2605c5">
+							<ital>Lester v. State</ital>
+						</cite.query>,[<footnote.reference refid="I76b7a61074d311ea92c4fb7908f1a7b5">4</footnote.reference>] a police officer&apos;s testimony that no witnesses who did not testify at the murder trial gave statements to him that were inconsistent with statements of witnesses who did testify did not constitute improper bolstering of testifying witnesses. <eos/>
+						<bos/>The officer&apos;s testimony had no bearing on the credibility of the witnesses and the trial court did not allow the officer to testify that out-of-court witness&apos; statements were consistent with particular in-court witnesses&apos; testimony.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="30"?>
+					<bos/>
+					<paratext>Historically, Georgia has not allowed a lay or expert witness to bolster the credibility of another witness by expressing an opinion that the witness is telling the truth[<footnote.reference refid="I76b7a61174d311ea92c4fb7908f1a7b5">5</footnote.reference>] or discredit the witness by expressing an opinion that the witness is not telling the truth.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b7a61274d311ea92c4fb7908f1a7b5">6</footnote.reference>] Now, under <cite.query w-src-number="0287018093" w-seq-number="00013" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="I993baac074d211eab2f0b920da2605c5">O.C.G.A. 24-6-608(a)</cite.query>, a witness may testify both about a person&apos;s reputation for truthfulness and character for truthfulness,[<footnote.reference refid="I76b7cd2074d311ea92c4fb7908f1a7b5">7</footnote.reference>] but may not give specific illustrations on direct examination. <eos/>
+						<bos/>However, the court has discretion to allow counsel to rebut the character witness&apos; testimony by cross-examination about specific instances of conduct.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b7cd2174d311ea92c4fb7908f1a7b5">8</footnote.reference>] Moreover, because the credibility of a witness is a matter to be determined by the jury, under proper instructions from the court, it is improper for an expert witness to render testimony as to the veracity of a victim&apos;s testimony, as it constitutes improper bolstering.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b7f43074d311ea92c4fb7908f1a7b5">9</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018093" w-serial-number="2024722719" w-seq-number="00018" w-ref-type="RT" w-pub-number="0000506" ID="I993edf1174d211eab2f0b920da2605c5">
+							<ital>U.S. v. Schmitz,</ital>
+						</cite.query>[<footnote.reference refid="I76b81b4074d311ea92c4fb7908f1a7b5">10</footnote.reference>] the Eleventh Circuit held that the trial court erred in allowing a prosecutor to pose “were they lying” questions to defendant about other witnesses&apos; testimony. <eos/>
+						<bos/>The court stated that although <cite.query w-src-number="0287018093" w-seq-number="00020" w-ref-type="LQ" w-normalized-cite="USFRER608" w-pub-number="1000607" ID="I993f7b5074d211eab2f0b920da2605c5">Federal Rule of Evidence 608(a)</cite.query> permits a witness to testify about another witness&apos;s general reputation for truthfulness or dishonesty, it does not allow a witness to declare that another witness is lying in a particular instance.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b81b4174d311ea92c4fb7908f1a7b5">11</footnote.reference>
+						<?page no="31"?>] The court denounced this type question one which is not relevant, impinges upon the jury&apos;s duty to determine credibility, puts a testifying witness in a “no-win” situation of either accusing another of lying or undermining their own testimony, masks alternative explanations for testimonial inconsistencies, and makes the defendant appear argumentative.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b81b4274d311ea92c4fb7908f1a7b5">12</footnote.reference>] Likewise, the Court of Appeals in <cite.query w-src-number="0287018093" w-serial-number="2044074227" w-seq-number="00023" w-ref-type="RT" w-pub-number="0000711" ID="I99408cc274d211eab2f0b920da2605c5">
+							<ital>Gonzales v. State,</ital>
+						</cite.query>[<footnote.reference refid="I76b8425074d311ea92c4fb7908f1a7b5">13</footnote.reference>] upheld the trial court&apos;s decision to refuse a request by the defendant to ask the victim if she always told the truth. <eos/>
+						<bos/>The court held that the two questions the defendant wanted to ask, <begin.quote ID="QT_0004"/>“Do you always tell the truth?”<eos/>
+						<bos/>
+						<end.quote refid="QT_0004"/> and <begin.quote ID="QT_0003"/>“Do you always tell the truth to authority figures?”<eos/>
+						<bos/>
+						<end.quote refid="QT_0003"/> were so broadly phrased that they only provide proof of a general character trait but did not implicate any specific act probative of untruthfulness which the court may authorize under <cite.query w-src-number="0287018093" w-seq-number="00025" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="I9941772074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-608</cite.query>. <eos/>
+						<bos/>In contrast, the court reversed the decision of the trial court and held prior false accusations of sexual misconduct by a victim should be admitted under <cite.query w-src-number="0287018093" w-seq-number="00026" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="I9941772174d211eab2f0b920da2605c5">O.C.G.A. § 24-6-608</cite.query> because, although highly prejudicial to the state, the evidence is of such a nature that the defendant has a constitutional right to confrontation.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018093" w-serial-number="2019449771" w-seq-number="00027" w-ref-type="RT" w-pub-number="0000711" ID="I9941ec5274d211eab2f0b920da2605c5">
+							<ital>Jacobs v. State</ital>
+						</cite.query>,[<footnote.reference refid="I76b8425174d311ea92c4fb7908f1a7b5">14</footnote.reference>] a prosecutor asked the victim if the police officers were lying when the victim denied telling police that the defendant had shot at her. <eos/>
+						<bos/>The court found this question permissible as part of the prosecutor&apos;s attempt to impeach the victim with her prior inconsistent statement.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b8696074d311ea92c4fb7908f1a7b5">15</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The court may not comment on the credibility of witnesses. <eos/>
+						<bos/>The Georgia Supreme Court reversed the judgment in <cite.query w-src-number="0287018093" w-serial-number="2004270334" w-seq-number="00030" w-ref-type="RT" w-pub-number="0000711" ID="I994324d274d211eab2f0b920da2605c5">
+							<ital>Hubbard v. Hubbard</ital>
+						</cite.query> because the trial judge attempted repeatedly to bolster the credibility of a witness.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b8696174d311ea92c4fb7908f1a7b5">16</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Counsel may question defendant about the veracity of other witnesses when defendant&apos;s testimony differs from other witnesses because the question is a rhetorical device intended to challenge the defendant&apos;s credibility rather than an effort to bolster other witnesses&apos; credibility.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b8696274d311ea92c4fb7908f1a7b5">17</footnote.reference>] Likewise, it is not improper bolstering of the witness for an investigator to testify that the information she obtained from one witness was more consistent with the evidence collected than the information she obtained from another witness.[<eos/>
+						<bos/>
+						<footnote.reference refid="I76b8907074d311ea92c4fb7908f1a7b5">18</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I76b757f074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See also, generally, <cite.query w-src-number="0287018093" w-seq-number="00002" w-ref-type="LQ" w-normalized-cite="GAST24-6-620" w-pub-number="1000468" ID="I992feaf074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-620</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b77f0074d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2040918877" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="I9930602274d211eab2f0b920da2605c5">Douglas v. State, 340 Ga. App. 168, 796 S.E.2d 893 (2017)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b77f0174d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2043896751" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="I9931237274d211eab2f0b920da2605c5">Belcher v. The State, 344 Ga. App. 729, 812 S.E.2d 51 (2018)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b7a61074d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2003557409" w-seq-number="00010" w-ref-type="RP" w-pub-number="0000711" ID="I993a4b3274d211eab2f0b920da2605c5">Lester v. State, 262 Ga. App. 707, 586 S.E.2d 408 (2003)</cite.query>
+							<?page no="30"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b7a61174d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2013372425" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="I993ae77274d211eab2f0b920da2605c5">Noe v. State, 287 Ga. App. 728, 652 S.E.2d 620 (2007)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b7a61274d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287018093" w-serial-number="1998164450" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000711" ID="I993b359274d211eab2f0b920da2605c5">Patterson v. State, 233 Ga. App. 776, 777, 505 S.E.2d 518 (1998)</cite.query>, the trial court properly prevented the defendant from asking members of a rape victim&apos;s family to testify that they did not believe the victim.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b7cd2074d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-seq-number="00014" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="I993bd1d074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-608(a)</cite.query>:</paratext>
+						<display.quote>
+							<para>
+								<paratext>
+									<begin.quote ID="QT_0001"/>The credibility of a witness may be attacked or supported by evidence in the form of opinion or reputation, subject to the following limitations:<end.quote refid="QT_0001"/>
+								</paratext>
+								<list>
+									<list.item>
+										<para>
+											<head parent="para">
+												<label.designator>(1)</label.designator>
+											</head>
+											<paratext>The evidence may refer only to character for truthfulness or untruthfulness; and</paratext>
+										</para>
+									</list.item>
+									<list.item>
+										<para>
+											<head parent="para">
+												<label.designator>(2)</label.designator>
+											</head>
+											<paratext>Evidence of truthful character shall be admissible only after the character of the witness for truthfulness has been attacked by opinion or reputation evidence or otherwise.<eos/>
+											</paratext>
+										</para>
+									</list.item>
+								</list>
+							</para>
+						</display.quote>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b7cd2174d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-seq-number="00015" w-ref-type="LQ" w-normalized-cite="GAST24-6-608" w-pub-number="1000468" ID="I993cbc3074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-608(b)</cite.query>:</paratext>
+						<display.quote>
+							<para>
+								<paratext>
+									<begin.quote ID="QT_0002"/>Specific instances of the conduct of a witness, for the purpose of attacking or supporting the witness&apos;s character for truthfulness, other than a conviction of a crime as provided in <cite.query w-src-number="0287018093" w-seq-number="00016" w-ref-type="LQ" w-normalized-cite="GAST24-6-609" w-pub-number="1000468" ID="I993d587074d211eab2f0b920da2605c5">Code Section 24-6-609</cite.query> or conduct indicative of the witness&apos;s bias toward a party may not be proved by extrinsic evidence. <eos/>
+									<bos/>Such instances may however, in the discretion of the court, if probative of truthfulness or untruthfulness, be inquired into on cross-examination of the witness:<end.quote refid="QT_0002"/>
+								</paratext>
+								<list>
+									<list.item>
+										<para>
+											<head parent="para">
+												<label.designator>(1)</label.designator>
+											</head>
+											<paratext>Concerning the witness&apos;s character for truthfulness or untruthfulness; or</paratext>
+										</para>
+									</list.item>
+									<list.item>
+										<para>
+											<head parent="para">
+												<label.designator>(2)</label.designator>
+											</head>
+											<paratext>Concerning the character for truthfulness or untruthfulness of another witness as to which character the witness being cross-examined has testified.<eos/>
+											</paratext>
+										</para>
+									</list.item>
+								</list>
+							</para>
+						</display.quote>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b7f43074d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2036626224" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000711" ID="I993e1bc274d211eab2f0b920da2605c5">Bowman v. State, 332 Ga. App. 766, 774 S.E.2d 805 (2015)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b81b4074d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2024722719" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000506" ID="I993f062174d211eab2f0b920da2605c5">U.S. v. Schmitz, 634 F.3d 1247 (11th Cir. 2011)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b81b4174d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2024722719" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000506" w-pinpoint-page="1268" ID="I993fa26174d211eab2f0b920da2605c5">U.S. v. Schmitz, 634 F.3d 1247, 1268 (11th Cir. 2011)</cite.query>
+							<?page no="31"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b81b4274d311ea92c4fb7908f1a7b5">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2024722719" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000506" w-pinpoint-page="1268" ID="I9940179174d211eab2f0b920da2605c5">U.S. v. Schmitz, 634 F.3d 1247, 1268–1269 (11th Cir. 2011)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b8425074d311ea92c4fb7908f1a7b5">
+				<label.designator>13</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2044074227" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000711" ID="I9940b3d274d211eab2f0b920da2605c5">Gonzales v. State, 345 Ga. App. 334, 812 S.E.2d 638 (2018)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b8425174d311ea92c4fb7908f1a7b5">
+				<label.designator>14</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2019449771" w-seq-number="00028" w-ref-type="RP" w-pub-number="0000711" ID="I9942136274d211eab2f0b920da2605c5">Jacobs v. State, 299 Ga. App. 368, 683 S.E.2d 64 (2009)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b8696074d311ea92c4fb7908f1a7b5">
+				<label.designator>15</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See <cite.query w-src-number="0287018093" w-seq-number="00029" w-ref-type="LQ" w-normalized-cite="GAST24-6-613" w-pub-number="1000468" ID="I9942618074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-613(b)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b8696174d311ea92c4fb7908f1a7b5">
+				<label.designator>16</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2004270334" w-seq-number="00031" w-ref-type="RP" w-pub-number="0000711" ID="I99434be274d211eab2f0b920da2605c5">Hubbard v. Hubbard, 277 Ga. 729, 730, 594 S.E.2d 653 (2004)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b8696274d311ea92c4fb7908f1a7b5">
+				<label.designator>17</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2013246189" w-seq-number="00032" w-ref-type="RP" w-pub-number="0000711" ID="I9943c11274d211eab2f0b920da2605c5">Manzano v. State, 282 Ga. 557, 651 S.E.2d 661 (2007)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I76b8907074d311ea92c4fb7908f1a7b5">
+				<label.designator>18</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018093" w-serial-number="2038817574" w-seq-number="00033" w-ref-type="RP" w-pub-number="0000711" ID="I9944364274d211eab2f0b920da2605c5">Jones v. State, 299 Ga. 40, 785 S.E.2d 886 (2016)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 2:20<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

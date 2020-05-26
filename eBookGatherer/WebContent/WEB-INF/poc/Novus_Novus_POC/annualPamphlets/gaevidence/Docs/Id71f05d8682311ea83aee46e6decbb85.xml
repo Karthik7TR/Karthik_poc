@@ -1,0 +1,492 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 2:16<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I2561f160630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>2.</label.designator>
+				<headtext>Witnesses</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I259d25a0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.designator>C.</label.designator>
+				<headtext>Examination</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f05d7682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>2:16.</label.designator>
+						<headtext>Sequestration</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Sequestration of the witnesses or having them “put under the rule” means that they are removed from the courtroom and called to testify one at a time without having heard the testimony of the other witnesses. <eos/>
+						<bos/>This method of examining witnesses appears in the story from biblical times of Susanna and the Elders.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Previously, either party had the right, upon a timely request, to have the witnesses of the other party sequestered.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768dfe0074d311ea92c4fb7908f1a7b5">1</footnote.reference>] Now, under <cite.query w-src-number="0287018089" w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="GAST24-6-615" w-pub-number="1000468" ID="I94c1e27074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-615</cite.query>, all witnesses must be excluded so that they do not hear the testimony of other witnesses:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0001"/>Except as otherwise provided in <cite.query w-src-number="0287018089" w-seq-number="00005" w-ref-type="LQ" w-normalized-cite="GAST24-6-616" w-pub-number="1000468" ID="I94c2309074d211eab2f0b920da2605c5">Code Section 24-6-616</cite.query>, in all cases either party shall have the right to have the witnesses of the other party examined out of the hearing of each other. <eos/>
+								<bos/>The court shall take proper care to effect this object as far as practicable and convenient, but no more irregularity shall exclude a witness. <eos/>
+								<bos/>As a general rule, witnesses should be sequestered to prevent a witness who has testified from influencing a witness who has not.<eos/>
+								<bos/>
+								<end.quote refid="QT_0001"/>[<footnote.reference refid="I768e251074d311ea92c4fb7908f1a7b5">2</footnote.reference>]</paratext>
+						</para>
+					</display.quote>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The trial court is not required to enforce the rule of sequestration until the presentation of evidence.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768e4c2074d311ea92c4fb7908f1a7b5">3</footnote.reference>] Additionally, <cite.query w-src-number="0287018089" w-seq-number="00008" w-ref-type="LQ" w-normalized-cite="GAST24-6-611" w-pub-number="1000468" ID="I94c31af074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-611</cite.query> prohibits sequestration of parties in civil cases, but the trial court may require the party to testify before other witnesses. <eos/>
+						<bos/>In juvenile court trials, the parents are parties and are not subject to sequestration.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768e4c2174d311ea92c4fb7908f1a7b5">4</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The court may use its discretion to except a witness from the sequestration order in three ways: (1) where the presence of the witness is necessary to advise a party in the presentation of his case, (2) where it appears that in making the exception the fair rights of the opposite party are secured, or (3) where the impairment of the court&apos;s efficiency is avoided by allowing a court official to remain in the courtroom.[<eos/>
+						<?page no="18"?>
+						<bos/>
+						<footnote.reference refid="I768e4c2274d311ea92c4fb7908f1a7b5">5</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287018089" w-serial-number="1979106295" w-seq-number="00012" w-ref-type="RT" w-pub-number="0000711" ID="I94c47a8274d211eab2f0b920da2605c5">
+							<ital>Hall v. State</ital>
+						</cite.query>[<footnote.reference refid="I768e733074d311ea92c4fb7908f1a7b5">6</footnote.reference>] affirmed that the trial judge has broad discretion in exempting witnesses from a sequestration order but stated that the prosecution should make a showing of the need not to call the unsequestered witness first. <eos/>
+						<bos/>In <cite.query w-src-number="0287018089" w-serial-number="2037309027" w-seq-number="00014" w-ref-type="RT" w-pub-number="0000711" ID="I94c564e274d211eab2f0b920da2605c5">
+							<ital>Moore v. State</ital>
+						</cite.query>,[<footnote.reference refid="I768e733174d311ea92c4fb7908f1a7b5">7</footnote.reference>] this showing was met when the prosecution stated to the trial court that a police detective&apos;s presence was required in the courtroom to assist it in the presentation of its case. <eos/>
+						<bos/>Also, the detective testified as witness after hearing the testimony of other witnesses.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018089" w-serial-number="1980115174" w-seq-number="00017" w-ref-type="RT" w-pub-number="0000711" ID="I94c6c47274d211eab2f0b920da2605c5">
+							<ital>Dampier v. State</ital>
+						</cite.query>,[<footnote.reference refid="I768e9a4074d311ea92c4fb7908f1a7b5">8</footnote.reference>] a trial court did not abuse its discretion when it exempted a district attorney and his assistant from a sequestration order at a hearing for which defendant subpoenaed their testimony. <eos/>
+						<bos/>Under <cite.query w-src-number="0287018089" w-seq-number="00020" w-ref-type="LQ" w-normalized-cite="GAST24-6-616" w-pub-number="1000468" ID="I94c760b074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-616</cite.query>, a crime victim who has been or may be subpoenaed is exempt from the rule of sequestration and may remain in the courtroom.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A witness who has violated the sequestration order may still testify, but his violation goes to his credibility.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768ec15074d311ea92c4fb7908f1a7b5">9</footnote.reference>] The court in <cite.query w-src-number="0287018089" w-serial-number="1965125429" w-seq-number="00027" w-ref-type="RT" w-pub-number="0000711" ID="I94c8c04274d211eab2f0b920da2605c5">
+							<ital>Shelton v. State</ital>
+						</cite.query>[<footnote.reference refid="I768ec15174d311ea92c4fb7908f1a7b5">10</footnote.reference>] held that testimony of a witness was admissible over the state&apos;s objection when the defendant invoked the rule and thereafter sought the testimony of a witness who had violated the sequestration order.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In an aberrational case, <ital>State v. Bush</ital>,[<footnote.reference refid="I768ee86074d311ea92c4fb7908f1a7b5">11</footnote.reference>] the Georgia Court of Appeals held that the court erred in allowing a witness who had violated the sequestration order to testify for the state. <eos/>
+						<bos/>However, in subsequent cases, the appellate court has allowed witnesses to testify despite violating a sequestration order.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018089" w-serial-number="1968132276" w-seq-number="00030" w-ref-type="RT" w-pub-number="0000711" ID="I94cabc1274d211eab2f0b920da2605c5">
+							<ital>Pippins v. State</ital>
+						</cite.query>,[<footnote.reference refid="I768ee86174d311ea92c4fb7908f1a7b5">12</footnote.reference>] a sheriff and deputy remained in the courtroom to testify for the state after the court ordered witness sequestration.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <ital>Johnson v. State</ital>
+						<?page no="19"?>, a violation of the sequestration order went to the credibility of the witness, rather than the admissibility of the witness&apos; testimony. <eos/>
+						<bos/>The remedy for a violation is a jury instruction that the violation should be considered in evaluating the weight and credibility to give the witness&apos; testimony.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768ee86274d311ea92c4fb7908f1a7b5">13</footnote.reference>] <ital>Johnson</ital> reaffirmed that sequestration not only prohibits witnesses from listening to each other&apos;s testimony but also prohibits them from communicating directly or indirectly after the court begins receiving evidence. <eos/>
+						<bos/>This holds true even when a witness who has been excused communicates with another who has not yet testified.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768f0f7074d311ea92c4fb7908f1a7b5">14</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>However, in <cite.query w-src-number="0287018089" w-serial-number="1990124725" w-seq-number="00035" w-ref-type="RT" w-pub-number="0000711" ID="I94ccb7e274d211eab2f0b920da2605c5">
+							<ital>Smith v. State</ital>
+						</cite.query>,[<footnote.reference refid="I768f0f7174d311ea92c4fb7908f1a7b5">15</footnote.reference>] the court allowed defendant&apos;s two co-defendants to speak to him prior to testifying with the defense counsel present and under instruction not to discuss the testimony of other witnesses. <eos/>
+						<bos/>When a sequestration order is in place, attorneys may confer with prospective witnesses, but may not inform them of previous testimony.[<eos/>
+						<bos/>
+						<footnote.reference refid="I768f0f7274d311ea92c4fb7908f1a7b5">16</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018089" w-serial-number="2030714330" w-seq-number="00040" w-ref-type="RT" w-pub-number="0000711" ID="I94ce659274d211eab2f0b920da2605c5">
+							<ital>Booker v. State,</ital>
+						</cite.query>[<footnote.reference refid="I768f368074d311ea92c4fb7908f1a7b5">17</footnote.reference>] the Court of Appeals held that when the trial court instructed the jury regarding witness sequestration before the state&apos;s first witness was sworn, this was not an impermissible expression of judicial opinion that bolstered the credibility of the state&apos;s witness, but rather a neutral explanation of the rule of sequestration.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287018089" w-serial-number="2039087374" w-seq-number="00042" w-ref-type="RT" w-pub-number="0000711" ID="I94cf4ff274d211eab2f0b920da2605c5">
+							<ital>Davis v. State,</ital>
+						</cite.query>[<footnote.reference refid="I768f5d9074d311ea92c4fb7908f1a7b5">18</footnote.reference>] the Georgia Supreme Court held that opinion testimony given by an expert witness in rebuttal of the defense&apos;s expert witness, where a recording of the defense&apos;s expert testimony was given to the rebuttal expert before testifying, was not in violation of the sequestration statute because the vary nature of a rebuttal witness is to refute the testimony of a prior witness. <eos/>
+						<bos/>Thus, an expert is entitled to know the opinion of the expert and the bases for them. <eos/>
+						<bos/>In this case, that was in the nature of a recording, since the defendant&apos;s expert had not provided a report. <eos/>
+						<bos/>Thus, the information was reasonably conveyed to the prosecution&apos;s expert in this method rather than through hypotheticals.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I768dfe0074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1946103855" w-seq-number="00001" w-ref-type="RP" w-pub-number="0000711" ID="I94c1463274d211eab2f0b920da2605c5">Poultryland, Inc. v. Anderson, 200 Ga. 549, 37 S.E.2d 785 (1946)</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="1965125271" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="I94c1463574d211eab2f0b920da2605c5">Head v. State, 111 Ga. App. 14, 140 S.E.2d 291 (1965)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287018089" w-serial-number="1987006342" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="I94c1945274d211eab2f0b920da2605c5">Bartell v. State, 181 Ga. App. 148, 351 S.E.2d 495 (1986)</cite.query>, defendant&apos;s expert witness was properly sequestered.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e251074d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See <cite.query w-src-number="0287018089" w-serial-number="2013890165" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="I94c257a274d211eab2f0b920da2605c5">Stafford v. State, 288 Ga. App. 733, 655 S.E.2d 221 (2007)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e4c2074d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0287018089" w-serial-number="1983148244" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="I94c2ccd274d211eab2f0b920da2605c5">Putman v. State, 251 Ga. 605, 308 S.E.2d 145 (1983)</cite.query>, the court did not have to sequester witnesses at the beginning of voir dire.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e4c2174d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1975131703" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000711" ID="I94c3420274d211eab2f0b920da2605c5">D. C. A. v. State, 135 Ga. App. 234, 217 S.E.2d 470 (1975)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e4c2274d311ea92c4fb7908f1a7b5">
+				<label.designator>
+					<?page no="18"?>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1946103855" w-seq-number="00010" w-ref-type="RP" w-pub-number="0000711" ID="I94c3de4274d211eab2f0b920da2605c5">Poultryland, Inc. v. Anderson, 200 Ga. 549, 37 S.E.2d 785 (1946)</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="1965125978" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="I94c3de4574d211eab2f0b920da2605c5">
+								<?page no="18"?>Massey v. State, 220 Ga. 883, 893, 142 S.E.2d 832 (1965)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e733074d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1979106295" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="I94c4a19274d211eab2f0b920da2605c5">Hall v. State, 243 Ga. 207, 253 S.E.2d 160 (1979)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e733174d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="2037309027" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000711" ID="I94c5da1074d211eab2f0b920da2605c5">Moore v. State, 297 Ga. 773, 778 S.E.2d 210 (2015)</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="2017873966" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000711" ID="I94c5da1374d211eab2f0b920da2605c5">Hollis v. State, 295 Ga. App. 529, 672 S.E.2d 487 (2009)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768e9a4074d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1980115174" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000711" ID="I94c7129274d211eab2f0b920da2605c5">Dampier v. State, 245 Ga. 427, 265 S.E.2d 565 (1980)</cite.query>, <case.history>opinion supplemented</case.history>, <cite.query w-src-number="0287018089" w-serial-number="1980121987" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000711" ID="I94c7129574d211eab2f0b920da2605c5">245 Ga. 882, 268 S.E.2d 349 (1980)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768ec15074d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1880009022" w-seq-number="00021" w-ref-type="RP" w-pub-number="0000359" ID="I94c7d5e174d211eab2f0b920da2605c5">Rooks v. State, 65 Ga. 330, 1880 WL 3636 (1880)</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="1910013399" w-seq-number="00022" w-ref-type="RP" w-pub-number="0000710" ID="I94c7d5e574d211eab2f0b920da2605c5">Thomas v. State, 7 Ga. App. 615, 67 S.E. 707 (1910)</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="1939105877" w-seq-number="00023" w-ref-type="RP" w-pub-number="0000711" ID="I94c7d5e874d211eab2f0b920da2605c5">Southern Ry. Co. v. Alexander, 59 Ga. App. 852, 2 S.E.2d 219 (1939)</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="1967011712" w-seq-number="00024" w-ref-type="RP" w-pub-number="0000108" ID="I94c7d5ea74d211eab2f0b920da2605c5">Effect of witness&apos; violation of order of exclusion, 14 A.L.R.3d 16</cite.query>; <cite.query w-src-number="0287018089" w-serial-number="1979145987" w-seq-number="00025" w-ref-type="RP" w-pub-number="0000711" ID="I94c7d5ed74d211eab2f0b920da2605c5">Dudley v. State, 148 Ga. App. 560, 251 S.E.2d 815 (1978)</cite.query>. <eos/>
+							<bos/>But see <cite.query w-src-number="0287018089" w-serial-number="1978133122" w-seq-number="00026" w-ref-type="RP" w-pub-number="0000711" ID="I94c7d5f074d211eab2f0b920da2605c5">Star Jewelers, Inc. v. Durham, 147 Ga. App. 68, 248 S.E.2d 51 (1978)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768ec15174d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1965125429" w-seq-number="00028" w-ref-type="RP" w-pub-number="0000711" ID="I94c8e75274d211eab2f0b920da2605c5">Shelton v. State, 220 Ga. 610, 140 S.E.2d 839 (1965)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768ee86074d311ea92c4fb7908f1a7b5">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1973127981" w-seq-number="00029" w-ref-type="RP" w-pub-number="0000711" ID="I94c9f8c274d211eab2f0b920da2605c5">Bush v. State, 129 Ga. App. 160, 199 S.E.2d 121 (1973)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768ee86174d311ea92c4fb7908f1a7b5">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1968132276" w-seq-number="00031" w-ref-type="RP" w-pub-number="0000711" ID="I94cb0a3274d211eab2f0b920da2605c5">Pippins v. State, 224 Ga. 462, 162 S.E.2d 338 (1968)</cite.query>
+							<?page no="19"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768ee86274d311ea92c4fb7908f1a7b5">
+				<label.designator>13</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1985145467" w-seq-number="00032" w-ref-type="RP" w-pub-number="0000711" ID="I94cba67274d211eab2f0b920da2605c5">O&apos;Kelley v. State, 175 Ga. App. 503, 505, 333 S.E.2d 838 (1985)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768f0f7074d311ea92c4fb7908f1a7b5">
+				<label.designator>14</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1987144943" w-seq-number="00033" w-ref-type="RP" w-pub-number="0000711" ID="I94cc1ba274d211eab2f0b920da2605c5">Rogers v. State, 257 Ga. 590, 361 S.E.2d 814 (1987)</cite.query>. <eos/>
+							<bos/>See also <cite.query w-src-number="0287018089" w-serial-number="2033796790" w-seq-number="00034" w-ref-type="RP" w-pub-number="0000711" ID="I94cc1ba574d211eab2f0b920da2605c5">Trammell v. State, 328 Ga. App. 45, 761 S.E.2d 470 (2014)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768f0f7174d311ea92c4fb7908f1a7b5">
+				<label.designator>15</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1990124725" w-seq-number="00036" w-ref-type="RP" w-pub-number="0000711" ID="I94ccdef274d211eab2f0b920da2605c5">Smith v. State, 195 Ga. App. 669, 394 S.E.2d 558 (1990)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768f0f7274d311ea92c4fb7908f1a7b5">
+				<label.designator>16</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="1985107715" w-seq-number="00037" w-ref-type="RP" w-pub-number="0000711" ID="I94cdc95274d211eab2f0b920da2605c5">Ross v. State, 254 Ga. 22, 326 S.E.2d 194 (1985)</cite.query> (<case.history>overruled on other grounds by</case.history>, <cite.query w-src-number="0287018089" w-serial-number="2005388123" w-seq-number="00038" w-ref-type="RP" w-pub-number="0000711" ID="I94cdc95574d211eab2f0b920da2605c5">O&apos;Kelley v. State, 278 Ga. 564, 604 S.E.2d 509 (2004)</cite.query>); <cite.query w-src-number="0287018089" w-serial-number="1985145467" w-seq-number="00039" w-ref-type="RP" w-pub-number="0000711" ID="I94cdc95874d211eab2f0b920da2605c5">O&apos;Kelley v. State, 175 Ga. App. 503, 505, 333 S.E.2d 838 (1985)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768f368074d311ea92c4fb7908f1a7b5">
+				<label.designator>17</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="2030714330" w-seq-number="00041" w-ref-type="RP" w-pub-number="0000711" ID="I94ce8ca274d211eab2f0b920da2605c5">Booker v. State, 322 Ga. App. 257, 744 S.E.2d 429 (2013)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I768f5d9074d311ea92c4fb7908f1a7b5">
+				<label.designator>18</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018089" w-serial-number="2039087374" w-seq-number="00043" w-ref-type="RP" w-pub-number="0000711" ID="I94cf770274d211eab2f0b920da2605c5">Davis v. State, 299 Ga. 180, 787 S.E.2d 221 (2016)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 2:16<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

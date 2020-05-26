@@ -1,0 +1,305 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 3:11<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I260dc1c0630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>3.</label.designator>
+				<headtext>Statutory Privileges</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id71f2cde682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>3:11.</label.designator>
+						<headtext>Clergy privilege</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Although not protected at common law, Georgia has created a statutory privilege for confidential communications with clergy of the Christian and Jewish faiths. <eos/>
+						<bos/>
+						<cite.query w-src-number="0287018108" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-5-502" w-pub-number="1000468" ID="Ia9bf928074d211eab2f0b920da2605c5">O.C.G.A. § 24-5-502</cite.query> provides that:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0001"/>
+								<?page no="72"?>[e]very communication made by any person professing religious faith, seeking spiritual comfort, or seeking counseling to any Protestant minister of the Gospel, any priest of the Roman Catholic faith, any priest of the Greek Orthodox Catholic faith, any Jewish rabbi, or to any Christian or Jewish minister, by whatever name called, shall be deemed privileged. <eos/>
+								<bos/>No such minister, priest, or rabbi shall disclose any communications made to him by any such person professing religious faith, seeking spiritual guidance, or seeking counseling, nor shall such minister, priest, or rabbi be competent or compellable to testify with reference to any such communication in any court.<eos/>
+								<end.quote refid="QT_0001"/>
+							</paratext>
+						</para>
+					</display.quote>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>As is the case with other privileges, public policy supports the privilege for confidential communications with a spiritual advisor <begin.quote ID="QT_0002"/>“in order that persons may feel free and secure in seeking aid in their difficulties.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0002"/>[<footnote.reference refid="I7739322074d311ea92c4fb7908f1a7b5">1</footnote.reference>] The privilege protects the person making the statement and may, presumably, only be waived by him, though there is some question as to whether the privilege may be waived at all.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7739593074d311ea92c4fb7908f1a7b5">2</footnote.reference>] The communication made to a spiritual advisor must be intended to be confidential and is not necessarily destroyed by the presence of third parties due to the nature of such counseling.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7739593174d311ea92c4fb7908f1a7b5">3</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Not all communications with spiritual advisors fall within the scope of the privilege.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7739593274d311ea92c4fb7908f1a7b5">4</footnote.reference>] The communications must be in furtherance of spiritual guidance or support. <eos/>
+						<bos/>The statute contemplates communications in which a person is <begin.quote ID="QT_0004"/>“professing religious faith, seeking spiritual guidance, or seeking counseling.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0004"/>[<footnote.reference refid="I7739804074d311ea92c4fb7908f1a7b5">5</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="73"?>
+					<bos/>
+					<paratext>Accordingly, the privilege was not applied in a criminal case where the defendant only sought help and “a source of secular strength” from a respected family friend in a time of need rather than <begin.quote ID="QT_0005"/>“comfort and solace of a spiritual nature”<end.quote refid="QT_0005"/> from his minister.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7739804174d311ea92c4fb7908f1a7b5">6</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A minister&apos;s observations about the treatment of a child were outside the scope of the privilege in a termination of rights proceeding because there was <begin.quote ID="QT_0006"/>“no showing that any of the … observations at issue arose from either spiritual counseling or from a profession of religious faith within the meaning of the statute.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0006"/>[<footnote.reference refid="I7739804274d311ea92c4fb7908f1a7b5">7</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The communications must be made to one&apos;s actual spiritual advisor and statements to a friend or relative will not be covered by the privilege simply because those persons also serve as spiritual advisors.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7739a75074d311ea92c4fb7908f1a7b5">8</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The statute limits its terms to Judeo-Christian faiths, which have the most adherents in Georgia. <eos/>
+						<bos/>
+						<begin.quote ID="QT_0007"/>“Conspicuous in their absence are such faiths as Muslim, Hindu, [and] Buddhist.”<eos/>
+						<bos/>
+						<end.quote refid="QT_0007"/>[<footnote.reference refid="I7739a75174d311ea92c4fb7908f1a7b5">9</footnote.reference>] Communications to a “spiritual advisor/psychic” were outside the scope of the privilege.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7739a75274d311ea92c4fb7908f1a7b5">10</footnote.reference>] The limitations may be constitutionally unsound.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="72"?>
+			<footnote ID="I7739322074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-serial-number="1970135611" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c07ce274d211eab2f0b920da2605c5">Security Life Ins. Co. v. Newsome, 122 Ga. App. 137, 176 S.E.2d 463 (1970)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739593074d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Compare <cite.query w-src-number="0287018108" w-serial-number="1970135611" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c1403274d211eab2f0b920da2605c5">Security Life Ins. Co. v. Newsome, 122 Ga. App. 137, 141, 176 S.E.2d 463 (1970)</cite.query> (Evans, J. concurring specially) (suggesting that this privilege <begin.quote ID="QT_0003"/>“cannot be waived as a matter of public policy”<end.quote refid="QT_0003"/>), with <cite.query w-src-number="0287018108" w-serial-number="1999079721" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c1403574d211eab2f0b920da2605c5">Alternative Health Care Systems, Inc. v. McCown, 237 Ga. App. 355, 514 S.E.2d 691 (1999)</cite.query> (assuming without deciding that the privilege may be waived).<eos/>
+							<bos/> But compare <cite.query w-src-number="0287018108" w-serial-number="2036375333" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c1403874d211eab2f0b920da2605c5">Crosdale v. State, 297 Ga. 244, 774 S.E.2d 87 (2015)</cite.query>, where the Court held that the admissibility of a confession made to clergy at trial was not error and could not be complained of during appeal where no objection was made by defendant at trial.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739593174d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-serial-number="1999079721" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c1dc7274d211eab2f0b920da2605c5">Alternative Health Care Systems, Inc. v. McCown, 237 Ga. App. 355, 514 S.E.2d 691 (1999)</cite.query> (privilege applied to spiritual counseling of an entire family); See also <cite.query w-src-number="0287018108" w-serial-number="2039214510" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c1dc7574d211eab2f0b920da2605c5">Frost v. Frost, 299 Ga. 278, 787 S.E.2d 693 (2016)</cite.query>, where the Court held the privilege applied in context of marital counseling.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739593274d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See, e.g., <cite.query w-src-number="0287018108" w-serial-number="1981133380" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000350" w-pinpoint-page="481" ID="Ia9c29fc174d211eab2f0b920da2605c5">U.S. v. Gordon, 655 F.2d 478, 481 (2d Cir. 1981)</cite.query> (privilege inapplicable when communications related solely to business matters); <cite.query w-src-number="0287018108" w-serial-number="1987071999" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000350" w-pinpoint-page="889" ID="Ia9c29fc374d211eab2f0b920da2605c5">U.S. v. Dube, 820 F.2d 886, 889–890, 22 Fed. R. Evid. Serv. 1354 (7th Cir. 1987)</cite.query> (defendant&apos;s conversations with pastor were not privileged since he was not a penitent seeking spiritual consolation or guidance but only a citizen seeking relief from his obligation to pay taxes; court appears to assume existence of clergy-penitent privilege).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739804074d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-seq-number="00010" w-ref-type="LQ" w-normalized-cite="GAST24-5-502" w-pub-number="1000468" ID="Ia9c2ede074d211eab2f0b920da2605c5">O.C.G.A. § 24-5-502</cite.query>
+							<?page no="73"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739804174d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-serial-number="2002649820" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c3631274d211eab2f0b920da2605c5">Morris v. State, 275 Ga. 601, 603, 571 S.E.2d 358 (2002)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739804274d311ea92c4fb7908f1a7b5">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-serial-number="1984105945" w-seq-number="00012" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c3d84274d211eab2f0b920da2605c5">Jones v. Department of Human Resources, 168 Ga. App. 915, 916, 310 S.E.2d 753 (1983)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739a75074d311ea92c4fb7908f1a7b5">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-serial-number="1977113449" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c4748274d211eab2f0b920da2605c5">Burger v. State, 238 Ga. 171, 231 S.E.2d 769 (1977)</cite.query>; <cite.query w-src-number="0287018108" w-serial-number="2002649820" w-seq-number="00014" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c4748574d211eab2f0b920da2605c5">Morris v. State, 275 Ga. 601, 571 S.E.2d 358 (2002)</cite.query>; <cite.query w-src-number="0287018108" w-serial-number="2003170705" w-seq-number="00015" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c4748874d211eab2f0b920da2605c5">Parnell v. State, 260 Ga. App. 213, 581 S.E.2d 263 (2003)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739a75174d311ea92c4fb7908f1a7b5">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Dickert, Georgia Handbook on Foundations and Objections § 2:5 (2018 ed.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7739a75274d311ea92c4fb7908f1a7b5">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287018108" w-serial-number="1991151004" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000711" ID="Ia9c55ee274d211eab2f0b920da2605c5">Manous v. State, 200 Ga. App. 293, 407 S.E.2d 779 (1991)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 3:11<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

@@ -1,0 +1,177 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 8:21<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I27da1d50630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>8.</label.designator>
+				<headtext>Relevancy</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id7201713682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>8:21.</label.designator>
+						<headtext>Experiments and out-of-court reenactments</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<?page no="259"?>
+					<bos/>
+					<paratext>The court, in its discretion, may admit the results of an experiment in which the conditions and circumstances under which it was made were substantially similar to those existing at the time of the event at issue. <eos/>
+						<bos/>The greater the similarity between the facts proved and those on which the experiment is based, the greater the probative value of the evidence.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79638c3074d311ea92c4fb7908f1a7b5">1</footnote.reference>] Thus, an objection to the admission of such evidence should point out the differences in the facts.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7963b34074d311ea92c4fb7908f1a7b5">2</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The term “experiment” as used here may be based on scientific theories or general human experience. <eos/>
+						<bos/>It might be based on testimony of a witness who had gone to the location in question and observed whether certain things could be seen.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7963b34174d311ea92c4fb7908f1a7b5">3</footnote.reference>] In setting up such an experiment, great care should be taken to closely duplicate the conditions that existed at the time in question including subjective factors, such as whether the observer knows, in advance, the object that he is to identify.[<eos/>
+						<bos/>
+						<footnote.reference refid="I7963b34274d311ea92c4fb7908f1a7b5">4</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block><?page no="259"?>
+			<footnote ID="I79638c3074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017146" w-serial-number="1907012135" w-seq-number="00001" w-ref-type="RP" w-pub-number="0000710" ID="If20eecc274d211eab2f0b920da2605c5">Atlanta &amp; W.P.R. Co. v. Hudson, 2 Ga. App. 352, 58 S.E. 500 (1907)</cite.query>; <cite.query w-src-number="0287017146" w-serial-number="1983148244" w-seq-number="00002" w-ref-type="RP" w-pub-number="0000711" ID="If20eecc574d211eab2f0b920da2605c5">Putman v. State, 251 Ga. 605, 308 S.E.2d 145 (1983)</cite.query>; <cite.query w-src-number="0287017146" w-serial-number="1986109025" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000711" ID="If20eecc874d211eab2f0b920da2605c5">Doster v. Central of Georgia R. Co., 177 Ga. App. 393, 339 S.E.2d 619 (1985)</cite.query> (seeing a train at a crossing).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7963b34074d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017146" w-serial-number="1916017663" w-seq-number="00004" w-ref-type="RP" w-pub-number="0000710" ID="If20f61f274d211eab2f0b920da2605c5">Hicks v. State, 146 Ga. 221, 91 S.E. 57 (1916)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7963b34174d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017146" w-serial-number="1910012484" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000710" ID="If20ffe3274d211eab2f0b920da2605c5">McClendon v. State, 7 Ga. App. 784, 68 S.E. 331 (1910)</cite.query>; <cite.query w-src-number="0287017146" w-serial-number="1953105152" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="If20ffe3574d211eab2f0b920da2605c5">Bland v. State, 210 Ga. 100, 78 S.E.2d 51 (1953)</cite.query>; <cite.query w-src-number="0287017146" w-serial-number="1949103830" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000711" ID="If20ffe3874d211eab2f0b920da2605c5">State v. Hedgepeth, 230 N.C. 33, 51 S.E.2d 914 (1949)</cite.query>; <cite.query w-src-number="0287017146" w-serial-number="1969134027" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000711" ID="If20ffe3b74d211eab2f0b920da2605c5">Patton v. Smith, 119 Ga. App. 664, 168 S.E.2d 627 (1969)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I7963b34274d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017146" w-serial-number="1922103722" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000710" ID="If210736274d211eab2f0b920da2605c5">Norfolk &amp; W. Ry. Co. v. Henderson, 132 Va. 297, 111 S.E. 277 (1922)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017146" w-serial-number="1987142613" w-seq-number="00010" w-ref-type="RP" w-pub-number="0000711" ID="If210e89274d211eab2f0b920da2605c5">Robinson v. Seaboard System R.R., Inc., 87 N.C. App. 512, 361 S.E.2d 909 (1987)</cite.query>, is a good example of setting up an experiment at a railroad crossing. <eos/>
+							<bos/>Also see <cite.query w-src-number="0287017146" w-serial-number="2044758546" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="If210e89574d211eab2f0b920da2605c5">Rickman v. State, 304 Ga. 61, 816 S.E.2d 4 (2018)</cite.query>, where the state set up a reenactment of the crime scene with similar vehicles and persons who resembled the “build” of the individuals involved.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 8:21<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

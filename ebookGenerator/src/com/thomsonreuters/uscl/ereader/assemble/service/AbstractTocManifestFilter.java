@@ -21,7 +21,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
 
 @Slf4j
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
-    private static final String INLINE_TOC_ITEM = "Inline TOC";
+    private static final String INLINE_TOC_ITEM = "Table of Contents";
     private static final String INLINE_TOC_FILE = "inlineToc";
     private static final String INLINE_INDEX_ITEM = "Index";
     private static final String INLINE_INDEX_FILE = "inlineIndex";
@@ -59,6 +59,8 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     public void buildFrontMatterTOCEntries(final boolean isSplitBook) throws SAXException {
         currentDepth++;
         createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE, isSplitBook);
+
+        createInlineTocNode(isSplitBook);
 
         currentNode = new TocEntry(currentDepth);
 
@@ -104,10 +106,6 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 
         createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
 
-        if (titleMetadata.isInlineToc()) {
-            createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
-        }
-
         if (titleMetadata.isIndexIncluded()) {
             createFrontMatterNode(INLINE_INDEX_FILE, INLINE_INDEX_ITEM, isSplitBook);
         }
@@ -135,13 +133,16 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         nodesContainingDocuments.add(currentNode);
     }
 
+    private void createInlineTocNode(final boolean isSplitBook) throws SAXException {
+        if (titleMetadata.isInlineToc()) {
+            createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
+        }
+    }
+
     /**
      * Pushes document guids up through the ancestry into headings that didn't
      * contain document references in order to satisfy ProView's TOC to text
      * linking requirement.
-     *
-     * @param toc
-     *            the table of contents to operate on.
      */
     protected void cascadeAnchors() {
         for (final TocNode document : nodesContainingDocuments) {
@@ -154,9 +155,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     /**
      * Returns an anchor reference for a given toc node.
      *
-     * @param documentGuid
-     *            the document uuid to include in the anchor reference.
-     * @param tocEntry
+     * @param tocNode
      *            the toc entry containing a toc node guid.
      * @return Attributes the anchor reference in doc_guid/toc_guid format.
      */

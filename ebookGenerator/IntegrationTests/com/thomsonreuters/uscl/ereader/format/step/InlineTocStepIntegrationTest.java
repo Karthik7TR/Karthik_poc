@@ -67,12 +67,12 @@ public final class InlineTocStepIntegrationTest {
     }
 
     @Test
-    public void shouldNotCreateTocIfNoInlineTocAttributes() throws Exception {
+    public void shouldCreateTocWithDefaultStyles() throws Exception {
         step.getBookDefinition().setInlineTocIncluded(true);
 
         runner.test(step, new File(resourceDir, "noInlineTocAttributes"));
 
-        verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
 
     @Test

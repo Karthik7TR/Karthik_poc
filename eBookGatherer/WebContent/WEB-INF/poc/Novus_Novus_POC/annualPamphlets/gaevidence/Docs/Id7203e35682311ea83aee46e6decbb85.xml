@@ -1,0 +1,247 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Ga. Evidence § 9:4<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20191101">
+						<bop/>
+						<bos/>November 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Ana Marcela Rountree</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I288e2b10630a11eab5989292d3e01631">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>9.</label.designator>
+				<headtext>Hearsay</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Id7203e34682311ea83aee46e6decbb85">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>9:4.</label.designator>
+						<headtext>Hearsay within hearsay</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>
+						<cite.query w-src-number="0287017163" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="GAST24-8-805" w-pub-number="1000468" ID="Ifb04c75074d211eab2f0b920da2605c5">O.C.G.A. § 24-8-805</cite.query> provides:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0001"/>Hearsay included within hearsay shall not be excluded under the hearsay rule if each part of the combined statements conforms with an exception to the hearsay rule.<eos/>
+								<end.quote refid="QT_0001"/>
+							</paratext>
+						</para>
+					</display.quote>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287017163" w-serial-number="2036633058" w-seq-number="00002" w-ref-type="RT" w-pub-number="0000960" ID="Ifb05639374d211eab2f0b920da2605c5">
+							<ital>Tuggle v. Rose,</ital>
+						</cite.query>[<footnote.reference refid="I79c3115074d311ea92c4fb7908f1a7b5">1</footnote.reference>] the court held inadmissible an investigator&apos;s report which included summaries of statements made by a child&apos;s classmates regarding an incident where the child was restrained by a teacher. <eos/>
+						<bos/>The respondents in a summary judgment motion provided an exception to the first layer of hearsay, but failed to provide an exception to the second.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In <cite.query w-src-number="0287017163" w-serial-number="2017439912" w-seq-number="00004" w-ref-type="RT" w-pub-number="0000711" ID="Ifb06750274d211eab2f0b920da2605c5">
+							<ital>Sullivan v. State</ital>
+						</cite.query>, the court held that a mother&apos;s testimony that her child told her that the defendant made another child have sex with him was double hearsay that did not qualify for admission under the child hearsay statute.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c3115174d311ea92c4fb7908f1a7b5">2</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<?page no="284"?>
+					<bos/>
+					<paratext>Likewise, the Court held that while outgoing text messages from a defendant were admissible as admissions by a party opponent, the incoming texts were subject to a double hearsay objection.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c3386074d311ea92c4fb7908f1a7b5">3</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>On the other hand, in <cite.query w-src-number="0287017163" w-serial-number="2040218419" w-seq-number="00007" w-ref-type="RT" w-pub-number="0000711" ID="Ifb09342274d211eab2f0b920da2605c5">
+							<ital>Robbins v. State,</ital>
+						</cite.query>[<footnote.reference refid="I79c3386174d311ea92c4fb7908f1a7b5">4</footnote.reference>] the Georgia Supreme Court held double hearsay admissible after a police officer testified at trial that a witness informed the officer that the victim told the witness about a severe beating that just occurred at the hands of the defendant. <eos/>
+						<bos/>The Court first found that the witness&apos;s out-of-court statement to the officer was not hearsay under <cite.query w-src-number="0287017163" w-seq-number="00009" w-ref-type="LQ" w-normalized-cite="GAST24-6-613" w-pub-number="1000468" ID="Ifb09f77074d211eab2f0b920da2605c5">O.C.G.A. § 24-6-613</cite.query> because the witness testified at the trial, was subject to cross-examination, and the statement was offered as a prior inconsistent statement to the witness&apos;s testimony at trial that the victim told her that her injuries were caused by a fall. <eos/>
+						<bos/>Next, the Court found that the victim&apos;s statements to the witness were admissible under the excited utterance exception to hearsay.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Similarly, in <cite.query w-src-number="0287017163" w-serial-number="2038599084" w-seq-number="00010" w-ref-type="RT" w-pub-number="0000711" ID="Ifb0a6ca274d211eab2f0b920da2605c5">
+							<ital>Mosley v. State,</ital>
+						</cite.query>[<footnote.reference refid="I79c3386274d311ea92c4fb7908f1a7b5">5</footnote.reference>] the Supreme Court upheld the admission of double hearsay in a criminal case where the defendant first failed to object at trial. <eos/>
+						<bos/>Examining the facts under a plain error rule, the Court held the double hearsay admissible because the state was rehabilitating a witness under <cite.query w-src-number="0287017163" w-seq-number="00012" w-ref-type="LQ" w-normalized-cite="GAST24-6-613" w-pub-number="1000468" ID="Ifb0b08e074d211eab2f0b920da2605c5">O.C.G.A § 24-6-613</cite.query>, and further the defendant had opportunity to cross-examine the declarant at trial.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>It is well settled that officers may rely on hearsay and even hearsay upon hearsay to furnish the basis for the issuance of valid warrants.[<eos/>
+						<bos/>
+						<footnote.reference refid="I79c3386374d311ea92c4fb7908f1a7b5">6</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I79c3115074d311ea92c4fb7908f1a7b5">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017163" w-serial-number="2036633058" w-seq-number="00003" w-ref-type="RP" w-pub-number="0000960" ID="Ifb05b1b374d211eab2f0b920da2605c5">Tuggle v. Rose, 333 Ga. App. 431, 773 S.E.2d 485, 319 Ed. Law Rep. 586 (2015)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c3115174d311ea92c4fb7908f1a7b5">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017163" w-serial-number="2017439912" w-seq-number="00005" w-ref-type="RP" w-pub-number="0000711" ID="Ifb069c1274d211eab2f0b920da2605c5">Sullivan v. State, 295 Ga. App. 145, 671 S.E.2d 180 (2008)</cite.query>
+							<?page no="284"?>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c3386074d311ea92c4fb7908f1a7b5">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017163" w-serial-number="2045869663" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000711" ID="Ifb0897e274d211eab2f0b920da2605c5">Johnson v. State, 347 Ga. App. 831, 821 S.E.2d 76 (2018)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c3386174d311ea92c4fb7908f1a7b5">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017163" w-serial-number="2040218419" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000711" ID="Ifb095b3274d211eab2f0b920da2605c5">Robbins v. State, 300 Ga. 387, 793 S.E.2d 62 (2016)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c3386274d311ea92c4fb7908f1a7b5">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017163" w-serial-number="2038599084" w-seq-number="00011" w-ref-type="RP" w-pub-number="0000711" ID="Ifb0a93b274d211eab2f0b920da2605c5">Mosley v. State, 298 Ga. 849, 785 S.E.2d 297 (2016)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I79c3386374d311ea92c4fb7908f1a7b5">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0287017163" w-serial-number="2034833401" w-seq-number="00013" w-ref-type="RP" w-pub-number="0000711" ID="Ifb0b7e1274d211eab2f0b920da2605c5">Shirley v. State, 330 Ga. App. 424, 765 S.E.2d 491 (2014)</cite.query>, <case.history>judgment rev&apos;d on other grounds</case.history>, <cite.query w-src-number="0287017163" w-serial-number="2037156539" w-seq-number="00014" w-ref-type="RP" w-pub-number="0000711" ID="Ifb0b7e1574d211eab2f0b920da2605c5">297 Ga. 722, 777 S.E.2d 444 (2015)</cite.query>
+							.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>GAEVIDENCE § 9:4<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>
