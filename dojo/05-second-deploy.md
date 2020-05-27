@@ -2,7 +2,7 @@
 Deploy a new version of your code.  See how the deploy impacts your listener rules.
 
 # Steps
-1. Navigate in the source code to [`app/views/employee.ejs`](app/views/employee.ejs).
+1. Navigate in the source code to [`app/views/employee.ejs`](../app/views/employee.ejs#L36).
 1. On line 36 you will see where the version is set that you saw earlier.  Change this to whatever you want and save the file.  Then we'll redeploy to see the change.
 1. Run the same small script as before - repeated below - to zip up this code and upload to S3.  
     > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
@@ -49,5 +49,5 @@ If you do not receive the email to approve the release, there is a way to do in 
 
 3. Use the blue green ID and the table name to approve the release.
       ```sh
-    cumulus) bens-mbp:docker-ccng-sampleapp-v1 ben$ cumulus bluegreen approve-deployment --table a206296-u0106226-bluegreen-deployer-table-nonprod-v1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+    cumulus bluegreen approve-deployment --table a206296-u0106226-bluegreen-deployer-table-nonprod-v1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
       ```

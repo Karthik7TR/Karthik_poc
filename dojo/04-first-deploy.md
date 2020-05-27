@@ -51,5 +51,5 @@ If you do not receive the email to approve the release, there is a way to do it 
 
 1. Use the blue green ID and the table name to approve the release.
     ```sh
-    cumulus) bens-mbp:docker-ccng-sampleapp-v1 ben$ cumulus bluegreen approve-deployment --table a206296-u0106226-bluegreen-deployer-table-nonprod-v1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+    cumulus bluegreen approve-deployment --table a206296-u0106226-bluegreen-deployer-table-nonprod-v1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
     ```
