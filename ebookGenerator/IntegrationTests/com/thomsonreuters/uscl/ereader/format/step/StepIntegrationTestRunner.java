@@ -74,10 +74,26 @@ public class StepIntegrationTestRunner {
         tearDown();
     }
 
+    public void test(final BaseStep step) throws Exception {
+        initWorkDir();
+
+        step.executeStep();
+
+        tearDown();
+    }
+
+
     private void init(final File resource) throws IOException {
-        workDir = bookFileSystem.getWorkDirectory(null);
-        FileUtils.copyDirectory(new File(resource, SOURCE), workDir);
+        initWorkDir();
+        final File source = new File(resource, SOURCE);
+        if (source.exists()) {
+            FileUtils.copyDirectory(source, workDir);
+        }
         new File(resource, EXPECTED).mkdir();
+    }
+
+    private void initWorkDir() {
+        workDir = bookFileSystem.getWorkDirectory(null);
     }
 
     private void tearDown() {
