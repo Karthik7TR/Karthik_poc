@@ -188,6 +188,12 @@
 		
 		<step id="processPages">
 			<tasklet ref="processPagesTask"/>
+			<next on="COMPLETED" to="addThesaurusToDocuments"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<step id="addThesaurusToDocuments">
+			<tasklet ref="addThesaurusToDocumentsTask"/>
 			<next on="COMPLETED" to="getStaticImages"/>
 			<fail on="FAILED"/>
 		</step>
@@ -345,6 +351,7 @@
 	<beans:bean id="addInlineIndexTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineIndexStep" />
 	<beans:bean id="addInlineTocTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineTocStep" />
 	<beans:bean id="processPagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.ProcessPages" />
+	<beans:bean id="addThesaurusToDocumentsTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.AddThesaurusToDocumentsStep" />
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="generatorParentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 	            p:moveResourcesUtil-ref="moveResourcesUtil"/>

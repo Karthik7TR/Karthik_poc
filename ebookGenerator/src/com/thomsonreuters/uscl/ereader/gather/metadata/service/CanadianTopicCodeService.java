@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CanadianTopicCodeService {
     List<CanadianTopicCode> findAllCanadianTopicCodesForTheBook(Long jobInstanceId);
+
+    List<CanadianTopicCode> findCanadianTopicCodesForDocument(Long jobInstanceId, String fileUuid);
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CanadianTopicCodeDao extends JpaRepository<CanadianTopicCode, Long> {
     List<CanadianTopicCode> findAllByJobInstanceId(Long jobInstanceId);
+    List<CanadianTopicCode> findAllByJobInstanceIdAndDocUuidOrderByTopicKeyDesc(Long jobInstanceId, String docUuid);
 }

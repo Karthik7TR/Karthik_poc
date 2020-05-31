@@ -16,4 +16,9 @@ public class CanadianTopicCodeServiceImpl implements CanadianTopicCodeService {
     public List<CanadianTopicCode> findAllCanadianTopicCodesForTheBook(final Long jobInstanceId) {
         return canadianTopicCodeDao.findAllByJobInstanceId(jobInstanceId);
     }
+
+    @Override
+    public List<CanadianTopicCode> findCanadianTopicCodesForDocument(final Long jobInstanceId, final String docUuid) {
+        return canadianTopicCodeDao.findAllByJobInstanceIdAndDocUuidOrderByTopicKeyDesc(jobInstanceId, docUuid);
+    }
 }
