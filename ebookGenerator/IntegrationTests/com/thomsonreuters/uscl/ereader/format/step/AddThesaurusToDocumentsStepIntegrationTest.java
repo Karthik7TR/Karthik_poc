@@ -20,23 +20,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
-import static org.mockito.Mockito.*;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyBoolean;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BuildThesaurusStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
+@ContextConfiguration(classes = {AddThesaurusToDocumentsStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
-public final class BuildThesaurusStepIntegrationTest {
+public class AddThesaurusToDocumentsStepIntegrationTest {
     private static final String DOC_1 = "doc1";
     private static final String DOC_2 = "doc2";
     private static final long JOB_1 = 1L;
-    private static final long JOB_2 = 0L;
 
     @Autowired
-    private BuildThesaurusStep step;
+    private AddThesaurusToDocumentsStep step;
 
     @Autowired
     private StepIntegrationTestRunner runner;
@@ -46,21 +46,14 @@ public final class BuildThesaurusStepIntegrationTest {
     @Before
     public void setUp() throws URISyntaxException {
         runner.setUp(step);
-        resourceDir = new File(BuildThesaurusStepIntegrationTest.class.getResource("resourceBuildThesaurus").toURI());
+        resourceDir = new File(BuildThesaurusStepIntegrationTest.class.getResource("resourceAddThesaurusToDocuments").toURI());
     }
 
     @Test
-    public void shouldBuildThesaurusXml() throws Exception {
+    public void shouldAddThesaurusToDocuments() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
-        runner.testWithExpectedOnly(step, new File(resourceDir, "buildTestWithThesaurus"));
-        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_THESAURUS, Boolean.TRUE);
-    }
-
-    @Test
-    public void shouldNotBuildThesaurusXml() throws Exception {
-        givenJobInstanceId(step.getChunkContext(), JOB_2);
-        runner.test(step);
-        verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_THESAURUS, Boolean.TRUE);
+        whenJobExecutionPropertyBoolean(step.getJobExecutionContext(), JobExecutionKey.WITH_THESAURUS, Boolean.TRUE);
+        runner.test(step, new File(resourceDir, "addThesaurus"));
     }
 
     @Configuration
@@ -73,27 +66,32 @@ public final class BuildThesaurusStepIntegrationTest {
         }
 
         @Bean
-        public BuildThesaurusStep buildThesaurusStep() {
-            return new BuildThesaurusStep();
+        public AddThesaurusToDocumentsStep buildThesaurusStep() {
+            return new AddThesaurusToDocumentsStep();
         }
 
         @Bean
         public CanadianTopicCodeService canadianTopicCodeService() {
             CanadianTopicCodeService topicCodeService = mock(CanadianTopicCodeService.class);
-            when(topicCodeService.findAllCanadianTopicCodesForTheBook(JOB_1)).thenReturn(getTopicCodes());
-            when(topicCodeService.findAllCanadianTopicCodesForTheBook(JOB_2)).thenReturn(Collections.emptyList());
+            when(topicCodeService.findCanadianTopicCodesForDocument(JOB_1, DOC_1)).thenReturn(getTopicCodes1());
+            when(topicCodeService.findCanadianTopicCodesForDocument(JOB_1, DOC_2)).thenReturn(getTopicCodes2());
             return topicCodeService;
         }
 
-        private List<CanadianTopicCode> getTopicCodes() {
+        private List<CanadianTopicCode> getTopicCodes1() {
             return Arrays.asList(
                     getTopicCode("IPY.V.1", DOC_1),
                     getTopicCode("IPY.V", DOC_1),
-                    getTopicCode("IPY", DOC_1),
+                    getTopicCode("IPY", DOC_1)
+            );
+        }
+
+        private List<CanadianTopicCode> getTopicCodes2() {
+            return Arrays.asList(
                     getTopicCode("IPY.V.2", DOC_2),
                     getTopicCode("IPY.V", DOC_2),
                     getTopicCode("IPY", DOC_2)
-                    );
+            );
         }
 
         private CanadianTopicCode getTopicCode(final String key, final String docId) {

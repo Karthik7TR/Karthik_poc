@@ -19,8 +19,10 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
@@ -66,7 +68,7 @@ public class BuildThesaurusStep extends BookStepImpl {
     }
 
     private Map<String, List<CanadianTopicCode>> buildTopicKeysMap(final List<CanadianTopicCode> canadianTopicCodes) {
-        return canadianTopicCodes.stream().collect(groupingBy(CanadianTopicCode::getTopicKey));
+        return canadianTopicCodes.stream().collect(groupingBy(CanadianTopicCode::getTopicKey, TreeMap::new, toList()));
     }
 
     private void fillThesaurusEntries(final Map<String, List<CanadianTopicCode>> topicKeys, final Document document) {

@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineIndexService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,13 +76,13 @@ public final class InlineIndexStepIntegrationTest {
 
     @Test
     public void shouldNotCreateInlineIndexIfNoIndexToc() throws Exception {
-        runner.test(step, new File(resourceDir, "noIndexTocTest"));
+        runner.testWithSourceOnly(step, new File(resourceDir, "noIndexTocTest"));
         verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
     @Test
     public void shouldNotCreateInlineIndexIfNoIndexTocFile() throws Exception {
-        runner.test(step, new File(resourceDir, "noIndexTocNoFileTest"));
+        runner.test(step);
         verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
