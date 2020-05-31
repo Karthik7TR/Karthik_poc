@@ -24,6 +24,8 @@ public class DocServiceMockImpl implements DocService {
     private static final String MOCK_DOCS_DIR_GAEVIDENCE = "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/gaevidence/Docs";
     private static final String MOCK_COLLECTION_NAME_THORBURN = "mock_thorburn";
     private static final String MOCK_DOCS_DIR_THORBURN = "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn/Docs";
+    private static final String MOCK_COLLECTION_NAME_THORBURN_SMALL = "mock_thorburn_small";
+    private static final String MOCK_DOCS_DIR_THORBURN_SMALL = "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn-small/Docs";
 
     @Autowired
     private ServletContext servletContext;
@@ -49,6 +51,8 @@ public class DocServiceMockImpl implements DocService {
             return copyDocs(docGuids, MOCK_DOCS_DIR_GAEVIDENCE, contentDestinationDirectory);
         case MOCK_COLLECTION_NAME_THORBURN:
             return copyDocs(docGuids, MOCK_DOCS_DIR_THORBURN, contentDestinationDirectory);
+        case MOCK_COLLECTION_NAME_THORBURN_SMALL:
+            return copyDocs(docGuids, MOCK_DOCS_DIR_THORBURN_SMALL, contentDestinationDirectory);
         default:
             return docService.fetchDocuments(
                 docGuids,
