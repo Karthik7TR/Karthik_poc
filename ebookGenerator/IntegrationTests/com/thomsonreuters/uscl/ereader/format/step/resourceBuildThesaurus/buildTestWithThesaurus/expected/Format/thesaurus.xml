@@ -1,14 +1,6 @@
 <thesaurus>
  <entry>
   <lead>
-   IPY.V
-  </lead>
-  <count>
-   2
-  </count>
- </entry>
- <entry>
-  <lead>
    IPY
   </lead>
   <count>
@@ -17,7 +9,15 @@
  </entry>
  <entry>
   <lead>
-   IPY.V.2
+   IPY.V
+  </lead>
+  <count>
+   2
+  </count>
+ </entry>
+ <entry>
+  <lead>
+   IPY.V.1
   </lead>
   <count>
    1
@@ -25,7 +25,7 @@
  </entry>
  <entry>
   <lead>
-   IPY.V.1
+   IPY.V.2
   </lead>
   <count>
    1
