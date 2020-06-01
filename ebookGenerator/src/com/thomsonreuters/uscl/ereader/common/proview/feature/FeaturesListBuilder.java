@@ -33,6 +33,11 @@ public interface FeaturesListBuilder {
     FeaturesListBuilder withPageNumbers(boolean withPageNumbers);
 
     /**
+     * If thesaurus is needed
+     */
+    FeaturesListBuilder withThesaurus(boolean withThesaurus);
+
+    /**
      * Get list of proview features
      */
     List<Feature> getFeatures();

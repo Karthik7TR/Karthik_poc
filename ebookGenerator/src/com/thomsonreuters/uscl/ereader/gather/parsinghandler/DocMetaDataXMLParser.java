@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import org.apache.log4j.LogManager;
@@ -36,6 +37,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
     private static final String MD_PUB_PAGE = "md.pubpage";
     private static final String MD_START_EFFECTIVE = "md.starteffective";
     private static final String MD_END_EFFECTIVE = "md.endeffective";
+    public static final String CAN_MD_TOPIC_KEY = "can.md.topic.key";
 
     private StringBuffer tempValBuffer;
 
@@ -160,6 +162,10 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
             docMetadata.setStartEffectiveDate(tempVal);
         } else if (MD_END_EFFECTIVE.equalsIgnoreCase(qName)) {
             docMetadata.setEndEffectiveDate(tempVal);
+        } else if (CAN_MD_TOPIC_KEY.equalsIgnoreCase(qName)) {
+            CanadianTopicCode canadianTopicCode = new CanadianTopicCode();
+            canadianTopicCode.setTopicKey(tempVal);
+            docMetadata.addTopicCode(canadianTopicCode);
         }
     }
 

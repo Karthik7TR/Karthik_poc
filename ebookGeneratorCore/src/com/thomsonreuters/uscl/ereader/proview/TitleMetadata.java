@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -50,6 +53,11 @@ public final class TitleMetadata implements Serializable {
     private static final long serialVersionUID = 1L;
     //TODO: SimpleDateFormat is not thread safe
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+    private static final Set<String> THESAURUS_FILE_NAMES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            "fields.xml",
+            "template.xml",
+            "thesaurus.xml"
+    )));
     @XmlElement(name = "apiVersion")
     private final String apiVersion = "v1";
     @XmlElement(name = "language")
@@ -325,8 +333,13 @@ public final class TitleMetadata implements Serializable {
             checkFile(assetDirectory, File::isDirectory, "Directory must not be null and must be a directory.");
             Stream.of(assetDirectory.listFiles())
                 .map(File::getName)
+                .filter(this::thesarusFilterFromAssets)
                 .forEach(this::assetFileName);
             return this;
+        }
+
+        private boolean thesarusFilterFromAssets(final String fileName) {
+            return !THESAURUS_FILE_NAMES.contains(fileName);
         }
 
         @NotNull

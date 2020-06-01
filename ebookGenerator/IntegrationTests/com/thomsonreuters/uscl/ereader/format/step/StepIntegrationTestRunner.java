@@ -65,19 +65,40 @@ public class StepIntegrationTestRunner {
         return documentTypeCode;
     }
 
+    public void testWithSourceOnly(final BaseStep step, final File resource) throws Exception {
+        test(step, resource, true, false);
+    }
+
+    public void testWithExpectedOnly(final BaseStep step, final File resource) throws Exception {
+        test(step, resource, false, true);
+    }
+
     public void test(final BaseStep step, final File resource) throws Exception {
-        init(resource);
+        test(step, resource, true, true);
+    }
+
+    public void test(final BaseStep step) throws Exception {
+        test(step, null, false, false);
+    }
+
+    private void test(final BaseStep step, final File resource, boolean withSourceDir, boolean withExpectedDir) throws Exception {
+        initWorkDir();
+
+        if (withSourceDir) {
+            FileUtils.copyDirectory(new File(resource, SOURCE), workDir);
+        }
 
         step.executeStep();
 
-        validateDirsOnExpected(new File(resource, EXPECTED), workDir);
+        if (withExpectedDir) {
+            validateDirsOnExpected(new File(resource, EXPECTED), workDir);
+        }
+
         tearDown();
     }
 
-    private void init(final File resource) throws IOException {
+    private void initWorkDir() {
         workDir = bookFileSystem.getWorkDirectory(null);
-        FileUtils.copyDirectory(new File(resource, SOURCE), workDir);
-        new File(resource, EXPECTED).mkdir();
     }
 
     private void tearDown() {

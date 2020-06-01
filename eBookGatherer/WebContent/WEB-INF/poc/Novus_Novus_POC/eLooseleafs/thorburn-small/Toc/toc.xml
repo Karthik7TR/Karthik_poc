@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>			
+	<EBookToc>
+		<Name>Thorburn, Law of Confidential Business Information</Name>
+		<Guid>I4d775f60411c11ea9bd78ece924bfde31</Guid>
+		<EBookToc>
+			<Name>Chapter 1. Confidential Business Information in Historical Context</Name>
+			<Guid>I4d7849c0411c11ea9bd78ece924bfde32</Guid>
+			<EBookToc>
+				<Name>I. Origins of Intellectual Property</Name>
+				<Guid>I4d790d10411c11ea9bd78ece924bfde33</Guid>
+				<EBookToc>
+					<Name>&#167;  1:1. Introduction</Name>
+					<Guid>Ie9f574d16ad411eaa31f88aec239341d4</Guid>
+					<DocumentGuid>Ie9f574d26ad411eaa31f88aec239341d</DocumentGuid>
+				</EBookToc>
+				<EBookToc>
+					<Name>&#167;  1:2. Roman Age</Name>
+					<Guid>Ie9f59be06ad411eaa31f88aec239341d5</Guid>
+					<DocumentGuid>Ie9f59be16ad411eaa31f88aec239341d</DocumentGuid>
+				</EBookToc>
+				<EBookToc>
+					<Name>&#167;  1:3. Feudal Age</Name>
+					<Guid>Ie9f59be36ad411eaa31f88aec239341d6</Guid>
+					<DocumentGuid>Ie9f59be46ad411eaa31f88aec239341d</DocumentGuid>
+				</EBookToc>
+				<EBookToc>
+					<Name>&#167;  1:4. Commercial Age</Name>
+					<Guid>Ie9f59be66ad411eaa31f88aec239341d7</Guid>
+					<DocumentGuid>Ie9f59be76ad411eaa31f88aec239341d</DocumentGuid>
+				</EBookToc>
+			</EBookToc>
+		</EBookToc>
+	</EBookToc>	
+	<EBookToc>
+		<Name>&#167;  3:3. Existing Definitions of Confidential Business Information and Trade Secrets</Name>
+		<Guid>Ie9f5ea166ad411eaa31f88aec239341d69</Guid>
+		<DocumentGuid>Ie9f5ea176ad411eaa31f88aec239341d</DocumentGuid>
+	</EBookToc>
+	<EBookToc>
+		<Name>&#167;  3:7. Extent to which the information is known</Name>
+		<Guid>Ie9f5ea226ad411eaa31f88aec239341d76</Guid>
+		<DocumentGuid>Ie9f5ea236ad411eaa31f88aec239341d</DocumentGuid>
+	</EBookToc>
+	<EBookToc>
+		<Name>&#167;  4:27. Duties of a Fiduciary</Name>
+		<Guid>Ie9f638486ad411eaa31f88aec239341d133</Guid>
+		<DocumentGuid>Ie9f638496ad411eaa31f88aec239341d</DocumentGuid>
+	</EBookToc>
+	<EBookToc>
+		<Name>E. Claims Against Third Parties</Name>
+		<Guid>I55b9ef80411c11ea9bd78ece924bfde3191</Guid>
+		<EBookToc>
+			<Name>&#167;  5:19. Breach of Confidence Actions</Name>
+			<Guid>Ie9f6ad7a6ad411eaa31f88aec239341d192</Guid>
+			<DocumentGuid>Ie9f6ad7b6ad411eaa31f88aec239341d</DocumentGuid>
+		</EBookToc>
+	</EBookToc>
+</EBook>

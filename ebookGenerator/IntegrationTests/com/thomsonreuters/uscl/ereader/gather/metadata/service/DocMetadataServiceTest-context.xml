@@ -37,6 +37,8 @@
 			<list>
 				<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata
 				</value>
+				<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode
+				</value>
 			</list>
 		</property>
 	</bean>

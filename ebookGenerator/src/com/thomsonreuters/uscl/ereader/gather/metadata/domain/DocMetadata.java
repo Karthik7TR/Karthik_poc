@@ -3,24 +3,18 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -148,6 +142,13 @@ public class DocMetadata implements Serializable {
     @Column(name = "END_EFFECTIVE_DATE")
     @XmlElement
     private String endEffectiveDate;
+
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "docMetadata", orphanRemoval = true, cascade = CascadeType.ALL)
+    @Basic(fetch = FetchType.LAZY)
+    @XmlElement
+    private List<CanadianTopicCode> canadianTopicCodes = new ArrayList<>();
 
     public DocMetadata() {
     }
@@ -348,6 +349,11 @@ public class DocMetadata implements Serializable {
             && endEffectiveDate != null
             && now.isAfter(LocalDateTime.parse(startEffectiveDate, FORMATTER))
             && now.isBefore(LocalDateTime.parse(endEffectiveDate, FORMATTER));
+    }
+
+    public void addTopicCode(final CanadianTopicCode canadianTopicCode) {
+        canadianTopicCode.setDocMetadata(this);
+        canadianTopicCodes.add(canadianTopicCode);
     }
 
     /**

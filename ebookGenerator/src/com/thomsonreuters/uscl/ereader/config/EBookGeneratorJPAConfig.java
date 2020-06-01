@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDaoImpl;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.PaceMetadataDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.PaceMetadataDaoImpl;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
 import org.hibernate.SessionFactory;
@@ -57,6 +58,6 @@ public class EBookGeneratorJPAConfig extends CommonJPAConfig {
     @Override
     protected void addAdditionalEntities(final List<Class<?>> annotatedClasses) {
         annotatedClasses.addAll(Arrays.asList(
-            XSLTMapperEntity.class, ImageMetadataEntity.class, DocMetadata.class, PaceMetadata.class));
+            XSLTMapperEntity.class, ImageMetadataEntity.class, DocMetadata.class, PaceMetadata.class, CanadianTopicCode.class));
     }
 }

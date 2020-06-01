@@ -1,0 +1,8 @@
+<fields>
+    <field>
+       <name>tematica</name>
+       <type>phrase</type>
+       <search-field>tr_phrase1</search-field>
+       <hide-text>true</hide-text>
+    </field>
+</fields>

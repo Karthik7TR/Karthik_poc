@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -106,6 +107,11 @@ public final class StepTestUtil {
         whenContainsProperty(jobExecutionContext, name);
     }
 
+    public static void whenJobExecutionPropertyBoolean(final ExecutionContext jobExecutionContext, final String name, final Boolean value) {
+        when(jobExecutionContext.get(name)).thenReturn(value);
+        whenContainsProperty(jobExecutionContext, name);
+    }
+
     private static void whenContainsProperty(final ExecutionContext jobExecutionContext, final String name) {
         when(jobExecutionContext.containsKey(name)).thenReturn(Boolean.TRUE);
     }
@@ -129,7 +135,7 @@ public final class StepTestUtil {
      *
      */
     public static void validateDirsOnExpected(final File expectedDir, final File actualDir) {
-        Stream.of(expectedDir.listFiles())
+        Stream.of(Objects.requireNonNull(expectedDir.listFiles()))
         .forEach(expected -> {
             if (expected.isDirectory()) {
                 validateDirsOnExpected(expected, new File(actualDir, expected.getName()));

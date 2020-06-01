@@ -1,5 +1,35 @@
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.proview.Doc;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,43 +50,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
-import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
-import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
-import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
-import com.thomsonreuters.uscl.ereader.core.book.model.Version;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
-import com.thomsonreuters.uscl.ereader.proview.Doc;
-import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
-
-public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
+@SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
+@SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
+public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     /**
      * To update publishingStatsService table.
      */
+    @Autowired
     private PublishingStatsService publishingStatsService;
+    @Autowired
     private MoveResourcesUtil moveResourcesUtil;
+    @Autowired
     private TitleMetadataService titleMetadataService;
+    @Autowired
     private BookDefinitionService bookDefinitionService;
+    @Autowired
     private ProviewFeaturesListBuilderFactory featuresListBuilderFactory;
 
     /*
@@ -68,11 +76,11 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
      * org.springframework.batch.core.scope.context.ChunkContext)
      */
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+    public ExitStatus executeStep()
         throws Exception {
-        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-        final JobParameters jobParameters = getJobParameters(chunkContext);
-        final Long jobId = getJobInstance(chunkContext).getId();
+        final ExecutionContext jobExecutionContext = getJobExecutionContext();
+        final JobParameters jobParameters = getJobParameters();
+        final Long jobId = getJobInstanceId();
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobId);
         String publishStatus = "Completed";
@@ -92,7 +100,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
         try {
             final File assembleDirectory =
-                new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DIR));
+                new File(getJobExecutionPropertyString(JobExecutionKey.ASSEMBLE_DIR));
             int parts = 0;
             if (bookDefinition.isSplitTypeAuto()) {
                 parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
@@ -101,7 +109,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
             }
 
             final String docToSplitBook =
-                getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
+                    getJobExecutionPropertyString(JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
 
             // docMap contains SplitBook part to Doc mapping
             final Map<String, List<Doc>> docMap = new HashMap<>();
@@ -115,7 +123,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
             final FeaturesListBuilder featuresListBuilder = featuresListBuilderFactory.create(bookDefinition)
                 .withBookVersion(new Version("v" + versionNumber))
                 .withTitleDocs(getDocsByTitles(docMap))
-                .withPageNumbers(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_PAGE_NUMBERS));
+                .withPageNumbers(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS))
+                .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS));
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks
@@ -159,7 +168,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
                 ebookDirectory.mkdir();
 
                 final File splitTitleXml =
-                    new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
+                    new File(getJobExecutionPropertyString(JobExecutionKey.SPLIT_TITLE_XML_FILE));
                 splitTitleXMLStream = new FileInputStream(splitTitleXml);
 
                 final File titleXml = new File(ebookDirectory, "title.xml");
@@ -215,13 +224,14 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
         final File assetsDirectory = createAssetsDirectory(ebookDirectory);
         // static images
         final File staticImagesDir =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+            new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
         moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
         // Style sheets
         moveResourcesUtil.moveStylesheet(assetsDirectory);
+        moveResourcesUtil.moveThesaurus(this, assetsDirectory);
         // Dynamic images
         final File dynamicImagesDir =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
+            new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
         final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);
         moveResourcesUtil.copyFilesToDestination(dynamicImgFiles, assetsDirectory);
         // Frontmatter pdf
@@ -235,12 +245,12 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
         final File documentsDirectory = createDocumentsDirectory(ebookDirectory);
         if (firstSplitBook) {
             final File frontMatter =
-                new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
+                new File(getJobExecutionPropertyString(JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
             moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
         }
 
         final File transformedDocsDir = new File(
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+                getJobExecutionPropertyString(JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
 
         final List<String> srcIdList = new ArrayList<>();
         for (final Doc doc : docList) {
@@ -259,11 +269,6 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    /**
-     * @param fileName
-     *            contains altId for corresponding Guid
-     * @return a map (Guid as a Key and altId as a Value)
-     */
     public void readDocImgFile(
         final File docToSplitBook,
         final Map<String, List<Doc>> docMap,
@@ -302,9 +307,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
         final BookDefinition bookDefinition,
         final TitleMetadataBuilder builder) throws FileNotFoundException {
         final File staticImagesDir =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+            new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
         final String staticContentDir =
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR);
+                getJobExecutionPropertyString(JobExecutionKey.STATIC_CONTENT_DIR);
         builder.assetFilesFromDirectory(staticImagesDir)
             .assetFile(new File(staticContentDir, MoveResourcesUtil.DOCUMENT_CSS_FILE))
             .assetFile(new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE));
@@ -331,36 +336,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
         return new File(parentDirectory, "assets");
     }
 
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
-        this.publishingStatsService = publishingStatsService;
-    }
-
-    @Required
-    public void setTitleMetadataService(final TitleMetadataService titleMetadataService) {
-        this.titleMetadataService = titleMetadataService;
-    }
-
-    public MoveResourcesUtil getMoveResourcesUtil() {
-        return moveResourcesUtil;
-    }
-
-    @Required
     public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil) {
         this.moveResourcesUtil = moveResourcesUtil;
-    }
-
-    public BookDefinitionService getBookDefinitionService() {
-        return bookDefinitionService;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
-        this.bookDefinitionService = bookDefinitionService;
-    }
-
-    @Required
-    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory) {
-        this.featuresListBuilderFactory = featuresListBuilderFactory;
     }
 }

@@ -25,6 +25,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     private final BookDefinition bookDefinition;
     private final VersionUtil versionUtil;
     private boolean withPageNumbers;
+    private boolean withThesaurus;
 
     private Version newBookVersion;
 
@@ -57,6 +58,12 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
          return this;
      }
 
+     @Override
+     public FeaturesListBuilder withThesaurus(final boolean withThesaurus) {
+         this.withThesaurus = withThesaurus;
+         return this;
+     }
+
     private List<Feature> createDefaultFeaturesList() {
         final List<Feature> features = new ArrayList<>();
         features.add(DefaultProviewFeatures.PRINT.feature);
@@ -74,8 +81,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         }
 
         if (bookDefinition.getOnePassSsoLinkFlag()) {
-            Collections.addAll(features, DefaultProviewFeatures.ONE_PASS_SSO_WWW_WESTLAW.feature,
-                DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
+            Collections.addAll(features,
+                DefaultProviewFeatures.ONE_PASS_SSO_WWW_WESTLAW.feature,
+                DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature
+            );
         }
 
         if (bookDefinition.isELooseleafsEnabled()) {
@@ -83,8 +92,18 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         }
 
         if (withPageNumbers) {
-            Collections.addAll(features, DefaultProviewFeatures.PAGE_NUMBERS.feature,
-                DefaultProviewFeatures.SPAN_PAGES.feature);
+            Collections.addAll(features,
+                DefaultProviewFeatures.PAGE_NUMBERS.feature,
+                DefaultProviewFeatures.SPAN_PAGES.feature
+            );
+        }
+
+        if (withThesaurus) {
+            Collections.addAll(features,
+                DefaultProviewFeatures.SEARCH_FIELDS.feature,
+                DefaultProviewFeatures.SEARCH_TEMPLATE.feature,
+                DefaultProviewFeatures.THESAURUS_TERMS.feature
+            );
         }
 
         return features;
@@ -130,7 +149,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         ONE_PASS_SSO_NEXT_WESTLAW(new Feature("OnePassSSO", "next.westlaw.com")),
         ELOOSELEAFS_BUCKET(new Feature("tr_opt_TitleType", "eReference")),
         PAGE_NUMBERS(new Feature("PageNos")),
-        SPAN_PAGES(new Feature("SpanPages"));
+        SPAN_PAGES(new Feature("SpanPages")),
+        SEARCH_FIELDS(new Feature("SearchFields", "fields.xml")),
+        SEARCH_TEMPLATE(new Feature("SearchTemplate", "template.xml")),
+        THESAURUS_TERMS(new Feature("ThesaurusTerms", "thesaurus.xml"));
 
         private final Feature feature;
 
