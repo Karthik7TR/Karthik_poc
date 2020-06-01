@@ -65,6 +65,7 @@ public class AddThesaurusToDocumentsStep extends BookStepImpl {
 
         if (CollectionUtils.isNotEmpty(topicCodes)) {
             final Document doc = jsoup.loadDocument(file);
+            doc.outputSettings().prettyPrint(false);
 
             addThesaurusToDocument(topicCodes, doc);
 

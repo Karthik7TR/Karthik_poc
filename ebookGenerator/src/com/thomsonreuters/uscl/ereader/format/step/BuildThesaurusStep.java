@@ -21,17 +21,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil.THESAURUS_XML;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class BuildThesaurusStep extends BookStepImpl {
-    public static final String THESAURUS = "thesaurus";
-    public static final String ENTRY = "entry";
-    public static final String LEAD = "lead";
-    public static final String COUNT = "count";
-    public static final String THESAURUS_XML = "thesaurus.xml";
+    private static final String THESAURUS = "thesaurus";
+    private static final String ENTRY = "entry";
+    private static final String LEAD = "lead";
+    private static final String COUNT = "count";
 
     @Resource(name = "formatFileSystem")
     private FormatFileSystem formatFileSystem;
@@ -56,6 +56,7 @@ public class BuildThesaurusStep extends BookStepImpl {
     private void buildThesaurus(final Map<String, List<CanadianTopicCode>> topicKeys) {
         final File outputDir = formatFileSystem.getFormatDirectory(this);
         final Document document = jsoup.parseXml(THESAURUS);
+        document.outputSettings().prettyPrint(false);
 
         fillThesaurusEntries(topicKeys, document);
 
