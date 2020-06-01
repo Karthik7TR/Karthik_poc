@@ -352,15 +352,8 @@
 	<beans:bean id="addInlineTocTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineTocStep" />
 	<beans:bean id="processPagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.ProcessPages" />
 	<beans:bean id="addThesaurusToDocumentsTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.AddThesaurusToDocumentsStep" />
-	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="generatorParentTask"
-	            p:publishingStatsService-ref="publishingStatsService"
-	            p:moveResourcesUtil-ref="moveResourcesUtil"/>
-	<beans:bean id="createDirectoriesAndMoveResourcesTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources" parent="generatorParentTask"
-	            p:publishingStatsService-ref="publishingStatsService"
-	            p:titleMetadataService-ref="titleMetadataService"
-	            p:moveResourcesUtil-ref="moveResourcesUtil"
-	            p:bookDefinitionService-ref="bookDefinitionService"
-	            p:featuresListBuilderFactory-ref="proviewFeaturesListBuilderFactory"/>
+	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory"/>
+	<beans:bean id="createDirectoriesAndMoveResourcesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources"/>
 	<beans:bean id="generateTitleManifestTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:titleMetadataService-ref="titleMetadataService"

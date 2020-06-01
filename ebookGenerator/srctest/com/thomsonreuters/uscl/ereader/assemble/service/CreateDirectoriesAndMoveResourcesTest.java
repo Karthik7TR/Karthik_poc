@@ -1,7 +1,25 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources;
+import com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil;
+import com.thomsonreuters.uscl.ereader.format.step.StepIntegrationTestRunner;
+import com.thomsonreuters.uscl.ereader.proview.Asset;
+import com.thomsonreuters.uscl.ereader.proview.Doc;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tools.ant.util.FileUtils;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,21 +32,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources;
-import com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil;
-import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Doc;
-import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.tools.ant.util.FileUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.batch.item.ExecutionContext;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyString;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {StepIntegrationTestRunner.Config.class})
+@ActiveProfiles("IntegrationTests")
 public final class CreateDirectoriesAndMoveResourcesTest {
     private CreateDirectoriesAndMoveResources createDirectoriesAndMoveResources;
     private Map<String, List<Doc>> docMap = new HashMap<>();
@@ -40,6 +50,9 @@ public final class CreateDirectoriesAndMoveResourcesTest {
     private ExecutionContext jobExecutionContext;
     private File tempRootDir;
     private MoveResourcesUtil moveResourcesUtil;
+
+    @Autowired
+    private StepIntegrationTestRunner runner;
 
     @Before
     public void setUp() throws Exception {
@@ -186,17 +199,18 @@ public final class CreateDirectoriesAndMoveResourcesTest {
 
     @Test
     public void testMoveResourcesNotFound() throws Exception {
+        runner.setUp(createDirectoriesAndMoveResources);
+        whenJobExecutionPropertyString(createDirectoriesAndMoveResources.getJobExecutionContext(), JobExecutionKey.IMAGE_STATIC_DEST_DIR, "dir");
+
         final List<String> imgList = new ArrayList<>();
         final List<Doc> docList = new ArrayList<>();
         moveResourcesUtil = new MoveResourcesUtil();
 
         boolean thrown = false;
         try {
-            jobExecutionContext = new ExecutionContext();
-            jobExecutionContext.put(JobExecutionKey.IMAGE_STATIC_DEST_DIR, "dir");
             createDirectoriesAndMoveResources.setMoveResourcesUtil(moveResourcesUtil);
             createDirectoriesAndMoveResources
-                .moveResources(jobExecutionContext, tempRootDir, false, imgList, docList, tempFile);
+                .moveResources(createDirectoriesAndMoveResources.getJobExecutionContext(), tempRootDir, false, imgList, docList, tempFile);
         } catch (final FileNotFoundException e) {
             thrown = true;
         }

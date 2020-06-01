@@ -1,0 +1,23 @@
+<search-template>
+    <field>
+       <name>search</name>
+       <type>fulltext</type>
+       <label>TEXTO</label>
+       <max-count>1</max-count>
+       <condition>{value} != ""</condition>
+       <term-connector>AND</term-connector>
+       <field-connector></field-connector>
+       <value>{value}</value>
+    </field>
+    <field>
+       <name>tematica</name>
+       <type>thesaurus</type>
+       <label>TEMATICA</label>
+       <max-count>3</max-count>
+       <condition>{value} != ""</condition>
+       <term-connector></term-connector>
+       <field-connector>AND</field-connector>
+       <group-connector>OR</group-connector>
+       <value>=tr_phrase1({value})</value>
+    </field>
+</search-template>

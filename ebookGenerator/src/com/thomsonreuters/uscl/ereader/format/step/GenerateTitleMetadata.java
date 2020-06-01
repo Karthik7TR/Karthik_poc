@@ -89,7 +89,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
             final FeaturesListBuilder featureListBuilder =
                 featuresListBuilderFactory.create(bookDefinition)
                     .withBookVersion(new Version("v" + versionNumber))
-                    .withPageNumbers(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_PAGE_NUMBERS));
+                    .withPageNumbers(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_PAGE_NUMBERS))
+                    .withThesaurus(getBooleanProperty(jobExecutionContext, JobExecutionKey.WITH_THESAURUS));
             if (bookDefinition.isSplitBook()) {
                 splitBookTitle(titleMetadataBuilder.build(), jobInstanceId, jobExecutionContext);
             } else {
