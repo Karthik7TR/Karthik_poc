@@ -87,7 +87,9 @@ public class NormalizationRulesUtil {
 
         return text;
     }
-
+    public static String replaceHyphenToDash(String text) {
+        return StringUtils.replace(hyphenNormalizationRules(text), "-", " — ");
+    }
     public static String whiteSpaceNormalizationRules(String text) {
         // replace special white space with \u0020
         if (StringUtils.isNotBlank(text)) {

@@ -9,6 +9,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
 
 import java.io.File;
 
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+
 
 @Component("formatFileSystem")
 public class FormatFileSystemImpl implements FormatFileSystem {
@@ -69,6 +71,12 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @Override
     public File getSplitBookDirectory(@NotNull final BookStep step) {
         return new File(getFormatDirectory(step), FORMAT_SPLIT_EBOOK_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getJsoupTransformationsDirectory(@NotNull final BookStep step) {
+        return new File(getFormatDirectory(step), FORMAT_JSOUP_TRANSFORMATION_DIR.getName());
     }
 
     @NotNull

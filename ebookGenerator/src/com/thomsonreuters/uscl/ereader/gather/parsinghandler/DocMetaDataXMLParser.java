@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
@@ -37,7 +38,11 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
     private static final String MD_PUB_PAGE = "md.pubpage";
     private static final String MD_START_EFFECTIVE = "md.starteffective";
     private static final String MD_END_EFFECTIVE = "md.endeffective";
+
     public static final String CAN_MD_TOPIC_KEY = "can.md.topic.key";
+    private static final String CAN_MD_DIGEST_CLASSIFNUM = "can.md.digest.classifnum";
+    private static final String CAN_MD_DIGEST_CLASSIFICATION = "can.md.digest.classification";
+    private static final String CAN_MD_DIGEST = "can.md.digest";
 
     private StringBuffer tempValBuffer;
 
@@ -51,6 +56,8 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
     private boolean processedFirstPubId;
     private boolean processedSecondPubId;
     private boolean processedThirdPubId;
+
+    private CanadianDigest canadianDigest;
 
     /**
      * Create factory method to defend against it being created as a Spring bean, which it should not be since it is not thread safe.
@@ -100,6 +107,8 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
             docMetadata.setJobInstanceId(Long.valueOf(jobInstanceId));
             docMetadata.setDocUuid(docUuid);
             docMetadata.setCollectionName(collectionName);
+        } else if (CAN_MD_DIGEST.equalsIgnoreCase(qName)) {
+            canadianDigest = new CanadianDigest();
         }
     }
 
@@ -162,6 +171,12 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
             docMetadata.setStartEffectiveDate(tempVal);
         } else if (MD_END_EFFECTIVE.equalsIgnoreCase(qName)) {
             docMetadata.setEndEffectiveDate(tempVal);
+        } else if (CAN_MD_DIGEST_CLASSIFICATION.equalsIgnoreCase(qName)) {
+            canadianDigest.setClassification(tempVal);
+        } else if (CAN_MD_DIGEST_CLASSIFNUM.equalsIgnoreCase(qName)) {
+            canadianDigest.setClassifnum(tempVal);
+        } else if (CAN_MD_DIGEST.equalsIgnoreCase(qName)) {
+            docMetadata.addDigest(canadianDigest);
         } else if (CAN_MD_TOPIC_KEY.equalsIgnoreCase(qName)) {
             CanadianTopicCode canadianTopicCode = new CanadianTopicCode();
             canadianTopicCode.setTopicKey(tempVal);

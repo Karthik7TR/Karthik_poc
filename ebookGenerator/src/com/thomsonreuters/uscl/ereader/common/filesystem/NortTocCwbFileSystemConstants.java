@@ -26,6 +26,7 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_HTML_WRAPPER_DIR("10.HTMLWrapper"),
     FORMAT_PROCESS_PAGES_DIR("11.ProcessPages"),
     FORMAT_ADD_THESAURUS_TO_DOCUMENTS_DIR("11.AddThesaurusToDocuments"),
+    FORMAT_JSOUP_TRANSFORMATION_DIR("11.JsoupTransformations"),
     FORMAT_SPLIT_EBOOK_DIR("12.splitEbook"),
 
     GATHER_TOC_FILE("toc.xml"),

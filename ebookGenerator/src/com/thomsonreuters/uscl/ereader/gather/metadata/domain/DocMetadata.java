@@ -148,6 +148,13 @@ public class DocMetadata implements Serializable {
     @OneToMany(mappedBy = "docMetadata", orphanRemoval = true, cascade = CascadeType.ALL)
     @Basic(fetch = FetchType.LAZY)
     @XmlElement
+    private List<CanadianDigest> canadianDigests = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "docMetadata", orphanRemoval = true, cascade = CascadeType.ALL)
+    @Basic(fetch = FetchType.LAZY)
+    @XmlElement
     private List<CanadianTopicCode> canadianTopicCodes = new ArrayList<>();
 
     public DocMetadata() {
@@ -329,6 +336,10 @@ public class DocMetadata implements Serializable {
         this.endEffectiveDate = endEffectiveDate;
     }
 
+    public void addDigest(final CanadianDigest digest) {
+        digest.setDocMetadata(this);
+        canadianDigests.add(digest);
+    }
     /**
      * Returns unique id for each document, in most cases this will be the Document Family GUID but
      * in some cases it will be a deduped Document Family GUID with the dedup value appended after the

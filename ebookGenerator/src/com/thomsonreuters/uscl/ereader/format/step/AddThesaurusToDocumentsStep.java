@@ -46,7 +46,7 @@ public class AddThesaurusToDocumentsStep extends BookStepImpl {
 
     @Override
     public ExitStatus executeStep() throws Exception {
-        final File srcDir = getDir(NortTocCwbFileSystemConstants.FORMAT_PROCESS_PAGES_DIR);
+        final File srcDir = getDir(NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR);
         final File destDir = getDir(NortTocCwbFileSystemConstants.FORMAT_ADD_THESAURUS_TO_DOCUMENTS_DIR);
 
         if (getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS)) {

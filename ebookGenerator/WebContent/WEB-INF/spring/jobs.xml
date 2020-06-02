@@ -188,6 +188,12 @@
 		
 		<step id="processPages">
 			<tasklet ref="processPagesTask"/>
+			<next on="COMPLETED" to="jsoupConversions"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<step id="jsoupConversions">
+			<tasklet ref="jsoupConversionsTask"/>
 			<next on="COMPLETED" to="addThesaurusToDocuments"/>
 			<fail on="FAILED"/>
 		</step>
@@ -197,7 +203,7 @@
 			<next on="COMPLETED" to="getStaticImages"/>
 			<fail on="FAILED"/>
 		</step>
-		
+
 		<!-- Fetch static images from a pre-existing filesystem directory tree -->
 		<step id="getStaticImages">
 			<tasklet ref="getStaticImagesTask"/>
@@ -351,6 +357,7 @@
 	<beans:bean id="addInlineIndexTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineIndexStep" />
 	<beans:bean id="addInlineTocTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.InlineTocStep" />
 	<beans:bean id="processPagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.ProcessPages" />
+	<beans:bean id="jsoupConversionsTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.JsoupTransformationsStep" />
 	<beans:bean id="addThesaurusToDocumentsTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.AddThesaurusToDocumentsStep" />
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory"/>
 	<beans:bean id="createDirectoriesAndMoveResourcesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources"/>

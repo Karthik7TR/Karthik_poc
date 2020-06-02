@@ -74,6 +74,14 @@ public interface FormatFileSystem {
     File getSplitBookDirectory(@NotNull BookStep step);
 
     /**
+     * Returns jsoup transformation directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /JsoupTransformations}
+     */
+    @NotNull
+    File getJsoupTransformationsDirectory(@NotNull BookStep step);
+
+    /**
      * Returns split book info file:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link getFormatDirectory Format}{@code /}{@link getSplitBookDirectory splitEbook}{@code /splitNodeInfo.txt}
