@@ -55,6 +55,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest {
         ebookNames.add(edition);
         bookDefinition.setEbookNames(ebookNames);
         bookDefinition.setCurrency("Currency Test");
+        bookDefinition.setFullyQualifiedTitleId("uscl/an/test");
 
         final List<FrontMatterPage> frontMatterPageList = new ArrayList<>();
 

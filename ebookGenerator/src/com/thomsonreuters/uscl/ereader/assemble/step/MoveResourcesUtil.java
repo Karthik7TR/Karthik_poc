@@ -7,6 +7,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
 import com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler.FrontMatterTitlePageFilter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.batch.item.ExecutionContext;
@@ -54,6 +55,9 @@ public class MoveResourcesUtil {
 
     @Value("${thesaurus.static.files.dir}")
     private File thesaurusStaticFilesDir;
+
+    @Autowired
+    private PdfToImgConverter pdfToImgConverter;
 
     public void setCoverArtUtil(final CoverArtUtil coverArtUtil) {
         this.coverArtUtil = coverArtUtil;
@@ -110,6 +114,10 @@ public class MoveResourcesUtil {
             for (final FrontMatterPdf pdf : pdfList) {
                 final File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH + pdf.getPdfFilename());
                 FileUtils.copyFileToDirectory(pdfFile, assetsDirectory);
+
+                if (bookDefinition.isCwBook()) {
+                    pdfToImgConverter.convert(pdfFile, assetsDirectory);
+                }
             }
         }
     }

@@ -73,6 +73,7 @@ public class BookDefinition implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String Y = "Y";
     private static final String N = "N";
+    private static final String CW_EG = "cw/eg";
 
     public enum PilotBookStatus {
         TRUE,
@@ -986,5 +987,10 @@ public class BookDefinition implements Serializable {
             status = "Incomplete";
         }
         return status;
+    }
+
+    @Transient
+    public boolean isCwBook() {
+        return getFullyQualifiedTitleId().startsWith(CW_EG);
     }
 }

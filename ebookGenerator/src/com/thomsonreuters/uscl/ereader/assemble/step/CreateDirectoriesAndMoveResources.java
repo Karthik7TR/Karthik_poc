@@ -50,6 +50,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter.getImageFileName;
+
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class CreateDirectoriesAndMoveResources extends BookStepImpl {
@@ -154,7 +156,12 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                         .map(FrontMatterSection::getPdfs)
                         .flatMap(Collection::stream)
                         .map(FrontMatterPdf::getPdfFilename)
-                        .forEach(titleMetadataBuilder::assetFileName);
+                        .forEach(pdfFileName -> {
+                            titleMetadataBuilder.assetFileName(pdfFileName);
+                            if (bookDefinition.isCwBook()) {
+                                titleMetadataBuilder.assetFileName(getImageFileName(pdfFileName));
+                            }
+                        });
 
                     titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
                     firstSplitBook = true;

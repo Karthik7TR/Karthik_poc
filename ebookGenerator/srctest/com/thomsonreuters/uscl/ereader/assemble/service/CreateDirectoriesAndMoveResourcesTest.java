@@ -3,7 +3,14 @@ package com.thomsonreuters.uscl.ereader.assemble.service;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources;
 import com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil;
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
+import com.thomsonreuters.uscl.ereader.format.step.AddThesaurusToDocumentsStep;
+import com.thomsonreuters.uscl.ereader.format.step.AddThesaurusToDocumentsStepIntegrationTest;
 import com.thomsonreuters.uscl.ereader.format.step.StepIntegrationTestRunner;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianTopicCodeService;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
@@ -17,6 +24,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,6 +38,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,9 +47,11 @@ import java.util.Map;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyString;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {StepIntegrationTestRunner.Config.class})
+@ContextConfiguration(classes = {CreateDirectoriesAndMoveResourcesTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
 public final class CreateDirectoriesAndMoveResourcesTest {
     private CreateDirectoriesAndMoveResources createDirectoriesAndMoveResources;
@@ -236,5 +250,15 @@ public final class CreateDirectoriesAndMoveResourcesTest {
         assertTrue(asset != null);
         assertTrue(asset.getId().equals("pirate"));
         assertTrue(asset.getSrc().equals("pirate.ship"));
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class Config {
+        @Bean
+        public PdfToImgConverter pdfToImgConverter() {
+            return new PdfToImgConverter();
+        }
     }
 }

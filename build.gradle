@@ -23,7 +23,8 @@ subprojects {
             dirs '../eBookGeneratorCore/lib',
                     '../eBookGeneratorCore/plugins/',
                     '../eBookGeneratorCore/plugins/findbugs/lib',
-                    '../eBookGeneratorCore/lib/build/jacoco/lib'
+                    '../eBookGeneratorCore/lib/build/jacoco/lib',
+                    '../eBookGeneratorCore/lib/build/pdfbox'
         }
     }
 

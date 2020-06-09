@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
+import static com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter.IMG_SUFFIX;
+
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -41,9 +43,16 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
 
     private static final boolean MULTI_LINE_FIELD = true;
     private static final boolean SINGLE_LINE_FIELD = false;
+    private static final String SRC_ATTRIBUTE = "src";
+    private static final String IMG_ATTRIBUTE = "img";
+    private static final String SECTION_HEADING = "section_heading";
+    private static final String SECTION_TEXT = "section_text";
+    private static final String SECTION_PDF = "section_pdf";
+    private static final String TR_IMAGE = "tr_image";
 
     private FrontMatterPage frontMatterPage;
     private Long FRONT_MATTER_PAGE_ID;
+    private boolean isCwBook;
 
     public FrontMatterAdditionalFrontMatterPageFilter(
         final BookDefinition bookDefinition,
@@ -62,6 +71,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
             LOG.error(message);
             throw new EBookFrontMatterGenerationException(message);
         }
+        isCwBook = bookDefinition.isCwBook();
     }
 
     @Override
@@ -138,7 +148,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
             AttributesImpl newAtts = new AttributesImpl();
             // Add Optional Section Heading
             if (fms.getSectionHeading() != null) {
-                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_heading");
+                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, SECTION_HEADING);
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
                 printText(fms.getSectionHeading(), SINGLE_LINE_FIELD);
                 super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
@@ -147,7 +157,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
             // Add Optional Section Text
             if (fms.getSectionText() != null) {
                 newAtts = new AttributesImpl();
-                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_text");
+                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, SECTION_TEXT);
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
                 newAtts = new AttributesImpl();
                 super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, newAtts);
@@ -158,7 +168,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
 
             //Add optional PDF Section
             if (fms.getPdfs() != null && fms.getPdfs().size() != 0) {
-                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_pdf");
+                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, SECTION_PDF);
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
 
                 for (final FrontMatterPdf fmp : fms.getPdfs()) {
@@ -187,6 +197,14 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
                     newAtts = new AttributesImpl();
                     super.startElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE, newAtts);
                     super.endElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE);
+
+                    if (isCwBook) {
+                        newAtts = new AttributesImpl();
+                        newAtts.addAttribute("", SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, pdfHREF + IMG_SUFFIX);
+                        newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, TR_IMAGE);
+                        super.startElement("", IMG_ATTRIBUTE, IMG_ATTRIBUTE, newAtts);
+                        super.endElement("", IMG_ATTRIBUTE, IMG_ATTRIBUTE); // end image tag for PDF
+                    }
                 }
 
                 super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG); /// end section_pdf
