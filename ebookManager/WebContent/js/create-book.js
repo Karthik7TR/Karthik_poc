@@ -263,6 +263,13 @@ $(function() {
 			}
 		};
 		
+		var toggleGroups = function(publisher) {
+			var groupsEnabled = publisher !== 'cw';
+			$('input:radio[name=groupsEnabled][value=true]').prop('checked', groupsEnabled);
+			$('input:radio[name=groupsEnabled][value=false]').prop('checked', !groupsEnabled);
+			showSelectOptions(groupsEnabled, "#displayProviewGroup");
+		};
+		
 		var onClickToFmPreviewButton = function() {
 			var pageSequenceNumber = $(this).parent().children(".sequence").val();
 			$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
@@ -656,6 +663,7 @@ $(function() {
 			determineOptions();
 			clearTitleAndContentInformation();
 			updateTitleId();
+			toggleGroups(publisher);
 		});
 		
 		$('input:radio[name=splitBook]').change(function () {splitChanged()});
