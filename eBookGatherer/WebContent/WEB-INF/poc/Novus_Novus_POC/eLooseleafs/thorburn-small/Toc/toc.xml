@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EBook>			
+<EBook>
+	<EBookToc>
+		<Name>Pub notes</Name>
+		<Guid>If7826b21dd2711e4ab648632124ba530</Guid>
+		<EBookToc>
+			<Name>Gaeldercar Highlights</Name>
+			<Guid>Iec605730732211da972bd26ffc457499</Guid>
+			<DocumentGuid>If7826b22dd2711e4ab648632124ba530</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Thorburn Highlights (Pub notes)</Name>
+			<Guid>I4a237531a11e11eaadf4bd150ee02bff</Guid>
+			<DocumentGuid>I4a239c40a11e11eaadf4bd150ee02bff</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Thorburn Premat</Name>
+			<Guid>I4a23c350a11e11eaadf4bd150ee02bff</Guid>
+			<DocumentGuid>I4a23c351a11e11eaadf4bd150ee02bff</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>CDN_AR_PRMC Highlights (Pub notes)</Name>
+			<Guid>Id90efb70a11e11eaa14a96ef8b1b3a38</Guid>
+			<DocumentGuid>Id90efb71a11e11eaa14a96ef8b1b3a38</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>CDN_AR_PRMC Premat</Name>
+			<Guid>Id90f2281a11e11eaa14a96ef8b1b3a38</Guid>
+			<DocumentGuid>Id90f2282a11e11eaa14a96ef8b1b3a38</DocumentGuid>
+		</EBookToc>
+	</EBookToc>
 	<EBookToc>
 		<Name>Thorburn, Law of Confidential Business Information</Name>
 		<Guid>I4d775f60411c11ea9bd78ece924bfde31</Guid>

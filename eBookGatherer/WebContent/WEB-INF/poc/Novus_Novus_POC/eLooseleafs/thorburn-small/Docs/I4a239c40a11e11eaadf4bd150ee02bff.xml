@@ -1,0 +1,218 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>Law of Confidential Business Information Highlights</cmd.second.line.cite> 
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Law of Confidential Business Information</headtext> 
+			</prop.head>
+			<prop.head toc-guid="I4a237531a11e11eaadf4bd150ee02bff">
+				<headtext /> 
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20200501" /> 
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>Keith G. Fairbairn</author> 
+			</author.line>
+			<author.line>
+				<author>Julie A. Thorburn</author> 
+			</author.line>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA" n-include_collection="w_wlnv_msg" /> 
+		</message.block>
+		<grade.notes ID="Iae6c3260a10b11eab91b9c2513187ebc">
+			<doc.title toc-guid="I4a237531a11e11eaadf4bd150ee02bff">
+				<head parent="doc.title">
+					<headtext>Publisher's Note</headtext> 
+				</head>
+			</doc.title>
+			<intro.block>
+				<para>
+					<paratext>&#8195;</paratext> 
+				</para>
+				<head style="l" parent="intro.block">
+					<headtext>
+						<bold>An Update has Arrived in Your Library for:</bold> 
+					</headtext>
+				</head>
+				<tbl ID="Iae6cf5b0a10b11eab91b9c2513187ebc">
+					<table frame="all" rowsep="1">
+						<tgroup cols="1">
+							<colspec colnum="1" colname="1GENERATED" colwidth="1*" /> 
+							<tbody>
+								<row>
+									<entry colname="1GENERATED" align="right">
+										<bold>Please circulate this notice to anyone in your office who may be interested in this publication.</bold> 
+										<endline quadding="c" /> 
+										<ital>Distribution List</ital> 
+									</entry>
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="right" valign="middle">&#9633;</entry> 
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="right" valign="middle">&#9633;</entry> 
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="right" valign="middle">&#9633;</entry> 
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="right" valign="middle">&#9633;</entry> 
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</tbl>
+				<para>
+					<paratext>&#8195;</paratext> 
+				</para>
+				<tbl ID="Iae990ec0a10b11eab91b9c2513187ebc">
+					<table frame="all">
+						<tgroup cols="1">
+							<colspec colnum="1" colname="1GENERATED" colwidth="1*" /> 
+							<tbody>
+								<row>
+									<entry colname="1GENERATED" align="center">
+										<bold>PROFITING FROM RISK MANAGEMENT</bold> 
+									</entry>
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="center">
+										<bold>AND COMPLIANCE</bold> 
+									</entry>
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="center">
+										<bold>Archibald &amp;bull3; Jull</bold> 
+									</entry>
+								</row>
+								<row>
+									<entry colname="1GENERATED" align="center">
+										<bold>Release No. 2020-1 &amp;bull3; January 2020</bold> 
+									</entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</tbl>
+				<para>
+					<paratext>This publication provides an important perspective on the liability of organizations in regulatory and criminal contexts, and deals with issues that are relevant to many areas of the law including occupational health and safety, the environment, competition and securities. Expert guidance and insightful analysis is provided on the basis for regulatory and criminal liability, how regulations apply to organizations and individuals, how the principles of sentencing will impact upon a given scenario, and navigating the regulatory and criminal liability systems in Canada.</paratext> 
+				</para>
+				<para>
+					<paratext>This release features updates to the Sentencing Tables including updates to A:32 Violations of Unsolicited Telecommunications Rules, A:36 Offences under Securities Act of Ontario, and A:50 Occupational Health and Safety.</paratext> 
+				</para>
+				<tbl ID="Iae9bcde0a10b11eab91b9c2513187ebc">
+					<table>
+						<tgroup cols="2">
+							<colspec align="left" colnum="1" colname="1" colwidth="25*" /> 
+							<colspec align="right" colnum="2" colname="2" colwidth="35*" /> 
+							<thead>
+								<row rowsep="1">
+									<entry colname="1" /> 
+									<entry colname="2" /> 
+								</row>
+							</thead>
+							<tbody>
+								<row>
+									<entry colname="1" align="left">
+										<bold>THOMSON REUTERS CANADA&#174;</bold> 
+									</entry>
+									<entry colname="2" align="left">
+										<bold>Customer Support</bold> 
+									</entry>
+								</row>
+								<row>
+									<entry colname="1" /> 
+									<entry colname="2" align="left">1-416-609-3800 (Toronto &amp; International)</entry> 
+								</row>
+								<row>
+									<entry colname="1" /> 
+									<entry colname="2" align="left">1-800-387-5164 (Toll Free Canada &amp; U.S.)</entry> 
+								</row>
+								<row>
+									<entry colname="1" /> 
+									<entry colname="2" align="left">Fax 1-416-298-5082 (Toronto)</entry> 
+								</row>
+								<row>
+									<entry colname="1" /> 
+									<entry colname="2" align="left">Fax 1-877-750-9041 (Toll Free Canada Only)</entry> 
+								</row>
+								<row>
+									<entry colname="1" /> 
+									<entry colname="2" align="left">E-mail CustomerSupport.LegalTaxCanada@TR.com</entry> 
+								</row>
+								<row>
+									<entry colname="1" namest="1" nameend="2" align="left">This publisher's note may be scanned electronically and photocopied for the purpose of circulating copies within your organization.</entry> 
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</tbl>
+				<head style="l" parent="intro.block">
+					<headtext>
+						<bold>What's New in this Update:</bold> 
+					</headtext>
+				</head>
+				<para>
+					<paratext>In this release, Chapter 10, &#8220;Athletics&#8221;, and Chapter 53, &#8220;Shipping&#8221;, have been reviewed for currency without changes being made. Chapter 24, &#8220;Employment&#8221;, has been updated and replaced.</paratext> 
+				</para>
+				<head style="l" parent="intro.block">
+					<headtext>
+						<bold>Highlights:</bold> 
+					</headtext>
+				</head>
+				<list>
+					<list.item>
+						<para>
+							<head parent="para">
+								<label.designator>&#8226;</label.designator> 
+							</head>
+							<paratext>
+								<bold>Sentencing Tables Violations of Unsolicited Telecommunications Rules</bold> 
+  - A portion of the 74 complaints received raised issues that were unrelated to the violations set out in the notice. However, both the number and the frequency of actual violations committed by OCHS were very high. OCHS was deemed to have committed over a million violations of the Rules in less than two months, based on the designated person&#8217;s analysis of the calling records that OCHS provided during the investigation. With regard to OCHS&#8217;s potential for future violations, the Commission found that the low penalty per violation set out in the notice of violation was justified. This was the first time a notice of violation had been issued to OCHS, and no previous enforcement action had been taken against the company under the Rules. Furthermore, there was no evidence indicating that OCHS was still engaging in telemarketing to Canadians. The record of the proceeding included limited evidence with respect to OCHS&#8217;s ability to pay, and OCHS did not file representations that could have addressed this factor. However, the Commission has noted in the past that analysis of the ability to pay is not limited to direct financial information. It can also proceed based on other characteristics of a company&#8217;s capacity to generate revenue, including its size, the scope of its operations, and the number of people it employs. According to information gathered during an inspection by Commission enforcement staff at OCHS&#8217;s corporate office in January 2017, the company had over 60,000 customers, was mainly targeting the Greater Toronto Area but had also placed calls in the Ottawa area, and was employing 20 to 30 people. Based on these considerations and the limited information available, the Commission considered that a total penalty amount of $194,330.74 would not exceed OCHS&#8217;s ability to pay. Regarding the relative disincentive of the measure, the purpose of a penalty is to promote compliance, not to punish. The amount of the penalty must therefore reflect the nature of the non-compliance, and must serve both as a deterrent to future non-compliance and as an incentive to comply with the Rules. For this reason, penalties must not be set so low as to make it financially advantageous for a telemarketer or a client of a telemarketer to pay the penalty as a cost of doing business. At the same time, the Commission must also ensure that a penalty, having regard to its magnitude, purpose, and effect, does not result in a true penal consequence: 
+								<ital>Ontario Consumers Home Services Inc.</ital> 
+  (September 9, 2019), Compliance and Enforcement Decision CRTC 2019-318 - File number: PDR 9174-2381. 
+							</paratext>
+						</para>
+					</list.item>
+					<list.item>
+						<para>
+							<head parent="para">
+								<label.designator>&#8226;</label.designator> 
+							</head>
+							<paratext>
+								<bold>Sentencing Tables - Occupational Health and Safety - Failing as an Employer to Ensure that the Measures and Procedures Prescribed by Regulation were Carried Out at a Workplace</bold> 
+  - A fair question is what happens when a large corporation with vast financial resources continues to have deaths in the workplace despite the new maximum fine of $1,500,000. The Justice of the Peace considered what, if any additional tools, are available to increase deterrence, where necessary. In the opinion of the Justice of the Peace, the use of an embedded safety auditor not only can achieve further deterrence but also improve safety where large corporations fail to observe the obvious when it comes to dangerous situations or practices. The embedded auditor is a relatively new concept which did not exist when the Ontario Court of Appeal decided 
+								<ital>Cotton Felts</ital> 
+  . In their book, 
+								<ital>Regulatory and Corporate Liability: From Due Diligence to Risk Management</ital> 
+  , the authors Todd L. Archibald, Kenneth E. Jull and Kent W. Roach addressed the concept in Chapter 12 on Sentencing in Corporate and Regulatory Offences. Their concept was to have a State auditor embedded in the offender corporation at the corporation&#8217;s expense to monitor compliance and provide reports with the regulatory agency that would be privileged. They suggested that the expense of the embedded auditor to the corporation was to replace the fine which would otherwise have been levied. The incident which caused the untimely demise of the Lafarge manager was an entirely preventable accident. Lafarge did not observe the obvious risks of the old kiln plant. The use of an embedded auditor is a viable sentencing tool to bring external expertise to such situations. Lives and injuries could be saved. Deterrence could be enhanced. Counsel missed an opportunity when they declined to consider an embedded auditor. The Justice of the Peace appreciated why the concept of the embedded auditor has met resistance from defendant corporations. However, the Justice of the Peace was at a loss to understand why the Ministry of Labour has not embraced its obvious benefits as described by Archibald, Jull and Roach, in favour of a continued reliance solely on fines. The Justice of the Peace failed to understand how an everincreasing number of deaths in a large corporation&#8217;s workplaces without the imposition of a maximum fine meets the requirement for deterrence: 
+								<ital>Ontario (Ministry of Labour) v. Lafarge Canada Inc.</ital> 
+  , 2019 CarswellOnt 17116, 2019 ONCJ 748 (Ont. C.J.). 
+							</paratext>
+						</para>
+					</list.item>
+				</list>
+			</intro.block>
+		</grade.notes>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>Thomson Reuters Canada, a division of Thomson Reuters Canada Limited is not engaged in rendering legal or other professional advice, and this research document is not a substitute for independent legal research. Thomson Reuters Canada distributes this research document "as is". Thomson Reuters Canada disclaims any representations, warranties or conditions, express or implied, including those of performance, accuracy, completeness, currency, or fitness or applicability for a particular purpose or situation, with respect to the contents of the research document.</cmd.copyright> 
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>THORBURNBI-WL HIGHLIGHTS</cmd.first.line.cite> 
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>
