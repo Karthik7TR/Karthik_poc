@@ -313,15 +313,17 @@
 					<form:errors path="sourceType" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row xppHideClass cwbHideClass">
-				<form:label path="bucket" class="labelCol">Bucket</form:label>
-				<form:select path="bucket" >
-					<form:options items="${buckets}"/>
-				</form:select>
-				<div class="errorDiv">
-					<form:errors path="bucket" cssClass="errorMessage" />
+			<c:if test="${ !isPublished || (isPublished && book.isCwBook()) }">
+				<div id="bucketDiv" class="row xppHideClass cwbHideClass">
+					<form:label path="bucket" class="labelCol">Bucket</form:label>
+					<form:select path="bucket" >
+						<form:options items="${buckets}"/>
+					</form:select>
+					<div class="errorDiv">
+						<form:errors path="bucket" cssClass="errorMessage" />
+					</div>
 				</div>
-			</div>
+			</c:if>
 			<div id="displayTOC" style="display:none">
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>

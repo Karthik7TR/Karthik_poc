@@ -144,9 +144,10 @@ $(function() {
 		$("#displayFILE").hide();
 		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
-		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry").css("display","block");
+		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry, #bucketDiv").css("display","block");
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
         showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
+        showSelectOptions($("#publisher").val() !== "uscl", "#bucketDiv");
 		splitChanged();
 		splitSizeChanged();
 		if(sourceType == "TOC") {
