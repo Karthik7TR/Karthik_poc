@@ -1,16 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
@@ -29,16 +18,22 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,27 +41,51 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {EditBookDefinitionControllerTest.Config.class})
 public final class EditBookDefinitionControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + EditBookDefinitionForm.FORM_NAME;
     private static final long BOOK_DEFINITION_ID = 1;
+    private static final String CI_CONTENT = "cicontent";
     private static List<KeywordTypeCode> KEYWORD_CODES = new ArrayList<>();
     private final KeywordTypeCode subject = new KeywordTypeCode();
 
     private BookDefinitionLock bookDefinitionLock;
-    private EditBookDefinitionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+
+    @Autowired
+    private EditBookDefinitionController controller;
+    @Autowired
     private BookDefinitionService mockBookDefinitionService;
+    @Autowired
     private KeywordTypeCodeSevice keywordTypeCodeSevice;
+    @Autowired
     private DocumentTypeCodeService mockDocumentTypeCodeService;
+    @Autowired
     private JobRequestService mockJobRequestService;
+    @Autowired
     private EditBookDefinitionService mockEditBookDefinitionService;
+    @Autowired
     private EBookAuditService mockAuditService;
+    @Autowired
     private BookDefinitionLockService mockLockService;
-    private EditBookDefinitionFormValidator validator;
+    @Autowired
     private MiscConfigSyncService mockMiscConfigService;
+    @Autowired
     private PrintComponentsCompareController mockPrintComponentsCompareController;
 
     private EbookName bookName;
@@ -81,46 +100,22 @@ public final class EditBookDefinitionControllerTest {
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        // Mock up the services
-        mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
-        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
-        mockDocumentTypeCodeService = EasyMock.createMock(DocumentTypeCodeService.class);
-        mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
-        mockJobRequestService = EasyMock.createMock(JobRequestService.class);
-        mockAuditService = EasyMock.createMock(EBookAuditService.class);
-        mockLockService = EasyMock.createMock(BookDefinitionLockService.class);
-        mockMiscConfigService = EasyMock.createMock(MiscConfigSyncService.class);
-        mockPrintComponentsCompareController = EasyMock.createMock(PrintComponentsCompareController.class);
-
         final List<String> frontMatterThemes = new ArrayList<>();
         frontMatterThemes.add("WestLaw Next");
 
+        EasyMock.reset(
+                mockBookDefinitionService,
+                keywordTypeCodeSevice,
+                mockDocumentTypeCodeService,
+                mockJobRequestService,
+                mockEditBookDefinitionService,
+                mockAuditService,
+                mockLockService,
+                mockMiscConfigService,
+                mockPrintComponentsCompareController
+        );
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
         subject.setId(4L);
-        validator = new EditBookDefinitionFormValidator(
-            mockBookDefinitionService,
-            keywordTypeCodeSevice,
-            mockDocumentTypeCodeService,
-            "workstation",
-            null);
-
-        // Set up the controller
-        controller = new EditBookDefinitionController();
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "editBookDefinitionService", mockEditBookDefinitionService);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "bookDefinitionService", mockBookDefinitionService);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "jobRequestService", mockJobRequestService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "auditService", mockAuditService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookLockService", mockLockService);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "miscConfigService", mockMiscConfigService);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "keywordTypeCodeSevice", keywordTypeCodeSevice);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", validator);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "printComponentsCompareController", mockPrintComponentsCompareController);
 
         bookName = new EbookName();
         bookName.setBookNameText("Book Name");
@@ -1086,6 +1081,12 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("validateForm", "false");
         request.setParameter("bucket", Bucket.BOOKS.toString());
 
+        final MiscConfig miscConfig = new MiscConfig();
+        EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+        EasyMock.replay(mockMiscConfigService);
+
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER)).andReturn(subject);;
+
         final BookDefinition expectedBook = createBookDef(titleId);
         EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class)))
             .andReturn(expectedBook);
@@ -1194,5 +1195,14 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockEditBookDefinitionService.getPubTypes()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getBuckets()).andReturn(buckets);
         EasyMock.replay(mockEditBookDefinitionService);
+    }
+
+    @Configuration
+    @Import(TestConfig.class)
+    public static class Config {
+        @Bean
+        public String environmentName() {
+            return CI_CONTENT;
+        }
     }
 }

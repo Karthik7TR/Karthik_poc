@@ -1,15 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -37,12 +28,21 @@ import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.LF;
 
@@ -55,8 +55,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
     private static final int MAXIMUM_CHARACTER_2000 = 2000;
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
-    private static final int ISBN_TOTAL_CHARACTER_LENGTH = 17;
-    private static final int ISBN_NUMBER_LENGTH = 13;
     private static final int MAX_NUMBER_SUBJECT_KEYWORDS = 3;
     private static final int LINE_BREAK_LENGTH = 5;
     private static final String ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED = "error.keyword.max.subjecs.number.exceeded";
@@ -64,25 +62,18 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final String USCL_PUBLISHER_NAME = "uscl";
     private static final String CW_PUBLISHER_NAME = "cw";
 
-    private final BookDefinitionService bookDefinitionService;
-    private final KeywordTypeCodeSevice keywordTypeCodeSevice;
-    private final DocumentTypeCodeService documentTypeCodeService;
-    private final String environmentName;
-    private final File rootCodesWorkbenchLandingStrip;
-
     @Autowired
-    public EditBookDefinitionFormValidator(
-        final BookDefinitionService bookDefinitionService,
-        final KeywordTypeCodeSevice keywordTypeCodeSevice,
-        final DocumentTypeCodeService documentTypeCodeService,
-        @Qualifier("environmentName") final String environmentName,
-        @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip) {
-        this.bookDefinitionService = bookDefinitionService;
-        this.keywordTypeCodeSevice = keywordTypeCodeSevice;
-        this.documentTypeCodeService = documentTypeCodeService;
-        this.environmentName = environmentName;
-        this.rootCodesWorkbenchLandingStrip = rootCodesWorkbenchLandingStrip;
-    }
+    private BookDefinitionService bookDefinitionService;
+    @Autowired
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
+    @Autowired
+    private DocumentTypeCodeService documentTypeCodeService;
+    @Autowired
+    private String environmentName;
+    @Autowired
+    private IsbnValidator isbnValidator;
+    @Value("${codes.workbench.root.dir}")
+    private File rootCodesWorkbenchLandingStrip;
 
     @Override
     public boolean supports(final Class clazz) {
@@ -1156,30 +1147,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
     private void checkIsbnNumber(final Errors errors, final String text, final String fieldName) {
         if (StringUtils.isNotEmpty(text)) {
-            if (text.length() == ISBN_TOTAL_CHARACTER_LENGTH) {
-                final String tempIsbn = text.replace("-", "");
-                final Pattern pattern = Pattern.compile("^\\d{13}$");
-                final Matcher matcher = pattern.matcher(tempIsbn);
-                // Validate ISBN number
-                if (matcher.find()) {
-                    int checkSum = 0;
-                    for (int i = 0; i < ISBN_NUMBER_LENGTH; i += 2) {
-                        final String number = tempIsbn.substring(i, i + 1);
-                        checkSum += Integer.parseInt(number);
-                    }
-                    for (int i = 1; i < ISBN_NUMBER_LENGTH - 1; i += 2) {
-                        final String number = tempIsbn.substring(i, i + 1);
-                        checkSum += 3 * Integer.parseInt(number);
-                    }
-
-                    if (checkSum % 10 != 0) {
-                        errors.rejectValue(fieldName, "error.isbn.checksum");
-                    }
-                } else {
-                    errors.rejectValue(fieldName, "error.isbn.format");
-                }
-            } else {
-                errors.rejectValue(fieldName, "error.isbn.format");
+            try {
+                isbnValidator.validateIsbn(text);
+            } catch (EBookException e) {
+                errors.rejectValue(fieldName, e.getMessage());
             }
         }
     }

@@ -1,22 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
-import java.io.File;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-
-import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -43,9 +26,29 @@ import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestConfig.class})
 public final class EditBookDefinitionFormValidatorTest {
     private static final String KEYWORDS_FIELD = "keywords[4]";
     private static final long SUBJECT_KEYWORD_ID = 4L;
@@ -59,10 +62,14 @@ public final class EditBookDefinitionFormValidatorTest {
 
     private List<KeywordTypeCode> KEYWORD_CODES;
 
+    @Autowired
     private BookDefinitionService mockBookDefinitionService;
+    @Autowired
     private KeywordTypeCodeSevice keywordTypeCodeSevice;
+    @Autowired
     private DocumentTypeCodeService mockDocumentTypeCodeService;
     private EditBookDefinitionForm form;
+    @Autowired
     private EditBookDefinitionFormValidator validator;
     private Errors errors;
 
@@ -70,19 +77,6 @@ public final class EditBookDefinitionFormValidatorTest {
 
     @Before
     public void setUp() {
-        // Mock up the dashboard service
-        mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
-        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
-        mockDocumentTypeCodeService = EasyMock.createMock(DocumentTypeCodeService.class);
-
-        // Setup Validator
-        validator = new EditBookDefinitionFormValidator(
-            mockBookDefinitionService,
-            keywordTypeCodeSevice,
-            mockDocumentTypeCodeService,
-            CoreConstants.PROD_ENVIRONMENT_NAME,
-            null);
-
         form = new EditBookDefinitionForm();
 
         errors = new BindException(form, "form");
@@ -107,6 +101,8 @@ public final class EditBookDefinitionFormValidatorTest {
         KEYWORD_CODES.add(keyword);
         KEYWORD_CODES.add(keyword2);
         KEYWORD_CODES.add(getSubjectKeywordTypeCode("Subject1", "Subject2", "Subject3", "Subject4"));
+
+        EasyMock.reset(mockBookDefinitionService, mockDocumentTypeCodeService, keywordTypeCodeSevice);
     }
 
     /**
@@ -247,19 +243,11 @@ public final class EditBookDefinitionFormValidatorTest {
     public void testFileExist() throws Exception {
         form.setIsComplete(true);
         form.setSourceType(SourceType.FILE);
-        final URL url = EditBookDefinitionFormValidatorTest.class.getResource("test.xml");
-        final File dir = new File(url.toURI());
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(analyticalCode);
         EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(keywordTypeCodeSevice);
         form.setCodesWorkbenchBookName("/");
-        validator = new EditBookDefinitionFormValidator(
-            mockBookDefinitionService,
-            keywordTypeCodeSevice,
-            mockDocumentTypeCodeService,
-            CoreConstants.PROD_ENVIRONMENT_NAME,
-            dir);
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
