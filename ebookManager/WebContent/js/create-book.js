@@ -220,6 +220,7 @@ $(function() {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
 					$('#publishDetailDiv').show();
+					$('#bucketDiv').show();
 					enableElooseLeafsBucket();
 					$('.uscl_show').hide();
 					$('.cw_show').show();
@@ -238,12 +239,14 @@ $(function() {
 					} else {
 						$('#publishDetailDiv').hide();
 					}
+					$('#bucketDiv').hide();
 					enableBooksBucket();
 					$('.cw_show').hide();
 					$('.uscl_show').show();
 				} else {
 					$('#productCodeDiv').show();
 					$('#publishDetailDiv').show();
+					$('#bucketDiv').show();
 					enableBooksBucket();
 				}
 			}

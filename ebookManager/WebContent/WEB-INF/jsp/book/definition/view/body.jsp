@@ -143,10 +143,12 @@ $(document).ready(function() {
 							</c:choose>
 						</span>
 					</div>
-					<div class="row xppHideClass cwbHideClass">
-						<label class="labelCol">Bucket</label>
-						<span class="field">${ bucket }</span>
-					</div>
+					<c:if test="${ book.isCwBook() }">
+						<div class="row xppHideClass cwbHideClass">
+							<label class="labelCol">Bucket</label>
+							<span class="field">${ bucket }</span>
+						</div>
+					</c:if>
 					<c:choose>
 					<c:when test="${ book.sourceType == 'TOC' }">
 						<div id="displayTOC">
