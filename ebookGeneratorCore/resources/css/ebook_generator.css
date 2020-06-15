@@ -269,3 +269,27 @@
 	font-size:1em;
 	padding-left: 1em;
 }
+
+.contacts-table {
+	width: 100%;
+	margin: 0.5em 0 0;
+}
+
+.contacts-table td:nth-child(even) {
+	text-align: right;
+	vertical-align: top;
+	width: 60%;
+	padding: 2px;
+}
+
+.contacts-table td:nth-child(odd) {
+	text-align: left;
+	vertical-align: top;
+	width: 40%;
+	padding: 2px;
+}
+
+.contacts-table-header {
+	border-bottom: 1px solid black;
+	margin: 6em 0 0.5em;
+}

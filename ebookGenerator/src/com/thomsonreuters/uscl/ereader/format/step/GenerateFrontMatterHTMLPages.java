@@ -25,16 +25,13 @@ import org.springframework.beans.factory.annotation.Required;
 
 @Slf4j
 public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
+    @Autowired
     private CreateFrontMatterService frontMatterService;
 
     private PublishingStatsService publishingStatsService;
 
     @Autowired
     private PagesAnalyzeService pagesAnalyzeService;
-
-    public void setfrontMatterService(final CreateFrontMatterService frontMatterService) {
-        this.frontMatterService = frontMatterService;
-    }
 
     @Override
     public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)

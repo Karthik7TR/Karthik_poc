@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -26,15 +25,17 @@ import com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler.FrontMatterTit
 import com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler.FrontMatterWestlawNextPageFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
-import org.springframework.context.ResourceLoaderAware;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
@@ -44,20 +45,30 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, ResourceLoaderAware {
+@Setter
+@Getter
+@Service
+public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
     private static final Logger LOG = LogManager.getLogger(CreateFrontMatterServiceImpl.class);
     private static final String HTML_EXTENSION = ".html";
     private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
-    private static final String WLN_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestlawNextLogo";
+    private static final String WLN_LOGO_PLACEHOLDER = "er:#WestlawLogo";
 
-    private Map<String, String> frontMatterLogoPlaceHolder = new HashMap<>();
+    @Value("#{${frontMatter.logoPlaceHolder}}")
+    private Map<String, String> frontMatterLogoPlaceHolder;
 
-    private ResourceLoader resourceLoader;
-    private String frontMatterTitlePageTemplateLocation;
-    private String frontMatterCopyrightPageTemplateLocation;
-    private String frontMatterAdditionalPagesTemplateLocation;
-    private String frontMatterResearchAssistancePageTemplateLocation;
-    private String frontMatterWestlawNextPageTemplateLocation;
+    @Value("classpath:templates/frontMatterTitleTemplate.xml")
+    private Resource frontMatterTitlePageTemplate;
+    @Value("classpath:templates/frontMatterCopyrightTemplate.xml")
+    private Resource frontMatterCopyrightPageTemplate;
+    @Value("classpath:templates/frontMatterCanadianCopyrightTemplate.xml")
+    private Resource frontMatterCanadianCopyrightPageTemplate;
+    @Value("classpath:templates/frontMatterAdditionalPagesTemplate.xml")
+    private Resource frontMatterAdditionalPagesTemplate;
+    @Value("classpath:templates/frontMatterResearchAssistanceTemplate.xml")
+    private Resource frontMatterResearchAssistancePageTemplate;
+    @Value("classpath:templates/frontMatterWestlawNextTemplate.xml")
+    private Resource frontMatterWestlawNextPageTemplate;
 
     /* (non-Javadoc)
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#generateAllFrontMatterPages(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)
@@ -102,18 +113,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
     public String getTitlePage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
         String output = generateTitlePage(bookDefinition, false)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
-        for (final Map.Entry<String, String> entry : frontMatterLogoPlaceHolder.entrySet()) {
-            output = output.replace(entry.getKey(), "frontMatterImage.mvc?imageName=" + entry.getValue());
-        }
+        output = replaceImages(output);
         return output;
-    }
-
-    public Map<String, String> getFrontMatterLogoPlaceHolder() {
-        return frontMatterLogoPlaceHolder;
-    }
-
-    public void setFrontMatterLogoPlaceHolder(final Map<String, String> frontMatterLogoPlaceHolder) {
-        this.frontMatterLogoPlaceHolder = frontMatterLogoPlaceHolder;
     }
 
     /* (non-Javadoc)
@@ -121,8 +122,9 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      */
     @Override
     public String getCopyrightPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
-        final String output = generateCopyrightPage(bookDefinition, false)
+        String output = generateCopyrightPage(bookDefinition, false)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
+        output = replaceImages(output);
         return output;
     }
 
@@ -159,32 +161,6 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         return output;
     }
 
-    @Override
-    public void setResourceLoader(final ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
-    public void setFrontMatterTitlePageTemplateLocation(final String frontMatterTitlePageTemplateLocation) {
-        this.frontMatterTitlePageTemplateLocation = frontMatterTitlePageTemplateLocation;
-    }
-
-    public void setFrontMatterCopyrightPageTemplateLocation(final String frontMatterCopyrightPageTemplateLocation) {
-        this.frontMatterCopyrightPageTemplateLocation = frontMatterCopyrightPageTemplateLocation;
-    }
-
-    public void setFrontMatterAdditionalPagesTemplateLocation(final String frontMatterAdditionalPagesTemplateLocation) {
-        this.frontMatterAdditionalPagesTemplateLocation = frontMatterAdditionalPagesTemplateLocation;
-    }
-
-    public void setFrontMatterResearchAssistancePageTemplateLocation(
-        final String frontMatterResearchAssistancePageTemplateLocation) {
-        this.frontMatterResearchAssistancePageTemplateLocation = frontMatterResearchAssistancePageTemplateLocation;
-    }
-
-    public void setFrontMatterWestlawNextPageTemplateLocation(final String frontMatterWestlawNextPageTemplateLocation) {
-        this.frontMatterWestlawNextPageTemplateLocation = frontMatterWestlawNextPageTemplateLocation;
-    }
-
     /**
      * Writes the passed in text to the specified file on the system.
      *
@@ -204,6 +180,13 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         }
     }
 
+    private String replaceImages(String output) {
+        for (final Map.Entry<String, String> entry : frontMatterLogoPlaceHolder.entrySet()) {
+            output = output.replace(entry.getKey(), "frontMatterImage.mvc?imageName=" + entry.getValue());
+        }
+        return output;
+    }
+
     /**
      * Transforms the template using text from BookDefinition to generate HTML for the Title Page.
      *
@@ -214,7 +197,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
     private String generateTitlePage(final BookDefinition bookDefinition, final boolean withPageNumbers) throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterTitlePageFilter(bookDefinition, withPageNumbers),
-            getFrontMatterTitlePageTemplateLocation());
+            getFrontMatterTitlePageTemplate());
     }
 
     /**
@@ -226,9 +209,13 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      */
     private String generateCopyrightPage(final BookDefinition bookDefinition, final boolean withPageNumbers)
         throws EBookFrontMatterGenerationException {
+        Resource resource = bookDefinition.isCwBook()
+                ? getFrontMatterCanadianCopyrightPageTemplate()
+                : getFrontMatterCopyrightPageTemplate();
         return transformTemplate(
-            new FrontMatterCopyrightPageFilter(bookDefinition, withPageNumbers),
-            getFrontMatterCopyrightTemplateLocation());
+                new FrontMatterCopyrightPageFilter(bookDefinition, withPageNumbers),
+                resource);
+
     }
 
     /**
@@ -243,7 +230,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterAdditionalFrontMatterPageFilter(bookDefinition, pageId),
-            getFrontMatterAdditionalPagesTemplateLocation());
+            getFrontMatterAdditionalPagesTemplate());
     }
 
     /**
@@ -258,7 +245,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterResearchAssistancePageFilter(bookDefinition, withPageNumbers),
-            getFrontMatterResearchAssistanceTemplateLocation());
+            getFrontMatterResearchAssistancePageTemplate());
     }
 
     /**
@@ -268,7 +255,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
     private String generateWestlawNextPage(final boolean withPageNumbers) throws EBookFrontMatterGenerationException {
-        return transformTemplate(new FrontMatterWestlawNextPageFilter(withPageNumbers), getFrontMatterWestlawNextTemplateLocation());
+        return transformTemplate(new FrontMatterWestlawNextPageFilter(withPageNumbers), getFrontMatterWestlawNextPageTemplate());
     }
 
     /**
@@ -321,23 +308,4 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         return output;
     }
 
-    private Resource getFrontMatterTitlePageTemplateLocation() {
-        return resourceLoader.getResource(frontMatterTitlePageTemplateLocation);
-    }
-
-    private Resource getFrontMatterCopyrightTemplateLocation() {
-        return resourceLoader.getResource(frontMatterCopyrightPageTemplateLocation);
-    }
-
-    private Resource getFrontMatterAdditionalPagesTemplateLocation() {
-        return resourceLoader.getResource(frontMatterAdditionalPagesTemplateLocation);
-    }
-
-    private Resource getFrontMatterResearchAssistanceTemplateLocation() {
-        return resourceLoader.getResource(frontMatterResearchAssistancePageTemplateLocation);
-    }
-
-    private Resource getFrontMatterWestlawNextTemplateLocation() {
-        return resourceLoader.getResource(frontMatterWestlawNextPageTemplateLocation);
-    }
 }

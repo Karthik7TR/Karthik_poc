@@ -122,11 +122,11 @@
     </oxm:jaxb2-marshaller>
     
     <bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
-          <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>
-          <property name="frontMatterCopyrightPageTemplateLocation" value="classpath:templates/frontMatterCopyrightTemplate.xml"/>
-          <property name="frontMatterAdditionalPagesTemplateLocation" value="classpath:templates/frontMatterAdditionalPagesTemplate.xml"/>
-          <property name="frontMatterResearchAssistancePageTemplateLocation" value="classpath:templates/frontMatterResearchAssistanceTemplate.xml"/>
-          <property name="frontMatterWestlawNextPageTemplateLocation" value="classpath:templates/frontMatterWestlawNextTemplate.xml"/>
+          <property name="frontMatterTitlePageTemplate" value="classpath:templates/frontMatterTitleTemplate.xml"/>
+          <property name="frontMatterCopyrightPageTemplate" value="classpath:templates/frontMatterCopyrightTemplate.xml"/>
+          <property name="frontMatterAdditionalPagesTemplate" value="classpath:templates/frontMatterAdditionalPagesTemplate.xml"/>
+          <property name="frontMatterResearchAssistancePageTemplate" value="classpath:templates/frontMatterResearchAssistanceTemplate.xml"/>
+          <property name="frontMatterWestlawNextPageTemplate" value="classpath:templates/frontMatterWestlawNextTemplate.xml"/>
           <property name="frontMatterLogoPlaceHolder">
             <map>
                 <entry key="er:#EBook_Generator_TRLogo" value="EBook_Generator_TRLogo.png"/>
