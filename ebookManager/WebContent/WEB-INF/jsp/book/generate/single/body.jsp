@@ -138,7 +138,7 @@
 			  if ((versionType === VERSION_TYPE.MINOR) || (versionType === VERSION_TYPE.OVERWRITE && isCurrentProviewVersionMinor)) {
 				  message += warningMessages[warningTypes.SHOULD_BE_MAJOR](isbn, versionType);
 			  }
-		  } else if (!isIsbnChanged && versionType === VERSION_TYPE.MAJOR) {
+		  } else if (!isNewISBN && versionType === VERSION_TYPE.MAJOR) {
 			  message += warningMessages[warningTypes.EXISTED_ISBN](isbn) + warningMessages[warningTypes.ISBN_SHOULD_BE_CHANGED_FOR_MAJOR_VERSION]()
 		  }
 	  }
