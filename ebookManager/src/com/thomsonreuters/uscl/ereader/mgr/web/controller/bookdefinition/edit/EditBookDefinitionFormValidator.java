@@ -205,7 +205,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "frontMatterSeries.bookNameText",
             new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 
-        validateBucket(form.getSourceType(), errors);
         validateReleaseNotes(form.getReleaseNotes(), errors);
         validateIndexFields(form, errors);
         validateAuthors(form, errors);
@@ -997,13 +996,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private void validateMaxNumberOfSubjects(final EditBookDefinitionForm form, final Errors errors, final long subjectKeywordTypeId) {
         if (form.getKeywords().computeIfAbsent(subjectKeywordTypeId, k -> Collections.emptyList()).size() > MAX_NUMBER_SUBJECT_KEYWORDS) {
             errors.rejectValue("keywords[" + subjectKeywordTypeId + "]", ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED);
-        }
-    }
-
-    private void validateBucket(final SourceType sourceType, final Errors errors) {
-        if (SourceType.TOC.equals(sourceType) || SourceType.NORT.equals(sourceType)) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-                    "bucket", "error.required");
         }
     }
 
