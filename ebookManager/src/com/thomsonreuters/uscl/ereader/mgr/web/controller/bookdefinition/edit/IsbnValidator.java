@@ -17,12 +17,12 @@ public class IsbnValidator {
     static final String ISBN_CHECKSUM_ERROR = "error.isbn.checksum";
 
     public void validateIsbn(final String isbnWithDashes) {
-        if (!isValidIsbn(isbnWithDashes)) {
-            if (isCorrectFormat(isbnWithDashes)) {
+        if (isCorrectFormat(isbnWithDashes)) {
+            if (!isValidIsbn(isbnWithDashes)) {
                 throw new EBookException(ISBN_CHECKSUM_ERROR);
-            } else {
-                throw new EBookException(ISBN_FORMAT_ERROR);
             }
+        } else {
+            throw new EBookException(ISBN_FORMAT_ERROR);
         }
     }
 
@@ -45,7 +45,7 @@ public class IsbnValidator {
     }
 
     private boolean isConsistsOfDigits(final String isbn) {
-        final Pattern pattern = Pattern.compile("^\\d+$");
+        final Pattern pattern = Pattern.compile("^\\d+X?$");
         final Matcher matcher = pattern.matcher(isbn);
         return matcher.find();
     }
