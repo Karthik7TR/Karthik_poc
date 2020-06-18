@@ -1,0 +1,16 @@
+[
+    {
+        "action": "Add",
+        "name": "X-BlueGreen-Routing",
+        "value": "blue",
+        "comment": "Test blue version of application",
+        "enabled": false
+    },
+    {
+        "action": "Add",
+        "name": "X-BlueGreen-Routing",
+        "value": "green",
+        "comment": "Test green version of application",
+        "enabled": false
+    }
+]

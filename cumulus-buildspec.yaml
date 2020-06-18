@@ -5,10 +5,19 @@ env:
     SOURCE_ZIP_FILEAME: source-artifact.zip
 
 phases:
+
+  # Setting up the NodeJS environment in CodeBuild
+  install:
+    runtime-versions:
+      nodejs: 12
+
   build:
     commands:
-      - echo "This is where your build would go."
-      - echo "You can also put your static code analysis here."
+      # Download NPM packages that we don't want to keep in our repo
+      # Like 'npm install', but use 'package-lock.json' instead of 'package.json'
+      - cd app/
+      - npm ci --only=prod
+      - cd ..
 
   post_build:
     commands:

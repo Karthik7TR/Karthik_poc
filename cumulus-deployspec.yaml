@@ -17,9 +17,6 @@ Defaults:
       ResourceOwner: firstname.lastname@tr.com  # Mandatory FIXME Your email
       # Version: "1" # Optional: Defaults to "1".  Can be modified by the bake stage since the version is known there.
     Notifications:
-      # Mandatory: The SNS Arn to publish to whenever a deploy failure is detected.
-      FailureSnsArn: arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
-
       # One or both of the below are required.
       # Conditional: SNS topic to publish to alert for testing of a new unreleased version.
       TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
@@ -50,11 +47,19 @@ Defaults:
         ContainerPort: 8080
         ContainerCpu: 256
         ContainerMemory: 512
+
+    # Optional. Determines how automated testing works.
+    Testing:
+      Automated: True  # Whether automated testing is enabled.
+      SnsArns: "arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"  # The SNS topic to notify when testing begins.
+      CodeBuildArn: "arn:aws:codebuild:us-east-1:307097860667:project/a206296-TEN-Acct-Id-dojo-tester"  # The CodeBuild project that will run automated tests.
+
     Routing:
       TestingEndpoint: "http://www.yourendpoint.com" # Required: Used in testing alert message to indicate what URL to test on.
       TargetGroupRouter:
         TargetRulePriority: 20000  # The priority you want your application to run at when it is live to customers.
-        GreenRulePriority: 19999  # The priority the app should be deployed to initially.  Should be higher in priority (a lower number) than the TargetRulePriority
+        GreenRulePriority: 19999  # The priority the test version of the app should be deployed to.  Should be higher in priority (a lower number) than the TargetRulePriority
+        BlueRulePriority: 19998 # Optional. The priority that the old version of the app should be accessible from. Should be higher in priority than the TargetRulePriority.
         Stack:
           Template: # Mandatory:  One of below must be specified.
             # Use these to use a built-in template
@@ -68,9 +73,39 @@ Defaults:
             Bucket: a206296-tr-tax-prof1-cicd-nonprod-us-east-1-cfn
             Key: templates/target_group.yaml
           Parameters: # Parameters to pass to the CloudFormation stack provisioning your target group and listener rule.
-            RoutePathPatterns: /
+            RoutePathPatterns: /,/add,/subtract,/multiply
             HealthCheckPath: /
             TargetGroupPort: 8080
+
+      Shifting: # This defines the details of the releasing (shifting) process.
+        Type: linear
+
+        # These variable determine how fast the traffic is shifted.
+        # The variables below mean "Shift 10% of the traffic over to live every 20 seconds"
+        # If ShiftPercentage was 100, then this would be an instant release to customers (also known as a binary flip)
+        # If this is a first deployment, then there is no linear shift since there is nothing to shift from.
+        ShiftPercentage: 10  # How much traffic to shift at a time
+        WaitTimeSeconds: 20  # How long to wait in between shifts
+
+        # This sets a 'stickiness' to the live rule.
+        # This means that if a client hits the new or old target group during the release,
+        # any subsequent hits from the client in the next <DurationSeconds> seconds will go to the same target group.
+        TargetGroupStickiness:
+          Enabled: False  # We will turn this off so that it's easier to experience the linear shift.
+          DurationSeconds: 10
+
+        # This is the ID of a Datadog alarm that you can use to monitor your deployments.
+        # If the Datadog alarm is triggered during the release process, then the deployment will be rolled back.
+        # Configuring an alarm is outside the scope of this example app.
+        # Alarm: "12345678"
+
+      # If an Alarm was specified, this is where the Datadog API and Application keys would go.
+      # DatadogApiKeyArn: arn:aws:secretsmanager:us-east-1:307097860667:secret:a206296-datadog-api-key
+      # DatadogApplicationKeyArn: arn:aws:secretsmanager:us-east-1:307097860667:secret:a206296-datadog-app-key
+
+    # If you wanted to skip the approval process, you could set this to True
+    # AutoApprove: True
+
 dev:
   AccountId: "773476038677" # Recommended: The account to deploy to.  Defaults to the account the Deployment Engine is in.
   AccountRegion: us-east-1  # Recommended: The region to deploy to.  Defaults to the region the Deployment Engine is in.
@@ -80,11 +115,14 @@ dev:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
         ClusterName: a206296-dojo-TEN-Acct-Id-dev
-        SecurityGroup: sg-085123378cd6a9235  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1PO057ZBKJ6SK  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        SecurityGroup: sg-05836e992008eda2c  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-dev-ECSTaskExecutionRole-1JC7AYOE7KD8  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-dev-ecs-cluster-ecsconfig stack in deployment account
+    Testing:
+      Parameters:
+        APPLICATION_DNS: internal-a206296-dojo-TEN-Acct-Id-dev-1692458676.us-east-1.elb.amazonaws.com # FIXME From output "DNSName" in a206296-TEN-Acct-Id-ems-dojo-dev-alb-ecs-allconfig stack in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a206296-dojo-TEN-Acct-Id-dev/f2f03418ca93bbbc/a994bac829c721d9  # FIXME From output `HTTPAlbListener` in a206296-TEN-Acct-Id-ems-dojo-dev-alb-ecs-allconfig stack in deployment account
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a206296-dojo-TEN-Acct-Id-dev/523dbb20665ceddc/6b36a3ad65fd5f67  # FIXME From output `HTTPAlbListener` in a206296-TEN-Acct-Id-ems-dojo-dev-alb-ecs-allconfig stack in deployment account
 
 qa:
   AccountId: "773476038677" # Recommended: The account to deploy to.  Defaults to the account the Deployment Engine is in.
@@ -95,8 +133,15 @@ qa:
         ImageUrl: "Filled in by BakeSpec"
         DesiredCount: 1
         ClusterName: a206296-dojo-TEN-Acct-Id-qa
-        SecurityGroup: sg-043de10eb20e6f39b  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
-        ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-1PFYHDB55196I  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        SecurityGroup: sg-08421b0a62d17e887  # FIXME From output `FargateContainerSecurityGroup` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+        ExecutionRoleArn: arn:aws:iam::773476038677:role/a206296-TEN-Acct-Id-ems-dojo-qa-ECSTaskExecutionRole-8Q1MME9IKRGG  # FIXME From output `ECSTaskExecutionRoleArn` in a206296-TEN-Acct-Id-ems-dojo-qa-ecs-cluster-ecsconfig stack in deployment account
+    Testing:
+      Parameters:
+        APPLICATION_DNS: internal-a206296-dojo-TEN-Acct-Id-qa-1023838586.us-east-1.elb.amazonaws.com  # FIXME From output "DNSName" in a206296-TEN-Acct-Id-ems-dojo-qa-alb-ecs-allconfig stack in deployment account
     Routing:
       TargetGroupRouter:
-        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a206296-dojo-TEN-Acct-Id-qa/95254eb4bb02a6f3/eca7c4b4bae1c0a0  # FIXME From output `HTTPAlbListener` in a206296-TEN-Acct-Id-ems-dojo-qa-alb-ecs-allconfig stack in deployment account
+        ListenerARN: arn:aws:elasticloadbalancing:us-east-1:773476038677:listener/app/a206296-dojo-TEN-Acct-Id-qa/40e4675e05cda096/6ca0aebcc52ced65  # FIXME From output `HTTPAlbListener` in a206296-TEN-Acct-Id-ems-dojo-qa-alb-ecs-allconfig stack in deployment account
+      # We can set the shifting to be faster or slower on other environments.
+      Shifting:
+        ShiftPercentage: 5
+        WaitTimeSeconds: 30

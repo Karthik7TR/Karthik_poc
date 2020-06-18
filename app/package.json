@@ -1,18 +1,21 @@
 {
-  "name": "employee_mgmnt",
+  "name": "cumulus_nodejs_sampleapp",
   "version": "1.0.0",
-  "description": "Employee Management System",
+  "description": "Cumulus Sample Application",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/cucumber/bin/cucumber-js --format summary --format json:test-results.json"
   },
-  "author": "Sruthi",
-  "license": "ISC",
+  "author": "Cumulus, TechOps",
   "dependencies": {
     "body-parser": "*",
     "consolidate": "*",
     "ejs": "^2.7.1",
-    "express": "*",
-    "pg": "*"
+    "express": "*"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cucumber": "^6.0.5",
+    "sync-request": "^6.1.0"
   }
 }

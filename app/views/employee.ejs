@@ -1,7 +1,7 @@
 <html >
   <head>
     <meta charset="utf-8">
-    <title>Employee Management System</title>
+    <title>Cumulus Sample Application</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -34,48 +34,8 @@
     <h4 style="float: right" id="date" style="font-weight:bold;"></h4>
       <div style="clear: both">
         <h4 style="float: right" style="font-weight:bold;">Version 1</h4>
-          <h1 align='center'>Techops Sample Application</h1>  <br/>
+          <h1 align='center'>Cumulus Sample Application</h1><br/>
+          <h2 align='center'>The Cumulus team says hello!</h2>
       </div>
-      <div>
-        <table id='emp' class="table table-bordered" >
-          <thead class="thead-dark" >
-            <tr align='right'>
-              <button type='button' disabled class="btn btn-success btn-lg" data-toggle="modal" data-target="#formModal">
-                Add New Employee
-              </button>&nbsp;&nbsp; &nbsp;&nbsp;
-              <button type='button' disabled class="btn btn-success btn-lg" data-toggle="modal" data-target="#columnModal">
-                Add New Column
-              </button>&nbsp;&nbsp; &nbsp;&nbsp;
-              <button type='button' disabled class="btn btn-success btn-lg"  data-toggle="modal" data-target="#deletecolumnModal">
-                Delete Column
-              </button>
-              <br/><br/></tr>
-          <thead>
-            <tr>
-                <% for (var i = 0; i < columnNames.length; i++) { %>
-                  <th> <%= columnNames[i] %></th>
-                <% } %>
-                <th>EDIT</th>
-                <th>DELETE</th>
-              </tr>
-            </thead>
-          <tbody>
-                <% employee.forEach(result=> { %>
-                  <tr>
-                  <%  Object.keys(result).forEach(key => { %>
-                    <td><%= result[key] %> </td>
-                    <% }) %>
-                    <td>
-                        <button disabled class="btn btn-info ">
-                            <span class='glyphicon glyphicon-edit' aria-hidden='true' ></span>Edit
-                        </button></td>
-                    <td><button class='btn btn-danger delete-employee' data-id='<%=result.id%>'disabled>
-                      <span class='glyphicon glyphicon-remove' aria-hidden='true'></span>Delete
-                    </button></td>
-                  </tr>
-                <% }) %>
-          </tbody>
-      </table>
-    </div>
   </body>
 </html>

@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+
+  build:
+    commands:
+      - cd app/
+      - npm ci
+
+      # Our tests use the APPLICATION_DNS to determine which endpoint to hit
+      # This is defined in the deployspec.
+      - echo "Testing NodeJS sample application on ${APPLICATION_DNS} ..."
+
+      # It is important that your test command returns a **non-zero exit code** if the tests fail.
+      # This will ensure that the CodeBuild fails when your tests fail, which will then fail the deployment.
+      - node node_modules/cucumber/bin/cucumber-js --format summary --format json:test-results.json
+
+reports:
+  # We can create a report from the tests that can be viewed in the CodeBuild log.
+  pre-release-report:
+    files:
+      - app/test-results.json
+    file-format: CucumberJson
+    discard-paths: true

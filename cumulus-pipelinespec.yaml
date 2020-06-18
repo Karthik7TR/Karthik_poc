@@ -6,6 +6,15 @@ Pipeline:
   EnvironmentType: DEVELOPMENT
   ServiceName: ems
   GroupName: TEN-Acct-Id  # FIXME the same GroupName as in the installer-input.yaml
+  Notifications:
+    # Mandatory: The SNS Arn to publish to for certain events in the pipeline.
+    SnsArn: arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic
+    # Optional. The events to notify on. Defaults to PipelineSuccess and PipelineFailure.
+    NotifyOn:
+      - PipelineSuccess
+      - PipelineFailure
+      - DeploySuccess
+      - DeployFailure
 Source:
   Type: S3
   Key: TEN-Acct-Id/pipeline-source.zip  # FIXME Where you want to upload your source file zip to.  This is where the pipeline watches to trigger.
