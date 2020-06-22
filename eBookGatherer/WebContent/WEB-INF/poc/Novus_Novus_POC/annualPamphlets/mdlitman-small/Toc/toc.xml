@@ -87,6 +87,11 @@
 			<DocumentGuid>I11000000000000000000000000000000</DocumentGuid>
 		</EBookToc>
 	</EBookToc>
+	<EBookToc>
+		<Name>O'Connor's annotations</Name>
+		<Guid>NBB573185863D4DDFB9F58FFF7431C8B4</Guid>
+		<DocumentGuid>NB8E46B70AFF711D8803AE0632FEDDFBF-000009</DocumentGuid>
+	</EBookToc>
 	<SummaryHeading align="left" fv="1" size="0.25i" cm="normal">
 		Summary of Contents
 	</SummaryHeading>

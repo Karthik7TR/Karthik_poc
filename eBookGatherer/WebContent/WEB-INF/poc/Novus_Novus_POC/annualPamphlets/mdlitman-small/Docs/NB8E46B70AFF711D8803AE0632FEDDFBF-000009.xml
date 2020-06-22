@@ -1,0 +1,943 @@
+<n-docbody>
+	<section legacy.identifier="002120709" ID="I73BDA9E0D35711E0873EF98EDC668620">
+		<cornerpiece ID="I73BDD0F0D35711E0873EF98EDC668620" type="cp" ampexmnem="cp">
+			<cornerpiece.text>
+				<bop/>
+				<bos/>15 § 1051<eos/>
+				<eop/>
+			</cornerpiece.text>
+		</cornerpiece>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>15 USCA § 1051<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>15 U.S.C.A. § 1051<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prelim.block>
+			<bop/>
+			<prelim.head>
+				<head ID="I526D16B0A1CD11EA9F4AC523B2F6645F" ampexmnem="0.sb1">
+					<bos/>
+					<head.info>
+						<headtext>Title 15. Commerce and Trade <hide.historical.version>
+								<internal.reference refid="I5275F050A1CD11EA9F4AC523B2F6645F">Currentness</internal.reference>
+							</hide.historical.version>
+						</headtext>
+					</head.info>
+					<eos/>
+				</head>
+				<prelim.head>
+					<head ID="I52774FE0A1CD11EA9F4AC523B2F6645F" ampexmnem="1.sb2">
+						<bos/>
+						<head.info>
+							<headtext>Chapter 22. Trademarks</headtext>
+						</head.info>
+						<eos/>
+					</head>
+					<prelim.head>
+						<head ID="I52822550A1CD11EA9F4AC523B2F6645F" ampexmnem="2.sb4">
+							<bos/>
+							<head.info>
+								<headtext>
+									<cite.query w-normalized-cite="PRT_002120708" ID="If987cbf0a1cf11ea8564dd3ee689d0b8" w-ref-type="SB">
+										<n-private-char charName="TLRbrowse"></n-private-char> Subchapter I</cite.query>. The Principal Register</headtext>
+							</head.info>
+							<eos/>
+						</head>
+					</prelim.head>
+				</prelim.head>
+			</prelim.head>
+			<eop/>
+		</prelim.block>
+		<include.sb.currency.block>
+			<include.sb.currency n-include_collection="w_codes_stamsgp" n-include_guid="IF62CD3A1BDC911DAAEB800123F3FA40A"/>
+			<message.code>8US1</message.code>
+		</include.sb.currency.block>
+		<doc.title>
+			<head ID="I73BE6D30D35711E0873EF98EDC668620" ampexmnem="3.snl">
+				<bop/>
+				<bos/>
+				<head.info>
+					<headtext>
+						<cite.query w-normalized-cite="US002120708" ID="If987f300a1cf11ea8564dd3ee689d0b8" w-pinpoint-page="15S1051" w-ref-type="LK">
+							<bold>§ 1051. Application for registration;  verification</bold>
+						</cite.query>
+					</headtext>
+				</head.info>
+				<eos/>
+				<eop/>
+			</head>
+		</doc.title>
+		<body ID="I529CD940A1CD11EA9F4AC523B2F6645F">
+			<ed.note.kitn>
+				<para ID="I3FEA5217806311EABB66BB6099932056" ampexmnem="inp1">
+					<paratext>
+						<bop/>
+						<bos/>
+						<legacy.centdol>BHI</legacy.centdol>&lt;<legacy.centdol>EHI</legacy.centdol>[LANHAM ACT <cite.query w-seq-number="00001" w-normalized-cite="15USCAS1" ID="Ifbbb74d1a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">§ 1</cite.query>]<legacy.centdol>BHI</legacy.centdol>&gt;<legacy.centdol>EHI</legacy.centdol>
+						<eos/>
+						<eop/>
+					</paratext>
+				</para>
+			</ed.note.kitn>
+			<subsection ID="ICAEF57F0E4BD11E08EB5CEF694ECD3EC">
+				<para ID="I73BE6D31D35711E0873EF98EDC668620" ampexmnem="ssh">
+					<paratext>
+						<bop/>
+						<bos/>
+						<pinpoint.anchor hashcode="8b3b0000958a4"/>
+						<bold>
+							<subsection.hovertext text="15 USCA § 1051 (a)" id="(a)">(a)</subsection.hovertext>
+						</bold> <bold>Application for use of trademark</bold>
+						<eos/>
+						<eop/>
+					</paratext>
+				</para>
+				<subsection ID="ICAEF57F1E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BE6D32D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="7b9b000044381"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (a)(1)" id="(1)">(1)</subsection.hovertext>
+							</bold> The owner of a trademark used in commerce may request registration of its trademark on the principal register hereby established by paying the prescribed fee and filing in the Patent and Trademark Office an application and a verified statement, in such form as may be prescribed by the Director, and such number of specimens or facsimiles of the mark as used as may be required by the Director.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEF57F2E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BE6D33D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="d86d0000be040"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (a)(2)" id="(2)">(2)</subsection.hovertext>
+							</bold> The application shall include specification of the applicant's domicile and citizenship, the date of the applicant's first use of the mark, the date of the applicant's first use of the mark in commerce, the goods in connection with which the mark is used, and a drawing of the mark.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEF57F3E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BE9440D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="28cc0000ccca6"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (a)(3)" id="(3)">(3)</subsection.hovertext>
+							</bold> The statement shall be verified by the applicant and specify that--<eos/>
+							<eop/>
+						</paratext>
+					</para>
+					<subsection ID="ICAEF57F4E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BE9441D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="51d0000021cd6"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (a)(3)(A)" id="(A)">(A)</subsection.hovertext>
+								</bold> the person making the verification believes that he or she, or the juristic person in whose behalf he or she makes the verification, to be the owner of the mark sought to be registered;<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<subsection ID="ICAEF57F5E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BE9442D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="27d200007c2a1"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (a)(3)(B)" id="(B)">(B)</subsection.hovertext>
+								</bold> to the best of the verifier's knowledge and belief, the facts recited in the application are accurate;<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<subsection ID="ICAEF7F00E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BE9443D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="a6680000a5140"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (a)(3)(C)" id="(C)">(C)</subsection.hovertext>
+								</bold> the mark is in use in commerce;  and<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<subsection ID="ICAEF7F01E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BE9444D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="a22000006b7b3"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)" id="(D)">(D)</subsection.hovertext>
+								</bold> to the best of the verifier's knowledge and belief, no other person has the right to use such mark in commerce either in the identical form thereof or in such near resemblance thereto as to be likely, when used on or in connection with the goods of such other person, to cause confusion, or to cause mistake, or to deceive, except that, in the case of every application claiming concurrent use, the applicant shall--<eos/>
+								<eop/>
+							</paratext>
+						</para>
+						<subsection ID="ICAEF7F02E4BD11E08EB5CEF694ECD3EC">
+							<para ID="I73BE9445D35711E0873EF98EDC668620" ampexmnem="mp32">
+								<paratext indent-left="2">
+									<bop/>
+									<bos/>
+									<pinpoint.anchor hashcode="91be00001bf97"/>
+									<bold>
+										<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)(i)" id="(i)">(i)</subsection.hovertext>
+									</bold> state exceptions to the claim of exclusive use;  and<eos/>
+									<eop/>
+								</paratext>
+							</para>
+						</subsection>
+						<subsection ID="ICAEF7F03E4BD11E08EB5CEF694ECD3EC">
+							<para ID="I73BE9446D35711E0873EF98EDC668620" ampexmnem="mp32">
+								<paratext indent-left="2">
+									<bop/>
+									<bos/>
+									<pinpoint.anchor hashcode="023b0000412c1"/>
+									<bold>
+										<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)(ii)" id="(ii)">(ii)</subsection.hovertext>
+									</bold> shall  <footnote.reference refid="I979BC94027C411E48A86CAF27F018109">[FN1]</footnote.reference> specify, to the extent of the verifier's knowledge--<eos/>
+									<eop/>
+								</paratext>
+							</para>
+							<subsection ID="ICAEF7F04E4BD11E08EB5CEF694ECD3EC">
+								<para ID="I73BEBB50D35711E0873EF98EDC668620" ampexmnem="mp43">
+									<paratext indent-left="3">
+										<bop/>
+										<bos/>
+										<pinpoint.anchor hashcode="0123000089ab5"/>
+										<bold>
+											<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)(ii)(I)" id="(I)">(I)</subsection.hovertext>
+										</bold> any concurrent use by others;<eos/>
+										<eop/>
+									</paratext>
+								</para>
+							</subsection>
+							<subsection ID="ICAEF7F05E4BD11E08EB5CEF694ECD3EC">
+								<para ID="I73BEBB51D35711E0873EF98EDC668620" ampexmnem="mp43">
+									<paratext indent-left="3">
+										<bop/>
+										<bos/>
+										<pinpoint.anchor hashcode="0123000089ab5"/>
+										<bold>
+											<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)(ii)(II)" id="(II)">(II)</subsection.hovertext>
+										</bold> the goods on or in connection with which and the areas in which each concurrent use exists;<eos/>
+										<eop/>
+									</paratext>
+								</para>
+							</subsection>
+							<subsection ID="ICAEF7F06E4BD11E08EB5CEF694ECD3EC">
+								<para ID="I73BEBB52D35711E0873EF98EDC668620" ampexmnem="mp43">
+									<paratext indent-left="3">
+										<bop/>
+										<bos/>
+										<pinpoint.anchor hashcode="0123000089ab5"/>
+										<bold>
+											<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)(ii)(III)" id="(III)">(III)</subsection.hovertext>
+										</bold> the periods of each use;  and<eos/>
+										<eop/>
+									</paratext>
+								</para>
+							</subsection>
+							<subsection ID="ICAEFA610E4BD11E08EB5CEF694ECD3EC">
+								<para ID="I73BEBB53D35711E0873EF98EDC668620" ampexmnem="mp43">
+									<paratext indent-left="3">
+										<bop/>
+										<bos/>
+										<pinpoint.anchor hashcode="0123000089ab5"/>
+										<bold>
+											<subsection.hovertext text="15 USCA § 1051 (a)(3)(D)(ii)(IV)" id="(IV)">(IV)</subsection.hovertext>
+										</bold> the goods and area for which the applicant desires registration.<eos/>
+										<eop/>
+									</paratext>
+								</para>
+							</subsection>
+						</subsection>
+					</subsection>
+				</subsection>
+				<subsection ID="ICAEFA611E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BEBB54D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="d40e000072291"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (a)(4)" id="(4)">(4)</subsection.hovertext>
+							</bold> The applicant shall comply with such rules or regulations as may be prescribed by the Director.<eos/>
+							<bos/>  The Director shall promulgate rules prescribing the requirements for the application and for obtaining a filing date herein.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+			</subsection>
+			<subsection ID="ICAEFA612E4BD11E08EB5CEF694ECD3EC">
+				<para ID="I73BEBB55D35711E0873EF98EDC668620" ampexmnem="ssh">
+					<paratext>
+						<bop/>
+						<bos/>
+						<pinpoint.anchor hashcode="a83b000018c76"/>
+						<bold>
+							<subsection.hovertext text="15 USCA § 1051 (b)" id="(b)">(b)</subsection.hovertext>
+						</bold> <bold>Application for bona fide intention to use trademark</bold>
+						<eos/>
+						<eop/>
+					</paratext>
+				</para>
+				<subsection ID="ICAEFA613E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BEBB56D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="3fed000053a85"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (b)(1)" id="(1)">(1)</subsection.hovertext>
+							</bold> A person who has a bona fide intention, under circumstances showing the good faith of such person, to use a trademark in commerce may request registration of its trademark on the principal register hereby established by paying the prescribed fee and filing in the Patent and Trademark Office an application and a verified statement, in such form as may be prescribed by the Director.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEFA614E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BEE260D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="c0ae00006c482"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (b)(2)" id="(2)">(2)</subsection.hovertext>
+							</bold> The application shall include specification of the applicant's domicile and citizenship, the goods in connection with which the applicant has a bona fide intention to use the mark, and a drawing of the mark.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEFA615E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BEE261D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="d801000002763"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (b)(3)" id="(3)">(3)</subsection.hovertext>
+							</bold> The statement shall be verified by the applicant and specify--<eos/>
+							<eop/>
+						</paratext>
+					</para>
+					<subsection ID="ICAEFA616E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BEE262D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="609d000059b95"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (b)(3)(A)" id="(A)">(A)</subsection.hovertext>
+								</bold> that the person making the verification believes that he or she, or the juristic person in whose behalf he or she makes the verification, to be entitled to use the mark in commerce;<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<subsection ID="ICAEFA617E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BEE263D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="6a460000f7311"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (b)(3)(B)" id="(B)">(B)</subsection.hovertext>
+								</bold> the applicant's bona fide intention to use the mark in commerce;<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<subsection ID="ICAEFA618E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BEE264D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="9ff3000073020"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (b)(3)(C)" id="(C)">(C)</subsection.hovertext>
+								</bold> that, to the best of the verifier's knowledge and belief, the facts recited in the application are accurate;  and<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<subsection ID="ICAEFCD20E4BD11E08EB5CEF694ECD3EC">
+						<para ID="I73BEE265D35711E0873EF98EDC668620" ampexmnem="mp21">
+							<paratext indent-left="1">
+								<bop/>
+								<bos/>
+								<pinpoint.anchor hashcode="df1c0000f0ae5"/>
+								<bold>
+									<subsection.hovertext text="15 USCA § 1051 (b)(3)(D)" id="(D)">(D)</subsection.hovertext>
+								</bold> that, to the best of the verifier's knowledge and belief, no other person has the right to use such mark in commerce either in the identical form thereof or in such near resemblance thereto as to be likely, when used on or in connection with the goods of such other person, to cause confusion, or to cause mistake, or to deceive.<eos/>
+								<eop/>
+							</paratext>
+						</para>
+					</subsection>
+					<para ID="I73BEE266D35711E0873EF98EDC668620" ampexmnem="smpf">
+						<paratext>
+							<bop/>
+							<bos/>Except for applications filed pursuant to <cite.query w-seq-number="00002" w-normalized-cite="15USCAS1126" ID="Ifbd899c0a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">section 1126</cite.query> of this title, no mark shall be registered until the applicant has met the requirements of subsections (c) and (d) of this section.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEFCD21E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BF0970D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="6ad60000aeea7"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (b)(4)" id="(4)">(4)</subsection.hovertext>
+							</bold> The applicant shall comply with such rules or regulations as may be prescribed by the Director.<eos/>
+							<bos/>  The Director shall promulgate rules prescribing the requirements for the application and for obtaining a filing date herein.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+			</subsection>
+			<subsection ID="ICAEFCD22E4BD11E08EB5CEF694ECD3EC">
+				<para ID="I73BF0971D35711E0873EF98EDC668620" ampexmnem="ssh">
+					<paratext>
+						<bop/>
+						<bos/>
+						<pinpoint.anchor hashcode="4b24000003ba5"/>
+						<bold>
+							<subsection.hovertext text="15 USCA § 1051 (c)" id="(c)">(c)</subsection.hovertext>
+						</bold> <bold>Amendment of application under subsection (b) to conform to requirements of subsection (a)</bold>
+						<eos/>
+						<eop/>
+					</paratext>
+				</para>
+				<para ID="I73BF0972D35711E0873EF98EDC668620" ampexmnem="smp">
+					<paratext>
+						<bop/>
+						<bos/>At any time during examination of an application filed under subsection (b), an applicant who has made use of the mark in commerce may claim the benefits of such use for purposes of this chapter, by amending his or her application to bring it into conformity with the requirements of subsection (a).<eos/>
+						<eop/>
+					</paratext>
+				</para>
+			</subsection>
+			<subsection ID="ICAEFCD23E4BD11E08EB5CEF694ECD3EC">
+				<para ID="I73BF0973D35711E0873EF98EDC668620" ampexmnem="ssh">
+					<paratext>
+						<bop/>
+						<bos/>
+						<pinpoint.anchor hashcode="5ba1000067d06"/>
+						<bold>
+							<subsection.hovertext text="15 USCA § 1051 (d)" id="(d)">(d)</subsection.hovertext>
+						</bold> <bold>Verified statement that trademark is used in commerce</bold>
+						<eos/>
+						<eop/>
+					</paratext>
+				</para>
+				<subsection ID="ICAEFF430E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BF0974D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="e07e0000a9f57"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (d)(1)" id="(1)">(1)</subsection.hovertext>
+							</bold> Within six months after the date on which the notice of allowance with respect to a mark is issued under <cite.query w-seq-number="00003" w-normalized-cite="15USCAS1063" ID="Ifbee92c0a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-pinpoint-page="c0ae00006c482" w-ref-type="SP">section 1063(b)(2)</cite.query> of this title to an applicant under subsection (b) of this section, the applicant shall file in the Patent and Trademark Office, together with such number of specimens or facsimiles of the mark as used in commerce as may be required by the Director and payment of the prescribed fee, a verified statement that the mark is in use in commerce and specifying the date of the applicant's first use of the mark in commerce and those goods or services specified in the notice of allowance on or in connection with which the mark is used in commerce.<eos/>
+							<bos/>  Subject to examination and acceptance of the statement of use, the mark shall be registered in the Patent and Trademark Office, a certificate of registration shall be issued for those goods or services recited in the statement of use for which the mark is entitled to registration, and notice of registration shall be published in the Official Gazette of the Patent and Trademark Office.<eos/>
+							<bos/>  Such examination may include an examination of the factors set forth in subsections (a) through (e) of <cite.query w-seq-number="00004" w-normalized-cite="15USCAS1052" ID="Ifbee92c1a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">section 1052</cite.query> of this title.<eos/>
+							<bos/>  The notice of registration shall specify the goods or services for which the mark is registered.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEFF431E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BF0975D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="4be3000003be5"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (d)(2)" id="(2)">(2)</subsection.hovertext>
+							</bold> The Director shall extend, for one additional 6-month period, the time for filing the statement of use under paragraph (1), upon written request of the applicant before the expiration of the 6-month period provided in paragraph (1).<eos/>
+							<bos/>  In addition to an extension under the preceding sentence, the Director may, upon a showing of good cause by the applicant, further extend the time for filing the statement of use under paragraph (1) for periods aggregating not more than <cite.query w-seq-number="00005" w-normalized-cite="15USCAS24" ID="Ifc14b860a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">24</cite.query> months, pursuant to written request of the applicant made before the expiration of the last extension granted under this paragraph.<eos/>
+							<bos/>  Any request for an extension under this paragraph shall be accompanied by a verified statement that the applicant has a continued bona fide intention to use the mark in commerce and specifying those goods or services identified in the notice of allowance on or in connection with which the applicant has a continued bona fide intention to use the mark in commerce.<eos/>
+							<bos/>  Any request for an extension under this paragraph shall be accompanied by payment of the prescribed fee.<eos/>
+							<bos/>  The Director shall issue regulations setting forth guidelines for determining what constitutes good cause for purposes of this paragraph.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEFF432E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BF0976D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="17df000040924"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (d)(3)" id="(3)">(3)</subsection.hovertext>
+							</bold> The Director shall notify any applicant who files a statement of use of the acceptance or refusal thereof and, if the statement of use is refused, the reasons for the refusal.<eos/>
+							<bos/>  An applicant may amend the statement of use.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+				<subsection ID="ICAEFF433E4BD11E08EB5CEF694ECD3EC">
+					<para ID="I73BF0977D35711E0873EF98EDC668620" ampexmnem="smp">
+						<paratext>
+							<bop/>
+							<bos/>
+							<pinpoint.anchor hashcode="20c3000034ad5"/>
+							<bold>
+								<subsection.hovertext text="15 USCA § 1051 (d)(4)" id="(4)">(4)</subsection.hovertext>
+							</bold> The failure to timely file a verified statement of use under paragraph (1) or an extension request under paragraph (2) shall result in abandonment of the application, unless it can be shown to the satisfaction of the Director that the delay in responding was unintentional, in which case the time for filing may be extended, but for a period not to exceed the period specified in paragraphs (1) and (2) for filing a statement of use.<eos/>
+							<eop/>
+						</paratext>
+					</para>
+				</subsection>
+			</subsection>
+			<subsection ID="ICAEFF434E4BD11E08EB5CEF694ECD3EC">
+				<para ID="I73BF3080D35711E0873EF98EDC668620" ampexmnem="ssh">
+					<paratext>
+						<bop/>
+						<bos/>
+						<pinpoint.anchor hashcode="7fdd00001ca15"/>
+						<bold>
+							<subsection.hovertext text="15 USCA § 1051 (e)" id="(e)">(e)</subsection.hovertext>
+						</bold> <bold>Designation of resident for service of process and notices</bold>
+						<eos/>
+						<eop/>
+					</paratext>
+				</para>
+				<para ID="I73BF3081D35711E0873EF98EDC668620" ampexmnem="smp">
+					<paratext>
+						<bop/>
+						<bos/>If the applicant is not domiciled in the United States the applicant may designate, by a document filed in the United States Patent and Trademark Office, the name and address of a person resident in the United States on whom may be served notices or process in proceedings affecting the mark.<eos/>
+						<bos/>  Such notices or process may be served upon the person so designated by leaving with that person or mailing to that person a copy thereof at the address specified in the last designation so filed.<eos/>
+						<bos/>  If the person so designated cannot be found at the address given in the last designation, or if the registrant does not designate by a document filed in the United States Patent and Trademark Office the name and address of a person resident in the United States on whom may be served notices or process in proceedings affecting the mark, such notices or process may be served on the Director.<eos/>
+						<eop/>
+					</paratext>
+				</para>
+			</subsection>
+		</body>
+		<credit ID="I53029FF0A1CD11EA9F4AC523B2F6645F">
+			<bop/>
+			<bos/>
+			<head ID="I53033C30A1CD11EA9F4AC523B2F6645F" ampexmnem="sclh">
+				<headtext>CREDIT(S)</headtext>
+			</head>
+			<para ID="I73BF3082D35711E0873EF98EDC668620" ampexmnem="scl">
+				<paratext>(July <cite.query w-seq-number="00006" w-normalized-cite="15USCAS5" ID="Ifcc20f60a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">5</cite.query>, <cite.query w-seq-number="00007" w-normalized-cite="15USCAS1946" ID="Ifcc20f61a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">1946</cite.query>, c. 540, Title I, § 1, 60 Stat. 427;  <cite.query w-seq-number="00008" w-normalized-cite="If2aea340d4-da11d8ac0e0-0065b696d43" ID="Ifcc2d2b2a1cf11eaa024f7b499cb782e" w-pub-number="1077005" w-ref-type="SL">Pub.L. 87-772</cite.query>, <cite.query w-seq-number="00009" w-normalized-cite="15USCAS1" ID="Ifcc20f62a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">§ 1</cite.query>, Oct. 9, 1962, 76 Stat. <cite.query w-seq-number="00010" w-normalized-cite="15USCAS769" ID="Ifcc20f63a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">769</cite.query>;  <cite.query w-seq-number="00011" w-normalized-cite="ID79502D2EF-FF411BA1B3A-46D649B7EB4" ID="Ifcc2d2b6a1cf11eaa024f7b499cb782e" w-pub-number="1077005" w-ref-type="SL">Pub.L. 93-596</cite.query>, <cite.query w-seq-number="00012" w-normalized-cite="15USCAS1" ID="Ifcc20f64a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">§ 1</cite.query>, Jan. 2, 1975, 88 Stat. <cite.query w-seq-number="00013" w-normalized-cite="15USCAS1949" ID="Ifcc20f65a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">1949</cite.query>;  <cite.query w-seq-number="00014" w-normalized-cite="IEA6C3DE5B2-C645B086CF7-32A7F8A476D" ID="Ifcc2d2baa1cf11eaa024f7b499cb782e" w-pub-number="1077005" w-ref-type="SL">Pub.L. 100-667, Title I, § 103</cite.query>, Nov. 16, 1988, 102 Stat. 3935;  <cite.query w-seq-number="00015" w-normalized-cite="I787FC1C699-AE4B6596E96-A7EE50FECFA" ID="Ifcc2d2bca1cf11eaa024f7b499cb782e" w-pub-number="1077005" w-ref-type="SL">Pub.L. 105-330, Title I, § 103, Title II, § 201(a)(1)</cite.query>, Oct. 30, 1998, 112 Stat. 3064, 3069;  <cite.query w-seq-number="00016" w-normalized-cite="I035FC1C53E-4E4BE9958CC-F99B9196FB2" ID="Ifcc2d2bea1cf11eaa024f7b499cb782e" w-pub-number="1077005" w-ref-type="SL">Pub.L. 106-113</cite.query>, Div. B, § 1000(a)(9) [Title IV, § 4732(b)(1)(B)], Nov. 29, 1999, 113 Stat. 1536, 1501A-583;  <cite.query w-seq-number="00017" w-normalized-cite="IC1F2E6F13D-2B420E9262A-E2A45E0D73F" ID="Ifcc2f9c1a1cf11eaa024f7b499cb782e" w-pub-number="1077005" w-ref-type="SL">Pub.L. 107-273</cite.query>, Div. C, Title III, § 13207(b)(1), (2), Nov. <cite.query w-seq-number="00018" w-normalized-cite="2USCAS2002" ID="Ifcc20f69a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">2, 2002</cite.query>, <cite.query w-seq-number="00019" w-normalized-cite="2USCAS116" ID="Ifcc20f6aa1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">116</cite.query> Stat. 1906.)</paratext>
+			</para>
+			<eos/>
+			<eop/>
+		</credit>
+		<body.footnote.block>
+			<footnote ID="I979BC94027C411E48A86CAF27F018109">
+				<bop/>
+				<bos/>
+				<label.designator>[FN1]</label.designator>
+				<footnote.body>
+					<para ID="I7EBE960427C411E48A86CAF27F018109" ampexmnem="fp">
+						<paratext> So in original.<eos/>
+							<bos/>  The word “shall” probably should not appear.</paratext>
+					</para>
+				</footnote.body>
+				<eos/>
+				<eop/>
+			</footnote>
+		</body.footnote.block>
+		<propagated.block/>
+		<placeholder ID="I73CD1330D35711E0873EF98EDC668620" ampexmnem="eot">
+			<placeholder.text> </placeholder.text>
+		</placeholder>
+		<annotations/>
+		<oconnor.annotations source="oconnor">
+			<other.misc.block source="oconnor">
+				<head ID="I9B8C22EC7DE011EA9A4CDF67974E3C09" ampexmnem="xcono">
+					<head.info>
+						<oconnor.headtext>TREATISE CROSS-REFERENCES</oconnor.headtext>
+					</head.info>
+				</head>
+				<head ID="I9B8C22DE7DE011EA9A4CDF67974E3C09" ampexmnem="gnh">
+					<head.info>
+						<oconnor.headtext>
+							<ital>McCarthy on Trademarks &amp; Unfair Competition</ital>
+						</oconnor.headtext>
+					</head.info>
+				</head>
+				<other.misc.body source="oconnor">
+					<other.misc ID="I9B8C22D07DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 4, Explaining Terms of Art in Trademark &amp; Unfair Competition Law, §4:12 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I9B8C22C07DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 16, Acquisition &amp; Priority of Trademark Rights, §16:41 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I9B8C22A57DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 17, Loss of Trademark Rights, §17:21 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I9B8C228B7DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 19, Federal Registration of Marks, §§19:1; 19:1.25; 19:2; 19:12- 19:14; 19:17-19:19; 19:22; 19:25; 19:26; 19:31; 19:34; 19:45.25; 19:46; 19:53; 19:109; 19:113; 19:125; 19:129 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I9B8C225A7DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 20, Inter Partes Trademark Proceedings in the Patent &amp; Trademark Office, §§20:13; 20:45 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I9B8C22447DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 21, Appeal from Decisions on Trademark Registration, §21:10 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I9B8C222E7DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 26, The Territorial Extent of Trademark Rights, §§26:38; 26:39 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="IF0BA2AD47DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 29, International Aspects of Trademark Law, §§29:14-29:16 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="IF0BA2AC17DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 31, Defenses to Infringement of Trademarks, §31:76 </oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="IF0BA2AB07DE011EA9A4CDF67974E3C09" source="oconnor">
+						<oconnor.reference.text>Ch. 32, Procedure in Trademark Infringement &amp; Unfair Competition Litigation, §32:18</oconnor.reference.text>
+					</other.misc>
+				</other.misc.body>
+			</other.misc.block>
+			<other.annotation.block source="oconnor">
+				<head ID="I58CEFC80396D11EAA82AE3773726F539" ampexmnem="xcona">
+					<oconnor.headtext>O’CONNOR’S ANNOTATIONS</oconnor.headtext>
+				</head>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC81396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>Generally</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC83396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00020" ID="Ifcc36ef1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="304" w-serial-number="2004729360" w-ref-type="RP">
+								<ital>
+									<bold>Humanoids Grp. v. Rogan</bold>
+								</ital>, 375 F.3d 301, 304-05 (4th Cir.2004)</cite.query>. “[T]he PTO promulgated regulations providing that in order to receive a filing date, an application must contain: ‘(1) The name of the applicant; (2) A name and address for the correspondence; (3) A clear drawing of the mark; (4) A listing of goods or services; and (5) The filing fee….’ When the PTO receives an application, it labels the application with a receipt date and then reviews the application for compliance with these ‘minimum requirements for receipt of a filing date.’ If the PTO determines that an application contains the required elements, the PTO assigns the application a filing date as of the date of receipt and enters the mark into its Trademark Electronic Search System, which the public may access through the PTO’s website.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC84396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00021" ID="Ifcc36ef3a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="229" w-serial-number="2002540566" w-ref-type="RP">
+								<ital>
+									<bold>Harrods Ltd. v. Sixty Internet Domain Names</bold>
+								</ital>, 302 F.3d 214, 229 (4th Cir.2002)</cite.query>. “While it is the use of a mark, not its registration, that confers trademark protection, registration does confer certain benefits on the owner; for example, it serves as prima facie evidence of the mark’s validity.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC85396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00022" ID="Ifcc39601a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="673" w-serial-number="2001832815" w-ref-type="RP">
+								<ital>
+									<bold>CAE, Inc. v. Clean Air Eng’g</bold>
+								</ital>, 267 F.3d 660, 673 (7th Cir.2001)</cite.query>. “In order to be registered, a mark must be capable of distinguishing the applicant’s goods or services from those of others and must have been used in interstate commerce. To obtain registration, the applicant must present certain facts in a verified written application to the [PTO] and must pay a statutory filing fee.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC86396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00023" ID="Ifcc39603a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="503" w-serial-number="1992188850" w-ref-type="RP">
+								<ital>
+									<bold>Zazú Designs v. L’Oreal, S.A.</bold>
+								</ital>, 979 F.2d 499, 503 (7th Cir.1992)</cite.query>. “Under the common law, one must win the race to the marketplace to establish the exclusive right to a mark. Registration modifies this system slightly, allowing slight sales plus notice in the register to substitute for substantial sales without notice.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC87396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00024" ID="Ifcc3bd11a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="1460" w-serial-number="1988080918" w-ref-type="RP">
+								<ital>
+									<bold>Chien Ming Huang v. Tzu Wei Chen Food Co.</bold>
+								</ital>, 849 F.2d 1458, 1460 (Fed.Cir.1988)</cite.query>. “No authority has been cited for excusing noncompliance with <cite.query w-seq-number="00025" w-normalized-cite="15USCAS1051" ID="Ifcc3bd12a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">15 U.S.C. §1051</cite.query> [Lanham Act §1]. Neither the [TTAB] nor the courts can waive this statutory requirement.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC88396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>Common-Law Protection </ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC89396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00026" ID="Ifcc3bd14a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="757" w-serial-number="2010423313" w-ref-type="RP">
+								<ital>
+									<bold>Quiksilver, Inc. v. Kymsta Corp.</bold>
+								</ital>, 466 F.3d 749, 757-58 (9th Cir.2006)</cite.query>. “A product mark like ‘ROXY,’ even if always displayed with a house mark like ‘QUIKSILVER,’ may acquire independent trademark significance. [¶] In determining whether a mark has independent trademark significance, we consider whether the mark owner has engaged in ‘a constant pattern or effort … to use [product mark] in a manner separate and distinct from [house mark].’ ‘[C]onsumer awareness of the product mark apart from the fame of the associated house mark,’ the ‘strength of the public reputation of the product mark,’ and the ‘nature and context of promotion’ are also ‘reliable test[s] of the independence of the product mark from its parent house mark.’”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC8A396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00027" ID="Ifcc3e421a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="316" w-serial-number="1999181596" w-ref-type="RP">
+								<ital>
+									<bold>Lucent Info. Mgmt. v. Lucent Tech.</bold>
+								</ital>, 186 F.3d 311, 316-17 (3d Cir.1999)</cite.query>. “A party asserting trademark ownership in a trading area must show clear entitlement to protection of its trademark in a particular market. In other words, that party must introduce evidence to show its trademark has achieved market penetration that is significant enough to pose the real likelihood of confusion among the consumers in that area. [The] four-factor test to determine whether the market penetration of a trademark in an area is sufficient to warrant protection [is]: (1) the volume of sales of the trademarked product; (2) the growth trends (both positive and negative) in the area; (3) the number of persons actually purchasing the product in relation to the potential number of customers; and (4) the amount of product advertising in the area.” (Internal quotes omitted.)</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC8B396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(a)--Generally</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC8C396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00028" ID="Ifcc3e423a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="161" w-serial-number="2015106647" w-ref-type="RP">
+								<ital>
+									<bold>American Express Co. v. Goetz</bold>
+								</ital>, 515 F.3d 156, 161-62 (2d Cir.2008)</cite.query>. “[T]he analogous use doctrine, where it applies, eases the technical requirements for trademarks and services marks in favor of a competing claimant who asserts priority on the basis of earlier analogous use of the mark. [¶] At the very least analogous use must be use that is ‘open and notorious.’ In other words, analogous use must be ‘of such a nature and extent’ that the mark has become ‘popularized in the public mind’ so that the relevant segment of the public identifies the marked goods with the mark’s adopter. [¶] The doctrine, however, has not been stretched so far as to obviate the requirement that [mark proponent] show eventual actual use.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC8D396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00029" ID="Ifcc40b31a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="1241" w-serial-number="1997146720" w-ref-type="RP">
+								<ital>
+									<bold>Sovereign Order of Saint John, Inc. v. Grady</bold>
+								</ital>, 119 F.3d 1236, 1241 (6th Cir.1997)</cite.query>. “[A] valid trademark registration requires only that the registrant ‘believe’ himself to be the owner of the mark.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC8E396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00030" ID="Ifcc40b33a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="843" w-serial-number="1993095108" w-ref-type="RP">
+								<ital>
+									<bold>In re Compagnie Generale Maritime</bold>
+								</ital>, 993 F.2d 841, 843 n.3 (Fed.Cir.1993)</cite.query>. <cite.query w-seq-number="00031" w-normalized-cite="15USCAS1051" ID="Ifcc40b34a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">15 U.S.C. §1051</cite.query>, Lanham Act §1, “merely enumerates prerequisites for registration. It begins by saying that the owner of a mark ‘may <ital>register</ital> his trade-mark’ and then lists how he must do so. The list includes, among others, filing an application specifying various things, including use, paying fees, and following [PTO] rules. But nowhere does [<cite.query w-seq-number="00032" w-normalized-cite="15USCAS1051" ID="Ifcc40b35a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">§1051</cite.query>] refer to the jurisdiction of the [TTAB]. Nowhere does it suggest that for want of any specification required for registration, the PTO may not examine the application. Rather, the clear inference is that for lack of such specifications or proof, the mark will not be <ital>registered</ital>.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC8F396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(a)--Owner</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC90396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00033" ID="Ifcc45951a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="1028" w-serial-number="2041824574" w-ref-type="RP">
+								<ital>
+									<bold>Lyons v. American Coll. of Vet. Sports Med. &amp; Rehab.</bold>
+								</ital>, 859 F.3d 1023, 1028 (Fed.Cir.2017)</cite.query>. “A framework has developed in situations … where there has been a departure from or change of membership in a group, and both the departing member and the remnant group claim ownership of the mark. [¶] For ownership disputes arising out of changes of membership in musical groups, [treatise] frames the inquiry as whether the mark ‘identif[ies] the group regardless of its members.’ To answer that question, [treatise] proposed a two-part analysis: first, one determines whether the mark is ‘personal to the individual members or not’; and second, if it is not, then it must be determined ‘for what quality or characteristic the group is known and who controls that quality.’ The [TTAB] rephrased [treatise’s] two-step inquiry in its findings to mean that ‘the consuming public did not associate’ the mark with the departing member, and the group, rather than any individual member, ‘controlled the quality or characteristic of the band.’ Thus, the [TTAB] determined that the band owned the mark, the departing member's application for registration was void <ital>ab initio</ital>, and the resulting registration was invalid.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC91396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00034" ID="Ifcc45953a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="170" w-serial-number="2041457473" w-ref-type="RP">
+								<ital>
+									<bold>Covertech Fabricating, Inc. v. TVM Bldg. Prods.</bold>
+								</ital>, 855 F.3d 163, 170 (3d Cir.2017)</cite.query>. “In assessing the rightful ownership of the … mark, the District Court relied on the ‘first use test,’ which determines initial ownership by asking which party was the first to use an unregistered trademark in commerce. [W]e conclude … the first use test was not the correct test given the unique context of the manufacturer-distributor relationship…. <ital>At 171-72:</ital> [W]here initial ownership between a manufacturer and its exclusive distributor is at issue and no contract exists, the manufacturer is the presumptive trademark owner unless the distributor rebuts that presumption using a multi-factor balancing test designed to examine the distribution agreement in effect between the parties. The six factors that should be considered are: (1) ‘[w]hich party invented or created the mark’; (2) ‘[w]hich party first affixed the mark to goods sold’; (3) ‘[w]hich party's name appeared on packaging and promotional materials in conjunction with the mark’; (4) ‘[w]hich party exercised control over the nature and quality of goods on which the mark appeared’; (5) ‘[t]o which party did customers look as standing behind the goods, <ital>e.g.</ital>, which party received complaints for defects and made appropriate replacement or refund’; and (6) ‘[w]hich party paid for advertising and promotion of the trademarked product.’ [¶] Our adoption of this test is also consistent with our sister Circuits, which, when asked to determine ownership in this context, have endorsed some version of the [treatise] test…. While some courts have distilled [treatise’s] six factors to four, … and others have varied the language, … all have cited either to … treatise itself or to cases that do so, applying the [treatise] test with only minor variations across the federal courts.” <ital>See also </ital>
+							<cite.query w-seq-number="00035" ID="Ifcc45955a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="884" w-serial-number="1997184697" w-ref-type="RP">
+								<ital>
+									<bold>TMT N. Am., Inc. v. Magic Touch GmbH</bold>
+								</ital>, 124 F.3d 876, 884 n.4 (7th Cir.1997)</cite.query>; <cite.query w-seq-number="00036" ID="Ifcc45957a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="1220" w-serial-number="1996213613" w-ref-type="RP">
+								<ital>
+									<bold>Sengoku Works Ltd. v. RMC Int'l</bold>
+								</ital>, 96 F.3d 1217, 1220 (9th Cir.1996)</cite.query>.</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC92396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00037" ID="Ifcc48061a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="930" w-serial-number="2034067806" w-ref-type="RP">
+								<ital>
+									<bold>Southern Cal. Darts Ass’n v. Zaffina</bold>
+								</ital>, 762 F.3d 921, 930 (9th Cir.2014)</cite.query>. “We hold that unincorporated associations … have the capacity to own trademarks.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC93396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00038" ID="Ifcc4a771a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="885" w-serial-number="1933122535" w-ref-type="RP">
+								<ital>
+									<bold>U.S. Ozone Co. v. U.S. Ozone Co. of Am.</bold>
+								</ital>, 62 F.2d 881, 885 (7th Cir.1932)</cite.query>. “Any person, partnership, corporation, or unincorporated association capable of holding title to personalty may acquire the right to a trade-mark. The owner may be the manufacturer of the article to which the trade-mark is applied or the seller of goods of a particular manufacture or quality to which the distinguishing mark is applied.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC94396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(a)--Specimen</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC95396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00039" ID="Ifcc4a773a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="1335" w-serial-number="2047962293" w-ref-type="RP">
+								<bold>
+									<ital>In re Siny Corp.</ital>
+								</bold>, 920 F.3d 1331, 1335-36 (Fed.Cir.2019)</cite.query>. “The issue [is] whether the Webpage Specimen qualifies as a display associated with the goods under the Lanham Act. Mere advertising is not enough to qualify as such a display. In determining whether a specimen qualifies as a display associated with the goods, one important consideration is whether the display is at a point-of-sale location. [¶] Whether a specimen qualifies as a display associated with the goods is a factual question. [¶] The Board considered whether the Webpage Specimen was mere advertising or an acceptable display associated with the goods. In doing so, it evaluated the point-of-sale nature of the Webpage Specimen. It noted the absence of information it considered essential to a purchasing decision, such as a price or range of prices for the goods, the minimum quantities one may order, accepted methods of payment, or how the goods would be shipped. The Board also considered the ‘For sales information:’ text and phone number contact. It assumed that the phone number would connect a prospective customer to sales personnel, but it found that ‘if virtually all important aspects of the transaction must be determined from information extraneous to the web page, then the web page is not a point of sale.’ The Board further noted the absence of any evidence (as opposed to attorney argument) of how sales are actually made--e.g., documentation or verified statements from knowledgeable personnel as to what happens and how. <ital> At 1337:</ital> [T]he Board carefully considered the Webpage Specimen's contents and determined, on the record before it, that the specimen did not cross the line from mere advertising to an acceptable display associated with the goods. We cannot say that the Board's determination lacked substantial evidence.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="IDB205899778F11EAA9DD8DB1A4EDAD71" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00040" ID="Ifcc4a775a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="1288" w-serial-number="2020897018" w-ref-type="RP">
+								<ital>
+									<bold>In re Sones</bold>
+								</ital>, 590 F.3d 1282, 1288 (Fed.Cir.2009)</cite.query>. “[A] picture is not a mandatory requirement for a website-based specimen of use, and … the test for an acceptable website-based specimen, just as any other specimen, is simply that it must in some way evince that the mark is 'associated' with the goods and serves as an indicator of source.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC96396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(a)--Tacking</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC97396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00041" ID="Ifcc4ce81a1cf11ea8564dd3ee689d0b8" w-pub-number="0000780" w-pinpoint-page="419" w-serial-number="2035301585" w-ref-type="RP">
+								<ital>
+									<bold>Hana Fin., Inc. v. Hana Bank</bold>
+								</ital>, 574 U.S. 418, 419-20 (2015)</cite.query>. “Rights in a trademark are determined by the date of the mark’s first use in commerce. The party who first uses a mark in commerce is said to have priority over other users. Recognizing that trademark users ought to be permitted to make certain modifications to their marks over time without losing priority, lower courts have provided that, in limited circumstances, a party may clothe a new mark with the priority position of an older mark. This doctrine is called ‘tacking,’ and lower courts have found tacking to be available when the original and revised marks are ‘legal equivalents’ in that they create the same, continuing commercial impression. The question presented here is whether a judge or a jury should determine whether tacking is available in a given case. Because the tacking inquiry operates from the perspective of an ordinary purchaser or consumer, we hold that a jury should make this determination. <ital>At  423:</ital> This is certainly not to say that a judge may never determine whether two marks may be tacked. If the facts warrant it, a judge may decide a tacking question on a motion for summary judgment or for judgment as a matter of law. And if the parties have opted to try their case before a judge, the judge may of course decide a tacking question in his or her factfinding capacity.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC98396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00042" ID="Ifcc4ce83a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="758" w-serial-number="2010423313" w-ref-type="RP">
+								<ital>
+									<bold>Quiksilver, Inc. v. Kymsta Corp.</bold>
+								</ital>, 466 F.3d 749, 758-59 (9th Cir.2006)</cite.query>. “Under the tacking doctrine, a mark owner essentially seeks to tack his first use date in the earlier mark onto the subsequent mark. Tacking permits a mark owner to claim priority in a mark based on the first use date of a similar, but technically distinct, mark--but only in the exceptionally narrow instance where the previously used mark is the legal equivalent of the mark in question or indistinguishable therefrom such that consumers consider both as the same mark. The standard for tacking … is exceedingly strict: The marks must create the same, continuing commercial impression, and the later mark should not materially differ from or alter the character of the mark attempted to be tacked. The later mark must be indistinguishable from the original mark at the time that the later mark is introduced. <ital>At 759 n.10:</ital> In deciding whether tacking applies, courts often compare the earlier mark with the subsequent mark to determine whether the two marks create the same, continuing commercial impression. The similarities or dissimilarities between two marks constitute evidence of whether consumers view them as indistinguishable.” (Internal quotes omitted.)</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC99396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(a)--Use in Commerce</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFC9A396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>For more annotations on this topic, see <cite.query w-seq-number="00043" w-normalized-cite="15USCAS1114" ID="Ifcc4f590a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">15 U.S.C. §1114, <ital>§1114(1)</ital>
+							</cite.query>
+							<ital>--Commerce</ital>, <cite.query w-seq-number="00044" w-normalized-cite="15USCAS1127" ID="Ifcc4f591a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">15 U.S.C. §1127</cite.query>, <ital>Commerce</ital>, and <cite.query w-seq-number="00045" w-normalized-cite="15USCAS1127" ID="Ifcc4f592a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">15 U.S.C. §1127</cite.query>, <ital>Use in Commerce</ital>.</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC9B396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00046" ID="Ifcc4f594a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="400" w-serial-number="2019466896" w-ref-type="RP">
+								<ital>
+									<bold>George &amp; Co. v. Imagination Entm't Ltd.</bold>
+								</ital>, 575 F.3d 383, 400 (4th Cir.2009)</cite.query>. “In general, the party claiming ownership of a mark must be the first to use the mark in the sale of goods. The party claiming ownership must also use the mark as a trademark, that is, the mark must be used to identify the source of the goods to potential customers. Thus, so long as a person is the first to use a particular mark to identify his goods in a given market, and so long as that owner continues to make use of the mark, he is 'entitled to prevent others from using the mark to describe their own goods' in that market. [¶] However, if the owner of a mark ceases to use the mark without an intent to resume use in the reasonably foreseeable future, the mark is said to have been 'abandoned.' Once abandoned, a mark returns to the public domain and may, in principle, be appropriated for use by others in the marketplace, … in accordance with the basic rules of trademark priority….”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC9C396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00047" ID="Ifcc51ca1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="1120" w-serial-number="1986146498" w-ref-type="RP">
+								<ital>
+									<bold>International Mobile Machs. v. International Tel. &amp; Tel.</bold>
+								</ital>, 800 F.2d 1118, 1120 (Fed.Cir.1986)</cite.query>. “An initial commercial transaction is sufficient to support the validity of a registration so long as the initial transaction is not a sham transaction and is followed by a continuing effort or intent to engage in commercial use.” <ital>See also </ital>
+							<cite.query w-seq-number="00048" ID="Ifcc51ca3a1cf11ea8564dd3ee689d0b8" w-pub-number="0000345" w-pinpoint-page="494" w-serial-number="1976126993" w-ref-type="RP">
+								<ital>
+									<bold>Standard Pressed Steel Co. v. Midwest Chrome Process Co.</bold>
+								</ital>, 418 F.Supp. 485, 494 (N.D.Ill.1976)</cite.query>.</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC9D396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00049" ID="Ifcc51ca5a1cf11ea8564dd3ee689d0b8" w-pub-number="0000867" w-pinpoint-page="339" w-serial-number="1982018406" w-ref-type="RP">
+								<ital>
+									<bold>Standard Brands Inc. v. Schrage</bold>
+								</ital>, 220 U.S.P.Q. 337, 339 (N.D.Ga.1982)</cite.query>. “To be registrable under the Lanham Act a trademark must be used in interstate commerce. A single instance of interstate use is sufficient to obtain a registration of a trademark if the accompanying circumstances indicate that the applicant intends to continue that use. In applying for registration, [Ds] apparently satisfied the interstate commerce requirement by averring that they had shipped [trademarked product] from their only store in [home state], to customers residing in at least four other states.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFC9E396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00050" ID="Ifcc543b1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000345" w-pinpoint-page="962" w-serial-number="1977126323" w-ref-type="RP">
+								<ital>
+									<bold>Golden Door, Inc. v. Odisho</bold>
+								</ital>, 437 F.Supp. 956, 962 (N.D.Cal.1977)</cite.query>, <ital>aff’d</ital>, <cite.query w-seq-number="00051" ID="Ifcc543b3a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-serial-number="1980140693" w-ref-type="RP">646 F.2d 347 (9th Cir.1980)</cite.query>. “Although the services are rendered locally, [P] has conducted extensive nationwide advertising and promotion with the purpose and effect of drawing clientele from many parts of the country. These facts suffice to qualify [P’s] trade and service marks as being used in commerce.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFC9F396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(b)</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFCA0396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00052" ID="Ifcc56ac1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="864" w-serial-number="2040812672" w-ref-type="RP">
+								<ital>
+									<bold>Kelly Servs. v. Creative Harbor, LLC</bold>
+								</ital>, 846 F.3d 857, 864-65 (6th Cir.2017)</cite.query>. “[T]he TTAB has provided several specific examples of objective circumstances which, if proven, may cast doubt on the bona fide nature of the intent or even disprove it entirely. For example, the applicant may have filed numerous intent-to-use applications to register the same mark for many more new products than are contemplated, numerous intent-to-use applications for a variety of desirable trademarks intended to be used on a single new product, numerous intent-to-use applications to register marks consisting of or incorporating descriptive terms relating to a contemplated new product, numerous intent-to-use applications to replace applications which have lapsed because no timely declaration of use has been filed, an excessive number of intent-to-use applications to register marks which ultimately were not actually used, an excessive number of intent-to-use applications in relation to the number of products the applicant is likely to introduce under the applied-for marks during the pendency of the applications, or applications unreasonably lacking in specificity in describing the proposed goods. Other circumstances may also indicate the absence of genuine bona fide intent to actually use the mark. [¶] Further, one prominent practitioner has recently compiled a list of affirmative activities that have been deemed indicative of the <ital>presence</ital> of a bona fide intent to use, including: conducting a trademark availability search; performing preparatory graphic design work or labeling on sales material for a product; using a mark in test marketing; testimony regarding informal, unwritten business plans or market research; obtaining necessary regulatory permits; obtaining a correlative domain name for the mark or setting up a website; making contacts with individuals who might help develop a business; correspondence mentioning the planned use of the mark; attempts to find licensees, including ones outside of the U.S.; and obtaining commercial space in which to perform the services. <ital>At 875:</ital> [W]e hold that when a §1(b) [intent-to-use] applicant lacks <ital>bona fide</ital> intent as to some, but not all, of the goods and services listed in her application, the application should not be voided in its entirety absent fraud or other egregious conduct. Rather, the court should determine as to which goods and services the applicant lacked <ital>bona fide</ital> intent, and excise the overbroad portions of the application.” (Internal quotes omitted.)</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA1396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00053" ID="Ifcc56ac3a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="1375" w-serial-number="2036397318" w-ref-type="RP">
+								<ital>
+									<bold>M.Z. Berger &amp; Co. v. Swatch AG</bold>
+								</ital>, 787 F.3d 1368, 1375 (Fed.Cir.2015)</cite.query>. “There is no statutory definition of the term ‘bona fide,’ but the language is clear on its face that an applicant's intent must be ‘under circumstances showing the good faith of such person.’ The reference to ‘circumstances showing the good faith’ strongly suggests that the applicant's intent must be demonstrable and more than a mere subjective belief. <ital>At 1376:</ital> [W]e hold that whether an applicant had a ‘bona fide intent’ to use the mark in commerce at the time of the application requires objective evidence of intent. Although the evidentiary bar is not high, the circumstances must indicate that the applicant's intent to use the mark was firm and not merely intent to reserve a right in the mark. The Board may make such determinations on a case-by-case basis considering the totality of the circumstances.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA2396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<ital>
+								<bold>Aktieselskabet AF21. </bold>
+							</ital>
+							<cite.query w-seq-number="00054" ID="Ifcc591d1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="18" w-serial-number="2015948617" w-ref-type="RP">
+								<ital>
+									<bold>Nov. 2001 v. Fame Jeans Inc.</bold>
+								</ital>, 525 F.3d 8, 18 (D.C.Cir.2008)</cite.query>. “While an intent-to-use application does not, by itself, confer any rights enforceable against others, it does give an applicant the right to engage in the statutorily prescribed application procedure. [P] may only contest [D's] application within the confines of that scheme. A trademark opposition must be based on ‘a <ital>statutory</ital> ground’--such as a legal defect or deficiency in the application--‘which negates the appellant's right to the subject registration.’ [Lanham Act] §7(c) [<cite.query w-seq-number="00055" w-normalized-cite="15USCAS1057" ID="Ifcc591d2a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">15 U.S.C. §1057(c)</cite.query>] is a potential source of rights for a trademark registrant, not a requirement for or a source of defects in an application. [P] mistakes §7(c) for the true ground for its opposition, which is [Lanham Act] §2(d) [<cite.query w-seq-number="00056" w-normalized-cite="15USCAS1052" ID="Ifcc591d3a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">15 U.S.C. §1052(d)</cite.query>]. <ital>At 21:</ital> The TTAB has held [Lanham Act] §1(b) [<cite.query w-seq-number="00057" w-normalized-cite="15USCAS1051" ID="Ifcc591d4a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">15 U.S.C. §1051(b)</cite.query>] to require both actual intent to use a mark in commerce and evidence, contemporary with the application, that objectively demonstrate[s] such an intent. … The phrases ‘bona fide’ and ‘good faith’ ordinarily refer to a person's actual, subjective state of mind. Certainly a person will fail to have a ‘bona fide’ intent to use a trademark if his actual intent is otherwise. In addition, ‘bona fide’ means not fraudulent or feigned, … and in some circumstances, showing a ‘bona fide’ intent will actually require proving certain objective facts…. Congress made clear that a ‘bona fide intent to use’ also involves an objective standard by specifying there must be ‘circumstances showing … good faith.’”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA3396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00058" ID="Ifcc591d6a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-pinpoint-page="307" w-serial-number="2004729360" w-ref-type="RP">
+								<ital>
+									<bold>Humanoids Grp. v. Rogan</bold>
+								</ital>, 375 F.3d 301, 307-08 (4th Cir.2004)</cite.query>. “[T]he Lanham Act permits only ‘[a] person who has a bona fide intention … to use a trademark in commerce [to] request registration of its trademark.’ But nothing in the statute indicates that such an ‘intent requirement’ gives rise to an affirmative duty on the part of the PTO. No provision of the Lanham Act specifies how the PTO must process an application setting forth multiple marks, some of which the applicant does not intend to register. Certainly no statutory provision precludes the approach adopted by the PTO of generally rejecting applications that present multiple marks. If anything, such an ‘intent requirement’ would seem to place the onus on the applicant … to submit a drawing of the mark that it intends to trademark, and only that mark.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA4396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00059" ID="Ifcc5b8e1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="1578" w-serial-number="1990064993" w-ref-type="RP">
+								<ital>
+									<bold>Imperial Tobacco Ltd. v. Philip Morris, Inc.</bold>
+								</ital>, 899 F.2d 1575, 1578 n.3 (Fed.Cir.1990)</cite.query>. For the intent-to-use applications made under <cite.query w-seq-number="00060" w-normalized-cite="15USCAS1051" ID="Ifcc5b8e2a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">15 U.S.C. §1051(b)</cite.query>, Lanham Act §1(b), “actual use of the mark in commerce is a prerequisite to the <ital>issuance of a registration</ital>. The same declaration of intent-to-use must now be made in connection with [<cite.query w-seq-number="00061" w-normalized-cite="15USCAS1126" ID="Ifcc5b8e3a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="LQ">15 U.S.C. §1126(e)</cite.query>, Lanham Act §44(e),] applications, but such registration may issue without actual use.”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA5396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00062" ID="Ifcc5b8e5a1cf11ea8564dd3ee689d0b8" w-pub-number="0004637" w-pinpoint-page="420" w-serial-number="2008124391" w-ref-type="RP">
+								<ital>
+									<bold>Menashe v. V Secret Catalogue, Inc.</bold>
+								</ital>, 409 F.Supp.2d 412, 420 (S.D.N.Y.2006)</cite.query>. “[Ps] concede that [intent-to-use] applicants have no Lanham Act rights to bring an offensive action in federal court--i.e., to charge another party with infringement--but argue that they may defend against claims of infringement by another party. [Ps] contend that by bringing a declaratory judgment action for non-infringement, they are acting defensively.” Held: The court agrees and bases its holding on <cite.query w-seq-number="00063" ID="Ifcc5dff1a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-serial-number="1996264167" w-ref-type="RP">
+								<ital>
+									<bold>WarnerVision Entm’t Inc. v. Empire, Inc.</bold>
+								</ital>, 101 F.3d 259 (2d Cir.1996)</cite.query>. However, the court ultimately holds that Ps cannot prove noninfringement.</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA6396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00064" ID="Ifcc5dff3a1cf11ea8564dd3ee689d0b8" w-pub-number="0000345" w-pinpoint-page="258" w-serial-number="1997235843" w-ref-type="RP">
+								<ital>
+									<bold>Lucent Info. Mgmt. v. Lucent Tech.</bold>
+								</ital>, 986 F.Supp. 253, 258 (D.Del.1997)</cite.query>, <ital>aff’d</ital>, <cite.query w-seq-number="00065" ID="Ifcc5dff5a1cf11ea8564dd3ee689d0b8" w-pub-number="0000506" w-serial-number="1999181596" w-ref-type="RP">186 F.3d 311 (3d Cir.1999)</cite.query>. “The Lanham Act offers two ways to register a mark: (1) where the mark was already ‘used in commerce’; and (2) where the party ‘intends to use’ the mark. The ‘intends to use’ statute requires the party to subsequently file a verified statement that the mark was actually ‘used in commerce.’ Thus, either way, registration of a trademark requires that the mark be ‘used.’”</oconnor.reference.text>
+					</other.annotation>
+					<other.annotation ID="I58CEFCA7396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00066" ID="Ifcc60701a1cf11ea8564dd3ee689d0b8" w-pub-number="0001013" w-pinpoint-page="1068" w-serial-number="1992036230" w-ref-type="RP">
+								<ital>
+									<bold>Fila Sport, S.p.A. v. Diadora, Inc.</bold>
+								</ital>, 21 U.S.P.Q.2d 1063, 1068 (N.D.Ill.1991)</cite.query>. “The mere filing of an intent-to-use application under <cite.query w-seq-number="00067" w-normalized-cite="15USCAS1051" ID="Ifcc60702a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">15 U.S.C. §1051(b)</cite.query> [Lanham Act §1(b)] does not confer jurisdiction on the federal courts. Rather, [P] must allege that it has a valid federal trademark registration or allege the actual use of the marks in commerce.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+				<other.annotation.body source="oconnor">
+					<head ID="I58CEFCA8396D11EAA82AE3773726F539" ampexmnem="gnh1">
+						<oconnor.headtext>
+							<ital>§1051(d)</ital>
+						</oconnor.headtext>
+					</head>
+					<other.annotation ID="I58CEFCA9396D11EAA82AE3773726F539" source="oconnor">
+						<oconnor.reference.text>
+							<cite.query w-seq-number="00068" ID="Ifcc62e11a1cf11ea8564dd3ee689d0b8" w-pub-number="0000350" w-pinpoint-page="1572" w-serial-number="1993115175" w-ref-type="RP">
+								<ital>
+									<bold>Eastman Kodak Co. v. Bell &amp; Howell Document Mgmt. Prods.</bold>
+								</ital>, 994 F.2d 1569, 1572 (Fed.Cir.1993)</cite.query>. The legislative history of the Trademark Law Revision Act of 1988 “emphasized that ‘[<cite.query w-seq-number="00069" w-normalized-cite="15USCAS1051" ID="Ifcc62e12a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">15 U.S.C. §1051(d)(1)</cite.query>, Lanham Act §1(d)(1),] permits the [PTO] to raise issues of registrability that might not be evident until the applicant makes available specimens showing the mark as used and/or clarifying the nature of the goods or services involved.’ Thus, the statute and legislative history provide for the situation where … the question of mere descriptiveness cannot be answered until after use has begun. <ital>At 1574:</ital> [<cite.query w-seq-number="00070" w-normalized-cite="15USCAS1051" ID="Ifcc62e13a1cf11ea8564dd3ee689d0b8" w-pub-number="1000546" w-ref-type="IU">Section 1051</cite.query>] provides for the same substantive requirements to be met for intent-to-use and use-based applications. <ital>At 1575 n.8:</ital> [T]he applicant … verifies at the time of application that he or she believes that the mark is registrable. … It is not unreasonable for the PTO to assume that each application is bona fide until proven otherwise.”</oconnor.reference.text>
+					</other.annotation>
+				</other.annotation.body>
+			</other.annotation.block>
+		</oconnor.annotations>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.expandedcite>
+						<bop/>
+						<bos/>15 U.S.C.A. § 1051, 15 USCA § 1051<eos/>
+						<eop/>
+					</cmd.expandedcite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<include.currency.block>
+			<currency.id ID="I5275F050A1CD11EA9F4AC523B2F6645F"/>
+			<include.currency n-include_collection="w_codes_stamsgp" n-include_guid="IF62CD3A0BDC911DAAEB800123F3FA40A">Current through P.L. 116-140.</include.currency>
+			<message.code>8US1</message.code>
+		</include.currency.block>
+		<include.copyright.block>
+			<include.copyright n-include_collection="w_codes_stamsgp" n-include_guid="IF58AEE50BDC911DAAEB800123F3FA40A">Westlaw. (C) 2019 Thomson Reuters. No Claim to Orig. U.S. Govt. Works.</include.copyright>
+			<message.code>8USV</message.code>
+		</include.copyright.block>
+	</section>
+</n-docbody>
