@@ -1,7 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
-import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER;
-import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_ID;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_CANADA;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_US;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_IDS;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockSe
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -443,8 +445,9 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         model.addAttribute(WebConstants.KEY_FORM, form);
 
-        model.addAttribute(KEY_SUBJECT_MATTER_ID, keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER).getId());
-
+        model.addAttribute(KEY_SUBJECT_MATTER_IDS, Sets.newSet(
+                keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER_CANADA).getId(),
+                keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER_US).getId()));
         printComponentsCompareController.setPrintComponentHistoryAttributes(form.getBookdefinitionId(), model);
     }
 

@@ -117,7 +117,7 @@ public class ViewBookDefinitionController {
             .stream()
             .collect(
                 groupingBy(
-                    keyword -> keyword.getKeywordTypeCode().getName(),
+                    keyword -> keyword.getKeywordTypeCode().getBaseName(),
                     TreeMap::new,
                     mapping(KeywordTypeValue::getName, toList())));
     }

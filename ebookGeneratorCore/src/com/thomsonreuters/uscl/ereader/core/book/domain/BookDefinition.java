@@ -968,7 +968,7 @@ public class BookDefinition implements Serializable {
     @Transient
     public List<Keyword> getKeyWords() {
         return getKeywordTypeValues().stream()
-            .map(value -> new Keyword(value.getKeywordTypeCode().getName(), value.getName()))
+            .map(value -> new Keyword(value.getKeywordTypeCode().getBaseName(), value.getName()))
             .collect(Collectors.toCollection(ArrayList::new));
     }
 

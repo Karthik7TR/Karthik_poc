@@ -571,7 +571,7 @@ td.field {
 	clear:both;
 }
 
-.keywordLabel{
+.keywordLabel, .keywordLabelDisabled{
 	background: #EAF3F8;
     border: thin double gray;
     font-weight: bold;

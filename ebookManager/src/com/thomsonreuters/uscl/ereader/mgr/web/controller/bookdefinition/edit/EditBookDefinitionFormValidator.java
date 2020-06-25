@@ -27,6 +27,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.jetbrains.annotations.NotNull;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -40,10 +42,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.ALL_PUBLISHERS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CW_PUBLISHER_NAME;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
 import static org.apache.commons.lang3.StringUtils.LF;
 
 @Component("editBookDefinitionFormValidator")
@@ -59,8 +65,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int LINE_BREAK_LENGTH = 5;
     private static final String ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED = "error.keyword.max.subjecs.number.exceeded";
     private static final String CRLF = "\r\n";
-    private static final String USCL_PUBLISHER_NAME = "uscl";
-    private static final String CW_PUBLISHER_NAME = "cw";
+    private static final Set<String> REGISTERED_PUBLISHERS = Sets.newSet(USCL_PUBLISHER_NAME, CW_PUBLISHER_NAME);
 
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -961,16 +966,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
         // Validate that required keyword are selected
         keywordTypeCodes.stream()
-            .filter(code -> code.getIsRequired() && !code.getValues().isEmpty())
+            .filter(code -> code.getIsRequired() && !code.getValues().isEmpty() &&
+                    (getPublisherForValidation(form.getPublisher()).equals(code.getPublisher()) || ALL_PUBLISHERS.equals(code.getPublisher())))
             .map(KeywordTypeCode::getId)
             .map(
                 keywordTypeId -> new ImmutablePair<>(
                     keywordTypeId,
                     form.getKeywords().getOrDefault(keywordTypeId, Collections.emptyList())))
             .filter(idValuesPair -> idValuesPair.getRight().isEmpty() || idValuesPair.getRight().contains(-1L))
-            .findAny()
-            .ifPresent(
-                idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", "error.required"));
+            .forEach(idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", "error.required"));
 
         validateSubjectMatterKeywords(form, errors, keywordTypeCodes);
     }
@@ -978,10 +982,19 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private void validateSubjectMatterKeywords(final EditBookDefinitionForm form, final Errors errors, final List<KeywordTypeCode> keywordTypeCodes) {
         // Validate that subject matter keywords number does not exceed predefined value
         keywordTypeCodes.stream()
-            .filter(code -> WebConstants.KEY_SUBJECT_MATTER.equalsIgnoreCase(code.getName()))
+            .filter(code -> getPublisherForValidation(form.getPublisher()).equals(code.getPublisher()) && WebConstants.KEY_SUBJECT_MATTER.equalsIgnoreCase(code.getBaseName())) // add subject matter Canada
             .map(KeywordTypeCode::getId)
             .findAny()
             .ifPresent(subjectKeywordTypeId -> validateMaxNumberOfSubjects(form, errors, subjectKeywordTypeId));
+    }
+
+    @NotNull
+    private String getPublisherForValidation(final String publisher) {
+        if (publisher == null || !REGISTERED_PUBLISHERS.contains(publisher)) {
+            return USCL_PUBLISHER_NAME;
+        } else {
+            return publisher;
+        }
     }
 
     private void validateMaxNumberOfSubjects(final EditBookDefinitionForm form, final Errors errors, final long subjectKeywordTypeId) {

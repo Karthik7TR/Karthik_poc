@@ -27,6 +27,10 @@ public class CoreConstants {
     public static final String URI_GET_JOB_THROTTLE_CONFIG = "service/get/job/throttle/config";
     public static final String URI_GET_MISC_CONFIG = "service/get/misc/config";
 
+    public static final String USCL_PUBLISHER_NAME = "uscl";
+    public static final String CW_PUBLISHER_NAME = "cw";
+    public static final String ALL_PUBLISHERS = "all_publishers";
+
     public static final String REVIEW_BOOK_STATUS = "Review";
     public static final String FINAL_BOOK_STATUS = "Final";
     public static final String REMOVED_BOOK_STATUS = "Removed";

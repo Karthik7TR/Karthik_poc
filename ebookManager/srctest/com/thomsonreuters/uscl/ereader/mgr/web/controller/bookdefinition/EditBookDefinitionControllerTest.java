@@ -150,8 +150,11 @@ public final class EditBookDefinitionControllerTest {
         request.setMethod(HttpMethod.GET.name());
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
             .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
 
         setupDropdownMenuAndKeywords(1);
@@ -196,8 +199,11 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockMiscConfigService);
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
             .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
@@ -293,9 +299,11 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("isComplete", "true");
 
         EasyMock.expect(keywordTypeCodeSevice
-                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
                 .andReturn(subject);
-
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         setupDropdownMenuAndKeywords(1);
         setupMockServices(null, 1, true);
 
@@ -425,7 +433,10 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockLockService);
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
+            .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
             .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
         final ModelAndView mav;
@@ -471,8 +482,11 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockMiscConfigService);
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
             .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
@@ -694,8 +708,11 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
         EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
             .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
         EasyMock.replay(mockDocumentTypeCodeService);
 
@@ -842,7 +859,10 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockPrintComponentsCompareController);
 
         EasyMock.expect(keywordTypeCodeSevice
-                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
+                .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
                 .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
         setupDropdownMenuAndKeywords(2);
@@ -919,8 +939,11 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockMiscConfigService);
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
             .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
@@ -1015,9 +1038,11 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("bucket", Bucket.BOOKS.toString());
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
             .andReturn(subject);
-
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         setupMockServices(null, 1, true);
         setupDropdownMenuAndKeywords(1);
 
@@ -1085,8 +1110,10 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.replay(mockMiscConfigService);
 
-        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER)).andReturn(subject);;
-
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US)).andReturn(subject);;
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         final BookDefinition expectedBook = createBookDef(titleId);
         EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class)))
             .andReturn(expectedBook);
