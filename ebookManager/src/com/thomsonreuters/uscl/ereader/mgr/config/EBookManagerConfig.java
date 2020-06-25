@@ -18,6 +18,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -87,6 +89,13 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
         viewResolver.setPrefix("/WEB-INF/jsp/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setMaxUploadSize(209_715_200); // 200 Mb
+        return commonsMultipartResolver;
     }
 
     @Bean

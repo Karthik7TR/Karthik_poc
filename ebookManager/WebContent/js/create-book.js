@@ -528,16 +528,56 @@ $(function() {
 			
 			// Add input boxes
 			expandingBox.append($("<input>").attr("id",id +".pdfLinkText").attr("name", name + ".pdfLinkText").attr("type", "text").attr("title","PDF Link Text"));
-			expandingBox.append($("<input>").attr("id",id +".pdfFilename").attr("name", name + ".pdfFilename").attr("type", "text").attr("title","PDF Filename"));
+			expandingBox.append($("<input>").attr("id", "pdfFilename" + pdfIndex).attr("name", name + ".pdfFilename")
+				.attr("type", "text").attr("title", "PDF Filename"));
 			
 			// Add buttons
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			addUploadPdfButton(expandingBox);
 			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf").on("click", onClickToDeleteButton));
 			
 			$(addAdditionalPdf).append(expandingBox);
 			
 			textboxHint("additionFrontMatterBlock");
+		};
+
+		const addUploadPdfButton = function(expandingBox) {
+			let pdfFile = $("<input>").attr("type", "file").attr("id", "chosenPdf" + pdfIndex)
+				.attr("accept", ".pdf").css("display", "none");
+			pdfFile.change(function(e) {
+				const file = e.target.files[0];
+				sendPdfFileToServer(file);
+			});
+
+			let pdfUploadButton = $("<button>").attr("id", "uploadPdfButton" + pdfIndex).html('Upload PDF');
+			pdfUploadButton.click(function(e) {
+				e.preventDefault();
+				pdfFile.click();
+			});
+
+			expandingBox.append(pdfFile);
+			expandingBox.append(pdfUploadButton);
+		};
+
+		const sendPdfFileToServer = function(file) {
+			const fileName = file.name;
+			const uploadFormData = new FormData();
+			uploadFormData.append("file", file);
+			uploadFormData.append("fileName", fileName);
+			$.ajax({
+				type: "POST",
+				url: "uploadPdf.mvc",
+				enctype: "multipart/form-data",
+				data: uploadFormData,
+				processData: false,
+				contentType: false,
+				success: function() {
+					const fileNameField = $('#pdfFilename' + pdfIndex);
+					fileNameField.val(fileName);
+					fileNameField.removeClass('blur');
+				}
+			});
 		};
 		
 		var clearTitleAndContentInformation = function() {

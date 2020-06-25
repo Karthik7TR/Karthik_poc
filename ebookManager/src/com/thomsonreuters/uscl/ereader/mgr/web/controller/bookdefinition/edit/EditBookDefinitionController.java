@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_ID;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -35,12 +37,15 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
+import lombok.extern.log4j.Log4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -54,9 +59,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+@Log4j
 @Controller
 public class EditBookDefinitionController {
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
@@ -97,7 +104,9 @@ public class EditBookDefinitionController {
 
     /**
      * Handle the in-bound GET to the Book Definition create view page.
-     * @param titleId the primary key of the book to be edited as a required query string parameter.
+     * @param definitionForm
+     * @param model
+     * @param authentication
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.GET)
     public ModelAndView createBookDefintionGet(@ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm definitionForm,
@@ -121,6 +130,7 @@ public class EditBookDefinitionController {
 
     /**
      * Handle the in-bound POST to the Book Definition create view page.
+     * @param httpSession
      * @param form
      * @param bindingResult
      * @param model
@@ -161,7 +171,10 @@ public class EditBookDefinitionController {
 
     /**
      * Handle the in-bound GET to the Book Definition edit view page.
-     * @param titleId the primary key of the book to be edited as a required query string parameter.
+     * @param id
+     * @param form
+     * @param bindingResult
+     * @param model
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
@@ -230,7 +243,7 @@ public class EditBookDefinitionController {
 
     /**
      * Handle the in-bound POST to the Book Definition edit view page.
-     * @param titleId
+     * @param httpSession
      * @param form
      * @param bindingResult
      * @param model
@@ -336,7 +349,10 @@ public class EditBookDefinitionController {
 
     /**
      * Handle the in-bound GET to the Book Definition copy view page.
-     * @param titleId the primary key of the book to be edited as a required query string parameter.
+     * @param id
+     * @param form
+     * @param bindingResult
+     * @param model
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
@@ -411,6 +427,19 @@ public class EditBookDefinitionController {
         @Nullable @RequestParam("setNumber") final String setNumber,
         @NotNull @RequestParam(value = "titleId", required = false) final String titleId) {
         return editBookDefinitionService.getMaterialBySubNumber(subNumber, setNumber, titleId);
+    }
+
+    @RequestMapping(value = "uploadPdf.mvc", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> uploadPdf(@RequestParam MultipartFile file,
+        @RequestParam String fileName) throws IOException {
+        try {
+            file.transferTo(new File(WebConstants.LOCATION_PDF + File.separator + fileName));
+        } catch (Exception e) {
+            log.error(e);
+            throw e;
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
