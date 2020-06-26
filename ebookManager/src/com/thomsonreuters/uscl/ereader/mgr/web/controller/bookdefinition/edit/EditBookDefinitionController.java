@@ -437,12 +437,12 @@ public class EditBookDefinitionController {
         @RequestParam final String fileName) {
         File file = new File(WebConstants.LOCATION_PDF + File.separator + fileName);
         if (file.exists()) {
-            return new ResponseEntity<>(FILE_NAME_ALREADY_EXISTS, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(FILE_NAME_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }
-        return writePdf(file, pdf);
+        return writePdf(pdf, file);
     }
 
-    private ResponseEntity<?> writePdf(final File file, final MultipartFile pdf) {
+    private ResponseEntity<?> writePdf(final MultipartFile pdf, final File file) {
         try {
             pdf.transferTo(file);
         } catch (Exception e) {
