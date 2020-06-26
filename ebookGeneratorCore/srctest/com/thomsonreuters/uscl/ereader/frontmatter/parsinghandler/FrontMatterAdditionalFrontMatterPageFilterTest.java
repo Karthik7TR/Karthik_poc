@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -92,7 +93,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest {
 
         frontMatterPageFilter = new FrontMatterAdditionalFrontMatterPageFilter(
             bookDefinition,
-            bookDefinition.getFrontMatterPages().get(0).getId());
+            bookDefinition.getFrontMatterPages().get(0).getId(), Collections.emptyMap());
         frontMatterPageFilter.setParent(saxParser.getXMLReader());
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);

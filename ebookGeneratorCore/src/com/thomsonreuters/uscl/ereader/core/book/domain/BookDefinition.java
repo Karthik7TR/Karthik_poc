@@ -1,20 +1,14 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
-import static com.thomsonreuters.uscl.ereader.util.ValueConverter.getStringForBooleanValue;
-import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
+import com.thomsonreuters.uscl.ereader.proview.Keyword;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -38,16 +32,21 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
-import com.thomsonreuters.uscl.ereader.proview.Keyword;
-import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import static com.thomsonreuters.uscl.ereader.util.ValueConverter.getStringForBooleanValue;
+import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
 
 @Entity
 @NamedQueries({
@@ -820,6 +819,16 @@ public class BookDefinition implements Serializable {
         }
 
         return pageList;
+    }
+
+    public Set<String> getFrontMatterPdfFileNames() {
+        return getFrontMatterPages().stream()
+                .map(FrontMatterPage::getFrontMatterSections)
+                .flatMap(Collection::stream)
+                .map(FrontMatterSection::getPdfs)
+                .flatMap(Collection::stream)
+                .map(FrontMatterPdf::getPdfFilename)
+                .collect(Collectors.toSet());
     }
 
     private <T extends Comparable<T>> List<T> getOrderedListFromCollection(final Collection<T> collection) {

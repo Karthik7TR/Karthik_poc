@@ -1,10 +1,12 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
-import java.io.File;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -17,6 +19,13 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 /**
  * This step adds a static predefined HTML header and footer and any ProView specific document wrappers.
  *
@@ -27,6 +36,8 @@ import org.springframework.beans.factory.annotation.Required;
 public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
     @Autowired
     private CreateFrontMatterService frontMatterService;
+    @Autowired
+    private PdfToImgConverter pdfToImgConverter;
 
     private PublishingStatsService publishingStatsService;
 
@@ -49,12 +60,14 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
         final Long jobInstance =
             chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 
+        Map<String, List<String>> frontMatterPdfImageNames = generatePdfImages(bookDefinition, frontMatterTargetDir);
+
         String publishStatus = "generateFrontMatterHTML : Completed";
 
         final boolean withPageNumbers = checkForPagebreaks(jobExecutionContext, bookDefinition);
 
         try {
-            frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition, withPageNumbers);
+            frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition, withPageNumbers, frontMatterPdfImageNames);
         } catch (final Exception e) {
             publishStatus = "generateFrontMatterHTML : Failed";
             throw e;
@@ -66,6 +79,18 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
         }
 
         return ExitStatus.COMPLETED;
+    }
+
+    private Map<String, List<String>> generatePdfImages(final BookDefinition bookDefinition, final File frontMatterTargetDir) {
+        if (bookDefinition.isCwBook()) {
+            File pdfDestDir = new File(frontMatterTargetDir, FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName());
+            return bookDefinition.getFrontMatterPdfFileNames().stream()
+                    .collect(Collectors.toMap(Function.identity(), pdfFileName -> {
+                        File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName(), pdfFileName);
+                        return pdfToImgConverter.convert(pdfFile, pdfDestDir);
+                    }));
+        }
+        return Collections.emptyMap();
     }
 
     private boolean checkForPagebreaks(

@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.service;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
@@ -17,7 +19,7 @@ public interface CreateFrontMatterService {
      * @param outputDir the target directory to which the generated front matter pages will be written
      * @param bookDefinition defines the book for which front matter is being generated
      */
-    void generateAllFrontMatterPages(File outputDir, BookDefinition bookDefinition, boolean withPageNumbers)
+    void generateAllFrontMatterPages(File outputDir, BookDefinition bookDefinition, boolean withPageNumbers, Map<String, List<String>> frontMatterPdfImageNames)
         throws EBookFrontMatterGenerationException;
 
     /**

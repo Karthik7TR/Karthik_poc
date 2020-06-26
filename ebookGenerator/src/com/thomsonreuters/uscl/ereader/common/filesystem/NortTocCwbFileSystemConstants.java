@@ -14,6 +14,7 @@ public enum NortTocCwbFileSystemConstants {
     GATHER_IMAGES_DYNAMIC_DIR("Dynamic"),
     GATHER_IMAGES_STATIC_DIR("Static"),
 
+    FORMAT_FRONT_MATTER_PDF_IMAGES_DIR("FrontMatterPdfImages"),
     FORMAT_FRONT_MATTER_HTML_DIR("01.FrontMatterHTML"),
     FORMAT_IMAGE_METADATA_DIR("02.ImageMetadata"),
     FORMAT_PREPROCESS_DIR("03.Preprocess"),
@@ -49,7 +50,9 @@ public enum NortTocCwbFileSystemConstants {
 
     ASSEMBLE_DOCUMENTS_DIR("documents"),
     ASSEMBLE_ASSETS_DIR("assets"),
-    ASSEMBLE_ARTWORK_DIR("artwork");
+    ASSEMBLE_ARTWORK_DIR("artwork"),
+
+    EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH("/apps/eBookBuilder/generator/images/pdf/");
 
     private final String name;
 

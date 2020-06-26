@@ -36,7 +36,6 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
 
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
-
     /*
      * (non-Javadoc)
      *
@@ -77,7 +76,7 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
             moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
 
             moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
-            moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, true);
+            moveResourcesUtil.moveFrontMatterImages(this, assetsDirectory, true);
             moveResourcesUtil.moveStylesheet(assetsDirectory);
             moveResourcesUtil.moveThesaurus(this, assembleFileSystem.getAssetsDirectory(this));
         } catch (final Exception e) {

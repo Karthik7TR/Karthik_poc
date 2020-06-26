@@ -1,8 +1,7 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
-import static com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter.IMG_SUFFIX;
-
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
@@ -14,6 +13,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This filter transforms the Title Page Template by filling in any template placeholders
@@ -53,10 +56,12 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
     private FrontMatterPage frontMatterPage;
     private Long FRONT_MATTER_PAGE_ID;
     private boolean isCwBook;
+    private Map<String, List<String>> frontMatterPdfImageNames;
 
     public FrontMatterAdditionalFrontMatterPageFilter(
         final BookDefinition bookDefinition,
-        final Long FRONT_MATTER_PAGE_ID)
+        final Long FRONT_MATTER_PAGE_ID,
+        final Map<String, List<String>> frontMatterPdfImageNames)
         throws EBookFrontMatterGenerationException {
         this.FRONT_MATTER_PAGE_ID = FRONT_MATTER_PAGE_ID;
         for (final FrontMatterPage fmp : bookDefinition.getFrontMatterPages()) {
@@ -72,6 +77,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
             throw new EBookFrontMatterGenerationException(message);
         }
         isCwBook = bookDefinition.isCwBook();
+        this.frontMatterPdfImageNames = frontMatterPdfImageNames;
     }
 
     @Override
@@ -183,12 +189,13 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
                         HTML_TAG_CLASS_ATTRIBUTE,
                         CDATA,
                         "section_pdf_hyperlink");
+                    final String pdfFileName = fmp.getPdfFilename();
                     // Add er:# and strip .pdf
-                    int startOfPDFExtension = fmp.getPdfFilename().lastIndexOf(".");
+                    int startOfPDFExtension = pdfFileName.lastIndexOf(".");
                     if (startOfPDFExtension == -1) {
-                        startOfPDFExtension = fmp.getPdfFilename().length();
+                        startOfPDFExtension = pdfFileName.length();
                     }
-                    final String pdfHREF = "er:#" + fmp.getPdfFilename().substring(0, startOfPDFExtension);
+                    final String pdfHREF = "er:#" + pdfFileName.substring(0, startOfPDFExtension);
                     newAtts.addAttribute("", HTML_TAG_HREF_ATTRIBUTE, HTML_TAG_HREF_ATTRIBUTE, CDATA, pdfHREF);
                     super.startElement("", HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
                     printText(fmp.getPdfLinkText(), SINGLE_LINE_FIELD);
@@ -199,16 +206,24 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
                     super.endElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE);
 
                     if (isCwBook) {
-                        newAtts = new AttributesImpl();
-                        newAtts.addAttribute("", SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, pdfHREF + IMG_SUFFIX);
-                        newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, TR_IMAGE);
-                        super.startElement("", IMG_ATTRIBUTE, IMG_ATTRIBUTE, newAtts);
-                        super.endElement("", IMG_ATTRIBUTE, IMG_ATTRIBUTE); // end image tag for PDF
+                        frontMatterPdfImageNames.getOrDefault(pdfFileName, Collections.emptyList()).forEach(this::createImageRef);
                     }
                 }
 
                 super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG); /// end section_pdf
             }
+        }
+    }
+
+    private void createImageRef(final String pdfHREF) {
+        AttributesImpl atts = new AttributesImpl();
+        atts.addAttribute("", SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, "er:#" + pdfHREF);
+        atts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, TR_IMAGE);
+        try {
+            super.startElement("", IMG_ATTRIBUTE, IMG_ATTRIBUTE, atts);
+            super.endElement("", IMG_ATTRIBUTE, IMG_ATTRIBUTE);
+        } catch (SAXException e) {
+            throw new EBookException(e);
         }
     }
 }

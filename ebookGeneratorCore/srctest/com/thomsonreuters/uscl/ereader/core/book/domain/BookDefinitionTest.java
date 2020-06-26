@@ -3,15 +3,45 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+
 public final class BookDefinitionTest {
+    public static final String PDF_FILENAME = "cw_eg_cdn_el_fdc_en_frontmatter.pdf";
+    private BookDefinition bookDefinition;
+
     @Before
     public void setUp() {
-        //Intentionally left blank
+        bookDefinition = new BookDefinition();
+        bookDefinition.setFrontMatterPages(getFrontMatterPages());
     }
 
     @Test
-    public void dummyTest() {
-        return;
+    public void getFrontMatterPdfFileNamesTest() {
+        Set<String> pdfFileNames = bookDefinition.getFrontMatterPdfFileNames();
+        assertEquals(pdfFileNames.iterator().next(), PDF_FILENAME);
+    }
+
+    private Collection<FrontMatterPage> getFrontMatterPages() {
+        FrontMatterPage frontMatterPage = new FrontMatterPage();
+        frontMatterPage.setFrontMatterSections(getFrontMatterSections());
+        return Collections.singletonList(frontMatterPage);
+    }
+
+    private List<FrontMatterSection> getFrontMatterSections() {
+        FrontMatterSection frontMatterSection = new FrontMatterSection();
+        frontMatterSection.setPdfs(getFrontMatterPdfs());
+        return Collections.singletonList(frontMatterSection);
+    }
+
+    private List<FrontMatterPdf> getFrontMatterPdfs() {
+        FrontMatterPdf frontMatterPdf = new FrontMatterPdf();
+        frontMatterPdf.setPdfFilename(PDF_FILENAME);
+        return Collections.singletonList(frontMatterPdf);
     }
 
 /*	@Test

@@ -29,6 +29,8 @@ public final class FormatFileSystemImplTest {
     private static final String PREPROCESS_DIRECTORY = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR.getName();
     private static final String TRANSFORMED_DIRECTORY = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR.getName();
     private static final String IMAGE_METADATA_DIRECTORY = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR.getName();
+    private static final String FORMAT_FRONT_MATTER_HTML_DIR = FORMAT_DIRECTORY + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_HTML_DIR.getName();
+    private static final String FORMAT_FRONT_MATTER_PDF_IMAGES_DIR = FORMAT_FRONT_MATTER_HTML_DIR + SEPARATOR + NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName();
 
     @InjectMocks
     private FormatFileSystemImpl fileSystem;
@@ -125,5 +127,23 @@ public final class FormatFileSystemImplTest {
         final File directory = fileSystem.getFormatDirectory(1L);
         //then
         assertThat(directory, hasPath(FORMAT_DIRECTORY));
+    }
+
+    @Test
+    public void shouldReturnFrontMatterHtmlDir() {
+        //given
+        //when
+        final File file = fileSystem.getFrontMatterHtmlDir(step);
+        //then
+        assertThat(file, hasPath(FORMAT_FRONT_MATTER_HTML_DIR));
+    }
+
+    @Test
+    public void shouldReturnFrontMatterPdfImagesDir() {
+        //given
+        //when
+        final File file = fileSystem.getFrontMatterPdfImagesDir(step);
+        //then
+        assertThat(file, hasPath(FORMAT_FRONT_MATTER_PDF_IMAGES_DIR));
     }
 }

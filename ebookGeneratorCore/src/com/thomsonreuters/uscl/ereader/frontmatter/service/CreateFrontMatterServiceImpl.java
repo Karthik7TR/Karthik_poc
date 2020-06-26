@@ -1,19 +1,5 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.service;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -39,6 +25,21 @@ import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Service that generates HTML for all the Front Matter pages.
@@ -74,7 +75,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#generateAllFrontMatterPages(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)
      */
     @Override
-    public void generateAllFrontMatterPages(final File outputDir, final BookDefinition bookDefinition, final boolean withPageNumbers)
+    public void generateAllFrontMatterPages(final File outputDir, final BookDefinition bookDefinition, final boolean withPageNumbers, final Map<String, List<String>> frontMatterPdfImageNames)
         throws EBookFrontMatterGenerationException {
         final File titlePage = new File(outputDir, FrontMatterFileName.FRONT_MATTER_TITLE + HTML_EXTENSION);
         writeHTMLFile(titlePage, generateTitlePage(bookDefinition, withPageNumbers));
@@ -89,7 +90,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
         for (final FrontMatterPage page : bookDefinition.getFrontMatterPages()) {
             final File additionalPage =
                 new File(outputDir, FrontMatterFileName.ADDITIONAL_FRONT_MATTER + page.getId() + HTML_EXTENSION);
-            writeHTMLFile(additionalPage, generateAdditionalFrontMatterPage(bookDefinition, page.getId()));
+            writeHTMLFile(additionalPage, generateAdditionalFrontMatterPage(bookDefinition, page.getId(), frontMatterPdfImageNames));
 
             LOG.debug("Front Matter Additional HTML page " + page.getId() + " generated.");
         }
@@ -134,7 +135,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
     @Override
     public String getAdditionalFrontPage(final BookDefinition bookDefinition, final Long front_matter_page_id)
         throws EBookFrontMatterGenerationException {
-        final String output = generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id)
+        final String output = generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id, Collections.emptyMap())
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
         return output;
     }
@@ -226,10 +227,10 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
      * @return HTML that represents the Title page
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
-    private String generateAdditionalFrontMatterPage(final BookDefinition bookDefinition, final Long pageId)
+    private String generateAdditionalFrontMatterPage(final BookDefinition bookDefinition, final Long pageId, final Map<String, List<String>> frontMatterPdfImageNames)
         throws EBookFrontMatterGenerationException {
         return transformTemplate(
-            new FrontMatterAdditionalFrontMatterPageFilter(bookDefinition, pageId),
+            new FrontMatterAdditionalFrontMatterPageFilter(bookDefinition, pageId, frontMatterPdfImageNames),
             getFrontMatterAdditionalPagesTemplate());
     }
 

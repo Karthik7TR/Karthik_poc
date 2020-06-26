@@ -1,15 +1,17 @@
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
+
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
-import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
+import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler.FrontMatterTitlePageFilter;
-import org.apache.commons.io.FileUtils;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,16 +20,12 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MoveResourcesUtil {
-    /**
-     * The file path of the user generated files for front matter pdfs.
-     */
-    private static final String EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH = "/apps/eBookBuilder/generator/images/pdf/";
     /**
      * The directory of the static files for front matter logos and keycite
      * logo.
@@ -56,15 +54,11 @@ public class MoveResourcesUtil {
     @Value("${thesaurus.static.files.dir}")
     private File thesaurusStaticFilesDir;
 
-    @Autowired
-    private PdfToImgConverter pdfToImgConverter;
-
     public void setCoverArtUtil(final CoverArtUtil coverArtUtil) {
         this.coverArtUtil = coverArtUtil;
     }
 
-    public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory)
-        throws IOException {
+    public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory) {
         final File coverArt = createCoverArt(jobExecutionContext);
         FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
     }
@@ -76,22 +70,19 @@ public class MoveResourcesUtil {
         return coverArt;
     }
 
-    public void copySourceToDestination(final File sourceDir, final File destinationDirectory) throws IOException {
-        FileUtils.copyDirectory(sourceDir, destinationDirectory);
+    public void copySourceToDestination(final File sourceDir, final File destinationDirectory) {
+        FileUtils.copyDirectory(sourceDir, destinationDirectory, File::isFile);
     }
 
-    public void copyFilesToDestination(final List<File> fileList, final File destinationDirectory) throws IOException {
-        for (final File file : fileList) {
-            FileUtils.copyFileToDirectory(file, destinationDirectory);
-        }
+    public void copyFilesToDestination(final List<File> fileList, final File destinationDirectory) {
+        FileUtils.copyFilesToDirectory(fileList, destinationDirectory);
     }
 
     public void moveFrontMatterImages(
-        final ExecutionContext jobExecutionContext,
+        final BookStepImpl step,
         final File assetsDirectory,
-        final boolean move) throws IOException {
-        final BookDefinition bookDefinition =
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
+        final boolean move) {
+        final BookDefinition bookDefinition = step.getBookDefinition();
         final File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
 
         final List<File> filter = filterFiles(frontMatterImagesDir, bookDefinition);
@@ -112,12 +103,14 @@ public class MoveResourcesUtil {
             }
 
             for (final FrontMatterPdf pdf : pdfList) {
-                final File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH + pdf.getPdfFilename());
+                final File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName() + pdf.getPdfFilename());
                 FileUtils.copyFileToDirectory(pdfFile, assetsDirectory);
+            }
 
-                if (bookDefinition.isCwBook()) {
-                    pdfToImgConverter.convert(pdfFile, assetsDirectory);
-                }
+            if (bookDefinition.isCwBook()) {
+                Optional.of(formatFileSystem.getFrontMatterPdfImagesDir(step))
+                        .filter(File::exists)
+                        .ifPresent(from -> FileUtils.copyDirectory(from, assetsDirectory));
             }
         }
     }
@@ -130,11 +123,10 @@ public class MoveResourcesUtil {
      * @return
      * @throws FileNotFoundException
      */
-    public List<File> filterFiles(final File frontMatterImagesDir, final BookDefinition bookDefinition)
-        throws FileNotFoundException {
+    public List<File> filterFiles(final File frontMatterImagesDir, final BookDefinition bookDefinition) {
         final List<File> filter = new ArrayList<>();
         if (!frontMatterImagesDir.exists()) {
-            throw new FileNotFoundException("Directory not found:  " + frontMatterImagesDir.getPath());
+            throw new EBookException(new FileNotFoundException("Directory not found:  " + frontMatterImagesDir.getPath()));
         }
         for (final File file : frontMatterImagesDir.listFiles()) {
             if (!bookDefinition.getFrontMatterTheme().equalsIgnoreCase(FrontMatterTitlePageFilter.AAJ_PRESS_THEME)
@@ -149,14 +141,14 @@ public class MoveResourcesUtil {
         return filter;
     }
 
-    protected void moveStylesheet(final File assetsDirectory) throws IOException {
+    protected void moveStylesheet(final File assetsDirectory) {
         File stylesheet = new File(staticContentDirectory, DOCUMENT_CSS_FILE);
         FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
         stylesheet = new File(EBOOK_GENERATOR_CSS_FILE);
         FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
     }
 
-    protected void moveThesaurus(final BookStepImpl step, final File assetsDirectory) throws IOException {
+    protected void moveThesaurus(final BookStepImpl step, final File assetsDirectory) {
         if (step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS)) {
             File thesaurusFile = new File(formatFileSystem.getFormatDirectory(step), THESAURUS_XML);
             FileUtils.copyDirectory(thesaurusStaticFilesDir, assetsDirectory);

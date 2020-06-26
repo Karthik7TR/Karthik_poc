@@ -4,6 +4,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
@@ -11,19 +12,16 @@ import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesLis
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
@@ -41,16 +39,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter.getImageFileName;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
@@ -68,6 +65,8 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     private BookDefinitionService bookDefinitionService;
     @Autowired
     private ProviewFeaturesListBuilderFactory featuresListBuilderFactory;
+    @Autowired
+    private FormatFileSystem formatFileSystem;
 
     /*
      * (non-Javadoc)
@@ -150,18 +149,14 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                 if (i == 1) {
                     splitTitle = bookDefinition.getTitleId();
 
-                    bookDefinition.getFrontMatterPages().stream()
-                        .map(FrontMatterPage::getFrontMatterSections)
-                        .flatMap(Collection::stream)
-                        .map(FrontMatterSection::getPdfs)
-                        .flatMap(Collection::stream)
-                        .map(FrontMatterPdf::getPdfFilename)
-                        .forEach(pdfFileName -> {
-                            titleMetadataBuilder.assetFileName(pdfFileName);
-                            if (bookDefinition.isCwBook()) {
-                                titleMetadataBuilder.assetFileName(getImageFileName(pdfFileName));
-                            }
-                        });
+                    bookDefinition.getFrontMatterPdfFileNames()
+                        .forEach(titleMetadataBuilder::assetFileName);
+
+                    if (bookDefinition.isCwBook()) {
+                        Arrays.stream(Objects.requireNonNull(formatFileSystem.getFrontMatterPdfImagesDir(this).listFiles()))
+                                .map(File::getName)
+                                .forEach(titleMetadataBuilder::assetFileName);
+                    }
 
                     titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
                     firstSplitBook = true;
@@ -226,7 +221,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         final boolean firstSplitBook,
         final List<String> imgList,
         final List<Doc> docList,
-        final File coverArtFile) throws IOException {
+        final File coverArtFile) {
         // Move assets
         final File assetsDirectory = createAssetsDirectory(ebookDirectory);
         // static images
@@ -242,7 +237,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);
         moveResourcesUtil.copyFilesToDestination(dynamicImgFiles, assetsDirectory);
         // Frontmatter pdf
-        moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, firstSplitBook);
+        moveResourcesUtil.moveFrontMatterImages(this, assetsDirectory, firstSplitBook);
 
         final File artworkDirectory = createArtworkDirectory(ebookDirectory);
         FileUtils.copyFileToDirectory(coverArtFile, artworkDirectory);
@@ -312,7 +307,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     protected void addAssetsForAllBooks(
         final ExecutionContext jobExecutionContext,
         final BookDefinition bookDefinition,
-        final TitleMetadataBuilder builder) throws FileNotFoundException {
+        final TitleMetadataBuilder builder) {
         final File staticImagesDir =
             new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
         final String staticContentDir =

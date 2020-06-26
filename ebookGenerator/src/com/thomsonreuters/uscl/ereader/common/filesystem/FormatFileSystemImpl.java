@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.common.filesystem;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_HTML_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
@@ -89,5 +91,17 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @Override
     public File getImageToDocumentManifestFile(@NotNull final BookStep step) {
         return new File(getFormatDirectory(step), FORMAT_DOC_TO_IMAGE_MANIFEST_FILE.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getFrontMatterHtmlDir(@NotNull final BookStep step) {
+        return new File(getFormatDirectory(step), FORMAT_FRONT_MATTER_HTML_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getFrontMatterPdfImagesDir(@NotNull final BookStep step) {
+        return new File(getFrontMatterHtmlDir(step), FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName());
     }
 }
