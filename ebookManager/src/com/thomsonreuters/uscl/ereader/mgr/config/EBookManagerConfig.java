@@ -18,6 +18,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -36,6 +38,8 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 @ImportResource({"classpath:spring/*.xml", "/WEB-INF/spring/*.xml"})
 @ComponentScan("com.thomsonreuters.uscl.ereader")
 public class EBookManagerConfig extends WebMvcConfigurerAdapter {
+    private static final int MB_200 = 209_715_200;
+
     @Bean
     public MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter() {
         return new MappingJackson2HttpMessageConverter();
@@ -87,6 +91,13 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
         viewResolver.setPrefix("/WEB-INF/jsp/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setMaxUploadSize(MB_200);
+        return commonsMultipartResolver;
     }
 
     @Bean

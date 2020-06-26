@@ -200,6 +200,7 @@ public class WebConstants {
     public static final String MVC_GET_CONTENT_TYPE = "getContentType.mvc";
     public static final String MVC_FRONT_MATTER_PREVIEW = "frontMatterPreview.mvc";
     public static final String MVC_FRONT_MATTER_PREVIEW_EDIT = "frontMatterPreviewEdit.mvc";
+    public static final String MVC_UPLOAD_PDF = "uploadPdf.mvc";
 
     public static final String MVC_FRONT_MATTER_PREVIEW_TITLE = "frontMatterPreviewTitle.mvc";
     public static final String MVC_FRONT_MATTER_PREVIEW_COPYRIGHT = "frontMatterPreviewCopyright.mvc";
