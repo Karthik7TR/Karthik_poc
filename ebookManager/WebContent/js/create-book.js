@@ -559,14 +559,14 @@ $(function() {
 		};
 
 		const addUploadPdfButton = function(expandingBox) {
-			let pdfFile = $("<input>").attr("type", "file").attr("id", "chosenPdf" + pdfIndex)
+			const pdfFile = $("<input>").attr("type", "file").attr("id", "chosenPdf" + pdfIndex)
 				.attr("accept", ".pdf").css("display", "none");
 			pdfFile.change(function(e) {
 				const file = e.target.files[0];
 				sendPdfFileToServer(file);
 			});
 
-			let pdfUploadButton = $("<button>").attr("id", "uploadPdfButton" + pdfIndex).html('Upload PDF');
+			const pdfUploadButton = $("<button>").attr("id", "uploadPdfButton" + pdfIndex).html('Upload PDF');
 			pdfUploadButton.click(function(e) {
 				e.preventDefault();
 				pdfFile.click();
@@ -577,6 +577,7 @@ $(function() {
 		};
 
 		const sendPdfFileToServer = function(file) {
+			const fileNameField = $('#pdfFilename' + pdfIndex);
 			const fileName = file.name;
 			const uploadFormData = new FormData();
 			uploadFormData.append("file", file);
@@ -589,11 +590,15 @@ $(function() {
 				processData: false,
 				contentType: false,
 				success: function() {
-					const fileNameField = $('#pdfFilename' + pdfIndex);
 					fileNameField.val(fileName);
 					fileNameField.removeClass('blur');
+				},
+				error: function (response) {
+					window.alert(response.responseText);
+					fileNameField.val('');
 				}
 			});
+			$("#chosenPdf" + pdfIndex).val(null);
 		};
 		
 		var clearTitleAndContentInformation = function() {

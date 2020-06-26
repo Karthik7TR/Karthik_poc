@@ -5,7 +5,6 @@ import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_M
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_IDS;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -38,7 +37,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mockito.internal.util.collections.Sets;
@@ -65,9 +64,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-@Log4j
+@Slf4j
 @Controller
 public class EditBookDefinitionController {
+    private static final String FILE_NAME_ALREADY_EXISTS = "File with this name already exists";
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -431,15 +431,23 @@ public class EditBookDefinitionController {
         return editBookDefinitionService.getMaterialBySubNumber(subNumber, setNumber, titleId);
     }
 
-    @RequestMapping(value = "uploadPdf.mvc", method = RequestMethod.POST)
+    @RequestMapping(value = WebConstants.MVC_UPLOAD_PDF, method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> uploadPdf(@RequestParam MultipartFile file,
-        @RequestParam String fileName) throws IOException {
+    public ResponseEntity<?> uploadPdf(@RequestParam("file") final MultipartFile pdf,
+        @RequestParam final String fileName) {
+        File file = new File(WebConstants.LOCATION_PDF + File.separator + fileName);
+        if (file.exists()) {
+            return new ResponseEntity<>(FILE_NAME_ALREADY_EXISTS, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return writePdf(file, pdf);
+    }
+
+    private ResponseEntity<?> writePdf(final File file, final MultipartFile pdf) {
         try {
-            file.transferTo(new File(WebConstants.LOCATION_PDF + File.separator + fileName));
+            pdf.transferTo(file);
         } catch (Exception e) {
-            log.error(e);
-            throw e;
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
