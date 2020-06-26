@@ -435,7 +435,7 @@ public class EditBookDefinitionController {
     @ResponseBody
     public ResponseEntity<?> uploadPdf(@RequestParam("file") final MultipartFile pdf,
         @RequestParam final String fileName) {
-        File file = new File(WebConstants.LOCATION_PDF + File.separator + fileName);
+        File file = new File(WebConstants.LOCATION_PDF, fileName);
         if (file.exists()) {
             return new ResponseEntity<>(FILE_NAME_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }
