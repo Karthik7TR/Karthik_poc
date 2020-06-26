@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_CANADA;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_US;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_IDS;
@@ -23,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
@@ -61,6 +63,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class EditBookDefinitionController {
+    private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -446,8 +449,12 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_FORM, form);
 
         model.addAttribute(KEY_SUBJECT_MATTER_IDS, Sets.newSet(
-                keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER_CANADA).getId(),
-                keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER_US).getId()));
+                Optional.ofNullable(keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER_CANADA))
+                        .map(KeywordTypeCode::getId)
+                        .orElse(CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER),
+                Optional.ofNullable(keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER_US))
+                        .orElseGet(() -> keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER))
+                        .getId()));
         printComponentsCompareController.setPrintComponentHistoryAttributes(form.getBookdefinitionId(), model);
     }
 
