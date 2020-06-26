@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.GenerateDocumentDataBlockService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl;
@@ -22,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServic
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -80,6 +83,27 @@ public final class TransformXmlStepIntegrationTest {
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
+        @Value("${mud.domain}")
+        private String mudDomain;
+
+        @Value("${mud.parameter.rs}")
+        private String mudParameterRs;
+
+        @Value("${mud.parameter.vr}")
+        private String mudParameterVr;
+
+        @Bean
+        @SneakyThrows
+        public CiteQueryAdapter citeQueryAdapter() {
+            final CiteQueryAdapter adapter = new CiteQueryAdapter();
+
+            adapter.setHostname(mudDomain);
+            adapter.setRs(mudParameterRs);
+            adapter.setVr(mudParameterVr);
+
+            return adapter;
+        }
+
         @Bean
         public TransformXML transformXML() {
             return new TransformXML();

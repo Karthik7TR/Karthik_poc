@@ -25,6 +25,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,13 +52,26 @@ import java.util.stream.LongStream;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
 public final class EditBookDefinitionFormValidatorTest {
-    private static final String KEYWORDS_FIELD = "keywords[4]";
-    private static final long SUBJECT_KEYWORD_ID = 4L;
+    private static final String CW = "cw";
+    private static final String USCL = "uscl";
+    private static final long PUBLISHER_KEYWORD_ID_CW = 1L;
+    private static final long PUBLISHER_KEYWORD_ID_USCL = 2L;
+    private static final long JURISDICTION_KEYWORD_ID_CW = 3L;
+    private static final long JURISDICTION_KEYWORD_ID_USCL = 4L;
+    private static final long SOME_ADDITIONAL_KEYWORD_ID = 5L;
+    private static final long SUBJECT_KEYWORD_ID_USCL = 6L;
+    private static final long SUBJECT_KEYWORD_ID_CW = 7L;
+    private static final String KEYWORDS_ERROR_PATTERN = "keywords[%d]";
     private static final String SUBJECT_KEYWORD = "subject";
+    private static final String JURISDICTION_KEYWORD = "jurisdiction";
+    private static final String PUBLISHER_KEYWORD = "publisher";
+    private static final String SOME_ADDITIONAL_KEYWORD = "some additional keyword";
     private static final String PUBLISHED_DATE = "publishedDate";
     private static final String WRONG_DATE_PATTERN = "dd-mm-yyyy";
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
     private static final String WRONG_DATE_FORMAT_ERROR = "error.date.format";
+    private static final String REQUIRED_ERROR = "error.required";
+    private static final Map<String, String> TITLE_ID_BY_PUBLISHER = new HashMap<>();
 
     private List<KeywordTypeCode> KEYWORD_CODES;
 
@@ -73,6 +88,11 @@ public final class EditBookDefinitionFormValidatorTest {
 
     private DocumentTypeCode analyticalCode;
 
+    @BeforeClass
+    public static void setUpClass() {
+        TITLE_ID_BY_PUBLISHER.put(CW, "cw/eg/title_en");
+        TITLE_ID_BY_PUBLISHER.put(USCL, "uscl/an/title_title");
+    }
     @Before
     public void setUp() {
         form = new EditBookDefinitionForm();
@@ -84,21 +104,14 @@ public final class EditBookDefinitionFormValidatorTest {
         analyticalCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR);
         analyticalCode.setName(WebConstants.DOCUMENT_TYPE_ANALYTICAL);
 
-        final KeywordTypeCode keyword = new KeywordTypeCode();
-        keyword.setId(1L);
-        keyword.setIsRequired(false);
-        keyword.setName("publisher");
-
-        final KeywordTypeCode keyword2 = new KeywordTypeCode();
-        keyword2.setId(2L);
-        keyword2.setIsRequired(true);
-        keyword2.setName("code");
-        keyword2.setValues(Arrays.asList(new KeywordTypeValue()));
-
         KEYWORD_CODES = new ArrayList<>();
-        KEYWORD_CODES.add(keyword);
-        KEYWORD_CODES.add(keyword2);
-        KEYWORD_CODES.add(getSubjectKeywordTypeCode("Subject1", "Subject2", "Subject3", "Subject4"));
+        KEYWORD_CODES.add(getKeywordTypeCode(PUBLISHER_KEYWORD + " " + CW, true, PUBLISHER_KEYWORD_ID_CW, "Carswell"));
+        KEYWORD_CODES.add(getKeywordTypeCode(PUBLISHER_KEYWORD + " " + USCL, true, PUBLISHER_KEYWORD_ID_USCL, "Thomson Reuters"));
+        KEYWORD_CODES.add(getKeywordTypeCode(JURISDICTION_KEYWORD + " " + CW, true, JURISDICTION_KEYWORD_ID_CW, "Canada"));
+        KEYWORD_CODES.add(getKeywordTypeCode(JURISDICTION_KEYWORD + " " + USCL, true, JURISDICTION_KEYWORD_ID_USCL, "Alaska"));
+        KEYWORD_CODES.add(getKeywordTypeCode(SOME_ADDITIONAL_KEYWORD, false, SOME_ADDITIONAL_KEYWORD_ID, "Some value"));
+        KEYWORD_CODES.add(getKeywordTypeCode(SUBJECT_KEYWORD + " " + USCL, false, SUBJECT_KEYWORD_ID_USCL, "Banking and Finance Law", "Civil Procedure", "Motor Vehicles", "Aboriginal"));
+        KEYWORD_CODES.add(getKeywordTypeCode(SUBJECT_KEYWORD + " " + CW, false, SUBJECT_KEYWORD_ID_CW, "Aboriginal", "Constitutional", "Criminal", "Immigration"));
 
         EasyMock.reset(mockBookDefinitionService, mockDocumentTypeCodeService, keywordTypeCodeSevice);
     }
@@ -121,8 +134,8 @@ public final class EditBookDefinitionFormValidatorTest {
      */
     @Test
     public void testNoContentType() {
-        form.setTitleId("uscl");
-        form.setPublisher("uscl");
+        form.setTitleId(USCL);
+        form.setPublisher(USCL);
         // verify errors
         validator.validate(form, errors);
         Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
@@ -209,7 +222,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
-        Assert.assertEquals(14, errors.getAllErrors().size());
+        Assert.assertEquals(15, errors.getAllErrors().size());
     }
 
     /**
@@ -1266,50 +1279,124 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void testNoSubjectKeywords() {
-        testSubjectKeywords(0, err -> Assert.assertNull(err.getFieldError(KEYWORDS_FIELD)));
+    public void testProviewKeywordsAllRequiredFilledUS() {
+        final Map<Long, Collection<Long>> keywords = new HashMap<>();
+        keywords.put(PUBLISHER_KEYWORD_ID_USCL, Collections.singletonList(1L));
+        keywords.put(JURISDICTION_KEYWORD_ID_USCL, Collections.singletonList(1L));
+        testKeywords(USCL, keywords, Arrays.asList(
+                err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_USCL))),
+                err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)))));
     }
 
     @Test
-    public void testMultipleSubjectKeywords() {
-        testSubjectKeywords(3, err -> Assert.assertNull(err.getFieldError(KEYWORDS_FIELD)));
+    public void testProviewKeywordsOneRequiredMissingUS() {
+        final Map<Long, Collection<Long>> keywords = new HashMap<>();
+        keywords.put(PUBLISHER_KEYWORD_ID_USCL, Collections.singletonList(1L));
+        testKeywords(USCL, keywords, Arrays.asList(
+                err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_USCL))),
+                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)).getCode())));
     }
 
     @Test
-    public void testMultipleSubjectKeywordsMaxNumberExceeded() {
-        testSubjectKeywords(4, err -> Assert.assertEquals(
-            SUBJECT_KEYWORD_ERROR,
-            err.getFieldError(KEYWORDS_FIELD).getCode()));
+    public void testProviewKeywordsAllRequiredMissingUS() {
+        testKeywords(USCL, new HashMap<>(), Arrays.asList(
+                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_USCL)).getCode()),
+                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)).getCode())));
     }
 
-    private void testSubjectKeywords(final int numberOfSubjectKeywords, final Consumer<Errors> assertion) {
+    @Test
+    public void testProviewKeywordsAllRequiredFilledCW() {
+        final Map<Long, Collection<Long>> keywords = new HashMap<>();
+        keywords.put(PUBLISHER_KEYWORD_ID_CW, Collections.singletonList(1L));
+        keywords.put(JURISDICTION_KEYWORD_ID_CW, Collections.singletonList(1L));
+        testKeywords(CW, keywords, Arrays.asList(
+                err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_CW))),
+                err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)))));
+    }
+
+    @Test
+    public void testProviewKeywordsOneRequiredMissingCW() {
+        final Map<Long, Collection<Long>> keywords = new HashMap<>();
+        keywords.put(PUBLISHER_KEYWORD_ID_CW, Collections.singletonList(1L));
+        testKeywords(CW, keywords, Arrays.asList(
+                err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_CW))),
+                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)).getCode())));
+    }
+
+    @Test
+    public void testProviewKeywordsAllRequiredMissingCW() {
+        testKeywords(CW, new HashMap<>(), Arrays.asList(
+                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_CW)).getCode()),
+                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)).getCode())));
+    }
+
+    @Test
+    public void testNoSubjectKeywordsUS() {
+        testKeywords(USCL, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_USCL, 0),
+                Collections.singletonList(err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)))));
+    }
+
+    @Test
+    public void testMultipleSubjectKeywordsUS() {
+        testKeywords(USCL, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_USCL, 3),
+                Collections.singletonList(err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)))));
+    }
+
+    @Test
+    public void testMultipleSubjectKeywordsMaxNumberExceededUS() {
+        testKeywords(USCL, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_USCL, 4), Collections.singletonList(err -> Assert.assertEquals(
+                SUBJECT_KEYWORD_ERROR,
+                err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)).getCode())));
+    }
+
+    @Test
+    public void testNoSubjectKeywordsCW() {
+        testKeywords(CW, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_CW, 0),
+                Collections.singletonList(err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)))));
+    }
+
+    @Test
+    public void testMultipleSubjectKeywordsCW() {
+        testKeywords(CW, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_CW, 3),
+                Collections.singletonList(err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)))));
+    }
+
+    @Test
+    public void testMultipleSubjectKeywordsMaxNumberExceededCW() {
+        testKeywords(CW, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_CW, 4), Collections.singletonList(err -> Assert.assertEquals(
+                SUBJECT_KEYWORD_ERROR,
+                err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)).getCode())));
+    }
+
+    private void testKeywords(final String publisher, final Map<Long, Collection<Long>> keywords, final List<Consumer<Errors>> assertions) {
         EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(keywordTypeCodeSevice);
 
         form.setValidateForm(true);
-        form.setKeywords(getSubjectKeywordsFormData(numberOfSubjectKeywords));
+        form.setPublisher(publisher);
+        form.setKeywords(keywords);
 
-        setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2, 2);
+        setupPublisherAndTitleId(TITLE_ID_BY_PUBLISHER.get(publisher), analyticalCode, 2, 2);
 
         validator.validate(form, errors);
 
-        assertion.accept(errors);
+        assertions.forEach(assertion -> assertion.accept(errors));
     }
 
-    private Map<Long, Collection<Long>> getSubjectKeywordsFormData(final int numberOfSubjectKeywords) {
+    private Map<Long, Collection<Long>> getSubjectKeywordsFormData(final long subjectKeywordId, final int numberOfSubjectKeywords) {
         final Map<Long, Collection<Long>> keywords = new HashMap<>();
-        keywords.put(SUBJECT_KEYWORD_ID, LongStream.range(0, numberOfSubjectKeywords).boxed().collect(Collectors.toList()));
+        keywords.put(subjectKeywordId, LongStream.range(0, numberOfSubjectKeywords).boxed().collect(Collectors.toList()));
         return keywords;
     }
 
-    private KeywordTypeCode getSubjectKeywordTypeCode(final String...subjects) {
+    private KeywordTypeCode getKeywordTypeCode(final String name, final boolean isRequired, final Long keywordId, final String...values) {
         final KeywordTypeCode keyword = new KeywordTypeCode();
-        keyword.setId(SUBJECT_KEYWORD_ID);
-        keyword.setIsRequired(false);
-        keyword.setName(SUBJECT_KEYWORD);
+        keyword.setId(keywordId);
+        keyword.setIsRequired(isRequired);
+        keyword.setName(name);
 
-        keyword.setValues(IntStream.range(0, subjects.length).boxed()
-            .map(index -> createKeywordTypeValue(index, subjects[index], keyword))
+        keyword.setValues(IntStream.range(0, values.length).boxed()
+            .map(index -> createKeywordTypeValue(index, values[index], keyword))
             .collect(Collectors.toList()));
 
         return keyword;

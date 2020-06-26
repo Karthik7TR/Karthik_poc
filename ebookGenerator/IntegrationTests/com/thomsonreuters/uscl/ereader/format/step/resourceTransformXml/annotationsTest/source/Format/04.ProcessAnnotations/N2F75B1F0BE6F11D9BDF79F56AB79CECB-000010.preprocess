@@ -149,6 +149,31 @@
 			</reference.block>
 		</annotations>
 		<oconnor.annotations source="oconnor">
+			<other.misc.block source="oconnor">
+				<head ID="I83CEFEE582D411EABE7096D2210E18D4" ampexmnem="xcono">
+					<head.info>
+						<oconnor.headtext>TREATISE CROSS-REFERENCES</oconnor.headtext>
+					</head.info>
+				</head>
+				<head ID="I83CEFED782D411EABE7096D2210E18D4" ampexmnem="gnh">
+					<head.info>
+						<oconnor.headtext>
+							<ital>Patent Law Fundamentals</ital>
+						</oconnor.headtext>
+					</head.info>
+				</head>
+				<other.misc.body source="oconnor">
+					<other.misc ID="I4466BD7E82D511EABE7096D2210E18D4" source="oconnor">
+						<oconnor.reference.text>Ch. 1, <ital>What a Patent Is</ital>, §1:20</oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I4466BD6C82D511EABE7096D2210E18D4" source="oconnor">
+						<oconnor.reference.text>Ch. 2, <ital>Some Popularly Held Misconceptions About Patents</ital>, §2:8</oconnor.reference.text>
+					</other.misc>
+					<other.misc ID="I4466BD5A82D511EABE7096D2210E18D4" source="oconnor">
+						<oconnor.reference.text>Ch. 4, <ital>Trade Secrets</ital>, §4:22</oconnor.reference.text>
+					</other.misc>
+				</other.misc.body>
+			</other.misc.block>
 			<other.ed.note.block source="oconnor">
 				<head ID="IAF88B34071BD11E9830BF2151B89F774" ampexmnem="xconed">
 					<oconnor.headtext>O’CONNOR’S EDITOR NOTES</oconnor.headtext>

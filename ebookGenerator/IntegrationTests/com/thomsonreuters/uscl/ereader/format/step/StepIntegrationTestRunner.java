@@ -5,7 +5,6 @@ import static com.thomsonreuters.uscl.ereader.StepTestUtil.validateDirsOnExpecte
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;

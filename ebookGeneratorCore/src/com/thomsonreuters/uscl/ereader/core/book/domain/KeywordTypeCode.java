@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -26,9 +29,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.ALL_PUBLISHERS;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
 
 @Getter
 @Setter
@@ -41,6 +48,9 @@ import org.hibernate.annotations.FetchMode;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "KeywordTypeCode")
 public class KeywordTypeCode implements Serializable {
     private static final long serialVersionUID = -6883749966331206015L;
+    private static final String BASE_NAME_GROUP = "baseName";
+    private static final String PUBLISHER_GROUP = "publisher";
+    private static final Pattern PUBLISHER_SPECIFIC_KEYWORDS = Pattern.compile(String.format("(?<%s>jurisdiction|subject|publisher) ?(?<%s>.*)?", BASE_NAME_GROUP, PUBLISHER_GROUP));
 
     @Id
     @Column(name = "KEYWORD_TYPE_CODES_ID", unique = true, nullable = false)
@@ -63,6 +73,40 @@ public class KeywordTypeCode implements Serializable {
     @BatchSize(size = 100)
     @OrderBy("name")
     private List<KeywordTypeValue> values;
+
+    @Transient
+    private String publisher;
+
+    @Transient
+    private String baseName;
+
+    private void extractPublisherAndBaseName() {
+        Matcher matcher = PUBLISHER_SPECIFIC_KEYWORDS.matcher(this.getName());
+        if (matcher.find()) {
+            this.setBaseName(matcher.group(BASE_NAME_GROUP));
+            String publisher = matcher.group(PUBLISHER_GROUP);
+            if (StringUtils.isEmpty(publisher)) {
+                publisher = USCL_PUBLISHER_NAME;
+            }
+            this.setPublisher(publisher);
+        } else {
+            this.setBaseName(this.getName());
+            this.setPublisher(ALL_PUBLISHERS);
+        }
+    }
+
+    public String getBaseName() {
+        if (baseName == null) {
+            extractPublisherAndBaseName();
+        }
+        return baseName;
+    }
+    public String getPublisher() {
+        if (publisher == null) {
+            extractPublisherAndBaseName();
+        }
+        return publisher;
+    }
 
     public KeywordTypeCode() {
         values = new ArrayList<>();

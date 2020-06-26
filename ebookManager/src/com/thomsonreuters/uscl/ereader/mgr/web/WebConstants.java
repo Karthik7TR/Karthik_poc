@@ -144,7 +144,9 @@ public class WebConstants {
 	public static final String KEY_QUALITY_REPORTS_FORM = "qualityReportsForm";
 
     public static final String KEY_SUBJECT_MATTER = "subject";
-    public static final String KEY_SUBJECT_MATTER_ID = "subjectId";
+    public static final String KEY_SUBJECT_MATTER_US = "subject uscl";
+    public static final String KEY_SUBJECT_MATTER_CANADA = "subject cw";
+    public static final String KEY_SUBJECT_MATTER_IDS = "subjectIds";
 
     // Document Type Codes
     public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";

@@ -3,6 +3,10 @@ var splitSize ="";
 var splitDocumentIndex = 0;
 const MAX_NUMBER_SUBJECT_KEYWORDS = 3;
 
+const USCL_PUBLISHER = 'uscl';
+const CW_PUBLISHER = 'cw';
+const REGISTERED_PUBLISHERS = [USCL_PUBLISHER, CW_PUBLISHER];
+
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
 	$("#splitTypeDiv").hide();			
@@ -203,7 +207,12 @@ $(function() {
 				$('#titleIdBox').val("");
 			};
 		};
-		
+		var showKeywordsForPublisher = function (nextPublisher) {
+			REGISTERED_PUBLISHERS.forEach(function (p) {
+				$('.' + p + '_keywords').hide();
+			});
+			$('.' + nextPublisher + '_keywords').show();
+		}
 		// Function to determine which divs to show depending on the content type in Publisher Box
 		var determineOptions = function() {
 			$('#stateDiv').hide();
@@ -216,6 +225,7 @@ $(function() {
 			$('#contentTypeDiv').hide();
 			
 			if (publisher) {
+				$('.keywordLabelDisabled').addClass('keywordLabel').removeClass('keywordLabelDisabled');
 				if (publisher === "cw") {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
@@ -224,6 +234,7 @@ $(function() {
 					enableElooseLeafsBucket();
 					$('.uscl_show').hide();
 					$('.cw_show').show();
+					showKeywordsForPublisher(publisher);
 				} else if (publisher === "uscl") {
 					$('#contentTypeDiv').show();
 					if (contentType == $("#documentTypeAnalyticalAbbr").val()) {
@@ -243,12 +254,17 @@ $(function() {
 					enableBooksBucket();
 					$('.cw_show').hide();
 					$('.uscl_show').show();
+					showKeywordsForPublisher(publisher);
 				} else {
+					showKeywordsForPublisher(USCL_PUBLISHER);
 					$('#productCodeDiv').show();
 					$('#publishDetailDiv').show();
 					$('#bucketDiv').show();
 					enableBooksBucket();
 				}
+			} else {
+				$('.keywordLabel').addClass('keywordLabelDisabled').removeClass('keywordLabel');
+				showKeywordsForPublisher(USCL_PUBLISHER);
 			}
 		};
 
@@ -696,7 +712,17 @@ $(function() {
 			getContentTypeAbbr();
 			showPubCutoffDateBox();
 		});
+
+		var clearKeywordsValues = function () {
+			$("#keywordBox input[value='-1']").prop('checked', true);
+			$("#keywordBox input[type='checkbox']").prop('checked', false);
+			$('.keywordValueBox').hide();
+			$('.keywordLabel img').attr("src", "theme/images/wf_plus.gif");
+			$(".keyword-info-message").removeClass("error");
+		}
+
 		$('#publisher').change(function () {
+			clearKeywordsValues();
 			publisher = $(this).val();
 			if (publisher === "uscl" || publisher === "cw") {
 				$('#contentTypeDiv').show();
@@ -830,25 +856,27 @@ $(function() {
 			showSelectOptions($(this).val(), "#displayTableViewer");
 			showSelectOptions($(this).val(), "#addTableViewerRow");
 		});
-		
+
 		// Close or open the Keyword values
 		$( ".keywordLabel" ).click(function() {
+			if ($('#publisher').val()) {
 				var divId = $(this).attr("id");
 				var keywordValuesDiv = $("#"+ divId + "_values");
-				
+
 				var visible = !(keywordValuesDiv.is(":visible"));
 				var imgSrc = (visible) ? "theme/images/wf_minus.gif" : "theme/images/wf_plus.gif";
 				$(this).children("img").attr("src", imgSrc);
-				
+
 				if (visible) {
 					keywordValuesDiv.show();
 				} else {
 					keywordValuesDiv.hide();
 				};
-				
-				// IE8 bug: forcing reflow/redraw to resize the parent div 
+
+				// IE8 bug: forcing reflow/redraw to resize the parent div
 				$("#proviewSection").hide();
 				$("#proviewSection").show();
+			}
 		});
 		
 		// delete confirmation box
@@ -947,7 +975,7 @@ $(function() {
 		$('#validateForm').val(false);
 		
 		var checkMaxNumberOfSubjectKeywords = function () {
-			var infoText = $("#subjectKeywordInfoMessage");
+			var infoText = $(".keyword-info-message");
 			if ($(".subject-keyword:checked").size() > MAX_NUMBER_SUBJECT_KEYWORDS) {
 				infoText.addClass("error");
 			} else {
