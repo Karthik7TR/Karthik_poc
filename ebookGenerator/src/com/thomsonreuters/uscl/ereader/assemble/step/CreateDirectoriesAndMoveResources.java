@@ -39,12 +39,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -153,7 +152,11 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                         .forEach(titleMetadataBuilder::assetFileName);
 
                     if (bookDefinition.isCwBook()) {
-                        Arrays.stream(Objects.requireNonNull(formatFileSystem.getFrontMatterPdfImagesDir(this).listFiles()))
+                        Optional.of(formatFileSystem.getFrontMatterPdfImagesDir(this))
+                                .filter(File::exists)
+                                .map(FileUtils::listFiles)
+                                .map(Collection::stream)
+                                .orElseGet(Stream::empty)
                                 .map(File::getName)
                                 .forEach(titleMetadataBuilder::assetFileName);
                     }

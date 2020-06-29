@@ -5,6 +5,7 @@ import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,5 +39,13 @@ public class FileUtils {
 
     public static void copyFilesToDirectory(final List<File> fileList, final File destDir) {
         fileList.forEach(file -> copyFileToDirectory(file, destDir));
+    }
+
+    public static Collection<File> listFiles(final File directory) {
+        try {
+            return org.apache.commons.io.FileUtils.listFiles(directory, null, false);
+        } catch (Exception e) {
+            throw new EBookException(e);
+        }
     }
 }
