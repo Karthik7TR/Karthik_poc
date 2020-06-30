@@ -544,13 +544,13 @@ $(function() {
 			
 			// Add input boxes
 			expandingBox.append($("<input>").attr("id",id +".pdfLinkText").attr("name", name + ".pdfLinkText").attr("type", "text").attr("title","PDF Link Text"));
-			expandingBox.append($("<input>").attr("name", name + ".pdfFilename").attr("type", "text").addClass('pdfFilename').attr("title", "PDF Filename"));
+			expandingBox.append($("<input>").attr("name", name + ".pdfFilename").attr("type", "text").addClass("pdfFilename").attr("title", "PDF Filename"));
 			
 			// Add buttons
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
-			expandingBox.append($("<input>").attr("type", "file").attr("accept", ".pdf").addClass('pdfFile').css("display", "none"));
-			expandingBox.append($("<button>").addClass('uploadPdf').html('Upload PDF'));
+			expandingBox.append($("<input>").attr("type", "file").attr("accept", ".pdf").addClass("pdfFile").css("display", "none"));
+			expandingBox.append($("<button>").addClass('uploadPdf').html("Upload PDF"));
 			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf").on("click", onClickToDeleteButton));
 			
 			$(addAdditionalPdf).append(expandingBox);
@@ -865,12 +865,12 @@ $(function() {
 			}
 			const fileName = file.name;
 			const uploadFormData = new FormData();
-			uploadFormData.append("file", file);
-			uploadFormData.append("fileName", fileName);
+			uploadFormData.append('file', file);
+			uploadFormData.append('fileName', fileName);
 			$.ajax({
-				type: "POST",
-				url: "uploadPdf.mvc",
-				enctype: "multipart/form-data",
+				type: 'POST',
+				url: 'uploadPdf.mvc',
+				enctype: 'multipart/form-data',
 				data: uploadFormData,
 				processData: false,
 				contentType: false,
@@ -879,7 +879,7 @@ $(function() {
 					fileNameField.removeClass('blur');
 				},
 				error: function (response) {
-					window.alert(response.responseText.replace(/['"]+/g, ''));
+					window.alert(response.responseText.replace(/['"\\]+/g, ''));
 					fileNameField.val('');
 				}
 			});

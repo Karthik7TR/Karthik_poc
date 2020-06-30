@@ -70,7 +70,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class EditBookDefinitionController {
     private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
-    private static final String FILE_NAME_ALREADY_EXISTS = "File with this name already exists";
+    private static final String FILE_NAME_ALREADY_EXISTS = "File \"%s\" already exists";
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -440,7 +440,8 @@ public class EditBookDefinitionController {
         @RequestParam final String fileName) {
         File file = new File(WebConstants.LOCATION_PDF, fileName);
         if (file.exists()) {
-            return new ResponseEntity<>(FILE_NAME_ALREADY_EXISTS, HttpStatus.CONFLICT);
+            String errorMessage = String.format(FILE_NAME_ALREADY_EXISTS, fileName);
+            return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
         return writePdf(pdf, file);
     }
