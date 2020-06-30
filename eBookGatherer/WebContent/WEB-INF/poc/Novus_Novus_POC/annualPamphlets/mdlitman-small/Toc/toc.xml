@@ -13,6 +13,26 @@
 			<Guid>Icbcfa40095cb11e4a7a2f300942ac02c</Guid>
 			<DocumentGuid>I02000000000000000000000000000000</DocumentGuid>
 		</EBookToc>
+		<EBookToc>
+			<Name>Working internal link FROM</Name>
+			<Guid>I3b0f4e06dd7f11e2ba1ed13bd3320788</Guid>
+			<DocumentGuid>I3b0f4e07dd7f11e2ba1ed13bd3320788</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Working internal link DESTINATION</Name>
+			<Guid>I379afe84687f11e89bbcd7efdf2b6c99</Guid>
+			<DocumentGuid>I379afe85687f11e89bbcd7efdf2b6c99</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Not working internal link FROM</Name>
+			<Guid>Iffedf8e19b5611ea99ceec6cca1d5c1a</Guid>
+			<DocumentGuid>Iffedf8e29b5611ea99ceec6cca1d5c1a</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Not working internal link DESTINATION</Name>
+			<Guid>Iffeebc729b5611ea99ceec6cca1d5c1a</Guid>
+			<DocumentGuid>Iffeebc739b5611ea99ceec6cca1d5c1a</DocumentGuid>
+		</EBookToc>
 		<EBookToc detailed="true" summary="true" sum_align="left" sum_prelead="0.17i" sum_lindent="0" sum_serial_pg="5" sum_print_pg="v" sum_fv="0" sum_size="0.15i" sum_cm="upper" det_align="center" det_prelead="0.17i" det_lindent="0" det_serial_pg="6" det_print_pg="vi" det_fv="1" det_size="0.19i" det_cm="upper">
 			<Name>Part I. Handling Cases Before the Judicial Panel on Multidistrict Litigation</Name>
 			<Guid>I97b7f560933b11da99e2b07024dacc26</Guid>

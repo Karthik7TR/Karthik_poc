@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  */
 public class DocumentMetadataAuthority {
+    private static final String DASH = "-";
     //this represents the document metadata record for a run of an ebook.
     private Set<DocMetadata> docMetadataSet = new HashSet<>();
 
@@ -60,7 +61,7 @@ public class DocumentMetadataAuthority {
             .orElse(docMetadata.getFindOrig());
         final List<DocMetadata> list = Optional.ofNullable(docMetadataKeyedByCite.get(cite)).orElseGet(ArrayList::new);
         list.add(docMetadata);
-        docMetadataKeyedByCite.putIfAbsent(cite, list);
+        docMetadataKeyedByCite.putIfAbsent(cite.replaceAll(DASH, StringUtils.EMPTY), list);
     }
 
     private void addDocMetadataToPubPageMap(final DocMetadata docMetadata,
