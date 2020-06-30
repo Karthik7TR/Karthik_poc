@@ -18,7 +18,7 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_FRONT_MATTER_HTML_DIR("01.FrontMatterHTML"),
     FORMAT_IMAGE_METADATA_DIR("02.ImageMetadata"),
     FORMAT_PREPROCESS_DIR("03.Preprocess"),
-    FORMAT_PROCESS_ANNOTATIONS_DIR("04.ProcessAnnotations"),
+    FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR("04.TransformCharSequences"),
     FORMAT_TRANSFORMED_DIR("05.Transformed"),
     FORMAT_SPLIT_TOC_DIR("06.splitToc"),
     FORMAT_POST_TRANSFORM_DIR("07.PostTransform"),

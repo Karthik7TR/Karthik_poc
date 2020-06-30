@@ -22,7 +22,7 @@
 				<head ID="I6129E590975911E9898AC5E1A2A08F91" ampexmnem="0.sb1">
 					<bos/>
 					<head.info>
-						<headtext>Family Code <hide.historical.version>
+						<headtext>Family Code &bull3;<hide.historical.version>
 								<internal.reference refid="I612A33B0975911E9898AC5E1A2A08F91">Currentness</internal.reference>
 							</hide.historical.version>
 						</headtext>
@@ -126,7 +126,7 @@
 		<oconnor.annotations source="oconnor">
 			<other.ed.note.block source="oconnor">
 				<head ID="IAF88B34071BD11E9830BF2151B89F774" ampexmnem="xconed">
-					<oconnor.headtext>O’CONNOR’S EDITOR NOTES</oconnor.headtext>
+					<oconnor.headtext>&bull3; O’CONNOR’S EDITOR NOTES</oconnor.headtext>
 				</head>
 				<other.ed.note.body source="oconnor">
 					<other.ed.note ID="IAF88B34171BD11E9830BF2151B89F774" source="oconnor">

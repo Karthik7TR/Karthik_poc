@@ -81,7 +81,7 @@ public class TransformerServiceImpl implements TransformerService {
      * transformed HTML files to the specified target directory. If the directory does not exist
      * the service creates it.
      *
-     * @param processAnnotationsDir the directory that contains all the preprocessed XML files with updated annotations for this eBook.
+     * @param transformCharSequencesDir the directory that contains all the preprocessed XML files with updated annotations for this eBook.
      * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
      * @param imgMetaDir the directory that contains all the ImageMetadata built files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
@@ -94,7 +94,7 @@ public class TransformerServiceImpl implements TransformerService {
      */
     @Override
     public int transformXMLDocuments(
-        final File processAnnotationsDir,
+        final File transformCharSequencesDir,
         final File metaDir,
         final File imgMetaDir,
         final File transDir,
@@ -103,20 +103,20 @@ public class TransformerServiceImpl implements TransformerService {
         final File staticContentDir) throws EBookFormatException {
         this.staticContentDir = staticContentDir;
 
-        if (processAnnotationsDir == null || !processAnnotationsDir.isDirectory()) {
-            throw new IllegalArgumentException("processAnnotationsDir must be a directory, not null or a regular file.");
+        if (transformCharSequencesDir == null || !transformCharSequencesDir.isDirectory()) {
+            throw new IllegalArgumentException("transformCharSequencesDir must be a directory, not null or a regular file.");
         }
 
         if (!transDir.exists()) {
             transDir.mkdirs();
         }
 
-        LOG.info("Transforming XML files from the following XML directory: " + processAnnotationsDir.getAbsolutePath());
+        LOG.info("Transforming XML files from the following XML directory: " + transformCharSequencesDir.getAbsolutePath());
 
         final List<File> xmlFiles = new ArrayList<>();
 
         try {
-            fileHandlingHelper.getFileList(processAnnotationsDir, xmlFiles);
+            fileHandlingHelper.getFileList(transformCharSequencesDir, xmlFiles);
         } catch (final FileNotFoundException e) {
             final String errMessage = "No XML files were found in specified directory. "
                 + "Please verify that the correct XML path was specified.";
@@ -294,7 +294,6 @@ public class TransformerServiceImpl implements TransformerService {
     /**
      * Creates, configures and caches a transformer for the passed in XSLT file.
      *
-     * @param transformer transformer to be created and configured
      * @param xslt stylesheet for which the transformer will be created
      * @param xsltCache cache of stylesheets to be updated with new transformer
      * @param bookDefinition contains book related job controls

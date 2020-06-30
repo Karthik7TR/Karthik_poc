@@ -7,11 +7,11 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PROCESS_ANNOTATIONS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR;
 
 import java.io.File;
 
@@ -53,8 +53,8 @@ public class FormatFileSystemImpl implements FormatFileSystem {
 
     @NotNull
     @Override
-    public File getProcessAnnotationsDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), FORMAT_PROCESS_ANNOTATIONS_DIR.getName());
+    public File getTransformCharSequencesDirectory(@NotNull final BookStep step) {
+        return new File(getFormatDirectory(step), FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR.getName());
     }
 
     @NotNull
