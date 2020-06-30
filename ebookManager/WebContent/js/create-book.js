@@ -895,7 +895,7 @@ $(function() {
 		};
 
 		const checkFileSize = function(file) {
-			if (file.size > 209_715_200) {
+			if (file.size > 209715200) {
 				window.alert('File size should be less than 200Mb');
 				return false;
 			}
