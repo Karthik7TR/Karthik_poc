@@ -16,19 +16,28 @@ Defaults:
       EnvironmentType: DEVELOPMENT # Mandatory.
       ResourceOwner: firstname.lastname@tr.com  # Mandatory FIXME Your email
       # Version: "1" # Optional: Defaults to "1".  Can be modified by the bake stage since the version is known there.
-    Notifications:
-      # One or both of the below are required.
-      # Conditional: SNS topic to publish to alert for testing of a new unreleased version.
-      TestingSnsArn: arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic # FIXME Can use SNSTopic from bluegreen-deployer-resource-cleaner CloudFormation stack
-      # Conditional: SQS Queue Url to post to in order to begin testing of a new unreleased version.
-      # TestingSqsUrl: "https://sqs.us-east-1.amazonaws.com/307097860667/a205930-cumulus-testing-sqs-queue-Queue-1CTE0LBZIVV16"
+
+    # Optional.
+    # Those items related to approving the traffic release to customers.
+    # If SNS or SQS are not provided, the only way to approve/deny is by using
+    # the Cumulus CLI.
+    ApprovalNotifications:
+      ApprovalSNSArns:  Optional. # SNS topic to send Release Approval request
+        - "arn:aws:sns:us-east-1:307097860667:a205930-blue-green-deployer-ben-sns"
+      # Optional. SQS queue to post a Release Approval request
+      ApprovalSQSUrl: "https://sqs.us-east-1.amazonaws.com/307097860667/a205930-ben-queue"
+      # Optional. Additional things you want in your release approval request.
+      ApprovalNotificationData:
+        Thing1: Something I want to know
+        Thing2: Maybe something important
+
     Cleanup:
       DenyDeploymentMinutes: 0 # Optional: Minutes to keep deployments that were denied before release.  Defaults to GenericFailureMinutes.
       FailedTrafficShiftMinutes: 30 # Optional: Minutes to keep deployments that failed during traffic shift.  Defaults to GenericFailureMinutes.
       OldVersionMinutes: 600 # Optional: Minutes to keep old versions of deployment after they are replaced.  Defaults to GenericFailureMinutes.
 
       GenericFailureMintues: 20 # Optional: Minutes to keep deployments for a reason that isn't one of the above. Defaults to 60 minutes.
-      
+
     Stack:
       Template: # Mandatory:
         # Use these to use a built-in template
