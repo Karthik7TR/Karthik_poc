@@ -40,6 +40,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintCo
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mockito.internal.util.collections.Sets;
@@ -484,6 +485,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_BUCKETS, editBookDefinitionService.getBuckets());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
+        unescapeCharacters(form);
         model.addAttribute(WebConstants.KEY_FORM, form);
 
         model.addAttribute(KEY_SUBJECT_MATTER_IDS, Sets.newSet(
@@ -518,5 +520,10 @@ public class EditBookDefinitionController {
         contentTypes.keySet().forEach(publisher
                 -> model.addAttribute(String.format(PUBLISHER_CONTENT_TYPES_FORMAT,
                 WebConstants.KEY_CONTENT_TYPES, publisher), contentTypes.get(publisher)));
+    }
+
+    private void unescapeCharacters(final EditBookDefinitionForm form) {
+        form.setReleaseNotes(StringEscapeUtils.unescapeHtml4(form.getReleaseNotes()));
+        form.setNotes(StringEscapeUtils.unescapeHtml4(form.getNotes()));
     }
 }
