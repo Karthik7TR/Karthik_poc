@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
-import com.thomsonreuters.uscl.ereader.format.service.TransformDoubleHyphensIntoEmDashesService;
+import com.thomsonreuters.uscl.ereader.format.service.TransformCharSequencesService;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,13 +20,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ProcessAnnotationsStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
+@ContextConfiguration(classes = {TransformCharSequencesStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
-public class ProcessAnnotationsStepIntegrationTest {
-    private static final String RESOURCE_DIR_NAME = "resourceProcessAnnotations";
+public class TransformCharSequencesStepIntegrationTest {
+    private static final String RESOURCE_DIR_NAME = "resourceTransformCharSequences";
 
     @Autowired
-    private ProcessAnnotationsStep processAnnotationsStep;
+    private TransformCharSequencesStep transformCharSequencesStep;
 
     @Autowired
     private StepIntegrationTestRunner runner;
@@ -35,14 +35,14 @@ public class ProcessAnnotationsStepIntegrationTest {
 
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(processAnnotationsStep);
+        runner.setUp(transformCharSequencesStep);
         resourceDir = new File(InlineTocStepIntegrationTest.class.getResource(RESOURCE_DIR_NAME).toURI());
     }
 
     @Test
     @SneakyThrows
     public void shouldRemoveDoubleHyphensOnlyInAnnotations() {
-        runner.test(processAnnotationsStep, resourceDir);
+        runner.test(transformCharSequencesStep, resourceDir);
     }
 
     @Configuration
@@ -50,13 +50,13 @@ public class ProcessAnnotationsStepIntegrationTest {
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
         @Bean
-        public ProcessAnnotationsStep processAnnotationsStep() {
-            return new ProcessAnnotationsStep();
+        public TransformCharSequencesStep transformCharSequencesStep() {
+            return new TransformCharSequencesStep();
         }
 
         @Bean
-        public TransformDoubleHyphensIntoEmDashesService removeDoubleHyphensService() {
-            return new TransformDoubleHyphensIntoEmDashesService();
+        public TransformCharSequencesService removeDoubleHyphensService() {
+            return new TransformCharSequencesService();
         }
 
         @Bean

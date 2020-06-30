@@ -44,10 +44,10 @@ public interface FormatFileSystem {
     /**
      * Returns process annotations directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link getFormatDirectory Format}{@code /ProcessAnnotations}
+     * {@code /}{@link getFormatDirectory Format}{@code /TransformCharSequences}
      */
     @NotNull
-    File getProcessAnnotationsDirectory(@NotNull BookStep step);
+    File getTransformCharSequencesDirectory(@NotNull BookStep step);
 
     /**
      * Returns transformed directory:

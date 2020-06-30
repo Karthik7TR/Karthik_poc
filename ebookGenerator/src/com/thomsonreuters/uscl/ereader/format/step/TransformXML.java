@@ -49,7 +49,7 @@ public class TransformXML extends BookStepImpl {
 
         final File metadataDir = gatherFileSystem.getGatherDocsMetadataDirectory(this);
         final File imgMetadataDir = formatFileSystem.getImageMetadataDirectory(this);
-        final File processAnnotationsDir = formatFileSystem.getProcessAnnotationsDirectory(this);
+        final File transformCharSequencesDir = formatFileSystem.getTransformCharSequencesDirectory(this);
         final File transformDir = formatFileSystem.getTransformedDirectory(this);
 
         final PublishingStats jobstats = new PublishingStats();
@@ -60,7 +60,7 @@ public class TransformXML extends BookStepImpl {
 
         try {
             final int numDocsTransformed = transformerService.transformXMLDocuments(
-                processAnnotationsDir,
+                transformCharSequencesDir,
                 metadataDir,
                 imgMetadataDir,
                 transformDir,

@@ -10,7 +10,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
-import com.thomsonreuters.uscl.ereader.format.service.TransformDoubleHyphensIntoEmDashesService;
+import com.thomsonreuters.uscl.ereader.format.service.TransformCharSequencesService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
@@ -20,18 +20,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 @NoArgsConstructor
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
-public class ProcessAnnotationsStep extends BookStepImpl {
+public class TransformCharSequencesStep extends BookStepImpl {
     @Resource(name = "formatFileSystem")
     private FormatFileSystem formatFileSystem;
 
     @Autowired
-    private TransformDoubleHyphensIntoEmDashesService transformDoubleHyphensIntoEmDashesService;
+    private TransformCharSequencesService transformCharSequencesService;
 
     @Override
     public ExitStatus executeStep() throws Exception {
         final File srcDir = formatFileSystem.getPreprocessDirectory(this);
-        final File destDir = formatFileSystem.getProcessAnnotationsDirectory(this);
-        transformDoubleHyphensIntoEmDashesService.transformDoubleHyphensIntoEmDashes(srcDir, destDir);
+        final File destDir = formatFileSystem.getTransformCharSequencesDirectory(this);
+        transformCharSequencesService.transformCharSequences(srcDir, destDir);
         return ExitStatus.COMPLETED;
     }
 }

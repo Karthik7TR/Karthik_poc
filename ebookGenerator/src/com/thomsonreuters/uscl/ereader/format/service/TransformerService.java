@@ -18,7 +18,7 @@ public interface TransformerService {
      * transformed HTML files to the specified target directory. If the directory does not exist
      * the service creates it.
      *
-     * @param processAnnotationsDir the directory that contains all the preprocessed XML files with updated annotations for this eBook.
+     * @param transformCharSequencesDir the directory that contains all the preprocessed XML files with updated annotations for this eBook.
      * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
      * @param imgMetaDir the directory that contains all the ImageMetadata built files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
@@ -30,7 +30,7 @@ public interface TransformerService {
      * @throws EBookFormatException if an error occurs during the process.
      */
     int transformXMLDocuments(
-        File processAnnotationsDir,
+        File transformCharSequencesDir,
         File metaDir,
         File imgMetaDir,
         File transDir,
