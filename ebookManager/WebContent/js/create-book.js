@@ -544,61 +544,18 @@ $(function() {
 			
 			// Add input boxes
 			expandingBox.append($("<input>").attr("id",id +".pdfLinkText").attr("name", name + ".pdfLinkText").attr("type", "text").attr("title","PDF Link Text"));
-			expandingBox.append($("<input>").attr("id", pageIndex + '-' + sectionIndex + '-' + "pdfFilename" + pdfIndex)
-				.attr("name", name + ".pdfFilename").attr("type", "text").attr("title", "PDF Filename"));
+			expandingBox.append($("<input>").attr("name", name + ".pdfFilename").attr("type", "text").addClass("pdfFilename").attr("title", "PDF Filename"));
 			
 			// Add buttons
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
-			addUploadPdfButton(expandingBox, pageIndex + '-' + sectionIndex + '-');
+			expandingBox.append($("<input>").attr("type", "file").attr("accept", ".pdf").addClass("pdfFile").css("display", "none"));
+			expandingBox.append($("<button>").addClass('uploadPdf').html("Upload PDF"));
 			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf").on("click", onClickToDeleteButton));
 			
 			$(addAdditionalPdf).append(expandingBox);
 			
 			textboxHint("additionFrontMatterBlock");
-		};
-
-		const addUploadPdfButton = function(expandingBox, id) {
-			const pdfFile = $("<input>").attr("type", "file").attr("id", id + "chosenPdf" + pdfIndex)
-				.attr("accept", ".pdf").css("display", "none");
-			pdfFile.change(function(e) {
-				const file = e.target.files[0];
-				sendPdfFileToServer(file, id);
-			});
-
-			const pdfUploadButton = $("<button>").attr("id", id + "uploadPdfButton" + pdfIndex).html('Upload PDF');
-			pdfUploadButton.click(function(e) {
-				e.preventDefault();
-				pdfFile.click();
-			});
-
-			expandingBox.append(pdfFile);
-			expandingBox.append(pdfUploadButton);
-		};
-
-		const sendPdfFileToServer = function(file, id) {
-			const fileNameField = $('#' + id + 'pdfFilename' + pdfIndex);
-			const fileName = file.name;
-			const uploadFormData = new FormData();
-			uploadFormData.append("file", file);
-			uploadFormData.append("fileName", fileName);
-			$.ajax({
-				type: "POST",
-				url: "uploadPdf.mvc",
-				enctype: "multipart/form-data",
-				data: uploadFormData,
-				processData: false,
-				contentType: false,
-				success: function() {
-					fileNameField.val(fileName);
-					fileNameField.removeClass('blur');
-				},
-				error: function (response) {
-					window.alert(response.responseText);
-					fileNameField.val('');
-				}
-			});
-			$("#" + id + "chosenPdf" + pdfIndex).val(null);
 		};
 		
 		var clearTitleAndContentInformation = function() {
@@ -883,6 +840,67 @@ $(function() {
 				$("#proviewSection").show();
 			}
 		});
+
+		const triggerPdfInput = function(e) {
+			e.preventDefault();
+			const pdfRow = $(this).parent();
+			pdfRow.find('.pdfFile').click();
+		};
+
+		const uploadPdf = function() {
+			const pdfRow = $(this).parent();
+			const fileField = pdfRow.find('.pdfFile');
+			const file = fileField.prop('files')[0];
+			const fileNameField = pdfRow.find('.pdfFilename');
+			sendPdfFileToServer(file, fileField, fileNameField);
+		};
+
+		$(document).on('click', '.uploadPdf', triggerPdfInput);
+		$(document).on('change', '.pdfFile', uploadPdf);
+
+		const sendPdfFileToServer = function(file, fileField, fileNameField) {
+			if (!checkFileType(file) || !checkFileSize(file)) {
+				fileField.val(null);
+				return;
+			}
+			const fileName = file.name;
+			const uploadFormData = new FormData();
+			uploadFormData.append('file', file);
+			uploadFormData.append('fileName', fileName);
+			$.ajax({
+				type: 'POST',
+				url: 'uploadPdf.mvc',
+				enctype: 'multipart/form-data',
+				data: uploadFormData,
+				processData: false,
+				contentType: false,
+				success: function() {
+					fileNameField.val(fileName);
+					fileNameField.removeClass('blur');
+				},
+				error: function (response) {
+					window.alert(response.responseText.replace(/['"\\]+/g, ''));
+					fileNameField.val('');
+				}
+			});
+			fileField.val(null);
+		};
+
+		const checkFileType = function(file) {
+			if (!'application/pdf'.match(file.type)) {
+				window.alert('Please upload file of type PDF');
+				return false;
+			}
+			return true;
+		};
+
+		const checkFileSize = function(file) {
+			if (file.size > 209_715_200) {
+				window.alert('File size should be less than 200Mb');
+				return false;
+			}
+			return true;
+		};
 		
 		// delete confirmation box
 		$(".rdelete").on("click", onClickToDeleteButton);
