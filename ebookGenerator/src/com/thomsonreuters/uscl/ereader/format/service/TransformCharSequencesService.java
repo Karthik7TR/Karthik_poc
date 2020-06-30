@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TransformCharSequencesService {
-
     private static final String OCONNORS_TAG = "oconnor.annotations";
+    private static final String ALL = "*";
     private static final String DOUBLE_HYPHEN = "--";
     private static final String EM_DASH = "\u2014";
     private static final String BULL_3 = "&bull3;";
@@ -40,16 +40,15 @@ public class TransformCharSequencesService {
     }
 
     private void transformDoubleHyphensIntoEmDashesInDocument(final Document document) {
-        Elements oConnorsAnnotations = document.getElementsByTag(OCONNORS_TAG).select("*");
+        Elements oConnorsAnnotations = document.getElementsByTag(OCONNORS_TAG).select(ALL);
         transformCharSequencesInDocument(oConnorsAnnotations, DOUBLE_HYPHEN, EM_DASH);
     }
 
     private void transformBulletsInDocument(final Document document) {
-        Elements allElements = document.getAllElements().select("*");
-        transformCharSequencesInDocument(allElements, BULL_3, WHITE_BULLET);
+        transformCharSequencesInDocument(document.getAllElements(), BULL_3, WHITE_BULLET);
     }
 
-    private void transformCharSequencesInDocument(Elements elements, String target, String replacement) {
+    private void transformCharSequencesInDocument(final Elements elements, final String target, final String replacement) {
         elements.stream()
                 .map(Element::textNodes)
                 .flatMap(Collection::stream)
