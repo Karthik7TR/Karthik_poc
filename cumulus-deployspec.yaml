@@ -22,7 +22,7 @@ Defaults:
     # If SNS or SQS are not provided, the only way to approve/deny is by using
     # the Cumulus CLI.
     ApprovalNotifications:
-      ApprovalSNSArns:  Optional. # SNS topic to send Release Approval request
+      ApprovalSNSArns:  # Optional. SNS topic to send Release Approval request
         - "arn:aws:sns:us-east-1:307097860667:a205930-blue-green-deployer-ben-sns"
       # Optional. SQS queue to post a Release Approval request
       ApprovalSQSUrl: "https://sqs.us-east-1.amazonaws.com/307097860667/a205930-ben-queue"
