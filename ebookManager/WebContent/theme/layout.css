@@ -977,10 +977,12 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 }
 .notes-quote {
 	max-height: 0;
+	max-width: 330px;
 	border-left: solid 0.05em;
 	padding-left: 1em;
 	white-space: pre-line;
-	overflow: hidden;
+	overflow-y: hidden;
+	overflow-x: auto;
 	transition: max-height 0.2s;
 }
 .notes-icon {
