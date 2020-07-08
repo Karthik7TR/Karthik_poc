@@ -550,7 +550,7 @@ $(function() {
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
 			expandingBox.append($("<input>").attr("type", "file").attr("accept", ".pdf").addClass("pdfFile").css("display", "none"));
-			expandingBox.append($("<button>").addClass('uploadPdf').html("Upload PDF"));
+			expandingBox.append($("<button>").addClass("uploadPdf").html("Upload Pdf"));
 			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf").on("click", onClickToDeleteButton));
 			
 			$(addAdditionalPdf).append(expandingBox);
@@ -863,7 +863,7 @@ $(function() {
 				fileField.val(null);
 				return;
 			}
-			const fileName = file.name;
+			const fileName = removeSpacesFromPdfFileName(file.name);
 			const uploadFormData = new FormData();
 			uploadFormData.append('file', file);
 			uploadFormData.append('fileName', fileName);
@@ -900,6 +900,14 @@ $(function() {
 				return false;
 			}
 			return true;
+		};
+
+		const removeSpacesFromPdfFileName = function(fileName) {
+			if (/\s/.test(fileName)) {
+				fileName =  fileName.replace(/\s/g, '_');
+				alert('Filename contains whitespaces and will be changed to ' + fileName);
+			}
+			return fileName;
 		};
 		
 		// delete confirmation box
