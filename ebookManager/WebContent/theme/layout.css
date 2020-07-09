@@ -981,8 +981,7 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 	border-left: solid 0.05em;
 	padding-left: 1em;
 	white-space: pre-line;
-	overflow-y: hidden;
-	overflow-x: auto;
+	overflow: hidden;
 	transition: max-height 0.2s;
 }
 .notes-icon {
