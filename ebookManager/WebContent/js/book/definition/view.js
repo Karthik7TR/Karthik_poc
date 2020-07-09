@@ -4,7 +4,9 @@ function toggleNotes(notesDiv) {
 	const height = notes.css("max-height");
 	if (height === "0px") {
 		notes.css("max-height", "1000px");
+		notes.css("overflow-x", "auto");
 	} else {
 		notes.css("max-height", "0px");
+		notes.css("overflow-x", "hidden");
 	}
 }
