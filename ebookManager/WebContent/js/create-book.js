@@ -520,7 +520,8 @@ $(function() {
 			expandingBox.append(additionalText);
 
 			var pdfSection = $("<div>").attr("id", "addAdditionalPdf_" + pageIndex + "_" + sectionIndex);
-			pdfSection.append($("<input>").addClass("addPdf").attr("pageIndex", pageIndex).attr("sectionIndex", sectionIndex).attr("pdfIndex", 0).attr("type", "button").val("Add Pdf").on("click", onClickToAddPdfButton));
+			pdfSection.append($("<input>").addClass("addPdf").attr("pageIndex", pageIndex).attr("sectionIndex", sectionIndex)
+				.attr("pdfIndex", 0).attr("type", "button").val("Add PDF").on("click", onClickToAddPdfButton));
 			expandingBox.append(pdfSection);
 			
 			$(addAdditionalSection).append(expandingBox);
@@ -550,8 +551,9 @@ $(function() {
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
 			expandingBox.append($("<input>").attr("type", "file").attr("accept", ".pdf").addClass("pdfFile").css("display", "none"));
-			expandingBox.append($("<button>").addClass("uploadPdf").html("Upload Pdf"));
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf").on("click", onClickToDeleteButton));
+			expandingBox.append($("<button>").addClass("uploadPdf").html("Upload PDF"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title", "Delete Pdf").attr("type", "button")
+				.attr("title", "Delete PDF?").val("Delete PDF").on("click", onClickToDeleteButton));
 			
 			$(addAdditionalPdf).append(expandingBox);
 			

@@ -1232,7 +1232,7 @@
 										<c:set var="pdfIndex" value="${pdfStatus.index}"/>
 										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].id" />
 										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum" cssClass="sequence" />
-										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" title="PDF Link Text"/><form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" title="PDF Filename" class="pdfFilename"/><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="file" accept=".pdf" style="display: none;" class="pdfFile"/><input type="button" value="Upload Pdf" class="uploadPdf"/><input type="button" value="Delete Pdf" class="rdelete" title="Delete Pdf?"/>
+										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" title="PDF Link Text"/><form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" title="PDF Filename" class="pdfFilename"/><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="file" accept=".pdf" style="display: none;" class="pdfFile"/><input type="button" value="Upload PDF" class="uploadPdf"/><input type="button" value="Delete PDF" class="rdelete" title="Delete PDF?"/>
 										<div class="errorDiv2">
 											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />
 											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" cssClass="errorMessage" />
@@ -1241,7 +1241,7 @@
 									</div>
 								</c:forEach>
 							</div>
-							<input type="button" value="Add Pdf" class="addPdf" pageIndex="${pageStatus.index}" sectionIndex="${sectionStatus.index}" pdfIndex="${pdfIndex + 1}"  />
+							<input type="button" value="Add PDF" class="addPdf" pageIndex="${pageStatus.index}" sectionIndex="${sectionStatus.index}" pdfIndex="${pdfIndex + 1}"  />
 						</div>
 					</c:forEach>
 				</div>
