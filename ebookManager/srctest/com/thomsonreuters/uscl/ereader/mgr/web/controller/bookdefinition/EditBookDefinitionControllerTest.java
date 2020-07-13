@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
@@ -20,11 +21,17 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
+import lombok.SneakyThrows;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +39,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindingResult;
@@ -41,6 +49,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -1148,6 +1157,11 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.verify(mockBookDefinitionService);
     }
 
+    @Test
+    public void testUploadPdf() {
+        JUnitCore.runClasses(AdditionalTests.class);
+    }
+
     private void checkInitialValuesDynamicContentForPublished(final Map<String, Object> model) {
         final boolean isPublished = Boolean.parseBoolean(model.get(WebConstants.KEY_IS_PUBLISHED).toString());
         assertEquals(false, isPublished);
@@ -1230,6 +1244,46 @@ public final class EditBookDefinitionControllerTest {
         @Bean
         public String environmentName() {
             return CI_CONTENT;
+        }
+    }
+
+    @RunWith(PowerMockRunner.class)
+    @PrepareForTest(EditBookDefinitionController.class)
+    public static class AdditionalTests {
+        private static String FILE_NAME = "fileName";
+
+        private EditBookDefinitionController editBookDefinitionController;
+        @Mock
+        private File file;
+        private MockMultipartFile multipartFile;
+
+
+        @Before
+        public void setUp() {
+            editBookDefinitionController = new EditBookDefinitionController();
+            multipartFile = new MockMultipartFile(FILE_NAME, new byte[]{});
+        }
+
+        @SneakyThrows
+        @Test
+        public void testUploadPdf() {
+            PowerMockito.whenNew(File.class).withArguments(WebConstants.LOCATION_PDF, FILE_NAME)
+                    .thenReturn(file);
+
+            editBookDefinitionController.uploadPdf(multipartFile, FILE_NAME, CoreConstants.USCL_PUBLISHER_NAME);
+
+            PowerMockito.verifyNew(File.class).withArguments(WebConstants.LOCATION_PDF, FILE_NAME);
+        }
+
+        @SneakyThrows
+        @Test
+        public void testUploadCwPdf() {
+            PowerMockito.whenNew(File.class).withArguments(WebConstants.LOCATION_CW_PDF, FILE_NAME)
+                    .thenReturn(file);
+
+            editBookDefinitionController.uploadPdf(multipartFile, FILE_NAME, CoreConstants.CW_PUBLISHER_NAME);
+
+            PowerMockito.verifyNew(File.class).withArguments(WebConstants.LOCATION_CW_PDF, FILE_NAME);
         }
     }
 }

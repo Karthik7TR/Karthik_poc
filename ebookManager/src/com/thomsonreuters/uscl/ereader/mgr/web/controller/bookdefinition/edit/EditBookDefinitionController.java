@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CW_PUBLISHER_NAME;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_CANADA;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_US;
@@ -438,13 +439,21 @@ public class EditBookDefinitionController {
     @RequestMapping(value = WebConstants.MVC_UPLOAD_PDF, method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> uploadPdf(@RequestParam("file") final MultipartFile pdf,
-        @RequestParam final String fileName) {
-        File file = new File(WebConstants.LOCATION_PDF, fileName);
+        @RequestParam final String fileName, @RequestParam final String publisher) {
+        String location = getPdfLocation(publisher);
+        File file = new File(location, fileName);
         if (file.exists()) {
             String errorMessage = String.format(FILE_NAME_ALREADY_EXISTS, fileName);
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
         }
         return writePdf(pdf, file);
+    }
+
+    private String getPdfLocation(String publisher) {
+        if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
+            return WebConstants.LOCATION_CW_PDF;
+        }
+        return WebConstants.LOCATION_PDF;
     }
 
     private ResponseEntity<?> writePdf(final MultipartFile pdf, final File file) {

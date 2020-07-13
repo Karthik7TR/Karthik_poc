@@ -226,6 +226,7 @@ $(function() {
 			
 			if (publisher) {
 				$('.keywordLabelDisabled').addClass('keywordLabel').removeClass('keywordLabelDisabled');
+				$('.uploadPdf').removeAttr('disabled');
 				if (publisher === "cw") {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
@@ -265,6 +266,7 @@ $(function() {
 			} else {
 				$('.keywordLabel').addClass('keywordLabelDisabled').removeClass('keywordLabel');
 				showKeywordsForPublisher(USCL_PUBLISHER);
+				$('.uploadPdf').attr('disabled', 'disabled');
 			}
 		};
 
@@ -551,7 +553,11 @@ $(function() {
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
 			expandingBox.append($("<input>").attr("type", "file").attr("accept", ".pdf").addClass("pdfFile").css("display", "none"));
-			expandingBox.append($("<button>").addClass("uploadPdf").html("Upload PDF"));
+			const uploadPdfButton = $("<button>").addClass("uploadPdf").html("Upload PDF");
+			if ($("#publisher").val() === "") {
+				uploadPdfButton.attr("disabled", "disabled");
+			}
+			expandingBox.append(uploadPdfButton);
 			expandingBox.append($("<input>").addClass("rdelete").attr("title", "Delete Pdf").attr("type", "button")
 				.attr("title", "Delete PDF?").val("Delete PDF").on("click", onClickToDeleteButton));
 			
@@ -869,6 +875,7 @@ $(function() {
 			const uploadFormData = new FormData();
 			uploadFormData.append('file', file);
 			uploadFormData.append('fileName', fileName);
+			uploadFormData.append('publisher', $('#publisher').val());
 			$.ajax({
 				type: 'POST',
 				url: 'uploadPdf.mvc',
@@ -911,7 +918,7 @@ $(function() {
 			}
 			return fileName;
 		};
-		
+
 		// delete confirmation box
 		$(".rdelete").on("click", onClickToDeleteButton);
 		
