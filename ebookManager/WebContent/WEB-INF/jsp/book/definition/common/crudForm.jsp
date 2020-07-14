@@ -45,6 +45,9 @@
 	<c:if test="${ book.sourceType == 'XPP' }">
 		<c:set var="xppHide" value="style=\"display: none;\""/>
 	</c:if>
+	<c:if test="${ publisher == '' }">
+		<c:set var="disableUploadPdfButton" value="disabled"/>
+	</c:if>
 <%-- Check if book has been published --%>
 <c:choose>
 	<c:when test="${!isPublished}">
@@ -1232,7 +1235,7 @@
 										<c:set var="pdfIndex" value="${pdfStatus.index}"/>
 										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].id" />
 										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum" cssClass="sequence" />
-										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" title="PDF Link Text"/><form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" title="PDF Filename" class="pdfFilename"/><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="file" accept=".pdf" style="display: none;" class="pdfFile"/><input type="button" value="Upload PDF" class="uploadPdf"/><input type="button" value="Delete PDF" class="rdelete" title="Delete PDF?"/>
+										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" title="PDF Link Text"/><form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" title="PDF Filename" class="pdfFilename"/><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="file" accept=".pdf" style="display: none;" class="pdfFile"/><input type="button" value="Upload PDF" class="uploadPdf" ${ disableUploadPdfButton }/><input type="button" value="Delete PDF" class="rdelete" title="Delete PDF?"/>
 										<div class="errorDiv2">
 											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />
 											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" cssClass="errorMessage" />

@@ -165,6 +165,7 @@ public class WebConstants {
     public static final String LOCATION_FRONT_MATTER_IMAGE = "/apps/eBookBuilder/coreStatic/images";
     public static final String LOCATION_FRONT_MATTER_CSS = "/apps/eBookBuilder/coreStatic/css";
     public static final String LOCATION_PDF = "/apps/eBookBuilder/generator/images/pdf";
+    public static final String LOCATION_CW_PDF = "/apps/eBookBuilder/generator/images/cw-pdf";
     public static final String LOCATION_PILOT_BOOK_CSV = "/apps/eBookBuilder/generator/altId";
 
     // Page paths

@@ -64,7 +64,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int MAX_NUMBER_SUBJECT_KEYWORDS = 3;
     private static final int LINE_BREAK_LENGTH = 5;
     private static final String ERROR_KEYWORD_MAX_SUBJECS_NUMBER_EXCEEDED = "error.keyword.max.subjecs.number.exceeded";
+    private static final String ERROR_DOES_NOT_EXIST = "error.not.exist";
     private static final String CRLF = "\r\n";
+    private static final String PDF_DOES_NOT_EXIST_MESSAGE = "PDF file does not exist on server.";
     private static final Set<String> REGISTERED_PUBLISHERS = Sets.newSet(USCL_PUBLISHER_NAME, CW_PUBLISHER_NAME);
 
     @Autowired
@@ -1046,46 +1048,57 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors) {
-        // Check if pdf file and cover image exists on NAS location when on prod server
-        if (environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
-            // Check cover image exists
-            if (StringUtils.isNotBlank(form.getTitleId())) {
+        // Check cover image exists
+        if (StringUtils.isNotBlank(form.getTitleId())) {
+            fileExist(
+                errors,
+                form.createCoverImageName(),
+                WebConstants.LOCATION_COVER_IMAGE,
+                "validateForm",
+                "error.not.exist");
+            if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
                 fileExist(
                     errors,
-                    form.createCoverImageName(),
-                    WebConstants.LOCATION_COVER_IMAGE,
-                    "validateForm",
-                    "error.not.exist");
-                if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
-                    fileExist(
-                        errors,
-                        form.createPilotBookCsvName(),
-                        WebConstants.LOCATION_PILOT_BOOK_CSV,
-                        "pilotBook",
-                        "error.pilot.boo.file.not.exist");
-                }
+                    form.createPilotBookCsvName(),
+                    WebConstants.LOCATION_PILOT_BOOK_CSV,
+                    "pilotBook",
+                    "error.pilot.boo.file.not.exist");
             }
-            // Check all pdfs on Front Matter
-            int i = 0;
-            for (final FrontMatterPage page : form.getFrontMatters()) {
-                int j = 0;
-                for (final FrontMatterSection section : page.getFrontMatterSections()) {
-                    int k = 0;
-                    for (final FrontMatterPdf pdf : section.getPdfs()) {
-                        final String filename = pdf.getPdfFilename();
-                        if (StringUtils.isNotBlank(filename)) {
-                            fileExist(
-                                errors,
+        }
+        // Check all pdfs on Front Matter
+        int i = 0;
+        for (final FrontMatterPage page : form.getFrontMatters()) {
+            int j = 0;
+            for (final FrontMatterSection section : page.getFrontMatterSections()) {
+                int k = 0;
+                for (final FrontMatterPdf pdf : section.getPdfs()) {
+                    final String filename = pdf.getPdfFilename();
+                    if (StringUtils.isNotBlank(filename)) {
+                        checkPdfExists(
                                 filename,
-                                WebConstants.LOCATION_PDF,
+                                form.getPublisher(),
                                 "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
-                                "error.not.exist");
-                        }
-                        k++;
+                                errors);
                     }
-                    j++;
+                    k++;
                 }
-                i++;
+                j++;
+            }
+            i++;
+        }
+    }
+
+    private void checkPdfExists(final String fileName, final String publisher, final String fieldName,
+        final Errors errors) {
+        final File pdfInCwFolder = new File(WebConstants.LOCATION_CW_PDF, fileName);
+        final File pdfInGeneralFolder = new File(WebConstants.LOCATION_PDF, fileName);
+        if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
+            if (!pdfInCwFolder.exists() && !pdfInGeneralFolder.exists()) {
+                rejectPdfFileField(errors, fieldName, fileName, WebConstants.LOCATION_CW_PDF);
+            }
+        } else {
+            if (!pdfInGeneralFolder.exists()) {
+                rejectPdfFileField(errors, fieldName, fileName, WebConstants.LOCATION_PDF);
             }
         }
     }
@@ -1104,6 +1117,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 new Object[] {filename, location},
                 "File does not exist on server.");
         }
+    }
+
+    private void rejectPdfFileField(final Errors errors, final String fieldName, final String fileName,
+        final String location) {
+        errors.rejectValue(
+                fieldName,
+                ERROR_DOES_NOT_EXIST,
+                new Object[] {fileName, location},
+                PDF_DOES_NOT_EXIST_MESSAGE);
     }
 
     private void checkUniqueTitleId(final Errors errors, final String titleId) {
