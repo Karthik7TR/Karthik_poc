@@ -1048,46 +1048,43 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors) {
-        // Check if pdf file and cover image exists on NAS location when on prod server
-        if (environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
-            // Check cover image exists
-            if (StringUtils.isNotBlank(form.getTitleId())) {
+        // Check cover image exists
+        if (StringUtils.isNotBlank(form.getTitleId())) {
+            fileExist(
+                errors,
+                form.createCoverImageName(),
+                WebConstants.LOCATION_COVER_IMAGE,
+                "validateForm",
+                "error.not.exist");
+            if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
                 fileExist(
                     errors,
-                    form.createCoverImageName(),
-                    WebConstants.LOCATION_COVER_IMAGE,
-                    "validateForm",
-                    "error.not.exist");
-                if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
-                    fileExist(
-                        errors,
-                        form.createPilotBookCsvName(),
-                        WebConstants.LOCATION_PILOT_BOOK_CSV,
-                        "pilotBook",
-                        "error.pilot.boo.file.not.exist");
-                }
+                    form.createPilotBookCsvName(),
+                    WebConstants.LOCATION_PILOT_BOOK_CSV,
+                    "pilotBook",
+                    "error.pilot.boo.file.not.exist");
             }
-            // Check all pdfs on Front Matter
-            int i = 0;
-            for (final FrontMatterPage page : form.getFrontMatters()) {
-                int j = 0;
-                for (final FrontMatterSection section : page.getFrontMatterSections()) {
-                    int k = 0;
-                    for (final FrontMatterPdf pdf : section.getPdfs()) {
-                        final String filename = pdf.getPdfFilename();
-                        if (StringUtils.isNotBlank(filename)) {
-                            checkPdfExists(
-                                    filename,
-                                    form.getPublisher(),
-                                    "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
-                                    errors);
-                        }
-                        k++;
+        }
+        // Check all pdfs on Front Matter
+        int i = 0;
+        for (final FrontMatterPage page : form.getFrontMatters()) {
+            int j = 0;
+            for (final FrontMatterSection section : page.getFrontMatterSections()) {
+                int k = 0;
+                for (final FrontMatterPdf pdf : section.getPdfs()) {
+                    final String filename = pdf.getPdfFilename();
+                    if (StringUtils.isNotBlank(filename)) {
+                        checkPdfExists(
+                                filename,
+                                form.getPublisher(),
+                                "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
+                                errors);
                     }
-                    j++;
+                    k++;
                 }
-                i++;
+                j++;
             }
+            i++;
         }
     }
 
@@ -1122,7 +1119,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void rejectPdfFileField(Errors errors, String fieldName, String fileName, String location) {
+    private void rejectPdfFileField(final Errors errors, final String fieldName, final String fileName,
+        final String location) {
         errors.rejectValue(
                 fieldName,
                 ERROR_DOES_NOT_EXIST,

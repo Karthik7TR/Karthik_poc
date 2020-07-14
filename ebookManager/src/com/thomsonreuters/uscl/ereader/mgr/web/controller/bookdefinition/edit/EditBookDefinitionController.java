@@ -449,7 +449,7 @@ public class EditBookDefinitionController {
         return writePdf(pdf, file);
     }
 
-    private String getPdfLocation(String publisher) {
+    private String getPdfLocation(final String publisher) {
         if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
             return WebConstants.LOCATION_CW_PDF;
         }
