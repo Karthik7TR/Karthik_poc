@@ -60,6 +60,7 @@ public final class FrontMatterCopyrightPageFilterTest {
                 + "by a United States Government officer or employee as part of that person's official duties."
                 + "\r\nTest paragraph 2.");
         bookDefinition.setIsbn("978-0-314-93983-8");
+        bookDefinition.setIssn("1111-1111");
         bookDefinition.setAdditionalTrademarkInfo(
             "McKINNEY'S is registerd in the U.S. Patent and Trademark Office.\r\n"
                 + "McKINNEY'S NEW YORK CIVIL PRACTICE LAW AND RULES\r\n"
@@ -200,6 +201,14 @@ public final class FrontMatterCopyrightPageFilterTest {
     public void testFrontMatterPlaceholder_copyrightISBN() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_copyrightISBN/></test>";
         final String expectedResult = "<test>978-0-314-93983-8</test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_copyrightISSN() {
+        final String xmlTestStr = "<test><frontMatterPlaceholder_copyrightISSN/></test>";
+        final String expectedResult = "<test>ISSN 1111-1111</test>";
 
         testHelper(xmlTestStr, expectedResult);
     }

@@ -28,6 +28,8 @@ import org.springframework.core.io.ResourceLoader;
  * u0095869
  */
 public final class CreateFrontMatterServiceImplTest {
+    private static final String VALID_ISSN = "0317-8471";
+    private static final String TITLE_ID_CW = "cw/eg/test";
     private CreateFrontMatterServiceImpl frontMatterService;
     private BookDefinition bookDefinition;
 
@@ -54,9 +56,17 @@ public final class CreateFrontMatterServiceImplTest {
     }
 
     @Test
-    public void testCanadianCopyrightPage() throws Exception {
-        bookDefinition.setFullyQualifiedTitleId("cw/eg/test");
-        final String expected = IOUtils.toString(getClass().getResourceAsStream("CanadianCopyrightPage.html"));
+    public void testCanadianCopyrightPageWithISSN() throws Exception {
+        bookDefinition.setFullyQualifiedTitleId(TITLE_ID_CW);
+        bookDefinition.setIssn(VALID_ISSN);
+        final String expected = IOUtils.toString(getClass().getResourceAsStream("CanadianCopyrightPageWithISSN.html"));
+        assertEquals(expected, frontMatterService.getCopyrightPage(bookDefinition));
+    }
+
+    @Test
+    public void testCanadianCopyrightPageWithoutISSN() throws Exception {
+        bookDefinition.setFullyQualifiedTitleId(TITLE_ID_CW);
+        final String expected = IOUtils.toString(getClass().getResourceAsStream("CanadianCopyrightPageWithoutISSN.html"));
         assertEquals(expected, frontMatterService.getCopyrightPage(bookDefinition));
     }
 

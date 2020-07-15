@@ -261,11 +261,14 @@ $(function() {
 					$('#productCodeDiv').show();
 					$('#publishDetailDiv').show();
 					$('#bucketDiv').show();
+					$('.cw_show').hide();
 					enableBooksBucket();
 				}
 			} else {
 				$('.keywordLabel').addClass('keywordLabelDisabled').removeClass('keywordLabel');
 				showKeywordsForPublisher(USCL_PUBLISHER);
+				$('#bucketDiv').hide();
+				$('.cw_show').hide();
 				$('.uploadPdf').attr('disabled', 'disabled');
 			}
 		};

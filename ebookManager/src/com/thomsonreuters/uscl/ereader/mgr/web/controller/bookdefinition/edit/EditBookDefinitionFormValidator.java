@@ -79,6 +79,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private String environmentName;
     @Autowired
     private IsbnValidator isbnValidator;
+    @Autowired
+    private IssnValidator issnValidator;
     @Value("${codes.workbench.root.dir}")
     private File rootCodesWorkbenchLandingStrip;
 
@@ -268,6 +270,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
 
             checkIsbnNumber(errors, form.getIsbn(), "isbn");
+            checkIssnNumber(errors, form.getIssn(), "issn");
 
             validateProviewKeywords(form, errors);
             validateProdOnlyRequirements(form, errors);
@@ -1178,6 +1181,16 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (StringUtils.isNotEmpty(text)) {
             try {
                 isbnValidator.validateIsbn(text);
+            } catch (EBookException e) {
+                errors.rejectValue(fieldName, e.getMessage());
+            }
+        }
+    }
+
+    private void checkIssnNumber(final Errors errors, final String text, final String fieldName) {
+        if (StringUtils.isNotEmpty(text)) {
+            try {
+                issnValidator.validateIssn(text);
             } catch (EBookException e) {
                 errors.rejectValue(fieldName, e.getMessage());
             }

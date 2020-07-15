@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IsbnValidator;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IssnValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.request.service.PrintComponentHistoryService;
 import org.easymock.EasyMock;
@@ -37,6 +38,10 @@ public class TestConfig {
     @Bean
     public IsbnValidator isbnValidator() {
         return new IsbnValidator();
+    }
+    @Bean
+    public IssnValidator issnValidator() {
+        return new IssnValidator();
     }
     @Bean
     public BookDefinitionService bookDefinitionService() {

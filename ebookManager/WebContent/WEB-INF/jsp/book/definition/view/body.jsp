@@ -73,7 +73,13 @@ $(document).ready(function() {
 						<label class="labelCol">ISBN</label>
 						<span class="field">${ book.isbn }</span>
 					</div>
-				
+					<c:if test="${ not empty book.issn }">
+						<div class="row">
+							<label class="labelCol">ISSN</label>
+							<span class="field">${ book.issn }</span>
+						</div>
+					</c:if>
+
 					<div class="row">
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ book.materialId }</span>
