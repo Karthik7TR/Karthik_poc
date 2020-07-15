@@ -1049,42 +1049,44 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
     private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors) {
         // Check cover image exists
-        if (StringUtils.isNotBlank(form.getTitleId())) {
-            fileExist(
-                errors,
-                form.createCoverImageName(),
-                WebConstants.LOCATION_COVER_IMAGE,
-                "validateForm",
-                "error.not.exist");
-            if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
+        if (environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
+            if (StringUtils.isNotBlank(form.getTitleId())) {
                 fileExist(
-                    errors,
-                    form.createPilotBookCsvName(),
-                    WebConstants.LOCATION_PILOT_BOOK_CSV,
-                    "pilotBook",
-                    "error.pilot.boo.file.not.exist");
-            }
-        }
-        // Check all pdfs on Front Matter
-        int i = 0;
-        for (final FrontMatterPage page : form.getFrontMatters()) {
-            int j = 0;
-            for (final FrontMatterSection section : page.getFrontMatterSections()) {
-                int k = 0;
-                for (final FrontMatterPdf pdf : section.getPdfs()) {
-                    final String filename = pdf.getPdfFilename();
-                    if (StringUtils.isNotBlank(filename)) {
-                        checkPdfExists(
-                                filename,
-                                form.getPublisher(),
-                                "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
-                                errors);
-                    }
-                    k++;
+                        errors,
+                        form.createCoverImageName(),
+                        WebConstants.LOCATION_COVER_IMAGE,
+                        "validateForm",
+                        "error.not.exist");
+                if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
+                    fileExist(
+                            errors,
+                            form.createPilotBookCsvName(),
+                            WebConstants.LOCATION_PILOT_BOOK_CSV,
+                            "pilotBook",
+                            "error.pilot.boo.file.not.exist");
                 }
-                j++;
             }
-            i++;
+            // Check all pdfs on Front Matter
+            int i = 0;
+            for (final FrontMatterPage page : form.getFrontMatters()) {
+                int j = 0;
+                for (final FrontMatterSection section : page.getFrontMatterSections()) {
+                    int k = 0;
+                    for (final FrontMatterPdf pdf : section.getPdfs()) {
+                        final String filename = pdf.getPdfFilename();
+                        if (StringUtils.isNotBlank(filename)) {
+                            checkPdfExists(
+                                    filename,
+                                    form.getPublisher(),
+                                    "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
+                                    errors);
+                        }
+                        k++;
+                    }
+                    j++;
+                }
+                i++;
+            }
         }
     }
 

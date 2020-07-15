@@ -1119,7 +1119,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.replay(mockMiscConfigService);
 
-        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US)).andReturn(subject);;
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US)).andReturn(subject);
         EasyMock.expect(keywordTypeCodeSevice
                 .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
                 .andReturn(subject);
