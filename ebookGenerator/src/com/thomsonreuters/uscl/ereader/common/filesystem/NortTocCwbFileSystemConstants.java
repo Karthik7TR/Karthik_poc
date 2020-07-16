@@ -52,7 +52,8 @@ public enum NortTocCwbFileSystemConstants {
     ASSEMBLE_ASSETS_DIR("assets"),
     ASSEMBLE_ARTWORK_DIR("artwork"),
 
-    EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH("/apps/eBookBuilder/generator/images/pdf/");
+    EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH("/apps/eBookBuilder/generator/images/pdf/"),
+    EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH("/apps/eBookBuilder/generator/images/cw-pdf/");
 
     private final String name;
 

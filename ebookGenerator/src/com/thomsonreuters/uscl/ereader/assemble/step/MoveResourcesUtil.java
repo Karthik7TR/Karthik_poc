@@ -1,10 +1,12 @@
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -102,8 +104,13 @@ public class MoveResourcesUtil {
                 }
             }
 
+            NortTocCwbFileSystemConstants pdfLocation = bookDefinition.isCwBook() ? EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH
+                    : EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
             for (final FrontMatterPdf pdf : pdfList) {
-                final File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName() + pdf.getPdfFilename());
+                File pdfFile = new File(pdfLocation.getName() + pdf.getPdfFilename());
+                if (!pdfFile.exists() && bookDefinition.isCwBook()) {
+                    pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName() + pdf.getPdfFilename());
+                }
                 FileUtils.copyFileToDirectory(pdfFile, assetsDirectory);
             }
 

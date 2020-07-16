@@ -1,8 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -25,6 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR;
 
 /**
  * This step adds a static predefined HTML header and footer and any ProView specific document wrappers.
@@ -86,7 +87,10 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
             File pdfDestDir = new File(frontMatterTargetDir, FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName());
             return bookDefinition.getFrontMatterPdfFileNames().stream()
                     .collect(Collectors.toMap(Function.identity(), pdfFileName -> {
-                        File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName(), pdfFileName);
+                        File pdfFile = new File(EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH.getName(), pdfFileName);
+                        if (!pdfFile.exists()) {
+                            pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName(), pdfFileName);
+                        }
                         return pdfToImgConverter.convert(pdfFile, pdfDestDir);
                     }));
         }
