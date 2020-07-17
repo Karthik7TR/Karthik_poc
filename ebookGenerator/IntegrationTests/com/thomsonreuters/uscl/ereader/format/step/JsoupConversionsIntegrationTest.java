@@ -1,7 +1,9 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.format.service.jsoup.ExternalLinksTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.JsoupTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.LegalTopicBlockGeneration;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.CanadianDigestDao;
@@ -14,11 +16,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,6 +29,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,6 +37,10 @@ import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 @ActiveProfiles("IntegrationTests")
 public class JsoupConversionsIntegrationTest {
     private static final Long JOB_1 = 1L;
+    private static final String JSOUP_CONVERSIONS_DIR = "resourceJsoupConversions";
+    private static final String LEGAL_TOPIC_DIR = "createLegalTopic";
+    private static final String EXTERNAL_LINKS_DIR = "transformExternalLinks";
+    private static final String TITLE_ID = "cw/eg/thorburn_en";
     private static final String DOC_1 = "Id7201723682311ea83aee46e6decbb85";
     private static final String DOC_2 = "Id7210175682311ea83aee46e6decbb85";
     private static final String CLASSIFNUM_1 = "classifnum1";
@@ -54,28 +61,53 @@ public class JsoupConversionsIntegrationTest {
     @Before
     public void setUp() throws URISyntaxException {
         runner.setUp(step);
-        resourceDir = new File(JsoupConversionsIntegrationTest.class.getResource("resourceJsoupConversions").toURI());
+        resourceDir = new File(JsoupConversionsIntegrationTest.class.getResource(JSOUP_CONVERSIONS_DIR).toURI());
     }
 
     @Test
     public void shouldCreateLegalTopic() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
-        runner.test(step, new File(resourceDir, "createLegalTopic"));
+        runner.test(step, new File(resourceDir, LEGAL_TOPIC_DIR));
+    }
+
+    @Test
+    public void shouldTransformExternalLinks() throws Exception {
+        givenJobInstanceId(step.getChunkContext(), JOB_1);
+        setUpCwBookDefinition();
+        runner.test(step, new File(resourceDir, EXTERNAL_LINKS_DIR));
+    }
+
+    private void setUpCwBookDefinition() {
+        BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
+        givenBook(step.getChunkContext(), bookDefinition);
     }
 
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
+        @Value("${westlaw.url}")
+        private String westlawUrl;
+        @Value("${westlaw.canada.url}")
+        private String westlawCanadaUrl;
+
         @Bean
         public JsoupTransformationsStep jsoupTransformationsStep() {
             return new JsoupTransformationsStep();
         }
 
         @Bean
-        @Order(1)
         public JsoupTransformation legalTopicBlockGeneration() {
             return new LegalTopicBlockGeneration();
+        }
+
+        @Bean
+        public ExternalLinksTransformation externalLinksTransformation() {
+            ExternalLinksTransformation externalLinksTransformation = new ExternalLinksTransformation();
+            externalLinksTransformation.setWestlawUrl(westlawUrl);
+            externalLinksTransformation.setWestlawCanadaUrl(westlawCanadaUrl);
+            return externalLinksTransformation;
         }
 
         @Bean
