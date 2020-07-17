@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 @ContextConfiguration(classes = {TransformCharSequencesStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
 public class TransformCharSequencesStepIntegrationTest {
-    private static final String RESOURCE_DIR_NAME = "resourceTransformCharSequences";
+    private static final String RESOURCE_DIR_NAME = "resourceTransformChars";
 
     @Autowired
     private TransformCharSequencesStep transformCharSequencesStep;
@@ -38,7 +38,7 @@ public class TransformCharSequencesStepIntegrationTest {
     @Test
     @SneakyThrows
     public void shouldRemoveDoubleHyphensOnlyInAnnotations() {
-        runner.test(transformCharSequencesStep, "testRemoveHyphens");
+        runner.test(transformCharSequencesStep, "test");
     }
 
     @Configuration
