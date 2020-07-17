@@ -105,36 +105,20 @@ public final class InitializeTaskTest {
             final String dynamicPath = "data/" + String.format("%s/%s/%d", DATE_STAMP, TITLE_ID, JOB_ID);
 
             expectedWorkDirectory = new File(tempRootDir, dynamicPath);
-            final File expectedEbookDirectory =
-                new File(expectedWorkDirectory, "Assemble" + File.separatorChar + TITLE_ID);
             final File expectedEbookFile =
                 new File(expectedWorkDirectory, TITLE_ID + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 
-            final File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY));
             final File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE));
             final File actualImagesRootDirectory =
                 new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_ROOT_DIR));
-            final File actualStaticImagesDirectory =
-                new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
-            final File actualDynamicImagesDirectory =
-                new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
 
             final File actualAssembleAssetsDirectory =
                 new File(jobExecutionContext.getString(JobExecutionKey.ASSEMBLE_ASSETS_DIR));
-            final File actualAssembleDocumentsDirectory =
-                new File(jobExecutionContext.getString(JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
-            final File actualAssembleArtworkDirectory =
-                new File(jobExecutionContext.getString(JobExecutionKey.ASSEMBLE_ARTWORK_DIR));
 
-            Assert.assertEquals(expectedEbookDirectory.getAbsolutePath(), actualEbookDirectory.getAbsolutePath());
             Assert.assertEquals(expectedEbookFile.getAbsolutePath(), actualEbookFile.getAbsolutePath());
 
             Assert.assertTrue(actualImagesRootDirectory.exists());
-            Assert.assertTrue(actualStaticImagesDirectory.exists());
-            Assert.assertTrue(actualDynamicImagesDirectory.exists());
             Assert.assertTrue(actualAssembleAssetsDirectory.exists());
-            Assert.assertTrue(actualAssembleDocumentsDirectory.exists());
-            Assert.assertTrue(actualAssembleArtworkDirectory.exists());
 
             // Verify the transition to the next step
             Assert.assertEquals(ExitStatus.COMPLETED, transition);

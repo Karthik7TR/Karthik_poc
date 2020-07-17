@@ -10,12 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +26,8 @@ public class ImageServiceImpl implements ImageService {
     /** The DAO for persisting image meta-data */
     private ImageDao imageDao;
 
-    private File staticContentDirectory;
-
-    @Required
-    public void setStaticContentDirectory(final File staticContentDirectory) {
-        this.staticContentDirectory = staticContentDirectory;
-    }
+    @Autowired
+    private NasFileSystem nasFileSystem;
 
     /**
      * If the metadata content type is an image, then return a desired type of "image/png"
@@ -84,7 +82,7 @@ public class ImageServiceImpl implements ImageService {
 
     /**
      * Map the container data from the REST service into an entity that is persisted
-     * @param responseMetadata from the Image Vertical REST service
+     * @param imgMetadataInfo from the Image Vertical REST service
      * @return the entity to be persisted to a database table
      */
     public static ImageMetadataEntity createImageMetadataEntity(
@@ -134,7 +132,7 @@ public class ImageServiceImpl implements ImageService {
      *         in the tree
      */
     private File searchFileTree(final String basename) {
-        final File staticImageFile = new File(staticContentDirectory.getAbsolutePath() + "/images", basename);
+        final File staticImageFile = new File(nasFileSystem.getStaticContentDirectory().getAbsolutePath() + "/images", basename);
         if (staticImageFile.exists()) {
             return staticImageFile;
         } else {

@@ -59,7 +59,5 @@
 	</bean>
 
 	<bean id="docMetadataService"
-		class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
-		p:docMetadataDAO-ref="docMetaDataDao"/>
-
+		class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl" />
 </beans>

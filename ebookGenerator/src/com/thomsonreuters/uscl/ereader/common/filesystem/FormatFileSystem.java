@@ -73,6 +73,15 @@ public interface FormatFileSystem {
     @NotNull
     File getSplitBookDirectory(@NotNull BookStep step);
 
+    @NotNull
+    File getDocToSplitBook(@NotNull BookStep step);
+
+    /**
+     * The path to title.xml within the assemble directory. The GenerateTitleMetadata step writes the title metadata to this file.
+     */
+    @NotNull
+    File getSplitTitleXml(@NotNull BookStep step);
+
     /**
      * Returns jsoup transformation directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
@@ -112,4 +121,10 @@ public interface FormatFileSystem {
      */
     @NotNull
     File getFrontMatterPdfImagesDir(@NotNull BookStep step);
+
+    @NotNull
+    File getThesaurusXml(@NotNull BookStep step);
+
+    @NotNull
+    File getThesaurusStaticFilesDirectory();
 }

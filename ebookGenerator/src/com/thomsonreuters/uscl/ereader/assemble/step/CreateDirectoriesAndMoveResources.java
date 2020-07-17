@@ -4,7 +4,10 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
@@ -16,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
+import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
@@ -24,7 +28,6 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -65,8 +68,17 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     @Autowired
     private ProviewFeaturesListBuilderFactory featuresListBuilderFactory;
     @Autowired
+    private ImageFileSystem imageFileSystem;
+    @Autowired
     private FormatFileSystem formatFileSystem;
-
+    @Autowired
+    private AssembleFileSystem assembleFileSystem;
+    @Autowired
+    private DateProvider dateProvider;
+    @Autowired
+    private NasFileSystem nasFileSystem;
+    @Autowired
+    private CoverArtUtil coverArtUtil;
     /*
      * (non-Javadoc)
      *
@@ -79,46 +91,45 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     public ExitStatus executeStep()
         throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext();
-        final JobParameters jobParameters = getJobParameters();
         final Long jobId = getJobInstanceId();
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobId);
         String publishStatus = "Completed";
-        final BookDefinition bookDefinition =
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
+        final BookDefinition bookDefinition = getBookDefinition();
 
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-        final File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
-        final String versionNumber = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
+        final File coverArtFile = coverArtUtil.getCoverArt(bookDefinition);
+        final String versionNumber = getJobParameterString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
         final TitleMetadataBuilder titleMetadataBuilder =
-            TitleMetadata.builder(bookDefinition).versionNumber(versionNumber).artworkFile(coverArtFile);
+            TitleMetadata.builder(bookDefinition)
+                    .versionNumber(versionNumber)
+                    .artworkFile(coverArtFile)
+                    .lastUpdated(dateProvider.getDate());
 
         OutputStream titleManifest = null;
         InputStream splitTitleXMLStream = null;
         boolean firstSplitBook;
 
         try {
-            final File assembleDirectory =
-                new File(getJobExecutionPropertyString(JobExecutionKey.ASSEMBLE_DIR));
-            int parts = 0;
+            final File assembleDirectory = assembleFileSystem.getAssembleDirectory(this);
+            int parts;
             if (bookDefinition.isSplitTypeAuto()) {
                 parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
             } else {
                 parts = bookDefinition.getSplitEBookParts();
             }
 
-            final String docToSplitBook =
-                    getJobExecutionPropertyString(JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
+            final File docToSplitBook = formatFileSystem.getDocToSplitBook(this);
 
             // docMap contains SplitBook part to Doc mapping
             final Map<String, List<Doc>> docMap = new HashMap<>();
             // splitBookImgMap contains SplitBook part to Img mapping
             final Map<String, List<String>> splitBookImgMap = new HashMap<>();
-            readDocImgFile(new File(docToSplitBook), docMap, splitBookImgMap);
+            readDocImgFile(docToSplitBook, docMap, splitBookImgMap);
 
             // Assets that are needed for all books
-            addAssetsForAllBooks(jobExecutionContext, bookDefinition, titleMetadataBuilder);
+            addAssetsForAllBooks(bookDefinition, titleMetadataBuilder);
 
             final FeaturesListBuilder featuresListBuilder = featuresListBuilderFactory.create(bookDefinition)
                 .withBookVersion(new Version("v" + versionNumber))
@@ -172,8 +183,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                 final File ebookDirectory = new File(assembleDirectory, splitTitle);
                 ebookDirectory.mkdir();
 
-                final File splitTitleXml =
-                    new File(getJobExecutionPropertyString(JobExecutionKey.SPLIT_TITLE_XML_FILE));
+                final File splitTitleXml = formatFileSystem.getSplitTitleXml(this);
                 splitTitleXMLStream = new FileInputStream(splitTitleXml);
 
                 final File titleXml = new File(ebookDirectory, "title.xml");
@@ -184,11 +194,11 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                     docList,
                     splitTitleXMLStream,
                     titleManifest,
-                    JobExecutionKey.ALT_ID_DIR_PATH);
+                    nasFileSystem.getPilotBookCsvDirectory().getAbsolutePath());
                 moveResources(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
                 //Drop assets for current split book part
                 titleMetadataBuilder.assetFileNames(null);
-                addAssetsForAllBooks(jobExecutionContext, bookDefinition, titleMetadataBuilder);
+                addAssetsForAllBooks(bookDefinition, titleMetadataBuilder);
             }
         } catch (final Exception e) {
             publishStatus = "Failed";
@@ -228,15 +238,13 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         // Move assets
         final File assetsDirectory = createAssetsDirectory(ebookDirectory);
         // static images
-        final File staticImagesDir =
-            new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+        final File staticImagesDir = imageFileSystem.getImageStaticDirectory(this);
         moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
         // Style sheets
         moveResourcesUtil.moveStylesheet(assetsDirectory);
         moveResourcesUtil.moveThesaurus(this, assetsDirectory);
         // Dynamic images
-        final File dynamicImagesDir =
-            new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
+        final File dynamicImagesDir = imageFileSystem.getImageDynamicDirectory(this);
         final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);
         moveResourcesUtil.copyFilesToDestination(dynamicImgFiles, assetsDirectory);
         // Frontmatter pdf
@@ -249,8 +257,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         // Move Documents
         final File documentsDirectory = createDocumentsDirectory(ebookDirectory);
         if (firstSplitBook) {
-            final File frontMatter =
-                new File(getJobExecutionPropertyString(JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
+            final File frontMatter = formatFileSystem.getFrontMatterHtmlDir(this);
             moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
         }
 
@@ -303,23 +310,19 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     /**
      * All split books gets static,.css files and frontmatter images
      *
-     * @param jobExecutionContext
      * @param bookDefinition
      * @throws FileNotFoundException
      */
     protected void addAssetsForAllBooks(
-        final ExecutionContext jobExecutionContext,
         final BookDefinition bookDefinition,
         final TitleMetadataBuilder builder) {
-        final File staticImagesDir =
-            new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
-        final String staticContentDir =
-                getJobExecutionPropertyString(JobExecutionKey.STATIC_CONTENT_DIR);
+        final File staticImagesDir = imageFileSystem.getImageStaticDirectory(this);
+        final File staticContentDir = nasFileSystem.getStaticContentDirectory();
         builder.assetFilesFromDirectory(staticImagesDir)
             .assetFile(new File(staticContentDir, MoveResourcesUtil.DOCUMENT_CSS_FILE))
-            .assetFile(new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE));
+            .assetFile(nasFileSystem.getFrontMatterCssFile());
 
-        final File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
+        final File frontMatterImagesDir = nasFileSystem.getFrontMatterImagesDirectory();
         final List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
         Stream.of(frontMatterImagesDir.listFiles())
             .filter(file -> !filter.contains(file))
@@ -339,9 +342,5 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
 
     private File createAssetsDirectory(final File parentDirectory) {
         return new File(parentDirectory, "assets");
-    }
-
-    public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil) {
-        this.moveResourcesUtil = moveResourcesUtil;
     }
 }

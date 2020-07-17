@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -28,8 +29,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1248,42 +1252,49 @@ public final class EditBookDefinitionControllerTest {
     }
 
     @RunWith(PowerMockRunner.class)
+    @PowerMockIgnore("javax.management.*")
     @PrepareForTest(EditBookDefinitionController.class)
     public static class AdditionalTests {
         private static String FILE_NAME = "fileName";
 
+        @InjectMocks
         private EditBookDefinitionController editBookDefinitionController;
         @Mock
+        private File rootDir;
+        @Mock
         private File file;
+        @Mock
+        private NasFileSystem nasFileSystem;
         private MockMultipartFile multipartFile;
-
 
         @Before
         public void setUp() {
-            editBookDefinitionController = new EditBookDefinitionController();
+            MockitoAnnotations.initMocks(editBookDefinitionController);
             multipartFile = new MockMultipartFile(FILE_NAME, new byte[]{});
         }
 
         @SneakyThrows
         @Test
         public void testUploadPdf() {
-            PowerMockito.whenNew(File.class).withArguments(WebConstants.LOCATION_PDF, FILE_NAME)
+            PowerMockito.when(nasFileSystem.getFrontMatterUsclPdfDirectory()).thenReturn(rootDir);
+            PowerMockito.whenNew(File.class).withArguments(rootDir, FILE_NAME)
                     .thenReturn(file);
 
             editBookDefinitionController.uploadPdf(multipartFile, FILE_NAME, CoreConstants.USCL_PUBLISHER_NAME);
 
-            PowerMockito.verifyNew(File.class).withArguments(WebConstants.LOCATION_PDF, FILE_NAME);
+            PowerMockito.verifyNew(File.class).withArguments(rootDir, FILE_NAME);
         }
 
         @SneakyThrows
         @Test
         public void testUploadCwPdf() {
-            PowerMockito.whenNew(File.class).withArguments(WebConstants.LOCATION_CW_PDF, FILE_NAME)
+            PowerMockito.when(nasFileSystem.getFrontMatterCwPdfDirectory()).thenReturn(rootDir);
+            PowerMockito.whenNew(File.class).withArguments(rootDir, FILE_NAME)
                     .thenReturn(file);
 
             editBookDefinitionController.uploadPdf(multipartFile, FILE_NAME, CoreConstants.CW_PUBLISHER_NAME);
 
-            PowerMockito.verifyNew(File.class).withArguments(WebConstants.LOCATION_CW_PDF, FILE_NAME);
+            PowerMockito.verifyNew(File.class).withArguments(rootDir, FILE_NAME);
         }
     }
 }

@@ -3,9 +3,11 @@ package com.thomsonreuters.uscl.ereader.assemble.step;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
@@ -31,11 +33,14 @@ public final class CoverArtUtilTest {
     @Mock
     private BookDefinition bookDefinition;
 
+    @Mock
+    private NasFileSystem nasFileSystem;
+
     @Before
     public void onTestSetup() throws IllegalAccessException {
-        FieldUtils.writeField(coverArtUtil, "defaultCoverPath", DEFAULT_COVER_PATH, true);
+        when(nasFileSystem.getCoverImagesDirectory()).thenReturn(new File(DEFAULT_COVER_PATH));
+        when(nasFileSystem.getStaticContentDirectory()).thenReturn(new File(STATIC_CONTENT_PATH));
         FieldUtils.writeField(coverArtUtil, "coverFileName", COVER_FILE_NAME, true);
-        FieldUtils.writeField(coverArtUtil, "staticContentDirectory", new File(STATIC_CONTENT_PATH), true);
     }
 
     @Test

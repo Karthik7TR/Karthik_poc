@@ -7,13 +7,11 @@ import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.util.ReflectionUtils;
 
@@ -25,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public final class MoveResourcesUtilTest {
@@ -47,27 +47,15 @@ public final class MoveResourcesUtilTest {
 
     @Before
     public void setUp() throws Exception {
-        final CoverArtUtil coverArtUtil = new CoverArtUtil();
-        setFieldValue(coverArtUtil, "defaultCoverPath", "/apps/eBookBuilder/generator/images/cover/");
-        setFieldValue(coverArtUtil, "coverFileName", "coverArt.PNG");
-        setFieldValue(coverArtUtil, "staticContentDirectory", new File("/apps/eBookBuilder/staticContent"));
+        final CoverArtUtil coverArtUtil = mock(CoverArtUtil.class);
+        when(coverArtUtil.getCoverArt(any())).thenReturn(new File("/apps/eBookBuilder/generator/images/cover/coverArt.PNG"));
 
         moveResourcesUtil = new MoveResourcesUtil();
         moveResourcesUtil.setCoverArtUtil(coverArtUtil);
-        //tempFile = File.createTempFile("pirate", "ship");
         tempRootDir = new File(System.getProperty("java.io.tmpdir"));
         final URL url = this.getClass().getResource(FILE_NAME);
         docToSplitBookFile = new File(url.toURI());
         jobExecutionContext = new ExecutionContext();
-    }
-
-    private void setFieldValue(final Object target, final String fieldName, final Object fieldValue) {
-        final Field field = ReflectionUtils.findField(target.getClass(), fieldName);
-        if (field == null) {
-            throw new UnsupportedOperationException("Cannot inject field value, field does not exist");
-        }
-        ReflectionUtils.makeAccessible(field);
-        ReflectionUtils.setField(field, target, fieldValue);
     }
 
     @After
@@ -101,16 +89,6 @@ public final class MoveResourcesUtilTest {
         }
         Assert.assertTrue(tempRootDir.exists());
         assertTrue(!thrown);
-    }
-
-    @Test
-    public void testcreateCoverArt() {
-        final BookDefinition bookDefinition = new BookDefinition();
-        jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
-        moveResourcesUtil.createCoverArt(jobExecutionContext);
-        final String actual =
-            StringUtils.substringAfterLast(jobExecutionContext.get(JobExecutionKey.COVER_ART_PATH).toString(), "\\");
-        Assert.assertEquals(actual, "coverArt.PNG");
     }
 
     @Test
@@ -173,7 +151,7 @@ public final class MoveResourcesUtilTest {
         File[] check = canI.listFiles();
         canI.mkdir();
         check = canI.listFiles();
-        BookStepImpl step = Mockito.mock(BookStepImpl.class);
+        BookStepImpl step = mock(BookStepImpl.class);
         when(step.getBookDefinition()).thenReturn(bookDefinition);
         try {
             moveResourcesUtil.moveFrontMatterImages(step, tempRootDir, false);

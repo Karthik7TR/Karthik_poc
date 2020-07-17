@@ -1,15 +1,14 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+@Slf4j
 public class TestBookFileSystemImpl implements BookFileSystem {
-    private static final Logger LOG = LogManager.getLogger(TestBookFileSystemImpl.class);
     private File tempDir;
 
     @Override
@@ -20,7 +19,7 @@ public class TestBookFileSystemImpl implements BookFileSystem {
             }
             return tempDir;
         } catch (final IOException e) {
-            LOG.error("", e);
+            log.error("", e);
             return null;
         }
     }

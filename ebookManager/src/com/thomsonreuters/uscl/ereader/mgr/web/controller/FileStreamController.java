@@ -9,9 +9,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,13 +26,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 public class FileStreamController {
+    @Autowired
+    private NasFileSystem nasFileSystem;
 
     @RequestMapping(value = WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
     public void getCoverImage(
         @RequestParam("imageName") final String imageName,
         final HttpServletRequest request,
         final HttpServletResponse response) {
-        retrieveFile(request, response, WebConstants.LOCATION_COVER_IMAGE, imageName, "image/png");
+        retrieveFile(request, response, nasFileSystem.getCoverImagesDirectory().getAbsolutePath(), imageName, "image/png");
     }
 
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_IMAGE, method = RequestMethod.GET)
@@ -38,7 +42,7 @@ public class FileStreamController {
         @RequestParam("imageName") final String imageName,
         final HttpServletRequest request,
         final HttpServletResponse response) {
-        retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_IMAGE, imageName, "image/png");
+        retrieveFile(request, response, nasFileSystem.getFrontMatterImagesDirectory().getAbsolutePath(), imageName, "image/png");
     }
 
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_CSS, method = RequestMethod.GET)
@@ -46,7 +50,7 @@ public class FileStreamController {
         @RequestParam("cssName") final String cssName,
         final HttpServletRequest request,
         final HttpServletResponse response) {
-        retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_CSS, cssName, "text/css");
+        retrieveFile(request, response, nasFileSystem.getFrontMatterCssDirectory().getAbsolutePath(), cssName, "text/css");
     }
 
     private void retrieveFile(
@@ -61,7 +65,7 @@ public class FileStreamController {
         final File file = new File(nasLocation, filename);
 
         try {
-            if (!file.isFile() && nasLocation.equalsIgnoreCase(WebConstants.LOCATION_COVER_IMAGE)) {
+            if (!file.isFile() && nasLocation.equalsIgnoreCase(nasFileSystem.getCoverImagesDirectory().getAbsolutePath())) {
                 final ServletContext ctx = request.getSession().getServletContext();
                 fin = ctx.getResourceAsStream("/theme/images/missingCover.png");
             } else {

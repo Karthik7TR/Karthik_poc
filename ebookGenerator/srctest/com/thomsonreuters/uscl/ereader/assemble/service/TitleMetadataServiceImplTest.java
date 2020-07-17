@@ -204,7 +204,7 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
             titleMetadata,
             Long.valueOf(1),
             transformedDirectory,
-            docToSplitBook.getAbsolutePath(),
+            docToSplitBook,
             splitNodeInfoFile.getAbsolutePath());
         // System.out.println("resultStream
         // "+resultStreamToString(resultStream));
@@ -248,7 +248,7 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
         final Doc doc3 = new Doc("DocId3", "Src3", 3, null);
         orderedDocuments.add(doc3);
 
-        titleMetadataService.writeDocumentsToFile(orderedDocuments, docToSplitBook.getAbsolutePath());
+        titleMetadataService.writeDocumentsToFile(orderedDocuments, docToSplitBook);
         final URL pathToClass = this.getClass().getResource("doc-To-SplitBook_Ex.txt");
         final File expectedDocFile = new File(pathToClass.toURI());
         assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));

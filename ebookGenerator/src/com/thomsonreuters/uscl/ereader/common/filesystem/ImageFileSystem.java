@@ -24,4 +24,10 @@ public interface ImageFileSystem {
      */
     @NotNull
     File getImageDynamicDirectory(@NotNull BookStep step);
+
+    @NotNull
+    File getImageStaticDirectory(@NotNull BookStep step);
+
+    @NotNull
+    File getImageStaticManifestFile(@NotNull BookStep step);
 }

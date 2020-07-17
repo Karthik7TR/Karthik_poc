@@ -2,19 +2,21 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.io.File;
 import java.util.Collections;
@@ -23,8 +25,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR;
 
 /**
@@ -34,33 +34,27 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
  */
 
 @Slf4j
-public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
+@SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
+@SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
+public class GenerateFrontMatterHTMLPages extends BookStepImpl {
     @Autowired
     private CreateFrontMatterService frontMatterService;
     @Autowired
     private PdfToImgConverter pdfToImgConverter;
-
+    @Autowired
     private PublishingStatsService publishingStatsService;
-
     @Autowired
     private PagesAnalyzeService pagesAnalyzeService;
+    @Autowired
+    private FormatFileSystem formatFileSystem;
+    @Autowired
+    private NasFileSystem nasFileSystem;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
-        throws Exception {
-        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-
-        final String frontMatterTargetDirectory =
-            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR);
-
-        final File frontMatterTargetDir = new File(frontMatterTargetDirectory);
-
-        final BookDefinition bookDefinition =
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
-
-        final Long jobInstance =
-            chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
-
+    public ExitStatus executeStep() throws Exception {
+        final ExecutionContext jobExecutionContext = getJobExecutionContext();
+        final File frontMatterTargetDir = formatFileSystem.getFrontMatterHtmlDir(this);
+        final BookDefinition bookDefinition = getBookDefinition();
         Map<String, List<String>> frontMatterPdfImageNames = generatePdfImages(bookDefinition, frontMatterTargetDir);
 
         String publishStatus = "generateFrontMatterHTML : Completed";
@@ -74,7 +68,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
             throw e;
         } finally {
             final PublishingStats jobstats = new PublishingStats();
-            jobstats.setJobInstanceId(jobInstance);
+            jobstats.setJobInstanceId(getJobInstanceId());
             jobstats.setPublishStatus(publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -87,9 +81,9 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
             File pdfDestDir = new File(frontMatterTargetDir, FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName());
             return bookDefinition.getFrontMatterPdfFileNames().stream()
                     .collect(Collectors.toMap(Function.identity(), pdfFileName -> {
-                        File pdfFile = new File(EBOOK_FRONT_MATTER_CW_PDF_IMAGES_FILEPATH.getName(), pdfFileName);
+                        File pdfFile = new File(nasFileSystem.getFrontMatterCwPdfDirectory(), pdfFileName);
                         if (!pdfFile.exists()) {
-                            pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName(), pdfFileName);
+                            pdfFile = new File(nasFileSystem.getFrontMatterUsclPdfDirectory(), pdfFileName);
                         }
                         return pdfToImgConverter.convert(pdfFile, pdfDestDir);
                     }));
@@ -100,14 +94,9 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
     private boolean checkForPagebreaks(
         final ExecutionContext jobExecutionContext,
         final BookDefinition bookDefinition) {
-        final File docsDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR));
+        final File docsDir = new File(getJobExecutionPropertyString(JobExecutionKey.GATHER_DOCS_DIR));
         final boolean withPageNumbers = bookDefinition.isPrintPageNumbers() && pagesAnalyzeService.checkIfDocumentsContainPagebreaks(docsDir);
         jobExecutionContext.put(JobExecutionKey.WITH_PAGE_NUMBERS, withPageNumbers);
         return withPageNumbers;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
-        this.publishingStatsService = publishingStatsService;
     }
 }

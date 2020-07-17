@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
@@ -90,6 +92,10 @@ public class TestConfig {
     @Bean
     public String environmentName() {
         return CoreConstants.PROD_ENVIRONMENT_NAME;
+    }
+    @Bean
+    public NasFileSystem nasFileSystem() {
+        return new TestNasFileSystemImpl();
     }
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() throws Exception {

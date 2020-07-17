@@ -40,7 +40,7 @@ public interface TitleMetadataService {
         TitleMetadata titleMetadata,
         Long jobInstanceId,
         File transformedDocsDir,
-        String docToSplitBookFile,
+        File docToSplitBookFile,
         String splitNodeInfoFile);
 
     void generateTitleXML(

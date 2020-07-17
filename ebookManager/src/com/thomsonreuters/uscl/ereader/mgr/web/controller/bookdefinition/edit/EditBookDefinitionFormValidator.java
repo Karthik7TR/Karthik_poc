@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -30,7 +31,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.jetbrains.annotations.NotNull;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -80,9 +80,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     @Autowired
     private IsbnValidator isbnValidator;
     @Autowired
+    private NasFileSystem nasFileSystem;
+    @Autowired
     private IssnValidator issnValidator;
-    @Value("${codes.workbench.root.dir}")
-    private File rootCodesWorkbenchLandingStrip;
 
     @Override
     public boolean supports(final Class clazz) {
@@ -530,8 +530,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         // Check if book Folder exists
         final String bookFolderName = form.getCodesWorkbenchBookName();
 
-        if (validateFileExists(errors, "codesWorkbenchBookName", rootCodesWorkbenchLandingStrip, bookFolderName)) {
-            final File bookDirectory = new File(rootCodesWorkbenchLandingStrip, bookFolderName);
+        if (validateFileExists(errors, "codesWorkbenchBookName", nasFileSystem.getCodesWorkbenchRootDir(), bookFolderName)) {
+            final File bookDirectory = new File(nasFileSystem.getCodesWorkbenchRootDir(), bookFolderName);
             int i = 0;
             for (final NortFileLocation fileLocation : nortFileLocations) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(
@@ -1055,18 +1055,18 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
             if (StringUtils.isNotBlank(form.getTitleId())) {
                 fileExist(
-                        errors,
-                        form.createCoverImageName(),
-                        WebConstants.LOCATION_COVER_IMAGE,
-                        "validateForm",
-                        "error.not.exist");
+                    errors,
+                    form.createCoverImageName(),
+                    nasFileSystem.getCoverImagesDirectory().getAbsolutePath(),
+                    "validateForm",
+                    "error.not.exist");
                 if (form.getPilotBookStatus() == PilotBookStatus.TRUE) {
                     fileExist(
-                            errors,
-                            form.createPilotBookCsvName(),
-                            WebConstants.LOCATION_PILOT_BOOK_CSV,
-                            "pilotBook",
-                            "error.pilot.boo.file.not.exist");
+                        errors,
+                        form.createPilotBookCsvName(),
+                        nasFileSystem.getPilotBookCsvDirectory().getAbsolutePath(),
+                        "pilotBook",
+                        "error.pilot.boo.file.not.exist");
                 }
             }
             // Check all pdfs on Front Matter
@@ -1095,15 +1095,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
     private void checkPdfExists(final String fileName, final String publisher, final String fieldName,
         final Errors errors) {
-        final File pdfInCwFolder = new File(WebConstants.LOCATION_CW_PDF, fileName);
-        final File pdfInGeneralFolder = new File(WebConstants.LOCATION_PDF, fileName);
+        final File pdfInCwFolder = new File(nasFileSystem.getFrontMatterCwPdfDirectory(), fileName);
+        final File pdfInGeneralFolder = new File(nasFileSystem.getFrontMatterUsclPdfDirectory(), fileName);
         if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
             if (!pdfInCwFolder.exists() && !pdfInGeneralFolder.exists()) {
-                rejectPdfFileField(errors, fieldName, fileName, WebConstants.LOCATION_CW_PDF);
+                rejectPdfFileField(errors, fieldName, fileName, nasFileSystem.getFrontMatterCwPdfDirectory().getAbsolutePath());
             }
         } else {
             if (!pdfInGeneralFolder.exists()) {
-                rejectPdfFileField(errors, fieldName, fileName, WebConstants.LOCATION_PDF);
+                rejectPdfFileField(errors, fieldName, fileName, nasFileSystem.getFrontMatterUsclPdfDirectory().getAbsolutePath());
             }
         }
     }

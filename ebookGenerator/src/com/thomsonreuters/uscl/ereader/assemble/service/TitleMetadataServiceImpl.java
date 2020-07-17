@@ -32,6 +32,8 @@ import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -48,12 +50,18 @@ import org.xml.sax.XMLReader;
  */
 
 @Slf4j
+@Service
 public class TitleMetadataServiceImpl implements TitleMetadataService {
     private final String OMIT_XML_DECLARATION = "omit-xml-declaration";
+    @Autowired
     private DocMetadataService docMetadataService;
+    @Autowired
     private PlaceholderDocumentService placeholderDocumentService;
+    @Autowired
     private FileUtilsFacade fileUtilsFacade;
+    @Autowired
     private UuidGenerator uuidGenerator;
+    @Autowired
     private ImageService imageService;
 
     @Override
@@ -117,7 +125,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
         final TitleMetadata titleMetadata,
         final Long jobInstanceId,
         final File transformedDocsDir,
-        final String docToSplitBookFile,
+        final File docToSplitBookFile,
         final String splitNodeInfoFile) {
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
@@ -240,10 +248,8 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
         }
     }
 
-    protected void writeDocumentsToFile(final List<Doc> orderedDocuments, final String docToSplitBookFileName)
+    protected void writeDocumentsToFile(final List<Doc> orderedDocuments, final File docToSplitBookFile)
         throws IOException {
-        final File docToSplitBookFile = new File(docToSplitBookFileName);
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"))) {
             if (orderedDocuments.size() > 0) {
                 for (final Doc document : orderedDocuments) {
@@ -278,7 +284,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
     }
 
     /**
-     * @param fileName contains altId for corresponding Guid
      * @return a map  (Guid as a Key and altId as a Value)
      */
     protected Map<String, String> getAltIdMap(final String titleId, final String altIdFileDir) {
@@ -320,10 +325,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 
     public void setPlaceholderDocumentService(final PlaceholderDocumentService placeholderDocumentService) {
         this.placeholderDocumentService = placeholderDocumentService;
-    }
-
-    public ImageService getImageService() {
-        return imageService;
     }
 
     public void setImageService(final ImageService imageService) {

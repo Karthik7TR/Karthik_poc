@@ -104,7 +104,9 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
             ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE,
             isSplitBook);
 
-        createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
+        if (!titleMetadata.isCwBook()) {
+            createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
+        }
 
         if (titleMetadata.isIndexIncluded()) {
             createFrontMatterNode(INLINE_INDEX_FILE, INLINE_INDEX_ITEM, isSplitBook);

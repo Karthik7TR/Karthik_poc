@@ -1,16 +1,20 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
-import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources;
 import com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
 import com.thomsonreuters.uscl.ereader.format.step.StepIntegrationTestRunner;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import org.apache.commons.lang3.StringUtils;
+import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
+import com.thomsonreuters.uscl.ereader.util.FileUtilsFacadeImpl;
+import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -33,19 +37,25 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyString;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {CreateDirectoriesAndMoveResourcesTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
 public final class CreateDirectoriesAndMoveResourcesTest {
+    private static final String DOC_UUID = "docUuid";
+    private static final String PROVIEW_ID = "proviewId";
+    @Autowired
     private CreateDirectoriesAndMoveResources createDirectoriesAndMoveResources;
     private Map<String, List<Doc>> docMap = new HashMap<>();
     private Map<String, List<String>> splitBookImgMap = new HashMap<>();
@@ -55,14 +65,12 @@ public final class CreateDirectoriesAndMoveResourcesTest {
 
     private ExecutionContext jobExecutionContext;
     private File tempRootDir;
-    private MoveResourcesUtil moveResourcesUtil;
 
     @Autowired
     private StepIntegrationTestRunner runner;
 
     @Before
     public void setUp() throws Exception {
-        createDirectoriesAndMoveResources = new CreateDirectoriesAndMoveResources();
         tempRootDir = new File((Files.createTempDirectory("YarrMatey")).toString());
         tempFile = makeFile(tempRootDir, "pirate.ship", "don't crash");
         final URL url = this.getClass().getResource(FILE_NAME);
@@ -96,7 +104,6 @@ public final class CreateDirectoriesAndMoveResourcesTest {
     @Test
     public void testMovesResources() {
         jobExecutionContext = new ExecutionContext();
-        jobExecutionContext.put(JobExecutionKey.IMAGE_STATIC_DEST_DIR, tempRootDir.getAbsolutePath());
         final List<String> imglist = new ArrayList<>();
         final List<Doc> doclist = new ArrayList<>();
         final File tempImg = makeFile(tempRootDir, "img.png", "totally an image file");
@@ -122,35 +129,6 @@ public final class CreateDirectoriesAndMoveResourcesTest {
 
             FileUtils.delete(temp2);
         }
-    }
-
-    @Test
-    public void testDuplicateAssets() {
-        splitBookImgMap = new HashMap<>();
-        final List<String> imgList1 = new ArrayList<>();
-        imgList1.add("img1.xml");
-        imgList1.add("img2.xml");
-
-        splitBookImgMap.put("Doc1", imgList1);
-
-        final List<String> imgList2 = new ArrayList<>();
-        imgList2.add("img0.xml");
-        imgList2.add("img2.xml");
-        splitBookImgMap.put("Doc2", imgList2);
-
-        final List<Asset> assetsForSplitBook = new ArrayList<>();
-
-        for (final Map.Entry<String, List<String>> entry : splitBookImgMap.entrySet()) {
-            for (final String imgFileName : entry.getValue()) {
-                final Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
-                //To avoid duplicate asset
-                if (!assetsForSplitBook.contains(asset)) {
-                    assetsForSplitBook.add(asset);
-                }
-            }
-        }
-
-        assertTrue(assetsForSplitBook.size() == 3);
     }
 
     @Test
@@ -206,15 +184,12 @@ public final class CreateDirectoriesAndMoveResourcesTest {
     @Test
     public void testMoveResourcesNotFound() throws Exception {
         runner.setUp(createDirectoriesAndMoveResources);
-        whenJobExecutionPropertyString(createDirectoriesAndMoveResources.getJobExecutionContext(), JobExecutionKey.IMAGE_STATIC_DEST_DIR, "dir");
 
         final List<String> imgList = new ArrayList<>();
         final List<Doc> docList = new ArrayList<>();
-        moveResourcesUtil = new MoveResourcesUtil();
 
         boolean thrown = false;
         try {
-            createDirectoriesAndMoveResources.setMoveResourcesUtil(moveResourcesUtil);
             createDirectoriesAndMoveResources
                 .moveResources(createDirectoriesAndMoveResources.getJobExecutionContext(), tempRootDir, false, imgList, docList, tempFile);
         } catch (final EBookException e) {
@@ -249,8 +224,48 @@ public final class CreateDirectoriesAndMoveResourcesTest {
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
         @Bean
+        public CreateDirectoriesAndMoveResources createDirectoriesAndMoveResources() {
+            return new CreateDirectoriesAndMoveResources();
+        }
+        @Bean
         public PdfToImgConverter pdfToImgConverter() {
             return new PdfToImgConverter();
+        }
+        @Bean
+        public BookDefinitionService bookDefinitionService() {
+            BookDefinitionService bookDefinitionService = mock(BookDefinitionService.class);
+            when(bookDefinitionService.getSplitPartsForEbook(any())).thenReturn(2);
+            return bookDefinitionService;
+        }
+        @Bean
+        public TitleMetadataService titleMetadataService() {
+            return new TitleMetadataServiceImpl();
+        }
+        @Bean
+        public DocMetadataService docMetadataService() {
+            DocMetadataService docMetadataService = mock(DocMetadataService.class);
+            Map<String, String> familyGuidMap = new HashMap<>();
+            familyGuidMap.put(DOC_UUID, PROVIEW_ID);
+            when(docMetadataService.findDistinctProViewFamGuidsByJobId(any())).thenReturn(familyGuidMap);
+            return docMetadataService;
+        }
+        @Bean
+        public FileUtilsFacade fileUtilsFacade() {
+            return new FileUtilsFacadeImpl();
+        }
+        @Bean
+        public UuidGenerator uuidGenerator() {
+            return new UuidGenerator();
+        }
+        @Bean
+        public MoveResourcesUtil moveResourcesUtil() {
+            return new MoveResourcesUtil();
+        }
+        @Bean
+        public ImageService imageService() {
+            ImageService imageService = mock(ImageService.class);
+            when(imageService.getDocImageListMap(any())).thenReturn(Collections.emptyMap());
+            return imageService;
         }
     }
 }

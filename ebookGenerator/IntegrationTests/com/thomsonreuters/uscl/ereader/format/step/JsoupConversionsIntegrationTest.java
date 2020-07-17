@@ -23,7 +23,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
@@ -49,18 +48,15 @@ public class JsoupConversionsIntegrationTest {
     @Autowired
     private StepIntegrationTestRunner runner;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(step);
-        resourceDir = new File(JsoupConversionsIntegrationTest.class.getResource("resourceJsoupConversions").toURI());
+        runner.setUp(step, "resourceJsoupConversions");
     }
 
     @Test
     public void shouldCreateLegalTopic() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
-        runner.test(step, new File(resourceDir, "createLegalTopic"));
+        runner.test(step, "createLegalTopic");
     }
 
     @Configuration

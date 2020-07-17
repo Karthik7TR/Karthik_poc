@@ -12,18 +12,21 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
  *
  */
+@Service("docMetadataService")
 public class DocMetadataServiceImpl implements DocMetadataService {
     /**
      * DAO injected by Spring that manages DocMetadata entities
      */
 
+    @Autowired
     private DocMetadataDao docMetadataDAO;
 
     /**
@@ -166,11 +169,6 @@ public class DocMetadataServiceImpl implements DocMetadataService {
                 updateDocMetadata(docMeta);
             }
         }
-    }
-
-    @Required
-    public void setdocMetadataDAO(final DocMetadataDao dao) {
-        docMetadataDAO = dao;
     }
 
     @Override

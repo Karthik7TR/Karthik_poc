@@ -1,19 +1,18 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.io.File;
+
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_TOC_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
-
-import java.io.File;
-
-import javax.annotation.Resource;
-
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 
 @Component("gatherFileSystem")
 public class GatherFileSystemImpl implements GatherFileSystem {

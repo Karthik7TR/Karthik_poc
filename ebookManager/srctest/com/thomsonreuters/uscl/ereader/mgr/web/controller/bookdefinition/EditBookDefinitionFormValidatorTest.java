@@ -218,7 +218,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(analyticalCode);
         EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(keywordTypeCodeSevice);
-        form.setCodesWorkbenchBookName("/");
+        form.setCodesWorkbenchBookName("/FamEbook20");
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
