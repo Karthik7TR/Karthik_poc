@@ -23,9 +23,11 @@ Defaults:
     # the Cumulus CLI.
     ApprovalNotifications:
       ApprovalSNSArns:  # Optional. SNS topic to send Release Approval request
-        - "arn:aws:sns:us-east-1:307097860667:a205930-blue-green-deployer-ben-sns"
-      # Optional. SQS queue to post a Release Approval request
-      ApprovalSQSUrl: "https://sqs.us-east-1.amazonaws.com/307097860667/a205930-ben-queue"
+        - "arn:aws:sns:us-east-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"
+
+      # Optional. SQS queue to post a Release Approval request.
+      # ApprovalSQSUrl: "https://sqs.us-east-1.amazonaws.com/307097860667/a206296-TEN-Acct-Id-approval-queue"
+
       # Optional. Additional things you want in your release approval request.
       ApprovalNotificationData:
         Thing1: Something I want to know
