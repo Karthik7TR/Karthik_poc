@@ -2,9 +2,11 @@ package com.thomsonreuters.uscl.ereader.format.service.jsoup;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestService;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,13 +38,17 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
             "            <span style=\"overflow-wrap:break-word\" class=\"fs-small\"><a href=\"%s\" class=\"tr_op_url\" target=\"_blank\">%s</a></span>\n" +
             "          </p>\n";
 
+    @Autowired
+    private CanadianDigestService canadianDigestService;
+
     @Override
-    public void preparations(Document document) {
+    public void preparations(final Document document) {
 
     }
 
     @Override
-    public void transform(final String docGuid, final Document document, final BookStep bookStep, final Map<String, List<CanadianDigest>> docGuidToTopicMap) {
+    public void transform(final String docGuid, final Document document, final BookStep bookStep) {
+        Map<String, List<CanadianDigest>> docGuidToTopicMap = getDocGuidToTopicMap(bookStep.getJobInstanceId());
         if (docGuidToTopicMap.containsKey(docGuid)) {
             String legalTopic = buildLegalTopic(docGuidToTopicMap.get(docGuid), docGuid);
             getLegalTopicPlaceholder(document)
@@ -76,5 +82,10 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
         return "http://nextcanada.westlaw.com/Browse/Home/Taxonomy/TaxonomyTOC/" +
                 classifnum +
                 "/View.html?transitionType=Default&amp;contextData=(sc.Default)&amp;vr=3.0&amp;rs=cblt1.0";
+    }
+
+    private Map<String, List<CanadianDigest>> getDocGuidToTopicMap(final Long jobInstanceId) {
+        return canadianDigestService.findAllByJobInstanceId(jobInstanceId).stream()
+                .collect(Collectors.groupingBy(CanadianDigest::getDocUuid));
     }
 }
