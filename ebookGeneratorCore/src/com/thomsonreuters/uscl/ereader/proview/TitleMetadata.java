@@ -115,6 +115,8 @@ public final class TitleMetadata implements Serializable {
     @XmlTransient
     private boolean indexIncluded;
     @XmlTransient
+    private boolean isCwBook;
+    @XmlTransient
     private boolean isElooseleafsEnabled;
 
     private TitleMetadata() {
@@ -124,7 +126,6 @@ public final class TitleMetadata implements Serializable {
     private TitleMetadata(final TitleMetadataBuilder builder) {
         titleId = builder.fullyQualifiedTitleId;
         titleVersion = builder.versionNumber;
-        lastUpdated = DATE_FORMAT.format(new Date());
         proviewFeatures = builder.proviewFeatures;
         keywords = builder.keywords;
         publishedDate = builder.publishedDate;
@@ -139,6 +140,7 @@ public final class TitleMetadata implements Serializable {
         documents = builder.documents;
         inlineToc = builder.inlineToc;
         indexIncluded = builder.indexIncluded;
+        isCwBook = builder.isCwBook;
         isElooseleafsEnabled = builder.isElooseleafsEnabled;
 
         authorNames = Optional.ofNullable(builder.authors)
@@ -170,6 +172,7 @@ public final class TitleMetadata implements Serializable {
             .publishedDate(getFormattedPublishedDate(bookDefinition.getPublishedDate()))
             .infoFields(getInfoFields(bookDefinition))
             .isElooseleafsEnabled(bookDefinition.isELooseleafsEnabled())
+            .isCwBook(bookDefinition.isCwBook())
             .isPilotBook(bookDefinition.getIsPilotBook())
             .isbn(bookDefinition.getIsbnNormalized())
             .materialId(bookDefinition.getMaterialId())
@@ -223,7 +226,9 @@ public final class TitleMetadata implements Serializable {
         private List<Doc> documents;
         private boolean inlineToc;
         private boolean indexIncluded;
+        private boolean isCwBook;
         private boolean isElooseleafsEnabled;
+        private Date lastUpdated;
 
         private TitleMetadataBuilder() {
             //No instances from the outside
@@ -377,17 +382,35 @@ public final class TitleMetadata implements Serializable {
             return this;
         }
 
+        public TitleMetadataBuilder isCwBook(final boolean isCwBook) {
+            this.isCwBook = isCwBook;
+            return this;
+        }
+
         public TitleMetadataBuilder isElooseleafsEnabled(final boolean isElooseleafsEnabled) {
             this.isElooseleafsEnabled = isElooseleafsEnabled;
+            return this;
+        }
+
+        public TitleMetadataBuilder lastUpdated(final Date lastUpdated) {
+            this.lastUpdated = lastUpdated;
             return this;
         }
 
         @NotNull
         public TitleMetadata build() {
             final TitleMetadata titleMetadata = new TitleMetadata(this);
+            createLastUpdated(titleMetadata);
             createArtwork(titleMetadata);
             createAssets(titleMetadata);
             return titleMetadata;
+        }
+
+        private void createLastUpdated(final TitleMetadata titleMetadata) {
+            if (this.lastUpdated == null) {
+                lastUpdated = new Date();
+            }
+            titleMetadata.lastUpdated = DATE_FORMAT.format(lastUpdated);
         }
 
         private void createArtwork(final TitleMetadata titleMetadata) {

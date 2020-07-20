@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil.THESAURUS_XML;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
@@ -60,7 +59,7 @@ public class BuildThesaurusStep extends BookStepImpl {
 
         fillThesaurusEntries(topicKeys, document);
 
-        jsoup.saveDocument(outputDir, THESAURUS_XML, document);
+        jsoup.saveDocument(outputDir, formatFileSystem.getThesaurusXml(this).getName(), document);
         setJobExecutionProperty(JobExecutionKey.WITH_THESAURUS, Boolean.TRUE);
     }
 

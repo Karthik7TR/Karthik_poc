@@ -17,7 +17,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
@@ -41,19 +40,16 @@ public class AddThesaurusToDocumentsStepIntegrationTest {
     @Autowired
     private StepIntegrationTestRunner runner;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(step);
-        resourceDir = new File(BuildThesaurusStepIntegrationTest.class.getResource("resourceAddThesaurusToDocuments").toURI());
+        runner.setUp(step, "resourceAddThesaurusToDocuments");
     }
 
     @Test
     public void shouldAddThesaurusToDocuments() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
         whenJobExecutionPropertyBoolean(step.getJobExecutionContext(), JobExecutionKey.WITH_THESAURUS, Boolean.TRUE);
-        runner.test(step, new File(resourceDir, "addThesaurus"));
+        runner.test(step, "addThesaurus");
     }
 
     @Configuration

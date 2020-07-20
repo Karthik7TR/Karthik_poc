@@ -27,13 +27,16 @@
                     the contents, or for the results of any action taken on the basis of the information contained in
                     this publication, or for any errors or omissions contained herein.
                 </p>
-                <p>
+                <p style="margin-bottom: 2em">
                     No one involved in this publication is attempting herein to render legal, accounting or other
                     professional advice. If legal advice or other expert assistance is required, the services of a
                     competent professional should be sought. The analysis contained herein should in no way be construed
                     as being either official or unofficial policy of any governmental body.
                 </p>
-                <p style="margin: 2em 0 2em">
+                <p>
+                    <frontMatterPlaceholder_copyrightISSN/>
+                </p>
+                <p style="margin: 0.5em 0 2em 0">
                     ISBN <frontMatterPlaceholder_copyrightISBN/>
                 </p>
                 <p>

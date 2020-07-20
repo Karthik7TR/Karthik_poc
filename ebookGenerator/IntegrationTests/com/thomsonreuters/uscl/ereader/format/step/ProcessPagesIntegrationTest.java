@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
@@ -31,29 +30,26 @@ public final class ProcessPagesIntegrationTest {
     @Autowired
     private StepIntegrationTestRunner runner;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(step);
-        resourceDir = new File(ProcessPagesIntegrationTest.class.getResource("resourceProcessPages").toURI());
+        runner.setUp(step, "resourceProcessPages");
     }
 
     @Test
     public void shouldTransformPages() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
-        runner.test(step, new File(resourceDir, "transformTest"));
+        runner.test(step, "transformTest");
     }
 
     @Test
     public void shouldTransformPagesWithSectionbreaks() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
-        runner.test(step, new File(resourceDir, "transformWithSectionbreaksTest"));
+        runner.test(step, "transformWithSectionbreaksTest");
     }
 
     @Test
     public void shouldCopyPages() throws Exception {
-        runner.test(step, new File(resourceDir, "copyTest"));
+        runner.test(step, "copyTest");
     }
 
     @Configuration

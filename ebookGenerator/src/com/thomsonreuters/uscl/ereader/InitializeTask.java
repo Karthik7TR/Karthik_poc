@@ -1,48 +1,6 @@
 package com.thomsonreuters.uscl.ereader;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_ARTWORK_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_ASSETS_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_DOCUMENTS_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_TITLE_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_CREATED_LINKS_TRANSFORM_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DE_DUPPING_ANCHOR_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FIXED_TRANSFORM_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_HTML_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_POST_TRANSFORM_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_GUIDS_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOC_MISSING_GUIDS_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DYNAMIC_IMAGE_GUIDS_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_DYNAMIC_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_MISSING_IMAGE_GUIDS_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_STATIC_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_STATIC_IMAGE_MANIFEST_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.jms.IllegalStateException;
-
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -63,7 +21,40 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+
+import javax.jms.IllegalStateException;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_CREATED_LINKS_TRANSFORM_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DE_DUPPING_ANCHOR_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FIXED_TRANSFORM_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_POST_TRANSFORM_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOC_MISSING_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DYNAMIC_IMAGE_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_MISSING_IMAGE_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_STATIC_IMAGE_MANIFEST_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
 
 /**
  * Perform job setup for creating an ebook and place data into the JobExecutionContext for
@@ -80,7 +71,8 @@ public class InitializeTask extends AbstractSbTasklet {
     private PublishingStatsService publishingStatsService;
     private EBookAuditService eBookAuditService;
     private BookDefinitionService bookDefnService;
-    private File staticContentDirectory;
+    @Autowired
+    private NasFileSystem nasFileSystem;
 
     @Override
     public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
@@ -108,11 +100,10 @@ public class InitializeTask extends AbstractSbTasklet {
             log.info("NORT Domain: " + bookDefinition.getNortDomain());
             log.info("NORT Filter: " + bookDefinition.getNortFilterView());
 
-            if (!staticContentDirectory.exists()) {
+            if (!nasFileSystem.getStaticContentDirectory().exists()) {
                 throw new IllegalStateException(
-                    "Expected staticContent directory does not exist: " + staticContentDirectory.getAbsolutePath());
+                    "Expected staticContent directory does not exist: " + nasFileSystem.getStaticContentDirectory().getAbsolutePath());
             }
-            jobExecutionContext.putString(JobExecutionKey.STATIC_CONTENT_DIR, staticContentDirectory.getAbsolutePath());
 
             if (bookDefinition.getSourceType().equals(SourceType.FILE)) {
                 if (!rootCodesWorkbenchLandingStrip.exists()) {
@@ -157,17 +148,9 @@ public class InitializeTask extends AbstractSbTasklet {
 
             // Image directories and files
             final File imageRootDirectory = newFile(gatherDirectory, GATHER_IMAGES_DIR);
-            final File imageDynamicDirectory = newFile(imageRootDirectory, GATHER_IMAGES_DYNAMIC_DIR);
-            final File imageStaticDirectory = newFile(imageRootDirectory, GATHER_IMAGES_STATIC_DIR);
             final File imageDynamicGuidsFile = newFile(gatherDirectory, GATHER_DYNAMIC_IMAGE_GUIDS_FILE);
             final File imageStaticManifestFile = newFile(gatherDirectory, GATHER_STATIC_IMAGE_MANIFEST_FILE);
             final File imageMissingGuidsFile = newFile(imageRootDirectory, GATHER_IMAGES_MISSING_IMAGE_GUIDS_FILE);
-
-            final File assembleDirectory = newFile(workDirectory, ASSEMBLE_DIR);
-            final File assembledTitleDirectory = new File(assembleDirectory, titleId);
-            final File assembleDocumentsDirectory = newFile(assembledTitleDirectory, ASSEMBLE_DOCUMENTS_DIR);
-            final File assembleAssetsDirectory = newFile(assembledTitleDirectory, ASSEMBLE_ASSETS_DIR);
-            final File assembleArtworkDirectory = newFile(assembledTitleDirectory, ASSEMBLE_ARTWORK_DIR);
 
             // Create required directories
             gatherDirectory.mkdir();
@@ -175,17 +158,9 @@ public class InitializeTask extends AbstractSbTasklet {
             docsMetadataDirectory.mkdir();
             tocDirectory.mkdir();
             imageRootDirectory.mkdir(); // Root directory for images
-            imageStaticDirectory.mkdir(); // where the copied static images go
-            imageDynamicDirectory.mkdir(); // where images from the Image Vertical REST service go
-            assembleDirectory.mkdir();
-            assembledTitleDirectory.mkdir();
-            assembleDocumentsDirectory.mkdir();
-            assembleAssetsDirectory.mkdir();
-            assembleArtworkDirectory.mkdir();
 
             // Create format directories
             final File formatDirectory = newFile(workDirectory, FORMAT_DIR);
-            final File frontMatterHTMLDiretory = newFile(formatDirectory, FORMAT_FRONT_MATTER_HTML_DIR);
             final File formatImageMetadataDirectory = newFile(formatDirectory, FORMAT_IMAGE_METADATA_DIR);
             final File transformCharSequencesDir = newFile(formatDirectory, FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR);
             final File preprocessDirectory = newFile(formatDirectory, FORMAT_PREPROCESS_DIR);
@@ -207,11 +182,8 @@ public class InitializeTask extends AbstractSbTasklet {
             createdLinksTransformDirectory.mkdir();
             fixedTransformDirectory.mkdir();
             htmlWrapperDirectory.mkdir();
-            frontMatterHTMLDiretory.mkdir();
 
             final File splitTocFile = newFile(splitEbookTocDirectory, FORMAT_SPLIT_TOC_FILE);
-            //Format\splitEbook\doc-To-SplitBook.txt holds Doc Information
-            final File docToSplitBook = newFile(splitEbookDirectory, FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE);
             //Format\splitEbook\splitNodeInfo.txt holds Doc Information
             final File splitNodeInfoFile = newFile(splitEbookDirectory, FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE);
             final File imageToDocumentManifestFile = newFile(formatDirectory, FORMAT_DOC_TO_IMAGE_MANIFEST_FILE);
@@ -229,15 +201,11 @@ public class InitializeTask extends AbstractSbTasklet {
             // Create the absolute path to the final e-book artifact - a GNU ZIP file
             // "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
             final File ebookFile = new File(workDirectory, titleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
-            final File titleXmlFile = newFile(assembledTitleDirectory, ASSEMBLE_TITLE_FILE);
-            //Format\splitEbook\splitTitle.xml holds Toc which is same in all split books.
-            final File splitTitleXmlFile = newFile(splitEbookDirectory, FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE);
 
             jobExecutionContext.putString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
 
             jobExecutionContext.putString(JobExecutionKey.DEDUPPING_FILE, deDuppingAnchorFile.getAbsolutePath());
 
-            jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
@@ -253,12 +221,8 @@ public class InitializeTask extends AbstractSbTasklet {
 
             // Images - static and dynamic directories and files
             jobExecutionContext
-                .putString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());
-            jobExecutionContext
                 .putString(JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE, imageDynamicGuidsFile.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.IMAGE_ROOT_DIR, imageRootDirectory.getAbsolutePath());
-            jobExecutionContext
-                .putString(JobExecutionKey.IMAGE_STATIC_DEST_DIR, imageStaticDirectory.getAbsolutePath());
             jobExecutionContext
                 .putString(JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
             jobExecutionContext
@@ -274,7 +238,6 @@ public class InitializeTask extends AbstractSbTasklet {
                 .putString(JobExecutionKey.SPLIT_EBOOK_TOC_DIR, splitEbookTocDirectory.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.SPLIT_EBOOK_DIR, splitEbookDirectory.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.FORMAT_SPLITTOC_FILE, splitTocFile.getAbsolutePath());
-            jobExecutionContext.putString(JobExecutionKey.DOC_TO_SPLITBOOK_FILE, docToSplitBook.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.SPLIT_NODE_INFO_FILE, splitNodeInfoFile.getAbsolutePath());
             jobExecutionContext
                 .putString(JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
@@ -286,18 +249,6 @@ public class InitializeTask extends AbstractSbTasklet {
                 fixedTransformDirectory.getAbsolutePath());
             jobExecutionContext
                 .putString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
-            jobExecutionContext
-                .putString(JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR, frontMatterHTMLDiretory.getAbsolutePath());
-
-            jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_DIR, assembleDirectory.getAbsolutePath());
-            jobExecutionContext
-                .putString(JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());
-            jobExecutionContext
-                .putString(JobExecutionKey.ASSEMBLE_ASSETS_DIR, assembleAssetsDirectory.getAbsolutePath());
-            jobExecutionContext
-                .putString(JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
-            jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
-            jobExecutionContext.putString(JobExecutionKey.SPLIT_TITLE_XML_FILE, splitTitleXmlFile.getAbsolutePath());
 
             log.info("Image Service URL: " + System.getProperty("image.vertical.context.url"));
             log.info("Proview Domain URL: " + System.getProperty("proview.domain"));
@@ -341,11 +292,6 @@ public class InitializeTask extends AbstractSbTasklet {
     @Required
     public void setRootCodesWorkbenchLandingStrip(final File rootDir) {
         rootCodesWorkbenchLandingStrip = rootDir;
-    }
-
-    @Required
-    public void setStaticContentDirectory(final File staticContentDirectory) {
-        this.staticContentDirectory = staticContentDirectory;
     }
 
     @Required

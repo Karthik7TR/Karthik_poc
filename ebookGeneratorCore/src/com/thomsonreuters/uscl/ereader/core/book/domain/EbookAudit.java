@@ -134,6 +134,11 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private String isbn;
 
+    @Column(name = "ISSN", length = 20)
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String issn;
+
     @Column(name = "PUBLISH_DATE_TEXT", length = 1024)
     @Basic(fetch = FetchType.EAGER)
     @Getter @Setter
@@ -479,6 +484,7 @@ public class EbookAudit implements Serializable {
         setDocumentTypeCodesId(that.getDocumentTypeCodesId());
         setCoverImage(that.getCoverImage());
         setIsbn(that.getIsbn());
+        setIssn(that.getIssn());
         setPublishDateText(that.getPublishDateText());
         setPublisherCodesId(that.getPublisherCodesId());
         setCurrency(that.getCurrency());
@@ -563,6 +569,7 @@ public class EbookAudit implements Serializable {
         setDocumentTypeCodesId(that.getDocumentTypeCodes().getId());
         setCoverImage(that.getCoverImage());
         setIsbn(that.getIsbn());
+        setIssn(that.getIssn());
         setPublishDateText(that.getPublishDateText());
         setPublisherCodesId(that.getPublisherCodes().getId());
         setCurrency(that.getCurrency());
@@ -662,6 +669,7 @@ public class EbookAudit implements Serializable {
         buffer.append("documentTypeCodesId=[").append(documentTypeCodesId).append("] ");
         buffer.append("coverImage=[").append(coverImage).append("] ");
         buffer.append("isbn=[").append(isbn).append("] ");
+        buffer.append("issn=[").append(issn).append("] ");
         buffer.append("publishDateText=[").append(publishDateText).append("] ");
         buffer.append("publisherCodesId=[").append(publisherCodesId).append("] ");
         buffer.append("currency=[").append(currency).append("] ");

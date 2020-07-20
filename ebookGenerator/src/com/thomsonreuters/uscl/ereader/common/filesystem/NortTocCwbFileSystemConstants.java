@@ -45,14 +45,13 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE("doc-To-SplitBook.txt"),
     FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE("splitNodeInfo.txt"),
     FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE("splitTitle.xml"),
+    FORMAT_THESAURUS_XML_FILE("thesaurus.xml"),
 
     ASSEMBLE_TITLE_FILE("title.xml"),
 
     ASSEMBLE_DOCUMENTS_DIR("documents"),
     ASSEMBLE_ASSETS_DIR("assets"),
-    ASSEMBLE_ARTWORK_DIR("artwork"),
-
-    EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH("/apps/eBookBuilder/generator/images/pdf/");
+    ASSEMBLE_ARTWORK_DIR("artwork");
 
     private final String name;
 

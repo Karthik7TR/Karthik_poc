@@ -5,6 +5,7 @@ import static com.thomsonreuters.uscl.ereader.StepTestUtil.validateDirsOnExpecte
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
@@ -14,12 +15,14 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystemImpl;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl;
+import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BaseStep;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import org.apache.commons.io.FileUtils;
+import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import org.mockito.Answers;
 import org.mockito.Mockito;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -37,10 +40,20 @@ public class StepIntegrationTestRunner {
     private static final String EXPECTED = "expected";
     private static final String TITLE_ID = "uscl/an/test_book";
     private static final int THRESHOLD_VALUE = 10;
+    private static final String NAS = "nas";
 
     @Autowired
     private BookFileSystem bookFileSystem;
+    @Autowired
+    private NasFileSystem nasFileSystem;
     private File workDir;
+    private File nasDir;
+    private File resourceRootDir;
+
+    public void setUp(final BaseStep step, final String resourceDirName) throws URISyntaxException {
+        resourceRootDir = new File(StepIntegrationTestRunner.class.getResource(resourceDirName).toURI());
+        setUp(step);
+    }
 
     public void setUp(final BaseStep step) {
         final ExecutionContext jobExecutionContext = Mockito.mock(ExecutionContext.class);
@@ -64,16 +77,16 @@ public class StepIntegrationTestRunner {
         return documentTypeCode;
     }
 
-    public void testWithSourceOnly(final BaseStep step, final File resource) throws Exception {
-        test(step, resource, true, false);
+    public void testWithSourceOnly(final BaseStep step, final String resourceTestDir) throws Exception {
+        test(step, new File(resourceRootDir, resourceTestDir), true, false);
     }
 
-    public void testWithExpectedOnly(final BaseStep step, final File resource) throws Exception {
-        test(step, resource, false, true);
+    public void testWithExpectedOnly(final BaseStep step, final String resourceTestDir) throws Exception {
+        test(step, new File(resourceRootDir, resourceTestDir), false, true);
     }
 
-    public void test(final BaseStep step, final File resource) throws Exception {
-        test(step, resource, true, true);
+    public void test(final BaseStep step, final String resourceTestDir) throws Exception {
+        test(step, new File(resourceRootDir, resourceTestDir), true, true);
     }
 
     public void test(final BaseStep step) throws Exception {
@@ -82,27 +95,42 @@ public class StepIntegrationTestRunner {
 
     private void test(final BaseStep step, final File resource, boolean withSourceDir, boolean withExpectedDir) throws Exception {
         initWorkDir();
-
-        if (withSourceDir) {
-            FileUtils.copyDirectory(new File(resource, SOURCE), workDir);
-        }
+        copyNasDir();
+        copySourceDir(resource, withSourceDir);
 
         step.executeStep();
 
-        if (withExpectedDir) {
-            validateDirsOnExpected(new File(resource, EXPECTED), workDir);
-        }
-
+        validateResult(resource, withExpectedDir);
         tearDown();
     }
 
     private void initWorkDir() {
         workDir = bookFileSystem.getWorkDirectory(null);
+        nasDir = ((TestNasFileSystemImpl) nasFileSystem).getRootDirectory();
     }
 
     private void tearDown() {
         FileUtils.deleteQuietly(workDir);
+        FileUtils.deleteQuietly(nasDir);
         ((TestBookFileSystemImpl) bookFileSystem).reset();
+        ((TestNasFileSystemImpl) nasFileSystem).reset();
+    }
+
+    private void copyNasDir() {
+        File staticDir = new File(resourceRootDir, NAS);
+        if (staticDir.exists()) {
+            FileUtils.copyDirectory(staticDir, nasDir);
+        }
+    }
+    private void copySourceDir(File resource, boolean withSourceDir) {
+        if (withSourceDir) {
+            FileUtils.copyDirectory(new File(resource, SOURCE), workDir);
+        }
+    }
+    private void validateResult(File resource, boolean withExpectedDir) {
+        if (withExpectedDir) {
+            validateDirsOnExpected(new File(resource, EXPECTED), workDir);
+        }
     }
 
     @Configuration

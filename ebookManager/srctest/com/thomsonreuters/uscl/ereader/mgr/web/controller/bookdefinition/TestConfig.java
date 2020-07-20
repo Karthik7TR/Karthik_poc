@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
@@ -12,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IsbnValidator;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IssnValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.request.service.PrintComponentHistoryService;
 import org.easymock.EasyMock;
@@ -37,6 +40,10 @@ public class TestConfig {
     @Bean
     public IsbnValidator isbnValidator() {
         return new IsbnValidator();
+    }
+    @Bean
+    public IssnValidator issnValidator() {
+        return new IssnValidator();
     }
     @Bean
     public BookDefinitionService bookDefinitionService() {
@@ -85,6 +92,10 @@ public class TestConfig {
     @Bean
     public String environmentName() {
         return CoreConstants.PROD_ENVIRONMENT_NAME;
+    }
+    @Bean
+    public NasFileSystem nasFileSystem() {
+        return new TestNasFileSystemImpl();
     }
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() throws Exception {

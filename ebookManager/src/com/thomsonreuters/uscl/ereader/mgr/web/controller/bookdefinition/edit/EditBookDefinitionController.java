@@ -17,9 +17,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
@@ -46,7 +48,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
@@ -93,7 +94,8 @@ public class EditBookDefinitionController {
     @Autowired
     private KeywordTypeCodeSevice keywordTypeCodeSevice;
     @Autowired
-    @Qualifier("editBookDefinitionFormValidator")
+    private NasFileSystem nasFileSystem;
+    @Resource(name="editBookDefinitionFormValidator")
     private Validator validator;
 
     @InitBinder(EditBookDefinitionForm.FORM_NAME)
@@ -440,7 +442,7 @@ public class EditBookDefinitionController {
     @ResponseBody
     public ResponseEntity<?> uploadPdf(@RequestParam("file") final MultipartFile pdf,
         @RequestParam final String fileName, @RequestParam final String publisher) {
-        String location = getPdfLocation(publisher);
+        File location = getPdfLocation(publisher);
         File file = new File(location, fileName);
         if (file.exists()) {
             String errorMessage = String.format(FILE_NAME_ALREADY_EXISTS, fileName);
@@ -449,11 +451,11 @@ public class EditBookDefinitionController {
         return writePdf(pdf, file);
     }
 
-    private String getPdfLocation(final String publisher) {
+    private File getPdfLocation(final String publisher) {
         if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
-            return WebConstants.LOCATION_CW_PDF;
+            return nasFileSystem.getFrontMatterCwPdfDirectory();
         }
-        return WebConstants.LOCATION_PDF;
+        return nasFileSystem.getFrontMatterUsclPdfDirectory();
     }
 
     private ResponseEntity<?> writePdf(final MultipartFile pdf, final File file) {

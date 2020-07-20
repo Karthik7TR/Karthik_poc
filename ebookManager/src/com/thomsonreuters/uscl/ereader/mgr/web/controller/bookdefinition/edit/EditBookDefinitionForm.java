@@ -156,6 +156,8 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String isbn;
     @Getter @Setter
+    private String issn;
+    @Getter @Setter
     private boolean isPublicationCutoffDateUsed;
     @Getter @Setter
     private String publicationCutoffDate;
@@ -274,6 +276,7 @@ public class EditBookDefinitionForm {
         bookDef.setEbookDefinitionId(null);
         bookDef.setProviewDisplayName(null);
         bookDef.setIsbn(null);
+        bookDef.setIssn(null);
         bookDef.setMaterialId(null);
         bookDef.setRootTocGuid(null);
         bookDef.setNortFilterView(null);
@@ -332,6 +335,7 @@ public class EditBookDefinitionForm {
                 .filter(nullValuePredicate.negate()).orElse(null);
 
             isbn = book.getIsbn();
+            issn = book.getIssn();
             authorInfo = book.getAuthors();
             pilotBookInfo = book.getPilotBooks();
             nortFileLocations = book.getNortFileLocations();
@@ -542,6 +546,7 @@ public class EditBookDefinitionForm {
         book.setCoverImage(createCoverImageName());
 
         book.setIsbn(isbn);
+        book.setIssn(issn);
         book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
         book.setPilotBookStatus(pilotBookStatus);
         book.setKeyciteToplineFlag(keyCiteToplineFlag);

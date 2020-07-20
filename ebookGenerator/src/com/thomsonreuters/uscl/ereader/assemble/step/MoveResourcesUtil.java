@@ -1,10 +1,10 @@
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
+
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -14,7 +14,6 @@ import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler.FrontMatterTitlePageFilter;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -27,23 +26,9 @@ import java.util.Optional;
 @Component
 public class MoveResourcesUtil {
     /**
-     * The directory of the static files for front matter logos and keycite
-     * logo.
-     */
-    public static final String EBOOK_GENERATOR_IMAGES_DIR = "/apps/eBookBuilder/coreStatic/images";
-    /**
      * The file path to the CSS file to apply on the documents.
      */
     public static final String DOCUMENT_CSS_FILE = "document.css";
-    /**
-     * The file path to the ebookGenerator CSS file used by front matter.
-     */
-    public static final String EBOOK_GENERATOR_CSS_FILE = "/apps/eBookBuilder/coreStatic/css/ebook_generator.css";
-
-    public static final String THESAURUS_XML = "thesaurus.xml";
-
-    @Value("${static.content.dir}")
-    private File staticContentDirectory;
 
     @Autowired
     private CoverArtUtil coverArtUtil;
@@ -51,8 +36,8 @@ public class MoveResourcesUtil {
     @Resource(name = "formatFileSystem")
     private FormatFileSystem formatFileSystem;
 
-    @Value("${thesaurus.static.files.dir}")
-    private File thesaurusStaticFilesDir;
+    @Autowired
+    private NasFileSystem nasFileSystem;
 
     public void setCoverArtUtil(final CoverArtUtil coverArtUtil) {
         this.coverArtUtil = coverArtUtil;
@@ -64,10 +49,7 @@ public class MoveResourcesUtil {
     }
 
     public File createCoverArt(final ExecutionContext jobExecutionContext) {
-        final File coverArt =
-            coverArtUtil.getCoverArt((BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION));
-        jobExecutionContext.putString(JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
-        return coverArt;
+        return coverArtUtil.getCoverArt((BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION));
     }
 
     public void copySourceToDestination(final File sourceDir, final File destinationDirectory) {
@@ -83,7 +65,7 @@ public class MoveResourcesUtil {
         final File assetsDirectory,
         final boolean move) {
         final BookDefinition bookDefinition = step.getBookDefinition();
-        final File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
+        final File frontMatterImagesDir = nasFileSystem.getFrontMatterImagesDirectory();
 
         final List<File> filter = filterFiles(frontMatterImagesDir, bookDefinition);
 
@@ -102,8 +84,14 @@ public class MoveResourcesUtil {
                 }
             }
 
+            File pdfLocation = bookDefinition.isCwBook()
+                    ? nasFileSystem.getFrontMatterCwPdfDirectory()
+                    : nasFileSystem.getFrontMatterUsclPdfDirectory();
             for (final FrontMatterPdf pdf : pdfList) {
-                final File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH.getName() + pdf.getPdfFilename());
+                File pdfFile = new File(pdfLocation, pdf.getPdfFilename());
+                if (!pdfFile.exists() && bookDefinition.isCwBook()) {
+                    pdfFile = new File(nasFileSystem.getFrontMatterUsclPdfDirectory(), pdf.getPdfFilename());
+                }
                 FileUtils.copyFileToDirectory(pdfFile, assetsDirectory);
             }
 
@@ -142,17 +130,16 @@ public class MoveResourcesUtil {
     }
 
     protected void moveStylesheet(final File assetsDirectory) {
-        File stylesheet = new File(staticContentDirectory, DOCUMENT_CSS_FILE);
+        File stylesheet = new File(nasFileSystem.getStaticContentDirectory(), DOCUMENT_CSS_FILE);
         FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
-        stylesheet = new File(EBOOK_GENERATOR_CSS_FILE);
+        stylesheet = nasFileSystem.getFrontMatterCssFile();
         FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
     }
 
     protected void moveThesaurus(final BookStepImpl step, final File assetsDirectory) {
         if (step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS)) {
-            File thesaurusFile = new File(formatFileSystem.getFormatDirectory(step), THESAURUS_XML);
-            FileUtils.copyDirectory(thesaurusStaticFilesDir, assetsDirectory);
-            FileUtils.copyFileToDirectory(thesaurusFile, assetsDirectory);
+            FileUtils.copyDirectory(formatFileSystem.getThesaurusStaticFilesDirectory(), assetsDirectory);
+            FileUtils.copyFileToDirectory(formatFileSystem.getThesaurusXml(step), assetsDirectory);
         }
     }
 }

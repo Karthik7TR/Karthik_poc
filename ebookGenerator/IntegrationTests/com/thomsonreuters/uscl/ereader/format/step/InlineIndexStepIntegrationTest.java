@@ -17,7 +17,6 @@ import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineIndexService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,12 +46,9 @@ public final class InlineIndexStepIntegrationTest {
     @Autowired
     private BookFileSystem bookFileSystem;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException, IOException {
-        runner.setUp(step);
-        resourceDir = new File(InlineTocStepIntegrationTest.class.getResource("resourceInlineIndex").toURI());
+        runner.setUp(step, "resourceInlineIndex");
 
         step.getBookDefinition().setIndexIncluded(true);
 
@@ -76,7 +72,7 @@ public final class InlineIndexStepIntegrationTest {
 
     @Test
     public void shouldNotCreateInlineIndexIfNoIndexToc() throws Exception {
-        runner.testWithSourceOnly(step, new File(resourceDir, "noIndexTocTest"));
+        runner.testWithSourceOnly(step, "noIndexTocTest");
         verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
@@ -88,7 +84,7 @@ public final class InlineIndexStepIntegrationTest {
 
     private void test(final String testDir, final boolean pageNumbers) throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(pageNumbers);
-        runner.test(step, new File(resourceDir, testDir));
+        runner.test(step, testDir);
     }
 
     @Configuration

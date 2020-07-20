@@ -4,6 +4,7 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addP
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -23,7 +24,10 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
     private static final String COPYRIGHT_TAG = "frontMatterPlaceholder_copyright";
     private static final String COPYRIGHT_PAGE_TEXT_TAG = "frontMatterPlaceholder_copyrightPageText";
     private static final String ISBN_TAG = "frontMatterPlaceholder_copyrightISBN";
+    private static final String ISSN_TAG = "frontMatterPlaceholder_copyrightISSN";
     private static final String COPYRIGHT_TRADEMARK_TAG = "frontMatterPlaceholder_copyrightTrademarkLine";
+
+    private static final String ISSN_TEMPLATE = "ISSN %s";
 
     /** Defines the HTML tags that will be created by the filter */
     private static final String HTML_PARAGRAPH_TAG = "p";
@@ -72,6 +76,10 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
             printText(bookDefinition.getCopyrightPageText(), MULTI_LINE_FIELD);
         } else if (qName.equalsIgnoreCase(ISBN_TAG)) {
             printText(bookDefinition.getIsbn(), SINGLE_LINE_FIELD);
+        } else if (qName.equalsIgnoreCase(ISSN_TAG)) {
+            if (StringUtils.isNotEmpty(bookDefinition.getIssn())) {
+                printText(String.format(ISSN_TEMPLATE, bookDefinition.getIssn()), SINGLE_LINE_FIELD);
+            }
         } else if (qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG)) {
             printText(bookDefinition.getAdditionalTrademarkInfo(), MULTI_LINE_FIELD);
         } else {
@@ -93,6 +101,7 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
         } else if (qName.equalsIgnoreCase(COPYRIGHT_TAG)
             || qName.equalsIgnoreCase(COPYRIGHT_PAGE_TEXT_TAG)
             || qName.equalsIgnoreCase(ISBN_TAG)
+            || qName.equalsIgnoreCase(ISSN_TAG)
             || qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG)) {
             //Remove the placeholder tag
         } else {

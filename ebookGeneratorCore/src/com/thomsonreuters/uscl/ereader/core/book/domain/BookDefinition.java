@@ -58,7 +58,7 @@ import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
 @EqualsAndHashCode(of = "ebookDefinitionId")
 @ToString(includeFieldNames = true, of = {"ebookDefinitionId", "fullyQualifiedTitleId", "proviewDisplayName", "copyright", "copyrightPageText",
                                           "materialId", "isTocFlag", "rootTocGuid", "docCollectionName", "tocCollectionName",
-                                          "nortDomain", "nortFilterView", "coverImage", "isbn", "publishDateText",
+                                          "nortDomain", "nortFilterView", "coverImage", "isbn", "issn", "publishDateText",
                                           "currency", "isProviewTableViewFlag", "eLooseleafsEnabled", "publishedDate", "releaseNotes", "keyciteToplineFlag",
                                           "autoUpdateSupportFlag", "searchIndexFlag", "onePassSsoLinkFlag", "publishCutoffDate",
                                           "ebookDefinitionCompleteFlag", "publishedOnceFlag", "isDeletedFlag",
@@ -158,6 +158,11 @@ public class BookDefinition implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     @Getter @Setter
     private String isbn;
+
+    @Column(name = "ISSN")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String issn;
 
     @Column(name = "PUBLISH_DATE_TEXT")
     @Basic(fetch = FetchType.EAGER)
@@ -902,6 +907,7 @@ public class BookDefinition implements Serializable {
         setNortFilterView(that.getNortFilterView());
         setCoverImage(that.getCoverImage());
         setIsbn(that.getIsbn());
+        setIssn(that.getIssn());
         setPublishDateText(that.getPublishDateText());
         setCurrency(that.getCurrency());
         setELooseleafsEnabled(that.isELooseleafsEnabled());

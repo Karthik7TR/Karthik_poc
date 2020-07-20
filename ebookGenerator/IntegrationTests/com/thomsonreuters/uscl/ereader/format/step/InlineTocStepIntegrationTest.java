@@ -1,15 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
@@ -29,6 +19,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {InlineTocStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
@@ -39,12 +38,9 @@ public final class InlineTocStepIntegrationTest {
     @Autowired
     private StepIntegrationTestRunner runner;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(step);
-        resourceDir = new File(InlineTocStepIntegrationTest.class.getResource("resourceInlineToc").toURI());
+        runner.setUp(step, "resourceInlineToc");
     }
 
     @Test
@@ -52,7 +48,7 @@ public final class InlineTocStepIntegrationTest {
         step.getBookDefinition().setInlineTocIncluded(true);
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
 
-        runner.test(step, new File(resourceDir, "inlineTocWithPagesTest"));
+        runner.test(step, "inlineTocWithPagesTest");
 
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
@@ -61,7 +57,7 @@ public final class InlineTocStepIntegrationTest {
     public void shouldCreateTocWithoutPages() throws Exception {
         step.getBookDefinition().setInlineTocIncluded(true);
 
-        runner.test(step, new File(resourceDir, "inlineTocWithoutPagesTest"));
+        runner.test(step, "inlineTocWithoutPagesTest");
 
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
@@ -70,7 +66,7 @@ public final class InlineTocStepIntegrationTest {
     public void shouldCreateTocWithDefaultStyles() throws Exception {
         step.getBookDefinition().setInlineTocIncluded(true);
 
-        runner.test(step, new File(resourceDir, "noInlineTocAttributes"));
+        runner.test(step, "noInlineTocAttributes");
 
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }

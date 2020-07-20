@@ -214,6 +214,13 @@
 					<form:errors path="isbn" cssClass="errorMessage" /> 
 				</div>
 			</div>
+			<div class="row cw_show">
+				<form:label path="issn" class="labelCol">ISSN</form:label>
+				<form:input path="issn" maxlength="9" />
+				<div class="errorDiv">
+					<form:errors path="issn" cssClass="errorMessage" />
+				</div>
+			</div>
 
 			<div class="row">
 				<form:label path="materialId" class="labelCol">Sub Material Number</form:label>

@@ -48,4 +48,24 @@ public class FileUtils {
             throw new EBookException(e);
         }
     }
+
+    public static void deleteQuietly(final File directory) {
+        org.apache.commons.io.FileUtils.deleteQuietly(directory);
+    }
+
+    public static File getDir(final File parent, final String child) {
+        File dir = new File(parent, child);
+        dir.mkdirs();
+        return dir;
+    }
+
+    public static File getFile(final File parent, final String child) {
+        try {
+            File file = new File(parent, child);
+            file.createNewFile();
+            return file;
+        } catch (IOException e) {
+            throw new EBookException(e);
+        }
+    }
 }

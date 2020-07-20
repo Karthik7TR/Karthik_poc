@@ -8,10 +8,15 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR;
+import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getDir;
+import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getFile;
 
 import java.io.File;
 
@@ -19,13 +24,15 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 
 @Component("formatFileSystem")
 public class FormatFileSystemImpl implements FormatFileSystem {
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
+    @Value("${thesaurus.static.files.dir}")
+    private File thesaurusStaticFilesDir;
 
     @NotNull
     @Override
@@ -72,7 +79,19 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @NotNull
     @Override
     public File getSplitBookDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), FORMAT_SPLIT_EBOOK_DIR.getName());
+        return getDir(getFormatDirectory(step), FORMAT_SPLIT_EBOOK_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getDocToSplitBook(@NotNull final BookStep step) {
+        return getFile(getSplitBookDirectory(step), FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getSplitTitleXml(@NotNull final BookStep step) {
+        return getFile(getSplitBookDirectory(step), FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE.getName());
     }
 
     @NotNull
@@ -96,12 +115,24 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @NotNull
     @Override
     public File getFrontMatterHtmlDir(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), FORMAT_FRONT_MATTER_HTML_DIR.getName());
+        return getDir(getFormatDirectory(step), FORMAT_FRONT_MATTER_HTML_DIR.getName());
     }
 
     @NotNull
     @Override
     public File getFrontMatterPdfImagesDir(@NotNull final BookStep step) {
         return new File(getFrontMatterHtmlDir(step), FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getThesaurusXml(@NotNull final BookStep step) {
+        return new File(getFormatDirectory(step), FORMAT_THESAURUS_XML_FILE.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getThesaurusStaticFilesDirectory() {
+        return thesaurusStaticFilesDir;
     }
 }

@@ -1,16 +1,9 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyInt;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyString;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystemImpl;
+import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -36,9 +29,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyInt;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,8 +52,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public final class TransformXmlStepIntegrationTest {
     private static final String COLLECTION_NAME = "w_codesstatxnvdp";
     private static final String DOC_TYPE = "6A";
-    private static final String STATIC_CONTENT_DIR = "/apps/ebookbuilder/staticContent/";
     private static final int DOCS_NUMBER = 1;
+    private static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/octxcoa";
 
     @Autowired
     private TransformXML step;
@@ -56,27 +61,20 @@ public final class TransformXmlStepIntegrationTest {
     @Autowired
     private StepIntegrationTestRunner runner;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(step);
-        resourceDir = new File(TransformXmlStepIntegrationTest.class.getResource("resourceTransformXml").toURI());
-
-        final ExecutionContext context = step.getJobExecutionContext();
-
-        whenJobExecutionPropertyString(context, JobExecutionKey.STATIC_CONTENT_DIR, STATIC_CONTENT_DIR);
-        whenJobExecutionPropertyInt(context, JobExecutionKey.EBOOK_STATS_DOC_COUNT, DOCS_NUMBER);
+        runner.setUp(step, "resourceTransformXml");
+        whenJobExecutionPropertyInt(step.getJobExecutionContext(), JobExecutionKey.EBOOK_STATS_DOC_COUNT, DOCS_NUMBER);
     }
 
     @Test
     public void shouldTransform() throws Exception {
         final BookDefinition bookDefinition = step.getBookDefinition();
-        bookDefinition.setFullyQualifiedTitleId("uscl/an/octxcoa");
+        bookDefinition.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
         bookDefinition.setIncludeAnnotations(true);
         bookDefinition.setIncludeNotesOfDecisions(false);
 
-        runner.test(step, new File(resourceDir, "annotationsTest"));
+        runner.test(step, "annotationsTest");
     }
 
     @Configuration
@@ -91,6 +89,9 @@ public final class TransformXmlStepIntegrationTest {
 
         @Value("${mud.parameter.vr}")
         private String mudParameterVr;
+
+        @Value("${static.content.dir}")
+        private File staticContentDirectory;
 
         @Bean
         @SneakyThrows
@@ -110,17 +111,19 @@ public final class TransformXmlStepIntegrationTest {
         }
 
         @Bean
+        public NasFileSystem nasFileSystem() {
+            NasFileSystem nasFileSystem = mock(TestNasFileSystemImpl.class);
+            when(nasFileSystem.getStaticContentDirectory()).thenReturn(staticContentDirectory);
+            return nasFileSystem;
+        }
+
+        @Bean
         public TransformerService transformerService() throws EBookFormatException {
             final TransformerServiceImpl service = new TransformerServiceImpl();
             service.setdocMetadataService(getDocMetadataService());
             service.setGenerateDocumentDataBlockService(getGenerateDocumentDataBlockService());
             service.setfileHandlingHelper(getFileHandlingHelper());
             return service;
-        }
-
-        @Bean
-        public PublishingStatsService publishingStatsService() {
-            return Mockito.mock(PublishingStatsService.class);
         }
 
         private DocMetadataService getDocMetadataService() {

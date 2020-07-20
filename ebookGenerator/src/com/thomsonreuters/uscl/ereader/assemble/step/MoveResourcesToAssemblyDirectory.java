@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.assemble.step;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -36,6 +38,10 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
 
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
+    @Autowired
+    private FormatFileSystem formatFileSystem;
+    @Autowired
+    private ImageFileSystem imageFileSystem;
     /*
      * (non-Javadoc)
      *
@@ -53,14 +59,12 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
         String publishStatus = "Completed";
 
         try {
-            final File ebookDirectory =
-                    new File(getJobExecutionPropertyString(JobExecutionKey.EBOOK_DIRECTORY));
+            final File ebookDirectory = assembleFileSystem.getTitleDirectory(this);
             final File assetsDirectory = createAssetsDirectory(ebookDirectory);
             final File artworkDirectory = createArtworkDirectory(ebookDirectory);
             final File documentsDirectory = createDocumentsDirectory(ebookDirectory);
 
-            final File frontMatter =
-                    new File(getJobExecutionPropertyString(JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
+            final File frontMatter = formatFileSystem.getFrontMatterHtmlDir(this);
             moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
 
             final File transformedDocsDir = new File(
@@ -68,10 +72,8 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
             moveResourcesUtil.copySourceToDestination(transformedDocsDir, documentsDirectory);
 
             // Images
-            final File dynamicImagesDir =
-                    new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
-            final File staticImagesDir =
-                    new File(getJobExecutionPropertyString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+            final File dynamicImagesDir = imageFileSystem.getImageDynamicDirectory(this);
+            final File staticImagesDir = imageFileSystem.getImageStaticDirectory(this);
             moveResourcesUtil.copySourceToDestination(dynamicImagesDir, assetsDirectory);
             moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
 

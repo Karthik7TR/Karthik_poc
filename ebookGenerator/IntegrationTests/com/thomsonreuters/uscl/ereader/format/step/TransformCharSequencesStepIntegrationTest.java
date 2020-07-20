@@ -1,8 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
-import java.io.File;
-import java.net.URISyntaxException;
-
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformCharSequencesService;
@@ -19,11 +16,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.net.URISyntaxException;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TransformCharSequencesStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
 @ActiveProfiles("IntegrationTests")
 public class TransformCharSequencesStepIntegrationTest {
-    private static final String RESOURCE_DIR_NAME = "resourceTransformCharSequences";
+    private static final String RESOURCE_DIR_NAME = "resourceTransformChars";
 
     @Autowired
     private TransformCharSequencesStep transformCharSequencesStep;
@@ -31,18 +30,15 @@ public class TransformCharSequencesStepIntegrationTest {
     @Autowired
     private StepIntegrationTestRunner runner;
 
-    private File resourceDir;
-
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(transformCharSequencesStep);
-        resourceDir = new File(InlineTocStepIntegrationTest.class.getResource(RESOURCE_DIR_NAME).toURI());
+        runner.setUp(transformCharSequencesStep, RESOURCE_DIR_NAME);
     }
 
     @Test
     @SneakyThrows
     public void shouldRemoveDoubleHyphensOnlyInAnnotations() {
-        runner.test(transformCharSequencesStep, resourceDir);
+        runner.test(transformCharSequencesStep, "test");
     }
 
     @Configuration

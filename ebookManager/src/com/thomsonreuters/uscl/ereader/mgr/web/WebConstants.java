@@ -160,14 +160,6 @@ public class WebConstants {
     public static final String CONFIRM_CODE_KILL_SWITCH = "Stop all";
     public static final String CONFIRM_CODE_DELETE_BOOK = "DELETE BOOK";
 
-    // NAS locations for files
-    public static final String LOCATION_COVER_IMAGE = "/apps/eBookBuilder/generator/images/cover";
-    public static final String LOCATION_FRONT_MATTER_IMAGE = "/apps/eBookBuilder/coreStatic/images";
-    public static final String LOCATION_FRONT_MATTER_CSS = "/apps/eBookBuilder/coreStatic/css";
-    public static final String LOCATION_PDF = "/apps/eBookBuilder/generator/images/pdf";
-    public static final String LOCATION_CW_PDF = "/apps/eBookBuilder/generator/images/cw-pdf";
-    public static final String LOCATION_PILOT_BOOK_CSV = "/apps/eBookBuilder/generator/altId";
-
     // Page paths
     public static final String MVC_APP_EXCEPTION = "appException.mvc";
     public static final String MVC_COVER_IMAGE = "coverImage.mvc";

@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -46,11 +45,11 @@ import java.util.Properties;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 @Setter
 @Getter
 @Service
 public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
-    private static final Logger LOG = LogManager.getLogger(CreateFrontMatterServiceImpl.class);
     private static final String HTML_EXTENSION = ".html";
     private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
     private static final String WLN_LOGO_PLACEHOLDER = "er:#WestlawLogo";
@@ -80,31 +79,32 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
         final File titlePage = new File(outputDir, FrontMatterFileName.FRONT_MATTER_TITLE + HTML_EXTENSION);
         writeHTMLFile(titlePage, generateTitlePage(bookDefinition, withPageNumbers));
 
-        LOG.debug("Front Matter Title HTML page generated.");
+        log.debug("Front Matter Title HTML page generated.");
 
         final File copyrightPage = new File(outputDir, FrontMatterFileName.COPYRIGHT + HTML_EXTENSION);
         writeHTMLFile(copyrightPage, generateCopyrightPage(bookDefinition, withPageNumbers));
 
-        LOG.debug("Front Matter Copyright HTML page generated.");
+        log.debug("Front Matter Copyright HTML page generated.");
 
         for (final FrontMatterPage page : bookDefinition.getFrontMatterPages()) {
             final File additionalPage =
                 new File(outputDir, FrontMatterFileName.ADDITIONAL_FRONT_MATTER + page.getId() + HTML_EXTENSION);
             writeHTMLFile(additionalPage, generateAdditionalFrontMatterPage(bookDefinition, page.getId(), frontMatterPdfImageNames));
 
-            LOG.debug("Front Matter Additional HTML page " + page.getId() + " generated.");
+            log.debug("Front Matter Additional HTML page " + page.getId() + " generated.");
         }
 
         final File researchAssistancePage =
             new File(outputDir, FrontMatterFileName.RESEARCH_ASSISTANCE + HTML_EXTENSION);
         writeHTMLFile(researchAssistancePage, generateResearchAssistancePage(bookDefinition, withPageNumbers));
 
-        LOG.debug("Front Matter Research Assistance HTML page generated.");
+        log.debug("Front Matter Research Assistance HTML page generated.");
 
-        final File westlawNextPage = new File(outputDir, FrontMatterFileName.WESTLAW + HTML_EXTENSION);
-        writeHTMLFile(westlawNextPage, generateWestlawNextPage(withPageNumbers));
-
-        LOG.debug("Front Matter WestlawNext HTML page generated.");
+        if (!bookDefinition.isCwBook()) {
+            final File westlawNextPage = new File(outputDir, FrontMatterFileName.WESTLAW + HTML_EXTENSION);
+            writeHTMLFile(westlawNextPage, generateWestlawNextPage(withPageNumbers));
+            log.debug("Front Matter WestlawNext HTML page generated.");
+        }
     }
 
     /* (non-Javadoc)
@@ -176,7 +176,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
             out.close();
         } catch (final IOException e) {
             final String errMessage = "Failed to write the following file to NAS: " + aFile.getAbsolutePath();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFrontMatterGenerationException(errMessage, e);
         }
     }
@@ -284,16 +284,16 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
             filter.parse(new InputSource(new EntityEncodedInputStream(template.getInputStream())));
         } catch (final IOException e) {
             final String message = "An IOException occurred while generating the Front Matter Title Page.";
-            LOG.error(message);
+            log.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
         } catch (final SAXException e) {
             final String message = "Could not generate Front Matter Title Page.";
-            LOG.error(message);
+            log.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
         } catch (final ParserConfigurationException e) {
             final String message =
                 "An exception occurred when configuring " + "the parser to generate the Front Matter Title Page.";
-            LOG.error(message);
+            log.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
         }
 
@@ -302,7 +302,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
             output = outStream.toString("UTF-8");
         } catch (final UnsupportedEncodingException e) {
             final String message = "Could not encode front matter HTML into UTF-8.";
-            LOG.error(message);
+            log.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
         }
 

@@ -1,9 +1,5 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
-import java.io.File;
-
-import javax.annotation.Resource;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -12,34 +8,42 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.io.File;
+
+import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getDir;
+import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getFile;
+
 @Component("assembleFileSystem")
 public class AssembleFileSystemImpl implements AssembleFileSystem {
     private static final String COVER_ART_FILE_NAME = "coverArt.PNG";
     private static final String ARTWORK_DIR_NAME = "artwork";
     private static final String ASSETS_DIR_NAME = "assets";
+    private static final String TITLE_XML = "title.xml";
+    private static final String ASSEMBLE = "Assemble";
 
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
 
     @Override
     public File getAssembleDirectory(@NotNull final BookStep step) {
-        return new File(bookFileSystem.getWorkDirectory(step), "Assemble");
+        return getDir(bookFileSystem.getWorkDirectory(step), ASSEMBLE);
     }
 
     @Override
     public File getTitleDirectory(@NotNull final BookStep step) {
-        return new File(getAssembleDirectory(step), step.getBookDefinition().getTitleId());
+        return getDir(getAssembleDirectory(step), step.getBookDefinition().getTitleId());
     }
 
     @Override
     public File getTitleXml(@NotNull final BookStep step) {
-        return new File(getTitleDirectory(step), "title.xml");
+        return getFile(getTitleDirectory(step), TITLE_XML);
     }
 
     @Override
     public File getSplitPartTitleXml(@NotNull final BookStep step, @NotNull final Integer splitPartNumber) {
         return new File(getSplitTitleDirectory(
-            step, String.format("%s_pt%s", step.getBookDefinition().getTitleId(), splitPartNumber)), "title.xml");
+            step, String.format("%s_pt%s", step.getBookDefinition().getTitleId(), splitPartNumber)), TITLE_XML);
     }
 
     @Override
@@ -50,7 +54,7 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
 
     @Override
     public File getAssetsDirectory(@NotNull final BookStep step) {
-        return new File(getTitleDirectory(step), ASSETS_DIR_NAME);
+        return getDir(getTitleDirectory(step), ASSETS_DIR_NAME);
     }
 
     @Override
@@ -89,7 +93,7 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
 
     @Override
     public File getArtworkDirectory(final BookStep step) {
-        return new File(getTitleDirectory(step), ARTWORK_DIR_NAME);
+        return getDir(getTitleDirectory(step), ARTWORK_DIR_NAME);
     }
 
     @Override

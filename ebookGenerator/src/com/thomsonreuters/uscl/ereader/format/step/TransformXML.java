@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -35,6 +36,9 @@ public class TransformXML extends BookStepImpl {
     @Resource(name = "formatFileSystem")
     private FormatFileSystem formatFileSystem;
 
+    @Resource(name="nasFileSystem")
+    private NasFileSystem nasFileSystem;
+
     @Resource
     private TransformerService transformerService;
 
@@ -56,7 +60,7 @@ public class TransformXML extends BookStepImpl {
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
 
-        final File staticContentDir = new File(getJobExecutionPropertyString(JobExecutionKey.STATIC_CONTENT_DIR));
+        final File staticContentDir = nasFileSystem.getStaticContentDirectory();
 
         try {
             final int numDocsTransformed = transformerService.transformXMLDocuments(
