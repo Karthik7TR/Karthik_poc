@@ -36,9 +36,6 @@ import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 @ActiveProfiles("IntegrationTests")
 public class JsoupConversionsIntegrationTest {
     private static final Long JOB_1 = 1L;
-    private static final String JSOUP_CONVERSIONS_DIR = "resourceJsoupConversions";
-    private static final String LEGAL_TOPIC_DIR = "createLegalTopic";
-    private static final String EXTERNAL_LINKS_DIR = "transformExternalLinks";
     private static final String TITLE_ID = "cw/eg/thorburn_en";
     private static final String DOC_1 = "Id7201723682311ea83aee46e6decbb85";
     private static final String DOC_2 = "Id7210175682311ea83aee46e6decbb85";
@@ -64,14 +61,13 @@ public class JsoupConversionsIntegrationTest {
     public void shouldCreateLegalTopic() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
         runner.test(step, "createLegalTopic");
-        runner.test(step, new File(resourceDir, LEGAL_TOPIC_DIR));
     }
 
     @Test
     public void shouldTransformExternalLinks() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
         setUpCwBookDefinition();
-        runner.test(step, new File(resourceDir, EXTERNAL_LINKS_DIR));
+        runner.test(step, "transformExternalLinks");
     }
 
     private void setUpCwBookDefinition() {
