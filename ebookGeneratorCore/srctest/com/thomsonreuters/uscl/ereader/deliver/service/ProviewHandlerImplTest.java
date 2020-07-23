@@ -45,7 +45,7 @@ public final class ProviewHandlerImplTest {
     private ProviewHandlerImpl proviewHandler;
 
     private static final String GROUP_ID = "uscl/test_group_id";
-    private static final String TITLE_ID = "testTileId";
+    private static final String TITLE_ID = "uscl/an/test";
     private static final String VERSION = "v1.2";
     private static final String TITLES = "<titles></titles>";
     private static final String GROUPS = "<groups></groups>";
@@ -268,7 +268,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testGetLatestProviewTitleInfo() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         final String latest = "20200101";
         final String response = "<titles><title id=\""
             + titleId
@@ -298,7 +298,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testGetSingleTitleGroupDetails() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         final String response = "<titles><title id=\""
             + titleId
             + "\" version=\"v1.0\" publisher=\"uscl\" "
@@ -363,7 +363,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testPublishTitle() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         final Version bookVersion = version("v1.2");
         final String fileContents = "Have some content";
         final File tempRootDir = new File(System.getProperty("java.io.tmpdir"));
@@ -416,7 +416,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testPromoteTitleFail() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         final String bookVersion = "v1.2";
 
         doNothing().when(mockSupersededHandler).markTitleVersionAsSupersededInThread(any(), any(), any());
@@ -431,7 +431,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testRemoveTitle() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         final Version bookVersion = version("v1.2");
 
         when(mockProviewClient.removeTitle(titleId, "v1.2")).thenReturn(HttpStatus.OK);
@@ -443,7 +443,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testDeleteTitle() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         final Version bookVersion = version("v1.2");
 
         when(mockProviewClient.deleteTitle(titleId, "v1.2")).thenReturn(HttpStatus.OK);
@@ -455,7 +455,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testHasTitleIdBeenPublishedNoBook() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn("<title></title>");
 
         final boolean response = proviewHandler.hasTitleIdBeenPublished(titleId);
@@ -464,7 +464,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testHasTitleIdBeenPublishedFalse() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(
             "<title id=\""
                 + titleId
@@ -476,7 +476,7 @@ public final class ProviewHandlerImplTest {
 
     @Test
     public void testHasTitleIdBeenPublishedTrue() throws Exception {
-        final String titleId = "testTileId";
+        final String titleId = TITLE_ID;
         when(mockProviewClient.getSinglePublishedTitle(titleId)).thenReturn(
             "<title id=\""
                 + titleId

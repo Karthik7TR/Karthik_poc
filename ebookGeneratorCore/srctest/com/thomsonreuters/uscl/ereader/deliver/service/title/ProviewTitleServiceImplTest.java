@@ -25,7 +25,7 @@ public final class ProviewTitleServiceImplTest {
     private static final String DOCS_RESPONSE =
         "<docs><doc id=\"doc1\" src=\"doc1.html\"/><doc id=\"doc2\" src=\"doc2.html\"/></docs>";
     private static final String DOCS_TITLE_ID = "docsTitleId";
-    private static final String VERSION_TITLE_ID = "versionTitleId";
+    private static final String VERSION_TITLE_ID = "uscl/an/test";
     private static final String TITLE_RESPONSE = "<title apiversion=\"v1\""
         + " version=\"v1.0\""
         + " id=\""

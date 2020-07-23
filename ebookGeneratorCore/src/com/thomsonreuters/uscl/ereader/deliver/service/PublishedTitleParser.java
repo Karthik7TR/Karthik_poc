@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -126,7 +127,9 @@ public class PublishedTitleParser {
                             charBuffer = new StringBuffer();
                             proviewTitleInfo = new ProviewTitleInfo();
 
-                            proviewTitleInfo.setTitleId(atts.getValue(ID));
+                            proviewTitleInfo.setTitleId(Optional.ofNullable(atts.getValue(ID))
+                                    .map(String::toLowerCase)
+                                    .orElse(null));
                             proviewTitleInfo.setTitle(atts.getValue(NAME));
                             proviewTitleInfo.setVersion(atts.getValue(VERSION));
                             proviewTitleInfo.setPublisher(atts.getValue(PUBLISHER));

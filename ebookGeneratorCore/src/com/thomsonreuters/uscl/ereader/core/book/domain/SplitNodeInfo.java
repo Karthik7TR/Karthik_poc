@@ -141,7 +141,7 @@ public class SplitNodeInfo implements Serializable {
         @Basic(fetch = FetchType.EAGER)
         private String splitBookTitleId;
 
-        @Column(name = "BOOK_VERSION_SUBMITTED", length = 10)
+        @Column(name = "BOOK_VERSION_SUBMITTED")
         @Basic(fetch = FetchType.EAGER)
         @XmlElement
         private String bookVersionSubmitted;

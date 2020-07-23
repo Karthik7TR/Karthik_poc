@@ -66,7 +66,7 @@ public class PublishingStats implements Serializable, Comparable<PublishingStats
     @XmlElement
     private Date jobSubmitTimestamp;
 
-    @Column(name = "BOOK_VERSION_SUBMITTED", length = 10)
+    @Column(name = "BOOK_VERSION_SUBMITTED")
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
     private String bookVersionSubmitted;
