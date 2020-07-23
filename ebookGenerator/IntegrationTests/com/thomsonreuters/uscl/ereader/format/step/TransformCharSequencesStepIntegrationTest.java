@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
-import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformCharSequencesService;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -53,11 +52,6 @@ public class TransformCharSequencesStepIntegrationTest {
         @Bean
         public TransformCharSequencesService removeDoubleHyphensService() {
             return new TransformCharSequencesService();
-        }
-
-        @Bean
-        public JsoupService jsoupService() {
-            return new JsoupService();
         }
     }
 }

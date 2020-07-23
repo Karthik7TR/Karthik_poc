@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
-import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineTocService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -116,11 +115,6 @@ public final class InlineTocStepIntegrationTest {
             final DocMetadataService docMetadataService = Mockito.mock(DocMetadataService.class);
             when(docMetadataService.findDistinctProViewFamGuidsByJobId(any())).thenReturn(getFamilyGuidsMap());
             return docMetadataService;
-        }
-
-        @Bean
-        public JsoupService jsoupService() {
-            return new JsoupService();
         }
     }
 }

@@ -13,6 +13,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_TOC_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
+import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getDir;
 
 @Component("gatherFileSystem")
 public class GatherFileSystemImpl implements GatherFileSystem {
@@ -45,7 +46,7 @@ public class GatherFileSystemImpl implements GatherFileSystem {
     @NotNull
     @Override
     public File getGatherDocsDirectory(@NotNull final BookStep step) {
-        return new File(getGatherRootDirectory(step), GATHER_DOCS_DIR.getName());
+        return getDir(getGatherRootDirectory(step), GATHER_DOCS_DIR.getName());
     }
 
     @NotNull

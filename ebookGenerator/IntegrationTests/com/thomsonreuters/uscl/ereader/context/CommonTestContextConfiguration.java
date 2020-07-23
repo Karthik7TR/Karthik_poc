@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtilImpl;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtil;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtilImpl;
 import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.title.ProviewTitleService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -96,5 +97,10 @@ public class CommonTestContextConfiguration {
         DateProvider dateProvider = mock(DateProvider.class);
         when(dateProvider.getDate()).thenReturn(new GregorianCalendar(2020, Calendar.JULY, 10).getTime());
         return dateProvider;
+    }
+
+    @Bean
+    public JsoupService jsoupService() {
+        return new JsoupService();
     }
 }

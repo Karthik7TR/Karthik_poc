@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
-import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.service.ReorderFootnotesService;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,11 +63,6 @@ public final class ProcessPagesIntegrationTest {
         @Bean
         public ReorderFootnotesService reorderFootnotesService() {
             return new ReorderFootnotesService();
-        }
-
-        @Bean
-        public JsoupService jsoupService() {
-            return new JsoupService();
         }
     }
 }

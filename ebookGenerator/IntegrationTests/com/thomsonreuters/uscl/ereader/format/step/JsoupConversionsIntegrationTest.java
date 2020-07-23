@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.ExternalLinksTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.JsoupTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.LegalTopicBlockGeneration;
@@ -121,11 +120,6 @@ public class JsoupConversionsIntegrationTest {
             canadianDigest.setClassification(classification);
             canadianDigest.setId(id);
             return canadianDigest;
-        }
-
-        @Bean
-        public JsoupService jsoupService() {
-            return new JsoupService();
         }
     }
 }

@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
-import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineIndexService;
@@ -113,11 +112,6 @@ public final class InlineIndexStepIntegrationTest {
         @Bean
         public CssStylingService cssStylingService() {
             return new CssStylingService();
-        }
-
-        @Bean
-        public JsoupService jsoupService() {
-            return new JsoupService();
         }
 
         @Bean

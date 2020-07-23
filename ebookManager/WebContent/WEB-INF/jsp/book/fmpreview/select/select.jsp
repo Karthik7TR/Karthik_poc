@@ -48,8 +48,8 @@ ${fn:escapeXml(book.frontMatterTocLabel)}<br/>
 			${fn:escapeXml(page.pageTocLabel)}
 		</a><br/>
 	</c:forEach>
-	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>', '${book.ebookDefinitionId}', 'researchWin')">Additional Information or Research Assistance</a><br/>
 	<c:if test="${!book.cwBook}">
+		<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>', '${book.ebookDefinitionId}', 'researchWin')">Additional Information or Research Assistance</a><br/>
 		<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT%>', '${book.ebookDefinitionId}', 'westlawNextWin')">WestlawNext</a><br/>
 	</c:if>
 </div>

@@ -99,12 +99,11 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
             }
         }
 
-        createFrontMatterNode(
-            FrontMatterFileName.RESEARCH_ASSISTANCE,
-            ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE,
-            isSplitBook);
-
         if (!titleMetadata.isCwBook()) {
+            createFrontMatterNode(
+                FrontMatterFileName.RESEARCH_ASSISTANCE,
+                ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE,
+                isSplitBook);
             createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
         }
 

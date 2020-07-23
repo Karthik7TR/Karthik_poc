@@ -94,13 +94,12 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
             log.debug("Front Matter Additional HTML page " + page.getId() + " generated.");
         }
 
-        final File researchAssistancePage =
-            new File(outputDir, FrontMatterFileName.RESEARCH_ASSISTANCE + HTML_EXTENSION);
-        writeHTMLFile(researchAssistancePage, generateResearchAssistancePage(bookDefinition, withPageNumbers));
-
-        log.debug("Front Matter Research Assistance HTML page generated.");
-
         if (!bookDefinition.isCwBook()) {
+            final File researchAssistancePage =
+                    new File(outputDir, FrontMatterFileName.RESEARCH_ASSISTANCE + HTML_EXTENSION);
+            writeHTMLFile(researchAssistancePage, generateResearchAssistancePage(bookDefinition, withPageNumbers));
+            log.debug("Front Matter Research Assistance HTML page generated.");
+
             final File westlawNextPage = new File(outputDir, FrontMatterFileName.WESTLAW + HTML_EXTENSION);
             writeHTMLFile(westlawNextPage, generateWestlawNextPage(withPageNumbers));
             log.debug("Front Matter WestlawNext HTML page generated.");

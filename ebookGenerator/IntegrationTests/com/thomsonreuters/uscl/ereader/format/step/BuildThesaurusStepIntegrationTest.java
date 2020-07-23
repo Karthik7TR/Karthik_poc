@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
-import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianTopicCodeService;
 import org.junit.Before;
@@ -63,11 +62,6 @@ public final class BuildThesaurusStepIntegrationTest {
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
-        @Bean
-        public JsoupService jsoupService() {
-            return new JsoupService();
-        }
-
         @Bean
         public BuildThesaurusStep buildThesaurusStep() {
             return new BuildThesaurusStep();

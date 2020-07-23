@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.format.step;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
@@ -45,6 +46,8 @@ public class GenerateFrontMatterHTMLPages extends BookStepImpl {
     private PublishingStatsService publishingStatsService;
     @Autowired
     private PagesAnalyzeService pagesAnalyzeService;
+    @Autowired
+    private GatherFileSystem gatherFileSystem;
     @Autowired
     private FormatFileSystem formatFileSystem;
     @Autowired
@@ -94,8 +97,8 @@ public class GenerateFrontMatterHTMLPages extends BookStepImpl {
     private boolean checkForPagebreaks(
         final ExecutionContext jobExecutionContext,
         final BookDefinition bookDefinition) {
-        final File docsDir = new File(getJobExecutionPropertyString(JobExecutionKey.GATHER_DOCS_DIR));
-        final boolean withPageNumbers = bookDefinition.isPrintPageNumbers() && pagesAnalyzeService.checkIfDocumentsContainPagebreaks(docsDir);
+        final boolean withPageNumbers = bookDefinition.isPrintPageNumbers()
+                && pagesAnalyzeService.checkIfDocumentsContainPagebreaks(gatherFileSystem.getGatherDocsDirectory(this));
         jobExecutionContext.put(JobExecutionKey.WITH_PAGE_NUMBERS, withPageNumbers);
         return withPageNumbers;
     }
