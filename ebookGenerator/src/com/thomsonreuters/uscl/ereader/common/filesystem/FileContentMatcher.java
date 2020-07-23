@@ -28,7 +28,7 @@ public class FileContentMatcher extends BaseMatcher<Object> {
     public boolean matches(final Object item) {
         final File file = (File) item;
         try {
-            return FileUtils.contentEquals(expected, file);
+            return FileUtils.contentEqualsIgnoreEOL(expected, file, null);
         } catch (final IOException e) {
             LOG.error("", e);
             return false;
