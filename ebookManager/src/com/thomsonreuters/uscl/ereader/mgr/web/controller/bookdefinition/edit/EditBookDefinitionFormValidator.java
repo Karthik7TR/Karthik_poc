@@ -977,7 +977,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             .map(
                 keywordTypeId -> new ImmutablePair<>(
                     keywordTypeId,
-                    form.getKeywords().getOrDefault(keywordTypeId, Collections.emptyList())))
+                    form.getKeywords().computeIfAbsent(keywordTypeId, k -> Collections.emptyList())))
             .filter(idValuesPair -> idValuesPair.getRight().isEmpty() || idValuesPair.getRight().contains(-1L))
             .forEach(idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", "error.required"));
 

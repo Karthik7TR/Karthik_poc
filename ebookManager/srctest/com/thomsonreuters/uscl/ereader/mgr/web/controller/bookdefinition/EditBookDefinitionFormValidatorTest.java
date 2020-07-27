@@ -1337,6 +1337,20 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
+    public void testSubjectKeywordsUSRequired() {
+        setSubjectKeywordRequired(USCL);
+        testKeywords(USCL, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_USCL, 0),
+                Collections.singletonList(err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)).getCode())));
+    }
+
+    @Test
+    public void testSubjectKeywordsCWRequired() {
+        setSubjectKeywordRequired(CW);
+        testKeywords(CW, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_CW, 0),
+                Collections.singletonList(err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)).getCode())));
+    }
+
+    @Test
     public void testMultipleSubjectKeywordsUS() {
         testKeywords(USCL, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_USCL, 3),
                 Collections.singletonList(err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)))));
@@ -1383,9 +1397,18 @@ public final class EditBookDefinitionFormValidatorTest {
         assertions.forEach(assertion -> assertion.accept(errors));
     }
 
+    private void setSubjectKeywordRequired(final String publisher) {
+        KEYWORD_CODES.stream()
+                .filter(item -> item.getName().equals(SUBJECT_KEYWORD + " " + publisher))
+                .forEach(item -> item.setIsRequired(true));
+    }
+
     private Map<Long, Collection<Long>> getSubjectKeywordsFormData(final long subjectKeywordId, final int numberOfSubjectKeywords) {
         final Map<Long, Collection<Long>> keywords = new HashMap<>();
-        keywords.put(subjectKeywordId, LongStream.range(0, numberOfSubjectKeywords).boxed().collect(Collectors.toList()));
+        final Collection<Long> keywordValues = numberOfSubjectKeywords == 0
+                ? null
+                : LongStream.range(0, numberOfSubjectKeywords).boxed().collect(Collectors.toList());
+        keywords.put(subjectKeywordId, keywordValues);
         return keywords;
     }
 
