@@ -69,6 +69,13 @@ public class JsoupConversionsIntegrationTest {
         runner.test(step, "transformExternalLinks");
     }
 
+    @Test
+    public void shouldFixLinkSerialNumber() throws Exception {
+        givenJobInstanceId(step.getChunkContext(), JOB_1);
+        setUpCwBookDefinition();
+        runner.test(step, "fixLinkSerialNumber");
+    }
+
     private void setUpCwBookDefinition() {
         BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
