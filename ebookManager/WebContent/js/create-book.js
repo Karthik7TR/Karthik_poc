@@ -6,6 +6,7 @@ const MAX_NUMBER_SUBJECT_KEYWORDS = 3;
 const USCL_PUBLISHER = 'uscl';
 const CW_PUBLISHER = 'cw';
 const REGISTERED_PUBLISHERS = [USCL_PUBLISHER, CW_PUBLISHER];
+const CW_SOURCE_TYPES = ['NORT', 'TOC'];
 
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
@@ -231,7 +232,9 @@ $(function() {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
 					$('#publishDetailDiv').show();
-					$('#bucketDiv').show();
+					if (CW_SOURCE_TYPES.indexOf($('input:radio[name=sourceType]:checked').val()) !== -1) {
+						$('#bucketDiv').show();
+					}
 					enableElooseLeafsBucket();
 					$('.uscl_show').hide();
 					$('.cw_show').show();
