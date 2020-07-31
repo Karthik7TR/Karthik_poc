@@ -178,6 +178,7 @@ public class WebConstants {
     public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
     public static final String MVC_BOOK_DEFINITION_CREATE = "bookDefinitionCreate.mvc";
     public static final String MVC_BOOK_DEFINITION_EDIT = "bookDefinitionEdit.mvc";
+    public static final String MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW = "bookDefinitionFrontMatterPreview.mvc";
     public static final String MVC_BOOK_DEFINITION_LOCK_EXTEND = "bookDefinitionLockExtend.mvc";
     public static final String MVC_BOOK_DEFINITION_COPY = "bookDefinitionCopy.mvc";
     public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";

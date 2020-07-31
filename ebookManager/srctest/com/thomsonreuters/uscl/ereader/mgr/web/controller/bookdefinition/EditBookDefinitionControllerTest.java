@@ -17,6 +17,8 @@ import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
+import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
@@ -41,6 +43,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -100,6 +103,8 @@ public final class EditBookDefinitionControllerTest {
     private MiscConfigSyncService mockMiscConfigService;
     @Autowired
     private PrintComponentsCompareController mockPrintComponentsCompareController;
+    @Autowired
+    private CreateFrontMatterService mockCreateFrontMatterService;
 
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
@@ -125,7 +130,8 @@ public final class EditBookDefinitionControllerTest {
                 mockAuditService,
                 mockLockService,
                 mockMiscConfigService,
-                mockPrintComponentsCompareController
+                mockPrintComponentsCompareController,
+                mockCreateFrontMatterService
         );
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
         subject.setId(4L);
@@ -295,6 +301,60 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockAuditService);
     }
+
+    @Test
+    public void testFrontMatterPreviewPost() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("titleId", "uscl/an/test");
+        request.setParameter("selectedFrontMatterPreviewPage", "1");
+        request.setParameter("frontMatters[0].sequenceNum", "1");
+        request.setParameter("frontMatters[0].pageTocLabel", "Label 1");
+        request.setParameter("frontMatters[0].frontMatterSections[0].sequenceNum", "1");
+        request.setParameter("frontMatters[0].frontMatterSections[0].sectionHeading", "Heading 1");
+        request.setParameter("frontMatters[0].frontMatterSections[0].sectionText", "Section text 1");
+        String expectedHtml = "html";
+        EasyMock.expect(mockCreateFrontMatterService
+                .getAdditionalFrontPage(EasyMock.anyObject(BookDefinition.class), EasyMock.anyLong()))
+                .andReturn(expectedHtml);
+        EasyMock.replay(mockCreateFrontMatterService);
+
+        handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(expectedHtml, response.getContentAsString());
+        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+        EasyMock.verify(mockCreateFrontMatterService);
+    }
+
+    @Test
+    public void testFrontMatterPreviewPostFailureNoId() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+
+        handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        Assert.assertEquals("Additional front matter page id is missing in request", response.getContentAsString());
+    }
+
+    @Test
+    public void testFrontMatterPreviewPostFailureIncorrectId() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("selectedFrontMatterPreviewPage", "5");
+        String expectedErrorMessage = "Could not retrieve additional front matter page with id: 5";
+        EasyMock.expect(mockCreateFrontMatterService
+                .getAdditionalFrontPage(EasyMock.anyObject(BookDefinition.class), EasyMock.anyLong()))
+                .andThrow(new EBookFrontMatterGenerationException(expectedErrorMessage));
+        EasyMock.replay(mockCreateFrontMatterService);
+
+        handlerAdapter.handle(request, response, controller);
+
+        Assert.assertEquals(expectedErrorMessage, response.getContentAsString());
+        Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        EasyMock.verify(mockCreateFrontMatterService);
+    }
+
 
     /**
      * Test the POST to the Create Book Definition page when titleId is complete

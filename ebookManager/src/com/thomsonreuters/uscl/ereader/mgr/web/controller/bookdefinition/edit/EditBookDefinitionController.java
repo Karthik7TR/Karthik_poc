@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
+import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -44,6 +46,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockSe
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mockito.internal.util.collections.Sets;
@@ -74,6 +77,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class EditBookDefinitionController {
     private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
     private static final String FILE_NAME_ALREADY_EXISTS = "File \"%s\" already exists";
+    private static final String FRONT_MATTER_PAGE_ID_MISSING_ERROR = "Additional front matter page id is missing in request";
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -248,6 +252,28 @@ public class EditBookDefinitionController {
             // Place the preview content on the session so that it can be fetched and used when the popup preview window is opened
             httpSession.setAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
         }
+    }
+
+
+    @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> frontMatterPreviewPost(
+            @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form) {
+        return Optional.ofNullable(form.getSelectedFrontMatterPreviewPage())
+                .map(frontMatterPreviewPageId -> {
+                    final BookDefinition fmBookDef = new BookDefinition();
+                    fmBookDef.setFullyQualifiedTitleId(Optional.ofNullable(form.getTitleId()).orElse(StringUtils.EMPTY));
+                    final List<FrontMatterPage> pages = form.getFrontMatters().stream()
+                            .filter(Objects::nonNull)
+                            .peek(item -> item.setId(Long.valueOf(item.getSequenceNum())))
+                            .collect(Collectors.toList());
+                    fmBookDef.setFrontMatterPages(pages);
+                    try {
+                        return new ResponseEntity<>(frontMatterService.getAdditionalFrontPage(fmBookDef, frontMatterPreviewPageId), HttpStatus.OK);
+                    } catch (EBookFrontMatterGenerationException e) {
+                        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+                    }
+                }).orElse(new ResponseEntity<>(FRONT_MATTER_PAGE_ID_MISSING_ERROR, HttpStatus.BAD_REQUEST));
     }
 
     /**

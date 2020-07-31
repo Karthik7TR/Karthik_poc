@@ -300,7 +300,21 @@ $(function() {
 		var onClickToFmPreviewButton = function() {
 			var pageSequenceNumber = $(this).parent().children(".sequence").val();
 			$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
-			submitFormForValidation();
+			$.ajax({
+				type: 'POST',
+				url: 'bookDefinitionFrontMatterPreview.mvc',
+				data: $('#editBookDefinitionForm').serialize(),
+				contentType: 'application/x-www-form-urlencoded',
+				success: function(response) {
+					const wnd = window.open("about:blank", "", "_blank");
+					wnd.document.write(response);
+					$('#selectedFrontMatterPreviewPage').val('');
+				},
+				error: function (response) {
+					window.alert(response.responseText);
+					$('#selectedFrontMatterPreviewPage').val('');
+				}
+			});
 		}; 
 		
 		var onClickToAddSectionButton = function () {
