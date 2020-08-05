@@ -235,7 +235,6 @@ $(function() {
 					if (CW_SOURCE_TYPES.indexOf($('input:radio[name=sourceType]:checked').val()) !== -1) {
 						$('#bucketDiv').show();
 					}
-					enableElooseLeafsBucket();
 					$('.uscl_show').hide();
 					$('.cw_show').show();
 					showKeywordsForPublisher(publisher);
@@ -255,7 +254,6 @@ $(function() {
 						$('#publishDetailDiv').hide();
 					}
 					$('#bucketDiv').hide();
-					enableBooksBucket();
 					$('.cw_show').hide();
 					$('.uscl_show').show();
 					showKeywordsForPublisher(publisher);
@@ -265,7 +263,6 @@ $(function() {
 					$('#publishDetailDiv').show();
 					$('#bucketDiv').show();
 					$('.cw_show').hide();
-					enableBooksBucket();
 				}
 			} else {
 				$('.keywordLabel').addClass('keywordLabelDisabled').removeClass('keywordLabel');
@@ -273,6 +270,14 @@ $(function() {
 				$('#bucketDiv').hide();
 				$('.cw_show').hide();
 				$('.uploadPdf').attr('disabled', 'disabled');
+			}
+		};
+
+		const updateBucket = function() {
+			if (publisher === CW_PUBLISHER) {
+				enableElooseLeafsBucket();
+			} else {
+				enableBooksBucket();
 			}
 		};
 
@@ -720,6 +725,7 @@ $(function() {
 				$('#contentTypeDiv').hide();
 			}
 			determineOptions();
+			updateBucket();
 			clearTitleAndContentInformation();
 			updateTitleId();
 			toggleGroups(publisher);
