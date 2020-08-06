@@ -84,7 +84,7 @@ $(document).ready(function() {
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ book.materialId }</span>
 					</div>
-					<c:if test="${ book.ELooseleafsEnabled && not empty book.publishedDate }">
+					<c:if test="${ book.isCwBook() && not empty book.publishedDate }">
 						<div class="row xppHideClass cwbHideClass">
 							<label class="labelCol">Published Date</label>
 							<span class="field"><fmt:formatDate value="${ book.publishedDate }"
@@ -108,7 +108,7 @@ $(document).ready(function() {
 							<blockquote class="notes-quote" id="notes-quote">${ book.notes }</blockquote>
 						</div>
 					</c:if>
-					<c:if test="${ book.ELooseleafsEnabled && not empty book.releaseNotes }">
+					<c:if test="${ book.isCwBook() && not empty book.releaseNotes }">
 						<div class="row xppHideClass cwbHideClass">
 							<div id="release-notes" class="notes-view" onclick="toggleNotes(this)">
 								<label class="labelCol notes-label">Release notes</label>
