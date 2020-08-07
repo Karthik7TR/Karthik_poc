@@ -153,7 +153,7 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
 
     private boolean isElooseLeafsMetadataExists() {
         List<InfoField> infoFields = titleMetadata.getInfoFields();
-        return titleMetadata.isElooseleafsEnabled() && (StringUtils.isNotBlank(titleMetadata.getPublishedDate())
+        return titleMetadata.isCwBook() && (StringUtils.isNotBlank(titleMetadata.getPublishedDate())
                 || CollectionUtils.isNotEmpty(infoFields));
     }
 

@@ -234,11 +234,10 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
 
     @SneakyThrows
     @Test
-    public void testWriteLibfields() {
-        InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
-        titleMetadata.setElooseleafsEnabled(true);
-        titleMetadata.setPublishedDate(publishedDate);
-        titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
+    public void testWriteLibfieldsCwBook() {
+        setUpLibfields();
+        titleMetadata.setCwBook(true);
+
         titleManifestFilter.writeLibfields();
         titleManifestFilter.endDocument();
 
@@ -250,10 +249,10 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
 
     @SneakyThrows
     @Test
-    public void testWriteLibfields_eLooseleafsDisabled() {
-        InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
-        titleMetadata.setElooseleafsEnabled(false);
-        titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
+    public void testWriteLibfieldsNotCwBook() {
+        setUpLibfields();
+        titleMetadata.setCwBook(false);
+
         titleManifestFilter.writeLibfields();
         titleManifestFilter.endDocument();
 
@@ -806,6 +805,12 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         final InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
         final InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
         assertXMLEqual(expectedInputSource, resultInputSource);
+    }
+
+    private void setUpLibfields() {
+        titleMetadata.setPublishedDate(publishedDate);
+        InfoField releaseNotes = new InfoField(RELEASE_NOTES_HEADER, RELEASE_NOTES);
+        titleMetadata.setInfoFields(Collections.singletonList(releaseNotes));
     }
 
     private String getCurrentFormattedDate() {

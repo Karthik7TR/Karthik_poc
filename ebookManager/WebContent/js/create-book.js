@@ -7,6 +7,8 @@ const USCL_PUBLISHER = 'uscl';
 const CW_PUBLISHER = 'cw';
 const REGISTERED_PUBLISHERS = [USCL_PUBLISHER, CW_PUBLISHER];
 const CW_SOURCE_TYPES = ['NORT', 'TOC'];
+const BOOKS_BUCKET = 'BOOKS';
+const ELOOSELEAFS_BUCKET = 'ELOOSELEAFS';
 
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
@@ -275,23 +277,9 @@ $(function() {
 
 		const updateBucket = function() {
 			if (publisher === CW_PUBLISHER) {
-				enableElooseLeafsBucket();
+				$('#bucket').val(ELOOSELEAFS_BUCKET);
 			} else {
-				enableBooksBucket();
-			}
-		};
-
-		var enableBooksBucket = function() {
-			if ($('#generateTitleId').length) {
-				$('#bucket').val('BOOKS');
-				eLooseleafsFields.hide();
-			}
-		};
-
-		var enableElooseLeafsBucket = function() {
-			if ($('#generateTitleId').length) {
-				$('#bucket').val('ELOOSELEAFS');
-				eLooseleafsFields.show();
+				$('#bucket').val(BOOKS_BUCKET);
 			}
 		};
 		
@@ -719,31 +707,18 @@ $(function() {
 		$('#publisher').change(function () {
 			clearKeywordsValues();
 			publisher = $(this).val();
-			if (publisher === "uscl" || publisher === "cw") {
-				$('#contentTypeDiv').show();
-			} else {
-				$('#contentTypeDiv').hide();
-			}
+			showSelectOptions(publisher === USCL_PUBLISHER || publisher === CW_PUBLISHER, '#contentTypeDiv');
+			showSelectOptions(publisher === CW_PUBLISHER, '.displayELooseleafs');
 			determineOptions();
 			updateBucket();
 			clearTitleAndContentInformation();
 			updateTitleId();
 			toggleGroups(publisher);
 		});
-		
+
 		$('input:radio[name=splitBook]').change(function () {splitChanged()});
 		$('input:radio[name=splitTypeAuto]').change(function() {splitAutoChanged()});		
 		$('#splitEBookParts').change(function() {splitSizeChanged()});
-
-		const bucket = $('#bucket');
-		const eLooseleafsFields = $('.displayELooseleafs');
-		bucket.change(function() {
-			if (bucket.val() === 'ELOOSELEAFS') {
-				eLooseleafsFields.show();
-			} else {
-				eLooseleafsFields.hide();
-			}
-		});
 
 		$('#state').change(function () {
 			state = $(this).val();
@@ -1010,7 +985,7 @@ $(function() {
 		$('#titleIdBox').val($('#titleId').val());
 		showPubCutoffDateBox();
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
-		showSelectOptions($("#bucket").val() === "ELOOSELEAFS", ".displayELooseleafs");
+		showSelectOptions($("#publisher").val() === CW_PUBLISHER, ".displayELooseleafs");
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
