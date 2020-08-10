@@ -11,7 +11,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import lombok.Builder;
 import lombok.Getter;
@@ -68,6 +70,7 @@ public class InlineTocService {
     private static final String DETAILED_PAGE = "2";
     private static final String CM_UPPER = "upper";
     private static final String DETAILED_FV = "1";
+    private static final int SUMMARY_LEVEL = 2;
 
     @Autowired
     private DocMetadataService docMetadataService;
@@ -81,14 +84,14 @@ public class InlineTocService {
     @Autowired
     private JsoupService jsoup;
 
-    public void generateInlineToc(final File tocXmlFile, final File outputDir, final boolean pages, final long jobId) {
+    public void generateInlineToc(final File tocXmlFile, final File outputDir, final boolean pages, final long jobId, final String titleId, final Version version) {
         final Document tocXml = jsoup.loadDocument(tocXmlFile);
 
         if (!inlineTocAttributesExist(tocXml)) {
             assignDefaultInlineTocAttributes(tocXml);
         }
 
-        final TocDocument doc = loadInputElements(jobId, tocXml);
+        final TocDocument doc = loadInputElements(tocXml, jobId, titleId, version);
 
         if (pages) {
             generateWithPages(doc);
@@ -103,11 +106,17 @@ public class InlineTocService {
         Element root = tocXml.select(E_BOOK).first();
         root.append(DEFAULT_SUMMARY_HEADING);
         root.append(DEFAULT_DETAILED_HEADING);
-        assignDefaultInlineTocAttributes(root.select(EBOOK_TOC).first(), 0);
+        assignToChildren(root, 0);
+    }
+
+    private void assignToChildren(final Element toc, final int level) {
+        toc.children().stream()
+                .filter(el -> el.nodeName().equals(EBOOK_TOC))
+                .forEach(el -> assignDefaultInlineTocAttributes(el, level));
     }
 
     private void assignDefaultInlineTocAttributes(final Element toc, final int level) {
-        if (level < 2) {
+        if (level < SUMMARY_LEVEL) {
             toc.attr(SUMMARY, Boolean.TRUE.toString());
             toc.attr(SUM_ALIGN, ALIGN_LEFT);
             toc.attr(SUM_LINDENT, (BASE_INDENT * level) + UNIT);
@@ -128,12 +137,10 @@ public class InlineTocService {
         toc.attr(DET_SERIAL_PG, DETAILED_PAGE);
         toc.attr(DET_PRINT_PG, TABLE_OF_CONTENTS);
 
-        toc.children().stream()
-                .filter(el -> el.nodeName().equals(EBOOK_TOC))
-                .forEach(el -> assignDefaultInlineTocAttributes(el, level + 1));
+        assignToChildren(toc, level + 1);
     }
 
-    private TocDocument loadInputElements(final long jobId, final Document tocXml) {
+    private TocDocument loadInputElements(final Document tocXml, final long jobId, final String titleId, final Version version) {
         final Document document = jsoup.loadDocument(proviewHtmlTemplate);
         final Element section = document.selectFirst(SECTION);
         section.appendElement("a").attr(NAME_ATTR, INLINE_TOC_ANCHOR);
@@ -146,6 +153,9 @@ public class InlineTocService {
 
         final Map<String, String> familyGuidMap = docMetadataService.findDistinctProViewFamGuidsByJobId(jobId);
         return TocDocument.builder()
+            .jobIdentifier(jobId)
+            .titleId(titleId)
+            .version(version)
             .document(document)
             .section(section)
             .summaryHeading(summaryHeading)
@@ -157,7 +167,7 @@ public class InlineTocService {
     }
 
     private List<Element> extractTocElements(final Document tocXml, final String tocElementType) {
-        return tocXml.select(EBOOK_TOC).stream().filter(eBookToc -> Boolean.valueOf(eBookToc.attr(tocElementType))).collect(Collectors.toList());
+        return tocXml.select(EBOOK_TOC).stream().filter(eBookToc -> Boolean.parseBoolean(eBookToc.attr(tocElementType))).collect(Collectors.toList());
     }
 
     private void generateWithoutPages(final TocDocument doc) {
@@ -167,7 +177,7 @@ public class InlineTocService {
         doc.getSummaryTocElements().forEach(tocItem -> appendSummaryTocItem(section, tocItem));
 
         doc.getDetailedHeading().ifPresent(heading -> appendHeader(section, heading));
-        doc.getDetailedTocElements().forEach(tocItem -> appendDetailedTocItem(section, tocItem, doc.getFamilyGuidMap()));
+        doc.getDetailedTocElements().forEach(tocItem -> appendDetailedTocItem(section, tocItem, doc));
     }
 
     private void generateWithPages(final TocDocument doc) {
@@ -182,7 +192,7 @@ public class InlineTocService {
         insertGapPagesFromSummaryToDetailed(summaryPages, summaryPageLabels, detailedPageLabels);
 
         doc.getDetailedHeading().ifPresent(heading -> appendHeader(firstPage(detailedPages, detailedPageLabels), heading));
-        doc.getDetailedTocElements().forEach(tocItem -> appendDetailedTocItem(getPage(detailedPages, tocItem, DET_SERIAL_PG), tocItem, doc.getFamilyGuidMap()));
+        doc.getDetailedTocElements().forEach(tocItem -> appendDetailedTocItem(getPage(detailedPages, tocItem, DET_SERIAL_PG), tocItem, doc));
     }
 
     private Map<Integer, String> getPageLabelsMap(final List<Element> tocElements, final String pageAttrName, final String printPageAttrName) {
@@ -194,7 +204,7 @@ public class InlineTocService {
 
     private Map<Integer, Element> createPageSections(final Map<Integer, String> pageLabels, final String pageTemplate, final TocDocument doc) {
         return IntStream.rangeClosed(Collections.min(pageLabels.keySet()), Collections.max(pageLabels.keySet()))
-            .mapToObj(Integer::valueOf)
+            .boxed()
             .collect(Collectors.toMap(Function.identity(),
                 pageNum -> {
                     final Element pageSection = doc.getSection().appendElement(DIV).addClass(String.format(pageTemplate, pageNum));
@@ -243,18 +253,32 @@ public class InlineTocService {
             .text(eBookToc.selectFirst(NAME).text());
     }
 
-    private void appendDetailedTocItem(final Element section, final Element eBookToc, final Map<String, String> familyGuidMap) {
+    private void appendDetailedTocItem(final Element section, final Element eBookToc, final TocDocument doc) {
+        String guid = eBookToc.selectFirst(GUID).text();
+        String documentGuid = eBookToc.selectFirst(DOCUMENT_GUID).text();
+
         section.appendElement(DIV)
             .attr(STYLE, stylingService.getStyleByElement(eBookToc, "det_"))
             .appendElement("a")
-            .attr(NAME_ATTR, String.format("sum%s", eBookToc.selectFirst(GUID).text()))
-            .attr(HREF, String.format("er:#%s/%s", familyGuidMap.get(eBookToc.selectFirst(DOCUMENT_GUID).text()), eBookToc.selectFirst(GUID).text()))
+            .attr(NAME_ATTR, String.format("sum%s", guid))
+            .attr(HREF, String.format("er:%s#%s/%s",
+                    getSplitTitleId(doc, documentGuid),
+                    doc.getFamilyGuidMap().get(documentGuid),
+                    guid))
             .text(eBookToc.selectFirst(NAME).text());
+    }
+
+    private String getSplitTitleId(final TocDocument doc, final String documentGuid) {
+        DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(doc.getTitleId(), doc.getJobIdentifier(), documentGuid);
+        return docMetadata.isFirstSplitTitle() ? StringUtils.EMPTY : docMetadata.getSplitBookTitle() + "/" + doc.getVersion().getMajorVersion();
     }
 
     @Getter
     @Builder
     private static class TocDocument {
+      private long jobIdentifier;
+      private String titleId;
+      private Version version;
       private Document document;
       private Element section;
       private List<Element> summaryTocElements;

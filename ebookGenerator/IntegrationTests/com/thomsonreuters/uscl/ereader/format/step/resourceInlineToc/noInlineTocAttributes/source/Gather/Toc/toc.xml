@@ -39,14 +39,14 @@
 				</EBookToc>
 			</EBookToc>
 		</EBookToc>
+	</EBookToc>
+	<EBookToc>
+		<Name>Bibliography</Name>
+		<Guid>I95acc6a0933c11da99e2b07024dacc26</Guid>
 		<EBookToc>
 			<Name>Bibliography</Name>
-			<Guid>I95acc6a0933c11da99e2b07024dacc26</Guid>
-			<EBookToc>
-				<Name>Bibliography</Name>
-				<Guid>I403894d0558a11dca5f9d46486b7845f</Guid>
-				<DocumentGuid>I50000000000000000000000000000000</DocumentGuid>
-			</EBookToc>
+			<Guid>I403894d0558a11dca5f9d46486b7845f</Guid>
+			<DocumentGuid>I50000000000000000000000000000000</DocumentGuid>
 		</EBookToc>
 	</EBookToc>
 </EBook>

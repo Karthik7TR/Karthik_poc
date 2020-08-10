@@ -362,6 +362,10 @@ public class DocMetadata implements Serializable {
             && now.isBefore(LocalDateTime.parse(endEffectiveDate, FORMATTER));
     }
 
+    public boolean isFirstSplitTitle() {
+        return getSplitBookTitle() == null || getSplitBookTitle().endsWith(getTitleId());
+    }
+
     public void addTopicCode(final CanadianTopicCode canadianTopicCode) {
         canadianTopicCode.setDocMetadata(this);
         canadianTopicCodes.add(canadianTopicCode);
