@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -53,6 +54,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
     private static final String HTML_EXTENSION = ".html";
     private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
     private static final String WLN_LOGO_PLACEHOLDER = "er:#WestlawLogo";
+    private static final String PDF_PREVIEW_LINK_TEMPLATE = "frontMatterPdf.mvc?pdfName=%s&publisher=%s";
+    private static final String PROVIEW_ANCHOR_TEMPLATE = "er:#%s";
 
     @Value("#{${frontMatter.logoPlaceHolder}}")
     private Map<String, String> frontMatterLogoPlaceHolder;
@@ -132,10 +135,11 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#getAdditionalFrontPage(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition, java.lang.Long)
      */
     @Override
-    public String getAdditionalFrontPage(final BookDefinition bookDefinition, final Long front_matter_page_id)
+    public String getAdditionalFrontPage(final BookDefinition bookDefinition, final Long frontMatterPageId)
         throws EBookFrontMatterGenerationException {
-        final String output = generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id, Collections.emptyMap())
+        String output = generateAdditionalFrontMatterPage(bookDefinition, frontMatterPageId, Collections.emptyMap())
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
+        output = replacePdfs(bookDefinition, output);
         return output;
     }
 
@@ -187,6 +191,13 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService {
         return output;
     }
 
+    private String replacePdfs(final BookDefinition bookDefinition, String output) {
+        for (String pdfFile : bookDefinition.getFrontMatterPdfFileNames()) {
+            output = output.replace(String.format(PROVIEW_ANCHOR_TEMPLATE, FilenameUtils.removeExtension(pdfFile)),
+                    String.format(PDF_PREVIEW_LINK_TEMPLATE, pdfFile, bookDefinition.getPublisherCodes().getName()));
+        }
+        return output;
+    }
     /**
      * Transforms the template using text from BookDefinition to generate HTML for the Title Page.
      *

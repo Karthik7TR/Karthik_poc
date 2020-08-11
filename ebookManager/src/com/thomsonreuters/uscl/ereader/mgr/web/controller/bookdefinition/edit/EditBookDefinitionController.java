@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CW_PUBLISHER_NAME;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_CANADA;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_US;
@@ -30,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
@@ -268,6 +270,9 @@ public class EditBookDefinitionController {
                             .peek(item -> item.setId(Long.valueOf(item.getSequenceNum())))
                             .collect(Collectors.toList());
                     fmBookDef.setFrontMatterPages(pages);
+                    final PublisherCode publisherCode = new PublisherCode();
+                    publisherCode.setName(Optional.ofNullable(form.getPublisher()).orElse(USCL_PUBLISHER_NAME));
+                    fmBookDef.setPublisherCodes(publisherCode);
                     try {
                         return new ResponseEntity<>(frontMatterService.getAdditionalFrontPage(fmBookDef, frontMatterPreviewPageId), HttpStatus.OK);
                     } catch (EBookFrontMatterGenerationException e) {

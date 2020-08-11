@@ -165,6 +165,7 @@ public class WebConstants {
     public static final String MVC_COVER_IMAGE = "coverImage.mvc";
     public static final String MVC_FRONT_MATTER_IMAGE = "frontMatterImage.mvc";
     public static final String MVC_FRONT_MATTER_CSS = "frontMatterCss.mvc";
+    public static final String MVC_FRONT_MATTER_PDF = "frontMatterPdf.mvc";
     public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
     public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";

@@ -299,7 +299,7 @@ $(function() {
 				data: $('#editBookDefinitionForm').serialize(),
 				contentType: 'application/x-www-form-urlencoded',
 				success: function(response) {
-					const wnd = window.open("about:blank", "", "_blank");
+					const wnd = window.open("about:blank");
 					wnd.document.write(response);
 					$('#selectedFrontMatterPreviewPage').val('');
 				},

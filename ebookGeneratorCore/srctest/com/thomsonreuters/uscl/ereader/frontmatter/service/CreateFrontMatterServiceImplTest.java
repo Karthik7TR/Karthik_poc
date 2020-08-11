@@ -9,11 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -77,6 +80,14 @@ public final class CreateFrontMatterServiceImplTest {
     }
 
     @Test
+    public void testAdditionaFrontMatterPage1WithPdfs() throws Exception {
+        final FrontMatterSection section = bookDefinition.getFrontMatterPages().get(0).getFrontMatterSections().get(0);
+        section.setPdfs(getPdfs(section));
+        final String expected = IOUtils.toString(getClass().getResourceAsStream("AdditionalFrontMatterPage1WithPdfs.html"));
+        assertEquals(expected, frontMatterService.getAdditionalFrontPage(bookDefinition, 1L));
+    }
+
+    @Test
     public void testResearchAssistancePage() throws Exception {
         final String expected = IOUtils.toString(getClass().getResourceAsStream("ResearchAssistancePage.html"));
         assertEquals(expected, frontMatterService.getResearchAssistancePage(bookDefinition));
@@ -104,6 +115,9 @@ public final class CreateFrontMatterServiceImplTest {
                         + "is a trademark of West Publishing Corporation.");
         bookDefinition.setFrontMatterTheme("Westlaw Next");
         bookDefinition.setIsAuthorDisplayVertical(true);
+        PublisherCode publisherCode = new PublisherCode();
+        publisherCode.setName(CoreConstants.USCL_PUBLISHER_NAME);
+        bookDefinition.setPublisherCodes(publisherCode);
     }
 
     private void createFrontMatterPages() {
@@ -192,5 +206,16 @@ public final class CreateFrontMatterServiceImplTest {
         section.setSectionText(sectionText);
         section.setSequenceNum(sequenceNum);
         return section;
+    }
+
+    @NotNull
+    List<FrontMatterPdf> getPdfs(FrontMatterSection section) {
+        FrontMatterPdf frontMatterPdf = new FrontMatterPdf();
+        frontMatterPdf.setPdfFilename("fileName");
+        frontMatterPdf.setPdfLinkText("linkText");
+        frontMatterPdf.setSequenceNum(1);
+        frontMatterPdf.setId(1L);
+        frontMatterPdf.setSection(section);
+        return Collections.singletonList(frontMatterPdf);
     }
 }
