@@ -133,7 +133,7 @@ public class ProviewListFilterController {
                     titleIdEndsWithWildCard = true;
                 }
 
-                titleIdSearchTerm = titleIdSearchTerm.replaceAll("%", "");
+                titleIdSearchTerm = titleIdSearchTerm.toLowerCase().replaceAll("%", "");
             }
 
             for (final ProviewTitleInfo titleInfo : allLatestProviewTitleInfo) {

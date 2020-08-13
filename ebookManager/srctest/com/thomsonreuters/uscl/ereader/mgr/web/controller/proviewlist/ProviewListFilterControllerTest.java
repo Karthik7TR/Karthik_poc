@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.FilterCommand;
+import org.apache.commons.collections4.CollectionUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,6 +23,9 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import org.springframework.web.servlet.view.RedirectView;
 
 public final class ProviewListFilterControllerTest {
+    private static final String TITLE_NAME = "testTitle";
+    private static final String TEST_TITLE_ID = "testId".toLowerCase();
+    private final Integer TOTAL_NUMBER_OF_VERSIONS = 1;
     private ProviewListFilterController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
@@ -36,37 +41,37 @@ public final class ProviewListFilterControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
     }
 
+    private void initRequest() {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
+        request.setMethod(HttpMethod.POST.name());
+    }
+
+    private void initRequest(final String proviewDisplayName, final String titleId) {
+        initRequest();
+        request.setParameter("FilterCommand", FilterCommand.SEARCH.toString());
+        request.setParameter("proviewDisplayName", proviewDisplayName);
+        request.setParameter("titleId", titleId);
+    }
+
+    private void initResetRequest() {
+        initRequest();
+        request.setParameter("FilterCommand", FilterCommand.RESET.toString());
+    }
+
     /**
      * @throws Exception
      */
     @Test
     public void testStartWildcard() throws Exception {
-        final String title = "testTitle";
-        final String titleId = "testId";
-        final Integer totalNumberOfVersions = Integer.valueOf(1);
-
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("FilterCommand", FilterCommand.SEARCH.toString());
-        request.setParameter("proviewDisplayName", "%" + title);
-        request.setParameter("titleId", "%" + titleId);
-        request.setParameter("minVersions", totalNumberOfVersions.toString());
-        request.setParameter("maxVersions", totalNumberOfVersions.toString());
-        final HttpSession session = request.getSession();
-
-        final List<ProviewTitleInfo> titleList = new ArrayList<>();
-        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-        titleInfo.setTitle(title);
-        titleInfo.setTitleId(titleId);
-        titleInfo.setTotalNumberOfVersions(totalNumberOfVersions);
-        titleList.add(titleInfo);
-
-        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, titleList);
+        initRequest("%" + TITLE_NAME, "%" + TEST_TITLE_ID.toUpperCase());
+        request.setParameter("minVersions", TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.setParameter("maxVersions", TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.getSession().setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES,
+                Collections.singletonList(getProviewTitleInfo()));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        validateModel(mav);
     }
 
     /**
@@ -74,32 +79,15 @@ public final class ProviewListFilterControllerTest {
      */
     @Test
     public void testEndWildcard() throws Exception {
-        final String title = "testTitle";
-        final String titleId = "testId";
-        final Integer totalNumberOfVersions = Integer.valueOf(1);
-
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("FilterCommand", FilterCommand.SEARCH.toString());
-        request.setParameter("proviewDisplayName", title + "%");
-        request.setParameter("titleId", titleId + "%");
+        initRequest(TITLE_NAME + "%", TEST_TITLE_ID + "%");
         request.setParameter("minVersions", "1.1");
         request.setParameter("maxVersions", "1.2");
-        final HttpSession session = request.getSession();
-
-        final List<ProviewTitleInfo> titleList = new ArrayList<>();
-        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-        titleInfo.setTitle(title);
-        titleInfo.setTitleId(titleId);
-        titleInfo.setTotalNumberOfVersions(totalNumberOfVersions);
-        titleList.add(titleInfo);
-
-        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, titleList);
+        request.getSession().setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES,
+                Collections.singletonList(getProviewTitleInfo()));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        validateModel(mav);
     }
 
     /**
@@ -107,32 +95,15 @@ public final class ProviewListFilterControllerTest {
      */
     @Test
     public void testAllWildcard() throws Exception {
-        final String title = "testTitle";
-        final String titleId = "testId";
-        final Integer totalNumberOfVersions = Integer.valueOf(1);
-
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("FilterCommand", FilterCommand.SEARCH.toString());
-        request.setParameter("proviewDisplayName", "%" + title + "%");
-        request.setParameter("titleId", "%" + titleId + "%");
-        request.setParameter("minVersionsInt", totalNumberOfVersions.toString());
-        request.setParameter("maxVersionsInt", totalNumberOfVersions.toString());
-        final HttpSession session = request.getSession();
-
-        final List<ProviewTitleInfo> titleList = new ArrayList<>();
-        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-        titleInfo.setTitle(title);
-        titleInfo.setTitleId(titleId);
-        titleInfo.setTotalNumberOfVersions(totalNumberOfVersions);
-        titleList.add(titleInfo);
-
-        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, titleList);
+        initRequest( "%" + TITLE_NAME + "%", "%" + TEST_TITLE_ID + "%");
+        request.setParameter("minVersionsInt", TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.setParameter("maxVersionsInt", TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.getSession().setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES,
+                Collections.singletonList(getProviewTitleInfo()));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        validateModel(mav);
     }
 
     /**
@@ -140,27 +111,11 @@ public final class ProviewListFilterControllerTest {
      */
     @Test
     public void testNoWildcard() throws Exception {
-        final String title = "testTitle";
-        final String titleId = "testId";
-        final Integer totalNumberOfVersions = Integer.valueOf(1);
-
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("FilterCommand", FilterCommand.SEARCH.toString());
-        request.setParameter("proviewDisplayName", title);
-        request.setParameter("titleId", titleId);
-        request.setParameter("minVersionsInt", totalNumberOfVersions.toString());
-        request.setParameter("maxVersionsInt", totalNumberOfVersions.toString());
-        final HttpSession session = request.getSession();
-
-        final List<ProviewTitleInfo> titleList = new ArrayList<>();
-        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-        titleInfo.setTitle(title + "a");
-        titleInfo.setTitleId(titleId + "a");
-        titleInfo.setTotalNumberOfVersions(totalNumberOfVersions);
-        titleList.add(titleInfo);
-
-        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, titleList);
+        initRequest( TITLE_NAME, TEST_TITLE_ID);
+        request.setParameter("minVersionsInt", TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.setParameter("maxVersionsInt", TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.getSession().setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES,
+                Collections.singletonList(getProviewTitleInfo("a")));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -170,10 +125,7 @@ public final class ProviewListFilterControllerTest {
 
     @Test
     public void testReset() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("FilterCommand", FilterCommand.RESET.toString());
-
+        initResetRequest();
         final ProviewTitleForm titleForm = new ProviewTitleForm();
         titleForm.setObjectsPerPage("50");
 
@@ -195,5 +147,25 @@ public final class ProviewListFilterControllerTest {
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertNotNull(mav);
         Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_PROVIEW_TITLES);
+    }
+
+    private ProviewTitleInfo getProviewTitleInfo() {
+        return getProviewTitleInfo("");
+    }
+
+    private ProviewTitleInfo getProviewTitleInfo(final String suffix) {
+        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+        titleInfo.setTitle(TITLE_NAME + suffix);
+        titleInfo.setTitleId(TEST_TITLE_ID + suffix);
+        titleInfo.setTotalNumberOfVersions(TOTAL_NUMBER_OF_VERSIONS);
+        return titleInfo;
+    }
+
+    private void validateModel(final ModelAndView mav) {
+        Assert.assertNotNull(mav);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
+        List<ProviewTitleInfo> list = (List<ProviewTitleInfo>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST);
+        Assert.assertTrue(CollectionUtils.isNotEmpty(list));
+        Assert.assertEquals(list.get(0).getTitleId(), TEST_TITLE_ID);
     }
 }
