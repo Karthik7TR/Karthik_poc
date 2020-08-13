@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -29,7 +30,9 @@ public abstract class BaseFormValidator {
     protected void checkDateFormat(final Errors errors, final String text, final String fieldName) {
         if (StringUtils.isNotEmpty(text)) {
             try {
-                final Date date = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN).parse(text);
+                DateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
+                sdf.setLenient(false);
+                sdf.parse(text);
             } catch (final Exception e) {
                 errors.rejectValue(fieldName, "error.date.format");
             }

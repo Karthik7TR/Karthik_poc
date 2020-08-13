@@ -68,6 +68,7 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String SOME_ADDITIONAL_KEYWORD = "some additional keyword";
     private static final String PUBLISHED_DATE = "publishedDate";
     private static final String WRONG_DATE_PATTERN = "dd-mm-yyyy";
+    private static final String WRONG_DATE = "02/30/2020";
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
     private static final String WRONG_DATE_FORMAT_ERROR = "error.date.format";
     private static final String REQUIRED_ERROR = "error.required";
@@ -1270,6 +1271,17 @@ public final class EditBookDefinitionFormValidatorTest {
     public void testPublishedDateWrongFormat() {
         DateFormat wrongDateFormat = new SimpleDateFormat(WRONG_DATE_PATTERN);
         form.setPublishedDate(wrongDateFormat.format(new Date()));
+
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
+                errors.getFieldError(PUBLISHED_DATE).getCode());
+    }
+
+    @Test
+    public void testPublishedDateWrong() {
+        form.setPublishedDate(WRONG_DATE);
 
         validator.validate(form, errors);
 
