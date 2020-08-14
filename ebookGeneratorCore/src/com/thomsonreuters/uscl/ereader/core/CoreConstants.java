@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.core;
 
 import org.mockito.internal.util.collections.Sets;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.Set;
 
 public class CoreConstants {
@@ -16,6 +18,7 @@ public class CoreConstants {
     // Date/Time formatting patterns
     public static final String DIR_DATE_FORMAT = "yyyyMMdd";
     public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy"; // default date presentation
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/uuuu").withResolverStyle(ResolverStyle.STRICT);
     public static final String DATE_TIME_FORMAT_PATTERN = DATE_FORMAT_PATTERN + " HH:mm:ss";
     public static final String DATE_TIME_MS_FORMAT_PATTERN = DATE_TIME_FORMAT_PATTERN + ".SSS";
 
