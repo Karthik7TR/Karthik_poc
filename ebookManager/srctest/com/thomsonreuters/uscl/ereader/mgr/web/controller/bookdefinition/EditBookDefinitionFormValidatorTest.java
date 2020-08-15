@@ -68,8 +68,10 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String SOME_ADDITIONAL_KEYWORD = "some additional keyword";
     private static final String PUBLISHED_DATE = "publishedDate";
     private static final String VALID_DATE = "02/20/2020";
-    private static final String WRONG_DATE_DAY_OF_MONTH = "02/30/2020";
+    private static final String WRONG_DATE_YEAR_3000 = "02/30/3000";
+    private static final String WRONG_DATE_YEAR_0999 = "02/30/0999";
     private static final String WRONG_DATE_BIG_YEAR = "02/20/202000";
+    private static final String WRONG_DATE_DAY_OF_MONTH = "02/30/2020";
     private static final String WRONG_DATE_PATTERN = "dd-mm-yyyy";
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
     private static final String WRONG_DATE_FORMAT_ERROR = "error.date.format";
@@ -1279,25 +1281,39 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void testPublishedDateWrong() {
-        form.setPublishedDate(WRONG_DATE_DAY_OF_MONTH);
+    public void testPublishedDateWrongYearRange() {
+        form.setPublishedDate(WRONG_DATE_YEAR_3000);
 
         validator.validate(form, errors);
 
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
-                errors.getFieldError(PUBLISHED_DATE).getCode());
+        assertDateFormatError();
     }
 
     @Test
-    public void testPublishedDateWrong2() {
+    public void testPublishedDateWrongYearRange2() {
+        form.setPublishedDate(WRONG_DATE_YEAR_0999);
+
+        validator.validate(form, errors);
+
+        assertDateFormatError();
+    }
+
+    @Test
+    public void testPublishedDateWrongYearRange3() {
         form.setPublishedDate(WRONG_DATE_BIG_YEAR);
 
         validator.validate(form, errors);
 
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
-                errors.getFieldError(PUBLISHED_DATE).getCode());
+        assertDateFormatError();
+    }
+
+    @Test
+    public void testPublishedDateWrongDayOfMonth() {
+        form.setPublishedDate(WRONG_DATE_DAY_OF_MONTH);
+
+        validator.validate(form, errors);
+
+        assertDateFormatError();
     }
 
     @Test
@@ -1307,9 +1323,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
         validator.validate(form, errors);
 
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
-                errors.getFieldError(PUBLISHED_DATE).getCode());
+        assertDateFormatError();
     }
 
     @Test
@@ -1584,5 +1598,11 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(analyticalCode);
         EasyMock.replay(mockDocumentTypeCodeService);
+    }
+
+    private void assertDateFormatError() {
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
+                errors.getFieldError(PUBLISHED_DATE).getCode());
     }
 }

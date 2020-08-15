@@ -11,6 +11,8 @@ import org.springframework.validation.Errors;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DATE_FORMATTER;
 
 public abstract class BaseFormValidator {
+    private static final int PROVIEW_YEAR_RANGE_MIN = 1000;
+    private static final int PROVIEW_YEAR_RANGE_MAX = 3000;
 
     protected void checkMaxLength(
         final Errors errors,
@@ -30,7 +32,10 @@ public abstract class BaseFormValidator {
     protected void checkDateFormat(final Errors errors, final String text, final String fieldName) {
         if (StringUtils.isNotEmpty(text)) {
             try {
-                LocalDate.parse(text, DATE_FORMATTER);
+                LocalDate date = LocalDate.parse(text, DATE_FORMATTER);
+                if (date.getYear() < PROVIEW_YEAR_RANGE_MIN || date.getYear() >= PROVIEW_YEAR_RANGE_MAX) {
+                    errors.rejectValue(fieldName, "error.date.format");
+                }
             } catch (final Exception e) {
                 errors.rejectValue(fieldName, "error.date.format");
             }
