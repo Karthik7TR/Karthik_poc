@@ -21,6 +21,8 @@ public class TestNasFileSystemImpl implements NasFileSystem {
     private static final String LOCATION_FRONT_MATTER_CW_PDF = "/generator/images/cw-pdf";
     private static final String LOCATION_PILOT_BOOK_CSV = "/generator/altId";
     private static final String LOCATION_CODES_WORKBENCH = "/codesWorkbench/Test";
+    private static final String LOCATION_IBN_FILE = "/generator/isbn";
+    private static final String LOCATION_IBN_FILE_ARCHIVE = "/generator/isbn/archive";
     private File tempDir;
 
     public File getRootDirectory() {
@@ -90,5 +92,17 @@ public class TestNasFileSystemImpl implements NasFileSystem {
     @Override
     public File getCodesWorkbenchRootDir() {
         return getDir(getRootDirectory(), LOCATION_CODES_WORKBENCH);
+    }
+
+    @NotNull
+    @Override
+    public File getIsbnFileDir() {
+        return getDir(getRootDirectory(), LOCATION_IBN_FILE);
+    }
+
+    @NotNull
+    @Override
+    public File getIsbnFileArchiveDir() {
+        return getDir(getRootDirectory(), LOCATION_IBN_FILE_ARCHIVE);
     }
 }

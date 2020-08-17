@@ -31,4 +31,10 @@ public interface NasFileSystem {
 
     @NotNull
     File getFrontMatterCssFile();
+
+    @NotNull
+    File getIsbnFileDir();
+
+    @NotNull
+    File getIsbnFileArchiveDir();
 }

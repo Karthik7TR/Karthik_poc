@@ -27,6 +27,10 @@ public class NasFileSystemImpl implements NasFileSystem {
     private File pilotBookCsvDirectory;
     @Value("${codes.workbench.root.dir}")
     private File codesWorkbenchRootDir;
+    @Value("${isbn.file.dir}")
+    private File isbnFileDir;
+    @Value("${isbn.file.archive.dir}")
+    private File isbnFileArchiveDir;
 
     @NotNull
     @Override

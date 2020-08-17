@@ -330,6 +330,8 @@ public class WebConstants {
     public static final String MVC_PRINT_COMPONENTS_HISTORY_VERSION = "printComponentsHistoryVersion.mvc";
     public static final String MVC_PRINT_COMPONENTS_HISTORY_PANEL = "printComponentsHistoryPanel.mvc";
 
+    public static final String MVC_UPDATE_ISBNS = "updateIsbns.mvc";
+
     // Logical view names
     public static final String VIEW_APP_EXCEPTION = "appException";
     public static final String VIEW_ADMIN_MAIN = "_adminMain";
@@ -431,6 +433,7 @@ public class WebConstants {
     public static final String VIEW_PROVIEW_GROUP_BOOK_DELETE = "_proviewGroupBookDelete";
     public static final String VIEW_GROUP_DEFINITION_EDIT = "_groupDefinitionEdit";
     public static final String VIEW_USER_PREFERENCES = "_userPreferences";
+    public static final String VIEW_ISBNS_UPDATED = "isbn/isbnsUpdated";
     public static final String VIEW_ADMIN_QUALITY_REPORTS_RECIPIENTS = "_qualityReportsAdmin";
 
     public static final String PROVIEW_DISPLAY_NAME_FIELD = "proviewDisplayName";

@@ -43,7 +43,7 @@ public class VersionIsbnServiceImpl implements VersionIsbnService {
     @Override
     public void deleteIsbn(final String titleId, final String version) {
         final String headTitleId = new TitleId(titleId).getHeadTitleId();
-        log.info("Saved isbn of " + headTitleId + "/" + version);
+        log.info("Deleted isbn of " + headTitleId + "/" + version);
         final BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(headTitleId);
         final String versionWithoutPrefix = new Version(version).getVersionWithoutPrefix();
         final VersionIsbn versionIsbn = versionIsbnDao.findDistinctByEbookDefinitionAndVersion(bookDefinition,

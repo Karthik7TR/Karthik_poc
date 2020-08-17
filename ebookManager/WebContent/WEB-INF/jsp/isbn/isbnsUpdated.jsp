@@ -1,0 +1,1 @@
+<div class="infoMessageSuccess">Isbns were successfully updated</div>
