@@ -2,10 +2,12 @@ package com.thomsonreuters.uscl.ereader.group.service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -31,11 +33,14 @@ public final class GroupServiceImplTest {
     private static final String GROUP_NAME = "groupName";
     private static final String GROUP_ID = "uscl/an_book_lohisplitnodeinfo";
     private static final String SUBGROUP_NAME = "2015";
+    private static final String SUBGROUP_NAME_2 = "2016";
     private static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/book_lohisplitnodeinfo";
     private static final String PILOT_BOOK_TITLE_ID = "uscl/an/book_pilotBook";
+    private static final String V_1_MAJOR = "/v1";
     private static final String V1 = "v1.0";
     private static final String V2 = "v2.0";
     private static final String V3 = "v3.0";
+    private static final String PT_2 = "_pt2";
 
     private GroupDefinition GROUP_INFO_SPLIT_ONE_SUBGROUP() {
         final GroupDefinition group = initializeGroupDefinition();
@@ -584,7 +589,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setIsSplitBook(false);
         splitTitles = null;
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition group = groupService.createGroupDefinition(bookDefinition, V3, splitTitles);
 
@@ -602,7 +607,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
 
         try {
-            setUpSimpleBookGroup();
+            setUpSimpleBookGroup(mockContainer());
 
             groupService.createGroupDefinition(bookDefinition, V3, splitTitles);
 
@@ -651,7 +656,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subgroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V3, splitTitles);
 
@@ -675,7 +680,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setGroupName(groupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, splitTitles);
 
@@ -693,7 +698,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subGroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, splitTitles);
 
@@ -709,7 +714,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subGroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, splitTitles);
 
@@ -730,7 +735,7 @@ public final class GroupServiceImplTest {
         splitTitles.add("uscl/an/book_lohisplitnodeinfo_pt2");
         splitTitles.add("uscl/an/book_lohisplitnodeinfo_pt3");
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.1", splitTitles);
 
@@ -767,7 +772,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_SPLIT_TWO_SUBGROUP());
 
         try {
-            setUpSimpleBookGroup();
+            setUpSimpleBookGroup(mockContainer());
 
             groupService.createGroupDefinition(bookDefinition, V3, splitTitles);
 
@@ -789,7 +794,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setIsSplitBook(false);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_NO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -812,7 +817,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setELooseleafsEnabled(false);
         bookDefinition.setSubGroupHeading("2014");
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -837,7 +842,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subgroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -866,7 +871,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subgroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -946,7 +951,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setELooseleafsEnabled(false);
         bookDefinition.setIsSplitBook(false);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -969,7 +974,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setIsSplitBook(false);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V3, null);
 
@@ -998,7 +1003,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setELooseleafsEnabled(false);
         bookDefinition.setSubGroupHeading(subgroupName);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -1038,7 +1043,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setIsSplitBook(false);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_NO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1063,7 +1068,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setELooseleafsEnabled(false);
         bookDefinition.setSubGroupHeading(null);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1086,7 +1091,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setELooseleafsEnabled(false);
         bookDefinition.setSubGroupHeading(null);
         groupDefinitionList.add(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -1107,7 +1112,7 @@ public final class GroupServiceImplTest {
     public void testSingleBookToSplitVersion() {
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_NO_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V1, splitTitles);
 
@@ -1129,7 +1134,7 @@ public final class GroupServiceImplTest {
     public void testSingleBookWithSubgroupToSplitVersion() {
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_MULTIPLE_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V2, splitTitles);
 
@@ -1161,7 +1166,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subgroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_MULTIPLE_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.2", splitTitles);
 
@@ -1189,7 +1194,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setSubGroupHeading(subgroupName);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_MULTIPLE_SINGLE_TITLE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V3, splitTitles);
 
@@ -1218,7 +1223,7 @@ public final class GroupServiceImplTest {
         bookDefinition.setIsSplitBook(false);
         bookDefinition.setELooseleafsEnabled(false);
         groupDefinitionList.add(GROUP_INFO_SPLIT_ONE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1246,7 +1251,7 @@ public final class GroupServiceImplTest {
         titleInfoList.add(titleInfo);
         proviewTitleContainer.setProviewTitleInfos(titleInfoList);
         groupDefinitionList.add(GROUP_INFO_SPLIT_ONE_SUBGROUP());
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1580,7 +1585,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1605,7 +1610,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1630,7 +1635,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK_INSUB());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1655,7 +1660,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK_INSUB());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -1682,7 +1687,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK_INSUB());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1709,7 +1714,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK_PREVIOUS_SUB());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V3, null);
 
@@ -1736,7 +1741,7 @@ public final class GroupServiceImplTest {
         groupDefinitionList.add(GROUP_INFO_PILOT_BOOK_PREVIOUS_SUB());
 
         EasyMock.expect(mockProviewHandler.isTitleInProview(PILOT_BOOK_TITLE_ID)).andReturn(false);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         final GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, V2, null);
 
@@ -1752,7 +1757,7 @@ public final class GroupServiceImplTest {
     @Test
     public void testSetGroupTypeStandard() {
         bookDefinition.setELooseleafsEnabled(false);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1764,7 +1769,7 @@ public final class GroupServiceImplTest {
     @Test
     public void testSetGroupTypeEreference() {
         bookDefinition.setELooseleafsEnabled(true);
-        setUpSimpleBookGroup();
+        setUpSimpleBookGroup(mockContainer());
 
         GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1772,17 +1777,31 @@ public final class GroupServiceImplTest {
         checkGroupType(groupDefinition, CoreConstants.GROUP_TYPE_EREFERENCE);
     }
 
+    @Test
     @SneakyThrows
-    private void setUpSimpleBookGroup() {
+    public void testSubgroupChangedAfterTitlesWereRemovedFromPreviousSubgroup() {
+        groupDefinitionList.add(GROUP_INFO_SPLIT_ONE_SUBGROUP());
+        bookDefinition.setSubGroupHeading(SUBGROUP_NAME_2);
+        setUpSimpleBookGroup(new ProviewTitleContainer());
+        List<String> titles = Arrays.asList(FULLY_QUALIFIED_TITLE_ID, FULLY_QUALIFIED_TITLE_ID + PT_2);
+
+        GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, V1, titles);
+        Assert.assertEquals(1, groupDefinition.getSubGroupInfoList().size());
+        Assert.assertEquals(SUBGROUP_NAME_2, groupDefinition.getSubGroupInfoList().get(0).getHeading());
+        Assert.assertEquals(titles.stream().map(item -> item + V_1_MAJOR).collect(Collectors.toList()),
+                groupDefinition.getSubGroupInfoList().get(0).getTitles());
+    }
+
+    @SneakyThrows
+    private void setUpSimpleBookGroup(ProviewTitleContainer container) {
         final String groupId = groupService.getGroupId(bookDefinition);
         EasyMock.expect(mockProviewHandler.getGroupDefinitionsById(groupId)).andReturn(groupDefinitionList);
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(FULLY_QUALIFIED_TITLE_ID))
                 .andReturn(bookDefinition);
         EasyMock.expect(mockProviewHandler.getProviewTitleContainer(FULLY_QUALIFIED_TITLE_ID))
-                .andReturn(mockContainer());
+                .andReturn(container);
         EasyMock.replay(mockProviewHandler, mockBookDefinitionService);
     }
-
     private void checkGroupType(final GroupDefinition groupDefinition, final String expectedGroupType) {
         String actualGroupType = groupDefinition.getType();
         Assert.assertEquals(expectedGroupType, actualGroupType);

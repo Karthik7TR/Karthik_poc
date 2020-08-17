@@ -378,6 +378,7 @@ public class GroupServiceImpl implements GroupService {
                 emptySubGroups.add(subgroup);
             }
         }
+        subGroupInfoList.removeAll(emptySubGroups);
     }
 
     /**
