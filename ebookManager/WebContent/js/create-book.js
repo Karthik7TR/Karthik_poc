@@ -234,6 +234,7 @@ $(function() {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
 					$('#publishDetailDiv').show();
+					$('#displayPubCutoffDateOptions').hide();
 					if (CW_SOURCE_TYPES.indexOf($('input:radio[name=sourceType]:checked').val()) !== -1) {
 						$('#bucketDiv').show();
 					}
@@ -255,6 +256,7 @@ $(function() {
 					} else {
 						$('#publishDetailDiv').hide();
 					}
+					$('#displayPubCutoffDateOptions').show();
 					$('#bucketDiv').hide();
 					$('.cw_show').hide();
 					$('.uscl_show').show();
@@ -263,6 +265,7 @@ $(function() {
 					showKeywordsForPublisher(USCL_PUBLISHER);
 					$('#productCodeDiv').show();
 					$('#publishDetailDiv').show();
+					$('#displayPubCutoffDateOptions').show();
 					$('#bucketDiv').show();
 					$('.cw_show').hide();
 				}
