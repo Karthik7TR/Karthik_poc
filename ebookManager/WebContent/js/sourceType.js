@@ -144,10 +144,12 @@ $(function() {
 		$("#displayFILE").hide();
 		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
-		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry, #bucketDiv").css("display","block");
+		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry, #bucketDiv, #displayPubCutoffDateOptions")
+			.css("display","block");
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
         showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
         showSelectOptions($("#publisher").val() !== "uscl", "#bucketDiv");
+		showSelectOptions($("#publisher").val() !== "cw" && sourceType !== "XPP", "#displayPubCutoffDateOptions");
 		splitChanged();
 		splitSizeChanged();
 		if(sourceType == "TOC") {

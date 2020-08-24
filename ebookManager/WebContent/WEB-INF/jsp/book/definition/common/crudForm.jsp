@@ -503,7 +503,7 @@
 					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div id="displayPubCutoffDateOptions" class="xppHideClass">
+			<div id="displayPubCutoffDateOptions">
 				<div class="row">
 					<form:label path="publicationCutoffDateUsed" class="labelCol">Enable Publication Cut-off Date</form:label>
 					<form:radiobutton path="publicationCutoffDateUsed" value="true" />Yes
