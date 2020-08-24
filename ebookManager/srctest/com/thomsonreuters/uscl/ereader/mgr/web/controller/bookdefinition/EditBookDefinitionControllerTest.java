@@ -44,6 +44,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -113,7 +114,7 @@ public final class EditBookDefinitionControllerTest {
     private Map<String, List<DocumentTypeCode>> documentTypesByPublishers;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -1315,7 +1316,9 @@ public final class EditBookDefinitionControllerTest {
     @PowerMockIgnore("javax.management.*")
     @PrepareForTest(EditBookDefinitionController.class)
     public static class AdditionalTests {
-        private static String FILE_NAME = "fileName";
+        private static final String WRONG_PDF_FILE_EXTENSION_ERROR_MESSAGE = "Please upload file of type PDF";
+        private static String PDF_FILE_NAME = "fileName.pdf";
+        private static String IMG_NAME = "picture.img";
 
         @InjectMocks
         private EditBookDefinitionController editBookDefinitionController;
@@ -1330,31 +1333,39 @@ public final class EditBookDefinitionControllerTest {
         @Before
         public void setUp() {
             MockitoAnnotations.initMocks(editBookDefinitionController);
-            multipartFile = new MockMultipartFile(FILE_NAME, new byte[]{});
+            multipartFile = new MockMultipartFile(PDF_FILE_NAME, new byte[]{});
         }
 
         @SneakyThrows
         @Test
         public void testUploadPdf() {
             PowerMockito.when(nasFileSystem.getFrontMatterUsclPdfDirectory()).thenReturn(rootDir);
-            PowerMockito.whenNew(File.class).withArguments(rootDir, FILE_NAME)
+            PowerMockito.whenNew(File.class).withArguments(rootDir, PDF_FILE_NAME)
                     .thenReturn(file);
 
-            editBookDefinitionController.uploadPdf(multipartFile, FILE_NAME, CoreConstants.USCL_PUBLISHER_NAME);
+            editBookDefinitionController.uploadPdf(multipartFile, PDF_FILE_NAME, CoreConstants.USCL_PUBLISHER_NAME);
 
-            PowerMockito.verifyNew(File.class).withArguments(rootDir, FILE_NAME);
+            PowerMockito.verifyNew(File.class).withArguments(rootDir, PDF_FILE_NAME);
         }
 
         @SneakyThrows
         @Test
         public void testUploadCwPdf() {
             PowerMockito.when(nasFileSystem.getFrontMatterCwPdfDirectory()).thenReturn(rootDir);
-            PowerMockito.whenNew(File.class).withArguments(rootDir, FILE_NAME)
+            PowerMockito.whenNew(File.class).withArguments(rootDir, PDF_FILE_NAME)
                     .thenReturn(file);
 
-            editBookDefinitionController.uploadPdf(multipartFile, FILE_NAME, CoreConstants.CW_PUBLISHER_NAME);
+            editBookDefinitionController.uploadPdf(multipartFile, PDF_FILE_NAME, CoreConstants.CW_PUBLISHER_NAME);
 
-            PowerMockito.verifyNew(File.class).withArguments(rootDir, FILE_NAME);
+            PowerMockito.verifyNew(File.class).withArguments(rootDir, PDF_FILE_NAME);
+        }
+
+        @Test
+        public void testUploadPdfWrongFileExtension() {
+            ResponseEntity<?> response = editBookDefinitionController.uploadPdf(multipartFile, IMG_NAME,
+                    CoreConstants.USCL_PUBLISHER_NAME);
+
+            assertEquals(WRONG_PDF_FILE_EXTENSION_ERROR_MESSAGE, response.getBody());
         }
     }
 }
