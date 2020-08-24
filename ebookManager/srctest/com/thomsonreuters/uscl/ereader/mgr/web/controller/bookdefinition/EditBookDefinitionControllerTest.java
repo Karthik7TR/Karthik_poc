@@ -8,6 +8,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -26,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import lombok.SneakyThrows;
 import org.easymock.EasyMock;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +68,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -76,6 +80,13 @@ public final class EditBookDefinitionControllerTest {
         BindingResult.class.getName() + "." + EditBookDefinitionForm.FORM_NAME;
     private static final long BOOK_DEFINITION_ID = 1;
     private static final String CI_CONTENT = "cicontent";
+    private static final String SEQUENCE_NUM_1 = "1";
+    private static final String SELECTED_FRONT_MATTER_PREVIEW_PAGE = "1";
+    private static final String TOC_LABEL_1 = "Label 1";
+    private static final String SECTION_HEADING_1 = "Heading 1";
+    private static final String SECTION_TEXT_1 = "Section text 1";
+    private static final String TITLE_ID = "uscl/an/test";
+    private static final String EXPECTED_HTML = "html";
     private static List<KeywordTypeCode> KEYWORD_CODES = new ArrayList<>();
     private final KeywordTypeCode subject = new KeywordTypeCode();
 
@@ -307,24 +318,36 @@ public final class EditBookDefinitionControllerTest {
     public void testFrontMatterPreviewPost() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW);
         request.setMethod(HttpMethod.POST.name());
-        request.setParameter("titleId", "uscl/an/test");
-        request.setParameter("selectedFrontMatterPreviewPage", "1");
-        request.setParameter("frontMatters[0].sequenceNum", "1");
-        request.setParameter("frontMatters[0].pageTocLabel", "Label 1");
-        request.setParameter("frontMatters[0].frontMatterSections[0].sequenceNum", "1");
-        request.setParameter("frontMatters[0].frontMatterSections[0].sectionHeading", "Heading 1");
-        request.setParameter("frontMatters[0].frontMatterSections[0].sectionText", "Section text 1");
-        String expectedHtml = "html";
-        EasyMock.expect(mockCreateFrontMatterService
-                .getAdditionalFrontPage(EasyMock.anyObject(BookDefinition.class), EasyMock.anyLong()))
-                .andReturn(expectedHtml);
-        EasyMock.replay(mockCreateFrontMatterService);
+        request.setParameter("titleId", TITLE_ID);
+        request.setParameter("selectedFrontMatterPreviewPage", SELECTED_FRONT_MATTER_PREVIEW_PAGE);
+        request.setParameter("frontMatters[0].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[0].pageTocLabel", TOC_LABEL_1);
+        request.setParameter("frontMatters[0].frontMatterSections[0].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[0].frontMatterSections[0].sectionHeading", SECTION_HEADING_1);
+        request.setParameter("frontMatters[0].frontMatterSections[0].sectionText", SECTION_TEXT_1);
+        initCreateFrontMatterService();
 
         handlerAdapter.handle(request, response, controller);
 
-        Assert.assertEquals(expectedHtml, response.getContentAsString());
-        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
-        EasyMock.verify(mockCreateFrontMatterService);
+        assertionsAfterSuccessfulResponse();
+    }
+
+    @Test
+    public void testFrontMatterPreviewWithNullsPost() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("titleId", TITLE_ID);
+        request.setParameter("selectedFrontMatterPreviewPage", SELECTED_FRONT_MATTER_PREVIEW_PAGE);
+        request.setParameter("frontMatters[0].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[0].pageTocLabel", TOC_LABEL_1);
+        request.setParameter("frontMatters[0].frontMatterSections[1].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[0].frontMatterSections[1].sectionHeading", SECTION_HEADING_1);
+        request.setParameter("frontMatters[0].frontMatterSections[1].sectionText", SECTION_TEXT_1);
+        initCreateFrontMatterService();
+
+        handlerAdapter.handle(request, response, controller);
+
+        assertionsAfterSuccessfulResponse();
     }
 
     @Test
@@ -1301,6 +1324,39 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockEditBookDefinitionService.getPubTypes()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getBuckets()).andReturn(buckets);
         EasyMock.replay(mockEditBookDefinitionService);
+    }
+
+    @SneakyThrows
+    private void assertionsAfterSuccessfulResponse() {
+        Assert.assertEquals(EXPECTED_HTML, response.getContentAsString());
+        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+        EasyMock.verify(mockCreateFrontMatterService);
+    }
+
+    @SneakyThrows
+    private void initCreateFrontMatterService() {
+        EasyMock.expect(mockCreateFrontMatterService
+                .getAdditionalFrontPage(getBookDefinitionForFmPreview(), Long.valueOf(SELECTED_FRONT_MATTER_PREVIEW_PAGE)))
+                .andReturn(EXPECTED_HTML);
+        EasyMock.replay(mockCreateFrontMatterService);
+    }
+
+    @NotNull
+    private BookDefinition getBookDefinitionForFmPreview() {
+        final BookDefinition expectedBookDefinition = new BookDefinition();
+        final PublisherCode publisherCode = new PublisherCode();
+        publisherCode.setName(USCL_PUBLISHER_NAME);
+        expectedBookDefinition.setPublisherCodes(publisherCode);
+        final FrontMatterPage frontMatterPage = new FrontMatterPage();
+        frontMatterPage.setSequenceNum(Integer.valueOf(SEQUENCE_NUM_1));
+        frontMatterPage.setPageTocLabel(TOC_LABEL_1);
+        final FrontMatterSection frontMatterSection = new FrontMatterSection();
+        frontMatterSection.setSequenceNum(Integer.valueOf(SEQUENCE_NUM_1));
+        frontMatterSection.setSectionHeading(SECTION_HEADING_1);
+        frontMatterSection.setSectionText(SECTION_TEXT_1);
+        frontMatterPage.setFrontMatterSections(Collections.singletonList(frontMatterSection));
+        expectedBookDefinition.setFrontMatterPages(Collections.singletonList(frontMatterPage));
+        return expectedBookDefinition;
     }
 
     @Configuration

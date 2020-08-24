@@ -270,7 +270,10 @@ public class EditBookDefinitionController {
                     fmBookDef.setFullyQualifiedTitleId(Optional.ofNullable(form.getTitleId()).orElse(StringUtils.EMPTY));
                     final List<FrontMatterPage> pages = form.getFrontMatters().stream()
                             .filter(Objects::nonNull)
-                            .peek(item -> item.setId(Long.valueOf(item.getSequenceNum())))
+                            .peek(frontMatterPage -> {
+                                frontMatterPage.getFrontMatterSections().removeIf(Objects::isNull);
+                                frontMatterPage.setId(Long.valueOf(frontMatterPage.getSequenceNum()));
+                            })
                             .collect(Collectors.toList());
                     fmBookDef.setFrontMatterPages(pages);
                     final PublisherCode publisherCode = new PublisherCode();
