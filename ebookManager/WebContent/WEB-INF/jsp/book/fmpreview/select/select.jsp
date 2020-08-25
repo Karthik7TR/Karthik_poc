@@ -11,9 +11,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 
 <html>
-<%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
-<c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
-
 <head>
 <script>
 /**
@@ -21,7 +18,7 @@
  */
 function openStaticPreviewWindow(url, id, name) {
 	var queryString = 'id=' + id;
-	var win = window.open(url + '?' + queryString, name, '${winSpecs}');
+	var win = window.open(url + '?' + queryString, name);
 	win.focus();
 }
 </script>
@@ -44,7 +41,7 @@ ${fn:escapeXml(book.frontMatterTocLabel)}<br/>
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>', '${book.ebookDefinitionId}', 'titleWin')">Title Page</a><br/>
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>', '${book.ebookDefinitionId}', 'copyrightWin')">Copyright Page</a><br/>
 	<c:forEach items="${book.frontMatterPages}" var="page">
-		<a onclick="win=window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL%>?bookDefinitionId=${book.ebookDefinitionId}&frontMatterPageId=${page.id}', 'additionalWin', '${winSpecs}');win.focus()">
+		<a onclick="win=window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL%>?bookDefinitionId=${book.ebookDefinitionId}&frontMatterPageId=${page.id}', 'additionalWin');win.focus()">
 			${fn:escapeXml(page.pageTocLabel)}
 		</a><br/>
 	</c:forEach>
