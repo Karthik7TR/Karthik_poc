@@ -272,6 +272,7 @@ public class EditBookDefinitionController {
                             .filter(Objects::nonNull)
                             .peek(frontMatterPage -> {
                                 frontMatterPage.getFrontMatterSections().removeIf(Objects::isNull);
+                                frontMatterPage.getFrontMatterSections().forEach(section -> section.getPdfs().removeIf(Objects::isNull));
                                 frontMatterPage.setId(Long.valueOf(frontMatterPage.getSequenceNum()));
                             })
                             .collect(Collectors.toList());

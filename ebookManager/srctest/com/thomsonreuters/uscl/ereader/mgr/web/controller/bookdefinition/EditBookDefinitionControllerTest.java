@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -85,6 +86,8 @@ public final class EditBookDefinitionControllerTest {
     private static final String TOC_LABEL_1 = "Label 1";
     private static final String SECTION_HEADING_1 = "Heading 1";
     private static final String SECTION_TEXT_1 = "Section text 1";
+    private static final String PDF_LINK_TEXT_1 = "PDF Link text 1";
+    private static final String PDF_FILENAME_1 = "PDF Filename 1";
     private static final String TITLE_ID = "uscl/an/test";
     private static final String EXPECTED_HTML = "html";
     private static List<KeywordTypeCode> KEYWORD_CODES = new ArrayList<>();
@@ -325,6 +328,9 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("frontMatters[0].frontMatterSections[0].sequenceNum", SEQUENCE_NUM_1);
         request.setParameter("frontMatters[0].frontMatterSections[0].sectionHeading", SECTION_HEADING_1);
         request.setParameter("frontMatters[0].frontMatterSections[0].sectionText", SECTION_TEXT_1);
+        request.setParameter("frontMatters[0].frontMatterSections[0].pdfs[0].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[0].frontMatterSections[0].pdfs[0].pdfLinkText", PDF_LINK_TEXT_1);
+        request.setParameter("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename", PDF_FILENAME_1);
         initCreateFrontMatterService();
 
         handlerAdapter.handle(request, response, controller);
@@ -338,11 +344,14 @@ public final class EditBookDefinitionControllerTest {
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("titleId", TITLE_ID);
         request.setParameter("selectedFrontMatterPreviewPage", SELECTED_FRONT_MATTER_PREVIEW_PAGE);
-        request.setParameter("frontMatters[0].sequenceNum", SEQUENCE_NUM_1);
-        request.setParameter("frontMatters[0].pageTocLabel", TOC_LABEL_1);
-        request.setParameter("frontMatters[0].frontMatterSections[1].sequenceNum", SEQUENCE_NUM_1);
-        request.setParameter("frontMatters[0].frontMatterSections[1].sectionHeading", SECTION_HEADING_1);
-        request.setParameter("frontMatters[0].frontMatterSections[1].sectionText", SECTION_TEXT_1);
+        request.setParameter("frontMatters[1].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[1].pageTocLabel", TOC_LABEL_1);
+        request.setParameter("frontMatters[1].frontMatterSections[1].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[1].frontMatterSections[1].sectionHeading", SECTION_HEADING_1);
+        request.setParameter("frontMatters[1].frontMatterSections[1].sectionText", SECTION_TEXT_1);
+        request.setParameter("frontMatters[1].frontMatterSections[1].pdfs[1].sequenceNum", SEQUENCE_NUM_1);
+        request.setParameter("frontMatters[1].frontMatterSections[1].pdfs[1].pdfLinkText", PDF_LINK_TEXT_1);
+        request.setParameter("frontMatters[1].frontMatterSections[1].pdfs[1].pdfFilename", PDF_FILENAME_1);
         initCreateFrontMatterService();
 
         handlerAdapter.handle(request, response, controller);
@@ -1354,6 +1363,11 @@ public final class EditBookDefinitionControllerTest {
         frontMatterSection.setSequenceNum(Integer.valueOf(SEQUENCE_NUM_1));
         frontMatterSection.setSectionHeading(SECTION_HEADING_1);
         frontMatterSection.setSectionText(SECTION_TEXT_1);
+        final FrontMatterPdf frontMatterPdf = new FrontMatterPdf();
+        frontMatterPdf.setSequenceNum(Integer.valueOf(SEQUENCE_NUM_1));
+        frontMatterPdf.setPdfLinkText(PDF_LINK_TEXT_1);
+        frontMatterPdf.setPdfFilename(PDF_FILENAME_1);
+        frontMatterSection.setPdfs(Collections.singletonList(frontMatterPdf));
         frontMatterPage.setFrontMatterSections(Collections.singletonList(frontMatterSection));
         expectedBookDefinition.setFrontMatterPages(Collections.singletonList(frontMatterPage));
         return expectedBookDefinition;
