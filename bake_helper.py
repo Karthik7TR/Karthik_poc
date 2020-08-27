@@ -38,6 +38,34 @@ def deepset(dict_, item, *path):
     for key in path[:-1]: dict_ = dict_.setdefault(key, {})
     dict_[path[-1]] = item
 
+def assume_role(role_arn, region_name=None, session_name=None, time=900):
+    """
+    Create a new session based on the given role.
+    """
+    sts = boto3.client("sts")
+    session_name = session_name or "CumulusAssumedRole"
+    credentials = sts.assume_role(RoleArn=role_arn, RoleSessionName=session_name, DurationSeconds=time,)
+    credentials = credentials["Credentials"]
+    return boto3.Session(
+        aws_access_key_id=credentials["AccessKeyId"],
+        aws_secret_access_key=credentials["SecretAccessKey"],
+        aws_session_token=credentials["SessionToken"],
+        region_name=region_name,
+    )
+
+def get_ecr_client(asset_id, account, region):
+    """
+    Return a client(Poweruser2) with which to enable ecr scanning.
+    """
+    power_user_arn = f"arn:aws:iam::{account}:role/human-role/a{asset_id}-PowerUser2"
+    assumed_session = assume_role(
+        role_arn=power_user_arn,
+        region_name=region,
+        session_name="EcrScanning",
+        time=15 * 60,  # 15 minutes - Minimum time for session
+    )
+    return assumed_session.client("ecr")
+
 # Load deployspec
 deployspec_file = pathlib.Path("cumulus-deployspec.yaml")
 deployspec = yaml.safe_load(deployspec_file.read_text())
@@ -49,6 +77,7 @@ for env, env_values in deployspec.items():
 
     env_acc = env_values.get("AccountId", defaults.get("AccountId"))
     env_region = env_values.get("AccountRegion", defaults.get("AccountRegion"))
+    asset_id = env_values.get("AssetId", defaults.get("AssetId"))
 
     # Log in to relevant ECR for account+region
     ecr = boto3.client("ecr", region_name=env_region)
@@ -69,5 +98,14 @@ for env, env_values in deployspec.items():
             raise ValueError("An error occurred when pushing the image.")
 
     deepset(env_values, image_uri, *update_path)
+
+    # Manual start image scan
+    ecr_client = get_ecr_client(asset_id, env_acc, env_region)
+    ecr_client.start_image_scan(
+        repositoryName=image_name,
+        imageId={
+            'imageTag': str(tag)
+        }
+    )
 
 deployspec_file.write_text(yaml.dump(deployspec))
