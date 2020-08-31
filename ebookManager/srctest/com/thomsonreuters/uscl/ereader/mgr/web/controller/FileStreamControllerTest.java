@@ -110,7 +110,7 @@ public final class FileStreamControllerTest {
         initMock(true);
         PowerMockito.when(nasFileSystem.getFrontMatterImagesDirectory()).thenReturn(rootDir);
 
-        controller.getFrontMatterImage(resourceName, request, response);
+        controller.getFrontMatterImagePreview(resourceName, request, response);
 
         verifyWriteContent(IMAGE_FILE_TYPE, fileInputStream);
     }
@@ -120,7 +120,7 @@ public final class FileStreamControllerTest {
         initMock(true);
         PowerMockito.when(nasFileSystem.getFrontMatterCssDirectory()).thenReturn(rootDir);
 
-        controller.getFrontMatterCss(resourceName, request, response);
+        controller.getFrontMatterCssPreview(resourceName, request, response);
 
         verifyWriteContent(CSS_FILE_TYPE, fileInputStream);
     }
@@ -147,7 +147,7 @@ public final class FileStreamControllerTest {
         initMock(true);
         initFile(when(nasFileSystem.getFrontMatterUsclPdfDirectory()), rootDir, file, true);
 
-        controller.getFrontMatterPdf(resourceName, CoreConstants.USCL_PUBLISHER_NAME, request, response);
+        controller.getFrontMatterPdfPreview(resourceName, CoreConstants.USCL_PUBLISHER_NAME, request, response);
 
         verifyWriteContent(PDF_FILE_TYPE, fileInputStream);
     }
@@ -157,7 +157,7 @@ public final class FileStreamControllerTest {
         initMock(true);
         initFile(when(nasFileSystem.getFrontMatterUsclPdfDirectory()), rootDir, file, false);
 
-        controller.getFrontMatterPdf(resourceName, CoreConstants.USCL_PUBLISHER_NAME, request, response);
+        controller.getFrontMatterPdfPreview(resourceName, CoreConstants.USCL_PUBLISHER_NAME, request, response);
 
         verifyError();
     }
@@ -167,7 +167,7 @@ public final class FileStreamControllerTest {
         initMock(true);
         initFile(when(nasFileSystem.getFrontMatterCwPdfDirectory()), rootDir, file, true);
 
-        controller.getFrontMatterPdf(resourceName, CoreConstants.CW_PUBLISHER_NAME, request, response);
+        controller.getFrontMatterPdfPreview(resourceName, CoreConstants.CW_PUBLISHER_NAME, request, response);
 
         verifyWriteContent(PDF_FILE_TYPE, fileInputStream);
     }
@@ -178,7 +178,7 @@ public final class FileStreamControllerTest {
         initFile(when(nasFileSystem.getFrontMatterUsclPdfDirectory()), rootDir, file, true);
         initFile(when(nasFileSystem.getFrontMatterCwPdfDirectory()), rootDir2, file2, false);
 
-        controller.getFrontMatterPdf(resourceName, CoreConstants.CW_PUBLISHER_NAME, request, response);
+        controller.getFrontMatterPdfPreview(resourceName, CoreConstants.CW_PUBLISHER_NAME, request, response);
 
         verifyWriteContent(PDF_FILE_TYPE, fileInputStream);
     }
@@ -189,7 +189,7 @@ public final class FileStreamControllerTest {
         initFile(when(nasFileSystem.getFrontMatterUsclPdfDirectory()), rootDir, file, false);
         initFile(when(nasFileSystem.getFrontMatterCwPdfDirectory()), rootDir2, file2, false);
 
-        controller.getFrontMatterPdf(resourceName, CoreConstants.CW_PUBLISHER_NAME, request, response);
+        controller.getFrontMatterPdfPreview(resourceName, CoreConstants.CW_PUBLISHER_NAME, request, response);
 
         verifyError();
     }
