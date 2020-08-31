@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
@@ -74,8 +75,8 @@ public class TestConfig {
         return EasyMock.createMock(BookDefinitionLockService.class);
     }
     @Bean
-    public CreateFrontMatterService createFrontMatterService() {
-        return EasyMock.createMock(CreateFrontMatterService.class);
+    public FrontMatterPreviewService frontMatterPreviewService() {
+        return EasyMock.createMock(FrontMatterPreviewService.class);
     }
     @Bean
     public MiscConfigSyncService miscConfigSyncService() {

@@ -5,7 +5,7 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
-import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import org.easymock.EasyMock;
@@ -25,7 +25,7 @@ public final class FmPreviewControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private BookDefinitionService mockBookDefinitionService;
-    private CreateFrontMatterService mockFrontMatterService;
+    private FrontMatterPreviewService mockFrontMatterService;
     private BookDefinition mockBookDef;
     private FmPreviewController controller;
     private HandlerAdapter handlerAdapter;
@@ -35,7 +35,7 @@ public final class FmPreviewControllerTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
-        mockFrontMatterService = EasyMock.createMock(CreateFrontMatterService.class);
+        mockFrontMatterService = EasyMock.createMock(FrontMatterPreviewService.class);
         mockBookDef = EasyMock.createMock(BookDefinition.class);
         handlerAdapter = new AnnotationMethodHandlerAdapter();
         controller = new FmPreviewController(mockBookDefinitionService, mockFrontMatterService);
@@ -88,25 +88,25 @@ public final class FmPreviewControllerTest {
 
     @Test
     public void testTitleStaticContent() throws Exception {
-        EasyMock.expect(mockFrontMatterService.getTitlePage(mockBookDef)).andReturn(HTML);
+        EasyMock.expect(mockFrontMatterService.getTitlePagePreview(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE);
     }
 
     @Test
     public void testCopyrightStaticContent() throws Exception {
-        EasyMock.expect(mockFrontMatterService.getCopyrightPage(mockBookDef)).andReturn(HTML);
+        EasyMock.expect(mockFrontMatterService.getCopyrightPagePreview(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT);
     }
 
     @Test
     public void testResearchStaticContent() throws Exception {
-        EasyMock.expect(mockFrontMatterService.getResearchAssistancePage(mockBookDef)).andReturn(HTML);
+        EasyMock.expect(mockFrontMatterService.getResearchAssistancePagePreview(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH);
     }
 
     @Test
     public void testWestlawNextStaticContent() throws Exception {
-        EasyMock.expect(mockFrontMatterService.getWestlawNextPage(mockBookDef)).andReturn(HTML);
+        EasyMock.expect(mockFrontMatterService.getWestlawNextPagePreview(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT);
     }
 
@@ -122,7 +122,7 @@ public final class FmPreviewControllerTest {
             EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID))
                 .andReturn(mockBookDef)
                 .times(2);
-            EasyMock.expect(mockFrontMatterService.getTitlePage(mockBookDef))
+            EasyMock.expect(mockFrontMatterService.getTitlePagePreview(mockBookDef))
                 .andThrow(new EBookFrontMatterGenerationException("Bogus junit exception"));
             EasyMock.replay(mockBookDefinitionService);
             EasyMock.replay(mockFrontMatterService);
@@ -152,7 +152,7 @@ public final class FmPreviewControllerTest {
         try {
             EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID))
                 .andReturn(mockBookDef);
-            EasyMock.expect(mockFrontMatterService.getAdditionalFrontPage(mockBookDef, frontMatterPageId))
+            EasyMock.expect(mockFrontMatterService.getAdditionalFrontPagePreview(mockBookDef, frontMatterPageId))
                 .andReturn(HTML);
             EasyMock.replay(mockBookDefinitionService);
             EasyMock.replay(mockFrontMatterService);

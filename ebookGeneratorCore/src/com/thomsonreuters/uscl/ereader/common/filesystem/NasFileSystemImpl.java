@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.EBOOK_GENERATOR_CSS;
+
 @Getter
 @Component(value = "nasFileSystem")
 public class NasFileSystemImpl implements NasFileSystem {
-    private static final String EBOOK_GENERATOR_CSS = "ebook_generator.css";
     @Value("${static.content.dir}")
     private File staticContentDirectory;
     @Value("${cover.images.dir}")

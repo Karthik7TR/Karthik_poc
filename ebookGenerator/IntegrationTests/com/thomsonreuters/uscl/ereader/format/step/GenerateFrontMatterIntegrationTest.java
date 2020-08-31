@@ -4,6 +4,8 @@ import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.BaseFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.BaseFrontMatterServiceImpl;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl;
 import org.jetbrains.annotations.NotNull;
@@ -94,9 +96,14 @@ public class GenerateFrontMatterIntegrationTest {
         public GenerateFrontMatterHTMLPages generateFrontMatterHTMLPages() {
             return new GenerateFrontMatterHTMLPages();
         }
+
+        @Bean
+        public BaseFrontMatterService baseFrontMatterService() {
+            return new BaseFrontMatterServiceImpl();
+        }
         @Bean
         public CreateFrontMatterService createFrontMatterService() {
-            return new CreateFrontMatterServiceImpl();
+            return new CreateFrontMatterServiceImpl(baseFrontMatterService());
         }
         @Bean
         public PdfToImgConverter pdfToImgConverter() {

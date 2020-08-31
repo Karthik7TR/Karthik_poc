@@ -21,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
-import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
@@ -119,7 +119,7 @@ public final class EditBookDefinitionControllerTest {
     @Autowired
     private PrintComponentsCompareController mockPrintComponentsCompareController;
     @Autowired
-    private CreateFrontMatterService mockCreateFrontMatterService;
+    private FrontMatterPreviewService mockFrontMatterPreviewService;
 
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
@@ -146,7 +146,7 @@ public final class EditBookDefinitionControllerTest {
                 mockLockService,
                 mockMiscConfigService,
                 mockPrintComponentsCompareController,
-                mockCreateFrontMatterService
+                mockFrontMatterPreviewService
         );
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
         subject.setId(4L);
@@ -376,16 +376,16 @@ public final class EditBookDefinitionControllerTest {
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("selectedFrontMatterPreviewPage", "5");
         String expectedErrorMessage = "Could not retrieve additional front matter page with id: 5";
-        EasyMock.expect(mockCreateFrontMatterService
-                .getAdditionalFrontPage(EasyMock.anyObject(BookDefinition.class), EasyMock.anyLong()))
+        EasyMock.expect(mockFrontMatterPreviewService
+                .getAdditionalFrontPagePreview(EasyMock.anyObject(BookDefinition.class), EasyMock.anyLong()))
                 .andThrow(new EBookFrontMatterGenerationException(expectedErrorMessage));
-        EasyMock.replay(mockCreateFrontMatterService);
+        EasyMock.replay(mockFrontMatterPreviewService);
 
         handlerAdapter.handle(request, response, controller);
 
         Assert.assertEquals(expectedErrorMessage, response.getContentAsString());
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-        EasyMock.verify(mockCreateFrontMatterService);
+        EasyMock.verify(mockFrontMatterPreviewService);
     }
 
 
@@ -1339,15 +1339,15 @@ public final class EditBookDefinitionControllerTest {
     private void assertionsAfterSuccessfulResponse() {
         Assert.assertEquals(EXPECTED_HTML, response.getContentAsString());
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
-        EasyMock.verify(mockCreateFrontMatterService);
+        EasyMock.verify(mockFrontMatterPreviewService);
     }
 
     @SneakyThrows
     private void initCreateFrontMatterService() {
-        EasyMock.expect(mockCreateFrontMatterService
-                .getAdditionalFrontPage(getBookDefinitionForFmPreview(), Long.valueOf(SELECTED_FRONT_MATTER_PREVIEW_PAGE)))
+        EasyMock.expect(mockFrontMatterPreviewService
+                .getAdditionalFrontPagePreview(getBookDefinitionForFmPreview(), Long.valueOf(SELECTED_FRONT_MATTER_PREVIEW_PAGE)))
                 .andReturn(EXPECTED_HTML);
-        EasyMock.replay(mockCreateFrontMatterService);
+        EasyMock.replay(mockFrontMatterPreviewService);
     }
 
     @NotNull

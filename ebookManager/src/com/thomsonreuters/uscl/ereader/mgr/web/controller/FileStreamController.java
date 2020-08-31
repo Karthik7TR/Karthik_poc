@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -56,24 +57,24 @@ public class FileStreamController {
         retrieveFile(request, response, nasFileSystem.getCoverImagesDirectory().getAbsolutePath(), imageName, "image/png");
     }
 
-    @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_IMAGE, method = RequestMethod.GET)
-    public void getFrontMatterImage(
+    @RequestMapping(value = CoreConstants.MVC_FRONT_MATTER_IMAGE_PREVIEW, method = RequestMethod.GET)
+    public void getFrontMatterImagePreview(
         @RequestParam("imageName") final String imageName,
         final HttpServletRequest request,
         final HttpServletResponse response) {
         retrieveFile(request, response, nasFileSystem.getFrontMatterImagesDirectory().getAbsolutePath(), imageName, "image/png");
     }
 
-    @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_CSS, method = RequestMethod.GET)
-    public void getFrontMatterCss(
+    @RequestMapping(value = CoreConstants.MVC_FRONT_MATTER_CSS_PREVIEW, method = RequestMethod.GET)
+    public void getFrontMatterCssPreview(
         @RequestParam("cssName") final String cssName,
         final HttpServletRequest request,
         final HttpServletResponse response) {
         retrieveFile(request, response, nasFileSystem.getFrontMatterCssDirectory().getAbsolutePath(), cssName, "text/css");
     }
 
-    @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PDF, method = RequestMethod.GET)
-    public void getFrontMatterPdf(
+    @RequestMapping(value = CoreConstants.MVC_FRONT_MATTER_PDF_PREVIEW, method = RequestMethod.GET)
+    public void getFrontMatterPdfPreview(
             @RequestParam("pdfName") @Valid @NotBlank(message = "pdfName may not be blank") final String pdfName,
             @RequestParam("publisher") @Valid @NotBlank(message = "publisher may not be blank") final String publisher,
             final HttpServletRequest request,

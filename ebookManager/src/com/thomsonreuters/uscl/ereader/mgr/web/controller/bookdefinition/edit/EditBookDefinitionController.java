@@ -38,7 +38,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
-import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
@@ -95,7 +95,7 @@ public class EditBookDefinitionController {
     @Autowired
     private BookDefinitionLockService bookLockService;
     @Autowired
-    private CreateFrontMatterService frontMatterService;
+    private FrontMatterPreviewService frontMatterPreviewService;
     @Autowired
     private MiscConfigSyncService miscConfigService;
     @Autowired
@@ -252,7 +252,7 @@ public class EditBookDefinitionController {
         final Long frontMatterPreviewPageId = form.getSelectedFrontMatterPreviewPage();
         if ((frontMatterPreviewPageId != null) && (bindingResult.getErrorCount() == 1)) {
             final BookDefinition fmBookDef = createFrontMatterPreviewBookDefinitionFromForm(form);
-            final String html = frontMatterService.getAdditionalFrontPage(fmBookDef, frontMatterPreviewPageId);
+            final String html = frontMatterPreviewService.getAdditionalFrontPagePreview(fmBookDef, frontMatterPreviewPageId);
             //model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
             // Place the preview content on the session so that it can be fetched and used when the popup preview window is opened
             httpSession.setAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
@@ -281,7 +281,7 @@ public class EditBookDefinitionController {
                     publisherCode.setName(Optional.ofNullable(form.getPublisher()).orElse(USCL_PUBLISHER_NAME));
                     fmBookDef.setPublisherCodes(publisherCode);
                     try {
-                        return new ResponseEntity<>(frontMatterService.getAdditionalFrontPage(fmBookDef, frontMatterPreviewPageId), HttpStatus.OK);
+                        return new ResponseEntity<>(frontMatterPreviewService.getAdditionalFrontPagePreview(fmBookDef, frontMatterPreviewPageId), HttpStatus.OK);
                     } catch (EBookFrontMatterGenerationException e) {
                         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
                     }

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
-import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
@@ -31,12 +31,12 @@ public class FmPreviewController {
     private static final String BOOK_FIND_FAIL_MESG = "Could not find book definition with ID %d";
 
     private final BookDefinitionService bookDefinitionService;
-    private final CreateFrontMatterService frontMatterService;
+    private final FrontMatterPreviewService frontMatterService;
 
     @Autowired
     public FmPreviewController(
         final BookDefinitionService bookDefinitionService,
-        final CreateFrontMatterService frontMatterService) {
+        final FrontMatterPreviewService frontMatterService) {
         this.bookDefinitionService = bookDefinitionService;
         this.frontMatterService = frontMatterService;
     }
@@ -96,7 +96,7 @@ public class FmPreviewController {
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView viewTitleContent(@RequestParam("id") final Long id, final Model model) throws Exception {
-        final Method method = frontMatterService.getClass().getMethod("getTitlePage", BookDefinition.class);
+        final Method method = frontMatterService.getClass().getMethod("getTitlePagePreview", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "Title", model);
     }
 
@@ -109,16 +109,11 @@ public class FmPreviewController {
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView viewCopyrightContent(@RequestParam("id") final Long id, final Model model) throws Exception {
-        final Method method = frontMatterService.getClass().getMethod("getCopyrightPage", BookDefinition.class);
+        final Method method = frontMatterService.getClass().getMethod("getCopyrightPagePreview", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "Copyright", model);
     }
 
-    /**
-     * Display preview of additional front matter.
-     *
-     * @param id
-     *            book definition primary key
-     */
+
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView viewAdditionalFrontMatterContent(
@@ -135,7 +130,7 @@ public class FmPreviewController {
             return previewContentSelection(bookDefinitionId, model);
         }
         try {
-            final String html = frontMatterService.getAdditionalFrontPage(bookDef, frontMatterPageId);
+            final String html = frontMatterService.getAdditionalFrontPagePreview(bookDef, frontMatterPageId);
             model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
         } catch (final EBookFrontMatterGenerationException e) {
             final String errMesg = String.format(
@@ -161,7 +156,7 @@ public class FmPreviewController {
     public ModelAndView viewResearchAssistanceContent(@RequestParam("id") final Long id, final Model model)
         throws Exception {
         final Method method =
-            frontMatterService.getClass().getMethod("getResearchAssistancePage", BookDefinition.class);
+            frontMatterService.getClass().getMethod("getResearchAssistancePagePreview", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "Research Assistance", model);
     }
 
@@ -174,7 +169,7 @@ public class FmPreviewController {
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView viewWestlawNextContent(@RequestParam("id") final Long id, final Model model) throws Exception {
-        final Method method = frontMatterService.getClass().getMethod("getWestlawNextPage", BookDefinition.class);
+        final Method method = frontMatterService.getClass().getMethod("getWestlawNextPagePreview", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "WestlawNext", model);
     }
 
