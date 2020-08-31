@@ -44,6 +44,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_TOC;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_GUIDS_FILE;
@@ -54,7 +55,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_MISSING_IMAGE_GUIDS_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_STATIC_IMAGE_MANIFEST_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.TOC_FILE;
 
 /**
  * Perform job setup for creating an ebook and place data into the JobExecutionContext for
@@ -141,7 +142,7 @@ public class InitializeTask extends AbstractSbTasklet {
             final File gatherDirectory = newFile(workDirectory, GATHER_DIR);
             final File tocDirectory = newFile(gatherDirectory, GATHER_TOC_DIR);
             final File docsDirectory = newFile(gatherDirectory, GATHER_DOCS_DIR);
-            final File tocFile = newFile(tocDirectory, GATHER_TOC_FILE);
+            final File tocFile = newFile(tocDirectory, TOC_FILE);
             final File docsMetadataDirectory = newFile(docsDirectory, GATHER_DOCS_METADATA_DIR);
             final File docsGuidsFile = newFile(gatherDirectory, GATHER_DOCS_GUIDS_FILE);
             final File docsMissingGuidsFile = newFile(gatherDirectory, GATHER_DOC_MISSING_GUIDS_FILE);
@@ -161,6 +162,8 @@ public class InitializeTask extends AbstractSbTasklet {
 
             // Create format directories
             final File formatDirectory = newFile(workDirectory, FORMAT_DIR);
+            final File transformTocDirectory = newFile(formatDirectory, FORMAT_TRANSFORM_TOC);
+            final File transformedToc = newFile(transformTocDirectory, TOC_FILE);
             final File formatImageMetadataDirectory = newFile(formatDirectory, FORMAT_IMAGE_METADATA_DIR);
             final File transformCharSequencesDir = newFile(formatDirectory, FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR);
             final File preprocessDirectory = newFile(formatDirectory, FORMAT_PREPROCESS_DIR);
@@ -172,6 +175,7 @@ public class InitializeTask extends AbstractSbTasklet {
             final File htmlWrapperDirectory = newFile(formatDirectory, FORMAT_HTML_WRAPPER_DIR);
             final File splitEbookDirectory = newFile(formatDirectory, FORMAT_SPLIT_EBOOK_DIR);
             formatDirectory.mkdir();
+            transformTocDirectory.mkdir();
             preprocessDirectory.mkdir();
             transformedDirectory.mkdir();
             formatImageMetadataDirectory.mkdir();
@@ -213,6 +217,8 @@ public class InitializeTask extends AbstractSbTasklet {
                 .putString(JobExecutionKey.GATHER_DOCS_METADATA_DIR, docsMetadataDirectory.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.GATHER_TOC_DIR, tocDirectory.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.GATHER_TOC_FILE, tocFile.getAbsolutePath());
+            jobExecutionContext.putString(JobExecutionKey.TRANSFORMED_TOC_DIR, transformTocDirectory.getAbsolutePath());
+            jobExecutionContext.putString(JobExecutionKey.TRANSFORMED_TOC_FILE, transformedToc.getAbsolutePath());
 
             jobExecutionContext.putString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsGuidsFile.getAbsolutePath());
 

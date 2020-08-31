@@ -37,6 +37,8 @@ public class JobExecutionKey {
     /** The TOC XML file */
     public static final String GATHER_TOC_DIR = "gatherTocDir";
     public static final String GATHER_TOC_FILE = "gatherTocFile";
+    public static final String TRANSFORMED_TOC_DIR = "transformedTocDir";
+    public static final String TRANSFORMED_TOC_FILE = "transformedTocFile";
 
     public static final String FORMAT_SPLITTOC_FILE = "formatSplitTocFile";
 

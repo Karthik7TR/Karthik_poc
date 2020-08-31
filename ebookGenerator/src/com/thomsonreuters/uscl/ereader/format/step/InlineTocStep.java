@@ -37,7 +37,7 @@ public class InlineTocStep extends BookStepImpl {
 
     private void generateInlineToc() {
         final boolean pages = getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS);
-        final File tocXmlFile = gatherFileSystem.getGatherTocFile(this);
+        final File tocXmlFile = formatFileSystem.getTransformedToc(this);
         final File outputDir = formatFileSystem.getHtmlWrapperDirectory(this);
         final long jobId = getJobInstanceId();
 

@@ -100,6 +100,12 @@
 		<!-- Fetch images from Image Vertical REST service -->
 		<step id="getDynamicImages">
 			<tasklet ref="getDynamicImagesTask"/>
+			<next on="COMPLETED" to="transformToc"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<step id="transformToc">
+			<tasklet ref="transformTocXmlTask"/>
 			<next on="COMPLETED" to="generateFrontMatterHTML"/>
 			<fail on="FAILED"/>
 		</step>
@@ -314,7 +320,7 @@
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask" 
                 scope="step" parent="bookStep"/>
 	<beans:bean id="getStaticImagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" />
-
+	<beans:bean id="transformTocXmlTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.TransformToc"/>
 	<beans:bean id="parseImageGuidsTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:xmlImageParserService-ref="xmlImageParserService"/>

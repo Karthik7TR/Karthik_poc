@@ -6,6 +6,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_PDF_IMAGES_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
@@ -13,8 +14,9 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_CHAR_SEQUENCES_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORM_TOC;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.TOC_FILE;
 import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getDir;
 import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getFile;
 
@@ -44,6 +46,18 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @Override
     public File getFormatDirectory(@NotNull final BookStep step) {
         return new File(bookFileSystem.getWorkDirectory(step), FORMAT_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getTransformTocDirectory(@NotNull BookStep step) {
+        return new File(getFormatDirectory(step), FORMAT_TRANSFORM_TOC.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getTransformedToc(@NotNull BookStep step) {
+        return new File(getTransformTocDirectory(step), TOC_FILE.getName());
     }
 
     @NotNull

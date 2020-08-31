@@ -10,6 +10,7 @@ import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
 import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -45,6 +47,14 @@ public class JsoupService {
     private void applyXmlSettings(final Document doc) {
         doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
         doc.outputSettings().escapeMode(EscapeMode.xhtml);
+    }
+
+    public void transformCharSequencesInElements(final Elements elements, final String target, final String replacement) {
+        elements.stream()
+                .map(Element::textNodes)
+                .flatMap(Collection::stream)
+                .forEach(textNode -> textNode.text(textNode.text()
+                        .replaceAll(target, replacement)));
     }
 
     public void saveDocument(final File destDir, final String fileName, final Element doc) {

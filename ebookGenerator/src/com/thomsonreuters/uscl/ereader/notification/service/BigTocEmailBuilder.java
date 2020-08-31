@@ -49,7 +49,7 @@ public class BigTocEmailBuilder extends AbstractEmailBuilder {
 
     int getTotalSplitParts() {
         final BookDefinition bookDefinition = step.getBookDefinition();
-        final String tocXmlFile = step.getJobExecutionPropertyString(JobExecutionKey.GATHER_TOC_FILE);
+        final String tocXmlFile = step.getJobExecutionPropertyString(JobExecutionKey.TRANSFORMED_TOC_FILE);
         final Integer tocNodeCount = step.getTocNodeCount();
         final Long jobInstanceId = step.getJobInstanceId();
 

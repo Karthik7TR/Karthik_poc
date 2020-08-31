@@ -15,6 +15,7 @@ public enum NortTocCwbFileSystemConstants {
     GATHER_IMAGES_STATIC_DIR("Static"),
 
     FORMAT_FRONT_MATTER_PDF_IMAGES_DIR("FrontMatterPdfImages"),
+    FORMAT_TRANSFORM_TOC("00.TransformToc"),
     FORMAT_FRONT_MATTER_HTML_DIR("01.FrontMatterHTML"),
     FORMAT_IMAGE_METADATA_DIR("02.ImageMetadata"),
     FORMAT_PREPROCESS_DIR("03.Preprocess"),
@@ -30,7 +31,7 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_JSOUP_TRANSFORMATION_DIR("11.JsoupTransformations"),
     FORMAT_SPLIT_EBOOK_DIR("12.splitEbook"),
 
-    GATHER_TOC_FILE("toc.xml"),
+    TOC_FILE("toc.xml"),
     GATHER_INDEX_TOC_FILE("indexDocsSingle.xml"),
     GATHER_DOCS_METADATA_DIR("Metadata"),
     GATHER_DOCS_GUIDS_FILE("docs-guids.txt"),

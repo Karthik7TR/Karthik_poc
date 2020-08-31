@@ -90,7 +90,7 @@ public class GenerateTitleMetadata extends BookStepImpl {
 
         final File titleXml = assembleFileSystem.getTitleXml(this);
 
-        final File tocXmlFile = gatherFileSystem.getGatherTocFile(this);
+        final File tocXmlFile = formatFileSystem.getTransformedToc(this);
         String status = "Completed";
 
         try (OutputStream titleManifest = new FileOutputStream(titleXml);

@@ -25,6 +25,12 @@ public interface FormatFileSystem {
     @NotNull
     File getFormatDirectory(@NotNull BookStep step);
 
+    @NotNull
+    File getTransformTocDirectory(@NotNull BookStep step);
+
+    @NotNull
+    File getTransformedToc(@NotNull BookStep step);
+
     /**
      * Returns image metadata directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

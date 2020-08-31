@@ -77,7 +77,7 @@ public final class BigTocEmailBuilderTest {
     public void shouldThrowExceptionIfCannotReadFile() throws IOException {
         //given
         givenAll();
-        given(step.getJobExecutionPropertyString(JobExecutionKey.GATHER_TOC_FILE)).willReturn(root.getAbsolutePath());
+        given(step.getJobExecutionPropertyString(JobExecutionKey.TRANSFORMED_TOC_FILE)).willReturn(root.getAbsolutePath());
         thrown.expect(RuntimeException.class);
         //when
         bigTocEmailBuilder.getAdditionalBodyPart();
@@ -98,7 +98,7 @@ public final class BigTocEmailBuilderTest {
                 anyBoolean())).willReturn(Collections.EMPTY_LIST);
         final File testFile = new File(root, "test.txt");
         testFile.createNewFile();
-        given(step.getJobExecutionPropertyString(JobExecutionKey.GATHER_TOC_FILE))
+        given(step.getJobExecutionPropertyString(JobExecutionKey.TRANSFORMED_TOC_FILE))
             .willReturn(testFile.getAbsolutePath());
         given(step.getTocNodeCount()).willReturn(1);
         given(step.getThresholdValue()).willReturn(3);
