@@ -155,6 +155,32 @@ public class CiteQueryAdapter {
             param5);
     }
 
+    public String GetCiteQueryLink(
+            final Node linkElement,
+            final String originatingDoc,
+            final String keyText,
+            final String sourceCite,
+            final String param1,
+            final String param2,
+            final String param3,
+            final String param4,
+            final String param5,
+            final String param6,
+            final String param7) {
+        return this.getCiteQueryLinkIntermediary(
+                linkElement,
+                originatingDoc,
+                keyText,
+                sourceCite,
+                param1,
+                param2,
+                param3,
+                param4,
+                param5,
+                param6,
+                param7);
+    }
+
     public void setHostname(final String hostname) {
         CiteQueryAdapter.HOSTNAME = hostname;
     }
