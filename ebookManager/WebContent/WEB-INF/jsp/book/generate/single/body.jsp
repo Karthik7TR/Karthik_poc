@@ -74,25 +74,22 @@
 
   }
 
-  function checkPublishingCutoffDate(){
+  function checkPublishingCutoffDate() {
+  	const  publishingCutOffDate = $('publishingCutOffDate').innerHTML;
+  	let confirmed = true;
 
-	  var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
-	  var confirmed = true;
-
-		if (publishingCutOffDate!=""){
-
-			var publishingCutOffDateGreaterOrEqualToday = document.getElementById("publishingCutOffDateGreaterOrEqualToday").innerHTML;
-
-			if (publishingCutOffDateGreaterOrEqualToday=="N"){
-				alert("Cannot generate book: Publishing cut off date must be greater or equal today.");
-				confirmed = false;
-			}
-			else{
-				confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
-			}
+	if (publishingCutOffDate !== '') {
+		const publishingCutOffDateGreaterThanToday = $('publishingCutOffDateGreaterThanToday').innerHTML;
+		if (publishingCutOffDateGreaterThanToday === 'N') {
+			alert('Cannot generate book: Publishing cut off date must be greater than today.');
+			confirmed = false;
 		}
+		else {
+			confirmed = confirm('Generate with Publishing cutoff date: ' + publishingCutOffDate);
+		}
+	}
 
-		return confirmed;
+	return confirmed;
   }
 
   const warningTypes = {
@@ -430,7 +427,7 @@ $(document).ready(function() {
 		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>
 		  	<p id="isComplete">${isComplete}</p>
 		 	<p id="isbn">${isbn}</p>
-		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
+		  	<p id="publishingCutOffDateGreaterThanToday">${publishingCutOffDateGreaterThanToday}</p>
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
 		  	<p id="isNewSUB">${isNewSUB}</p>
 		 </div>

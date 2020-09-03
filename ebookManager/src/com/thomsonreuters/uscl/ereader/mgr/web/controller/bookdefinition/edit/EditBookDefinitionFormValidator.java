@@ -37,6 +37,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,12 +50,14 @@ import java.util.stream.Collectors;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.ALL_PUBLISHERS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CW_PUBLISHER_NAME;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DATE_FORMATTER;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
 import static org.apache.commons.lang3.StringUtils.LF;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
     private static final String PRINT_COMPONENT = "printComponents";
+    private static final String PUB_CUTOFF_DATE = "publicationCutoffDate";
     private static final int MAXIMUM_CHARACTER_40 = 40;
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_512 = 512;
@@ -220,10 +223,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             checkDateFormat(errors, form.getPublishedDate(), "publishedDate");
         }
 
-        if (form.isPublicationCutoffDateUsed()) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
-        }
-        checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
+        validatePublicationCutOffDate(errors, form);
 
         // Only run these validation when Validate Button or Book Definition is set as Complete.
         if (form.getIsComplete() || validateForm) {
@@ -1194,6 +1194,23 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             } catch (EBookException e) {
                 errors.rejectValue(fieldName, e.getMessage());
             }
+        }
+    }
+
+    private void validatePublicationCutOffDate(final Errors errors, final EditBookDefinitionForm form) {
+        if (form.isPublicationCutoffDateUsed()) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, PUB_CUTOFF_DATE, "error.publication.cutoff.date");
+            String publicationCutOffDate = form.getPublicationCutoffDate();
+            checkDateFormat(errors, publicationCutOffDate, PUB_CUTOFF_DATE);
+            if (errors.getFieldError(PUB_CUTOFF_DATE) == null) {
+                validatePublicationCutOffDateValue(errors, LocalDate.parse(publicationCutOffDate, DATE_FORMATTER));
+            }
+        }
+    }
+
+    private void validatePublicationCutOffDateValue(final Errors errors, final LocalDate publicationCutOffDate) {
+        if (!publicationCutOffDate.isAfter(LocalDate.now())) {
+            errors.rejectValue(PUB_CUTOFF_DATE, "error.publication.cutoff.date.value");
         }
     }
 

@@ -16,7 +16,7 @@ import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_MINOR
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_OVERWRITE_ALLOWED;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_PILOT_BOOK_STATUS;
-import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_PUBLISHING_CUT_OFF_DATE;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE;
@@ -154,7 +154,7 @@ public final class GenerateEbookControllerTest {
                     KEY_BOOK_DEFINITION,
                     KEY_PUBLISHING_CUT_OFF_DATE,
                     KEY_USE_PUBLISHING_CUT_OFF_DATE,
-                    KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY,
+                    KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY,
                     KEY_IS_COMPLETE,
                     KEY_PILOT_BOOK_STATUS,
                     KEY_VERSION_NUMBER,

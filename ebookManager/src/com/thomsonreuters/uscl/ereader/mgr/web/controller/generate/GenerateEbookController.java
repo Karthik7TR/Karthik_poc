@@ -179,8 +179,8 @@ public class GenerateEbookController {
                 WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
                 StringBool.toString(book.getDocumentTypeCodes().getUsePublishCutoffDateFlag()));
             model.addAttribute(
-                WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY,
-                StringBool.toString(isCutOffDateGreaterOrEqualToday(book.getPublishCutoffDate())));
+                WebConstants.KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY,
+                StringBool.toString(isCutOffDateGreaterThanToday(book.getPublishCutoffDate())));
 
             model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.getEbookDefinitionCompleteFlag());
             model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, book.getPilotBookStatus());
@@ -432,14 +432,8 @@ public class GenerateEbookController {
      * @param cutOffDate
      * @return
      */
-    private boolean isCutOffDateGreaterOrEqualToday(final Date cutOffDate) {
-        boolean cutOffDateGreaterOrEqualToday = false;
+    private boolean isCutOffDateGreaterThanToday(final Date cutOffDate) {
         final Date today = new DateTime().toDateMidnight().toDate();
-
-        if (cutOffDate != null) {
-            cutOffDateGreaterOrEqualToday = (cutOffDate == today) || cutOffDate.after(today);
-        }
-
-        return cutOffDateGreaterOrEqualToday;
+        return cutOffDate != null && cutOffDate.after(today);
     }
 }

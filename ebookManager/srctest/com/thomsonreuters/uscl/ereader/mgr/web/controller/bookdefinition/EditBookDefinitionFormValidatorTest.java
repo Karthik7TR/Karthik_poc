@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -36,6 +37,7 @@ import org.springframework.validation.Errors;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -185,8 +187,7 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setIsComplete(true);
         form.setSourceType(SourceType.XPP);
 
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
         validator.validate(form, errors);
         Assert.assertEquals("error.required", errors.getFieldError("printSubNumber").getCode());
     }
@@ -197,8 +198,7 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setSourceType(SourceType.XPP);
         form.setPrintSetNumber("abcd");
 
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
         validator.validate(form, errors);
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
     }
@@ -209,8 +209,7 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setSourceType(SourceType.XPP);
         form.setPrintSubNumber("abcd");
 
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
         validator.validate(form, errors);
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
     }
@@ -221,8 +220,7 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setSourceType(SourceType.FILE);
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(analyticalCode);
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
         form.setCodesWorkbenchBookName("/FamEbook20");
         validator.validate(form, errors);
 
@@ -465,9 +463,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalNort();
         form.setIsComplete(true);
@@ -505,9 +501,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalToc();
         form.setIsComplete(true);
@@ -546,9 +540,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalFile();
         form.setIsComplete(true);
@@ -595,9 +587,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalToc();
         form.setIsComplete(true);
@@ -619,8 +609,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalToc();
         form.setIsComplete(true);
@@ -641,8 +630,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
         expectReplayDocTypeCode();
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalFile();
         form.setValidateForm(true);
@@ -668,8 +656,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
         expectReplayDocTypeCode();
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalFile();
         form.setValidateForm(true);
@@ -697,17 +684,33 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
-
+        expectReplayKeywordTypeCodes();
         populateFormDataAnalyticalToc();
         form.setIsComplete(true);
+        form.setPublicationCutoffDateUsed(true);
         form.setPublicationCutoffDate("1234");
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
         Assert.assertEquals("error.date.format", errors.getFieldError("publicationCutoffDate").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
+    }
+
+    @Test
+    public void testCutoffDateToday() {
+        expectReplayDocTypeCode();
+        expectReplayKeywordTypeCodes();
+        populateFormDataAnalyticalToc();
+        form.setPublicationCutoffDateUsed(true);
+        String today = CoreConstants.DATE_FORMATTER.format(LocalDate.now());
+        form.setPublicationCutoffDate(today);
+        form.setIsComplete(true);
+
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals("error.publication.cutoff.date.value",
+                errors.getFieldError("publicationCutoffDate").getCode());
     }
 
     /**
@@ -1199,8 +1202,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalToc();
         form.setValidateForm(true);
@@ -1235,8 +1237,7 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.replay(mockBookDefinitionService);
 
         expectReplayDocTypeCode();
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         populateFormDataAnalyticalToc();
         form.setValidateForm(true);
@@ -1431,8 +1432,7 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     private void testKeywords(final String publisher, final Map<Long, Collection<Long>> keywords, final List<Consumer<Errors>> assertions) {
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-        EasyMock.replay(keywordTypeCodeSevice);
+        expectReplayKeywordTypeCodes();
 
         form.setValidateForm(true);
         form.setPublisher(publisher);
@@ -1598,6 +1598,11 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(analyticalCode);
         EasyMock.replay(mockDocumentTypeCodeService);
+    }
+
+    private void expectReplayKeywordTypeCodes() {
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(keywordTypeCodeSevice);
     }
 
     private void assertDateFormatError() {
