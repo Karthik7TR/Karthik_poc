@@ -2,6 +2,7 @@ var isSplitTypeAuto = true;
 var splitSize ="";
 var splitDocumentIndex = 0;
 const MAX_NUMBER_SUBJECT_KEYWORDS = 3;
+const PDF = 'pdf';
 
 const USCL_PUBLISHER = 'uscl';
 const CW_PUBLISHER = 'cw';
@@ -9,6 +10,9 @@ const REGISTERED_PUBLISHERS = [USCL_PUBLISHER, CW_PUBLISHER];
 const CW_SOURCE_TYPES = ['NORT', 'TOC'];
 const BOOKS_BUCKET = 'BOOKS';
 const ELOOSELEAFS_BUCKET = 'ELOOSELEAFS';
+
+const FILE_EXTENSION_PATTERN = /\.[^/.]+$/;
+const PDF_NAME_ALLOWED_CHARACTERS = /^[-_!A-Za-z0-9]+$/;
 
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
@@ -864,27 +868,24 @@ $(function() {
 			const fileField = pdfRow.find('.pdfFile');
 			const file = fileField.prop('files')[0];
 			const fileNameField = pdfRow.find('.pdfFilename');
-			sendPdfFileToServer(file, fileField, fileNameField);
+			const fileName = removeSpacesFromPdfFileName(file.name);
+			if (!checkFileExtension(fileName) || !checkFileSize(file) || !checkSpecialCharacters(fileName)) {
+				fileField.val(null);
+				return;
+			}
+			sendPdfFileToServer(file, fileField, fileName, fileNameField);
 		};
 
 		$(document).on('click', '.uploadPdf', triggerPdfInput);
 		$(document).on('change', '.pdfFile', uploadPdf);
 
-		const sendPdfFileToServer = function(file, fileField, fileNameField) {
-			if (!checkFileType(file) || !checkFileSize(file)) {
-				fileField.val(null);
-				return;
-			}
-			const fileName = removeSpacesFromPdfFileName(file.name);
-			const uploadFormData = new FormData();
-			uploadFormData.append('file', file);
-			uploadFormData.append('fileName', fileName);
-			uploadFormData.append('publisher', $('#publisher').val());
+		const sendPdfFileToServer = function(file, fileField, fileName, fileNameField) {
+			const uploadPdfFormData = getUploadPdfFormData(file, fileName);
 			$.ajax({
 				type: 'POST',
 				url: 'uploadPdf.mvc',
 				enctype: 'multipart/form-data',
-				data: uploadFormData,
+				data: uploadPdfFormData,
 				processData: false,
 				contentType: false,
 				success: function() {
@@ -899,8 +900,8 @@ $(function() {
 			fileField.val(null);
 		};
 
-		const checkFileType = function(file) {
-			if (!'application/pdf'.match(file.type)) {
+		const checkFileExtension = function(fileName) {
+			if (fileName.split('.').pop().toLowerCase() !== PDF) {
 				window.alert('Please upload file of type PDF');
 				return false;
 			}
@@ -915,12 +916,29 @@ $(function() {
 			return true;
 		};
 
+		const checkSpecialCharacters = function(fileName) {
+			const fileNameWithoutExtension = fileName.replace(FILE_EXTENSION_PATTERN, '');
+			if (!PDF_NAME_ALLOWED_CHARACTERS.test(fileNameWithoutExtension)) {
+				alert('PDF name contains forbidden characters. Allowed characters are: A-Z, a-z, 0-9, _, -, !');
+				return false;
+			}
+			return true;
+		};
+
 		const removeSpacesFromPdfFileName = function(fileName) {
 			if (/\s/.test(fileName)) {
 				fileName =  fileName.replace(/\s/g, '_');
 				alert('Filename contains whitespaces and will be changed to ' + fileName);
 			}
 			return fileName;
+		};
+
+		const getUploadPdfFormData = function(file, fileName) {
+			const uploadPdfFormData = new FormData();
+			uploadPdfFormData.append('file', file);
+			uploadPdfFormData.append('fileName', fileName);
+			uploadPdfFormData.append('publisher', $('#publisher').val());
+			return uploadPdfFormData;
 		};
 
 		// delete confirmation box

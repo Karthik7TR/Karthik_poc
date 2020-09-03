@@ -71,6 +71,7 @@ import java.util.Map;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -306,7 +307,7 @@ public final class EditBookDefinitionControllerTest {
             // Check binding state
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
+            assertFalse(bindingResult.hasErrors());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -498,7 +499,7 @@ public final class EditBookDefinitionControllerTest {
             // Check binding state
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
+            assertFalse(bindingResult.hasErrors());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -764,7 +765,7 @@ public final class EditBookDefinitionControllerTest {
             // Check binding state
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
+            assertFalse(bindingResult.hasErrors());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -931,7 +932,7 @@ public final class EditBookDefinitionControllerTest {
             // Check binding state
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
+            assertFalse(bindingResult.hasErrors());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -1118,7 +1119,7 @@ public final class EditBookDefinitionControllerTest {
             // Check binding state
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
+            assertFalse(bindingResult.hasErrors());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -1245,7 +1246,7 @@ public final class EditBookDefinitionControllerTest {
             // Check binding state
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
-            Assert.assertFalse(bindingResult.hasErrors());
+            assertFalse(bindingResult.hasErrors());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -1387,7 +1388,10 @@ public final class EditBookDefinitionControllerTest {
     @PrepareForTest(EditBookDefinitionController.class)
     public static class AdditionalTests {
         private static final String WRONG_PDF_FILE_EXTENSION_ERROR_MESSAGE = "Please upload file of type PDF";
+        private static final String CHARACTERS_NOT_ALLOWED_ERROR_MESSAGE
+                = "PDF name contains forbidden characters. Allowed characters are: A-Z, a-z, 0-9, _, -, !";
         private static String PDF_FILE_NAME = "fileName.pdf";
+        private static String PDF_FILE_NAME_WITH_SPECIAL_CHARACTERS = "fileName_$%#@.pdf";
         private static String IMG_NAME = "picture.img";
 
         @InjectMocks
@@ -1436,6 +1440,14 @@ public final class EditBookDefinitionControllerTest {
                     CoreConstants.USCL_PUBLISHER_NAME);
 
             assertEquals(WRONG_PDF_FILE_EXTENSION_ERROR_MESSAGE, response.getBody());
+        }
+
+        @Test
+        public void testUploadPdfSpecialCharacters() {
+            ResponseEntity<?> response = editBookDefinitionController.uploadPdf(multipartFile,
+                    PDF_FILE_NAME_WITH_SPECIAL_CHARACTERS, CoreConstants.USCL_PUBLISHER_NAME);
+
+            assertEquals(CHARACTERS_NOT_ALLOWED_ERROR_MESSAGE, response.getBody());
         }
     }
 }

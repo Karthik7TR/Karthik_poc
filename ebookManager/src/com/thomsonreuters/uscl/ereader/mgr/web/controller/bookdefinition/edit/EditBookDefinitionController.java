@@ -81,8 +81,10 @@ public class EditBookDefinitionController {
     private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
     private static final String FILE_NAME_ALREADY_EXISTS = "File \"%s\" already exists";
     private static final String WRONG_PDF_FILE_EXTENSION = "Please upload file of type PDF";
+    private static final String CHARACTERS_NOT_ALLOWED = "PDF name contains forbidden characters. Allowed characters are: A-Z, a-z, 0-9, _, -, !";
     private static final String FRONT_MATTER_PAGE_ID_MISSING_ERROR = "Additional front matter page id is missing in request";
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
+    private static String PDF_NAME_ALLOWED_CHARACTERS = "^.*[^_\\-!A-Za-z0-9].*$";
     private static String PDF = "pdf";
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -483,8 +485,10 @@ public class EditBookDefinitionController {
         if (isFileExtensionNotPdf(fileName)) {
             return new ResponseEntity<>(WRONG_PDF_FILE_EXTENSION, HttpStatus.CONFLICT);
         }
-        File location = getPdfLocation(publisher);
-        File file = new File(location, fileName);
+        if (isFileNameContainsForbiddenCharacters(fileName)) {
+            return new ResponseEntity<>(CHARACTERS_NOT_ALLOWED, HttpStatus.CONFLICT);
+        }
+        File file = new File(getPdfLocation(publisher), fileName);
         if (file.exists()) {
             String errorMessage = String.format(FILE_NAME_ALREADY_EXISTS, fileName);
             return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
@@ -495,6 +499,11 @@ public class EditBookDefinitionController {
     private boolean isFileExtensionNotPdf(final String fileName) {
         String extension = FilenameUtils.getExtension(fileName);
         return !PDF.equalsIgnoreCase(extension);
+    }
+
+    private boolean isFileNameContainsForbiddenCharacters(final String fileName) {
+        String baseName = FilenameUtils.getBaseName(fileName);
+        return baseName.matches(PDF_NAME_ALLOWED_CHARACTERS);
     }
 
     private File getPdfLocation(final String publisher) {
