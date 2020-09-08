@@ -300,6 +300,7 @@ $(function() {
 		var onClickToFmPreviewButton = function() {
 			var pageSequenceNumber = $(this).parent().children(".sequence").val();
 			$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
+			$('#additionFrontMatterBlock .blur').val('');
 			$.ajax({
 				type: 'POST',
 				url: 'bookDefinitionFrontMatterPreview.mvc',
@@ -308,11 +309,13 @@ $(function() {
 				success: function(response) {
 					const wnd = window.open("about:blank");
 					wnd.document.write(response);
-					$('#selectedFrontMatterPreviewPage').val('');
 				},
 				error: function (response) {
 					window.alert(response.responseText);
+				},
+				complete: function () {
 					$('#selectedFrontMatterPreviewPage').val('');
+					textboxHint("additionFrontMatterBlock");
 				}
 			});
 		}; 

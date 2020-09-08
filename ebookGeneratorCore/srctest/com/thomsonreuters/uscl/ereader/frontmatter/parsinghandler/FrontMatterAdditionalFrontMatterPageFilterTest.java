@@ -284,4 +284,22 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest {
 
         testHelper(xmlTestStr, expectedResult);
     }
+
+    @Test
+    public void testFrontMatterPlaceholder_AllNulls() {
+        final FrontMatterPage page = bookDefinition.getFrontMatterPages().get(0);
+        page.setPageTocLabel(null);
+        page.getFrontMatterSections().get(0).setSectionHeading(null);
+        page.getFrontMatterSections().get(0).setSectionText(null);
+        page.getFrontMatterSections().get(0).getPdfs().get(0).setPdfFilename(null);
+        page.getFrontMatterSections().get(0).getPdfs().get(0).setPdfLinkText(null);
+        final String xmlTestStr = "<test><frontMatterPlaceholder_AdditionalPageAnchor/><frontMatterPlaceholder_additionFrontMatterTitle/><frontMatterPlaceholder_sections/></test>";
+        final String expectedResult = "<test><a name=\""
+                + FrontMatterFileName.ADDITIONAL_FRONT_MATTER
+                + "40"
+                + FrontMatterFileName.ANCHOR
+                + "\"> </a><div class=\"section_pdf\"><br/><a class=\"section_pdf_hyperlink\" href=\"er:#\"/><br/></div></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
 }

@@ -7,6 +7,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -17,6 +18,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This filter transforms the Title Page Template by filling in any template placeholders
@@ -189,7 +191,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
                         HTML_TAG_CLASS_ATTRIBUTE,
                         CDATA,
                         "section_pdf_hyperlink");
-                    final String pdfFileName = fmp.getPdfFilename();
+                    final String pdfFileName = Optional.ofNullable(fmp.getPdfFilename()).orElse(StringUtils.EMPTY);
                     // Add er:# and strip .pdf
                     int startOfPDFExtension = pdfFileName.lastIndexOf(".");
                     if (startOfPDFExtension == -1) {
