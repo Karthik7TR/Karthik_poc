@@ -75,16 +75,15 @@
   }
 
   function checkPublishingCutoffDate() {
-  	const  publishingCutOffDate = $('publishingCutOffDate').innerHTML;
+  	const  publishingCutOffDate = document.getElementById('publishingCutOffDate').innerHTML;
   	let confirmed = true;
 
 	if (publishingCutOffDate !== '') {
-		const publishingCutOffDateGreaterThanToday = $('publishingCutOffDateGreaterThanToday').innerHTML;
+		const publishingCutOffDateGreaterThanToday = document.getElementById('publishingCutOffDateGreaterThanToday').innerHTML;
 		if (publishingCutOffDateGreaterThanToday === 'N') {
 			alert('Cannot generate book: Publishing cut off date must be greater than today.');
 			confirmed = false;
-		}
-		else {
+		} else {
 			confirmed = confirm('Generate with Publishing cutoff date: ' + publishingCutOffDate);
 		}
 	}
