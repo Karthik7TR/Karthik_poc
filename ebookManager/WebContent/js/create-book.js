@@ -876,11 +876,36 @@ $(function() {
 				fileField.val(null);
 				return;
 			}
-			sendPdfFileToServer(file, fileField, fileName, fileNameField);
+			sendPdfFileToServerIfItDoesNotExist(file, fileField, fileName, fileNameField);
 		};
 
 		$(document).on('click', '.uploadPdf', triggerPdfInput);
 		$(document).on('change', '.pdfFile', uploadPdf);
+
+		const sendPdfFileToServerIfItDoesNotExist = function(file, fileField, fileName, fileNameField) {
+			const formData = new FormData();
+			formData.append('fileName', fileName);
+			formData.append('publisher', $('#publisher').val());
+			$.ajax({
+				type: 'POST',
+				url: 'isPdfExists.mvc',
+				enctype: 'multipart/form-data',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					if (!response || window.confirm('File already exists. Do you want to overwrite it?')) {
+						sendPdfFileToServer(file, fileField, fileName, fileNameField);
+					} else {
+						fileField.val(null);
+					}
+				},
+				error: function (response) {
+					window.alert(response.responseText);
+					fileField.val(null);
+				}
+			});
+		};
 
 		const sendPdfFileToServer = function(file, fileField, fileName, fileNameField) {
 			const uploadPdfFormData = getUploadPdfFormData(file, fileName);

@@ -79,7 +79,6 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class EditBookDefinitionController {
     private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
-    private static final String FILE_NAME_ALREADY_EXISTS = "File \"%s\" already exists";
     private static final String WRONG_PDF_FILE_EXTENSION = "Please upload file of type PDF";
     private static final String CHARACTERS_NOT_ALLOWED = "PDF name contains forbidden characters. Allowed characters are: A-Z, a-z, 0-9, _, -, !";
     private static final String FRONT_MATTER_PAGE_ID_MISSING_ERROR = "Additional front matter page id is missing in request";
@@ -478,6 +477,13 @@ public class EditBookDefinitionController {
         return editBookDefinitionService.getMaterialBySubNumber(subNumber, setNumber, titleId);
     }
 
+    @RequestMapping(value = WebConstants.MVC_IS_PDF_EXISTS, method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean isPdfFileExists(@RequestParam final String fileName, @RequestParam final String publisher) {
+        File file = new File(getPdfLocation(publisher), fileName);
+        return file.exists();
+    }
+
     @RequestMapping(value = WebConstants.MVC_UPLOAD_PDF, method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> uploadPdf(@RequestParam("file") final MultipartFile pdf,
@@ -489,10 +495,6 @@ public class EditBookDefinitionController {
             return new ResponseEntity<>(CHARACTERS_NOT_ALLOWED, HttpStatus.CONFLICT);
         }
         File file = new File(getPdfLocation(publisher), fileName);
-        if (file.exists()) {
-            String errorMessage = String.format(FILE_NAME_ALREADY_EXISTS, fileName);
-            return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
-        }
         return writePdf(pdf, file);
     }
 
