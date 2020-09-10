@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Component;
 public class SupersededProviewHandlerHelper {
     private static final String FINAL_STATUS = "Final";
 
+    @Autowired
+    private VersionIsbnService versionIsbnService;
     @Autowired
     private ProviewClient proviewClient;
 
@@ -92,12 +96,22 @@ public class SupersededProviewHandlerHelper {
         final BigInteger majorVersion, final BigInteger minorVersion) {
         final String version = new Version(majorVersion, minorVersion).getFullVersion();
         try {
-            final HttpStatus status = proviewClient.changeTitleVersionToSuperseded(fullyQualifiedTitleId, version);
+            HttpStatus status = proviewClient.changeTitleVersionToSuperseded(fullyQualifiedTitleId, version);
             if (HttpStatus.OK.equals(status)) {
-                proviewClient.promoteTitle(fullyQualifiedTitleId, version);
+                status = proviewClient.promoteTitle(fullyQualifiedTitleId, version);
+                if (HttpStatus.OK.equals(status)) {
+                    saveIsbnOfSupersededVersion(fullyQualifiedTitleId, new Version(version));
+                }
             }
         } catch (final ProviewRuntimeException e) {
             log.warn("{}/{} {}", fullyQualifiedTitleId, version, e.getMessage());
+        }
+    }
+
+    private void saveIsbnOfSupersededVersion(final String fullyQualifiedTitleId, final Version version) {
+        String isbn = versionIsbnService.getLastIsbnBeforeVersion(fullyQualifiedTitleId, version);
+        if (StringUtils.isNotEmpty(isbn)) {
+            versionIsbnService.saveIsbn(fullyQualifiedTitleId, version.getVersionWithoutPrefix(), isbn);
         }
     }
 }

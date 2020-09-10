@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,60 +20,50 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-@PrepareForTest({VersionIsbnServiceImpl.class, VersionIsbn.class, TitleId.class})
-@PowerMockIgnore("javax.management.*")
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public final class VersionIsbnServiceTest {
-
     private static final String TITLE_ID = "uscl/an/book";
     private static final String PT_2 = "_pt2";
-    private static final String ISBN_1 = "99-00-879";
-    private static final String ISBN_2 = "22-456-7-0";
+    private static final String ISBN_1 = "978-5-3322-6109-1";
+    private static final String ISBN_2 = "978-3-7303-6936-4";
+    private static final String ISBN_3 = "978-7-9028-4957-9";
+    private static final String ISBN_4 = "978-1-1915-0473-7";
     private static final String VERSION = "4.7";
 
     private VersionIsbnService versionIsbnService;
 
     @Mock
     private VersionIsbnDao mockVersionIsbnDao;
-
     @Mock
     private BookDefinitionService mockBookDefinitionService;
-
     @Mock
     private BookDefinition mockBookDefinition;
-
     @Mock
     private VersionIsbn mockVersionIsbn1;
-
     @Mock
     private VersionIsbn mockVersionIsbn2;
-
     private List<VersionIsbn> versionIsbns;
+    private VersionIsbn lastVersionIsbnBeforeVersion;
+
 
     @Before
     public void setUp() {
         versionIsbnService = new VersionIsbnServiceImpl(mockVersionIsbnDao, mockBookDefinitionService);
-
         versionIsbns = Arrays.asList(mockVersionIsbn1, mockVersionIsbn2);
     }
 
-    @SneakyThrows
     @Test
-    public void testSaveIsbn_newVersionIsbn() {
-        when(mockBookDefinition.getTitleId()).thenReturn(TITLE_ID);
-        whenNew(VersionIsbn.class).withArguments(mockBookDefinition, VERSION, ISBN_1).thenReturn(mockVersionIsbn1);
-
-        versionIsbnService.saveIsbn(mockBookDefinition, VERSION, ISBN_1);
-
-        verify(mockBookDefinition).getTitleId();
-        verify(mockVersionIsbnDao).findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION);
-        verify(mockVersionIsbnDao).save(mockVersionIsbn1);
+    public void runAdditionalTests() {
+        JUnitCore.runClasses(AdditionalTests.class);
     }
 
     @Test
@@ -116,7 +107,6 @@ public final class VersionIsbnServiceTest {
 
         verify(mockVersionIsbnDao).findAll();
         verify(mockVersionIsbn1).getIsbn();
-
         final boolean expected = true;
         assertEquals(expected, actual);
     }
@@ -148,6 +138,20 @@ public final class VersionIsbnServiceTest {
         final boolean actual = versionIsbnService.isIsbnChangedFromPreviousGeneration(mockBookDefinition, VERSION);
 
         assertFalse(actual);
+    }
+
+    @Test
+    public void getLastIsbnBeforeVersion() {
+        List<VersionIsbn> versionIsbnList = getVersionIsbnList();
+        when(mockBookDefinitionService.findBookDefinitionByTitle(TITLE_ID)).thenReturn(mockBookDefinition);
+        when(mockVersionIsbnDao.getAllByEbookDefinition(mockBookDefinition)).thenReturn(versionIsbnList);
+        when(mockVersionIsbnDao.findDistinctByEbookDefinitionAndVersion(mockBookDefinition,
+                lastVersionIsbnBeforeVersion.getVersion())).thenReturn(lastVersionIsbnBeforeVersion);
+        Version maxVersion = new Version("v3.1");
+
+        String actualIsbn = versionIsbnService.getLastIsbnBeforeVersion(TITLE_ID, maxVersion);
+
+        assertEquals(ISBN_2, actualIsbn);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -208,5 +212,46 @@ public final class VersionIsbnServiceTest {
         verify(mockVersionIsbnDao).findAll();
         verify(mockVersionIsbn1).getIsbn();
         verify(mockVersionIsbn2).getIsbn();
+    }
+
+    private List<VersionIsbn> getVersionIsbnList() {
+        List<VersionIsbn> versionIsbns = new ArrayList<>();
+        versionIsbns.add(new VersionIsbn(mockBookDefinition, "1.1", ISBN_1));
+        versionIsbns.add(new VersionIsbn(mockBookDefinition, "2.0", ISBN_1));
+        lastVersionIsbnBeforeVersion = new VersionIsbn(mockBookDefinition, "2.1", ISBN_2);
+        versionIsbns.add(lastVersionIsbnBeforeVersion);
+        versionIsbns.add(new VersionIsbn(mockBookDefinition, "3.1", ISBN_3));
+        versionIsbns.add(new VersionIsbn(mockBookDefinition, "3.2", ISBN_3));
+        versionIsbns.add(new VersionIsbn(mockBookDefinition, "4.0", ISBN_4));
+        return versionIsbns;
+    }
+
+    @PrepareForTest({VersionIsbnServiceImpl.class, VersionIsbn.class, TitleId.class})
+    @PowerMockIgnore("javax.management.*")
+    @RunWith(PowerMockRunner.class)
+    private static class AdditionalTests {
+        @InjectMocks
+        private VersionIsbnService versionIsbnService;
+        @Mock
+        private BookDefinitionService mockBookDefinitionService;
+        @Mock
+        private VersionIsbnDao mockVersionIsbnDao;
+        @Mock
+        private BookDefinition mockBookDefinition;
+        @Mock
+        private VersionIsbn mockVersionIsbn1;
+
+        @SneakyThrows
+        @Test
+        public void testSaveIsbn_newVersionIsbn() {
+            when(mockBookDefinition.getTitleId()).thenReturn(TITLE_ID);
+            whenNew(VersionIsbn.class).withArguments(mockBookDefinition, VERSION, ISBN_1).thenReturn(mockVersionIsbn1);
+
+            versionIsbnService.saveIsbn(mockBookDefinition, VERSION, ISBN_1);
+
+            verify(mockBookDefinition).getTitleId();
+            verify(mockVersionIsbnDao).findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION);
+            verify(mockVersionIsbnDao).save(mockVersionIsbn1);
+        }
     }
 }

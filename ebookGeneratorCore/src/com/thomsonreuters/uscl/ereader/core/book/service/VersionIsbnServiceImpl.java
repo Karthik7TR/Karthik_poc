@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
@@ -11,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +24,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class VersionIsbnServiceImpl implements VersionIsbnService {
     @Autowired
     private VersionIsbnDao versionIsbnDao;
-
     @Autowired
     private BookDefinitionService bookDefinitionService;
+
+    @Transactional
+    @Override
+    public void saveIsbn(String titleId, String version, String isbn) {
+        BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(titleId);
+        if (bookDefinition != null) {
+            saveIsbn(bookDefinition, version, isbn);
+        }
+    }
 
     @Transactional
     @Override
@@ -71,6 +81,19 @@ public class VersionIsbnServiceImpl implements VersionIsbnService {
             .orElse(false);
     }
 
+    @Override
+    public String getLastIsbnBeforeVersion(final String titleId, final Version maxVersion) {
+        BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(titleId);
+        if (bookDefinition != null) {
+            Optional<Version> lastVersion = findLastVersionBeforeVersion(bookDefinition, maxVersion);
+            if (lastVersion.isPresent()) {
+                return versionIsbnDao.findDistinctByEbookDefinitionAndVersion(bookDefinition,
+                        lastVersion.get().getVersionWithoutPrefix()).getIsbn();
+            }
+        }
+        return StringUtils.EMPTY;
+    }
+
     @Transactional
     @Override
     public void modifyIsbn(final String titleId, final String isbnToModify) {
@@ -88,6 +111,14 @@ public class VersionIsbnServiceImpl implements VersionIsbnService {
         versionIsbnDao.getAllByEbookDefinition(bookDefinition).stream()
             .filter(versionIsbn -> getResetDigitalIsbn(isbnToReset).equals(getResetDigitalIsbn(versionIsbn.getIsbn())))
             .forEach(this::resetIsbn);
+    }
+
+    private Optional<Version> findLastVersionBeforeVersion(final BookDefinition bookDefinition, final Version maxVersion) {
+        return versionIsbnDao.getAllByEbookDefinition(bookDefinition).stream()
+                .map(VersionIsbn::getVersion)
+                .map(version -> new Version(Version.VERSION_PREFIX + version))
+                .filter(version -> version.compareTo(maxVersion) < 0)
+                .max(Comparator.naturalOrder());
     }
 
     private void modifyIsbn(VersionIsbn versionIsbn) {
