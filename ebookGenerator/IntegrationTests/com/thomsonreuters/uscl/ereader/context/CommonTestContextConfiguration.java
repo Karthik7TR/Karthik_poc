@@ -6,6 +6,7 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtilImpl;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtil;
@@ -90,6 +91,11 @@ public class CommonTestContextConfiguration {
     @Bean
     public PublishingStatsService publishingStatsService() {
         return mock(PublishingStatsService.class);
+    }
+
+    @Bean
+    public VersionIsbnService versionIsbnService() {
+        return mock(VersionIsbnService.class);
     }
 
     @Bean

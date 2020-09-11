@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import lombok.Getter;
 import org.junit.Before;
@@ -38,6 +39,8 @@ public final class SupersededProviewHandlerHelperTest {
     private SupersededProviewHandlerHelper handler;
     @Mock
     private ProviewClient proviewClient;
+    @Mock
+    private VersionIsbnService versionIsbnService;
 
     @BeforeClass
     public static void setUpBase() throws IOException, URISyntaxException {
