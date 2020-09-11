@@ -460,8 +460,8 @@ public class ProviewTitleListController {
             } else {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.getAttributeSuccess());
             }
+            updateTitleStatusesAfterAction(headTitleId, action, previousStatus, titleActionResult, version, httpSession);
         }
-        updateTitleStatusesAfterAction(headTitleId, action, previousStatus, titleActionResult, version, httpSession);
     }
 
     private void addTitleActionAttributesToModel(final Model model, final ProviewTitleForm form) {

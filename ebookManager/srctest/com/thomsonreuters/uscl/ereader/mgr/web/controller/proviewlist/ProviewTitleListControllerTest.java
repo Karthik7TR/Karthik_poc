@@ -47,6 +47,7 @@ import org.easymock.Capture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -65,6 +66,8 @@ public final class ProviewTitleListControllerTest {
     private static final String VERSION = "version";
     private static final String STATUS = "status";
     private static final String COMMAND = "command";
+    private static final String ERROR_MESSAGE = "Message";
+    private static final String ERR_MESSAGE_KEY = "errMessage";
 
     private ProviewTitleListController controller;
     private MockHttpServletResponse response;
@@ -311,7 +314,7 @@ public final class ProviewTitleListControllerTest {
     @SneakyThrows
     @Test
     public void testProviewTitlePromotePost() {
-        setUpProviewTitleActionMocks();
+        setUpProviewTitleActionMocks(false);
         setPromoteRequestParameters();
         prepareArgumentCaptors();
         prepareTitleActionPostMocks();
@@ -325,8 +328,24 @@ public final class ProviewTitleListControllerTest {
 
     @SneakyThrows
     @Test
+    public void testProviewTitlePromotePostWhenJobIsRunning() {
+        setUpProviewTitleActionMocks(true);
+        setPromoteRequestParameters();
+        prepareArgumentCaptors();
+        prepareTitleActionPostMocks();
+        replayProviewTitleActionsMocks();
+
+        final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE, modelAndView.getViewName());
+        assertEquals(ERROR_MESSAGE, modelAndView.getModel().get(ERR_MESSAGE_KEY));
+        validateActionArguments(TitleActionName.PROMOTE);
+    }
+
+    @SneakyThrows
+    @Test
     public void testProviewTitleRemovePost() {
-        setUpProviewTitleActionMocks();
+        setUpProviewTitleActionMocks(false);
         setRemoveRequestParameters();
         prepareArgumentCaptors();
         prepareTitleActionPostMocks();
@@ -341,7 +360,7 @@ public final class ProviewTitleListControllerTest {
     @SneakyThrows
     @Test
     public void testProviewTitleDeletePost() {
-        setUpProviewTitleActionMocks();
+        setUpProviewTitleActionMocks(false);
         setDeleteRequestParameters();
         prepareArgumentCaptors();
         prepareTitleActionPostMocks();
@@ -385,27 +404,35 @@ public final class ProviewTitleListControllerTest {
         auth = new UsernamePasswordAuthenticationToken(user, null);
     }
 
-    private void setUpProviewTitleActionMocks() {
+    private void setUpProviewTitleActionMocks(boolean isJobRunning) {
         SecurityContextHolder.getContext().setAuthentication(auth);
         expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId))
             .andReturn(bookDefinition);
-        mockRunningJobCheck();
-        mockChangeStatusForTitle();
+        mockRunningJobCheck(isJobRunning);
+        mockChangeStatusForTitle(isJobRunning);
     }
 
-    private void mockRunningJobCheck() {
+    private void mockRunningJobCheck(boolean isJobRunning) {
         expect(bookDefinition.getEbookDefinitionId()).andReturn(1L);
         expect(mockJobRequestService.isBookInJobRequest(1L)).andReturn(false);
-        expect(mockManagerService.findRunningJob(bookDefinition)).andReturn(null);
+        if (isJobRunning) {
+            expect(mockManagerService.findRunningJob(bookDefinition)).andReturn(new JobExecution(1L));
+            expect(bookDefinition.getFullyQualifiedTitleId()).andReturn(TITLE_ID);
+            expect(mockMessageSourceAccessor.getMessage(anyObject(String.class), anyObject(Object[].class))).andReturn(ERROR_MESSAGE);
+        } else {
+            expect(mockManagerService.findRunningJob(bookDefinition)).andReturn(null);
+        }
     }
 
     @SneakyThrows
-    private void mockChangeStatusForTitle() {
+    private void mockChangeStatusForTitle(boolean isJobRunning) {
         final HttpSession session = request.getSession();
         session.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, new HashMap<String, ProviewTitleContainer>());
         session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, new ArrayList<>());
-        expect(mockProviewHandler.getAllLatestProviewTitleInfo(anyObject()))
-            .andReturn(new ArrayList<>()).times(splitBookTitleIds.size());
+        if (!isJobRunning) {
+            expect(mockProviewHandler.getAllLatestProviewTitleInfo(anyObject()))
+                    .andReturn(new ArrayList<>()).times(splitBookTitleIds.size());
+        }
     }
 
     private void setPromoteRequestParameters() {
