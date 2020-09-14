@@ -121,6 +121,7 @@ public class WebConstants {
     public static final String KEY_GROUP_NEXT_PREVIEW = "groupNextPreview";
     public static final String KEY_GROUP_NEXT_ERROR = "groupNextErrorMessage";
     public static final String KEY_GROUP_STATUS_IN_PROVIEW = "groupStatusInProview";
+    public static final String KEY_MIN_PUBLICATION_CUTOFF_DATE = "minPublicationCutoffDate";
 
     public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 

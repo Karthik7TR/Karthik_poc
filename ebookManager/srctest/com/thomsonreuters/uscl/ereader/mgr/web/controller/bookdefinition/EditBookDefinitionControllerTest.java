@@ -62,6 +62,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -1273,6 +1274,14 @@ public final class EditBookDefinitionControllerTest {
         assertEquals(0, numAuthors);
         assertEquals(0, splitDocs);
         assertNotNull(model.get(WebConstants.KEY_FORM));
+        checkMinPublicationCutoffDate((String) model.get(WebConstants.KEY_MIN_PUBLICATION_CUTOFF_DATE));
+    }
+
+    private void checkMinPublicationCutoffDate(final String minPublicationCutoffDate) {
+        assertNotNull(minPublicationCutoffDate);
+        LocalDate expected = LocalDate.now().plusDays(1);
+        LocalDate actual = LocalDate.parse(minPublicationCutoffDate, CoreConstants.DATE_FORMATTER);
+        assertEquals(expected, actual);
     }
 
     private void setupMockServices(final BookDefinition book, final int times, final boolean isComplete) {

@@ -1057,8 +1057,7 @@ $(function() {
 		textboxHint("additionFrontMatterBlock");
 
 		$('#publishedDate').datepicker().attr('autocomplete', 'off');
-		let minPublicationCutoffDate = new Date();
-		minPublicationCutoffDate.setDate(minPublicationCutoffDate.getDate() + 1);
+		const minPublicationCutoffDate = $('#minPublicationCutoffDate').val();
 		$('#publicationCutoffDate').datepicker({
 			minDate: minPublicationCutoffDate
 		}).attr('autocomplete', 'off');

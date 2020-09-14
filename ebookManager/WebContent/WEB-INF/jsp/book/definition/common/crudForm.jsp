@@ -1296,3 +1296,4 @@
 <input id="numberOfTableViewers" type="hidden" value="${numberOfTableViewers}" />
 <input id="numberOfDocumentCopyrights" type="hidden" value="${numberOfDocumentCopyrights}" />
 <input id="numberOfDocumentCurrencies" type="hidden" value="${numberOfDocumentCurrencies}" />
+<input id="minPublicationCutoffDate" type="hidden" value="${minPublicationCutoffDate}"/>

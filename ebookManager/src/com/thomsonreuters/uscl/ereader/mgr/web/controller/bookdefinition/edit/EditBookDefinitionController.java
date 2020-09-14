@@ -10,6 +10,7 @@ import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_M
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -525,6 +526,11 @@ public class EditBookDefinitionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    private String getMinPublicationCutoffDate() {
+        LocalDate minPublicationCutoffDate = LocalDate.now().plusDays(1);
+        return CoreConstants.DATE_FORMATTER.format(minPublicationCutoffDate);
+    }
+
     /**
      * Initializes the model for the Create/Edit Book Definition View
      * @param model
@@ -542,6 +548,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_NUMBER_OF_SPLIT_DOCUMENTS, form.getSplitDocuments().size());
         model.addAttribute(WebConstants.KEY_NUMBER_OF_DOCUMENT_CURRENCIES, form.getDocumentCurrencies().size());
         model.addAttribute(WebConstants.KEY_NUMBER_OF_NORT_FILE_LOCATIONS, form.getNortFileLocations().size());
+        model.addAttribute(WebConstants.KEY_MIN_PUBLICATION_CUTOFF_DATE, getMinPublicationCutoffDate());
 
         // Set drop down lists
         addContentTypesToModel(model, editBookDefinitionService.getDocumentTypesByPublishers());
