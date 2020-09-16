@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
@@ -65,6 +66,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import static com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId.VERSION_SPLITTER;
 
 @Slf4j
 @Controller
@@ -455,7 +458,12 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         rootGroupId = StringUtils.substringAfter(rootGroupId, "_");
 
         final SubgroupInfo subgroup = proviewGroup.getSubgroupInfoList().get(0);
-        for (final String titleId : subgroup.getTitleIdList()) {
+        final Set<String> uniqueTitleIds = subgroup.getTitleIdList().stream()
+                .map(item -> item.contains(VERSION_SPLITTER)
+                        ? new BookTitleId(item).getTitleId()
+                        : item)
+                .collect(Collectors.toSet());
+        for (final String titleId : uniqueTitleIds) {
             // get group details for each titleID directly from the ProView
             // response parser
             try {

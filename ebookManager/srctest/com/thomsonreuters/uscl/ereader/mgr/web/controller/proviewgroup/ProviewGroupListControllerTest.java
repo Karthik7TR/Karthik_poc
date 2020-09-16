@@ -256,7 +256,6 @@ public final class ProviewGroupListControllerTest {
         final String groupId = "a/group_testID";
         final String version = "v1";
         final String titleId = "a/title/testID";
-        final String titleIdv = titleId + "/v1";
         final String subGroupName = "Test";
 
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION);
@@ -287,7 +286,7 @@ public final class ProviewGroupListControllerTest {
 
         final List<String> titleIdList = new ArrayList<>();
         subgroup.setTitleIdList(titleIdList);
-        titleIdList.add(titleIdv);
+        titleIdList.add(titleId);
 
         final ProviewTitleContainer titleContainer = new ProviewTitleContainer();
         final List<ProviewTitleInfo> proviewTitles = new ArrayList<>();
@@ -310,7 +309,7 @@ public final class ProviewGroupListControllerTest {
 
         EasyMock.expect(mockProviewHandler.getAllProviewGroupInfo()).andReturn(allProviewGroups);
         EasyMock.expect(mockProviewHandler.getProviewTitleContainer(titleId)).andReturn(titleContainer);
-        EasyMock.expect(mockProviewHandler.getSingleTitleGroupDetails(titleIdv)).andReturn(groupDetails);
+        EasyMock.expect(mockProviewHandler.getSingleTitleGroupDetails(titleId)).andReturn(groupDetails);
         EasyMock.replay(mockProviewHandler);
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(groupId)).andReturn(mockBookDefinition);
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(groupId)).andReturn(null);
