@@ -29,6 +29,12 @@ sed -i '/<xsl:stylesheet/a  \
 echo "Replace string in Suppressed.xsl" >> log.txt
 sed -i '/<xsl:template match="grade.content.section\/grade.notes"\/>/d' Platform/Universal/Suppressed.xsl
 sed -i '/<xsl:template match="ed.note.grade"\/>/d' Platform/Universal/Suppressed.xsl
+sed -i 's/<xsl:template match="md.pubid" \/>/\
+	<!-- <updateStyleSheet.sh> -->\
+	<xsl:template match="md.provider.id" \/>\
+	<!-- <\/updateStyleSheet.sh> -->\
+\
+&/g' Platform/Universal/Suppressed.xsl
 
 echo "Replace string in AddedDeletedMaterial.xsl">> log.txt
 sed -i 's@<xsl:template match="added.material" priority="1">@<xsl:template match="added.material | centa" priority="1">@g' WestlawNext/DefaultProductView/ContentBlocks/AddedDeletedMaterial.xsl

@@ -68,13 +68,19 @@ public final class TransformXmlStepIntegrationTest {
     }
 
     @Test
-    public void shouldTransform() throws Exception {
+    public void shouldTransformAnnotations() throws Exception {
         final BookDefinition bookDefinition = step.getBookDefinition();
         bookDefinition.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
         bookDefinition.setIncludeAnnotations(true);
         bookDefinition.setIncludeNotesOfDecisions(false);
 
         runner.test(step, "annotationsTest");
+    }
+
+    @Test
+    public void shouldTransformMetadata() throws Exception {
+        step.getBookDefinition().setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
+        runner.test(step, "metadataTest");
     }
 
     @Configuration
