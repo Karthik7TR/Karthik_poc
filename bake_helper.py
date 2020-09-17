@@ -74,6 +74,7 @@ deployspec = yaml.safe_load(deployspec_file.read_text())
 defaults = deployspec["Defaults"]
 for env, env_values in deployspec.items():
     if env == "Defaults": continue
+    if env_values.get("ScriptOnlyLambdas"): continue
 
     env_acc = env_values.get("AccountId", defaults.get("AccountId"))
     env_region = env_values.get("AccountRegion", defaults.get("AccountRegion"))

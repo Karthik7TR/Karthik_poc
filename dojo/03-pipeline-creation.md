@@ -21,7 +21,7 @@ Create your end-to-end pipeline.  This will be used to build the code, bake a co
   ENVIRONMENT_TYPE="DEVELOPMENT"
   TEMPLATE_FILENAME="pipeline-cfn.yaml"
   export AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
-  export AWS_REGION="us-east-1"
+  export AWS_REGION="eu-west-1"
   aws cloudformation deploy --template-file ${TEMPLATE_FILENAME} \
     --stack-name ${STACK_NAME} \
     --tags \

@@ -10,7 +10,7 @@ Parameters:
   DefaultSecurityGroup:
     Type: String
     Description: The default security group.  Used to communicate with RDS instance.
-    Default: sg-0c17ab00d0bbc0452
+    Default: sg-04ed92862f14b1374
   ImageUrl:
     Type: String
     Description: The url of a docker image that contains the application process that
@@ -49,6 +49,12 @@ Parameters:
     Type: Number
     Description: Number of days to hold CloudWatch logs for.
     Default: 7
+  DefaultSubnets:
+    Type: AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>
+    Description: |
+      All of the private subnets in the current region inflated with the account and added since.
+    Default: /a205257/cicd/tr-vpc-1-private-subnets
+    AllowedValues: [/a205257/cicd/tr-vpc-1-private-subnets]
 
 Conditions:
   HasCustomRole: !Not [ !Equals [!Ref 'Role', ''] ]
@@ -105,9 +111,7 @@ Resources:
           SecurityGroups:
             - !Ref SecurityGroup
             - !Ref DefaultSecurityGroup
-          Subnets:
-            - "subnet-0dd6117e6d5b15f6a"
-            - "subnet-0eac33989504edb12"
+          Subnets: !Ref DefaultSubnets
       TaskDefinition: !Ref 'TaskDefinition'
       LoadBalancers:
         - ContainerName: !Ref 'ServiceName'
