@@ -175,7 +175,8 @@ sed -i 's!</xsl:stylesheet>!\
 	<xsl:template match="oconnor.annotations/other.annotation.block |\
 						 oconnor.annotations/other.comment.block |\
 						 oconnor.annotations/other.legislative.note.block |\
-						 oconnor.annotations/other.chart.block">\
+						 oconnor.annotations/other.chart.block |\
+						 oconnor.annotations/other.misc.block">\
 		 <div>\
 			<xsl:apply-templates/>\
 		 </div>\
@@ -206,11 +207,17 @@ sed -i 's!</xsl:stylesheet>!\
 \
 	<xsl:template match="oconnor.annotations/other.annotation.block/other.annotation.body/head |\
 						 oconnor.annotations/other.comment.block/other.comment.body/head |\
-						 oconnor.annotations/other.legislative.note.block/head">\
+						 oconnor.annotations/other.legislative.note.block/head |\
+						 oconnor.annotations/other.misc.block/head">\
 						 \
 		<h2 class="\&centerClass;">\
 			<xsl:apply-templates/>\
 		</h2>\
+	</xsl:template>\
+\
+	<xsl:template match="oconnor.annotations/other.legislative.note.block/head/head.info |\
+						 oconnor.annotations/other.misc.block/head/head.info">\
+		<xsl:apply-templates/>\
 	</xsl:template>\
 \
 	<xsl:template match="oconnor.annotations/other.comment.block/other.comment.body/other.comment |\
@@ -221,7 +228,8 @@ sed -i 's!</xsl:stylesheet>!\
 		</div>\
 	</xsl:template>\
 \
-	<xsl:template match="oconnor.annotations/other.annotation.block/other.annotation.body/other.annotation">\
+	<xsl:template match="oconnor.annotations/other.annotation.block/other.annotation.body/other.annotation |\
+	oconnor.annotations/other.misc.block/other.misc.body/other.misc/oconnor.reference.text">\
 		<div class="\&indentTopClass; \&paraIndentClass;">\
 			<xsl:apply-templates/>\
 		</div>\
