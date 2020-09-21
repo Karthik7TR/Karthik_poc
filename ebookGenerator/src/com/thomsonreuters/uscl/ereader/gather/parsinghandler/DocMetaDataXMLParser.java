@@ -38,6 +38,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
     private static final String MD_PUB_PAGE = "md.pubpage";
     private static final String MD_START_EFFECTIVE = "md.starteffective";
     private static final String MD_END_EFFECTIVE = "md.endeffective";
+    private static final String MD_DISPLAY_PRIMARYCITE = "md.display.primarycite";
 
     public static final String CAN_MD_TOPIC_KEY = "can.md.topic.key";
     private static final String CAN_MD_DIGEST_CLASSIFNUM = "can.md.digest.classifnum";
@@ -181,6 +182,10 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
             CanadianTopicCode canadianTopicCode = new CanadianTopicCode();
             canadianTopicCode.setTopicKey(tempVal);
             docMetadata.addTopicCode(canadianTopicCode);
+        } else if (MD_DISPLAY_PRIMARYCITE.equals(qName)) {
+            if (docMetadata.getFindOrig() == null) {
+                docMetadata.setFindOrig(tempVal);
+            }
         }
     }
 
