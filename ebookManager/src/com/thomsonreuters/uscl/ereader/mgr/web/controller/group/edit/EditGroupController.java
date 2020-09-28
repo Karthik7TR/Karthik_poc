@@ -4,12 +4,13 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
-import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
@@ -33,12 +34,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId.VERSION_SPLITTER;
-
 @Controller
 public class EditGroupController {
     private final BookDefinitionService bookDefinitionService;
     private final GroupService groupService;
+    private final ProviewHandler proviewHandler;
     private final EBookAuditService auditService;
     private final Validator validator;
 
@@ -46,10 +46,12 @@ public class EditGroupController {
     public EditGroupController(
         final BookDefinitionService bookDefinitionService,
         final GroupService groupService,
+        final ProviewHandler proviewHandler,
         final EBookAuditService auditService,
         @Qualifier("editGroupDefinitionFormValidator") final Validator validator) {
         this.bookDefinitionService = bookDefinitionService;
         this.groupService = groupService;
+        this.proviewHandler = proviewHandler;
         this.auditService = auditService;
         this.validator = validator;
     }
@@ -187,14 +189,7 @@ public class EditGroupController {
         if (!bindingResult.hasErrors()) {
             try {
                 final GroupDefinition lastGroup = groupService.getLastGroup(form.getGroupId());
-                Map<String, List<String>> titleIdToPartsMap = Optional.ofNullable(lastGroup)
-                        .map(group -> group.getSubGroupInfoList().stream()
-                                .flatMap(item -> item.getTitles().stream())
-                                .collect(Collectors.groupingBy(item -> item.contains(VERSION_SPLITTER)
-                                        ? new BookTitleId(item).getHeadTitleIdWithMajorVersion()
-                                        : new TitleId(item).getHeadTitleId())))
-                        .orElse(Collections.emptyMap());
-                final GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap.values(), titleIdToPartsMap);
+                final GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap);
                 // determine group version
                 if (lastGroup != null) {
                     if (lastGroup.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS)) {
@@ -238,7 +233,8 @@ public class EditGroupController {
 
     @NotNull
     private Map<String, ProviewTitleInfo> getMajorVersionForTitleMap(final String fullyQualifiedTitleId) throws ProviewException {
-        return groupService.getMajorVersionProviewTitles(fullyQualifiedTitleId).stream()
+        return proviewHandler.getTitlesWithUnitedParts()
+                .getOrDefault(fullyQualifiedTitleId, new ProviewTitleContainer(Collections.emptyList())).getAllMajorVersions().stream()
                 .collect(Collectors.toMap(info ->
                         new BookTitleId(info.getTitleId(), new Version(info.getVersion())).getTitleIdWithMajorVersion(), Function.identity()));
     }

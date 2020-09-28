@@ -35,7 +35,7 @@ public class ProviewListExcelExportService extends BaseExcelExportService {
             row.createCell(0).setCellValue(title.getTitle());
             row.createCell(1).setCellValue(title.getTitleId());
             row.createCell(2).setCellValue(title.getTotalNumberOfVersions());
-            row.createCell(3).setCellValue(title.getSplitParts());
+            row.createCell(3).setCellValue(title.getSplitParts().size());
             row.createCell(4).setCellValue(title.getVersion());
             row.createCell(5).setCellValue(title.getStatus());
             row.createCell(6).setCellValue(title.getPublisher());

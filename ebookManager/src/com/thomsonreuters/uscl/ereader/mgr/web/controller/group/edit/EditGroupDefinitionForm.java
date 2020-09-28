@@ -49,12 +49,11 @@ public class EditGroupDefinitionForm {
         includeSubgroup = false;
     }
 
-    public GroupDefinition createGroupDefinition(final Collection<ProviewTitleInfo> proviewTitleInfos, final Map<String, List<String>> titleIdToPartsMap) {
+    public GroupDefinition createGroupDefinition(final Map<String, ProviewTitleInfo> proviewTitleInfos) {
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setGroupId(groupId);
         groupDefinition.setName(groupName);
         groupDefinition.setType(groupType);
-
         if (includeSubgroup) {
             final List<SubGroupInfo> subgroupInfos = new ArrayList<>();
             for (final Subgroup subgroup : subgroups) {
@@ -66,7 +65,10 @@ public class EditGroupDefinitionForm {
                     if (StringUtils.isBlank(groupDefinition.getHeadTitle())) {
                         groupDefinition.setHeadTitle(titleId);
                     }
-                    titleIdToPartsMap.getOrDefault(titleId, Collections.singletonList(titleId)).forEach(subgroupInfo::addTitle);
+                    Optional.ofNullable(proviewTitleInfos.get(titleId))
+                            .map(ProviewTitleInfo::getSplitParts)
+                            .orElse(Collections.singletonList(titleId))
+                            .forEach(subgroupInfo::addTitle);
                 }
                 subgroupInfos.add(subgroupInfo);
             }
@@ -76,13 +78,13 @@ public class EditGroupDefinitionForm {
             groupDefinition.setHeadTitle(fullyQualifiedTitleId);
 
             // Get unique fully qualified title ids.
-            final Set<String> proViewTitles = new LinkedHashSet<>();
-            for (final ProviewTitleInfo info : proviewTitleInfos) {
-                proViewTitles.add(new BookTitleId(info.getTitleId(), new Version(info.getVersion())).getTitleIdWithMajorVersion());
-            }
+            final List<String> proViewTitles = proviewTitleInfos.values().stream()
+                    .flatMap(titleInfo -> titleInfo.getSplitParts().stream())
+                    .distinct()
+                    .collect(Collectors.toList());
 
             final SubGroupInfo subgroupInfo = new SubGroupInfo();
-            subgroupInfo.setTitles(new ArrayList<>(proViewTitles));
+            subgroupInfo.setTitles(proViewTitles);
             groupDefinition.addSubGroupInfo(subgroupInfo);
         }
 
@@ -149,7 +151,7 @@ public class EditGroupDefinitionForm {
             title.setProviewName(titleInfo.getTitle());
             title.setVersion(titleInfo.getMajorVersion());
             title.setTitleId(titleInfo.getTitleId());
-            title.setNumberOfParts(1);
+            title.setNumberOfParts(titleInfo.getSplitParts().size());
             subgroup.addTitle(title);
         }
         notGrouped = subgroup;

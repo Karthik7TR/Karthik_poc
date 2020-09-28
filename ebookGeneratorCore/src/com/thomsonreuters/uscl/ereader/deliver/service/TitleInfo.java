@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public interface TitleInfo {
     String getTitle();
@@ -9,7 +10,7 @@ public interface TitleInfo {
 
     Integer getTotalNumberOfVersions();
 
-    Integer getSplitParts();
+    List<String> getSplitParts();
 
     String getVersion();
 

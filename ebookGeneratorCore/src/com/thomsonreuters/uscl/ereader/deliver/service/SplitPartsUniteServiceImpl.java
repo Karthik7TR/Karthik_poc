@@ -49,10 +49,17 @@ public class SplitPartsUniteServiceImpl implements SplitPartsUniteService {
         String maxLastUpdatedDate = Collections.max(list, Comparator.comparing(this::getParsedDate)).getLastupdate();
         mainTitle.setStatus(minStatus);
         mainTitle.setLastupdate(maxLastUpdatedDate);
-        mainTitle.setSplitParts(list.size());
+        mainTitle.setSplitParts(getSplitParts(list));
         mainTitle.setTitleId(new TitleId(mainTitle.getTitleId()).getHeadTitleId());
         mainTitle.setTitle(StringUtils.substringBeforeLast(mainTitle.getTitle(), SPLIT_PARTS_PATTERN));
         return mainTitle;
+    }
+
+    @NotNull
+    private List<String> getSplitParts(final List<ProviewTitleInfo> list) {
+        return list.stream()
+                .map(e -> new BookTitleId(e.getTitleId(), new Version(e.getVersion())).getTitleIdWithMajorVersion())
+                .collect(Collectors.toList());
     }
 
     @NotNull

@@ -70,7 +70,9 @@
 		<display:column title="ProView Display Name" property="title" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
 		<display:column title="Title ID" property="titleId" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
 		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
-		<display:column title="Split Parts" property="splitParts" sortable="true"/>
+		<display:column title="Split Parts" sortable="true">
+			${proviewList.splitParts.size()}
+		</display:column>
 		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
 		<display:column title="Status" property="status" sortable="true"/>
 		<display:column title="Publisher" property="publisher" sortable="true"/>

@@ -12,9 +12,12 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import lombok.SneakyThrows;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +46,7 @@ public final class EditGroupControllerTest {
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
+    private ProviewHandler mockProviewHandler;
     private EBookAuditService mockAuditService;
     private BookDefinitionService mockBookDefinitionService;
     private GroupService mockGroupService;
@@ -57,13 +61,14 @@ public final class EditGroupControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         // Mock up the services
+        mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
         mockGroupService = EasyMock.createMock(GroupService.class);
         validator = new EditGroupDefinitionFormValidator();
 
         // Set up the controller
-        controller = new EditGroupController(mockBookDefinitionService, mockGroupService, mockAuditService, validator);
+        controller = new EditGroupController(mockBookDefinitionService, mockGroupService, mockProviewHandler, mockAuditService, validator);
 
         documentTypeCode = new DocumentTypeCode();
         documentTypeCode.setId(Long.parseLong("1"));
@@ -91,10 +96,10 @@ public final class EditGroupControllerTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(fullyQualifiedTitleId);
+        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(FULLY_QUALIFIED_TITLE_ID);
+        initProviewHandler(fullyQualifiedTitleId, proviewTitleList);
         EasyMock.expect(mockGroupService.getGroupId(book)).andReturn(groupId);
         EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
-        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
         EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
             .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
         EasyMock.expect(mockGroupService.getPilotBooksNotFound()).andReturn(new ArrayList<String>());
@@ -206,8 +211,7 @@ public final class EditGroupControllerTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(fullyQualifiedTitleId);
-        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
+        initProviewHandler(fullyQualifiedTitleId, createProviewTitleList(fullyQualifiedTitleId));
         EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
             .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
         EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
@@ -246,6 +250,7 @@ public final class EditGroupControllerTest {
         info.setTitleId(fullyQualifiedTitleId);
         info.setTotalNumberOfVersions(1);
         info.setVersion("v1.0");
+        info.setSplitParts(Collections.singletonList(fullyQualifiedTitleId));
         return Arrays.asList(info);
     }
 
@@ -293,14 +298,23 @@ public final class EditGroupControllerTest {
                 .andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(FULLY_QUALIFIED_TITLE_ID);
-        EasyMock.expect(mockGroupService.getMajorVersionProviewTitles(book.getFullyQualifiedTitleId())).andReturn(proviewTitleList);
+        initProviewHandler(FULLY_QUALIFIED_TITLE_ID, createProviewTitleList(FULLY_QUALIFIED_TITLE_ID));
+
         EasyMock.expect(mockGroupService.getLastGroup(GROUP_ID)).andReturn(groupDefinition);
         mockGroupService.createGroup(EasyMock.anyObject(GroupDefinition.class));
         EasyMock.replay(mockGroupService);
 
         mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
         EasyMock.replay(mockAuditService);
+    }
+
+    @SneakyThrows
+    private void initProviewHandler(String fullyQualifiedTitleId, List<ProviewTitleInfo> proviewTitleInfos) {
+        final ProviewTitleContainer container = new ProviewTitleContainer(proviewTitleInfos);
+        final Map<String, ProviewTitleContainer> proviewTitleContainerMap = new HashMap<>();
+        proviewTitleContainerMap.put(fullyQualifiedTitleId, container);
+        EasyMock.expect(mockProviewHandler.getTitlesWithUnitedParts()).andReturn(proviewTitleContainerMap);
+        EasyMock.replay(mockProviewHandler);
     }
 
     private void createRequestPost() {

@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import lombok.EqualsAndHashCode;
@@ -30,8 +31,7 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
     private String title;
     private Integer totalNumberOfVersions;
     private String lastStatusUpdateDate;
-    private Integer splitParts;
-
+    private List<String> splitParts;
     @Override
     public BigInteger getMajorVersion() {
         return new Version(version).getMajorNumber();

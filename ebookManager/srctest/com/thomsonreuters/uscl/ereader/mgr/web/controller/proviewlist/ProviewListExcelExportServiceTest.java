@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -30,7 +32,7 @@ public final class ProviewListExcelExportServiceTest {
         title.setTitle("");
         title.setTitleId("");
         title.setTotalNumberOfVersions(2);
-        title.setSplitParts(1);
+        title.setSplitParts(Collections.singletonList(""));
         title.setVersion("");
         title.setStatus("");
         title.setPublisher("");
@@ -47,7 +49,7 @@ public final class ProviewListExcelExportServiceTest {
     public void testMaxExcelRows() {
         final ProviewTitleInfo title = new ProviewTitleInfo();
         title.setTotalNumberOfVersions(1);
-        title.setSplitParts(1);
+        title.setSplitParts(Collections.singletonList(""));
         final List<ProviewTitleInfo> titles = new ArrayList<>();
 
         for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++) {

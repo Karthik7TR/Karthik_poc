@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public abstract class TitleInfoDecorator implements TitleInfo {
     @NotNull
@@ -60,7 +61,7 @@ public abstract class TitleInfoDecorator implements TitleInfo {
     }
 
     @Override
-    public Integer getSplitParts() {
+    public List<String> getSplitParts() {
         return titleInfo.getSplitParts();
     }
 }

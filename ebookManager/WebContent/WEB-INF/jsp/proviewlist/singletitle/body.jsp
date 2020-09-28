@@ -35,7 +35,9 @@ function openFullcreenWindow(url)
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
 	  	<display:column title="ProView Display Name" property="title" sortable="true"/>
-		<display:column title="Split Parts" property="splitParts" sortable="true"/>
+		<display:column title="Split Parts" sortable="true">
+			${vdo.splitParts.size()}
+		</display:column>
 		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparatorDesc" sortable="true"/>
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
