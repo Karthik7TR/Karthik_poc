@@ -79,6 +79,8 @@ public class CoreConstants {
 
     public static final String NO_TITLE_IN_PROVIEW = "Title does not exist in Proview.";
 
+    public static final String GROUP_METADATA_EXCEPTION = "GroupMetadataException";
+
     public static final String GROUP_AND_VERSION_EXISTS = "Group already exists in Proview.";
 
     public static final String TTILE_IN_QUEUE = "Title already exists in publishing queue";

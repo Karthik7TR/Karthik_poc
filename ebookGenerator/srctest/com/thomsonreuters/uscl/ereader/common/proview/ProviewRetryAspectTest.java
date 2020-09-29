@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,7 +33,8 @@ public final class ProviewRetryAspectTest {
     @Before
     public void setUp() {
         doNothing().when(aspect).waitProview(anyInt());
-        aspect.setMaxNumberOfRetries(2);
+        aspect.setMaxNumberOfRetries(6);
+        aspect.setBaseSleepTimeInSeconds(15);
     }
 
     @Test
@@ -45,10 +47,20 @@ public final class ProviewRetryAspectTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfProviewFailure() throws Throwable {
+    public void shouldThrowExceptionIfProviewFailure1() throws Throwable {
         //given
         thrown.expect(ProviewRuntimeException.class);
         doThrow(new ProviewException(CoreConstants.TTILE_IN_QUEUE)).when(jp).proceed();
+        //when
+        aspect.around(jp);
+        //then
+    }
+
+    @Test
+    public void shouldThrowExceptionIfProviewFailure2() throws Throwable {
+        //given
+        thrown.expect(ProviewRuntimeException.class);
+        doThrow(new ProviewException(CoreConstants.NO_TITLE_IN_PROVIEW, new Throwable(CoreConstants.GROUP_METADATA_EXCEPTION))).when(jp).proceed();
         //when
         aspect.around(jp);
         //then

@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,6 +37,9 @@ public final class GroupServiceImplTest {
     private static final String SUBGROUP_NAME_2 = "2016";
     private static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/book_lohisplitnodeinfo";
     private static final String PILOT_BOOK_TITLE_ID = "uscl/an/book_pilotBook";
+    private static final String EXCEPTION_MESSAGE = "Message";
+    private static final String EXCEPTION_TITLE_DOES_NOT_EXIST = "This Title does not exist";
+    private static final String INTERNAL_SERVER_ERROR = "500";
     private static final String V_1_MAJOR = "/v1";
     private static final String V1 = "v1.0";
     private static final String V2 = "v2.0";
@@ -1790,6 +1794,40 @@ public final class GroupServiceImplTest {
         Assert.assertEquals(SUBGROUP_NAME_2, groupDefinition.getSubGroupInfoList().get(0).getHeading());
         Assert.assertEquals(titles.stream().map(item -> item + V_1_MAJOR).collect(Collectors.toList()),
                 groupDefinition.getSubGroupInfoList().get(0).getTitles());
+    }
+
+    @Test
+    @SneakyThrows
+    public void testCreateGroupSuccess() {
+        EasyMock.expect(mockProviewHandler.createGroup(GROUP_INFO_NO_SUBGROUP())).andReturn(StringUtils.EMPTY);
+
+        groupService.createGroup(GROUP_INFO_NO_SUBGROUP());
+    }
+
+    @Test
+    public void testCreateGroupFailure1() {
+        final ProviewRuntimeException throwable = new ProviewRuntimeException(INTERNAL_SERVER_ERROR, EXCEPTION_TITLE_DOES_NOT_EXIST);
+        try {
+            EasyMock.expect(mockProviewHandler.createGroup(GROUP_INFO_NO_SUBGROUP()))
+                    .andThrow(throwable);
+            groupService.createGroup(GROUP_INFO_NO_SUBGROUP());
+        } catch (Exception e) {
+            Assert.assertEquals(CoreConstants.NO_TITLE_IN_PROVIEW, e.getMessage());
+            Assert.assertEquals(throwable, e.getCause());
+        }
+    }
+
+    @Test
+    public void testCreateGroupFailure2() {
+        final ProviewRuntimeException throwable = new ProviewRuntimeException(INTERNAL_SERVER_ERROR, EXCEPTION_MESSAGE);
+        try {
+            EasyMock.expect(mockProviewHandler.createGroup(GROUP_INFO_NO_SUBGROUP()))
+                    .andThrow(throwable);
+            groupService.createGroup(GROUP_INFO_NO_SUBGROUP());
+        } catch (Exception e) {
+            Assert.assertEquals(EXCEPTION_MESSAGE, e.getMessage());
+            Assert.assertEquals(throwable, e.getCause());
+        }
     }
 
     @SneakyThrows

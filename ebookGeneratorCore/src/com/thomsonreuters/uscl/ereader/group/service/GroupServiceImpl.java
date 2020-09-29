@@ -31,6 +31,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.http.HttpStatus;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_EREFERENCE;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_STANDARD;
@@ -148,14 +149,15 @@ public class GroupServiceImpl implements GroupService {
             proviewHandler.createGroup(groupDefinition);
         } catch (final ProviewRuntimeException ex) {
             final String errorMsg = ex.getMessage();
-            if (ex.getStatusCode().equalsIgnoreCase("400")) {
+            final HttpStatus status = HttpStatus.valueOf(Integer.parseInt(ex.getStatusCode()));
+            if (status.is4xxClientError() || status.is5xxServerError()) {
                 if (errorMsg.contains("This Title does not exist")) {
-                    throw new ProviewException(CoreConstants.NO_TITLE_IN_PROVIEW);
+                    throw new ProviewException(CoreConstants.NO_TITLE_IN_PROVIEW, ex);
                 } else if (errorMsg.contains("GroupId already exists with same version")
                     || errorMsg.contains("Version Should be greater")) {
                     throw new ProviewException(CoreConstants.GROUP_AND_VERSION_EXISTS);
                 } else {
-                    throw new ProviewException(errorMsg);
+                    throw new ProviewException(errorMsg, ex);
                 }
             } else {
                 throw new ProviewException(errorMsg);

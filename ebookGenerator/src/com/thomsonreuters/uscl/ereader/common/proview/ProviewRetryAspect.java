@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
+import lombok.Setter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,31 +17,33 @@ import org.springframework.beans.factory.annotation.Value;
  * Aspect to retry Proview API call if one failed
  */
 @Aspect
+@Setter
 public class ProviewRetryAspect {
     private static final Logger LOG = LogManager.getLogger(ProviewRetryAspect.class);
 
-    @Value("2")
+    @Value("6")
     private Integer maxNumberOfRetries;
     @Value("15")
-    private Integer sleepTimeInMinutes;
-    @Value("2")
-    private Integer baseSleepTimeInMinutes;
+    private Integer baseSleepTimeInSeconds;
 
     @Around("@annotation(com.thomsonreuters.uscl.ereader.common.proview.ProviewRetry)")
     public void around(final ProceedingJoinPoint jp) throws Throwable {
-        waitProview(baseSleepTimeInMinutes);
+        long currentSleepTime = baseSleepTimeInSeconds;
+        waitProview(currentSleepTime);
         for (int i = 0; i <= maxNumberOfRetries; i++) {
             try {
                 jp.proceed();
                 return;
             } catch (final ProviewException e) {
-                if (e.getMessage().equalsIgnoreCase(CoreConstants.TTILE_IN_QUEUE)) {
+                if (e.getMessage().equalsIgnoreCase(CoreConstants.TTILE_IN_QUEUE)
+                        || (e.getCause() != null && e.getCause().getMessage().contains(CoreConstants.GROUP_METADATA_EXCEPTION))) {
+                    currentSleepTime = Math.round(baseSleepTimeInSeconds * Math.pow(2, i + 1));
                     LOG.warn(
                         String.format(
-                            "Retriable status received: waiting %d minutes (retryCount: %d)",
-                            sleepTimeInMinutes,
+                            "Retriable status received: waiting %d seconds (retryCount: %d)",
+                            currentSleepTime,
                             i + 1));
-                    waitProview(sleepTimeInMinutes);
+                    waitProview(currentSleepTime);
                 } else {
                     throw new ProviewRuntimeException(e.getMessage());
                 }
@@ -54,17 +57,13 @@ public class ProviewRetryAspect {
                     maxNumberOfRetries + 1));
     }
 
-    void waitProview(final Integer timeInMinutes) {
+    void waitProview(final long timeInSeconds) {
         // Most of the books should finish in two minutes
         try {
-            TimeUnit.MINUTES.sleep(timeInMinutes);
+            TimeUnit.SECONDS.sleep(timeInSeconds);
         } catch (final InterruptedException e) {
             LOG.error("InterruptedException during HTTP retry", e);
             Thread.currentThread().interrupt();
         }
-    }
-
-    void setMaxNumberOfRetries(final Integer maxNumberOfRetries) {
-        this.maxNumberOfRetries = maxNumberOfRetries;
     }
 }
