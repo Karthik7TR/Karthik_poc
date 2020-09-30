@@ -1800,7 +1800,7 @@ public final class GroupServiceImplTest {
     @SneakyThrows
     public void testCreateGroupSuccess() {
         EasyMock.expect(mockProviewHandler.createGroup(GROUP_INFO_NO_SUBGROUP())).andReturn(StringUtils.EMPTY);
-
+        EasyMock.replay(mockProviewHandler);
         groupService.createGroup(GROUP_INFO_NO_SUBGROUP());
     }
 
@@ -1810,6 +1810,7 @@ public final class GroupServiceImplTest {
         try {
             EasyMock.expect(mockProviewHandler.createGroup(GROUP_INFO_NO_SUBGROUP()))
                     .andThrow(throwable);
+            EasyMock.replay(mockProviewHandler);
             groupService.createGroup(GROUP_INFO_NO_SUBGROUP());
         } catch (Exception e) {
             Assert.assertEquals(CoreConstants.NO_TITLE_IN_PROVIEW, e.getMessage());
@@ -1823,10 +1824,10 @@ public final class GroupServiceImplTest {
         try {
             EasyMock.expect(mockProviewHandler.createGroup(GROUP_INFO_NO_SUBGROUP()))
                     .andThrow(throwable);
+            EasyMock.replay(mockProviewHandler);
             groupService.createGroup(GROUP_INFO_NO_SUBGROUP());
         } catch (Exception e) {
             Assert.assertEquals(EXCEPTION_MESSAGE, e.getMessage());
-            Assert.assertEquals(throwable, e.getCause());
         }
     }
 

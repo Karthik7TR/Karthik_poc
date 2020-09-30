@@ -157,7 +157,7 @@ public class GroupServiceImpl implements GroupService {
                     || errorMsg.contains("Version Should be greater")) {
                     throw new ProviewException(CoreConstants.GROUP_AND_VERSION_EXISTS);
                 } else {
-                    throw new ProviewException(errorMsg, ex);
+                    throw new ProviewException(errorMsg);
                 }
             } else {
                 throw new ProviewException(errorMsg);
