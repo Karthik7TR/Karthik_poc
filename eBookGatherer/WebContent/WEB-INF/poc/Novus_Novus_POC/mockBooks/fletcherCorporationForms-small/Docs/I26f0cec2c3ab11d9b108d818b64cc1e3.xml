@@ -1,0 +1,910 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>1 West&apos;s Fed. Forms, Supreme Court § 45 (5th ed.)<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>West&apos;s Federal Forms</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I26f0cec1c3ab11d9b108d818b64cc1e3">
+				<bop/>
+				<bos/>
+				<headtext>Supreme Court</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20200501">
+						<bop/>
+						<bos/>May 2020 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Bennett Boskey [<footnote.reference refid="I647e6f408ed411ea9f15a6eb8a891029">a0</footnote.reference>]</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I0d1f7590843c11d98ec5912aed8d9ef1">
+				<bop/>
+				<bos/>
+				<label.name>Part</label.name>
+				<label.designator>III.</label.designator>
+				<headtext>Jursidiction on Writ of Certiorari</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I0d1feac0843c11d98ec5912aed8d9ef1">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>4.</label.designator>
+				<headtext>Petitions for Certiorari</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="Iff2e46a0843b11d98ec5912aed8d9ef1">
+				<bop/>
+				<bos/>
+				<label.designator>A.</label.designator>
+				<headtext>The Nature of Certiorari Jurisdiction</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I26f0cec1c3ab11d9b108d818b64cc1e3">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>45.</label.designator>
+						<headtext>Time Requirements for Filing Petition for Certiorari</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+				<research.references>
+					<reference.block>
+						<bos/>
+						<head style="l" parent="reference.block">
+							<bop/>
+							<headtext>West&apos;s Key Number Digest</headtext>
+							<eop/>
+						</head>
+						<topic.key.ref>
+							<bop/>
+							<eos/>
+							<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00001" w-ref-type="KW" w-normalized-cite="170B" ID="I13e3c7c08ed311eab891b3ce61f72257">Federal Courts</cite.query>
+							<n-private-char charName="TLRkey"></n-private-char>453, 509<eos/>
+							<eop/>
+						</topic.key.ref>
+					</reference.block>
+					<reference.block>
+						<bos/>
+						<head style="l" parent="reference.block">
+							<bop/>
+							<headtext>Legal Encyclopedias</headtext>
+							<eop/>
+						</head>
+						<reference>
+							<bop/>
+							<eos/>
+							<bos/>
+							<cite.query w-src-number="0112680054" w-seq-number="00002" w-ref-type="ER" w-normalized-cite="CJSFEDCOURTSs204(10)" w-pub-number="0156901" ID="I13e464008ed311eab891b3ce61f72257">C.J.S., Federal Courts §§ 204(10)</cite.query>, <cite.query w-src-number="0112680054" w-serial-number="0290692840" w-seq-number="00003" w-ref-type="TS" w-pub-number="0156901" ID="I13e464018ed311eab891b3ce61f72257">238</cite.query>, <cite.query w-src-number="0112680054" w-serial-number="0290692880" w-seq-number="00004" w-ref-type="TS" w-pub-number="0156901" ID="I13e464028ed311eab891b3ce61f72257">277</cite.query>
+							<eos/>
+							<eop/>
+						</reference>
+					</reference.block>
+					<reference.block>
+						<bos/>
+						<head style="l" parent="reference.block">
+							<bop/>
+							<headtext>Treatises and Practice Aids</headtext>
+							<eop/>
+						</head>
+						<reference>
+							<bop/>
+							<eos/>
+							<bos/>
+							<cite.query w-seq-number="00005" w-ref-type="NA" w-normalized-cite="FPPs4004" w-pub-number="0102228" ID="I13e4d9318ed311eab220ca78d6032ed0">Federal Practice and Procedure §§ 4004 to 4004.8, 4016 to 4017, 4036</cite.query>
+							<eos/>
+							<eop/>
+						</reference>
+					</reference.block>
+				</research.references>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Rule 13 deals with the time for petitioning for certiorari. <eos/>
+						<bos/>A petition for certiorari is deemed in time if the petition for certiorari is filed with the Clerk of the Supreme Court within the time prescribed (or as duly extended) for the particular type of case.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The time allowed for filing a petition for certiorari is not identical for all types of cases. <eos/>
+						<bos/>But for most types of cases it has now been fixed as being <begin.quote ID="QT_0001"/>&quot;within 90 days after the entry of judgment.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0001"/> For at least most types of cases a limited extension of time may be sought from a Supreme Court Justice (not, however, from the lower court or a judge thereof).<eos/>
+						<bos/> This is in contrast to appeals as of right, where no provision is made for enlarging the prescribed time for filing notices of appeal (<cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTs241" w-pub-number="212869" ID="I6485c2408ed411ea9f15a6eb8a891029">§ 241</cite.query>, infra), although the time for actually docketing the appeal in the Supreme Court may be extended by a Supreme Court Justice in a manner comparable to that for extension of time to file a petition for certiorari (<cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTs244" w-pub-number="212869" ID="I6485c2418ed411ea9f15a6eb8a891029">§ 244</cite.query>, infra).<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Specifically, Rule 13.1 deals comprehensively with the time for filing a petition for certiorari in most—though probably not all—classes of cases. <eos/>
+						<bos/>It provides:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0002"/>&quot;Unless otherwise provided by law, a petition for a writ of certiorari to review a judgment in any case, civil or criminal, entered by a state court of last resort or a United States court of appeals (including the United States Court of Appeals for the Armed Forces) is timely when it is filed with the Clerk of this Court within 90 days after entry of the judgment. <eos/>
+								<bos/>A petition for a writ of certiorari seeking review of a judgment of a lower state court that is subject to discretionary review by the state court of last resort is timely when it is filed with the Clerk within 90 days after entry of the order denying discretionary review.&quot;<eos/>
+								<bos/>
+								<end.quote refid="QT_0002"/>
+							</paratext>
+						</para>
+					</display.quote>
+					<paratext>The sources of this provision are in part statutory, and in part by virtue of the Court&apos;s rulemaking authority.[<eos/>
+						<bos/>
+						<footnote.reference refid="I6485e9508ed411ea9f15a6eb8a891029">1</footnote.reference>] It should also be remembered that Rule 47 provides that the term &quot;state court&quot; when used in the Supreme Court&apos;s Rules <begin.quote ID="QT_0005"/>&quot;includes the District of Columbia Court of Appeals and the Supreme Court of the Commonwealth of Puerto Rico. <eos/>
+						<bos/>See <cite.query w-src-number="0112680054" w-seq-number="00010" w-ref-type="LQ" w-normalized-cite="28USCAS1257" w-pub-number="1000546" ID="I13eaf3b08ed311eab891b3ce61f72257">28 U.S.C. §§ 1257</cite.query> and <cite.query w-src-number="0112680054" w-seq-number="00011" w-ref-type="LQ" w-normalized-cite="28USCAS1258" w-pub-number="1000546" ID="I13eaf3b18ed311eab891b3ce61f72257">1258</cite.query>.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0005"/> Thus the 90-day period is applicable also to cases coming from those two courts.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Rule 13.2 specifies that <begin.quote ID="QT_0008"/>&quot;The Clerk will not file any petition for a writ of certiorari that is jurisdictionally out of time&quot;<end.quote refid="QT_0008"/> (see <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTs2" w-pub-number="212869" ID="I648637708ed411ea9f15a6eb8a891029">§ 2</cite.query>, supra).<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Rule 13.3 endeavors to inform all concerned on the matter of when the prescribed time begins to run. <eos/>
+						<bos/>First, it says that the time runs <begin.quote ID="QT_0011"/>&quot;from the date of entry of the judgment or order sought to be reviewed, and not from the issuance date of the mandate (or its equivalent) under local practice.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0011"/> Next it deals with the rehearing question. <eos/>
+						<bos/>It specifies that <begin.quote ID="QT_0009"/>&quot;if a petition for rehearing is timely filed in the lower court by any party, the time to file the petition for a writ of certiorari for all parties (whether or not they requested rehearing or joined in the petition for rehearing) runs from the date of the denial of the petition for rehearing or, if the petition for rehearing is granted, the subsequent entry of judgment.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0009"/> Finally, it deals with the matter of suggestions for rehearing en banc. <eos/>
+						<bos/>On this it says that <begin.quote ID="QT_0010"/>&quot;A suggestion made to a United States court of appeals for a rehearing en banc is not a petition for rehearing within the meaning of this Rule unless so treated by the United States court of appeals.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0010"/>[<footnote.reference refid="I648637718ed411ea9f15a6eb8a891029">2</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A 1999 amendment deleted the last sentence of then Rule 13.3 dealing with suggestions for rehearing en banc. <eos/>
+						<bos/>This was on the ground that the sentence had been made obsolete by the recently adopted <cite.query w-src-number="0112680054" w-seq-number="00012" w-ref-type="LQ" w-normalized-cite="USFRAPR35" w-pub-number="1000599" ID="I13ee76208ed311eab891b3ce61f72257">Rules 35</cite.query> and <cite.query w-src-number="0112680054" w-seq-number="00013" w-ref-type="LQ" w-normalized-cite="USFRAPR41" w-pub-number="1000599" ID="I13ee76218ed311eab891b3ce61f72257">41 of the Federal Rules of Appellate Procedure</cite.query>.[<eos/>
+						<bos/>
+						<footnote.reference refid="I648637728ed411ea9f15a6eb8a891029">2.10</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The Main Volume describes how, beginning with the 1980 Rules, the Supreme Court adopted a general principle that timeliness could be attained by filing-when-mailed rather than solely when received by the Clerk. <eos/>
+						<bos/>One of the principal changes in the 2003 Rules revisions was to sanction another alternative—timeliness when delivered to a commercial carrier. <eos/>
+						<bos/>This was accomplished by adding to Rule 29.2 provisions specifying that timely filing occurs if the document <begin.quote ID="QT_0014"/>&quot;is delivered on or before the last day for filing to a third-party commercial carrier for delivery to the Clerk within 3 calendar days&quot;<end.quote refid="QT_0014"/> and that <begin.quote ID="QT_0015"/>&quot;if the third-party commercial carrier does not provide the date the document was received by the carrier&quot;<end.quote refid="QT_0015"/> then the Clerk will require the person who sent the document to submit an affidavit or declaration setting out the details of the filing and stating that the filing took place on a particular date within the permitted time (this is just as is done when the filing takes place by mail but when the postmark is missing or illegible).<eos/>
+						<bos/> The implications of this new alternative of filing by commercial carrier are discussed at length in the article set forth in <cite.query w-ref-type="DA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTAPPF" w-pub-number="212869" ID="I64865e808ed411ea9f15a6eb8a891029">Appendix F</cite.query> in the Pocket Part to Volume 1AA and also in the article set forth in <cite.query w-ref-type="DA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTAPPN" w-pub-number="212869" ID="I648a08008ed411ea9f15a6eb8a891029">Appendix N</cite.query> in the Pocket Part to Volume 1AA. <eos/>
+						<bos/>Experience since the alternative became available on May 1, 2003, indicates that it is working smoothly and well.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>For an important acknowledgment of the over-use of the term “jurisdictional” in connection with specifically established time limitations, see <cite.query w-src-number="0112680054" w-serial-number="2004063920" w-seq-number="00016" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="915" ID="I13f21fa28ed311eab891b3ce61f72257">Kontrick v. Ryan, 540 U.S. 443, 124 S. Ct. 906, 915, 157 L. Ed. 2d 867 (2004)</cite.query> (“Courts, including this Court, have been less than meticulous in this regard: they have more than occasionally used the term ‘jurisdictional’ to describe emphatic time prescriptions in rules of court”).<eos/>
+						<bos/> See also <cite.query w-src-number="0112680054" w-serial-number="2008499362" w-seq-number="00017" w-ref-type="RP" w-pub-number="0000708" ID="I13f21fa68ed311eab891b3ce61f72257">Arbaugh v. Y&amp;H Corp., 546 U.S. 500, 126 S. Ct. 1235, 163 L. Ed. 2d 1097 (2006)</cite.query>; see also <cite.query w-src-number="0112680054" w-serial-number="2021448087" w-seq-number="00018" w-ref-type="RP" w-pub-number="0000708" ID="I13f21fa98ed311eab891b3ce61f72257">Reed Elsevier, Inc. v. Muchnick, 130 S. Ct. 1237, 176 L. Ed. 2d 17, 38 Media L. Rep. (BNA) 1321, 93 U.S.P.Q.2d 1719 (2010)</cite.query>. <eos/>
+						<bos/>If the time limit in a court rule is deemed non-jurisdictional, then failure to make a timely objection to untimeliness is likely to be held to be a waiver of the objection. <eos/>
+						<bos/>
+						<cite.query w-src-number="0112680054" w-serial-number="2007587377" w-seq-number="00019" w-ref-type="RP" w-pub-number="0000708" ID="I13f21faf8ed311eab891b3ce61f72257">Eberhart v. U.S., 546 U.S. 12, 126 S. Ct. 403, 163 L. Ed. 2d 14 (2005)</cite.query>.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The 2005 amendments to Rule 13.3 dealt with a hiatus in the text of the Rule and aimed at clarifying the date from which the time runs for filing a petition for certiorari when in the court below there have been certain kinds of rehearing activity previously not mentioned in the Rule. <eos/>
+						<bos/>The details of this relatively obscure matter are discussed in the article set forth in Appendix N to the Pocket Part in Volume 1AA.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Rule 13.4 deals with cross-petitions and conditional cross-petitions for certiorari. <eos/>
+						<bos/>It states:</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								<begin.quote ID="QT_0016"/>&quot;A cross-petition for a writ of certiorari is timely when it is filed with the Clerk as provided in paragraphs 1, 3, and 5 of this Rule, or in Rule 12.5. <eos/>
+								<bos/>However, a conditional cross-petition (which except for Rule 12.5 would be untimely) will not be granted unless another party&apos;s timely petition for a writ of certiorari is granted.&quot;<eos/>
+								<end.quote refid="QT_0016"/>
+							</paratext>
+						</para>
+					</display.quote>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Rule 13.5 at last covers the subject of extensions of time (for the details, see the Comment in <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTs46" w-pub-number="212869" ID="I648a56208ed411ea9f15a6eb8a891029">§ 46</cite.query>, <cite.query w-src-number="0112680054" w-serial-number="2007587377" w-seq-number="00020" w-ref-type="RT" w-pub-number="0000780" ID="I13f553f08ed311eab891b3ce61f72257">infra)</cite.query>. <eos/>
+						<bos/>Basically, Rule 13.5 provides that a Justice of the Supreme Court, for good cause shown, may extend the time to file a petition for certiorari for a period not exceeding 60 days. <eos/>
+						<bos/>This is stated as if universally applicable to all petitions for certiorari, and clearly it does apply at least to almost all of them. <eos/>
+						<bos/>There can be no doubt as to the power of a Justice to grant the extension if the case comes under <cite.query w-src-number="0112680054" w-seq-number="00021" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I13f553f18ed311eab891b3ce61f72257">28 U.S.C. § 2101(c)</cite.query>, where the statute, after fixing a 90-day period for filing a petition for certiorari, then expressly confers such authority (see note 1 of this section).<eos/>
+						<bos/> Nor can there be any doubt as to the power of a Justice, under this Rule, to grant such an extension where the governing statute provides that the petition for certiorari shall be filed within the time fixed by the Supreme Court&apos;s Rules (likewise see note 1 of this section).<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Situations in which the power to extend may be debatable, however, may arise in connection with the relatively narrow group of cases where other statutory provisions control the time for filing the petition for certiorari. <eos/>
+						<bos/>There are several of these, although the cases they generate for the Supreme Court have not been numerous.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Thus in a case to review a United States court of appeals order <begin.quote ID="QT_0018"/>&quot;granting or denying an interlocutory injunction&quot;<end.quote refid="QT_0018"/> in a proceeding to review certain types of final orders of federal administrative agencies (as specified in <cite.query w-src-number="0112680054" w-seq-number="00022" w-ref-type="LQ" w-normalized-cite="28USCAS2342" w-pub-number="1000546" ID="I13f665608ed311eab891b3ce61f72257">28 U.S.C. § 2342</cite.query>[<footnote.reference refid="I648a56218ed411ea9f15a6eb8a891029">3</footnote.reference>]) the time for filing the petition for certiorari is fixed by statute as being within forty-five days after entry of such order by the court of appeals.[<eos/>
+						<bos/>
+						<footnote.reference refid="I648a56228ed411ea9f15a6eb8a891029">4</footnote.reference>] It will be noted that no provision is expressly included for extending this time. <eos/>
+						<bos/>In a case to review the final judgment of the United States court of appeals in such a proceeding, the same statute allows a petition for certiorari to be filed within ninety days after the entry of such final judgment. <eos/>
+						<bos/>Again, however, no provision is expressly included for extending this time.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In the absence of some authoritative ruling that the 60-day extension period can be availed of in these classes of cases governed by special statutory provisions, cautious counsel will wish to be sure that their petition for certiorari is filed within the period specified and does not depend on obtaining an extension.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In an application for certiorari to review a case before judgment has been rendered in United States court of appeals, the statute permits the petition for certiorari to be filed at any time before judgment.[<eos/>
+						<bos/>
+						<footnote.reference refid="I648a7d308ed411ea9f15a6eb8a891029">5</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>It should be borne in mind that ninety days does not mean three months; it means ninety days. <eos/>
+						<bos/>The computation is a precise computation by days—although as Rule 30.1 specifies, if the ninetieth day falls on a Saturday, a Sunday or a federal legal holiday, or a day on which the Supreme Court building has been closed by order of the Court or the Chief Justice, then the filing is timely if done on the next day which is not a Saturday, a Sunday, a federal legal holiday, or a day on which the Court building has been closed (compare <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTs461" w-pub-number="212869" ID="I648c51f18ed411ea9f15a6eb8a891029">§ 461</cite.query>, <cite.query w-src-number="0112680054" w-serial-number="2007587377" w-seq-number="00035" w-ref-type="RT" w-pub-number="0000780" ID="I13fc0ab08ed311eab891b3ce61f72257">infra)</cite.query>.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<head style="c" parent="section.body">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Out-of-Time Petitions for Certiorari</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Failure to file a petition for certiorari within the time prescribed (or as duly extended) was, in earlier days, deemed to create an absolute jurisdictional defect. <eos/>
+						<bos/>Developments during the past few decades indicate that, in some rare situations, where the time is fixed not by statute but by Rule, the Court has considered the defect not to be strictly jurisdictional. <eos/>
+						<bos/>In a few compelling cases the Court has found sufficient reasons for granting out-of-time petitions for certiorari in particular situations—at least in cases where the time limit for filing the petition for certiorari was fixed not by statute but by the Supreme Court&apos;s Rules.[<eos/>
+						<bos/>
+						<footnote.reference refid="I648c51f28ed411ea9f15a6eb8a891029">6</footnote.reference>] It is to be noted, moreover, that in both federal criminal cases and state criminal cases the time for filing a petition for certiorari on direct review is fixed not by statute but by the Supreme Court&apos;s Rules. <eos/>
+						<bos/>Thus, even though the narrow exceptions must be assumed to be applicable only where no statutory bar is involved and the Court decides it is appropriate to waive its Rules, there would still be room for the exceptions to operate, in occasional cases, throughout the area of direct review of criminal judgments whether from federal or state courts. <eos/>
+						<bos/>And in a few such cases the Court has deemed it appropriate, under the particular circumstances, to waive the time requirement of the Rules.[<eos/>
+						<bos/>
+						<footnote.reference refid="I648fad508ed411ea9f15a6eb8a891029">7</footnote.reference>] The emergence of this narrow exception can be seen from the cases summarized in this section. <eos/>
+						<bos/>When the Court has waived the time requirement, it sometimes has done so without comment in its opinion, although the fact that the point was raised by the parties makes it obvious that the action was deliberate. <eos/>
+						<bos/>That is, it was an exercise of what the Court has regarded as its discretion to entertain a late petition for certiorari where this can be done by a waiver of its own Rules which does not involve a departure from any statutory restriction. <eos/>
+						<bos/>Moreover, in a 1969 decision involving direct review of a federal criminal conviction the Court expressly adverted to the matter, saying that the time limitation in its then Rule 22(2) <begin.quote ID="QT_0023"/>&quot;is not jurisdictional … and does not bar our exercise of discretion to consider this case&quot;<end.quote refid="QT_0023"/>. <eos/>
+						<bos/>
+						<cite.query w-src-number="0112680054" w-serial-number="1969132941" w-seq-number="00061" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="1100" ID="I1415d4418ed311eab891b3ce61f72257">Taglianetti v. United States, R.I.1969, 89 S.Ct. 1099, 1100note 1, 394 U.S. 316, 317 note 1, 22 L.Ed.2d 302, 304 note 1</cite.query>.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Subsequently the Court further articulated its views with respect to occasionally accepting jurisdiction in such cases, at least where the time limit is fixed not by statute but by the Supreme Court&apos;s Rules and where the Court deems it appropriate, under the particular circumstances, to waive the requirement of the rules. <eos/>
+						<bos/>In <cite.query w-src-number="0112680054" w-serial-number="1970134229" w-seq-number="00062" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="1559" ID="I1419cbe18ed311eab891b3ce61f72257">Schacht v. United States, Tex.1970, 90 S.Ct. 1555, 1559, 398 U.S. 58, 64, 26 L.Ed.2d 44, 49</cite.query>, where the petition for certiorari in a federal criminal case was filed 101 days after the period prescribed by the Court&apos;s then-applicable Rule 22(2), the Court took jurisdiction despite strenuous objection by the Government. <eos/>
+						<bos/>In its opinion the Court emphasized that <begin.quote ID="QT_0029"/>&quot;it must be remembered that this Rule was not enacted by Congress but was promulgated by this Court under authority of Congress to prescribe rules concerning time limitations for taking appeals and applying for certiorari in criminal cases&quot;<end.quote refid="QT_0029"/>, and that <begin.quote ID="QT_0031"/>&quot;The procedural rules adopted by this Court for the orderly transaction of its business are not jurisdictional and can be relaxed by the Court in the exercise of its discretion when the ends of justice so require.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0031"/> In <cite.query w-src-number="0112680054" w-serial-number="1971127027" w-seq-number="00063" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="859" ID="I1419cbe58ed311eab891b3ce61f72257">Durham v. United States, Or.1971, 91 S.Ct. 858, 859, 401 U.S. 481, 482, 28 L.Ed.2d 200, 202</cite.query>, which likewise involved the review of a federal criminal conviction, the Court stated: <begin.quote ID="QT_0028"/>&quot;it is true that the petition for certiorari is out of time under our Rule 22(2), though timeliness under our rules, of course, presents no jurisdictional question. <eos/>
+						<bos/>Subsequent to the affirmance of his conviction below, petitioner filed a timely petition for rehearing. <eos/>
+						<bos/>Upon his inquiry to the Court of Appeals he was informed that he would be notified as to the disposition of his petition as soon as the court acted. <eos/>
+						<bos/>When several months passed without any word, petitioner again wrote to that court. <eos/>
+						<bos/>In reply, on September 8, 1970, he received a copy of the order dated March 5, 1970, denying his petition for rehearing. <eos/>
+						<bos/>Within three weeks from receipt of the denial from the Court of Appeals his petition for a writ of certiorari was docketed in this Court. <eos/>
+						<bos/>On these facts waiver of our Rule 22 is proper.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0028"/>[<footnote.reference refid="I648fd4608ed411ea9f15a6eb8a891029">8</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>On the other hand, in <cite.query w-src-number="0112680054" w-serial-number="1971242758" w-seq-number="00066" w-ref-type="RP" w-pub-number="0000708" ID="I141d75618ed311eab891b3ce61f72257">Deal v. Cincinnati Bd. of Educ., Ohio 1971, 91 S.Ct. 1630, 402 U.S. 962, 29 L.Ed.2d 128</cite.query>, a civil case where the time for filing the petition was fixed by statute, <cite.query w-src-number="0112680054" w-seq-number="00067" w-ref-type="LQ" w-normalized-cite="28USCAS2102" w-pub-number="1000546" ID="I141d75648ed311eab891b3ce61f72257">28 U.S.C. § 2102(c)</cite.query>, and the petition arrived at the Court one working day late, the Court denied the petition for certiorari &quot;since it was untimely filed.&quot; <eos/>
+						<bos/>Justice Douglas dissented with an opinion setting forth the grounds on which he thought jurisdiction ought to be accepted. <eos/>
+						<bos/>The Court&apos;s order did not specify expressly that the Court felt itself to be without power to review the case, and hence it did not appear conclusively whether this particular order rested on jurisdictional grounds or on discretionary grounds or on some combination of the two. <eos/>
+						<bos/>Nevertheless, based partly on the order in <cite.query w-src-number="0112680054" w-serial-number="1971242758" w-seq-number="00068" w-ref-type="RS" w-pub-number="0000708" ID="I141d75668ed311eab891b3ce61f72257">Deal</cite.query>, it was for a long time widely thought that the Court&apos;s position, where a time limitation is established by an Act of Congress—such as <cite.query w-src-number="0112680054" w-seq-number="00069" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I141d75698ed311eab891b3ce61f72257">28 U.S.C. § 2101(c)</cite.query> with respect to most types of civil proceedings—is that an untimely filing of a petition for certiorari is a jurisdictional defect which the Court cannot waive.[<eos/>
+						<bos/>
+						<footnote.reference refid="I648ffb708ed411ea9f15a6eb8a891029">9</footnote.reference>] Subsequently this belief was expressly confirmed by the Court&apos;s unequivocal statement in <cite.query w-src-number="0112680054" w-serial-number="1990064837" w-seq-number="00071" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="1660" ID="I141eade18ed311eab891b3ce61f72257">Missouri v. Jenkins, Mo.1990, 110 S.Ct. 1651, 1660, 495 U.S. 33, 45, 109 L.Ed.2d 31, 50</cite.query>, that the 90-day limit in <cite.query w-src-number="0112680054" w-seq-number="00072" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I141eade48ed311eab891b3ce61f72257">28 U.S.C. § 2101(c)</cite.query>
+						<begin.quote ID="QT_0032"/>&quot;is mandatory and jurisdictional. <eos/>
+						<bos/>We have no authority to extend the period for filing except as Congress permits.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0032"/> And this point in <cite.query w-src-number="0112680054" w-serial-number="1990064837" w-seq-number="00073" w-ref-type="RS" w-pub-number="0000708" ID="I141eade68ed311eab891b3ce61f72257">Missouri v. Jenkins</cite.query> was expressly reaffirmed in <cite.query w-src-number="0112680054" w-serial-number="1994239481" w-seq-number="00074" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="539" ID="I141eadea8ed311eab891b3ce61f72257">Federal Election Com&apos;n v. NRA Political Victory Fund, Dist.Col.1994, 115 S.Ct. 537, 539, 513 U.S. 88, 89, 130 L.Ed.2d 439, 443</cite.query>.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Subject to the possibility of being brought within some relatively narrow exceptions as discussed in this Comment, the petition for certiorari will not be entertained by the Supreme Court when it is filed late. <eos/>
+						<bos/>No lawyer would deliberately place himself in the position of filing an out-of-time petition for certiorari; yet it is important to know that being out-of-time has not always been fatal. <eos/>
+						<bos/>Rule 13.2 states expressly that the Clerk <begin.quote ID="QT_0033"/>&quot;will not file any petition for a writ of certiorari that is jurisdictionally out of time.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0033"/> When a petition for certiorari is received which is plainly out-of-time, the Clerk will notify the petitioner&apos;s counsel of this fact. <eos/>
+						<bos/>If the petitioner wishes to test the Court&apos;s willingness to make a dispensation, it is then open to counsel to file a motion for leave to file the petition for certiorari out-of-time. <eos/>
+						<bos/>The U.S. Reports in recent years show the stark regularity with which such motions have been denied.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<head style="c" parent="section.body">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Special Situations Relating to Timeliness</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A number of problems recur from time to time in connection with ascertaining the date when the time for filing the petition for certiorari begins to run. <eos/>
+						<bos/>The rules deal with at least some of these in a fashion designed to furnish clear guidance to the Bar.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Thus, when review is sought of a lower state court judgment that is subject to discretionary review by a state court of last resort, and such review has been denied, we have seen that Rule 13.1 states that the petition is timely if filed <begin.quote ID="QT_0036"/>&quot;within 90 days after entry of the order [of the state court of last resort] denying discretionary review.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0036"/> Rule 13.3 states the general principle that the time for filing a petition for certiorari runs <begin.quote ID="QT_0035"/>&quot;from the date of entry of the judgment or order sought to be reviewed, and not from the issuance date of the mandate (or its equivalent under local practice).<eos/>
+						<bos/>&quot;<end.quote refid="QT_0035"/> And it goes on to add that if a petition for rehearing is timely filed in the lower court[<footnote.reference refid="I649022808ed411ea9f15a6eb8a891029">10</footnote.reference>] by any party in the case, then <begin.quote ID="QT_0034"/>&quot;the time to file the petition for a writ of certiorari for all parties (whether or not they requested rehearing or joined in the petition for rehearing) runs from the date of the denial of the petition for rehearing or if the petition for rehearing is granted, the subsequent entry of judgment.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0034"/>[<footnote.reference refid="I649022818ed411ea9f15a6eb8a891029">11</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Other special situations—such as those involving petitions for rehearing and suggestions for rehearing en banc in the United States courts of appeals, and those involving cross-petitions and conditional cross-petitions—have already been discussed in the Comment of this section.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<head style="c" parent="section.body">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Timely Filing By Mail</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The 1980 Rules introduced for the first time into Supreme Court practice a general principle that timeliness could be attained by filing-when-mailed rather than solely when received by the Clerk: if mailed by first-class mail, postage prepaid, within the specified period, the filing would be deemed timely. <eos/>
+						<bos/>In embarking on this innovation, the Court in 1980 took the precaution of requiring that there be filed with the Clerk a notarized statement by a member of the Bar of the Court, setting forth the details of the mailing and stating that to the attorney&apos;s knowledge the mailing took place on a particular date within the permitted time. <eos/>
+						<bos/>Experience in the intervening decade showed, however, that the requirement for the notarized statement could in fact be dispensed with in the very high proportion of cases where the postmark was legible. <eos/>
+						<bos/>Hence a change was made in the 1990 Rules. <eos/>
+						<bos/>Rule 29.2, as carried over into the current Rules with minor stylistic changes, eliminated any such requirement unless the postmark is missing or not legible, in which case the Clerk <begin.quote ID="QT_0038"/>&quot;will require the person who mailed the document to submit a notarized statement or declaration in compliance with <cite.query w-src-number="0112680054" w-seq-number="00080" w-ref-type="LQ" w-normalized-cite="28USCAS1746" w-pub-number="1000546" ID="I14295c408ed311eab891b3ce61f72257">28 U.S.C. § 1746</cite.query> setting out the details of the mailing and stating that the mailing took place on a particular date within the permitted time.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0038"/> It should be noted, however, that in such a situation the person who mailed the document—and hence the person who makes the notarized statement or declaration—need not be a member of the Supreme Court Bar or even a lawyer. <eos/>
+						<bos/>Rule 29.2 also states that <begin.quote ID="QT_0039"/>&quot;commercial postage meter labels alone are not acceptable.&quot;<eos/>
+						<end.quote refid="QT_0039"/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>A second change made by the 1990 Rules, as likewise carried over under the current Rules with minor stylistic changes, was the addition of a sentence expressly dealing with private delivery or courier services. <eos/>
+						<bos/>This Rule 29.2 now states that <begin.quote ID="QT_0040"/>&quot;A document also is timely filed if it is forwarded through a private delivery or courier service and is received by the Clerk within the time permitted for filing&quot;<end.quote refid="QT_0040"/>. <eos/>
+						<bos/>This was already implicit in the 1980 text. <eos/>
+						<bos/>But it may not have been fully understood, and the Court found it advisable to state affirmatively that only the services of the U.S. Mail will be of avail in obtaining the benefits of the filing-when-mailed principle.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>It should be emphasized that the availability of the filing-by-mail mechanism makes it possible to avoid the kind of frantic last-minute efforts characteristic of a race to get documents into the hands of the Clerk in Washington before the deadline has passed.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<head style="c" parent="section.body">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Timeliness of Filings by Inmates</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Rule 29.2 contains a provision—another one added by the 1990 Rules—dealing specially with timeliness of documents filed by inmates confined in an institution. <eos/>
+						<bos/>It specifies that a document <begin.quote ID="QT_0042"/>&quot;if submitted by an inmate confined in an institution,&quot;<end.quote refid="QT_0042"/> is timely filed <begin.quote ID="QT_0041"/>&quot;if it is deposited in the institution&apos;s internal mail system on or before the last day for filing, and is accompanied by a notarized statement or declaration in compliance with <cite.query w-src-number="0112680054" w-seq-number="00081" w-ref-type="LQ" w-normalized-cite="28USCAS1746" w-pub-number="1000546" ID="I142b58108ed311eab891b3ce61f72257">28 U.S.C. § 1746</cite.query> setting out the date of deposit and stating that first-class postage has been prepaid.&quot;<eos/>
+						<bos/>
+						<end.quote refid="QT_0041"/> This provision was the outgrowth of several of the Court&apos;s rulings,[<footnote.reference refid="I64921e508ed411ea9f15a6eb8a891029">12</footnote.reference>] and the Court clearly concluded that it is better to deal with the matter by a general provision in its Rules rather than on an ad hoc basis.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<head style="l" parent="section.body">
+					<bop/>
+					<bos/>
+					<headtext>
+						<bold>Electronic Filing</bold>
+					</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>In addition to the filing requirements set forth in Rule 29, all filers who are represented by counsel must submit documents to the Court&apos;s electronic filing system in conformity with the <begin.quote ID="QT_0043"/>“Guidelines for the Submission of Documents to the Supreme Court&apos;s Electronic Filing System”<end.quote refid="QT_0043"/> issued by the Clerk.[<eos/>
+						<bos/>
+						<footnote.reference refid="I649245608ed411ea9f15a6eb8a891029">13</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<author.footnotes>
+			<footnote ID="I647e6f408ed411ea9f15a6eb8a891029">
+				<label.designator>a0</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Washington D.C.</paratext>
+						<eos/>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+		<footnote.block>
+			<footnote ID="I6485e9508ed411ea9f15a6eb8a891029">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Thus, <cite.query w-src-number="0112680054" w-seq-number="00006" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I13e96d108ed311eab891b3ce61f72257">28 U.S.C. § 2101(c)</cite.query> provides that <begin.quote ID="QT_0003"/>&quot;any writ of certiorari intended to bring any judgment or decree in a civil action, suit or proceeding before the Supreme Court for review shall be … applied for within ninety days after the entry of such judgment or decree. <eos/>
+							<bos/>A justice of the Supreme Court for good cause shown, may extend the time for applying for a writ of certiorari for a period not exceeding sixty days.&quot;<eos/>
+							<bos/>
+							<end.quote refid="QT_0003"/>
+							<cite.query w-src-number="0112680054" w-seq-number="00007" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I13e96d118ed311eab891b3ce61f72257">28 U.S.C. § 2101(d)</cite.query> specifies that the time for applying for certiorari to review the judgment of a State court in a criminal case <begin.quote ID="QT_0006"/>&quot;shall be as prescribed by rules of the Supreme Court.&quot;<eos/>
+							<bos/>
+							<end.quote refid="QT_0006"/>
+							<cite.query w-src-number="0112680054" w-seq-number="00008" w-ref-type="LQ" w-normalized-cite="USFRCRPR37" w-pub-number="1000598" ID="I13e96d128ed311eab891b3ce61f72257">Rule 37(c) of the Federal Rules of Criminal Procedure</cite.query>, specifies that petition for writ of certiorari in federal criminal cases shall be taken in the manner and within the time prescribed by the Supreme Court&apos;s rules.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0112680054" w-seq-number="00009" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I13ea57708ed311eab891b3ce61f72257">28 U.S.C. § 2101(g)</cite.query> specifies that <begin.quote ID="QT_0004"/>&quot;the time for application for a writ of certiorari to review a decision of the United States Court of Appeals for the Armed Forces shall be as prescribed by rules of the Supreme Court.&quot;<eos/>
+							<end.quote refid="QT_0004"/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648637718ed411ea9f15a6eb8a891029">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>The &quot;unless&quot; clause in this sentence was added by the 1995 Rules revision. <eos/>
+							<bos/>The Clerk&apos;s Comment when this change was proposed stated, perhaps a little optimistically, that the words in the added clause <begin.quote ID="QT_0012"/>&quot;bring the Court&apos;s Rule into conformity with the practice of a majority of the United States courts of appeals.&quot;<eos/>
+							<end.quote refid="QT_0012"/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648637728ed411ea9f15a6eb8a891029">
+				<label.designator>2.10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>The changes in <cite.query w-src-number="0112680054" w-seq-number="00014" w-ref-type="LQ" w-normalized-cite="USFRAPR35" w-pub-number="1000599" ID="I13ef39708ed311eab891b3ce61f72257">Rules 35</cite.query> and <cite.query w-src-number="0112680054" w-seq-number="00015" w-ref-type="LQ" w-normalized-cite="USFRAPR41" w-pub-number="1000599" ID="I13ef39718ed311eab891b3ce61f72257">41 of the Federal Rules of Appellate Procedure</cite.query> which became effective December 1, 1998, changed the title of &quot;suggestion for rehearing in banc&quot; to &quot;petition for rehearing en banc,&quot; and in other ways modified those Rules so that, in the words of the Advisory Committee on Appellate Rules, <begin.quote ID="QT_0013"/>&quot;One of the purposes of the amendment is to treat a request for rehearing en banc like a petition for panel rehearing so that a request for a rehearing en banc will suspend the finality of the court of appeals&apos; judgment and extend the period for filing a petition for writ of certiorari.&quot;<eos/>
+							<bos/>
+							<end.quote refid="QT_0013"/> The 1999 change in the Supreme Court&apos;s Rule 13.3 was compatible with this purpose.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648a56218ed411ea9f15a6eb8a891029">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0112680054" w-seq-number="00023" w-ref-type="LQ" w-normalized-cite="28USCAS2350" w-pub-number="1000546" ID="I13f8d6608ed311eab891b3ce61f72257">28 U.S.C. § 2350</cite.query>. <eos/>
+							<bos/>The final orders as specified in <cite.query w-src-number="0112680054" w-seq-number="00024" w-ref-type="LQ" w-normalized-cite="28USCAS2342" w-pub-number="1000546" ID="I13f8d6618ed311eab891b3ce61f72257">28 U.S.C. § 2342</cite.query> are (1) all final orders of the Federal Communications Commission made reviewable by <cite.query w-src-number="0112680054" w-seq-number="00025" w-ref-type="LQ" w-normalized-cite="47USCAS402" w-pub-number="1000546" ID="I13f8d6628ed311eab891b3ce61f72257">47 U.S.C. § 402(a)</cite.query>; (2) all final orders of the Secretary of Agriculture made under the Packers and Stockyards Act and under the Perishable Agricultural Commodities Act (except orders under <cite.query w-src-number="0112680054" w-seq-number="00026" w-ref-type="LQ" w-normalized-cite="7USCAS210" w-pub-number="1000546" ID="I13f8d6638ed311eab891b3ce61f72257">7 U.S.C. §§ 210(e)</cite.query>, <cite.query w-src-number="0112680054" w-seq-number="00027" w-ref-type="LQ" w-normalized-cite="7USCAS217A" w-pub-number="1000546" ID="I13f8d6648ed311eab891b3ce61f72257">217a</cite.query> and <cite.query w-src-number="0112680054" w-seq-number="00028" w-ref-type="LQ" w-normalized-cite="7USCAS499G" w-pub-number="1000546" ID="I13f8d6658ed311eab891b3ce61f72257">499g(a)</cite.query>); (3) all rules, regulations, or final orders of (A) the Secretary of Transportation issued pursuant to certain specified sections of the Shipping Act or pursuant to part B or C of Subtitle IV of 49 U.S.C., and (B) the Federal Maritime Commission issued pursuant to certain specified sections; (4) all final orders of the Nuclear Regulatory Commission made reviewable by <cite.query w-src-number="0112680054" w-seq-number="00029" w-ref-type="LQ" w-normalized-cite="42USCAS2239" w-pub-number="1000546" ID="I13f8d6668ed311eab891b3ce61f72257">42 U.S.C. § 2239</cite.query>; (5) all rules, regulations or final orders of the Surface Transportation Board made reviewable by <cite.query w-src-number="0112680054" w-seq-number="00030" w-ref-type="LQ" w-normalized-cite="28USCAS2321" w-pub-number="1000546" ID="I13f8d6678ed311eab891b3ce61f72257">28 U.S.C. § 2321</cite.query>; (6) all final orders under Section 812 of the Fair Housing Act; and (7) certain final actions of the Secretary of Transportation as specified in <cite.query w-src-number="0112680054" w-seq-number="00031" w-ref-type="LQ" w-normalized-cite="49USCAS20114" w-pub-number="1000546" ID="I13f8d6688ed311eab891b3ce61f72257">49 U.S.C. § 20114(c)</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648a56228ed411ea9f15a6eb8a891029">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0112680054" w-seq-number="00032" w-ref-type="LQ" w-normalized-cite="28USCAS2350" w-pub-number="1000546" ID="I13f94b908ed311eab891b3ce61f72257">28 U.S.C. § 2350</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648a7d308ed411ea9f15a6eb8a891029">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0112680054" w-seq-number="00033" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I13fb20508ed311eab891b3ce61f72257">28 U.S.C. § 2101(e)</cite.query>; see <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTs91" w-pub-number="212869" ID="I648c51f08ed411ea9f15a6eb8a891029">§ 91</cite.query>, <cite.query w-src-number="0112680054" w-serial-number="2007587377" w-seq-number="00034" w-ref-type="RT" w-pub-number="0000780" ID="I13fb20518ed311eab891b3ce61f72257">infra.</cite.query>
+						</paratext>
+						<eos/>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648c51f28ed411ea9f15a6eb8a891029">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See, e.g., <cite.query w-src-number="0112680054" w-serial-number="1942123292" w-seq-number="00036" w-ref-type="RP" w-pub-number="0000708" ID="I13ffb4318ed311eab891b3ce61f72257">Department of Banking v. Pink, N.Y.1942, 63 S.Ct. 233, 317 U.S. 264, 87 L.Ed. 254</cite.query>; Stern, Gressman et al., Supreme Court Practice (7th ed. 1993), § 6.1(e).<eos/>
+							<bos/> The existence of a narrow exception of this type was first clearly indicated by <cite.query w-src-number="0112680054" w-serial-number="1959123721" w-seq-number="00037" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="453" ID="I13ffb4358ed311eab891b3ce61f72257">Heflin v. United States, Ala.1959, 79 S.Ct. 451, 453note 7, 358 U.S. 415, 418 note 7, 3 L.Ed.2d 407, 410 note 7</cite.query>, which involved a motion to correct a federal illegal sentence. <eos/>
+							<bos/>The majority of the Court, <begin.quote ID="QT_0026"/>&quot;in order to avoid wasteful circuity&quot;<end.quote refid="QT_0026"/>, agreed to dispense with the then-existing thirty-day requirement fixed by the Supreme Court&apos;s Rules for filing the petition for certiorari in a federal criminal case, <begin.quote ID="QT_0020"/>&quot;because successive motions may be made under <cite.query w-src-number="0112680054" w-seq-number="00038" w-ref-type="LQ" w-normalized-cite="USFRAPR35" w-pub-number="1000599" ID="I13ffb4388ed311eab891b3ce61f72257">Rule 35</cite.query>[of the Federal Rules of Criminal Procedure, to correct a federal illegal sentence] and because no jurisdictional statute is involved.&quot;<eos/>
+							<end.quote refid="QT_0020"/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1963203452" w-seq-number="00039" w-ref-type="RP" w-pub-number="0000708" ID="I1400ecb18ed311eab891b3ce61f72257">Preston v. United States, Ky.1963, 83 S.Ct. 1541, 373 U.S. 931, 10 L.Ed.2d 689</cite.query>, where October 30th was the last day for filing the petition for certiorari, the petitioner had given the petition for certiorari to the prison authorities on October 24th but it had not been received at the Supreme Court until November 16th; the Supreme Court granted certiorari. <eos/>
+							<bos/>The Government&apos;s brief on the merits in <cite.query w-src-number="0112680054" w-serial-number="1963203452" w-seq-number="00040" w-ref-type="RS" w-pub-number="0000708" ID="I1400ecb58ed311eab891b3ce61f72257">Preston</cite.query> included a footnote stating that the Government had <begin.quote ID="QT_0022"/>&quot;raised no issue as to timeliness, since the late filing was apparently due to a misunderstanding between petitioner and prison authorities.&quot;<eos/>
+							<bos/>
+							<end.quote refid="QT_0022"/> The Court&apos;s opinion on the merits, 1964, <cite.query w-src-number="0112680054" w-serial-number="1964124796" w-seq-number="00041" w-ref-type="RP" w-pub-number="0000708" ID="I1400ecb98ed311eab891b3ce61f72257">84 S.Ct. 881, 376 U.S. 364, 11 L.Ed.2d 777</cite.query>, <case.history>reversed</case.history> the judgment without expressly discussing the question of the timeliness of the petition for certiorari.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1966204369" w-seq-number="00042" w-ref-type="RP" w-pub-number="0000708" ID="I1401b0018ed311eab891b3ce61f72257">Long v. Parker, Pa.1966, 86 S.Ct. 1285, 384 U.S. 32, 16 L.Ed.2d 333</cite.query>, which was a <case.history>habeas corpus proceeding</case.history> involving a petitioner in federal custody at Lewisburg Penitentiary, the court of appeals judgment denying leave to appeal <ital>in forma pauperis</ital> was July 21; the petition for certiorari was not received at the Supreme Court until October 22—more than the ninety days provided by <cite.query w-src-number="0112680054" w-seq-number="00043" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I1401b0048ed311eab891b3ce61f72257">28 U.S.C. § 2101(c)</cite.query>—and no extension of time had been applied for. <eos/>
+							<bos/>In its memorandum in response, the Government said:</paratext>
+						<display.quote>
+							<para>
+								<paratext>
+									<begin.quote ID="QT_0027"/>&quot;While the petition was thus not timely, it is clear from the papers on file with the Court in this case that petitioner placed his petition in the hands of the Warden of Lewisburg Penitentiary, for filing here, on or before October 19, 1965, the ninetieth day after the entry of the judgment of the court of appeals. <eos/>
+									<bos/>We have been unable to determine the precise time at which the petition was in fact submitted to the Warden for filing; the petition was, however, forwarded to the Court by the Warden on October 19. <eos/>
+									<bos/>In these circumstances, we do not urge that the petition was untimely. <eos/>
+									<bos/>See <cite.query w-src-number="0112680054" w-serial-number="1964124862" w-seq-number="00044" w-ref-type="RP" w-pub-number="0000780" ID="I1402c1718ed311eab891b3ce61f72257">Fallen v. United States, 378 U.S. 139</cite.query>.&quot;<eos/>
+									<bos/>
+									<end.quote refid="QT_0027"/>
+								</paratext>
+							</para>
+						</display.quote>
+						<paratext>On the merits, the Government informed the Court that it acquiesced in the granting of the petition for certiorari and suggested that the case be remanded to the court of appeals for further proceedings. <eos/>
+							<bos/>The Court then entered the following order: <begin.quote ID="QT_0019"/>&quot;Upon consideration of the suggestion of the Solicitor General and an examination of all of the papers submitted, the motion for leave to proceed <ital>in forma pauperis</ital> and the petition for a writ of certiorari are granted. <eos/>
+							<bos/>The judgment is vacated and the case is remanded to the Court of Appeals for further proceedings.&quot;<eos/>
+							<end.quote refid="QT_0019"/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1968241758" w-seq-number="00045" w-ref-type="RP" w-pub-number="0000708" ID="I140421018ed311eab891b3ce61f72257">Serio v. United States, Dist.Col.1968, 88 S.Ct. 2063, 392 U.S. 305, 20 L.Ed.2d 1111</cite.query>, involving direct review of a federal criminal conviction, the court of appeals judgment was entered April 7; the petitioner had obtained an extension of time to June 6; his petition for certiorari, handwritten and submitted <ital>pro se</ital>, had been notarized in the District of Columbia jail on June 5, but was not actually received by the Clerk of the Supreme Court until June 7; the Court took jurisdiction.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>A somewhat similar situation where the Court took jurisdiction in a case coming from a state court was <cite.query w-src-number="0112680054" w-serial-number="1966203759" w-seq-number="00046" w-ref-type="RP" w-pub-number="0000708" ID="I14061cd18ed311eab891b3ce61f72257">Banks v. California, 1966, 86 S.Ct. 622, 382 U.S. 420, 15 L.Ed.2d 499</cite.query>. <eos/>
+							<bos/>The California supreme court order denying a hearing was entered November 10, 1965. <eos/>
+							<bos/>The petitioner, incarcerated in a state prison and applying <ital>pro se,</ital> sought and obtained from Justice Douglas an extension of time for the maximum sixty-day period, to and including April 9. His petition for certiorari, likewise submitted <ital>pro se,</ital> was not received at the Supreme Court until April 13, although the documents showed that the petitioner had sworn to them in the prison on April 6. The State challenged the Court&apos;s jurisdiction on the ground that actual receipt at the Supreme Court by April 9 was an absolute requisite; the petitioner in response said that he had placed the papers in a &quot;legal mail box&quot; at the prison on April 6, with proof of service attached; that under the prison system, papers were thereafter examined by a prison official, so that the petitioner did not know the exact date on which they had been mailed. <eos/>
+							<bos/>The Court granted certiorari and vacated the judgment with a direction for further proceedings below on the merits. <eos/>
+							<bos/>Other cases from state courts bearing some similarity to this were <cite.query w-src-number="0112680054" w-serial-number="1967212807" w-seq-number="00047" w-ref-type="RP" w-pub-number="0000708" ID="I14061cd58ed311eab891b3ce61f72257">Hudgins v. California, 1967, 87 S.Ct. 1035, 386 U.S. 265, 18 L.Ed.2d 43</cite.query>; <cite.query w-src-number="0112680054" w-serial-number="1968202226" w-seq-number="00048" w-ref-type="RP" w-pub-number="0000708" ID="I14061cd98ed311eab891b3ce61f72257">Hillman v. Florida, Fla.1968, 88 S.Ct. 2065, 392 U.S. 307</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>These cases all arose before the 1980 Rules change, referred to later in the Comment of this section, which introduced the practice permitting timely filing by mail if certain conditions are met. <eos/>
+							<bos/>They thus also arose long before the 1990 Rules change, likewise referred to later in the Comment of this section, establishing a special rule to govern timeliness of filings by inmates.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648fad508ed411ea9f15a6eb8a891029">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>An example is <cite.query w-src-number="0112680054" w-serial-number="1963125359" w-seq-number="00049" w-ref-type="RP" w-pub-number="0000708" ID="I14092a118ed311eab891b3ce61f72257">Smith v. State of Mississippi, Miss.1963, 83 S.Ct. 1265, 373 U.S. 238, 10 L.Ed.2d 321</cite.query>, a capital case coming up from a state court and governed, as to timeliness, by the 90-day provision of the Supreme Court&apos;s then Rule 22(1) [which is now Rule 13.1]. <eos/>
+							<bos/>The last day for filing the petition for certiorari was August 13, and the petition for certiorari did not reach the Supreme Court until August 14. <eos/>
+							<bos/>Petitioner&apos;s counsel then filed a <begin.quote ID="QT_0025"/>&quot;Motion that the Court Consider an Out of Time Petition for Certiorari.&quot;<eos/>
+							<bos/>
+							<end.quote refid="QT_0025"/> The motion was supported by a showing, among other things, that the petition had been deposited in a mail box in New York, addressed to the Supreme Court Clerk&apos;s Office, special delivery, on August 9. The Court granted certiorari. <eos/>
+							<bos/>The case was briefed and argued on the merits; and thereafter the Court <begin.quote ID="QT_0024"/>&quot;reached the conclusion that the record is not sufficient to permit decision&quot;<end.quote refid="QT_0024"/> of the petitioner&apos;s constitutional claims; it accordingly dismissed the writ of certiorari as improvidently granted, <begin.quote ID="QT_0021"/>&quot;without prejudice to an application for federal habeas corpus relief under <cite.query w-src-number="0112680054" w-seq-number="00050" w-ref-type="LQ" w-normalized-cite="28USCAS2241" w-pub-number="1000546" ID="I14092a148ed311eab891b3ce61f72257">28 U.S.C. § 2241</cite.query> after exhaustion of any state remedies still open to him&quot;<end.quote refid="QT_0021"/>. <eos/>
+							<bos/>It should be noted that in this particular case the constitutional claims were of such a nature that they appeared to be open to litigation on collateral attack as well as on direct review.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Another capital case from a state court in which the Court applied the narrow exception was <cite.query w-src-number="0112680054" w-serial-number="1964124806" w-seq-number="00051" w-ref-type="RP" w-pub-number="0000708" ID="I140a62918ed311eab891b3ce61f72257">Arnold v. North Carolina, N.C.1964, 84 S.Ct. 1032, 376 U.S. 773, 12 L.Ed.2d 77</cite.query>. <eos/>
+							<bos/>There the final judgment of the state supreme court was entered February 1, 1963 and the petition for certiorari was not filed until May 13, 1963 (after the then-applicable 90-day period had expired).<eos/>
+							<bos/> No extension of time had been obtained or even sought; nor was any excuse or extenuating circumstance offered in explanation of the lateness. <eos/>
+							<bos/>The Court nevertheless granted certiorari and subsequently reversed the state court&apos;s judgment. <eos/>
+							<bos/>It should be noted in this case that the petition for certiorari was filed within the additional 60-day period for which an extension of time could have been granted if such an extension had been applied for.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Another instance was Mazzie v. United States, N.Y.1963, reported sub nom. <cite.query w-src-number="0112680054" w-serial-number="1963208003" w-seq-number="00052" w-ref-type="RP" w-pub-number="0000708" ID="I140cac818ed311eab891b3ce61f72257">Evola v. United States, 84 S.Ct. 24, 375 U.S. 32, 11 L.Ed.2d 106</cite.query>, a federal criminal case where the Court granted certiorari on a group of petitions arising out of a single criminal case and remanded the case to the court of appeals for further consideration. <eos/>
+							<bos/>Here the judgment of the court of appeals, which affirmed orders denying motions for new trial, was entered March 8 and Mazzie, appearing pro se in the Supreme Court, did not file his petition for certiorari until May 7—considerably in excess of the 30-day period allowed by the Supreme Court&apos;s then-applicable Rule 22(2).<eos/>
+							<bos/> It should, however, be noted, first, that Mazzie&apos;s petition for certiorari was one of a group of petitions seeking review of the same decision of the court of appeals and the petitions of the other defendants were all filed in time, and second, that Mazzie&apos;s petition was filed within the additional 30-day period for which an extension of time could have been granted if such an extension had been applied for.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>The latter factor, though not the former, was present in <cite.query w-src-number="0112680054" w-serial-number="1968241754" w-seq-number="00053" w-ref-type="RP" w-pub-number="0000708" ID="I140dbdf18ed311eab891b3ce61f72257">Nelson v. United States, Cal.1968, 88 S.Ct. 2062, 392 U.S. 303, 20 L.Ed.2d 1109</cite.query>, where the court of appeals judgment was April 4, the petition for certiorari was filed May 5 by the attorney (not a member of the Supreme Court Bar) who had represented the petitioner in the court of appeals; no extension of time had been applied for, no explanation was tendered, and the Court accepted jurisdiction although the Government&apos;s response referred to the fact that the petition for certiorari was out of time. <eos/>
+							<bos/>It may be noted, however, that the question involved in <cite.query w-src-number="0112680054" w-serial-number="1968241754" w-seq-number="00054" w-ref-type="RS" w-pub-number="0000708" ID="I140dbdf58ed311eab891b3ce61f72257">Nelson</cite.query> was a constitutional rule which the Court had recently held should be applied retroactively and to be also available on collateral attack, so that entertaining a late petition for certiorari in the direct appeal was a means of avoiding unnecessary circuity of action.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1968201799" w-seq-number="00055" w-ref-type="RP" w-pub-number="0000708" ID="I140e5a318ed311eab891b3ce61f72257">Robison v. United States, Cal.1968, 88 S.Ct. 903, 390 U.S. 198, 19 L.Ed.2d 1040</cite.query>, the court of appeals judgment was dated July 3, the petition for certiorari was filed August 3, which was slightly late since no extension of the then-applicable 30-day period had been applied for; the Government made no objection to, or even mention of, timeliness; and the Court accepted jurisdiction and vacated on the basis of the Solicitor General&apos;s confession of error.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1968131255" w-seq-number="00056" w-ref-type="RP" w-pub-number="0000708" ID="I141056018ed311eab891b3ce61f72257">Fuller v. Alaska, Alaska 1968, 89 S.Ct. 61, 393 U.S. 80, 21 L.Ed.2d 212</cite.query>, the petition for certiorari to review the Alaska supreme court&apos;s judgment was filed on June 28, in a criminal case where the then-applicable 90-day period had begun to run on either March 1 or March 12, and no extension of time had been obtained or even sought. <eos/>
+							<bos/>The petition for certiorari frankly admitted that it was out-of-time under then Rule 22(1), and although no excuse was proffered, a request was made for waiver of the time limitation in the Rule. <eos/>
+							<bos/>Despite objection on jurisdictional grounds from the respondent, the Court granted certiorari, summarily affirming on the merits. <eos/>
+							<bos/>It should be noted that the merits involved a question of widespread importance in the administration of the criminal law—namely, whether the overruling decision of <cite.query w-src-number="0112680054" w-serial-number="1968131229" w-seq-number="00057" w-ref-type="RP" w-pub-number="0000708" ID="I141056058ed311eab891b3ce61f72257">Lee v. State of Florida, Fla.1968, 88 S.Ct. 2096, 392 U.S. 378, 20 L.Ed.2d 1166</cite.query>, should be given retroactive or only prospective application to other cases—which it obviously was important for the Court to decide.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1969132941" w-seq-number="00058" w-ref-type="RP" w-pub-number="0000708" ID="I141203b18ed311eab891b3ce61f72257">Taglianetti v. United States, R.I.1969, 89 S.Ct. 1099, 394 U.S. 316, 22 L.Ed.2d 302</cite.query>, referred to in the Comment, the petition for certiorari was filed on August 28, 41 days after the court of appeals entered judgment, and no extension of the then-applicable 30-day period had been granted or even sought. <eos/>
+							<bos/>The Government&apos;s brief in opposition pointed out that the petition was accordingly out-of-time under then Rule 22(2), and urged that the petition for that reason should be denied. <eos/>
+							<bos/>As is stated in the Comment, however, the Court nevertheless entertained the petition and granted certiorari, with a short opinion summarily affirming on the merits.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>In <cite.query w-src-number="0112680054" w-serial-number="1969247329" w-seq-number="00059" w-ref-type="RP" w-pub-number="0000708" ID="I14144da18ed311eab891b3ce61f72257">Teague v. Regional Com&apos;r, of Customs Region II, N.Y.1969, 89 S.Ct. 1457, 394 U.S. 977, 22 L.Ed.2d 756</cite.query>, the Court denied certiorari in a civil case to which the 90-day period prescribed by <cite.query w-src-number="0112680054" w-seq-number="00060" w-ref-type="LQ" w-normalized-cite="28USCAS2101" w-pub-number="1000546" ID="I14144da48ed311eab891b3ce61f72257">28 U.S.C.A. § 2101(c)</cite.query> was applicable. <eos/>
+							<bos/>The petition for certiorari had been mailed from New York City about noon on February 10; because of a severe snowstorm which disrupted the mails, it did not arrive at the Supreme Court until February 14, which was two days after expiration of the 90-day period. (<eos/>
+							<bos/>This was before the 1980 adoption of the filing-by-mail provision now in Rule 29.2.) <eos/>
+							<bos/>Justice Black, joined by Justice Douglas, wrote a lengthy opinion dissenting from the denial of certiorari, in which he set forth his views as to why the case deserved review on the merits. <eos/>
+							<bos/>He also developed in detail the reasons why he regarded the Court as having power to waive the time requirement and entertain the petition despite the fact that the 90-day period was fixed by the statute, rather than merely by a Rule of the Court. <eos/>
+							<bos/>Although his dissent intimated that the majority may have disagreed with him on this point, actually the Court&apos;s order denied certiorari without more—it did not deny certiorari for want of jurisdiction—and hence did not necessarily constitute a ruling on the jurisdictional point. <eos/>
+							<bos/>Justice Harlan noted that he also would grant certiorari but would postpone the question of jurisdiction to consideration of the case on the merits.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648fd4608ed411ea9f15a6eb8a891029">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See also <cite.query w-src-number="0112680054" w-serial-number="1978114259" w-seq-number="00064" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="2177" ID="I141b04618ed311eab891b3ce61f72257">Sanabria v. United States, Mass.1978, 98 S.Ct. 2170, 2177note 12, 437 U.S. 54, 62 note 12, 57 L.Ed.2d 43, 52 note 12</cite.query>, where the Court waived the time requirement of then Rule 22(2) in a situation where the petition for certiorari had been filed one day out of time. <eos/>
+							<bos/>In <cite.query w-src-number="0112680054" w-serial-number="1979135106" w-seq-number="00065" w-ref-type="RP" w-pub-number="0000708" ID="I141b04658ed311eab891b3ce61f72257">Wilkins v. United States, Pa.1979, 99 S.Ct. 1829, 441 U.S. 468, 60 L.Ed.2d 365</cite.query>, the Court rescued a petition for certiorari which under then Rule 22(2) was filed 17 months late, by granting certiorari, vacating the judgment affirming the conviction and remanding to the court of appeals <begin.quote ID="QT_0030"/>&quot;for further proceedings, including the reentry of its judgment affirming the petitioners&apos; convictions and, if appropriate, appointment of counsel to assist the petitioner in seeking timely review of that judgment in this Court&quot;<end.quote refid="QT_0030"/>; the case was one where the petitioner had asked his court-appointed lawyer to file a timely petition for certiorari and had received an assurance from the lawyer that this request had been honored, but in fact the lawyer never did file a petition for certiorari.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I648ffb708ed411ea9f15a6eb8a891029">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See also <cite.query w-src-number="0112680054" w-serial-number="1978226866" w-seq-number="00070" w-ref-type="RP" w-pub-number="0000708" ID="I141dc3818ed311eab891b3ce61f72257">County of Sonoma v. Eva Isbell, Cal.1978, 99 S.Ct. 597, 439 U.S. 996, 58 L.Ed.2d 669</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I649022808ed411ea9f15a6eb8a891029">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Where the petition for rehearing was not timely, but nevertheless it is clear that it was given actual consideration on the merits by the court below, the time likewise will normally be computed from the denial of rehearing. <eos/>
+							<bos/>
+							<cite.query w-src-number="0112680054" w-serial-number="1940126193" w-seq-number="00075" w-ref-type="RP" w-pub-number="0000708" ID="I1423de018ed311eab891b3ce61f72257">Bowman v. Lopereno, Cal.1940, 61 S.Ct. 201, 311 U.S. 262, 85 L.Ed. 177</cite.query>. <eos/>
+							<bos/>But the Court ordinarily will give no effect to an out-of-time petition for rehearing below which was aimed solely at curing the untimeliness of a petition for certiorari. <eos/>
+							<bos/>See Stern, Gressman and Shapiro, Supreme Court Practice (6th ed. 1986), p. 313. <eos/>
+							<bos/>Thus <cite.query w-src-number="0112680054" w-serial-number="1963203054" w-seq-number="00076" w-ref-type="RP" w-pub-number="0000708" ID="I1423de058ed311eab891b3ce61f72257">Allegrucci v. United States, Pa.1963, 83 S.Ct. 950, 372 U.S. 954, 9 L.Ed.2d 978</cite.query> was a federal criminal case in which the court of appeals judgment affirming the conviction was entered on November 20, 1962. <eos/>
+							<bos/>The petition for certiorari was filed on January 2, 1963 and hence was out of time under the Supreme Court&apos;s then Rule 22(2).<eos/>
+							<bos/> The petitioner sought to recapture timeliness by making a motion in the court of appeals to file in the court of appeals a petition for rehearing out of time; on January 9, 1963 the court of appeals granted the motion. <eos/>
+							<bos/>A petition for rehearing was then filed on January 11, 1963 in the court of appeals, which denied it on February 4, 1963, in an order reciting that the denial was &quot;after due consideration.&quot; <eos/>
+							<bos/>The petitioner on February 9, 1963 filed in the Supreme Court a supplement to the petition for certiorari, advising the Supreme Court of the intervening developments. <eos/>
+							<bos/>The Supreme Court denied the petition for certiorari <begin.quote ID="QT_0037"/>&quot;for the reason that the petition was not timely filed.&quot;<eos/>
+							<end.quote refid="QT_0037"/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>For a ruling sustaining the timeliness of a petition for certiorari in a situation where, on review of a federal administrative agency, the court of appeals decided that the agency was in error and that the case should be remanded to the agency, and the agency did not petition for certiorari but purported to comply with the mandate by entering a second order which was then likewise rejected by the court of appeals, and the agency thereupon filed a petition for certiorari to review the second decision of the court of appeals, see <cite.query w-src-number="0112680054" w-serial-number="1965125047" w-seq-number="00077" w-ref-type="RP" w-pub-number="0000708" ID="I1424ef718ed311eab891b3ce61f72257">F.T.C. v. Colgate-Palmolive Co., 1st Cir.1965, 85 S.Ct. 1035, 380 U.S. 374, 13 L.Ed.2d 904</cite.query>, and cases cited.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>For earlier discussion of certain special situations involving questions as to when the time begins to run, see <cite.query w-src-number="0112680054" w-serial-number="1969132949" w-seq-number="00078" w-ref-type="RP" w-pub-number="0000708" w-pinpoint-page="1157" ID="I14253d918ed311eab891b3ce61f72257">Scofield v. N.L.R.B., Wis.1969, 89 S.Ct. 1154, 1157, 394 U.S. 423, 427, 22 L.Ed.2d 385, 391</cite.query>, and cases cited.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I649022818ed411ea9f15a6eb8a891029">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See the Court&apos;s discussion of this general principle as applicable to both civil cases and criminal cases, in <cite.query w-src-number="0112680054" w-serial-number="1991170322" w-seq-number="00079" w-ref-type="RP" w-pub-number="0000708" ID="I1425b2c18ed311eab891b3ce61f72257">United States v. Ibarra, Wyo.1991, 112 S.Ct. 4, 502 U.S. 1, 116 L.Ed.2d 1</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I64921e508ed411ea9f15a6eb8a891029">
+				<label.designator>12</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Some of the cases are referred to in earlier notes of this section. <eos/>
+							<bos/>The most recent before the 1990 amendment of the Rules was <cite.query w-src-number="0112680054" w-serial-number="1988082106" w-seq-number="00082" w-ref-type="RP" w-pub-number="0000708" ID="I142bcd418ed311eab891b3ce61f72257">Houston v. Lack, Ohio 1988, 108 S.Ct. 2379, 487 U.S. 266, 101 L.Ed.2d 245</cite.query>, where a state prisoner acting <ital>pro se</ital> had been denied habeas corpus by the federal district court and his notice of appeal to the court of appeals was stamped &quot;filed&quot; by the district court one day after the expiration of the period contemplated by the applicable federal rules. <eos/>
+							<bos/>By vote of 5-to-4 the Supreme Court held the appeal to the court of appeals was timely, on the ground that delivery to prison authorities by a person acting <ital>pro se</ital> should be deemed the moment of filing, rather than the time of receipt by the district court.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I649245608ed411ea9f15a6eb8a891029">
+				<label.designator>13</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0112680054" w-seq-number="00083" w-ref-type="ES" w-normalized-cite="USSCTR29.7" w-pub-number="1000616" ID="I142cdeb08ed311eab891b3ce61f72257">U.S. Sup. Ct. R. 29.7</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>For the Guidelines for the Submission of Documents to the Supreme Court&apos;s Electronic Filing System, see <cite.query w-ref-type="DA" w-normalized-cite="WESTSFEDFORMSSUPREMECOURTAPPO" w-pub-number="212869" ID="I649245618ed411ea9f15a6eb8a891029">Appendix O</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2020 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>1 FEDFORMS § 45<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

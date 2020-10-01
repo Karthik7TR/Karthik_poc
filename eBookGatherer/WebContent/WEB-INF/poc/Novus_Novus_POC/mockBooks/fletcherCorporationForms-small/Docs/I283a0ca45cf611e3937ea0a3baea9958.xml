@@ -1,0 +1,454 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>6 West&apos;s Fed. Forms, Bankruptcy Courts § 1:7 (5th ed.)<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>West&apos;s Federal Forms</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I283a0ca35cf611e3937ea0a3baea9958">
+				<bop/>
+				<bos/>
+				<headtext>Bankruptcy Courts</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20200501">
+						<bop/>
+						<bos/>May 2020 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>Hon. William Houston Brown[<footnote.reference refid="Ic349c5f1906511ea8ad49f9c65d428f7">a0</footnote.reference>], Lawrence R. Ahern, III[<footnote.reference refid="Ic349ed01906511ea8ad49f9c65d428f7">a1</footnote.reference>], Nancy F. MacLean[<footnote.reference refid="Ic349ed03906511ea8ad49f9c65d428f7">a2</footnote.reference>]</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="Ifdabe25091a211d9b86cefef52444824">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>1.</label.designator>
+				<headtext>Commencement of Case; Proceedings Relating to Petition and Order for Relief</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I283a0ca35cf611e3937ea0a3baea9958">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>1:7.</label.designator>
+						<headtext>Voluntary petition for individuals filing for bankruptcy—Official Bankruptcy Forms B 101—Rule 1002</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<form ID="Iade222f0db8211e8b000bfb6d9252b23">
+					<form.body>
+						<image.block>
+							<image.link tuuid="Iabab7ca05edc11ea9497ee7d39586e40"/>
+						</image.block>
+						<commentary.note>
+							<head style="c" parent="commentary.note">
+								<bop/>
+								<bos/>
+								<headtext>ADVISORY COMMITTEE NOTES</headtext>
+								<eos/>
+								<eop/>
+							</head>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Official Form 101, <ital>Voluntary Petition for Individuals Filing for Bankruptcy</ital>, applies only in cases of individual debtors. <eos/>
+									<bos/>Form 101 replaces Official Form 1, Voluntary Petition. <eos/>
+									<bos/>It is renumbered to distinguish it from the forms used by non-individual debtors, such as corporations, and includes stylistic changes throughout the form. <eos/>
+									<bos/>It is revised as part of the Forms Modernization Project, making it easier to read and, as a result, likely to generate more complete and accurate responses. <eos/>
+									<bos/>Because the goals of the Forms Modernization Project include improving the interface between technology and the forms so as to increase efficiency and reduce the need to produce the same information in multiple formats, many of the open-ended questions and multiple-part instructions have been replaced with more specific questions.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Official Form 101 has been substantially reorganized. <eos/>
+									<bos/>References to Exhibits A, B, C, and D, and the exhibits themselves, have been eliminated because the requested information is now asked in the form or is not applicable to individual debtors.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 1, <ital>Identify Yourself,</ital> line 6, replaces the venue box from page 2 of Official Form 1 and deletes venue questions that pertain only to non-individuals.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 2, <ital>Tell the Court About Your Bankruptcy Case,</ital> line 7, removes choices for chapters 9 and 15 filings because they do not pertain to individuals. <eos/>
+									<bos/>The status of “being filed” is added to the question regarding bankruptcy cases pending or filed by a spouse, business partner, or affiliate (line 10).<eos/>
+									<bos/> Lastly, the question “Do you rent your residence?” (line 11) and Official Forms 101A, <ital>Initial Statement About an Eviction Judgment Against You</ital>, and 101B, <ital>Statement About Payment of an Eviction Judgment Against You,</ital> replace <begin.quote ID="QT_0001"/>“certification by a debtor who resides as a tenant of residential property,”<end.quote refid="QT_0001"/> on page 2 of Official Form 1.</paratext>
+								<eos/>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 3, <ital>Report About Any Businesses You Own as a Sole Proprietor,</ital> line 12, incorporates options from the “nature of business” box from page 1 of Official Form 1 that would apply to individual debtors, thus eliminating checkboxes for railroads and clearing banks. <eos/>
+									<bos/>Part 3, line 13, also eliminates a checkbox to report whether a plan was filed with the petition, or if plan acceptances were solicited prepetition. <eos/>
+									<bos/>Additionally, line 13 rephrases the question relating to whether a debtor filing under Chapter 11 is a small business debtor.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 4, <ital>Report if You Own or Have Any Hazardous Property or Any Property That Needs Immediate Attention,</ital> line 14, replaces Exhibit C from Official Form 1 and adds the category of “property that needs immediate attention.”<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 5, <ital>Explain Your Efforts to Receive a Briefing About Credit Counseling</ital> (line 15), replaces Exhibit D from Official Form 1. Additionally, this part describes incapacity and disability using a simplified definition, tells the debtor of the ability to file a motion for a waiver, and eliminates statutory reference about districts where credit counseling does not apply because such districts are rare.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 6, <ital>Answer These Questions for Reporting Purposes</ital> (line 16c), provides a text field for the debtor to describe the type of debts owed if the debtor believes they are neither primarily consumer nor business debts.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 7, <ital>Sign Below</ital>, deletes from the debtor&apos;s declaration the phrase <begin.quote ID="QT_0002"/>“to the best of my knowledge, information, and belief”<end.quote refid="QT_0002"/> in order to conform to the language of <cite.query w-src-number="0395132545" w-seq-number="00001" w-ref-type="LQ" w-normalized-cite="28USCAS1746" w-pub-number="1000546" ID="Ib8069570906411ea98ff9709169c21c2">28 U.S.C.A. § 1746</cite.query>. <eos/>
+									<bos/>
+									<ital>See</ital> Rule 1008. <eos/>
+									<bos/>This part combines the two attorney signature blocks into one certification and eliminates signature lines for corporations/partnerships and chapter 15 Foreign Representative. <eos/>
+									<bos/>The declaration and signature section for a non-attorney bankruptcy petition preparer (BPP) has also been removed as unnecessary. <eos/>
+									<bos/>The same declaration, required under <cite.query w-src-number="0395132545" w-seq-number="00002" w-ref-type="LQ" w-normalized-cite="11USCAS110" w-pub-number="1000546" ID="Ib8069571906411ea98ff9709169c21c2">11 U.S.C.A. § 110</cite.query>, is contained in Official Form 119. <eos/>
+									<bos/>That form must be completed and signed by the BPP and filed with each document prepared by a BPP.</paratext>
+								<eos/>
+								<eop/>
+							</para>
+							<head style="l" parent="commentary.note">
+								<bop/>
+								<bos/>
+								<headtext>2017 Amendment</headtext>
+								<eos/>
+								<eop/>
+							</head>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Part 2, line 11, is amended to accurately reflect the requirements of <cite.query w-src-number="0395132545" w-seq-number="00003" w-ref-type="LQ" w-normalized-cite="11USCAS362" w-pub-number="1000611" ID="Ib80731b0906411ea98ff9709169c21c2">§ 362(l) of the Bankruptcy Code</cite.query>. <eos/>
+									<bos/>All debtors against whom an eviction judgment has been entered with respect to their residence must fill out Official Form 101A (<ital>Initial Statement About an Eviction Judgment Against You</ital>), whether or not they desire to remain in their residence. <eos/>
+									<bos/>Form 101A is deemed to be part of the petition.<eos/>
+								</paratext>
+								<eop/>
+							</para>
+							<head style="l" parent="commentary.note">
+								<bop/>
+								<bos/>
+								<headtext>2020 Amendment</headtext>
+								<eos/>
+								<eop/>
+							</head>
+							<para>
+								<bop/>
+								<bos/>
+								<paratext>Line 13 is amended in response to the enactment of the Small Business Reorganization Act of 2019, <cite.query w-seq-number="00004" w-ref-type="SL" w-normalized-cite="I8D2D8B60B5-AE11E9A6E6E-43D072C8E67" w-pub-number="1077005" ID="Ib8081c11906411ea814fe5015aed2cf4">Pub. L. No. 116-54, 133 Stat. 1079.</cite.query> That law gives a small business debtor the option of electing to be a debtor under subchapter V of chapter 11. <eos/>
+									<bos/>Line 13 is amended to add a check box for a small business debtor to indicate that it is making that choice, and the existing check box for small business debtors is amended to allow the debtor to indicate that it is not electing to proceed under subchapter V.</paratext>
+								<eos/>
+								<eop/>
+							</para>
+						</commentary.note>
+						<form.notes>
+							<head style="c" parent="form.notes">
+								<bop/>
+								<bos/>
+								<headtext>Notes</headtext>
+								<eos/>
+								<eop/>
+							</head>
+							<note.group>
+								<head style="l" parent="note.group">
+									<bop/>
+									<bos/>
+									<headtext>
+										<bold>Comment:</bold>
+									</headtext>
+									<eos/>
+									<eop/>
+								</head>
+								<para>
+									<bop/>
+									<bos/>
+									<paratext>The declaration and signature of a non-attorney bankruptcy petition preparer (BPP) is required under <cite.query w-src-number="0395132545" w-seq-number="00005" w-ref-type="LQ" w-normalized-cite="11USCAS110" w-pub-number="1000546" ID="Ib8089140906411ea98ff9709169c21c2">11 U.S.C.A. § 110</cite.query>, therefore, Official Form 119 must be completed and signed by the BPP and filed with each document prepared by a BPP. See <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSBANKRUPTCYCOURTSs1:9" w-pub-number="212845" ID="Ic34be8d0906511ea8ad49f9c65d428f7">§ 1:9</cite.query>, below.<eos/>
+									</paratext>
+									<eop/>
+								</para>
+								<para>
+									<bop/>
+									<bos/>
+									<paratext>An attorney is prohibited from signing documents on behalf of a client in a bankruptcy case, even with the clients&apos; consent. <eos/>
+										<bos/>The petition must be signed by the person making the statement under penalty of perjury. <eos/>
+										<bos/>
+										<cite.query w-src-number="0395132545" w-serial-number="2036671400" w-seq-number="00006" w-ref-type="RP" w-pub-number="0000164" ID="Ib8095491906411ea98ff9709169c21c2">In re Husain, 533 B.R. 658 (Bankr. N.D. Ill. 2015)</cite.query>, <case.history>subsequently aff&apos;d</case.history>, <cite.query w-src-number="0395132545" w-serial-number="2042324415" w-seq-number="00007" w-ref-type="RP" w-pub-number="0000506" ID="Ib8095493906411ea98ff9709169c21c2">866 F.3d 832 (7th Cir. 2017)</cite.query>, <case.history>cert. denied</case.history>, <cite.query w-src-number="0395132545" w-serial-number="2043407979" w-seq-number="00008" w-ref-type="RP" w-pub-number="0000708" ID="Ib8095495906411ea98ff9709169c21c2">138 S. Ct. 1000, 200 L. Ed. 2d 252 (2018)</cite.query> and <case.history>order aff&apos;d</case.history>, <cite.query w-src-number="0395132545" w-serial-number="2044990088" w-seq-number="00009" w-ref-type="RP" w-pub-number="0000999" ID="Ib8095498906411ea98ff9709169c21c2">2018 WL 3427912 (N.D. Ill. 2018)</cite.query> (attorney was permanently suspended from practicing in the bankruptcy court for routinely filing bankruptcy petitions and other bankruptcy documents that did not bear his clients&apos; contemporaneous wet-ink signatures and that the clients had never reviewed).<eos/>
+									</paratext>
+									<eop/>
+								</para>
+								<para>
+									<bop/>
+									<bos/>
+									<paratext>Rule 9011 applies to the filing of a bankruptcy petition. <eos/>
+										<bos/>Thus:</paratext>
+									<display.quote>
+										<para>
+											<paratext>
+												<begin.quote ID="QT_0003"/>The signature of an attorney on a petition, pleading, or written motion shall constitute a certification that the attorney has—</paratext>
+											<list>
+												<list.item>
+													<para>
+														<head parent="para">
+															<label.designator>(i)</label.designator>
+														</head>
+														<paratext>performed a reasonable investigation into the circumstances that gave rise to the petition, pleading, or written motion; and</paratext>
+													</para>
+												</list.item>
+												<list.item>
+													<para>
+														<head parent="para">
+															<label.designator>(ii)</label.designator>
+														</head>
+														<paratext>determined that the petition, pleading, or written motion—</paratext>
+													</para>
+												</list.item>
+												<list.item>
+													<para>
+														<head parent="para">
+															<label.designator>(I)</label.designator>
+														</head>
+														<paratext>is well grounded in fact; and</paratext>
+													</para>
+												</list.item>
+												<list.item>
+													<para>
+														<head parent="para">
+															<label.designator>(II)</label.designator>
+														</head>
+														<paratext>is warranted by existing law or a good faith argument for the extension, modification, or reversal of existing law and does not constitute an abuse under paragraph (1).<eos/>
+															<bos/>
+															<end.quote refid="QT_0003"/>
+														</paratext>
+													</para>
+												</list.item>
+											</list>
+										</para>
+									</display.quote>
+									<paratext>
+										<cite.query w-src-number="0395132545" w-seq-number="00010" w-ref-type="LQ" w-normalized-cite="11USCAS707" w-pub-number="1000546" ID="Ib80a8d10906411ea98ff9709169c21c2">11 U.S.C.A. § 707(b)(4)(C)</cite.query>.<eos/>
+									</paratext>
+									<eop/>
+								</para>
+								<para>
+									<bop/>
+									<bos/>
+									<paratext>And, the signature of an attorney on the petition constitutes <begin.quote ID="QT_0004"/>“a certification that the attorney has no knowledge after an inquiry that the information in the schedules filed with such petition is incorrect.”<eos/>
+										<bos/>
+										<end.quote refid="QT_0004"/>
+										<cite.query w-src-number="0395132545" w-seq-number="00011" w-ref-type="LQ" w-normalized-cite="11USCAS707" w-pub-number="1000546" ID="Ib80ab420906411ea98ff9709169c21c2">11 U.S.C.A. § 707(b)(4)(D)</cite.query>.<eos/>
+									</paratext>
+									<eop/>
+								</para>
+								<para>
+									<bop/>
+									<bos/>
+									<paratext>Rule 9011 applies to all documents submitted to the court or to a trustee by debtors who represent themselves and debtors who are represented by attorneys. <eos/>
+										<bos/>All information on the petition must be complete and correct.Under the United States Sentencing Guidelines, <begin.quote ID="QT_0005"/>“a misrepresentation or other fraudulent action during the course of a bankruptcy proceeding”<end.quote refid="QT_0005"/> is included in the two-level enhancement of the punishment. 18 U.S.C.A. § 2F1.1(b).<eos/>
+										<bos/> The Commentary explains:</paratext>
+									<display.quote>
+										<para>
+											<paratext>
+												<begin.quote ID="QT_0006"/>The commission of a fraud in the course of a bankruptcy proceeding subjects the defendant to an enhanced sentence because that fraudulent conduct undermines the bankruptcy process as well as harms others with an interest in the bankruptcy estate.<eos/>
+												<bos/>
+												<end.quote refid="QT_0006"/>
+											</paratext>
+										</para>
+									</display.quote>
+									<paratext>Thus, concealing assets during bankruptcy proceedings or falsely filling out bankruptcy forms would constitute a misrepresentation or other fraudulent action during the course of a bankruptcy proceeding sufficient to subject the debtor to the enhanced sentence of the guidelines.<eos/>
+									</paratext>
+									<eop/>
+								</para>
+							</note.group>
+							<research.references>
+								<reference.block>
+									<bos/>
+									<head style="l" parent="reference.block">
+										<bop/>
+										<headtext>West&apos;s Key Number Digest</headtext>
+										<eop/>
+									</head>
+									<topic.key.ref>
+										<bop/>
+										<eos/>
+										<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00012" w-ref-type="KW" w-normalized-cite="51" ID="Ib80beca0906411ea98ff9709169c21c2">Bankruptcy</cite.query>
+										<n-private-char charName="TLRkey"></n-private-char>
+										<cite.query w-seq-number="00013" w-ref-type="KW" w-normalized-cite="51k2222.1" ID="Ib80beca1906411ea98ff9709169c21c2">2222.1</cite.query>
+										<eos/>
+										<eop/>
+									</topic.key.ref>
+									<topic.key.ref>
+										<bop/>
+										<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00014" w-ref-type="KW" w-normalized-cite="51" ID="Ib80c13b0906411ea98ff9709169c21c2">Bankruptcy</cite.query>
+										<n-private-char charName="TLRkey"></n-private-char>
+										<cite.query w-seq-number="00015" w-ref-type="KW" w-normalized-cite="51k2233(1)" ID="Ib80c13b1906411ea98ff9709169c21c2">2233(1)</cite.query>
+										<eos/>
+										<eop/>
+									</topic.key.ref>
+									<topic.key.ref>
+										<bop/>
+										<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00016" w-ref-type="KW" w-normalized-cite="51" ID="Ib80c61d0906411ea98ff9709169c21c2">Bankruptcy</cite.query>
+										<n-private-char charName="TLRkey"></n-private-char>
+										<cite.query w-seq-number="00017" w-ref-type="KW" w-normalized-cite="51k2257" ID="Ib80c61d1906411ea98ff9709169c21c2">2257</cite.query>
+										<eos/>
+										<eop/>
+									</topic.key.ref>
+								</reference.block>
+								<reference.block>
+									<bos/>
+									<head style="l" parent="reference.block">
+										<bop/>
+										<headtext>Legal Encyclopedias</headtext>
+										<eop/>
+									</head>
+									<reference>
+										<bop/>
+										<eos/>
+										<bos/>
+										<cite.query w-src-number="0395132545" w-serial-number="0289507177" w-seq-number="00018" w-ref-type="TS" w-pub-number="0156095" ID="Ib80c88e0906411ea98ff9709169c21c2">C.J.S., Bankruptcy § 45</cite.query>
+										<eos/>
+										<eop/>
+									</reference>
+									<reference>
+										<bop/>
+										<bos/>
+										<cite.query w-src-number="0395132545" w-serial-number="0289507179" w-seq-number="00019" w-ref-type="TS" w-pub-number="0156095" ID="Ib80caff0906411ea98ff9709169c21c2">C.J.S., Bankruptcy § 47</cite.query>
+										<eos/>
+										<eop/>
+									</reference>
+									<reference>
+										<bop/>
+										<bos/>
+										<cite.query w-src-number="0395132545" w-serial-number="0289507183" w-seq-number="00020" w-ref-type="TS" w-pub-number="0156095" ID="Ib80cd700906411ea98ff9709169c21c2">C.J.S., Bankruptcy § 51</cite.query>
+										<eos/>
+										<eop/>
+									</reference>
+								</reference.block>
+							</research.references>
+						</form.notes>
+					</form.body>
+				</form>
+			</section.body>
+		</section>
+		<author.footnotes>
+			<footnote ID="Ic349c5f1906511ea8ad49f9c65d428f7">
+				<label.designator>a0</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>United States Bankruptcy Judge, Western District of Tennessee, 1987-2006.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Brown &amp; Ahern, Nashville, Tennessee.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+		<author.footnotes>
+			<footnote ID="Ic349ed01906511ea8ad49f9c65d428f7">
+				<label.designator>a1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Brown &amp; Ahern, Nashville, Tennessee.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+		<author.footnotes>
+			<footnote ID="Ic349ed03906511ea8ad49f9c65d428f7">
+				<label.designator>a2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Of the Tennessee Bar, Nashville, Tennessee.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2020 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>6 FEDFORMS § 1:7<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

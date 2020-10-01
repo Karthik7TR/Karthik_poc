@@ -1,0 +1,380 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>1B West&apos;s Fed. Forms, Courts of Appeals § 1:2 (6th ed.)<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>West&apos;s Federal Forms</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I4f4eb4d1bae911e1bf230000837bc6dd">
+				<bop/>
+				<bos/>
+				<headtext>Courts of Appeals</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20200501">
+						<bop/>
+						<bos/>May 2020 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>David G. Knibb</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I7af4ba10851011d9a53cd78b71fe37de">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>1.</label.designator>
+				<headtext>Applicability of Rules</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="Id61a98d0b43111e1b03ad89eddd92a30">
+				<bop/>
+				<bos/>
+				<label.designator>I.</label.designator>
+				<headtext>Rule 1</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="Ie74ed230b54c11e1a9bbb4c1bd29dcc8">
+				<bop/>
+				<bos/>
+				<label.designator>B.</label.designator>
+				<headtext>Overview</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I4f4eb4d1bae911e1bf230000837bc6dd">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>1:2.</label.designator>
+						<headtext>General comment</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+				<research.references>
+					<reference.block>
+						<bos/>
+						<head style="l" parent="reference.block">
+							<bop/>
+							<headtext>West&apos;s Key Number Digest</headtext>
+							<eop/>
+						</head>
+						<topic.key.ref>
+							<bop/>
+							<eos/>
+							<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00001" w-ref-type="KW" w-normalized-cite="170B" ID="Id4301a208ed211eaa01bed1af1b9828d">Federal Courts</cite.query>
+							<n-private-char charName="TLRkey"></n-private-char>541<eos/>
+							<eop/>
+						</topic.key.ref>
+						<topic.key.ref>
+							<bop/>
+							<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00002" w-ref-type="KW" w-normalized-cite="170B" ID="Id43041308ed211eaa01bed1af1b9828d">Federal Courts</cite.query>
+							<n-private-char charName="TLRkey"></n-private-char>542<eos/>
+							<eop/>
+						</topic.key.ref>
+						<topic.key.ref>
+							<bop/>
+							<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00003" w-ref-type="KW" w-normalized-cite="170B" ID="Id43041338ed211eaa01bed1af1b9828d">Federal Courts</cite.query>
+							<n-private-char charName="TLRkey"></n-private-char>571<eos/>
+							<eop/>
+						</topic.key.ref>
+						<topic.key.ref>
+							<bop/>
+							<bos/>West&apos;s Key Number Digest, <cite.query w-seq-number="00004" w-ref-type="KW" w-normalized-cite="363" ID="Id43068408ed211eaa01bed1af1b9828d">Stipulations</cite.query>
+							<n-private-char charName="TLRkey"></n-private-char>
+							<cite.query w-seq-number="00005" w-ref-type="KW" w-normalized-cite="363k3" ID="Id43068418ed211eaa01bed1af1b9828d">3</cite.query>
+							<eos/>
+							<eop/>
+						</topic.key.ref>
+					</reference.block>
+					<reference.block>
+						<bos/>
+						<head style="l" parent="reference.block">
+							<bop/>
+							<headtext>Legal Encyclopedias</headtext>
+							<eop/>
+						</head>
+						<reference>
+							<bop/>
+							<eos/>
+							<bos/>
+							<cite.query w-src-number="0373830891" w-serial-number="0289694789" w-seq-number="00006" w-ref-type="TS" w-pub-number="0158171" ID="Id4308f508ed211eaa01bed1af1b9828d">C.J.S., Stipulations §§ 26</cite.query> to <cite.query w-src-number="0373830891" w-serial-number="0289694812" w-seq-number="00007" w-ref-type="TS" w-pub-number="0158171" ID="Id4308f518ed211eaa01bed1af1b9828d">45</cite.query>
+							<eos/>
+							<eop/>
+						</reference>
+					</reference.block>
+					<reference.block>
+						<bos/>
+						<head style="l" parent="reference.block">
+							<bop/>
+							<headtext>Treatises and Practice Aids</headtext>
+							<eop/>
+						</head>
+						<reference>
+							<bop/>
+							<eos/>
+							<bos/>Wright and Miller&apos;s <cite.query w-src-number="0373830891" w-serial-number="0110559482" w-seq-number="00008" w-ref-type="TS" w-pub-number="0102228" ID="Id430dd708ed211eaa01bed1af1b9828d">Federal Practice and Procedure, Jurisdiction and Related Matters §§ 3947</cite.query> to <cite.query w-src-number="0373830891" w-serial-number="0110559483" w-seq-number="00009" w-ref-type="TS" w-pub-number="0102228" ID="Id430dd718ed211eaa01bed1af1b9828d">3947.1</cite.query>
+							<eos/>
+							<eop/>
+						</reference>
+					</reference.block>
+				</research.references>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>The courts of appeals are creatures of statute. <eos/>
+						<bos/>Their jurisdiction extends only to matters authorized by Congress.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Statutes defining that jurisdiction are numerous.[<eos/>
+						<bos/>
+						<footnote.reference refid="Iceef3bd08ed311eab3efd3209dce8855">1</footnote.reference>] The most common is the jurisdiction to review a final decision by a federal district court—the so-called final judgment rule.[<eos/>
+						<bos/>
+						<footnote.reference refid="Iceef62e08ed311eab3efd3209dce8855">2</footnote.reference>] District courts may certify certain decisions as final.[<eos/>
+						<bos/>
+						<footnote.reference refid="Iceef62e18ed311eab3efd3209dce8855">3</footnote.reference>] Statutes also authorize certain interlocutory appeals as a matter of right,[<footnote.reference refid="Icef222008ed311eab3efd3209dce8855">4</footnote.reference>] or when permitted by the district court and court of appeals.[<eos/>
+						<bos/>
+						<footnote.reference refid="Icef222018ed311eab3efd3209dce8855">5</footnote.reference>] Courts of appeals may also review district court actions via extraordinary writ.[<eos/>
+						<bos/>
+						<footnote.reference refid="Icef333718ed311eab3efd3209dce8855">6</footnote.reference>] In cases specified by statute, courts of appeals may also review decisions by magistrate[<footnote.reference refid="Icef333728ed311eab3efd3209dce8855">7</footnote.reference>] and bankruptcy judges.[<eos/>
+						<bos/>
+						<footnote.reference refid="Icef35a808ed311eab3efd3209dce8855">8</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Courts of appeals also have jurisdiction to review final decisions by the U.S. Tax Court,[<footnote.reference refid="Icef35a818ed311eab3efd3209dce8855">9</footnote.reference>] and to review or enforce certain actions by federal agencies.[<eos/>
+						<bos/>
+						<footnote.reference refid="Icef5cb818ed311eab3efd3209dce8855">10</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>As courts of limited jurisdiction, the courts of appeals must inquire into their own jurisdiction even if the parties do not. <eos/>
+						<bos/>Parties cannot concede appellate jurisdiction, create it by stipulation, or waive defects to it. <eos/>
+						<bos/>If a court lacks jurisdiction, it has no authority to consider the merits.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Most procedures in the courts of appeals are governed by the Federal Rules of Appellate Procedure, an outgrowth of earlier parts of the Federal Rules of Civil and Criminal Procedure. <eos/>
+						<bos/>The Federal Rules of Appellate Procedure took effect in 1968.[<eos/>
+						<bos/>
+						<footnote.reference refid="Icef6dcf08ed311eab3efd3209dce8855">11</footnote.reference>] The final chapter in this volume illustrates forms used in procedures not covered by these rules.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="Iceef3bd08ed311eab3efd3209dce8855">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See Wright and Miller&apos;s <cite.query w-src-number="0373830891" w-serial-number="0104501138" w-seq-number="00010" w-ref-type="TS" w-pub-number="0102228" ID="Id4312b908ed211eaa01bed1af1b9828d">Federal Practice and Procedure, Jurisdiction and Related Matters §§ 3801</cite.query> to <cite.query w-src-number="0373830891" w-serial-number="0104501281" w-seq-number="00011" w-ref-type="TS" w-pub-number="0102228" ID="Id4312b918ed211eaa01bed1af1b9828d">3919</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Iceef62e08ed311eab3efd3209dce8855">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0373830891" w-seq-number="00012" w-ref-type="LQ" w-normalized-cite="28USCAS1291" w-pub-number="1000546" ID="Id43179b08ed211eaa01bed1af1b9828d">28 U.S.C.A. § 1291</cite.query>. <eos/>
+							<bos/>Application of this rule is discussed in Knibb, Federal Court of Appeals Manual §§ 2:1 et seq. (6th ed.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Iceef62e18ed311eab3efd3209dce8855">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs2:41" w-pub-number="212847" ID="Icef1faf08ed311eab3efd3209dce8855">§ 2:41</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef222008ed311eab3efd3209dce8855">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0373830891" w-seq-number="00013" w-ref-type="LQ" w-normalized-cite="28USCAS1292" w-pub-number="1000546" ID="Id431c7d08ed211eaa01bed1af1b9828d">28 U.S.C.A. § 1292(a) and (c)</cite.query>. <eos/>
+							<bos/>These sections are discussed in Knibb, Federal Court of Appeals Manual §§ 4:1 et seq. (6th ed.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef222018ed311eab3efd3209dce8855">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0373830891" w-seq-number="00014" w-ref-type="LQ" w-normalized-cite="28USCAS1292" w-pub-number="1000546" ID="Id43215f08ed211eaa01bed1af1b9828d">28 U.S.C.A. § 1292(b)</cite.query>. <eos/>
+							<bos/>This section is discussed in Knibb, Federal Court of Appeals Manual §§ 5:1 et seq. (6th ed.).<eos/>
+							<bos/> Forms covering this procedure are included here in §§ <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs2:55" w-pub-number="212847" ID="Icef30c608ed311eab3efd3209dce8855">2:55</cite.query> to  <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs2:59" w-pub-number="212847" ID="Icef333708ed311eab3efd3209dce8855">2:59</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef333718ed311eab3efd3209dce8855">
+				<label.designator>6</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Jurisdiction for such review stems from the All Writs Act, <cite.query w-src-number="0373830891" w-seq-number="00015" w-ref-type="LQ" w-normalized-cite="28USCAS1651" w-pub-number="1000546" ID="Id43264108ed211eaa01bed1af1b9828d">28 U.S.C.A. § 1651(a)</cite.query>, discussed in Knibb, Federal Court of Appeals Manual §§ 6:1 et seq. (6th ed.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef333728ed311eab3efd3209dce8855">
+				<label.designator>7</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>See the Federal Magistrate Act of 1979, <cite.query w-src-number="0373830891" w-seq-number="00016" w-ref-type="LQ" w-normalized-cite="28USCAS636" w-pub-number="1000546" ID="Id4328b208ed211eaa01bed1af1b9828d">28 U.S.C.A. § 636(c)</cite.query>, discussed in Knibb, Federal Court of Appeals Manual §§ 13:1 et seq. (6th ed.).<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef35a808ed311eab3efd3209dce8855">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>The Bankruptcy Amendments and Federal Judgeship Act of 1984, <cite.query w-seq-number="00017" w-ref-type="SL" w-normalized-cite="IA9801FB1A7-67478288BED-F9A14070653" w-pub-number="1077005" ID="Id432d9418ed211ea80c9bce4dece9712">Pub. L. No. 98-353</cite.query>, discussed in Knibb, Federal Court of Appeals Manual §§ 14:1 et seq. (6th ed.), govern bankruptcy appeals.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef35a818ed311eab3efd3209dce8855">
+				<label.designator>9</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							<cite.query w-src-number="0373830891" w-seq-number="00018" w-ref-type="ES" w-normalized-cite="28USCAS7482" w-pub-number="1000546" ID="Id43327608ed211eaa01bed1af1b9828d">28 U.S.C.A. § 7482(a)</cite.query>, as discussed in Knibb, Federal Court of Appeals Manual §§ 18:1 et seq. (6th ed.), authorizes appeals from the U.S. Tax Court. <eos/>
+							<bos/>Sample forms are included here at §§ <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs3:1" w-pub-number="212847" ID="Icef5a4708ed311eab3efd3209dce8855">3:1</cite.query> to  <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs3:22" w-pub-number="212847" ID="Icef5cb808ed311eab3efd3209dce8855">3:22</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef5cb818ed311eab3efd3209dce8855">
+				<label.designator>10</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>The number of statutes authorizing such review exceed 60. <eos/>
+							<bos/>See Knibb, Federal Court of Appeals Manual §§ 17:1 et seq. (6th ed.).<eos/>
+							<bos/> Sample forms are included here at §§ <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs4:1" w-pub-number="212847" ID="Icef619a08ed311eab3efd3209dce8855">4:1</cite.query> to  <cite.query w-ref-type="NA" w-normalized-cite="WESTSFEDFORMSCOURTSOFAPPEALSs4:52" w-pub-number="212847" ID="Icef619a18ed311eab3efd3209dce8855">4:52</cite.query>.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Icef6dcf08ed311eab3efd3209dce8855">
+				<label.designator>11</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Order of Supreme Court of the United States, December 4, 1967.<eos/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2020 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>1B FEDFORMS § 1:2<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>
