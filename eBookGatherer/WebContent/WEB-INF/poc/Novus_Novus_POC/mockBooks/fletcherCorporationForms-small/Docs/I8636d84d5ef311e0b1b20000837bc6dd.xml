@@ -1,0 +1,386 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>1 Fletcher Corp. Forms Ch. 1 Correlation Table (5th ed.)<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Fletcher Corporation Forms Annotated</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20200301">
+						<bop/>
+						<bos/>March 2020 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>William Meade Fletcher</author>
+				<eos/>
+				<eop/>
+			</author.line>
+			<prop.head toc-guid="I26942BD01DD211B29D197F000208BF65">
+				<bop/>
+				<bos/>
+				<label.name>Part</label.name>
+				<label.designator>I.</label.designator>
+				<headtext>Preincorporation Contracts</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I26942C701DD211B28F597F000208BF67">
+				<bop/>
+				<bos/>
+				<label.name>Chapter</label.name>
+				<label.designator>1.</label.designator>
+				<headtext>Contract to Create a Corporation</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<nav.links>
+			<cite.query w-ref-type="DA" w-normalized-cite="FLETCHER-FRM CH 1 REF" w-pub-number="127772" ID="Ibc4243a05e2d11eaa6968f05d1177892">References</cite.query>
+		</nav.links>
+		<correlation.tbl.block ID="I3a940d305ad511e0af5c0000837bc6dd">
+			<doc.title toc-guid="I8636d84c5ef311e0b1b20000837bc6dd">
+				<head parent="doc.title">
+					<bop/>
+					<bos/>
+					<headtext>Correlation Table</headtext>
+					<eos/>
+					<eop/>
+				</head>
+			</doc.title>
+			<correlation.tbl>
+				<head parent="correlation.tbl">
+					<bop/>
+					<bos/>
+					<headtext>Chapter 1. Contract to Create a Corporation</headtext>
+					<eos/>
+					<eop/>
+				</head>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>This table shows where the subject matter in the various sections of Chapter 1. <eos/>
+						<bos/>
+						<ital>Contract to Create a Corporation</ital> of the former edition of the Fifth Edition <ital>Fletcher Corporation Forms Annotated</ital> (§§ 1:1 to 1:54) is set forth in this revised volume. <eos/>
+						<bos/>This table enables the user to translate references found in the prior edition and other legal publications into references to this edition.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<former.col.head>2011 (5th ed.)</former.col.head>
+				<revised.col.head>2019 (5th ed.)</revised.col.head>
+				<correlation>
+					<former>1:1</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:1" w-pub-number="127772" ID="Ibc426ab05e2d11eaa6968f05d1177892">1:1</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:2</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:2" w-pub-number="127772" ID="Ibc426ab15e2d11eaa6968f05d1177892">1:2</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:3</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:3" w-pub-number="127772" ID="Ibc4291c05e2d11eaa6968f05d1177892">1:3</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:4</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:4" w-pub-number="127772" ID="Ibc4291c15e2d11eaa6968f05d1177892">1:4</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:5</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:5" w-pub-number="127772" ID="Ibc4291c25e2d11eaa6968f05d1177892">1:5</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:6</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:6" w-pub-number="127772" ID="Ibc4291c35e2d11eaa6968f05d1177892">1:6</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:7</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:7" w-pub-number="127772" ID="Ibc42b8d05e2d11eaa6968f05d1177892">1:7</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:8</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:8" w-pub-number="127772" ID="Ibc42b8d15e2d11eaa6968f05d1177892">1:8</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:9</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:9" w-pub-number="127772" ID="Ibc42b8d25e2d11eaa6968f05d1177892">1:9</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:10</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:10" w-pub-number="127772" ID="Ibc42b8d35e2d11eaa6968f05d1177892">1:10</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:11</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:11" w-pub-number="127772" ID="Ibc42dfe05e2d11eaa6968f05d1177892">1:11</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:12</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:12" w-pub-number="127772" ID="Ibc42dfe15e2d11eaa6968f05d1177892">1:12</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:13</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:13" w-pub-number="127772" ID="Ibc42dfe25e2d11eaa6968f05d1177892">1:13</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:14</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:14" w-pub-number="127772" ID="Ibc42dfe35e2d11eaa6968f05d1177892">1:14</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:15</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:15" w-pub-number="127772" ID="Ibc43f1505e2d11eaa6968f05d1177892">1:15</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:16</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:16" w-pub-number="127772" ID="Ibc43f1515e2d11eaa6968f05d1177892">1:16</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:17</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:17" w-pub-number="127772" ID="Ibc4418605e2d11eaa6968f05d1177892">1:17</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:18</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:18" w-pub-number="127772" ID="Ibc4418615e2d11eaa6968f05d1177892">1:18</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:19</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:19" w-pub-number="127772" ID="Ibc4418625e2d11eaa6968f05d1177892">1:19</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:20</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:20" w-pub-number="127772" ID="Ibc4418635e2d11eaa6968f05d1177892">1:20</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:21</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:21" w-pub-number="127772" ID="Ibc4418645e2d11eaa6968f05d1177892">1:21</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:22</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:22" w-pub-number="127772" ID="Ibc443f705e2d11eaa6968f05d1177892">1:22</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:23</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:23" w-pub-number="127772" ID="Ibc443f715e2d11eaa6968f05d1177892">1:23</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:24</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:24" w-pub-number="127772" ID="Ibc443f725e2d11eaa6968f05d1177892">1:24</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:25</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:25" w-pub-number="127772" ID="Ibc443f735e2d11eaa6968f05d1177892">1:25</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:26</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:26" w-pub-number="127772" ID="Ibc4614305e2d11eaa6968f05d1177892">1:26</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:27</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:27" w-pub-number="127772" ID="Ibc463b405e2d11eaa6968f05d1177892">1:27</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:28</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:28" w-pub-number="127772" ID="Ibc463b415e2d11eaa6968f05d1177892">1:28</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:29</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:29" w-pub-number="127772" ID="Ibc463b425e2d11eaa6968f05d1177892">1:29</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:30</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:30" w-pub-number="127772" ID="Ibc463b435e2d11eaa6968f05d1177892">1:30</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:31</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:31" w-pub-number="127772" ID="Ibc4662505e2d11eaa6968f05d1177892">1:31</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:32</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:32" w-pub-number="127772" ID="Ibc4662515e2d11eaa6968f05d1177892">1:32</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:33</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:33" w-pub-number="127772" ID="Ibc4662525e2d11eaa6968f05d1177892">1:33</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:34</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:34" w-pub-number="127772" ID="Ibc4662535e2d11eaa6968f05d1177892">1:34</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:35</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:35" w-pub-number="127772" ID="Ibc46b0705e2d11eaa6968f05d1177892">1:35</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:36</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:36" w-pub-number="127772" ID="Ibc46b0715e2d11eaa6968f05d1177892">1:36</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:37</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:37" w-pub-number="127772" ID="Ibc46b0725e2d11eaa6968f05d1177892">1:37</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:38</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:38" w-pub-number="127772" ID="Ibc46d7805e2d11eaa6968f05d1177892">1:38</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:39</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:39" w-pub-number="127772" ID="Ibc46d7815e2d11eaa6968f05d1177892">1:39</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:40</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:40" w-pub-number="127772" ID="Ibc46d7825e2d11eaa6968f05d1177892">1:40</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:41</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:41" w-pub-number="127772" ID="Ibc46d7835e2d11eaa6968f05d1177892">1:41</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:42</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:42" w-pub-number="127772" ID="Ibc46fe905e2d11eaa6968f05d1177892">1:42</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:43</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:43" w-pub-number="127772" ID="Ibc46fe915e2d11eaa6968f05d1177892">1:43</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:44</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:44" w-pub-number="127772" ID="Ibc46fe925e2d11eaa6968f05d1177892">1:44</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:45</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:45" w-pub-number="127772" ID="Ibc46fe935e2d11eaa6968f05d1177892">1:45</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:46</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:46" w-pub-number="127772" ID="Ibc4725a05e2d11eaa6968f05d1177892">1:46</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:47</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:47" w-pub-number="127772" ID="Ibc4725a15e2d11eaa6968f05d1177892">1:47</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:48</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:48" w-pub-number="127772" ID="Ibc4725a25e2d11eaa6968f05d1177892">1:48</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:49</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:49" w-pub-number="127772" ID="Ibc4725a35e2d11eaa6968f05d1177892">1:49</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:50</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:50" w-pub-number="127772" ID="Ibc4725a45e2d11eaa6968f05d1177892">1:50</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:51</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:51" w-pub-number="127772" ID="Ibc49e4c05e2d11eaa6968f05d1177892">1:51</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:52</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:52" w-pub-number="127772" ID="Ibc4a0bd05e2d11eaa6968f05d1177892">1:52</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:53</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:53" w-pub-number="127772" ID="Ibc4a0bd15e2d11eaa6968f05d1177892">1:53</cite.query>
+					</revised>
+				</correlation>
+				<correlation>
+					<former>1:54</former>
+					<revised>§<cite.query w-ref-type="DA" w-normalized-cite="FLETCHERFRMs1:54" w-pub-number="127772" ID="Ibc4a0bd25e2d11eaa6968f05d1177892">1:54</cite.query>
+					</revised>
+				</correlation>
+			</correlation.tbl>
+		</correlation.tbl.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2020 Thomson Reuters.  <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>FLETCHER-FRM CH 1 COR<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

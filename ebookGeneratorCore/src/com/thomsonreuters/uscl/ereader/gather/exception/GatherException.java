@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.gather.exception;
 
-public class GatherException extends Exception {
+public class GatherException extends RuntimeException {
     private static final long serialVersionUID = -4259100376867069612L;
 
     private int errorCode = 0;

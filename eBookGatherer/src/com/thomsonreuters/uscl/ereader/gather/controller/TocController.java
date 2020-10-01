@@ -30,7 +30,7 @@ public class TocController {
     @RequestMapping(value = "/toc", method = RequestMethod.POST)
     public ModelAndView getTableOfContents(@RequestBody final GatherTocRequest tocRequest, final Model model) {
         log.debug(">>> " + tocRequest);
-        GatherResponse gatherResponse = new GatherResponse();
+        GatherResponse gatherResponse;
 
         // Retrieve TOC structure from Novus
         try {

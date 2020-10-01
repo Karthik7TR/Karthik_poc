@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+	<EBookToc>
+		<Name>I. Practice Considerations</Name>
+		<Guid>I26942D101DD211B2A2447F000208BF69</Guid>
+		<EBookToc>
+			<Name>Research References</Name>
+			<Guid>I86352a915ef311e0b1b20000837bc6dd</Guid>
+			<DocumentGuid>I86352a925ef311e0b1b20000837bc6dd</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>§  1:1. In general</Name>
+			<Guid>I86352a945ef311e0b1b20000837bc6dd</Guid>
+			<DocumentGuid>I86352a955ef311e0b1b20000837bc6dd</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>Correlation Table</Name>
+			<Guid>I3a940d305ad511e0af5c0000837bc6dd</Guid>
+			<EBookToc>
+				<Name>Correlation Table</Name>
+				<Guid>I8636d84c5ef311e0b1b20000837bc6dd</Guid>
+				<DocumentGuid>I8636d84d5ef311e0b1b20000837bc6dd</DocumentGuid>
+			</EBookToc>
+		</EBookToc>		
+	</EBookToc>		
+</EBook>
