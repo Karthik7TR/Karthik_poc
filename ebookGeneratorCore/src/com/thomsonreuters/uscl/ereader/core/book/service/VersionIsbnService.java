@@ -1,9 +1,10 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 
 public interface VersionIsbnService {
+
+    String getIsbnOfTitleVersion(String titleId, String version);
 
     void saveIsbn(String titleId, String version, String isbn);
 
@@ -12,8 +13,6 @@ public interface VersionIsbnService {
     boolean isIsbnExists(String isbn);
 
     boolean isIsbnChangedFromPreviousGeneration(BookDefinition bookDefinition, String currentProviewVersion);
-
-    String getLastIsbnBeforeVersion(String titleId, Version maxVersion);
 
     void deleteIsbn(String titleId, String version);
 

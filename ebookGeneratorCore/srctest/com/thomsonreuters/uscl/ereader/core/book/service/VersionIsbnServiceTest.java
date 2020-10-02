@@ -2,12 +2,12 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,11 +20,8 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -37,8 +34,6 @@ public final class VersionIsbnServiceTest {
     private static final String PT_2 = "_pt2";
     private static final String ISBN_1 = "978-5-3322-6109-1";
     private static final String ISBN_2 = "978-3-7303-6936-4";
-    private static final String ISBN_3 = "978-7-9028-4957-9";
-    private static final String ISBN_4 = "978-1-1915-0473-7";
     private static final String VERSION = "4.7";
 
     private VersionIsbnService versionIsbnService;
@@ -54,13 +49,38 @@ public final class VersionIsbnServiceTest {
     @Mock
     private VersionIsbn mockVersionIsbn2;
     private List<VersionIsbn> versionIsbns;
-    private VersionIsbn lastVersionIsbnBeforeVersion;
-
 
     @Before
     public void setUp() {
         versionIsbnService = new VersionIsbnServiceImpl(mockVersionIsbnDao, mockBookDefinitionService);
         versionIsbns = Arrays.asList(mockVersionIsbn1, mockVersionIsbn2);
+    }
+
+    @Test
+    public void testGetIsbnOfTitleVersion() {
+        when(mockBookDefinitionService.findBookDefinitionByTitle(TITLE_ID)).thenReturn(mockBookDefinition);
+        when(mockVersionIsbnDao.findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION)).thenReturn(mockVersionIsbn1);
+        when(mockVersionIsbn1.getIsbn()).thenReturn(ISBN_1);
+
+        String isbn = versionIsbnService.getIsbnOfTitleVersion(TITLE_ID, VERSION);
+
+        assertEquals(ISBN_1, isbn);
+    }
+
+    @Test
+    public void testGetIsbnOfTitleVersion_noBookDefinition() {
+        String isbn = versionIsbnService.getIsbnOfTitleVersion(TITLE_ID, VERSION);
+
+        assertNull(isbn);
+    }
+
+    @Test
+    public void testGetIsbnOfTitleVersion_noVersionIsbn() {
+        when(mockBookDefinitionService.findBookDefinitionByTitle(TITLE_ID)).thenReturn(mockBookDefinition);
+
+        String isbn = versionIsbnService.getIsbnOfTitleVersion(TITLE_ID, VERSION);
+
+        assertNull(isbn);
     }
 
     @SneakyThrows
@@ -150,20 +170,6 @@ public final class VersionIsbnServiceTest {
         assertFalse(actual);
     }
 
-    @Test
-    public void getLastIsbnBeforeVersion() {
-        List<VersionIsbn> versionIsbnList = getVersionIsbnList();
-        when(mockBookDefinitionService.findBookDefinitionByTitle(TITLE_ID)).thenReturn(mockBookDefinition);
-        when(mockVersionIsbnDao.getAllByEbookDefinition(mockBookDefinition)).thenReturn(versionIsbnList);
-        when(mockVersionIsbnDao.findDistinctByEbookDefinitionAndVersion(mockBookDefinition,
-                lastVersionIsbnBeforeVersion.getVersion())).thenReturn(lastVersionIsbnBeforeVersion);
-        Version maxVersion = new Version("v3.1");
-
-        String actualIsbn = versionIsbnService.getLastIsbnBeforeVersion(TITLE_ID, maxVersion);
-
-        assertEquals(ISBN_2, actualIsbn);
-    }
-
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void modifyIsbn() {
@@ -222,17 +228,5 @@ public final class VersionIsbnServiceTest {
         verify(mockVersionIsbnDao).findAll();
         verify(mockVersionIsbn1).getIsbn();
         verify(mockVersionIsbn2).getIsbn();
-    }
-
-    private List<VersionIsbn> getVersionIsbnList() {
-        List<VersionIsbn> versionIsbns = new ArrayList<>();
-        versionIsbns.add(new VersionIsbn(mockBookDefinition, "1.1", ISBN_1));
-        versionIsbns.add(new VersionIsbn(mockBookDefinition, "2.0", ISBN_1));
-        lastVersionIsbnBeforeVersion = new VersionIsbn(mockBookDefinition, "2.1", ISBN_2);
-        versionIsbns.add(lastVersionIsbnBeforeVersion);
-        versionIsbns.add(new VersionIsbn(mockBookDefinition, "3.1", ISBN_3));
-        versionIsbns.add(new VersionIsbn(mockBookDefinition, "3.2", ISBN_3));
-        versionIsbns.add(new VersionIsbn(mockBookDefinition, "4.0", ISBN_4));
-        return versionIsbns;
     }
 }

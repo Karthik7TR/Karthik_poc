@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,6 @@ import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -71,7 +71,7 @@ public class SupersededProviewHandlerHelper {
             .filter(info -> info.getMajorVersion().equals(majorVersionToMarkSuperseded))
             .max(Comparator.comparing(ProviewTitleInfo::getMinorVersion))
             .ifPresent(info -> markVersionAsSuperseededAndPromoteToFinal(info.getTitleId(),
-                    info.getMajorVersion(), info.getMinorVersion().add(BigInteger.ONE)));
+                    info.getMajorVersion(), info.getMinorVersion().add(BigInteger.ONE), titleContainer));
     }
 
     private BigInteger getFinalMajorVersionToMarkSuperseded(final ProviewTitleContainer titleContainer,
@@ -93,14 +93,14 @@ public class SupersededProviewHandlerHelper {
 
     @SneakyThrows
     private void markVersionAsSuperseededAndPromoteToFinal(final String fullyQualifiedTitleId,
-        final BigInteger majorVersion, final BigInteger minorVersion) {
+        final BigInteger majorVersion, final BigInteger minorVersion, final ProviewTitleContainer titleContainer) {
         final String version = new Version(majorVersion, minorVersion).getFullVersion();
         try {
             HttpStatus status = proviewClient.changeTitleVersionToSuperseded(fullyQualifiedTitleId, version);
             if (HttpStatus.OK.equals(status)) {
                 status = proviewClient.promoteTitle(fullyQualifiedTitleId, version);
                 if (HttpStatus.OK.equals(status)) {
-                    saveIsbnOfSupersededVersion(fullyQualifiedTitleId, new Version(version));
+                    saveIsbnOfSupersededVersion(fullyQualifiedTitleId, new Version(version), titleContainer);
                 }
             }
         } catch (final ProviewRuntimeException e) {
@@ -108,10 +108,18 @@ public class SupersededProviewHandlerHelper {
         }
     }
 
-    private void saveIsbnOfSupersededVersion(final String fullyQualifiedTitleId, final Version version) {
-        String isbn = versionIsbnService.getLastIsbnBeforeVersion(fullyQualifiedTitleId, version);
-        if (StringUtils.isNotEmpty(isbn)) {
-            versionIsbnService.saveIsbn(fullyQualifiedTitleId, version.getVersionWithoutPrefix(), isbn);
-        }
+    private void saveIsbnOfSupersededVersion(final String fullyQualifiedTitleId, final Version version, final ProviewTitleContainer titleContainer) {
+        getVersionForVersionIsbn(titleContainer, version).flatMap(previousFinalVersion ->
+                Optional.ofNullable(versionIsbnService.getIsbnOfTitleVersion(fullyQualifiedTitleId, previousFinalVersion)))
+                .ifPresent(isbn -> versionIsbnService.saveIsbn(fullyQualifiedTitleId, version.getVersionWithoutPrefix(), isbn));
+    }
+
+    private Optional<String> getVersionForVersionIsbn(final ProviewTitleContainer titleContainer, final Version version) {
+        return titleContainer.getProviewTitleInfos().stream()
+                .filter(proviewTitleInfo -> FINAL_STATUS.equalsIgnoreCase(proviewTitleInfo.getStatus()))
+                .map(proviewTitleInfo -> new Version(proviewTitleInfo.getVersion()))
+                .filter(titleVersion -> version.compareTo(titleVersion) > 0)
+                .max(Version::compareTo)
+                .map(Version::getVersionWithoutPrefix);
     }
 }

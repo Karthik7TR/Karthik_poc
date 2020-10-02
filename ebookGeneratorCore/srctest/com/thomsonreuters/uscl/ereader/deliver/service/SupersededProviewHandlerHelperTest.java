@@ -33,6 +33,7 @@ public final class SupersededProviewHandlerHelperTest {
     private static final String TITLE_ID_SINGLE_BOOK = "uscl/an/book_singlebook";
     private static final String TITLE_ID_SPLIT_BOOK = "uscl/an/book_splitbook";
     private static final String TITLE_ID_SPLIT_BOOK_BIG = "uscl/an/book_nvtest_010";
+    private static final String ISBN = "978-9-2968-4180-1";
     private static Map<String, ProviewTitleContainer> proviewTitles;
 
     @InjectMocks
@@ -55,24 +56,32 @@ public final class SupersededProviewHandlerHelperTest {
 
     @Test
     public void testSingleBook() throws ProviewException {
-        final String baseVersion = "v2.1";
+        final Version baseVersion = new Version("v2.1");
         final String versionToChange = "v1.3";
+        setUpSaveIsbn(TITLE_ID_SINGLE_BOOK, "1.2");
 
-        handler.markTitleVersionAsSuperseded(TITLE_ID_SINGLE_BOOK, new Version(baseVersion), proviewTitles);
+        handler.markTitleVersionAsSuperseded(TITLE_ID_SINGLE_BOOK, baseVersion, proviewTitles);
 
         verifyChange(TITLE_ID_SINGLE_BOOK, versionToChange);
+        verifySaveIsbn(TITLE_ID_SINGLE_BOOK, "1.2", "1.3");
     }
 
     @Test
     public void testSplitBook() throws ProviewException {
         final String baseVersion = "v3.0";
         final String versionToChange = "v2.1";
+        setUpSaveIsbn(TITLE_ID_SPLIT_BOOK, "2.0");
+        setUpSaveIsbn(TITLE_ID_SPLIT_BOOK + "_pt2", "2.0");
+        setUpSaveIsbn(TITLE_ID_SPLIT_BOOK + "_pt3", "2.0");
 
         handler.markTitleVersionAsSuperseded(TITLE_ID_SPLIT_BOOK, new Version(baseVersion), proviewTitles);
 
         verifyChange(TITLE_ID_SPLIT_BOOK, versionToChange);
         verifyChange(TITLE_ID_SPLIT_BOOK + "_pt2", versionToChange);
         verifyChange(TITLE_ID_SPLIT_BOOK + "_pt3", versionToChange);
+        verifySaveIsbn(TITLE_ID_SPLIT_BOOK, "2.0", "2.1");
+        verifySaveIsbn(TITLE_ID_SPLIT_BOOK + "_pt2", "2.0", "2.1");
+        verifySaveIsbn(TITLE_ID_SPLIT_BOOK + "_pt3", "2.0", "2.1");
     }
 
     @Test
@@ -81,11 +90,15 @@ public final class SupersededProviewHandlerHelperTest {
         final String versionToChange = "v2.1";
         final String versionToChangePt2 = "v2.1";
         final String titleId = TITLE_ID_SPLIT_BOOK + "_2";
+        setUpSaveIsbn(titleId, "2.0");
+        setUpSaveIsbn(titleId + "_pt2", "2.0");
 
         handler.markTitleVersionAsSuperseded(titleId, new Version(baseVersion), proviewTitles);
 
         verifyChange(titleId, versionToChange);
         verifyChange(titleId + "_pt2", versionToChangePt2);
+        verifySaveIsbn(titleId, "2.0", "2.1");
+        verifySaveIsbn(titleId + "_pt2", "2.0", "2.1");
     }
 
     @Test
@@ -94,11 +107,15 @@ public final class SupersededProviewHandlerHelperTest {
         final String versionToChange = "v3.2";
         final String versionToChangePt2 = "v2.1";
         final String titleId = TITLE_ID_SPLIT_BOOK + "_2";
+        setUpSaveIsbn(titleId, "3.0");
+        setUpSaveIsbn(titleId + "_pt2", "2.0");
 
         handler.markTitleVersionAsSuperseded(titleId, new Version(baseVersion), proviewTitles);
 
         verifyChange(titleId, versionToChange);
         verifyChange(titleId + "_pt2", versionToChangePt2);
+        verifySaveIsbn(titleId, "3.0", "3.2");
+        verifySaveIsbn(titleId + "_pt2", "2.0", "2.1");
     }
 
     @Test
@@ -107,11 +124,15 @@ public final class SupersededProviewHandlerHelperTest {
         final String versionToChange = "v3.2";
         final String versionToChangePt2 = "v2.1";
         final String titleId = TITLE_ID_SPLIT_BOOK + "_2";
+        setUpSaveIsbn(titleId, "3.0");
+        setUpSaveIsbn(titleId + "_pt2", "2.0");
 
         handler.markTitleVersionAsSuperseded(titleId, new Version(baseVersion), proviewTitles);
 
         verifyChange(titleId, versionToChange);
         verifyChange(titleId + "_pt2", versionToChangePt2);
+        verifySaveIsbn(titleId, "3.0", "3.2");
+        verifySaveIsbn(titleId + "_pt2", "2.0", "2.1");
     }
 
     @Test
@@ -120,11 +141,15 @@ public final class SupersededProviewHandlerHelperTest {
         final String versionToChange = "v1.4";
         final String versionToChangePt2 = "v1.3";
         final String titleId = TITLE_ID_SPLIT_BOOK + "_3";
+        setUpSaveIsbn(titleId, "1.1");
+        setUpSaveIsbn(titleId + "_pt2", "1.1");
 
         handler.markTitleVersionAsSuperseded(titleId, new Version(baseVersion), proviewTitles);
 
         verifyChange(titleId, versionToChange);
         verifyChange(titleId + "_pt2", versionToChangePt2);
+        verifySaveIsbn(titleId, "1.1", "1.4");
+        verifySaveIsbn(titleId + "_pt2", "1.1", "1.3");
     }
 
     @Test
@@ -149,9 +174,18 @@ public final class SupersededProviewHandlerHelperTest {
         );
     }
 
+    private void setUpSaveIsbn(final String titleId, final String previousFinalVersion) {
+        when(versionIsbnService.getIsbnOfTitleVersion(titleId, previousFinalVersion)).thenReturn(ISBN);
+    }
+
     private void verifyChange(final String titleId, final String version) throws ProviewException {
         verify(proviewClient).changeTitleVersionToSuperseded(titleId, version);
         verify(proviewClient).promoteTitle(titleId, version);
+    }
+
+    private void verifySaveIsbn(final String titleId, final String previousFinalVersion, final String version) {
+        verify(versionIsbnService).getIsbnOfTitleVersion(titleId, previousFinalVersion);
+        verify(versionIsbnService).saveIsbn(titleId, version, ISBN);
     }
 
     private static String getAllPublishedTitles() throws IOException, URISyntaxException {
