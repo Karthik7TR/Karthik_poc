@@ -1,10 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.KEY_DOC_GUID_TO_TOPIC_MAP;
 
 /**
  * Controller for the Step Execution Details page.
@@ -86,15 +88,12 @@ public class StepExecutionController {
      */
     private static List<Map.Entry<String, Object>> createStepExecutionContextMapEntryList(
         final StepExecution stepExecution) {
-        final List<Map.Entry<String, Object>> list = new ArrayList<>();
-        if (stepExecution != null) {
-            final ExecutionContext execContext = stepExecution.getExecutionContext();
-            final Set<Map.Entry<String, Object>> entrySet = execContext.entrySet();
-            final Iterator<Map.Entry<String, Object>> entryIterator = entrySet.iterator();
-            while (entryIterator.hasNext()) {
-                list.add(entryIterator.next());
-            }
-        }
-        return list;
+        return Optional.ofNullable(stepExecution)
+                .map(StepExecution::getExecutionContext)
+                .map(ExecutionContext::entrySet)
+                .orElse(Collections.emptySet())
+                .stream()
+                .filter(item -> !KEY_DOC_GUID_TO_TOPIC_MAP.equals(item.getKey()))
+                .collect(Collectors.toList());
     }
 }

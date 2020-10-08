@@ -28,11 +28,6 @@ public class ExternalLinksTransformation implements JsoupTransformation {
     private String westlawCanadaUrl;
 
     @Override
-    public void preparations(final Document document) {
-
-    }
-
-    @Override
     public void transform(final String fileName, final Document document, final BookStep bookStep) {
         if (bookStep.getBookDefinition().isCwBook()) {
             getAttributesWithUrlValue().forEach(attribute -> document.getElementsByAttributeValueContaining(attribute, westlawUrl)

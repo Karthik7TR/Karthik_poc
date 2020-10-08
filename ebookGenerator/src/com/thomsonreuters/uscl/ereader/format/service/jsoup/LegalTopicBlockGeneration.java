@@ -13,10 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.KEY_DOC_GUID_TO_TOPIC_MAP;
 
 @Service
 public class LegalTopicBlockGeneration implements JsoupTransformation {
     private static final String CO_PARAGRAPH = ".co_paragraph";
+    private static final String CO_TITLE = ".co_title";
     private static final String DIV = "div";
     private static final String SPAN = "span";
     private static final String LEGAL_TOPIC = "legalTopic-";
@@ -42,24 +46,33 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
     private CanadianDigestService canadianDigestService;
 
     @Override
-    public void preparations(final Document document) {
-
+    public void preparationsBeforeAll(final BookStep bookStep) {
+        bookStep.setJobExecutionProperty(KEY_DOC_GUID_TO_TOPIC_MAP, createDocGuidToTopicMap(bookStep.getJobInstanceId()));
     }
 
     @Override
     public void transform(final String docGuid, final Document document, final BookStep bookStep) {
-        Map<String, List<CanadianDigest>> docGuidToTopicMap = getDocGuidToTopicMap(bookStep.getJobInstanceId());
+        final Map<String, List<CanadianDigest>> docGuidToTopicMap = getGuidToTopicMapFromStep(bookStep);
         if (docGuidToTopicMap.containsKey(docGuid)) {
-            String legalTopic = buildLegalTopic(docGuidToTopicMap.get(docGuid), docGuid);
-            getLegalTopicPlaceholder(document)
-                    .orElse(Optional.ofNullable(document.selectFirst(CO_PARAGRAPH))
-                            .orElse(document.selectFirst(DIV)))
+            final String legalTopic = buildLegalTopic(docGuidToTopicMap.get(docGuid), docGuid);
+            Stream.of(getLegalTopicPlaceholder(document),
+                    Optional.ofNullable(document.selectFirst(CO_TITLE)),
+                    Optional.ofNullable(document.selectFirst(CO_PARAGRAPH)))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .findFirst()
+                    .orElse(document.selectFirst(DIV))
                     .after(legalTopic);
         }
     }
 
-    private Optional<Element> getLegalTopicPlaceholder(Document document) {
-        Element placeholder = new Element(SPAN);
+    @Override
+    public void clear(final BookStep bookStep) {
+        bookStep.getJobExecutionContext().remove(KEY_DOC_GUID_TO_TOPIC_MAP);
+    }
+
+    private Optional<Element> getLegalTopicPlaceholder(final Document document) {
+        final Element placeholder = new Element(SPAN);
         return Optional.ofNullable(document.selectFirst(LEGAL_TOPIC_TABLE_SELECTOR))
                 .map(element -> {
                     element.parent().after(placeholder).remove();
@@ -68,7 +81,7 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
     }
 
     private String buildLegalTopic(final List<CanadianDigest> legalTopicMetadata, final String docGuid) {
-        String links = legalTopicMetadata.stream()
+        final String links = legalTopicMetadata.stream()
                 .map(item -> {
                     String linkText = NormalizationRulesUtil.replaceHyphenToDash(item.getClassification())
                             .replaceFirst(DASH, String.format(CLASSIFNUM_INJECTION, item.getClassifnum()));
@@ -84,8 +97,12 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
                 "/View.html?transitionType=Default&amp;contextData=(sc.Default)&amp;vr=3.0&amp;rs=cblt1.0";
     }
 
-    private Map<String, List<CanadianDigest>> getDocGuidToTopicMap(final Long jobInstanceId) {
+    private Map<String, List<CanadianDigest>> createDocGuidToTopicMap(final Long jobInstanceId) {
         return canadianDigestService.findAllByJobInstanceId(jobInstanceId).stream()
                 .collect(Collectors.groupingBy(CanadianDigest::getDocUuid));
+    }
+
+    private Map<String, List<CanadianDigest>> getGuidToTopicMapFromStep(final BookStep bookStep) {
+        return (Map<String, List<CanadianDigest>>) bookStep.getJobExecutionProperty(KEY_DOC_GUID_TO_TOPIC_MAP);
     }
 }

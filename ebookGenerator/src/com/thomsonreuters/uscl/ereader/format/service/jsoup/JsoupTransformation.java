@@ -4,6 +4,14 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jsoup.nodes.Document;
 
 public interface JsoupTransformation {
-    void preparations(Document document);
+    default void preparationsBeforeAll(BookStep bookStep) {
+    }
+
+    default void preparations(Document document) {
+    }
+
     void transform(String fileName, Document document, BookStep bookStep);
+
+    default void clear(BookStep bookStep) {
+    }
 }

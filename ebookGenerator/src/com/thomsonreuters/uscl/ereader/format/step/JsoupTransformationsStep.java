@@ -36,6 +36,7 @@ public class JsoupTransformationsStep extends BookStepImpl {
     public ExitStatus executeStep() throws Exception {
         final File srcDir = getDir(NortTocCwbFileSystemConstants.FORMAT_PROCESS_PAGES_DIR);
         final File destDir = getDir(NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR);
+        conversions.forEach(item -> item.preparationsBeforeAll(this));
         Files.list(srcDir.toPath()).forEach(file -> {
             Document document = jsoup.loadDocument(file.toFile());
             conversions.forEach(item -> item.preparations(document));
@@ -46,6 +47,7 @@ public class JsoupTransformationsStep extends BookStepImpl {
             conversions.forEach(item -> item.transform(FilenameUtils.removeExtension(file.getFileName().toString()), document, this));
             jsoup.saveDocument(destDir, file.getFileName().toString(), document);
         });
+        conversions.forEach(item -> item.clear(this));
         markDirectoryAsReady(destDir);
 
         return ExitStatus.COMPLETED;

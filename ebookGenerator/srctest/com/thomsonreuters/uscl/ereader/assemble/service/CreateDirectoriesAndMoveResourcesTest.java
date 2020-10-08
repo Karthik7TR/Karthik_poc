@@ -183,7 +183,7 @@ public final class CreateDirectoriesAndMoveResourcesTest {
 
     @Test
     public void testMoveResourcesNotFound() throws Exception {
-        runner.setUp(createDirectoriesAndMoveResources);
+        runner.setUp(createDirectoriesAndMoveResources, false);
 
         final List<String> imgList = new ArrayList<>();
         final List<Doc> docList = new ArrayList<>();

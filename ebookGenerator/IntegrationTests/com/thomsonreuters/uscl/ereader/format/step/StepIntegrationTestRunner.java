@@ -51,12 +51,16 @@ public class StepIntegrationTestRunner {
     private File resourceRootDir;
 
     public void setUp(final BaseStep step, final String resourceDirName) throws URISyntaxException {
-        resourceRootDir = new File(StepIntegrationTestRunner.class.getResource(resourceDirName).toURI());
-        setUp(step);
+        setUp(step, resourceDirName, false);
     }
 
-    public void setUp(final BaseStep step) {
-        final ExecutionContext jobExecutionContext = Mockito.mock(ExecutionContext.class);
+    public void setUp(final BaseStep step, final String resourceDirName, final boolean isSpy) throws URISyntaxException {
+        resourceRootDir = new File(StepIntegrationTestRunner.class.getResource(resourceDirName).toURI());
+        setUp(step, isSpy);
+    }
+
+    public void setUp(final BaseStep step, final boolean isSpy) {
+        final ExecutionContext jobExecutionContext = isSpy ? Mockito.spy(ExecutionContext.class) : Mockito.mock(ExecutionContext.class);
         final ChunkContext chunkContext = Mockito.mock(ChunkContext.class, Answers.RETURNS_DEEP_STUBS.get());
 
         step.setChunkContext(chunkContext);

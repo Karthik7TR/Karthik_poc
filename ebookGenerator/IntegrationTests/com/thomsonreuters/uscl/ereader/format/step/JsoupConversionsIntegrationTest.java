@@ -53,7 +53,7 @@ public class JsoupConversionsIntegrationTest {
 
     @Before
     public void setUp() throws URISyntaxException {
-        runner.setUp(step, "resourceJsoupConversions");
+        runner.setUp(step, "resourceJsoupConversions", true);
     }
 
     @Test
