@@ -38,6 +38,9 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("IntegrationTests")
 public class BuildPreviousDocIdsMapIntegrationTest {
     private static final String PREVIOUS_VERSION_TITLE_XML = "/previous-version-title.xml";
+    private static final String DOCUMENT_GUID = "documentGuid";
+    private static final String DOC_ID = "docId";
+    private static final String VERSION = "v1.0";
 
     @Autowired
     private BuildPreviousDocumentIdsMappingStep step;
@@ -54,7 +57,8 @@ public class BuildPreviousDocIdsMapIntegrationTest {
     @Before
     public void setUp() throws URISyntaxException {
         runner.setUp(step, "resourceBuildPrevDocIdsMap");
-        when(docMetadataService.findDistinctProViewFamGuidsByJobId(any())).thenReturn(getFamilyGuidMap());
+        when(docMetadataService.findDistinctProViewFamGuidsByJobId(any())).thenReturn(getFamilyGuidMapMock());
+        step.getBookDefinition().setVersionWithPreviousDocIds(VERSION);
     }
 
     @Test
@@ -81,20 +85,42 @@ public class BuildPreviousDocIdsMapIntegrationTest {
     }
 
     @Test
-    public void shouldNotBuildMapFile() throws Exception {
+    public void shouldUseFamilyGuid() throws Exception {
+        final String testPath = "testWithFamilyGuid";
+        whenProViewClientGetTitleInfo(testPath);
+        when(docMetadataService.findDistinctProViewFamGuidsByJobId(any())).thenReturn(getFamilyGuidMap());
+        runner.test(step, testPath);
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS, Boolean.TRUE);
+    }
+
+    @Test
+    public void shouldNotBuildMapFileWithSameDocIds() throws Exception {
         final String testPath = "sameDocIds";
         whenProViewClientGetTitleInfo(testPath);
         runner.testWithSourceOnly(step, testPath);
         verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS, Boolean.TRUE);
     }
 
-    private Map<String, String> getFamilyGuidMap() {
+    @Test
+    public void shouldNotBuildMapFile() throws Exception {
+        step.getBookDefinition().setVersionWithPreviousDocIds(null);
+        runner.test(step);
+        verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS, Boolean.TRUE);
+    }
+
+    private Map<String, String> getFamilyGuidMapMock() {
         return new HashMap<String, String>() {
             @Override
             public String get(Object key) {
                 return String.valueOf(key);
             }
         };
+    }
+
+    private Map<String, String> getFamilyGuidMap() {
+        Map<String, String> familyGuidMap = new HashMap<>();
+        familyGuidMap.put(DOCUMENT_GUID, DOC_ID);
+        return familyGuidMap;
     }
 
     private void whenProViewClientGetTitleInfo(final String testPath) throws ProviewException, IOException {

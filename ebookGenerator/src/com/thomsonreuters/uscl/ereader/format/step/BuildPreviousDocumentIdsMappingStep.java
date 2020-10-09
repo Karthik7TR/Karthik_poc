@@ -46,13 +46,15 @@ public class BuildPreviousDocumentIdsMappingStep extends BookStepImpl {
 
     @Override
     public ExitStatus executeStep() throws Exception {
-        Map<String, Set<UnifiedTocElement>> nameToTocElementsOld = getNameToTocElementsOldMap();
-        Map<String, Set<UnifiedTocElement>> nameToTocElementsNew = getNameToTocElementsNewMap();
-        Map<String, Set<String>> oldIdToNewIds = createOldIdsToNewIdsMap(nameToTocElementsOld, nameToTocElementsNew);
+        if (getBookDefinition().getVersionWithPreviousDocIds() != null) {
+            Map<String, Set<UnifiedTocElement>> nameToTocElementsOld = getNameToTocElementsOldMap();
+            Map<String, Set<UnifiedTocElement>> nameToTocElementsNew = getNameToTocElementsNewMap();
+            Map<String, Set<String>> oldIdToNewIds = createOldIdsToNewIdsMap(nameToTocElementsOld, nameToTocElementsNew);
 
-        if (!oldIdToNewIds.isEmpty()) {
-            saveMapToFile(oldIdToNewIds);
-            setJobExecutionProperty(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS, Boolean.TRUE);
+            if (!oldIdToNewIds.isEmpty()) {
+                saveMapToFile(oldIdToNewIds);
+                setJobExecutionProperty(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS, Boolean.TRUE);
+            }
         }
         return ExitStatus.COMPLETED;
     }

@@ -73,7 +73,7 @@ public class TocXmlUnifiedConverter {
     }
 
     private void convertEntry(final Element entryEBookToc, final Element unifiedParent, final Map<String, String> familyGuidMap) {
-        Element unifiedEntry = new UnifiedTocElement(extractName(entryEBookToc), extractDocumentGuid(entryEBookToc), extractGuid(entryEBookToc));
+        Element unifiedEntry = new UnifiedTocElement(extractName(entryEBookToc), familyGuidMap.get(extractDocumentGuid(entryEBookToc)), extractGuid(entryEBookToc));
         unifiedParent.appendChild(unifiedEntry);
         convertEntryChildren(entryEBookToc, unifiedEntry, familyGuidMap);
     }
