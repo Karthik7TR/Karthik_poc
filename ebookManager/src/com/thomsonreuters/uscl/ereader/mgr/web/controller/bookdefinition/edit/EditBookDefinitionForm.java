@@ -267,6 +267,11 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String indexTocRootGuid;
 
+    @Getter @Setter
+    private boolean previousVersionIdsEnabled = true;
+    @Getter @Setter
+    private String versionWithPreviousDocIds;
+
     /**
      * Reset some book definition fields before copying in to the form
      *
@@ -399,6 +404,12 @@ public class EditBookDefinitionForm {
             } else {
                 groupName = book.getGroupName();
                 subGroupHeading = book.getSubGroupHeading();
+            }
+
+            if (StringUtils.isBlank(book.getVersionWithPreviousDocIds())) {
+                previousVersionIdsEnabled = false;
+            } else {
+                versionWithPreviousDocIds = book.getVersionWithPreviousDocIds();
             }
 
             // Determine if ExcludeDocuments are present in Book Definition
@@ -606,6 +617,8 @@ public class EditBookDefinitionForm {
 
         book.setNortFileLocations(copyList(nortFileLocations, book, NortFileLocation::new));
         book.setFrontMatterTheme(fmThemeText);
+
+        book.setVersionWithPreviousDocIds(previousVersionIdsEnabled ? versionWithPreviousDocIds : null);
     }
 
     private <T extends CopyAware<T> & SequenceNumAware & EbookDefinitionAware> List<T> copyList(

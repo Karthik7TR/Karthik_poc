@@ -135,7 +135,8 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                 .withBookVersion(new Version("v" + versionNumber))
                 .withTitleDocs(getDocsByTitles(docMap))
                 .withPageNumbers(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS))
-                .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS));
+                .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS))
+                .withPreviousDocumentIds(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS));
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks
@@ -243,6 +244,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         // Style sheets
         moveResourcesUtil.moveStylesheet(assetsDirectory);
         moveResourcesUtil.moveThesaurus(this, assetsDirectory);
+        moveResourcesUtil.moveMinorVersionMapping(this, assembleFileSystem.getAssetsDirectory(this));
         // Dynamic images
         final File dynamicImagesDir = imageFileSystem.getImageDynamicDirectory(this);
         final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);

@@ -102,7 +102,8 @@ public class GenerateTitleMetadata extends BookStepImpl {
                 featuresListBuilderFactory.create(bookDefinition)
                     .withBookVersion(new Version("v" + versionNumber))
                     .withPageNumbers(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS))
-                    .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS));
+                    .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS))
+                    .withPreviousDocumentIds(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS));
             if (bookDefinition.isSplitBook()) {
                 splitBookTitle(titleMetadataBuilder.build());
             } else {

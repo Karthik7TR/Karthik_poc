@@ -106,6 +106,12 @@
 
 		<step id="transformToc">
 			<tasklet ref="transformTocXmlTask"/>
+			<next on="COMPLETED" to="buildPreviousDocumentIdsMapping"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<step id="buildPreviousDocumentIdsMapping">
+			<tasklet ref="buildPreviousDocumentIdsMappingTask"/>
 			<next on="COMPLETED" to="generateFrontMatterHTML"/>
 			<fail on="FAILED"/>
 		</step>
@@ -317,7 +323,8 @@
 				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="buildThesaurusTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.BuildThesaurusStep" />
-	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask" 
+	<beans:bean id="buildPreviousDocumentIdsMappingTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.BuildPreviousDocumentIdsMappingStep" />
+	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask"
                 scope="step" parent="bookStep"/>
 	<beans:bean id="getStaticImagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" />
 	<beans:bean id="transformTocXmlTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.TransformToc"/>

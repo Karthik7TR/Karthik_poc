@@ -1,0 +1,3640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<title apiversion="v1" titleversion="v1.202006051327" id="CW/EG/ELLISFD_EN" lastupdated="20200605" language="en" status="Review" onlineexpiration="29991231">
+	<features>
+		<feature name="SearchIndex"/>
+		<feature name="SearchFields" value="fields.xml"/>
+		<feature name="SearchTemplate" value="template.xml"/>
+		<feature name="ThesaurusTerms" value="thesaurus.xml"/>
+		<feature name="Copy"/>
+		<feature name="AutoUpdate"/>
+		<feature name="Print"/>
+		<feature value="eReference" name="tr_opt_TitleType"/>
+		<feature value="www.westlaw.com" name="OnePassSSO"/>
+		<feature value="nextcanada.westlaw.com" name="OnePassSSO"/>
+	</features>
+	<material>1</material>
+	<artwork type="cover" src="cover.png"/>
+	<assets>
+		<asset id="cover-png" src="cover.png"/>
+		<asset id="rgClassButton-jpg" src="rgClassButton.jpg"/>
+		<asset id="rgcarswell_logo_2016_fdcv1206-jpg" src="rgcarswell_logo_2016_fdcv1206.jpg"/>
+		<asset id="rgtr_4ring_logo2016_fdcv1206-jpg" src="rgtr_4ring_logo2016_fdcv1206.jpg"/>
+		<asset id="stylesheet-css" src="stylesheet.css"/>
+	</assets>
+	<name>Fiduciary Duties in Canada</name>
+	<libfields>
+		<datefield date="20200605">Published Title</datefield>
+		<infofield>
+			<header>RELEASE NOTES</header>
+			<note>
+				<![CDATA[ Current to release 2020-6. This release features several updates to the case law and commentary in Chapter 2 (Trustees), Chapter 3A (Substitute Decision-Maker), Chapter 4 (Executors and Administrators), Chapter 4B (Quasi-Public Private Organizations), Chapter 6 (Insurance Agents and Insurers), Chapter 11A (Other Professionals), Chapter 12 (Partnerships), Chapter 14A (Commercial Contractual Relations), Chapter 16A (Employers and Unions); and Chapter 19 (Governmental Authorities). ]]>
+			</note>
+		</infofield>
+	</libfields>
+	<authors>
+		<author>Mark Vincent Ellis</author>
+	</authors>
+	<keywords>
+		<keyword type="subject">Commercial</keyword>
+		<keyword type="publisher">Carswell</keyword>
+		<keyword type="jurisdiction">CA</keyword>
+	</keywords>
+	<copyright>2020 Thomson Reuters Limited</copyright>
+	<toc>
+		<entry s="ellis_fdc_toc-html/toc0001">
+			<text>Table of Contents</text>
+		</entry>
+		<entry s="ellis_fdc_toc-html/toc0007">
+			<text>Table of Contents</text>
+		</entry>
+		<entry s="ellis_fdc_pbn-html/toc0023">
+			<text>Publisher's Note</text>
+			<entry s="ellis_fdc_pbn-html/toc0024">
+				<text>2020-6</text>
+			</entry>
+			<entry s="ellis_fdc_pbn-html/toc0025">
+				<text>2020-5</text>
+			</entry>
+			<entry s="ellis_fdc_pbn-html/toc0026">
+				<text>2020-4</text>
+			</entry>
+			<entry s="ellis_fdc_pbn-html/toc0027">
+				<text>2020-3</text>
+			</entry>
+			<entry s="ellis_fdc_pbn-html/toc0028">
+				<text>2020-2</text>
+			</entry>
+			<entry s="ellis_fdc_pbn-html/toc0029">
+				<text>2020-1</text>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_ttl-html/toc0030">
+			<text>Title Page</text>
+		</entry>
+		<entry s="ellis_fdc_cpr-html/toc0032">
+			<text>Copyright Page</text>
+		</entry>
+		<entry s="ellis_fdc_ded-html/toc0033">
+			<text>Dedication</text>
+		</entry>
+		<entry s="ellis_fdc_prf-html/toc0034">
+			<text>Preface</text>
+		</entry>
+		<entry s="ellis_fdc_tca-html/toc0035">
+			<text>A Note Regarding Case Citations</text>
+		</entry>
+		<entry s="ellis_fdc_tca-html/toc0036">
+			<text>Supplementary Table of Cases</text>
+		</entry>
+		<entry s="ellis_fdc_tca-html/toc0037">
+			<text>Table of Cases</text>
+		</entry>
+		<entry s="ellis_fdc_com_1-html/toc0038">
+			<text>Chapter 1 — The Fiduciary Concept</text>
+			<entry s="ellis_fdc_com_1-html/toc0039">
+				<text>1. — Definition</text>
+			</entry>
+			<entry s="ellis_fdc_com_1-html/toc0040">
+				<text>2. — Nature of the Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_1-html/toc0041">
+				<text>3. — The Trust Aspect</text>
+			</entry>
+			<entry s="ellis_fdc_com_1-html/toc0042">
+				<text>4. — Nature of the Duty</text>
+				<entry s="ellis_fdc_com_1-html/toc0043">
+					<text>(1) — "Utmost Good Faith"</text>
+					<entry s="ellis_fdc_com_1-html/toc0044">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0045">
+						<text>(b) — Strict Liability: The Impact of Good Faith</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0046">
+						<text>(c) — Incidental Benefit to the Beneficiary</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0047">
+						<text>(d) — Inevitability of Loss</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0048">
+						<text>(e) — The Reverse Onus</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0049">
+						<text>(f) — Vulnerability</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_1-html/toc0050">
+					<text>(2) — Departure from the Duty of Utmost Good Faith: Breach of Fiduciary Duty</text>
+					<entry s="ellis_fdc_com_1-html/toc0051">
+						<text>(a) — Avoidance of "Potential" Conflict</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0052">
+						<text>(b) — Inability of Beneficiary to Benefit</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0053">
+						<text>(c) — Strict Ethic Against Gain</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0054">
+						<text>(c.1) — Deterrence</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0055">
+						<text>(d) — Impugned Activity: Breach of Duty</text>
+						<entry s="ellis_fdc_com_1-html/toc0056">
+							<text>(i) — Disclosure</text>
+						</entry>
+						<entry s="ellis_fdc_com_1-html/toc0057">
+							<text>(ii) — Adherence to Beneficiary's Instructions</text>
+						</entry>
+						<entry s="ellis_fdc_com_1-html/toc0058">
+							<text>(iii) — Prohibition Against Personal Gain</text>
+						</entry>
+						<entry s="ellis_fdc_com_1-html/toc0059">
+							<text>(iv) — Serving Two Masters</text>
+						</entry>
+						<entry s="ellis_fdc_com_1-html/toc0060">
+							<text>(v) — Participation in breach of fiduciary duty</text>
+						</entry>
+						<entry s="ellis_fdc_com_1-html/toc0061">
+							<text>(vi) — Inducing Breach of Fiduciary Duty</text>
+						</entry>
+						<entry s="ellis_fdc_com_1-html/toc0062">
+							<text>(vii) — Loyalty</text>
+						</entry>
+					</entry>
+					<entry s="ellis_fdc_com_1-html/toc0063">
+						<text>(e) — Requirement of Fault</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_1-html/toc0064">
+					<text>(3) — Comparison With Other Civil Wrongs</text>
+					<entry s="ellis_fdc_com_1-html/toc0065">
+						<text>(a) — Contract and Tort</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-1-html/toc0066">
+						<text>(b) — Good faith and Unconscionability</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-1-html/toc0067">
+						<text>(b.1) — Good Faith in the Performance of Contractual Duties</text>
+					</entry>
+					<entry s="ellis_fdc_com_1-1-html/toc0068">
+						<text>(c) — Insurer's Obligation to Defend Fiduciary Claims</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_1-1-html/toc0069">
+					<text>(4) — Comparison With Statutory And Other Duties</text>
+				</entry>
+				<entry s="ellis_fdc_com_1-1-html/toc0070">
+					<text>(5) — Effect of Codes of Professional Conduct</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_1-1-html/toc0071">
+				<text>5. — The Scope of the Concept: To Whom the Fiduciary Concept Applies</text>
+			</entry>
+			<entry s="ellis_fdc_com_1-1-html/toc0073">
+				<text>6. — Elements of Claim</text>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_2-html/toc0074">
+			<text>Chapter 2 — Trustees</text>
+			<entry s="ellis_fdc_com_2-html/toc0075">
+				<text>1. — Definition</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-html/toc0076">
+				<text>1.1 — Creation of Trust</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-html/toc0077">
+				<text>2. — The Trustee's Capacity</text>
+				<entry s="ellis_fdc_com_2-html/toc0078">
+					<text>(1) — Fiduciary Nature of the Trustee Status</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0079">
+					<text>(2) — Creator of Trust as Trustee</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0080">
+					<text>(3) — Beneficiary as Trustee</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0081">
+					<text>(4) — Bare Trustees</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0082">
+					<text>(5) — Independence of Trustee</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0083">
+					<text>(6) — Authority to Delegate</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_2-html/toc0084">
+				<text>3. — Conflict Between Duty and Self-Interest</text>
+				<entry s="ellis_fdc_com_2-html/toc0085">
+					<text>(1) — The General Prohibition</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0086">
+					<text>(2) — Void or Voidable?</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0087">
+					<text>(3) — Prohibition Against Personal Profit</text>
+					<entry s="ellis_fdc_com_2-html/toc0088">
+						<text>(a) — Trustee Remuneration</text>
+						<entry s="ellis_fdc_com_2-html/toc0089">
+							<text>(i) Generally</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0090">
+							<text>(ii) Trust Terms Providing for Remuneration</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0091">
+							<text>(iii) Statutory Entitlement</text>
+						</entry>
+					</entry>
+					<entry s="ellis_fdc_com_2-html/toc0092">
+						<text>(b) — Duty to Account for Secret Profits</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-html/toc0093">
+						<text>(c) — Duty to Avoid Personal Use of Trust Opportunity</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_2-html/toc0094">
+					<text>(4) — Trustee as Purchaser of Trust Property</text>
+					<entry s="ellis_fdc_com_2-html/toc0095">
+						<text>(a) — Right of Trustee to Purchase Trust Property</text>
+						<entry s="ellis_fdc_com_2-html/toc0096">
+							<text>(i) Common Law Prohibition</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0097">
+							<text>(ii) Permissive Trust Terms</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0098">
+							<text>(iii) Validation Through Informed Consent</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0099">
+							<text>(iv) Validation Through Court Approval</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0100">
+							<text>(v) Purchase After Resignation</text>
+						</entry>
+						<entry s="ellis_fdc_com_2-html/toc0101">
+							<text>(vi) The Prevailing Premise Against Purchase</text>
+						</entry>
+					</entry>
+					<entry s="ellis_fdc_com_2-html/toc0102">
+						<text>(b) — Contracting with the Beneficiary</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0103">
+					<text>(5) — Trustee as Lessee</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_2-1-html/toc0104">
+				<text>4. — Breach of Trust</text>
+				<entry s="ellis_fdc_com_2-1-html/toc0105">
+					<text>(1) — Areas of Fiduciary Default</text>
+					<entry s="ellis_fdc_com_2-1-html/toc0106">
+						<text>(a) — Unauthorized Use of Trust Property</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-1-html/toc0107">
+						<text>(a.1) — Whether Asset Is Trust Property</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-1-html/toc0108">
+						<text>(b) — Duty to Secure Best Price</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-1-html/toc0109">
+						<text>(c) — Duty to Act for All Beneficiaries Impartially</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-1-html/toc0110">
+						<text>(d) — Duty to Follow Trust Instructions</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-1-html/toc0111">
+						<text>(e) — Duty to Disclose</text>
+					</entry>
+					<entry s="ellis_fdc_com_2-1-html/toc0112">
+						<text>(f) — Duty to Account</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0113">
+					<text>(2) — Inevitability of Breach</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0114">
+					<text>(3) — Unenforceability of Contracts in Breach</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0115">
+					<text>(4) — Mitigating Circumstances: Validation of Breach of Trust</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0116">
+					<text>(5) — Remedial Legislation: Breach of Trust</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0117">
+					<text>(6) — Application to Court for Advice</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0118">
+					<text>(7) — Constructive Liability for Misuse: The "Constructive Trustee</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-1-html/toc0119">
+					<text>(8) — Liability of Strangers to the Trust</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-2-html/toc0120">
+					<text>(9) — Presumption of Resulting Trust</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-2-html/toc0121">
+					<text>(10) — Liability of Legal Counsel to Trustee</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-2-html/toc0122">
+					<text>(11) — Availability of Partition as Remedy</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0123">
+				<text>4.1 — Interpleader</text>
+				<entry s="ellis_fdc_com_2-2-html/toc0124">
+					<text>(1) — Request for Advice or Directions</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-2-html/toc0125">
+					<text>(2) — Interpleader</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0126">
+				<text>4.2 — Legal Representation of Trust</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0127">
+				<text>5. — Criminal Breach of Trust</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0128">
+				<text>5.1. — Pension Trusts</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0129">
+				<text>5.2. — Charities</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0130">
+				<text>5.3 — What Constitutes an "Interest" in Trust Property?</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0131">
+				<text>5.4 — Removal of Trustee</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0132">
+				<text>5.5 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0133">
+				<text>6. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_2-2-html/toc0134">
+				<text>7. — Summary Judgment of Fiduciary Claims Synopses</text>
+				<entry s="ellis_fdc_com_2-2-html/toc0135">
+					<text>(a) — Beneficiary's motion for summary judgment or certification refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-2-html/toc0136">
+					<text>(b) — Beneficiary's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-3-html/toc0137">
+					<text>(c) — Trustee's motion for summary judgment or certification refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_2-3-html/toc0138">
+					<text>(d) — Trustee's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_2-3-html/toc0139">
+				<text>8. — Synopsis of Class Certification Motions</text>
+				<entry s="ellis_fdc_com_2-3-html/toc0140">
+					<text>(a) — Fiduciary claim not certified</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_3-html/toc0141">
+			<text>Chapter 3 — Agency</text>
+			<entry s="ellis_fdc_com_3-html/toc0142">
+				<text>1. — Definition</text>
+				<entry s="ellis_fdc_com_3-html/toc0143">
+					<text>(1) — Distinguished from Employment</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0144">
+					<text>(2) — Distinguished from Partnership</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0145">
+					<text>(3) — Distinguished from Trustee</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0146">
+					<text>(4) — Distinguished From Creditor-Debtor</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_3-html/toc0147">
+				<text>2. — Formation of the Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_3-html/toc0148">
+				<text>3. — The Fiduciary/Non-Fiduciary Dichotomy</text>
+			</entry>
+			<entry s="ellis_fdc_com_3-html/toc0149">
+				<text>4. — The Parameters of the Duty</text>
+			</entry>
+			<entry s="ellis_fdc_com_3-html/toc0150">
+				<text>5. — The Agent's Fiduciary Duty to His Principal</text>
+				<entry s="ellis_fdc_com_3-html/toc0151">
+					<text>(1) — The Obligation of Full Disclosure</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0152">
+					<text>(2) — Prohibition Against Personal Gain</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0153">
+					<text>(2.1) — Secret Commissions</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0154">
+					<text>(3) — Prohibition Against Personal Purchase</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-html/toc0155">
+					<text>(4) — Conflict of Interest: Serving Two Principals</text>
+				</entry>
+				<entry s="ellis_fdc_com_3-1-html/toc0156">
+					<text>(5) — Misuse of Confidential Information</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_3-1-html/toc0157">
+				<text>6. — Remuneration for Agents</text>
+			</entry>
+			<entry s="ellis_fdc_com_3-1-html/toc0158">
+				<text>7. — Terminating the Fiduciary Agency</text>
+			</entry>
+			<entry s="ellis_fdc_com_3-1-html/toc0159">
+				<text>8. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_3-1-html/toc0160">
+				<text>9. — Remedies Table — Misuse of Confidential Information</text>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_3a-html/toc0161">
+			<text>Chapter 3A — Substitute Decision-Makers</text>
+			<entry s="ellis_fdc_com_3a-html/toc0162">
+				<text>1. — Power of Attorney</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0163">
+				<text>2. — State-Appointed Substitute Decision-Makers</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0164">
+				<text>3. — Substitute Decision-Makers Becoming Executors of Estate</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0165">
+				<text>4. — Remuneration for Services Rendered</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0166">
+				<text>5. — Remedies</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0167">
+				<text>6. — Practice</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0168">
+				<text>6.1 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0169">
+				<text>7. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_3a-html/toc0170">
+				<text>8. — Summary Judgment Tables</text>
+				<entry s="ellis_fdc_com_3a-html/toc0171">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_3a-html/toc0172">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_3a-html/toc0173">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_3a-html/toc0174">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_4-html/toc0175">
+			<text>Chapter 4 — Executors and Administrators</text>
+			<entry s="ellis_fdc_com_4-html/toc0176">
+				<text>1. — Definition</text>
+				<entry s="ellis_fdc_com_4-html/toc0177">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0178">
+					<text>(2) — "Personal Representatives" v. Trustees</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-html/toc0179">
+				<text>2. — Inception of the Fiduciary Duty: Creation of the Position</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-html/toc0180">
+				<text>3. — Conflicts Between Duty and Self-Interest</text>
+				<entry s="ellis_fdc_com_4-html/toc0181">
+					<text>(1) — Prohibition Against Personal Gain</text>
+					<entry s="ellis_fdc_com_4-html/toc0182">
+						<text>(a) — Secret Profit</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-html/toc0183">
+						<text>(b) — Duty to Attain Best Price</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-html/toc0184">
+						<text>(c) — Duty to Avoid Personal Benefit Through Performance of Duties</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-html/toc0185">
+						<text>(d) — Duty of Full and Fair Disclosure</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0186">
+					<text>(2) — Purchase of Estate Property by the Representative</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0187">
+					<text>(3) — Bringing Action on Behalf of Estate</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0188">
+					<text>(4) — Exception to Rule</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-html/toc0189">
+				<text>4. — Breach of Trust</text>
+				<entry s="ellis_fdc_com_4-html/toc0190">
+					<text>(1) — Failure to Properly Establish Beneficiaries</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0191">
+					<text>(2) — Failure to Follow Express Trust Instructions</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0192">
+					<text>(3) — Misuse of Estate Property</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0193">
+					<text>(4) — Failure to Act Impartially</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0194">
+					<text>(5) — Improper Distribution of the Assets</text>
+					<entry s="ellis_fdc_com_4-html/toc0195">
+						<text>(a) — In Specie Distribution</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-html/toc0196">
+						<text>(b) — Generally</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0197">
+					<text>(6) — Granting Power of Attorney</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0198">
+					<text>(7) — Unauthorized Withdrawal Of Fees</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0199">
+					<text>(8) — Improper Accounting</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0200">
+					<text>(9) — Where Breach Occurred Prior to Death</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-html/toc0201">
+				<text>5. — Validating the Breach</text>
+				<entry s="ellis_fdc_com_4-html/toc0202">
+					<text>(1) — Remedial Provisions in the Testamentary Document</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-html/toc0203">
+					<text>(2) — Consent of the Beneficiaries</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0204">
+					<text>(3) — Remedial Statutory Provisions</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-1-html/toc0205">
+				<text>6. — The Executor/Administrator as Beneficiary</text>
+				<entry s="ellis_fdc_com_4-1-html/toc0206">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0207">
+					<text>(2) — Dichotomy Between Executor as Executor and Executor as Beneficiary</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0208">
+					<text>(3) — Discretion Under the Will</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0209">
+					<text>(4) — Conflict of Interest and Duty</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0210">
+					<text>(5) — Remuneration for transfer to self</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0211">
+					<text>(6) — Gifts and Presumption of Resulting Trust</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-1-html/toc0212">
+				<text>7. — Personal Fiduciary Liability to Third Party Creditors of the Estate</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-1-html/toc0213">
+				<text>8. — Continuing Operation of Business by Administrator</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-1-html/toc0214">
+				<text>9. — Remuneration for Services Rendered</text>
+				<entry s="ellis_fdc_com_4-1-html/toc0215">
+					<text>(1) — The Enabling Provisions</text>
+					<entry s="ellis_fdc_com_4-1-html/toc0216">
+						<text>(a) — At Common Law</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0217">
+						<text>(b) — Permissive Terms in the Will</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0218">
+						<text>(c) — Permissive Statutory Provisions</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0219">
+						<text>(d) — By Agreement Before Probate</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0220">
+						<text>(e) — Effect of Breach of Trust</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0221">
+						<text>(f) — Generally</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0222">
+					<text>(2) — Prepayment for Services Rendered</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-1-html/toc0223">
+				<text>9.1 — Removal of Counsel for Trustee</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-1-html/toc0224">
+				<text>10. — Removal of Personal Representative</text>
+				<entry s="ellis_fdc_com_4-1-html/toc0225">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0226">
+					<text>(2) — Specific Reasons for Removal</text>
+					<entry s="ellis_fdc_com_4-1-html/toc0227">
+						<text>(a) — Deterioration of Relationship Between Representatives</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0228">
+						<text>(b) — Removal for Misconduct</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0229">
+						<text>(c) — Conflict of Interest</text>
+					</entry>
+					<entry s="ellis_fdc_com_4-1-html/toc0230">
+						<text>(d) — Miscellaneous: Other Causes for Removal</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_4-1-html/toc0231">
+					<text>(3) — Resignation</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-2-html/toc0232">
+					<text>(4) — Effect of Discharge</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4-2-html/toc0233">
+				<text>10.1 — Power of Attorney</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-2-html/toc0234">
+				<text>10.2 — Costs Awards</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-2-html/toc0235">
+				<text>10.3 — Pleadings and Practice</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-2-html/toc0236">
+				<text>11. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_4-3-html/toc0237">
+				<text>12. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_4-3-html/toc0238">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-3-html/toc0239">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-3-html/toc0240">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_4-3-html/toc0241">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_4a-html/toc0242">
+			<text>Chapter 4A — Family Relations</text>
+			<entry s="ellis_fdc_com_4a-html/toc0243">
+				<text>1. — Fiduciary Obligation Between Parents and Children</text>
+				<entry s="ellis_fdc_com_4a-html/toc0244">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0245">
+					<text>(2) — Bystander Parents</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0246">
+					<text>(2.1) — Other family members</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0247">
+					<text>(2.2) — Biological Parents</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0248">
+					<text>(2.3) — Effect of Child Support Legislation</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0249">
+					<text>(3) — Effect of Delay in Bringing Action</text>
+					<entry s="ellis_fdc_com_4a-html/toc0250">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_4a-html/toc0251">
+						<text>(b) — Statutory Bar and Discoverability</text>
+					</entry>
+					<entry s="ellis_fdc_com_4a-html/toc0252">
+						<text>(c) — Statutory Limitation by Analogy</text>
+					</entry>
+					<entry s="ellis_fdc_com_4a-html/toc0253">
+						<text>(d) — Laches</text>
+					</entry>
+					<entry s="ellis_fdc_com_4a-html/toc0254">
+						<text>(e) — Fraudulent Concealment</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0255">
+					<text>(4) — Effect of Criminal Conviction</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0256">
+					<text>(5) — Elderly Parents</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4a-html/toc0257">
+				<text>1.1. — Fiduciary Relationship Between Other Family Members</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-html/toc0258">
+				<text>2. — Duty Between Spouses</text>
+				<entry s="ellis_fdc_com_4a-html/toc0259">
+					<text>(1) — During the Marriage</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-html/toc0260">
+					<text>(2) — After the Breakdown of the Marriage</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0261">
+					<text>(3) — Conduct of Negotiations or Litigation</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0262">
+					<text>(4) — Property Division and Constructive Trust</text>
+					<entry s="ellis_fdc_com_4a-1-html/toc0263">
+						<text>(a) — What Is an Interest in Property?</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0264">
+					<text>(5) — Child Support</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0265">
+				<text>3. — Breach of Trust for Power of Attorney</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0266">
+				<text>4. — Care of Children By Non-Parents</text>
+				<entry s="ellis_fdc_com_4a-1-html/toc0267">
+					<text>(a) — Individuals</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0268">
+					<text>(b) — Vicarious Liability of Institutions</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0269">
+				<text>4.1. — Guardians</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0270">
+				<text>4.2. — Damages Generally</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0271">
+				<text>4.3 — Constructive Trust and Unjust Enrichment</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0272">
+				<text>4.4 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0273">
+				<text>4.5 — Incompetent Parties and Litigation Guardians</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0274">
+				<text>4.6 — Costs</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0275">
+				<text>5. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_4a-1-html/toc0276">
+				<text>6. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_4a-1-html/toc0277">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0278">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0279">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_4a-1-html/toc0280">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_4b-html/toc0281">
+			<text>Chapter 4B — Quasi-Public Private Organizations</text>
+			<entry s="ellis_fdc_com_4b-html/toc0282">
+				<text>1. — Churches and Other Religious Organizations</text>
+				<entry s="ellis_fdc_com_4b-html/toc0283">
+					<text>(a) — Who Can Be Sued</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0284">
+					<text>(b) — Direct and Vicarious Liability</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0285">
+				<text>2. — Condominium Developers and Boards</text>
+				<entry s="ellis_fdc_com_4b-html/toc0286">
+					<text>(a) — Overview</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0287">
+					<text>(b) — Before Registration</text>
+					<entry s="ellis_fdc_com_4b-html/toc0288">
+						<text>(c) — After Registration</text>
+					</entry>
+					<entry s="ellis_fdc_com_4b-html/toc0289">
+						<text>(d) — Procedural Issues</text>
+					</entry>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0290">
+				<text>2.1 — Condominium and Co-operative Housing Corporations</text>
+				<entry s="ellis_fdc_com_4b-html/toc0291">
+					<text>(a) — Liability of Individual Directors</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0292">
+					<text>(b) — Corporation's Duty to Owners/Members</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0293">
+					<text>(c) — Termination of the Condominium Corporation</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0294">
+				<text>2.2. — Property Development Managers</text>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0295">
+				<text>3. — Nursing Homes and Shelters</text>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0296">
+				<text>4. — Universities and Colleges</text>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0297">
+				<text>4.1. — Businesses and Corporations Operating in the Community</text>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0298">
+				<text>4.2 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0299">
+				<text>5. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_4b-html/toc0300">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0301">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0302">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0303">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_4b-html/toc0304">
+				<text>6. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_4b-html/toc0305">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_4b-html/toc0306">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_5-html/toc0307">
+			<text>Chapter 5 — Real Estate Agents</text>
+			<entry s="ellis_fdc_com_5-html/toc0308">
+				<text>1. — Existence of Fiduciary Duty</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-html/toc0309">
+				<text>1.1 — To Whom Is Fiduciary Duty Owed</text>
+				<entry s="ellis_fdc_com_5-html/toc0310">
+					<text>(a) — To the Vendor</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-html/toc0311">
+					<text>(b) — To the Purchaser</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-html/toc0312">
+					<text>(c) — To Both the Vendor and The Purchaser</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-html/toc0313">
+				<text>2. — Creation and Termination of the Fiduciary Aspect</text>
+				<entry s="ellis_fdc_com_5-html/toc0314">
+					<text>(1) — Inception of the Duty</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-html/toc0315">
+					<text>(2) — Expiry of the Duty</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-html/toc0316">
+				<text>3. — Nature of the Duty</text>
+				<entry s="ellis_fdc_com_5-html/toc0317">
+					<text>(a) — To the Vendor</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-html/toc0318">
+					<text>(b) — To The Purchaser</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-html/toc0319">
+				<text>4. — Duty of Disclosure and "Righteous Transaction"</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-html/toc0320">
+				<text>4.1 — Confidential Information</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-html/toc0321">
+				<text>5. — Purchase from Client</text>
+				<entry s="ellis_fdc_com_5-html/toc0322">
+					<text>(1) — Purchase by Agent</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-1-html/toc0323">
+					<text>(2) — Purchase by Agent's Associate</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0324">
+				<text>5.1. — Sale to Client</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0325">
+				<text>6. — Real Estate Commission</text>
+				<entry s="ellis_fdc_com_5-1-html/toc0326">
+					<text>(1) — Commission Rate</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-1-html/toc0327">
+					<text>(2) — Forfeiture of Commission</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-1-html/toc0328">
+					<text>(3) — Commission "Kick-Backs"</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0329">
+				<text>7. — Duty to Provide Reasonable Advice</text>
+				<entry s="ellis_fdc_com_5-1-html/toc0330">
+					<text>(1) — Duty to Obtain Best Price</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-1-html/toc0331">
+					<text>(2) — Innocent Misrepresentation</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-1-html/toc0332">
+					<text>(3) — Undisclosed Competitive Bidding</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0333">
+				<text>8. — Fiduciary Obligation of the Purchaser's Agent to the Vendor</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0334">
+				<text>8.1 — Acting For Vendor and Purchaser</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0335">
+				<text>9. — Real Estate Boards</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0336">
+				<text>9.1. — Real Estate Appraisers</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-1-html/toc0337">
+				<text>10. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_5-2-html/toc0338">
+				<text>11. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_5-2-html/toc0339">
+					<text>(a) — Client's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-2-html/toc0340">
+					<text>(b) — Client's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-2-html/toc0341">
+					<text>(c) — Agent's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_5-2-html/toc0342">
+					<text>(d) — Agent's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_5-2-html/toc0343">
+				<text>12. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_5-2-html/toc0344">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_6-html/toc0345">
+			<text>Chapter 6 — Insurance Agents and Insurers</text>
+			<entry s="ellis_fdc_com_6-html/toc0346">
+				<text>1. — Duty as Between Agent and Insurer</text>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0347">
+				<text>2. — Duty as Between Agent and Insured</text>
+				<entry s="ellis_fdc_com_6-html/toc0348">
+					<text>(1) — Situations Where a Breach Has Not Been Found</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0349">
+					<text>(2) — Situations Where A Breach Has Been Found</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0350">
+				<text>2.1 — Duty as Between Insured and Adjuster</text>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0351">
+				<text>3. — Duty As Between Insured And Insurer</text>
+				<entry s="ellis_fdc_com_6-html/toc0352">
+					<text>(1) — Duty of Insured to Insurer</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0353">
+					<text>(1.1) — Duty of Insurer to Insured</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0354">
+					<text>(2) — Government Insurers</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0355">
+					<text>(3) — Comparison with Duty of Good Faith</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0356">
+					<text>(4) — Scope of Policy and Duty to Defend Against Allegation of Breach of Fiduciary Duty</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0357">
+					<text>(5) — Duty of Insured's Lawyer to Insurer</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0358">
+					<text>(6) — Duty of Insurer's Expert to Insured</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0359">
+				<text>4. — Duty as Between Co-Insureds</text>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0360">
+				<text>4.1 — Duty as Between Insurer and Beneficiary</text>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0361">
+				<text>4.2 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0362">
+				<text>5. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0363">
+				<text>6. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_6-html/toc0364">
+					<text>(a) — Insured's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0365">
+					<text>(b) — Insured's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0366">
+					<text>(c) — Insurer's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_6-html/toc0367">
+					<text>(d) — Insurer's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_6-html/toc0368">
+				<text>7. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_6-html/toc0369">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_7-html/toc0370">
+			<text>Chapter 7 — Banking Institutions</text>
+			<entry s="ellis_fdc_com_7-html/toc0371">
+				<text>1. — The Creditor-Debtor Premise</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-html/toc0372">
+				<text>2. — The Relationship Between the Bank and Its Customers</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-html/toc0373">
+				<text>3. — Application of a Fiduciary Concept</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-html/toc0374">
+				<text>4. — The Fiduciary Duties</text>
+				<entry s="ellis_fdc_com_7-html/toc0375">
+					<text>(1) — Conflict of Interest</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-html/toc0376">
+					<text>(2) — Confidentiality</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-html/toc0377">
+					<text>(3) — Reasonable Advice</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-html/toc0378">
+					<text>(4) — Independent Legal Advice</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_7-html/toc0379">
+				<text>5. — The Bank as "Constructive Trustee"</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0380">
+				<text>5.01. — Duty to Borrowers</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0381">
+				<text>5.1. — Duty To Guarantors</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0382">
+				<text>5.2. — Duty To Mortgagors</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0383">
+				<text>5.3. — Duty To Investors</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0384">
+				<text>5.4. — Duty To Other Creditors</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0385">
+				<text>5.4.1. — Duty with Respect to Bad Cheques</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0386">
+				<text>5.5. — Other Banking Operations</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0387">
+				<text>5.6 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0388">
+				<text>6. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_7-1-html/toc0389">
+				<text>7. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_7-1-html/toc0390">
+					<text>(a) — Customer's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-1-html/toc0391">
+					<text>(b) — Customer's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-1-html/toc0392">
+					<text>(c) — Bank's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-1-html/toc0393">
+					<text>(d) — Bank's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_7-2-html/toc0394">
+				<text>8. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_7-2-html/toc0395">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_7-2-html/toc0396">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_8-html/toc0397">
+			<text>Chapter 8 — Stockbrokers and Financial Advisors</text>
+			<entry s="ellis_fdc_com_8-html/toc0398">
+				<text>1. — Establishing the Existence of a Fiduciary Duty</text>
+				<entry s="ellis_fdc_com_8-html/toc0399">
+					<text>(1) — General Principles</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-html/toc0400">
+					<text>(1.1) — Historical Development of the Law</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-html/toc0401">
+					<text>(2) — Duty Arising from Longstanding Relationship</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-html/toc0402">
+					<text>(3) — Specific Reposing of "Trust and Confidence"</text>
+					<entry s="ellis_fdc_com_8-html/toc0403">
+						<text>(a) — No Requirement of Specific Reposing of Trust and Confidence</text>
+					</entry>
+					<entry s="ellis_fdc_com_8-html/toc0404">
+						<text>(b) — Requirement of Specific Reposing of Trust and Confidence</text>
+						<entry s="ellis_fdc_com_8-html/toc0405">
+							<text>(i) — Longstanding Relationship</text>
+						</entry>
+						<entry s="ellis_fdc_com_8-html/toc0406">
+							<text>(ii) — The Unsophisticated Client</text>
+						</entry>
+						<entry s="ellis_fdc_com_8-html/toc0407">
+							<text>(iii) — Reliance Upon the Stockbroker's Skills</text>
+						</entry>
+						<entry s="ellis_fdc_com_8-html/toc0408">
+							<text>(iv) — The Sophisticated Client</text>
+						</entry>
+						<entry s="ellis_fdc_com_8-1-html/toc0409">
+							<text>(v) — Effect of Professional Rules</text>
+						</entry>
+						<entry s="ellis_fdc_com_8-1-html/toc0410">
+							<text>(vi) — Effect Of Internal Broker's Guidelines</text>
+						</entry>
+						<entry s="ellis_fdc_com_8-1-html/toc0411">
+							<text>(vii) — Effect of Subsequent Transactions</text>
+						</entry>
+					</entry>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0412">
+				<text>1.1. — Content of Fiduciary Duty</text>
+				<entry s="ellis_fdc_com_8-1-html/toc0413">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-1-html/toc0414">
+					<text>(2) — Statutory and Regulatory Duty</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-1-html/toc0415">
+					<text>(a) — Market Volatility</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-1-html/toc0416">
+					<text>(b) — Duty to Third Parties</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0417">
+				<text>2. — Investment Counsellors and Advisors</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0418">
+				<text>2.1. — Mortgage Brokers</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0419">
+				<text>3. — Liability of the Investment House</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0420">
+				<text>3.1. — Real Estate Appraisers</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0421">
+				<text>3.2 — Illegal Investment Schemes</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0422">
+				<text>3.3 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0423">
+				<text>4. — Damages and Mitigation</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-1-html/toc0424">
+				<text>4.1. — Other Defences</text>
+				<entry s="ellis_fdc_com_8-1-html/toc0425">
+					<text>(a) — Contributory Negligence</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-2-html/toc0426">
+					<text>(b) — Limitations</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_8-2-html/toc0427">
+				<text>4.2 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-2-html/toc0428">
+				<text>5. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_8-2-html/toc0429">
+				<text>6. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_8-2-html/toc0430">
+					<text>(a) — Client's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-2-html/toc0431">
+					<text>(b) — Client's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-2-html/toc0432">
+					<text>(c) — Broker's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-2-html/toc0433">
+					<text>(d) — Broker's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_8-2-html/toc0434">
+				<text>7. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_8-2-html/toc0435">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_8-2-html/toc0436">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_9-html/toc0437">
+			<text>Chapter 9 — Lawyers</text>
+			<entry s="ellis_fdc_com_9-html/toc0438">
+				<text>1. — The Fiduciary Relationship with the Client</text>
+				<entry s="ellis_fdc_com_9-html/toc0439">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-html/toc0440">
+					<text>(2) — Who Is a Client</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-html/toc0441">
+				<text>2. — Length and Scope of Fiduciary Relationship</text>
+				<entry s="ellis_fdc_com_9-html/toc0442">
+					<text>(1) — Retainer and Commencement of Duty</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-html/toc0443">
+					<text>(2) — Duty Extending Beyond Period of Retainer</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-html/toc0444">
+				<text>3. — Breach of Fiduciary Duty</text>
+				<entry s="ellis_fdc_com_9-html/toc0445">
+					<text>(1) — Duty of Full Disclosure</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-1-html/toc0446">
+					<text>(2) — Acting for Both Sides of a Transaction</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-1-html/toc0447">
+					<text>(3) — Conflict of Interest</text>
+					<entry s="ellis_fdc_com_9-1-html/toc0448">
+						<text>(a) — The "Bright Line" Test</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-1-html/toc0449">
+						<text>(a.1) — Limits on Scope of Bright Line Test — The Substantial Risk Test (McKercher)</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-1-html/toc0450">
+						<text>(a.2) — Examples of Application of Principle</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-1-html/toc0451">
+						<text>(a.3) — Historical Development of Rule</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-1-html/toc0452">
+						<text>(a.4) — Rebuttable Presumption of Undue Influence</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-1-html/toc0453">
+						<text>(b) — Placing Self-Interest Ahead of Duty</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-2-html/toc0454">
+						<text>(b.1) — Duty to Provide Zealous Representation</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-2-html/toc0455">
+						<text>(b.2) — Acting for Clients with Competing Commercial Interests</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-2-html/toc0456">
+						<text>(c) — Defences</text>
+						<entry s="ellis_fdc_com_9-2-html/toc0457">
+							<text>(i) — Contemporaneous Documentation</text>
+						</entry>
+						<entry s="ellis_fdc_com_9-2-html/toc0458">
+							<text>(ii) — Waiver and/or Independent Legal Advice</text>
+						</entry>
+						<entry s="ellis_fdc_com_9-2-html/toc0459">
+							<text>(iii) — No Practical Conflict</text>
+						</entry>
+						<entry s="ellis_fdc_com_9-2-html/toc0460">
+							<text>(iv) — Separate Corporate Entities</text>
+						</entry>
+					</entry>
+					<entry s="ellis_fdc_com_9-2-html/toc0461">
+						<text>(d) — Role of the Courts</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_9-2-html/toc0462">
+					<text>(4) — Duty Relating to Fees</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-2-html/toc0463">
+					<text>(5) — Duty to Provide Reasonable Advice</text>
+					<entry s="ellis_fdc_com_9-2-html/toc0464">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-2-html/toc0465">
+						<text>(b) — Where in Conflict of Interest</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-2-html/toc0466">
+						<text>(c) — Settlement Discussions</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_9-2-html/toc0467">
+					<text>(6) — Duty of Confidentiality</text>
+					<entry s="ellis_fdc_com_9-2-html/toc0468">
+						<text>(a) — Conflict of Interest and Confidentiality</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-3-html/toc0469">
+						<text>(b) — Unauthorized Disclosure</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-3-html/toc0470">
+						<text>(c) — Privileged Information</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-3-html/toc0471">
+						<text>(d) — Lawyer as Witness</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-3-html/toc0472">
+						<text>(e) — Breach of Confidentiality by Other Fiduciary</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0473">
+					<text>(6.1) — Duty of Loyalty to Former or Existing Clients</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0474">
+					<text>(6.2) — Effect of Codes of Professional conduct Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0475">
+					<text>(6.3) — Unrelated Matter Rule</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0476">
+					<text>(6.4) — Duties Regarding Client Files</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0477">
+					<text>(6.5) — Commitment to Client's Cause</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0478">
+					<text>(7) — Duty Relating to Trust Funds</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0479">
+					<text>(8) — Remedies for Breach of Fiduciary Duty by a Lawyer</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0480">
+					<text>(9) — Evidentiary Considerations</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0481">
+					<text>(10) — Contributory Fault</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-3-html/toc0482">
+				<text>4. — The Law Firm as a Single Entity</text>
+				<entry s="ellis_fdc_com_9-3-html/toc0483">
+					<text>(1) — Firm Acting for Both Sides</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-3-html/toc0484">
+					<text>(2) — Liability of Law Firm</text>
+					<entry s="ellis_fdc_com_9-4-html/toc0485">
+						<text>(a) — Direct Liability</text>
+					</entry>
+					<entry s="ellis_fdc_com_9-4-html/toc0486">
+						<text>(b) — Indirect Liability</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_9-4-html/toc0487">
+					<text>(3) — Fiduciary Obligation After Departure from Firm</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-4-html/toc0488">
+					<text>(4) — Non-Lawyer Employees</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-4-html/toc0489">
+				<text>5. — The Lawyer's Responsibility to a Non-Client</text>
+				<entry s="ellis_fdc_com_9-4-html/toc0490">
+					<text>(a) — Duty to Other Parties in Business Transaction</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-4-html/toc0491">
+					<text>(b) — Duty to Opposing Party in Litigation Context</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-4-html/toc0492">
+					<text>(c) — Estates</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-4-html/toc0493">
+					<text>(d) — Other Cases</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-5-html/toc0494">
+					<text>(e) — Lawyer as Employer</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0495">
+				<text>6. — Business Relations Between Solicitor And Client Or Other Person</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0496">
+				<text>7. — Duty of In-House Counsel and Corporate Counsel</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0497">
+				<text>7.01 — Notaries Publics</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0498">
+				<text>7.02 — Lawyers as Beneficiaries of Fiduciary Duty</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0499">
+				<text>7.03 — Duty of Law Societies and Legal Insurance Providers</text>
+				<entry s="ellis_fdc_com_9-5-html/toc0500">
+					<text>(1) — Duty to Clients and Public</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-5-html/toc0501">
+					<text>(2) — Duty to Lawyers</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0502">
+				<text>7.04 — Representation in Class Proceedings</text>
+				<entry s="ellis_fdc_com_9-5-html/toc0503">
+					<text>(1) — Approval of Fees</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-5-html/toc0504">
+					<text>(2) — Settlement Delivery</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0505">
+				<text>7.1. — Costs Following Unsuccessful Claims</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0506">
+				<text>7.2 — Practice and Procedure</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0507">
+				<text>7.3 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0508">
+				<text>7.4 — Evidence</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-5-html/toc0509">
+				<text>8. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_9-6-html/toc0510">
+				<text>9. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_9-6-html/toc0511">
+					<text>(a) — Client's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-6-html/toc0512">
+					<text>(b) — Client's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-6-html/toc0513">
+					<text>(c) — Lawyer's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_9-6-html/toc0514">
+					<text>(d) — Lawyer's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_9-6-html/toc0515">
+				<text>10. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_9-6-html/toc0516">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_10-html/toc0517">
+			<text>Chapter 10 — Medical Practitioners</text>
+			<entry s="ellis_fdc_com_10-html/toc0518">
+				<text>1. — Professional Medical Practitioners</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0519">
+				<text>2. — Consequences of the Fiduciary Relationship</text>
+				<entry s="ellis_fdc_com_10-html/toc0520">
+					<text>(1) — Fees for Services Rendered</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0521">
+					<text>(2) — Presumption of Undue Influence</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0522">
+					<text>(3) — Duty of Full Disclosure</text>
+					<entry s="ellis_fdc_com_10-html/toc0523">
+						<text>(a) — Disclosure in General Practice</text>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0524">
+						<text>(b) — Disclosure in Medical Experimentation</text>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0525">
+						<text>(c) — Access To Medical Records</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0526">
+					<text>(4) — Confidentiality</text>
+					<entry s="ellis_fdc_com_10-html/toc0527">
+						<text>(a) — The Premise of Confidence</text>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0528">
+						<text>(b) — Factors Vitiating the Right of Confidentiality</text>
+						<entry s="ellis_fdc_com_10-html/toc0529">
+							<text>(i) — Disclosure by Consent</text>
+						</entry>
+						<entry s="ellis_fdc_com_10-html/toc0530">
+							<text>(ii) — Disclosure Through "Due Process of Law"</text>
+							<entry s="ellis_fdc_com_10-html/toc0531">
+								<text>(A) Public Interest Legislation</text>
+							</entry>
+							<entry s="ellis_fdc_com_10-html/toc0532">
+								<text>(B) Absence of Privilege in the Litigation Process</text>
+							</entry>
+						</entry>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0533">
+						<text>(c) — Statutory Protection of Confidentiality</text>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0534">
+						<text>(d) — Duty of Confidentiality as a Defence</text>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0535">
+						<text>(e) — Sale or Seizure of Medical Records</text>
+					</entry>
+					<entry s="ellis_fdc_com_10-html/toc0536">
+						<text>(f) — Testifying Against Former Client</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0537">
+					<text>(5) — Failure to Follow Instructions: Breach of Fiduciary Duty or Battery?</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0538">
+					<text>(6) — Misuse of Doctor/Patient Relationship</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0539">
+					<text>(7) — Conflict of Interest</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0540">
+				<text>2.1. — Professional Colleges</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0541">
+				<text>3. — Non-Professional Health Advisors</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0542">
+				<text>3.1 — Dentists</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0543">
+				<text>3.2 — Mental Health Professionals</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0544">
+				<text>3.3 — Medical Examiners and Assessors</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0545">
+				<text>3.4 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0546">
+				<text>4. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0547">
+				<text>5. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_10-html/toc0548">
+					<text>(a) — Patient's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0549">
+					<text>(b) — Patient's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0550">
+					<text>(c) — Medical Practitioner's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_10-html/toc0551">
+					<text>(d) — Medical Practitioner's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_10-html/toc0552">
+				<text>6. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_10-html/toc0553">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_11-html/toc0554">
+			<text>Chapter 11 — Accountants</text>
+			<entry s="ellis_fdc_com_11-html/toc0555">
+				<text>1. — Auditors</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0556">
+				<text>1.01. — Conflict of Interest</text>
+				<entry s="ellis_fdc_com_11-html/toc0557">
+					<text>(1) — Accountants as Investment Advisors</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0558">
+					<text>(2) — Auditors</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0559">
+					<text>(3) — Client Confidentiality and "Chinese Walls"</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0560">
+					<text>(4) — Duty of Loyalty</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0561">
+				<text>1.02 — Accountants as Corporate Officers</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0562">
+				<text>1.1. — Receiver/Managers</text>
+				<entry s="ellis_fdc_com_11-html/toc0563">
+					<text>(1) — Where Appointed by a Court</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0564">
+					<text>(2) — Where Appointed by Creditors</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0565">
+					<text>(3) — A Discussion of the Dichotomy</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0566">
+					<text>(4) — Costs</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0567">
+				<text>2. — Liquidators</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0568">
+				<text>2.1. — Trustees in Bankruptcy</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0569">
+				<text>3. — Inspectors</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0570">
+				<text>4. — Privileged Communications</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0571">
+				<text>4.1 — Contractual Relationships</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0572">
+				<text>5. — Civil Liability and Discipline Proceedings</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0573">
+				<text>6. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_11-html/toc0574">
+				<text>7. — Summary Judgments Synopses</text>
+				<entry s="ellis_fdc_com_11-html/toc0575">
+					<text>(a) — Client's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0576">
+					<text>(b) — Client's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0577">
+					<text>(c) — Accountant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_11-html/toc0578">
+					<text>(d) — Accountant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_11a-html/toc0579">
+			<text>Chapter 11A — Other Professionals</text>
+			<entry s="ellis_fdc_com_11a-html/toc0580">
+				<text>1. — Engineers</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0581">
+				<text>2. — Builders And Contractors</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0582">
+				<text>3. — Spiritual Advisors</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0583">
+				<text>4. — Mining Personnel</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0584">
+				<text>5. — Actuaries</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0585">
+				<text>5.1 — Immigration Consultants</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0586">
+				<text>6. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_11a-html/toc0587">
+				<text>7. — Summary Judgment of Fiduciary Claims Synopses</text>
+				<entry s="ellis_fdc_com_11a-html/toc0588">
+					<text>(a) — Client's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_11a-html/toc0589">
+					<text>(b) — Client's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_11a-html/toc0590">
+					<text>(c) — Professional's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_11a-html/toc0591">
+					<text>(d) — Professional's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_12-html/toc0592">
+			<text>Chapter 12 — Partnerships</text>
+			<entry s="ellis_fdc_com_12-html/toc0593">
+				<text>1. — Defining the Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-html/toc0594">
+				<text>2. — "Intending" or "Pursuit" Partners</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-html/toc0595">
+				<text>3. — General Principles</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-html/toc0596">
+				<text>4. — Partners' Reciprocal Obligations</text>
+				<entry s="ellis_fdc_com_12-html/toc0597">
+					<text>(1) — General Partner's Liability to Limited Partners</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-html/toc0598">
+					<text>(1.5) — Prohibition Against Personal Profit</text>
+					<entry s="ellis_fdc_com_12-html/toc0599">
+						<text>(a) — Secret Profit</text>
+					</entry>
+					<entry s="ellis_fdc_com_12-html/toc0600">
+						<text>(b) — Profits from Sales to the Partnership</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_12-html/toc0601">
+					<text>(2) — Misuse of Partnership Assets</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-html/toc0602">
+					<text>(3) — Purchase of Partnership Property</text>
+					<entry s="ellis_fdc_com_12-html/toc0603">
+						<text>(a) — During the Life of the Partnership</text>
+					</entry>
+					<entry s="ellis_fdc_com_12-html/toc0604">
+						<text>(b) — After Termination of the Partnership</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_12-1-html/toc0605">
+					<text>(4) — Loyalty to The Partnership</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-1-html/toc0606">
+					<text>(5) — Duty to Account</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-1-html/toc0607">
+					<text>(6) — Allocation of Profit to Partners</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0608">
+				<text>5. — Third Party Liability for Partner's Breach</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0609">
+				<text>6. — Termination of the Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0610">
+				<text>7. — Partnership Liability for a Partner's Breach</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0611">
+				<text>7.1. — Continuing Responsibility</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0612">
+				<text>7.2 — Laches</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0613">
+				<text>7.3 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-1-html/toc0614">
+				<text>8. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_12-2-html/toc0615">
+				<text>9. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_12-2-html/toc0616">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-2-html/toc0617">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-2-html/toc0618">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_12-2-html/toc0619">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_13-html/toc0620">
+			<text>Chapter 13 — Joint Ventures</text>
+			<entry s="ellis_fdc_com_13-html/toc0621">
+				<text>1. — Characteristics of a Joint Venture</text>
+				<entry s="ellis_fdc_com_13-html/toc0622">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_13-html/toc0623">
+					<text>(2) — Differentiation from "Partnership"</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0624">
+				<text>2. — The Fiduciary Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0625">
+				<text>3. — Scope of the Relationship</text>
+				<entry s="ellis_fdc_com_13-html/toc0626">
+					<text>(1) — Negotiating Parties</text>
+					<entry s="ellis_fdc_com_13-html/toc0627">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_13-html/toc0629">
+						<text>(b) — Post-Negotiation "Fall-Out"</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_13-html/toc0630">
+					<text>(2) — Subsisting Duty after Termination of the Relationship</text>
+					<entry s="ellis_fdc_com_13-html/toc0631">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_13-html/toc0632">
+						<text>(b) — Agreements to Terminate the Relationship</text>
+					</entry>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0633">
+				<text>4. — Breadth of the Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0634">
+				<text>5. — Contracting Out</text>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0635">
+				<text>5.1. — Personal Liability of Directors</text>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0636">
+				<text>5.2 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0637">
+				<text>6. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_13-html/toc0638">
+				<text>7. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_13-html/toc0639">
+					<text>(a) — Plaintiff's motion for summary judgments refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_13-html/toc0640">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_13-html/toc0641">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_13-html/toc0642">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_14-html/toc0643">
+			<text>Chapter 14 — Franchises</text>
+			<entry s="ellis_fdc_com_14-html/toc0644">
+				<text>1. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_14-html/toc0645">
+				<text>2. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_14-html/toc0646">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_14-html/toc0647">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_14-html/toc0648">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_14-html/toc0649">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_14a-html/toc0650">
+			<text>Chapter 14A — Commercial Contractual Relations</text>
+			<entry s="ellis_fdc_com_14a-html/toc0651">
+				<text>1. — The Fiduciary Relationship</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-html/toc0652">
+				<text>1.1. — Duty of Good Faith Between Contracting Parties</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-html/toc0653">
+				<text>2. — Negotiating Parties</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-html/toc0654">
+				<text>3. — Confidential Contractual Relations</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-html/toc0655">
+				<text>4. — Creditor-Debtor Relations</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0656">
+				<text>5. — Distribution Agreements and Retailers</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0657">
+				<text>6. — Trustees For Specific Purposes</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0658">
+				<text>6.1 — Purchase of Property From Trustee</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0659">
+				<text>7. — Crown Development Corporations</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0660">
+				<text>8. — Revenue Sharing Arrangements</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0661">
+				<text>8.1. — Oil and Gas Exploration and Operation</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0662">
+				<text>8.2. — Real Estate Developments and Purchases</text>
+				<entry s="ellis_fdc_com_14a-1-html/toc0663">
+					<text>(1) — Residential Real Estate Transactions</text>
+				</entry>
+				<entry s="ellis_fdc_com_14a-1-html/toc0664">
+					<text>(2) — Commercial Real Estate Transactions and Developments</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0665">
+				<text>8.3 — Independent Contractor</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0666">
+				<text>8.3.1 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0667">
+				<text>8.4 — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_14a-1-html/toc0668">
+				<text>9. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_14a-1-html/toc0669">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_14a-1-html/toc0670">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_14a-1-html/toc0671">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_14a-2-html/toc0672">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_14a-2-html/toc0673">
+				<text>10. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_14a-2-html/toc0674">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_14a-2-html/toc0675">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_15-html/toc0676">
+			<text>Chapter 15 — Directors</text>
+			<entry s="ellis_fdc_com_15-html/toc0677">
+				<text>1. — Inception of a Director's Fiduciary Duty</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-html/toc0678">
+				<text>2. — The Director/Shareholder Dichotomy</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-html/toc0679">
+				<text>2.1 — To Whom Duty Is Owed</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-html/toc0680">
+				<text>3. — The Nature of the Duty Owed to the Corporation</text>
+				<entry s="ellis_fdc_com_15-html/toc0681">
+					<text>(1) — Management Manipulation</text>
+					<entry s="ellis_fdc_com_15-html/toc0682">
+						<text>(a) — Share Manipulation</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-html/toc0683">
+						<text>(b) — "Packing" the Board</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-html/toc0684">
+						<text>(c) — Attempted Buy-Out of Company</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_15-html/toc0685">
+					<text>(2) — Avoidance of Responsibility</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-html/toc0686">
+					<text>(3) — Secret Profit</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-html/toc0687">
+					<text>(3.1) — Appropriation of Corporate Assets</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-html/toc0688">
+					<text>(4) — Conflict of Interest</text>
+					<entry s="ellis_fdc_com_15-html/toc0689">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-html/toc0690">
+						<text>(a.1) — Multiple Directorships</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-1-html/toc0691">
+						<text>(a.2) — Multiple Roles in the Company</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-1-html/toc0692">
+						<text>(b) — Personal Connection with Outside Party</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-1-html/toc0693">
+						<text>(c) — Incidental Benefit to Company Through Breach</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-1-html/toc0694">
+						<text>(d) — Director's Gain Through Separate Company</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-1-html/toc0695">
+						<text>(e) — Permissive By-laws</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-1-html/toc0696">
+						<text>(f) — The Corporate Opportunity Doctrine</text>
+						<entry s="ellis_fdc_com_15-1-html/toc0697">
+							<text>(i) — Regal Hastings - The Strict Test</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0698">
+							<text>(ii) — Peso Silver Mines - The Bona Fide Loophole</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0699">
+							<text>(iii) — Canaero - The "Strict Ethic" Principle Revived</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0700">
+							<text>(iv) — How the Director Learned of the Opportunity</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0701">
+							<text>(v) — Whether a Director Is Entitled to Compete with the Company</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0702">
+							<text>(vi) — Ratification of Conflict</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0703">
+							<text>(vii) — Rejection of Business Opportunity by Board</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0704">
+							<text>(viii) — What is a Qualifying "Business Opportunity"</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0705">
+							<text>(ix) — Timing/Effect of Resignation of Director</text>
+						</entry>
+						<entry s="ellis_fdc_com_15-1-html/toc0706">
+							<text>(x) — Whether Company Could Take Up Opportunity</text>
+						</entry>
+					</entry>
+					<entry s="ellis_fdc_com_15-2-html/toc0707">
+						<text>(f.1) — Timing of Breach</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-2-html/toc0708">
+						<text>(g) — Inability of Company to Benefit</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-2-html/toc0709">
+						<text>(h) — Ratification of the Conflict</text>
+					</entry>
+					<entry s="ellis_fdc_com_15-2-html/toc0710">
+						<text>(i) — Duty of Confidentiality</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_15-2-html/toc0711">
+					<text>(4.1) — Business Judgment Rule</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-2-html/toc0712">
+					<text>(4.2) — Companies under CCAA Protection</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-2-html/toc0713">
+					<text>(4.3) — Incorporated Partnerships</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-2-html/toc0714">
+					<text>(4.4) — Disclosure</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-2-html/toc0715">
+				<text>3.1. — Duty Owed to Shareholders</text>
+				<entry s="ellis_fdc_com_15-2-html/toc0716">
+					<text>(1) — Traditional Rule</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-2-html/toc0717">
+					<text>(2) — The Liberal Approach</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0718">
+					<text>(3) — Purchase and Resale of Minority Shares</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0719">
+					<text>(3.1) — Standing of Shareholders to Bring Action</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0720">
+					<text>(3.2) — Take-Over of Company</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0721">
+					<text>(3.3) — Effect of Unanimous Shareholders Agreement</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0722">
+					<text>(3.4) — Competition with Shareholders</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0723">
+					<text>(4) — Interaction With Other Shareholder Remedies</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-3-html/toc0724">
+				<text>3.2. — Duty Owed to Employees</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-3-html/toc0725">
+				<text>4. — Duty Owed to Creditors</text>
+				<entry s="ellis_fdc_com_15-3-html/toc0726">
+					<text>(a) — Under Statute</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-3-html/toc0727">
+					<text>(b) — At Common Law</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-3-html/toc0728">
+				<text>4.1 — Duty Owed to Other Stakeholders</text>
+				<entry s="ellis_fdc_com_15-3-html/toc0729">
+					<text>(1) — Duty Owed to Corporation's Agents</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0730">
+				<text>5. — Duty Owed Between Directors</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0731">
+				<text>6. — Duty Owed By Persons Associated with the Director's Breach</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0732">
+				<text>7. — Remuneration</text>
+				<entry s="ellis_fdc_com_15-4-html/toc0733">
+					<text>(1) — Commercial Corporations</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-4-html/toc0734">
+					<text>(2) — Charitable Corporations</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0735">
+				<text>8. — Defences</text>
+				<entry s="ellis_fdc_com_15-4-html/toc0736">
+					<text>(1) — Ignorant and ''Dummy" Directors</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-4-html/toc0737">
+					<text>(2) — Professional Advice</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-4-html/toc0738">
+					<text>(3) — Statute of Limitations and Laches</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0739">
+				<text>8.1 — Company Law Statutes</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0740">
+				<text>8.2 — Ancillary Liability of Directors In Actions Against Corporations</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-4-html/toc0741">
+				<text>8.3 — Remedies</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-5-html/toc0742">
+				<text>8.4 — Practice and Procedural Considerations and Derivative Claims</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-5-html/toc0743">
+				<text>8.5 — Pleadings</text>
+				<entry s="ellis_fdc_com_15-5-html/toc0744">
+					<text>(a) — Generally</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-5-html/toc0745">
+				<text>9. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_15-5-html/toc0746">
+				<text>10. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_15-5-html/toc0747">
+					<text>(a) — Plaintiff's motion for summary judgment or interim injunction refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-5-html/toc0748">
+					<text>(b) — Plaintiff's motion for summary judgment or interim injunction granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-5-html/toc0749">
+					<text>(c) — Action against directors allowed to proceed</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-5-html/toc0750">
+					<text>(d) — Action against director not allowed to proceed</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_15-6-html/toc0751">
+				<text>11. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_15-6-html/toc0752">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_15-6-html/toc0753">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_16-html/toc0754">
+			<text>Chapter 16 — Employees</text>
+			<entry s="ellis_fdc_com_16-html/toc0755">
+				<text>1. — The Fiduciary Employee</text>
+				<entry s="ellis_fdc_com_16-html/toc0756">
+					<text>(1) — Status as a Fiduciary Duty</text>
+					<entry s="ellis_fdc_com_16-html/toc0757">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-html/toc0758">
+						<text>(b) — Independent Contractors and Sub-agents</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_16-html/toc0759">
+					<text>(2) — The Employee as "Agent"</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-html/toc0760">
+					<text>(3) — The "Top Management" Test</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-html/toc0761">
+					<text>(4) — The "Key Personnel" Test</text>
+					<entry s="ellis_fdc_com_16-html/toc0762">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-1-html/toc0763">
+						<text>(b) — "Key" to a Department Only</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0764">
+					<text>(4.1) — Professional Employees</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0765">
+					<text>(4.2) — Financial Management and Bookkeeping</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0766">
+					<text>(5) — Size of the Business as a Factor</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0767">
+					<text>(6) — Employer's Vulnerability as a Factor</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0768">
+					<text>(7) — Lower Level Employees</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0769">
+					<text>(7.1) — (7.4) — REMOVED</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0770">
+					<text>(7.5) — The Present Confusion</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0771">
+					<text>(7.6) — The Reasonable Expectations Test</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0772">
+					<text>(8) — "Mere" Employee: Fiduciary Breach by Association</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-1-html/toc0773">
+					<text>(9) — The Civil Law Position (Quebec)</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_16-2-html/toc0774">
+				<text>2. — The Intra-Employment Duties</text>
+				<entry s="ellis_fdc_com_16-2-html/toc0775">
+					<text>(1) — Ordinary Employees</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-2-html/toc0776">
+					<text>(2) — Duties pursuant to "Top" or ''Key" Employment Status</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-2-html/toc0777">
+					<text>(2.1) — Multiple Roles in the Company</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-2-html/toc0778">
+					<text>(3) — Termination of Employment</text>
+					<entry s="ellis_fdc_com_16-2-html/toc0779">
+						<text>(a) — Breach of Fiduciary Duty as Cause for Dismissal</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-2-html/toc0780">
+						<text>(b) — Termination for Breach: Wages for Past Services</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-2-html/toc0781">
+						<text>(c) — Effect of Termination</text>
+					</entry>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_16-2-html/toc0782">
+				<text>3. — Duties of the Departing Fiduciary Employee</text>
+				<entry s="ellis_fdc_com_16-2-html/toc0783">
+					<text>(.001) General Principles</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-2-html/toc0784">
+					<text>(.01) What is "Solicitation"</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-3-html/toc0785">
+					<text>(1) — Common Law "Confidentiality"</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-3-html/toc0786">
+					<text>(2) — Restrictive Covenants v. Fiduciary Restraints</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-3-html/toc0787">
+					<text>(2.1) — Length Of Time Of Restriction On Competition</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-3-html/toc0788">
+					<text>(2.2) — Length Of Notice Period</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-3-html/toc0789">
+					<text>(2.3) — Departing Professional Employees</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-4-html/toc0790">
+					<text>(3) — The Corporate Opportunity Doctrine</text>
+					<entry s="ellis_fdc_com_16-4-html/toc0791">
+						<text>(a) — The Canaero Decision</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-4-html/toc0792">
+						<text>(b) — Breach by Departing Employee</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-4-html/toc0793">
+						<text>(c) — Breach Through Personal Gain</text>
+					</entry>
+					<entry s="ellis_fdc_com_16-4-html/toc0794">
+						<text>(d) — Preparing to Compete</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_16-4-html/toc0795">
+					<text>(4) — Liability Of New Employer</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-4-html/toc0796">
+					<text>(5) — Effect Of Collective Agreement</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-4-html/toc0797">
+					<text>(6) — Injunctions and Other Pre-Trial Proceedings</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-4-html/toc0798">
+					<text>(6.1) — Security for Costs</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-4-html/toc0799">
+					<text>(7) — Damages</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_16-4-html/toc0800">
+				<text>3.1. — Effect of Breach on Employee's Claims Against Employer</text>
+			</entry>
+			<entry s="ellis_fdc_com_16-4-html/toc0801">
+				<text>3.2 — Limitations of Actions</text>
+			</entry>
+			<entry s="ellis_fdc_com_16-4-html/toc0802">
+				<text>3.3 — Liability of Third Parties Other Than the New Employer</text>
+			</entry>
+			<entry s="ellis_fdc_com_16-5-html/toc0803">
+				<text>3.4 — Pleadings</text>
+				<entry s="ellis_fdc_com_16-5-html/toc0804">
+					<text>(a) — Generally</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_16-5-html/toc0805">
+				<text>3.5 — Availability of Summary Judgment</text>
+			</entry>
+			<entry s="ellis_fdc_com_16-5-html/toc0806">
+				<text>4. — Synopses of Fiduciary Status, Duty and Breach</text>
+			</entry>
+			<entry s="ellis_fdc_com_16-6-html/toc0807">
+				<text>5. — Summary Judgment and Injunctive Relief Synopses</text>
+				<entry s="ellis_fdc_com_16-6-html/toc0808">
+					<text>(a) — Employer's motion for summary judgment and injunctive relief refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-6-html/toc0809">
+					<text>(b) — Employer's motion for summary judgment and injunctive relief granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-6-html/toc0810">
+					<text>(c) — Employee's motion for summary judgment and injunctive relief refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_16-6-html/toc0811">
+					<text>(d) — Employee's motion for summary judgment and injunctive relief granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_16a-html/toc0812">
+			<text>Chapter 16A — Employers and Unions</text>
+			<entry s="ellis_fdc_com_16a-html/toc0813">
+				<text>1. — The Existence of a Duty</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0814">
+				<text>1.01 — Duty of Good Faith to Employees in Termination of Employment</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0815">
+				<text>1.1 — Effect of Collective Agreement</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0816">
+				<text>1.2 — Duty to Independent Contractors and Sub-agents</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0817">
+				<text>1.3 — Worker's Compensation Legislation</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0818">
+				<text>2. — Vicarious Liability</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0819">
+				<text>2.1. — Unions [formerly "Employee associations"]</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-html/toc0820">
+				<text>2.1.1 — Executives</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-1-html/toc0821">
+				<text>2.2. — Employer Associations</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-1-html/toc0822">
+				<text>2.3. — Pension and Benefit Plans</text>
+				<entry s="ellis_fdc_com_16a-1-html/toc0823">
+					<text>(a) — Public Sector Pension Plans</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-1-html/toc0824">
+					<text>(b) — Employee Benefit Plans</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-1-html/toc0825">
+					<text>(c) — Regulated Industries</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-1-html/toc0826">
+					<text>(d) — Evidentiary Considerations</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_16a-1-html/toc0827">
+				<text>2.4. — Multiple Proceedings</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-1-html/toc0828">
+				<text>3. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_16a-1-html/toc0829">
+				<text>4. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_16a-1-html/toc0830">
+					<text>(a) — Employee's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-1-html/toc0831">
+					<text>(b) — Employee's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-1-html/toc0832">
+					<text>(c) — Employer's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-1-html/toc0833">
+					<text>(d) — Employer's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_16a-2-html/toc0834">
+				<text>5. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_16a-2-html/toc0835">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_16a-2-html/toc0836">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_17-html/toc0837">
+			<text>Chapter 17 — Promoters</text>
+			<entry s="ellis_fdc_com_17-html/toc0838">
+				<text>1. — Concept of Fiduciary Duty of a "Promoter"</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0839">
+				<text>2. — Inception of the Fiduciary Duty</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0840">
+				<text>3. — To Whom the Duty is Owed</text>
+				<entry s="ellis_fdc_com_17-html/toc0841">
+					<text>(1) — Duty to Company-to-be-Formed</text>
+				</entry>
+				<entry s="ellis_fdc_com_17-html/toc0842">
+					<text>(2) — Duty to Present Investors</text>
+				</entry>
+				<entry s="ellis_fdc_com_17-html/toc0843">
+					<text>(3) — Duty to Future Shareholders</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0844">
+				<text>4. — The "Owner" versus "Trustee" Dichotomy</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0845">
+				<text>5. — The Fiduciary Duty: Complete Disclosure, Independent Board and Fair Price</text>
+				<entry s="ellis_fdc_com_17-html/toc0846">
+					<text>(1) — Duty of Full Disclosure</text>
+				</entry>
+				<entry s="ellis_fdc_com_17-html/toc0847">
+					<text>(2) — Necessity of Independent Board</text>
+				</entry>
+				<entry s="ellis_fdc_com_17-html/toc0848">
+					<text>(3) — Fair Price</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0849">
+				<text>6. — Rule Against Secret Profits</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0850">
+				<text>7. — Waiver of Promoter's Breach</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0851">
+				<text>8. — Developers as "Promoters"</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0852">
+				<text>9. — Case Synopsis</text>
+			</entry>
+			<entry s="ellis_fdc_com_17-html/toc0853">
+				<text>10. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_17-html/toc0854">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_18-html/toc0855">
+			<text>Chapter 18 — Shareholders</text>
+			<entry s="ellis_fdc_com_18-html/toc0856">
+				<text>1. — Shareholders' Duty to Other Shareholders</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0857">
+				<text>2. — Vending Shareholders' Duty to Purchaser of Shares</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0858">
+				<text>2.1. — Relationship Between Shareholders in Small Corporations</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0859">
+				<text>2.2. — Relationship between Shareholder and Company</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0860">
+				<text>2.3 — Corporate Opportunity Doctrine</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0861">
+				<text>2.4 — Generally</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0862">
+				<text>2.5 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0863">
+				<text>3. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_18-html/toc0864">
+				<text>4. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_18-html/toc0865">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_18-html/toc0866">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_18-html/toc0867">
+					<text>(c) — Defendant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_18-html/toc0868">
+					<text>(d) — Defendant's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_19-html/toc0869">
+			<text>Chapter 19 — Governmental Authorities</text>
+			<entry s="ellis_fdc_com_19-html/toc0870">
+				<text>0.1 — Introduction</text>
+				<entry s="ellis_fdc_com_19-html/toc0871">
+					<text>(1) — Guerin Rule</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-html/toc0872">
+					<text>(2) — Right to Expropriate</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-html/toc0873">
+					<text>(3) — The Chaoulli Shift?</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-html/toc0874">
+					<text>(4) — Jurisdiction of Courts</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-html/toc0875">
+				<text>1. — Pension Commissions</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-html/toc0876">
+				<text>2. — The Municipal Corporation</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-html/toc0877">
+				<text>3. — Elected Officials</text>
+				<entry s="ellis_fdc_com_19-html/toc0878">
+					<text>(1) — The Fiduciary Duty</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-html/toc0879">
+					<text>(2) — The Effect of Statutory Provisions</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-1-html/toc0880">
+					<text>(3) — Observations Regarding the Duty of Elected Officials</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-1-html/toc0881">
+				<text>3.1 — Unelected Public Officials</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-1-html/toc0882">
+				<text>4. — The Crown and Native Rights</text>
+				<entry s="ellis_fdc_com_19-1-html/toc0883">
+					<text>(1) — General Principle</text>
+					<entry s="ellis_fdc_com_19-1-html/toc0884">
+						<text>(a) — Honour of the Crown</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-1-html/toc0885">
+						<text>(b) — Interpretation of Treaties and the Charter</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-1-html/toc0886">
+						<text>(c) — Scope and Content of Fiduciary Duty</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-2-html/toc0887">
+						<text>(d) — Fiduciary Relationship</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_19-2-html/toc0888">
+					<text>(2) — Surrender of Reserve Lands to the Crown</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-2-html/toc0889">
+					<text>(2.1) — Infringement of Aboriginal Rights Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-2-html/toc0890">
+					<text>(2.2) — Duty To Negotiate Aboriginal Claims</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-2-html/toc0891">
+					<text>(2.3) — Duty To Consult and Accommodate</text>
+					<entry s="ellis_fdc_com_19-2-html/toc0892">
+						<text>(a) — Law Before 2004</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-2-html/toc0893">
+						<text>(b) — The Supreme Court of Canada Speaks</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-2-html/toc0894">
+						<text>(c) — Duty to Accommodate</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0895">
+						<text>(d) — Nature and Scope of the Consultation Process</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0896">
+						<text>(e) — Potential or Established Right</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0897">
+						<text>(f) — Taxation and Other Non-Property Issues</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0898">
+						<text>(g) — Whether the Right To Consultation Is Impaired</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0899">
+						<text>(h) — Duty to Consult Relates Solely to Future Impact</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0900">
+						<text>(i) — Delegation of Duty to Consult</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0901">
+						<text>(j) — Duty of Administrative Tribunals</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0902">
+						<text>(k) — Duty of Municipal Governments</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-3-html/toc0903">
+						<text>(k.1) — Legislatures</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-4-html/toc0904">
+						<text>(l) — Remedies</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0905">
+					<text>(2.4) — Third Parties</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0906">
+					<text>(2.5) — Conflicting Claims Of Bands</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0907">
+					<text>(2.6) — Duty To Individual Members Of Bands</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0908">
+					<text>(2.7) — Management Of Reserve Lands</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0909">
+					<text>(2.8) — Creation of Reserves</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0910">
+					<text>(2.9) — Off-Reserve Lands</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0911">
+					<text>(2.10) — Discriminatory Treatment</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0912">
+					<text>(2.11) — Residential Schools</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0913">
+					<text>(a) — Overview</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-4-html/toc0914">
+					<text>(b) — Pre-Agreement Litigation</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0915">
+					<text>(c) — Interpreting and Applying the Agreement</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0916">
+					<text>(d) — Class proceedings</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0917">
+					<text>(2.11.1) — Sixties Scoop of Aboriginal Children in Distress</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0918">
+					<text>(2.12) — Métis</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0919">
+					<text>(3) — Information in Possession of the Crown</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0920">
+					<text>(4) — Courts and Quasi-Judicial Boards</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-5-html/toc0921">
+					<text>(4.1) — Procedure and Evidence</text>
+					<entry s="ellis_fdc_com_19-5-html/toc0922">
+						<text>(a) — Expert Evidence</text>
+					</entry>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-6-html/toc0923">
+				<text>(b) — Injunctions</text>
+				<entry s="ellis_fdc_com_19-6-html/toc0924">
+					<text>(4.2) — Pleadings</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-6-html/toc0925">
+					<text>(5) — Fiduciary Duty of the Provincial Crown</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-6-html/toc0926">
+					<text>(6) — Limitations of actions</text>
+					<entry s="ellis_fdc_com_19-6-html/toc0927">
+						<text>(a) — Statutory Limitations</text>
+					</entry>
+					<entry s="ellis_fdc_com_19-6-html/toc0928">
+						<text>(b) — Doctrine of Laches</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_19-6-html/toc0929">
+					<text>(7) — Leasing of native lands</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-6-html/toc0930">
+					<text>(8) — Expropriation of native lands</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-7-html/toc0931">
+					<text>(9) — Court Costs</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-7-html/toc0932">
+					<text>(10) — Appropriate Forum</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-7-html/toc0933">
+					<text>(10.1) — Appeals</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-7-html/toc0934">
+					<text>(11) — Duty to Pay Interest or Invest</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-7-html/toc0935">
+					<text>(12) — Taxation</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-7-html/toc0936">
+					<text>(13) — Proper Parties</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-7-html/toc0937">
+				<text>4.1. — Crown's Duty To Subjects Generally</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-8-html/toc0938">
+				<text>4.2. — Band Council</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-8-html/toc0939">
+				<text>4.3. — Crown Obligation to Invest or Pay Interest</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-8-html/toc0940">
+				<text>5. — Crown Employees</text>
+				<entry s="ellis_fdc_com_19-8-html/toc0941">
+					<text>(1) — Duty of Crown to Employees</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-8-html/toc0942">
+					<text>(2) — Duty of Employees to Crown</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-8-html/toc0943">
+					<text>(3) — Vicarious Liability of the Crown</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-8-html/toc0944">
+				<text>6. — Child Protection Agencies</text>
+				<entry s="ellis_fdc_com_19-8-html/toc0945">
+					<text>(1) — Duty to Children</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-8-html/toc0946">
+					<text>(2) — Duty to Families</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-8-html/toc0947">
+				<text>6.1. — School Boards and Teachers</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0948">
+				<text>6.2 — Public Trustee</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0949">
+				<text>7. — Privilege Over Crown Documents</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0950">
+				<text>7.1. — Police Services Boards, Chiefs of Police and Police Officers</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0951">
+				<text>7.2. — Crown Prosecutors and the Criminal Justice System</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0952">
+				<text>7.2.1 — Canada Revenue Agency</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0953">
+				<text>7.3. — Workers' Compensation Boards</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0954">
+				<text>7.4. — Medicare and Medical Officers</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0955">
+				<text>7.5. — Tribunals Generally</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0956">
+				<text>7.6. — Crown Corporations</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0957">
+				<text>7.7. — Duty to Immigrants</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0958">
+				<text>7.8. — Fisheries, Forests and Minerals Management</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0959">
+				<text>7.9 — Statutory Impediments to Crown Liability</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0960">
+				<text>7.9.1 — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-9-html/toc0961">
+				<text>8. — Case Synopses</text>
+			</entry>
+			<entry s="ellis_fdc_com_19-10-html/toc0962">
+				<text>9. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_19-10-html/toc0963">
+					<text>(a) — Plaintiff's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-10-html/toc0964">
+					<text>(b) — Plaintiff's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-10-html/toc0965">
+					<text>(c) — Government's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-10-html/toc0966">
+					<text>(d) — Government's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_19-11-html/toc0967">
+				<text>10. — Synopses of Certification Motions</text>
+				<entry s="ellis_fdc_com_19-11-html/toc0968">
+					<text>(a) — Fiduciary Claim Certified as Class Proceeding</text>
+				</entry>
+				<entry s="ellis_fdc_com_19-11-html/toc0969">
+					<text>(b) — Fiduciary Claim Refused Certification as Class Proceeding</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_20-html/toc0970">
+			<text>Chapter 20 — Remedies</text>
+			<entry s="ellis_fdc_com_20-html/toc0971">
+				<text>1. — Historical Development</text>
+			</entry>
+			<entry s="ellis_fdc_com_20-html/toc0972">
+				<text>2. — Equitable Jurisdiction</text>
+				<entry s="ellis_fdc_com_20-html/toc0973">
+					<text>(1) — The Effect of Equity: Presumptions and Reverse Onuses</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-html/toc0974">
+					<text>(2) — Irrelevance of Inability of "Beneficiary" to Attain the Benefit</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-html/toc0975">
+					<text>(3) — Set-off</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-html/toc0976">
+					<text>(4) — Irrelevance of the Inevitability of Loss</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_20-html/toc0977">
+				<text>3. — Types of Relief in Equity</text>
+				<entry s="ellis_fdc_com_20-html/toc0978">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-html/toc0979">
+					<text>(2) — Declaratory Relief: Declaration of Trustee Status</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-html/toc0980">
+					<text>(3) — The Accounting Remedy</text>
+					<entry s="ellis_fdc_com_20-html/toc0981">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_20-html/toc0982">
+						<text>(b) — Factors Influencing the Quantification of the Accounting Remedy</text>
+						<entry s="ellis_fdc_com_20-html/toc0983">
+							<text>(i) — Deduction for Reasonable Expenses</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-html/toc0984">
+							<text>(ii) — The Cost of Doing Business</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-html/toc0985">
+							<text>(iii) — Accounting by Global Estimate</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-html/toc0986">
+							<text>(iv) — Presumption of Maximum Value</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-html/toc0987">
+							<text>(v) — Prohibition Against Gain as Penal Disincentive Against Breach: The Irrelevance of Loss and Windfall</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-1-html/toc0988">
+							<text>(vi) — Discounting for the Exigencies Related to the Gain</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-1-html/toc0989">
+							<text>(vii) — Discounting for Contingencies</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-1-html/toc0990">
+							<text>(vii.1) — Quantification of the Equitable Compensation</text>
+						</entry>
+						<entry s="ellis_fdc_com_20-1-html/toc0991">
+							<text>(viii) — Length of Time</text>
+						</entry>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_20-1-html/toc0992">
+					<text>(4) — Restitution and Rescission Through Tracing</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-1-html/toc0993">
+					<text>(5) — Constructive Trust</text>
+					<entry s="ellis_fdc_com_20-1-html/toc0994">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_20-1-html/toc0995">
+						<text>(b) — Irrelevance of Absence of Gain</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_20-1-html/toc0996">
+					<text>(6) — Injunctions</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-2-html/toc0997">
+					<text>(7) — Equitable Execution</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-2-html/toc0998">
+					<text>(8) — Disgorgement</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-2-html/toc0999">
+					<text>(9) — Appointment of Receiver</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_20-2-html/toc1000">
+				<text>4. — Other Remedial Considerations</text>
+				<entry s="ellis_fdc_com_20-2-html/toc1001">
+					<text>(1) — Non-Accounting Damages</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-2-html/toc1002">
+					<text>(1.1) — Causation and Remoteness of Damages</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-3-html/toc1003">
+					<text>(1.2) — Share Sale</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-3-html/toc1004">
+					<text>(2) — Punitive Damages</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-3-html/toc1005">
+					<text>(2.1) — Aggravated Damages</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-3-html/toc1006">
+					<text>(3) — Substantial Indemnity, Special or Solicitor and Client Cost Awards</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1007">
+					<text>(4) — Interest: Equitable and Compounding</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1008">
+					<text>(4.1) — Return on Investment of Trust Funds</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1009">
+					<text>(5) — Inapplicability of Contributory Negligence</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1010">
+					<text>(6) — Remedies Through Statutory Enactments</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1011">
+					<text>(7) — Remedies Through "Private" Enactments: Professional Codes of Ethics</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1012">
+					<text>(8) — Vicarious Liability Of Employer</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1013">
+					<text>(9) — Criminal Liability</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1014">
+					<text>(10) — Income Tax Consequences</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1015">
+					<text>(11) — Personal Liability of Directors and Employees</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1016">
+					<text>(12) — Mitigation of Damages</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1017">
+					<text>(13) — Laches</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-4-html/toc1018">
+					<text>(14) — Clean Hands Doctrine</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-5-html/toc1019">
+					<text>(14.1) — Abuse of Process</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-5-html/toc1020">
+					<text>(15) — Damages for Breach of Fiduciary Duty v. Damages for Intentional Tort</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-5-html/toc1021">
+					<text>(16) — Apportionment Of Overall Damage Award</text>
+				</entry>
+				<entry s="ellis_fdc_com_20-5-html/toc1022">
+					<text>(17) — Relief against Forfeiture of Deposit and Penalty Clauses</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_20-5-html/toc1023">
+				<text>5. — Remedies Table —Breach of Fiduciary Duty</text>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_20a-html/toc1024">
+			<text>Chapter 20A — Equitable Claims Against a Bankrupt Estate</text>
+			<entry s="ellis_fdc_com_20a-html/toc1025">
+				<text>1. — Bankruptcy and Insolvency Act</text>
+				<entry s="ellis_fdc_com_20a-html/toc1026">
+					<text>(1) — Debt or Liability</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1027">
+					<text>(2) — Misappropriation or Defalcation</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1028">
+					<text>(3) — Acting in a Fiduciary Capacity</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1029">
+					<text>(4) — Personal Liability of Corporate Principals</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1030">
+					<text>(5) — Procedure</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_20a-html/toc1031">
+				<text>2. — Tracing</text>
+			</entry>
+			<entry s="ellis_fdc_com_20a-html/toc1032">
+				<text>3. — Insurance Proceeds</text>
+			</entry>
+			<entry s="ellis_fdc_com_20a-html/toc1033">
+				<text>4. — Constructive Trusts and the Trustees in Bankruptcy</text>
+			</entry>
+			<entry s="ellis_fdc_com_20a-html/toc1034">
+				<text>4.1 — The Priority of Equity Claims under the Companies' Creditors Arrangement Act</text>
+			</entry>
+			<entry s="ellis_fdc_com_20a-html/toc1035">
+				<text>5. — Summary Judgment Synopses</text>
+				<entry s="ellis_fdc_com_20a-html/toc1036">
+					<text>(a) — Claimant's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1037">
+					<text>(b) — Claimant's motion for summary judgment granted</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1038">
+					<text>(c) — Trustee's motion for summary judgment refused</text>
+				</entry>
+				<entry s="ellis_fdc_com_20a-html/toc1039">
+					<text>(d) — Trustee's motion for summary judgment granted</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_21-html/toc1040">
+			<text>Chapter 21 — Practice and Evidentiary Issues</text>
+			<entry s="ellis_fdc_com_21-html/toc1041">
+				<text>1. — Pleadings</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-html/toc1042">
+				<text>1.1 — Breach of Fiduciary Duty Raised as Defence</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-html/toc1043">
+				<text>2. — Limitations</text>
+				<entry s="ellis_fdc_com_21-html/toc1044">
+					<text>(a) — British Columbia</text>
+				</entry>
+				<entry s="ellis_fdc_com_21-html/toc1045">
+					<text>(b) — Alberta</text>
+				</entry>
+				<entry s="ellis_fdc_com_21-html/toc1046">
+					<text>(c) — Manitoba</text>
+				</entry>
+				<entry s="ellis_fdc_com_21-html/toc1047">
+					<text>(d) — Ontario</text>
+				</entry>
+				<entry s="ellis_fdc_com_21-1-html/toc1048">
+					<text>(e) — Saskatchewan</text>
+				</entry>
+				<entry s="ellis_fdc_com_21-1-html/toc1049">
+					<text>(f) — Other</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1050">
+				<text>3. — The Application of Summary Judgment Rules</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1051">
+				<text>3.1 — Summary Trial and Simplified Procedure</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1052">
+				<text>3.2 — Vexatious Proceedings</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1053">
+				<text>4. — Injunction Procedure</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1054">
+				<text>4.1 — Security for Costs</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1055">
+				<text>4.2 — Interim Costs</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-1-html/toc1056">
+				<text>5. — Res Judicata Considerations</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-2-html/toc1057">
+				<text>6. — Parties</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-2-html/toc1058">
+				<text>6.1 — Incompetent Parties and Litigation Guardians</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-2-html/toc1059">
+				<text>7. — Solicitor-Client Privilege</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-2-html/toc1060">
+				<text>8. — Jurisdiction and Forum Non Conveniens</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-2-html/toc1061">
+				<text>8.1. — Discovery and Evidence</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-2-html/toc1062">
+				<text>9. — Jury Trial</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1063">
+				<text>10. — Class Actions</text>
+				<entry s="ellis_fdc_com_21-3-html/toc1064">
+					<text>(1) — Certification of Fiduciary Claims Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_21-3-html/toc1065">
+					<text>(2) — Carriage Motions in Fiduciary Claims</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1066">
+				<text>11. — Failure To Prosecute Action</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1067">
+				<text>11.1 — Prosecution of Action/Derivative Claim</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1068">
+				<text>12. — Appeals</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1069">
+				<text>13. — Certificate of Pending Litigation</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1070">
+				<text>13.1 — Proof of Foreign Law</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-3-html/toc1071">
+				<text>14. — Choice of Forum Clauses</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-4-html/toc1072">
+				<text>15. — Reasons for Decision</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-4-html/toc1073">
+				<text>16. — Arbitration</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-4-html/toc1074">
+				<text>16.1 — Settlement and Consent Judgment</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-4-html/toc1075">
+				<text>17. — Breach of Fiduciary Duty Proceedings in Ontario — Summary of Procedure</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-4-html/toc1076">
+				<text>18. — Breach of Fiduciary Duty Proceedings in British Columbia—Summary of Procedure</text>
+			</entry>
+			<entry s="ellis_fdc_com_21-5-html/toc1077">
+				<text>19. — General Civil Litigation Checklist — British Columbia</text>
+				<entry s="ellis_fdc_com_21-5-html/toc1078">
+					<text>GENERAL CIVIL LITIGATION CHECKLIST — BRITISH COLUMBIA</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_iif-html/toc1079">
+			<text>Issues in Focus</text>
+			<entry s="ellis_fdc_iif-html/toc1080">
+				<text>What is the scope of directors' fiduciary duties in Canada?</text>
+				<entry s="ellis_fdc_iif-html/toc1081">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1082">
+					<text>II. — Introduction to Fiduciary Duties in the Context of Corporate Law</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1083">
+					<text>III. — Statutory Authority for Directors' Fiduciary Duties</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1084">
+					<text>IV. — Fiduciary Duties and Self-Dealing Transactions</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1085">
+					<text>V. — Fiduciary Duties and Corporate Opportunities</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1086">
+					<text>RESEARCH REFERENCES</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-html/toc1087">
+				<text>Do majority shareholders have a fiduciary duty to minority shareholders in Canada?</text>
+				<entry s="ellis_fdc_iif-html/toc1088">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1089">
+					<text>II. — An Introduction to Fiduciary Duties within the Context of Corporate Law</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1090">
+					<text>III. — Arguments in Favour of Imposing Fiduciary Duties on Shareholders</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1091">
+					<text>IV. — Arguments against Imposing Fiduciary Duties on Shareholders</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1092">
+					<text>V. — Shareholders' Fiduciary Duties under Statute</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1093">
+					<text>VI. — Historical Perspectives on Creating Fiduciary Duties for Shareholders</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1094">
+					<text>VII. — Contemporary Case Law Regarding Shareholders Duties</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-html/toc1095">
+				<text>What is the scope of parent's fiduciary obligations to their children in Canada?</text>
+				<entry s="ellis_fdc_iif-html/toc1096">
+					<text>CONCLUSION:</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1097">
+					<text>ANALYSIS:</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1098">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1099">
+					<text>II. — An Introduction to Fiduciary Relationships</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1100">
+					<text>III. — Fiduciary Dimensions in Parent-Child Relationships</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1101">
+					<text>IV. — Non-Fiduciary Dimensions in Parent-Child Relationships</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1102">
+					<text>V. — Grey Areas in the Parent-Child Fiduciary Relationship</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1103">
+					<text>RESEARCH REFERENCES</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-html/toc1104">
+				<text>What is the scope of a corporate directors' fiduciary duties during a hostile takeover?</text>
+				<entry s="ellis_fdc_iif-html/toc1105">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1106">
+					<text>II. — Introduction to Hostile Takeovers</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1107">
+					<text>III. — The Conflict between Directors' and Shareholders' Interests during a Hostile Takeover</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1108">
+					<text>IV. — Defensive Tactics Available to Directors during a Hostile Takeover</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1109">
+					<text>V. — Jurisprudence on Defensive Tactics</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-html/toc1110">
+				<text>What is the origin, nature and scope of an executor's fiduciary duty in Canada?</text>
+				<entry s="ellis_fdc_iif-html/toc1111">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-html/toc1112">
+					<text>II. — Introduction to Fiduciary Relationships</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1113">
+					<text>III. — Introduction to Executors</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1114">
+					<text>IV. — Duties of an Executor</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1115">
+					<text>V. — The Fiduciary Nature of Executors' Duties</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1116">
+					<text>VI. — When Executors' Fiduciary Obligations Begin</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1117">
+					<text>VII. — Key Aspects of an Executor's Fiduciary Duty</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1118">
+					<text>VIII. — Breach of an Executor's Fiduciary Duty</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-1-html/toc1119">
+				<text>When will an employee's duties be classified as fiduciary?</text>
+				<entry s="ellis_fdc_iif-1-html/toc1120">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1121">
+					<text>II. — The Fidelity/Fiduciary Debate</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1122">
+					<text>III. — The Distinction Between Fiduciary Employees and Non-Fiduciary Employees</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1123">
+					<text>IV. — Recent Jurisprudence on Employee's Fiduciary Duties</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-1-html/toc1124">
+				<text>Are financial intermediaries such as broker-dealers subject to fiduciary obligations under Canadian law?</text>
+				<entry s="ellis_fdc_iif-1-html/toc1125">
+					<text>General</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1126">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1127">
+					<text>II. — Introduction to Fiduciary Duties</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1128">
+					<text>III. — Current Regulatory Regime in Canada</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1129">
+					<text>IV. — Impact of the Current Structure</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1130">
+					<text>V. — The Shift Towards Imposing Fiduciary Duties on Broker-Dealers</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1131">
+					<text>VI. — Recent Developments Regarding Fiduciary Duties in the Financial Sector</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1132">
+					<text>RESEARCH REFERENCES</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-1-html/toc1133">
+				<text>What is the extent of the fiduciary duty owed by the Crown to Aboriginal peoples in Canada?</text>
+				<entry s="ellis_fdc_iif-1-html/toc1134">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1135">
+					<text>II. — Introduction to Fiduciary Duties</text>
+				</entry>
+				<entry s="ellis_fdc_iif-1-html/toc1136">
+					<text>III. — Jurisprudence on the Crown's Fiduciary Duties towards Aboriginal Peoples</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-2-html/toc1137">
+				<text>What role do fiduciary duties play in the legal governance of physician/patient relationships in Canada?</text>
+				<entry s="ellis_fdc_iif-2-html/toc1138">
+					<text>CONCLUSION:</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1139">
+					<text>ANALYSIS:</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1140">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1141">
+					<text>II. — Introduction to the Fiduciary Concept</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1142">
+					<text>III. — The Case Law on Fiduciary Principles in the Physician/Patient Context</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1143">
+					<text>IV. — The Policy Behind Fiduciary Duties in the Physician/Patient Context</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1144">
+					<text>RESEARCH REFERENCES</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_iif-2-html/toc1145">
+				<text>What is the scope of a real estate agents' fiduciary duties in Canada?</text>
+				<entry s="ellis_fdc_iif-2-html/toc1146">
+					<text>I. — Scope</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1147">
+					<text>II. — Introduction to Fiduciary Duties</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1148">
+					<text>III. — The Origins of Fiduciary Duties in the Real Estate Context</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1149">
+					<text>IV. — Listing Agents' Fiduciary Duties</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1150">
+					<text>V. — Real Estate Agents' Duty of Loyalty</text>
+				</entry>
+				<entry s="ellis_fdc_iif-2-html/toc1151">
+					<text>RESEARCH REFERENCES</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_pof-html/toc1152">
+			<text>Proof of Facts</text>
+		</entry>
+		<entry s="ellis_fdc_leg_legislation-html/toc1160">
+			<text>Legislation</text>
+			<entry s="ellis_fdc_leg_legislation-html/toc1162">
+				<text>Canada Business Corporations Act</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1293">
+				<text>Business Corporations Act (British Columbia)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1447">
+				<text>Business Corporations Act (Alberta)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1466">
+				<text>Business Corporations Act (Ontario)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1571">
+				<text>Partnerships Act (Ontario)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1577">
+				<text>Companies Act (Nova Scotia)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1583">
+				<text>Corporations Act (Manitoba)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1588">
+				<text>Corporations Act (Newfoundland) R.S.N. 1990, c. C-36</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1594">
+				<text>An Act to Amend the Business Corporations Act (New Brunswick) S.N.B. 1983, c. 15</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1598">
+				<text>Business Corporations Act (New Brunswick)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1603">
+				<text>Business Corporations Act (Quebec)</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1631">
+				<text>Civil Code</text>
+			</entry>
+			<entry s="ellis_fdc_leg_legislation-html/toc1729">
+				<text>Business Corporations Act (Saskatchewan)</text>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_ind-html/index_INDEX">
+			<text>Index</text>
+			<entry s="ellis_fdc_ind-html/index_A">
+				<text>A</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_B">
+				<text>B</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_C">
+				<text>C</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_D">
+				<text>D</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_E">
+				<text>E</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_F">
+				<text>F</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_G">
+				<text>G</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_I">
+				<text>I</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_J">
+				<text>J</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_L">
+				<text>L</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_M">
+				<text>M</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_N">
+				<text>N</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_O">
+				<text>O</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_P">
+				<text>P</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_R">
+				<text>R</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_S">
+				<text>S</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_T">
+				<text>T</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_U">
+				<text>U</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_V">
+				<text>V</text>
+			</entry>
+			<entry s="ellis_fdc_ind-html/index_W">
+				<text>W</text>
+			</entry>
+		</entry>
+	</toc>
+	<docs>
+		<doc id="ellis_fdc_toc-html" src="ellis_fdc_toc.html"/>
+		<doc id="ellis_fdc_pbn-html" src="ellis_fdc_pbn.html"/>
+		<doc id="ellis_fdc_ttl-html" src="ellis_fdc_ttl.html"/>
+		<doc id="ellis_fdc_cpr-html" src="ellis_fdc_cpr.html"/>
+		<doc id="ellis_fdc_ded-html" src="ellis_fdc_ded.html"/>
+		<doc id="ellis_fdc_prf-html" src="ellis_fdc_prf.html"/>
+		<doc id="ellis_fdc_tca-html" src="ellis_fdc_tca.html"/>
+		<doc id="ellis_fdc_com_1-html" src="ellis_fdc_com_1.html"/>
+		<doc id="ellis_fdc_com_1-1-html" src="ellis_fdc_com_1-1.html"/>
+		<doc id="ellis_fdc_com_2-html" src="ellis_fdc_com_2.html"/>
+		<doc id="ellis_fdc_com_2-1-html" src="ellis_fdc_com_2-1.html"/>
+		<doc id="ellis_fdc_com_2-2-html" src="ellis_fdc_com_2-2.html"/>
+		<doc id="ellis_fdc_com_2-3-html" src="ellis_fdc_com_2-3.html"/>
+		<doc id="ellis_fdc_com_3-html" src="ellis_fdc_com_3.html"/>
+		<doc id="ellis_fdc_com_3-1-html" src="ellis_fdc_com_3-1.html"/>
+		<doc id="ellis_fdc_com_3a-html" src="ellis_fdc_com_3a.html"/>
+		<doc id="ellis_fdc_com_4-html" src="ellis_fdc_com_4.html"/>
+		<doc id="ellis_fdc_com_4-1-html" src="ellis_fdc_com_4-1.html"/>
+		<doc id="ellis_fdc_com_4-2-html" src="ellis_fdc_com_4-2.html"/>
+		<doc id="ellis_fdc_com_4-3-html" src="ellis_fdc_com_4-3.html"/>
+		<doc id="ellis_fdc_com_4a-html" src="ellis_fdc_com_4a.html"/>
+		<doc id="ellis_fdc_com_4a-1-html" src="ellis_fdc_com_4a-1.html"/>
+		<doc id="ellis_fdc_com_4b-html" src="ellis_fdc_com_4b.html"/>
+		<doc id="ellis_fdc_com_5-html" src="ellis_fdc_com_5.html"/>
+		<doc id="ellis_fdc_com_5-1-html" src="ellis_fdc_com_5-1.html"/>
+		<doc id="ellis_fdc_com_5-2-html" src="ellis_fdc_com_5-2.html"/>
+		<doc id="ellis_fdc_com_6-html" src="ellis_fdc_com_6.html"/>
+		<doc id="ellis_fdc_com_7-html" src="ellis_fdc_com_7.html"/>
+		<doc id="ellis_fdc_com_7-1-html" src="ellis_fdc_com_7-1.html"/>
+		<doc id="ellis_fdc_com_7-2-html" src="ellis_fdc_com_7-2.html"/>
+		<doc id="ellis_fdc_com_8-html" src="ellis_fdc_com_8.html"/>
+		<doc id="ellis_fdc_com_8-1-html" src="ellis_fdc_com_8-1.html"/>
+		<doc id="ellis_fdc_com_8-2-html" src="ellis_fdc_com_8-2.html"/>
+		<doc id="ellis_fdc_com_9-html" src="ellis_fdc_com_9.html"/>
+		<doc id="ellis_fdc_com_9-1-html" src="ellis_fdc_com_9-1.html"/>
+		<doc id="ellis_fdc_com_9-2-html" src="ellis_fdc_com_9-2.html"/>
+		<doc id="ellis_fdc_com_9-3-html" src="ellis_fdc_com_9-3.html"/>
+		<doc id="ellis_fdc_com_9-4-html" src="ellis_fdc_com_9-4.html"/>
+		<doc id="ellis_fdc_com_9-5-html" src="ellis_fdc_com_9-5.html"/>
+		<doc id="ellis_fdc_com_9-6-html" src="ellis_fdc_com_9-6.html"/>
+		<doc id="ellis_fdc_com_10-html" src="ellis_fdc_com_10.html"/>
+		<doc id="ellis_fdc_com_11-html" src="ellis_fdc_com_11.html"/>
+		<doc id="ellis_fdc_com_11a-html" src="ellis_fdc_com_11a.html"/>
+		<doc id="ellis_fdc_com_12-html" src="ellis_fdc_com_12.html"/>
+		<doc id="ellis_fdc_com_12-1-html" src="ellis_fdc_com_12-1.html"/>
+		<doc id="ellis_fdc_com_12-2-html" src="ellis_fdc_com_12-2.html"/>
+		<doc id="ellis_fdc_com_13-html" src="ellis_fdc_com_13.html"/>
+		<doc id="ellis_fdc_com_14-html" src="ellis_fdc_com_14.html"/>
+		<doc id="ellis_fdc_com_14a-html" src="ellis_fdc_com_14a.html"/>
+		<doc id="ellis_fdc_com_14a-1-html" src="ellis_fdc_com_14a-1.html"/>
+		<doc id="ellis_fdc_com_14a-2-html" src="ellis_fdc_com_14a-2.html"/>
+		<doc id="ellis_fdc_com_15-html" src="ellis_fdc_com_15.html"/>
+		<doc id="ellis_fdc_com_15-1-html" src="ellis_fdc_com_15-1.html"/>
+		<doc id="ellis_fdc_com_15-2-html" src="ellis_fdc_com_15-2.html"/>
+		<doc id="ellis_fdc_com_15-3-html" src="ellis_fdc_com_15-3.html"/>
+		<doc id="ellis_fdc_com_15-4-html" src="ellis_fdc_com_15-4.html"/>
+		<doc id="ellis_fdc_com_15-5-html" src="ellis_fdc_com_15-5.html"/>
+		<doc id="ellis_fdc_com_15-6-html" src="ellis_fdc_com_15-6.html"/>
+		<doc id="ellis_fdc_com_16-html" src="ellis_fdc_com_16.html"/>
+		<doc id="ellis_fdc_com_16-1-html" src="ellis_fdc_com_16-1.html"/>
+		<doc id="ellis_fdc_com_16-2-html" src="ellis_fdc_com_16-2.html"/>
+		<doc id="ellis_fdc_com_16-3-html" src="ellis_fdc_com_16-3.html"/>
+		<doc id="ellis_fdc_com_16-4-html" src="ellis_fdc_com_16-4.html"/>
+		<doc id="ellis_fdc_com_16-5-html" src="ellis_fdc_com_16-5.html"/>
+		<doc id="ellis_fdc_com_16-6-html" src="ellis_fdc_com_16-6.html"/>
+		<doc id="ellis_fdc_com_16a-html" src="ellis_fdc_com_16a.html"/>
+		<doc id="ellis_fdc_com_16a-1-html" src="ellis_fdc_com_16a-1.html"/>
+		<doc id="ellis_fdc_com_16a-2-html" src="ellis_fdc_com_16a-2.html"/>
+		<doc id="ellis_fdc_com_17-html" src="ellis_fdc_com_17.html"/>
+		<doc id="ellis_fdc_com_18-html" src="ellis_fdc_com_18.html"/>
+		<doc id="ellis_fdc_com_19-html" src="ellis_fdc_com_19.html"/>
+		<doc id="ellis_fdc_com_19-1-html" src="ellis_fdc_com_19-1.html"/>
+		<doc id="ellis_fdc_com_19-2-html" src="ellis_fdc_com_19-2.html"/>
+		<doc id="ellis_fdc_com_19-3-html" src="ellis_fdc_com_19-3.html"/>
+		<doc id="ellis_fdc_com_19-4-html" src="ellis_fdc_com_19-4.html"/>
+		<doc id="ellis_fdc_com_19-5-html" src="ellis_fdc_com_19-5.html"/>
+		<doc id="ellis_fdc_com_19-6-html" src="ellis_fdc_com_19-6.html"/>
+		<doc id="ellis_fdc_com_19-7-html" src="ellis_fdc_com_19-7.html"/>
+		<doc id="ellis_fdc_com_19-8-html" src="ellis_fdc_com_19-8.html"/>
+		<doc id="ellis_fdc_com_19-9-html" src="ellis_fdc_com_19-9.html"/>
+		<doc id="ellis_fdc_com_19-10-html" src="ellis_fdc_com_19-10.html"/>
+		<doc id="ellis_fdc_com_19-11-html" src="ellis_fdc_com_19-11.html"/>
+		<doc id="ellis_fdc_com_20-html" src="ellis_fdc_com_20.html"/>
+		<doc id="ellis_fdc_com_20-1-html" src="ellis_fdc_com_20-1.html"/>
+		<doc id="ellis_fdc_com_20-2-html" src="ellis_fdc_com_20-2.html"/>
+		<doc id="ellis_fdc_com_20-3-html" src="ellis_fdc_com_20-3.html"/>
+		<doc id="ellis_fdc_com_20-4-html" src="ellis_fdc_com_20-4.html"/>
+		<doc id="ellis_fdc_com_20-5-html" src="ellis_fdc_com_20-5.html"/>
+		<doc id="ellis_fdc_com_20a-html" src="ellis_fdc_com_20a.html"/>
+		<doc id="ellis_fdc_com_21-html" src="ellis_fdc_com_21.html"/>
+		<doc id="ellis_fdc_com_21-1-html" src="ellis_fdc_com_21-1.html"/>
+		<doc id="ellis_fdc_com_21-2-html" src="ellis_fdc_com_21-2.html"/>
+		<doc id="ellis_fdc_com_21-3-html" src="ellis_fdc_com_21-3.html"/>
+		<doc id="ellis_fdc_com_21-4-html" src="ellis_fdc_com_21-4.html"/>
+		<doc id="ellis_fdc_com_21-5-html" src="ellis_fdc_com_21-5.html"/>
+		<doc id="ellis_fdc_iif-html" src="ellis_fdc_iif.html"/>
+		<doc id="ellis_fdc_iif-1-html" src="ellis_fdc_iif-1.html"/>
+		<doc id="ellis_fdc_iif-2-html" src="ellis_fdc_iif-2.html"/>
+		<doc id="ellis_fdc_pof-html" src="ellis_fdc_pof.html"/>
+		<doc id="ellis_fdc_leg_legislation-html" src="ellis_fdc_leg_legislation.html"/>
+		<doc id="ellis_fdc_ind-html" src="ellis_fdc_ind.html"/>
+	</docs>
+</title>

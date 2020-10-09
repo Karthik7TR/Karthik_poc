@@ -38,6 +38,11 @@ public interface FeaturesListBuilder {
     FeaturesListBuilder withThesaurus(boolean withThesaurus);
 
     /**
+     * If previous document ids differ from new document ids and user annotations transfer is needed
+     */
+    FeaturesListBuilder withPreviousDocumentIds(boolean withPreviousDocumentIds);
+
+    /**
      * Get list of proview features
      */
     List<Feature> getFeatures();

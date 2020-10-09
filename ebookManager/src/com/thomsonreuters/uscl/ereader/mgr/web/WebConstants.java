@@ -73,6 +73,7 @@ public class WebConstants {
     public static final String KEY_PUB_TYPES = "pubTypes";
     public static final String KEY_JURISDICTIONS = "jurisdictions";
     public static final String KEY_FRONT_MATTER_THEMES = "frontMatterThemes";
+    public static final String KEY_PREVIOUS_VERSIONS = "previousVersions";
     public static final String KEY_PUBLISHERS = "publishers";
     public static final String KEY_BUCKETS = "buckets";
     public static final String KEY_OUTAGE = "outage";

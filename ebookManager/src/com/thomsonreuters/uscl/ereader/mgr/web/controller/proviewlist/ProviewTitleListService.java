@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.servlet.http.HttpSession;
+
 public interface ProviewTitleListService {
     /**
      * Get list of titles to display on 'Proview list' page
@@ -48,4 +50,6 @@ public interface ProviewTitleListService {
     boolean canRemove(String status);
 
     boolean canPromote(String status);
+
+    List<String> getPreviousVersions(HttpSession httpSession, String titleId);
 }

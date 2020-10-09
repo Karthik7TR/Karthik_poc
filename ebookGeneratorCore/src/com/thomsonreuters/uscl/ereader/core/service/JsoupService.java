@@ -83,4 +83,8 @@ public class JsoupService {
             treeSearch(child, searchCondition, output);
         });
     }
+
+    public Document createDocument() {
+        return parseXml(StringUtils.EMPTY);
+    }
 }

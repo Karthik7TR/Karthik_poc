@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<title>
+	<toc>
+		<entry s="old-publisherOne/toc0001">
+			<text>ItemOne</text>
+			<entry s="old-publisherOne/toc0002">
+				<text>Publisher</text>
+				<entry s="old-publisherOne/toc0003">
+					<text>PublisherOne</text>
+				</entry>
+			</entry>
+			<entry s="old-publisherTwo/toc0004">
+				<text>Publisher</text>
+				<entry s="old-publisherTwo/toc0005">
+					<text>PublisherTwo</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="old-itemTwo-page/toc0006">
+			<text>ItemTwo</text>
+			<entry s="old-itemTwo-page/toc0007">
+				<text>Title</text>
+				<entry s="old-itemTwo-page/toc0008">
+					<text>Page</text>
+				</entry>
+			</entry>
+			<entry s="old-itemTwo-noteTwo/toc0009">
+				<text>NoteTwo</text>
+			</entry>
+		</entry>
+		<entry s="old-itemThree-page/toc0010">
+			<text>ItemTree</text>
+			<entry s="old-itemThree-page/toc0011">
+				<text>Title</text>
+				<entry s="old-itemThree-page/toc0012">
+					<text>Page</text>
+				</entry>
+			</entry>
+			<entry s="old-itemThree-noteThree/toc0013">
+				<text>NoteThree</text>
+			</entry>
+		</entry>
+		<entry s="ellis_fdc_com_20_html/toc0970">
+			<text>Chapter 20 — Remedies</text>
+			<entry s="ellis_fdc_com_20_html/toc0971">
+				<text>1. — Historical Development</text>
+			</entry>
+			<entry s="ellis_fdc_com_20_html/toc0972">
+				<text>2. — Equitable Jurisdiction</text>
+				<entry s="ellis_fdc_com_20_html/toc0973">
+					<text>(1) — The Effect of Equity: Presumptions and Reverse Onuses</text>
+				</entry>
+				<entry s="ellis_fdc_com_20_html/toc0974">
+					<text>(2) — Irrelevance of Inability of "Beneficiary" to Attain the Benefit</text>
+				</entry>
+				<entry s="ellis_fdc_com_20_html/toc0975">
+					<text>(3) — Set-off</text>
+				</entry>
+				<entry s="ellis_fdc_com_20_html/toc0976">
+					<text>(4) — Irrelevance of the Inevitability of Loss</text>
+				</entry>
+			</entry>
+			<entry s="ellis_fdc_com_20_html/toc0977">
+				<text>3. — Types of Relief in Equity</text>
+				<entry s="ellis_fdc_com_20_html/toc0978">
+					<text>(1) — Generally</text>
+				</entry>
+				<entry s="ellis_fdc_com_20_html/toc0979">
+					<text>(2) — Declaratory Relief: Declaration of Trustee Status</text>
+				</entry>
+				<entry s="ellis_fdc_com_20_html/toc0980">
+					<text>(3) — The Accounting Remedy</text>
+					<entry s="ellis_fdc_com_20_html/toc0981">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_20_html/toc0982">
+						<text>(b) — Factors Influencing the Quantification of the Accounting Remedy</text>
+						<entry s="ellis_fdc_com_20_html/toc0983">
+							<text>(i) — Deduction for Reasonable Expenses</text>
+						</entry>
+						<entry s="ellis_fdc_com_20_html/toc0984">
+							<text>(ii) — The Cost of Doing Business</text>
+						</entry>
+						<entry s="ellis_fdc_com_20_html/toc0985">
+							<text>(iii) — Accounting by Global Estimate</text>
+						</entry>
+						<entry s="ellis_fdc_com_20_html/toc0986">
+							<text>(iv) — Presumption of Maximum Value</text>
+						</entry>
+						<entry s="ellis_fdc_com_20_html/toc0987">
+							<text>(v) — Prohibition Against Gain as Penal Disincentive Against Breach: The Irrelevance of Loss and Windfall</text>
+						</entry>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_20_1_html/toc0992">
+					<text>(4) — Restitution and Rescission Through Tracing</text>
+				</entry>
+				<entry s="ellis_fdc_com_20_1_html/toc0993">
+					<text>(5) — Constructive Trust</text>
+					<entry s="ellis_fdc_com_20_1_html/toc0994">
+						<text>(a) — Generally</text>
+					</entry>
+					<entry s="ellis_fdc_com_20_1_html/toc0995">
+						<text>(b) — Irrelevance of Absence of Gain</text>
+					</entry>
+				</entry>
+				<entry s="ellis_fdc_com_20_1_html/toc0996">
+					<text>(6) — Injunctions</text>
+				</entry>
+			</entry>
+		</entry>
+	</toc>
+</title>

@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -181,5 +182,13 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
     @Transactional(readOnly = true)
     public List<SplitDocument> findSplitDocuments(final Long bookId) {
         return bookDefinitionDao.getSplitDocumentsforBook(bookId);
+    }
+
+    @Override
+    public void cleanUpPreviousVersionValue(final BookDefinition book) {
+        if (StringUtils.isNotEmpty(book.getVersionWithPreviousDocIds())) {
+            book.setVersionWithPreviousDocIds(null);
+            saveBookDefinition(book);
+        }
     }
 }

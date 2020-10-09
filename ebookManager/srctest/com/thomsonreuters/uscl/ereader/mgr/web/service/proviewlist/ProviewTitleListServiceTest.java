@@ -14,7 +14,9 @@ import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEm
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.PublishedTitleParser;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleAction;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleActionResult;
@@ -36,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
 import java.util.concurrent.Callable;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
@@ -44,6 +47,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -280,6 +284,19 @@ public final class ProviewTitleListServiceTest {
         String emailBody = notificationEmail.getBody();
         assertFalse(emailBody.contains(SUCCESSFULLY_UPDATED));
         assertFalse(emailBody.contains(FAILED_TO_UPDATE));
+    }
+
+    @Test
+    public void shouldGetPreviousVersions() {
+        HttpSession httpSession = Mockito.mock(HttpSession.class);
+        when(httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES)).thenReturn(proviewTitleInfo);
+
+        List<String> previousVersions = proviewTitleListService.getPreviousVersions(httpSession, headTitle);
+
+        assertEquals(3, previousVersions.size());
+        assertEquals("v6.0", previousVersions.get(0));
+        assertEquals("v4.0", previousVersions.get(1));
+        assertEquals("v2.0", previousVersions.get(2));
     }
 
     private void initiateTitleNames() {

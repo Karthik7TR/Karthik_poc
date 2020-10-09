@@ -608,6 +608,23 @@
 				</c:forEach>
 				<div id="addSplitDocumentsHere"></div>
 			</div>
+			<div class="row">
+				<form:label path="previousVersionIdsEnabled" class="labelCol">Previous Document Ids</form:label>
+				<form:radiobutton path="previousVersionIdsEnabled" value="true" />Enabled
+				<form:radiobutton path="previousVersionIdsEnabled" value="false" />Disabled
+			</div>
+			<div id="previousVersionDocIdsData" style="display: inline;">
+				<div class="row">
+					<form:label path="versionWithPreviousDocIds" class="labelCol">Use version</form:label>
+					<form:select path="versionWithPreviousDocIds" >
+						<form:options items="${previousVersions}" />
+					</form:select>
+					<div class="errorDiv">
+						<form:errors path="versionWithPreviousDocIds" cssClass="errorMessage" />
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

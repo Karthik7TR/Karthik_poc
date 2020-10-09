@@ -36,6 +36,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_FIELDS_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_TEMPLATE_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.RELEASE_NOTES_HEADER;
 
 /**
@@ -54,9 +58,9 @@ public final class TitleMetadata implements Serializable {
     //TODO: SimpleDateFormat is not thread safe
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
     private static final Set<String> THESAURUS_FILE_NAMES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            "fields.xml",
-            "template.xml",
-            "thesaurus.xml"
+            FORMAT_THESAURUS_FIELDS_XML_FILE.getName(),
+            FORMAT_THESAURUS_TEMPLATE_XML_FILE.getName(),
+            FORMAT_THESAURUS_XML_FILE.getName()
     )));
     @XmlElement(name = "apiVersion")
     private final String apiVersion = "v1";
@@ -338,13 +342,13 @@ public final class TitleMetadata implements Serializable {
             checkFile(assetDirectory, File::isDirectory, "Directory must not be null and must be a directory.");
             Stream.of(assetDirectory.listFiles())
                 .map(File::getName)
-                .filter(this::thesarusFilterFromAssets)
+                .filter(this::filesFilterFromAssets)
                 .forEach(this::assetFileName);
             return this;
         }
 
-        private boolean thesarusFilterFromAssets(final String fileName) {
-            return !THESAURUS_FILE_NAMES.contains(fileName);
+        private boolean filesFilterFromAssets(final String fileName) {
+            return !THESAURUS_FILE_NAMES.contains(fileName) && !FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE.getName().equals(fileName);
         }
 
         @NotNull

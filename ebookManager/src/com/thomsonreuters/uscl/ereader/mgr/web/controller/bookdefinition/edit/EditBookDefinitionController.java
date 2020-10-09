@@ -45,6 +45,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -108,6 +109,8 @@ public class EditBookDefinitionController {
     private NasFileSystem nasFileSystem;
     @Resource(name="editBookDefinitionFormValidator")
     private Validator validator;
+    @Autowired
+    private ProviewTitleListService proviewTitleListService;
 
     @InitBinder(EditBookDefinitionForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder) {
@@ -129,7 +132,7 @@ public class EditBookDefinitionController {
      * @param authentication
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.GET)
-    public ModelAndView createBookDefintionGet(@ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm definitionForm,
+    public ModelAndView createBookDefintionGet(final HttpSession httpSession, @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm definitionForm,
                                                final Model model, final Authentication authentication) {
         final Collection<String> userAuthorities = Optional.ofNullable(authentication)
             .map(Authentication::getAuthorities)
@@ -144,7 +147,7 @@ public class EditBookDefinitionController {
             form = new EditBookDefinitionForm();
             model.addAttribute(EditBookDefinitionForm.FORM_NAME, form);
         }
-        initializeModel(model, form);
+        initializeModel(httpSession, model, form);
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
     }
 
@@ -184,7 +187,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
         }
 
-        initializeModel(model, form);
+        initializeModel(httpSession, model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
     }
@@ -199,6 +202,7 @@ public class EditBookDefinitionController {
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView editBookDefintionGet(
+        final HttpSession httpSession,
         @RequestParam("id") final Long id,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
         final BindingResult bindingResult,
@@ -241,7 +245,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
 
-        initializeModel(model, form);
+        initializeModel(httpSession, model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
     }
@@ -372,7 +376,7 @@ public class EditBookDefinitionController {
 
         model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
-        initializeModel(model, form);
+        initializeModel(httpSession, model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
     }
@@ -406,6 +410,7 @@ public class EditBookDefinitionController {
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView copyBookDefintionGet(
+        final HttpSession httpSession,
         @RequestParam("id") final Long id,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
         final BindingResult bindingResult,
@@ -417,7 +422,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
         } else {
             form.copyBookDefinition(bookDef, editBookDefinitionService.getKeywordCodes());
-            initializeModel(model, form);
+            initializeModel(httpSession, model, form);
             return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
         }
     }
@@ -457,7 +462,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
         }
 
-        initializeModel(model, form);
+        initializeModel(httpSession, model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
     }
@@ -536,7 +541,7 @@ public class EditBookDefinitionController {
      * @param model
      * @param form
      */
-    private void initializeModel(final Model model, final EditBookDefinitionForm form) {
+    private void initializeModel(final HttpSession httpSession, final Model model, final EditBookDefinitionForm form) {
         // Get Collection sizes to display on form
         model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS, form.getAuthorInfo().size());
         model.addAttribute(WebConstants.KEY_NUMBER_OF_PILOT_BOOKS, form.getPilotBookInfo().size());
@@ -556,6 +561,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
         model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
         model.addAttribute(WebConstants.KEY_FRONT_MATTER_THEMES, editBookDefinitionService.getFrontMatterThemes());
+        model.addAttribute(WebConstants.KEY_PREVIOUS_VERSIONS, proviewTitleListService.getPreviousVersions(httpSession, form.getTitleId()));
         model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
         model.addAttribute(WebConstants.KEY_BUCKETS, editBookDefinitionService.getBuckets());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());

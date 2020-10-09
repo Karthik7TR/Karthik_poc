@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
+import lombok.Getter;
 import org.mockito.Answers;
 import org.mockito.Mockito;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -48,6 +49,8 @@ public class StepIntegrationTestRunner {
     private NasFileSystem nasFileSystem;
     private File workDir;
     private File nasDir;
+
+    @Getter
     private File resourceRootDir;
 
     public void setUp(final BaseStep step, final String resourceDirName) throws URISyntaxException {

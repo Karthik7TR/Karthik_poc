@@ -423,6 +423,10 @@ public class BookDefinition implements Serializable {
     @Getter @Setter
     private String indexTocRootGuid;
 
+    @Column(name = "VERSION_WITH_PREVIOUS_DOC_IDS")
+    @Getter @Setter
+    private String versionWithPreviousDocIds;
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }

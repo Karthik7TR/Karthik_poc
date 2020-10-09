@@ -16,9 +16,12 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IsbnValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IssnValidator;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.request.service.PrintComponentHistoryService;
 import org.easymock.EasyMock;
+import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -98,6 +101,12 @@ public class TestConfig {
     public NasFileSystem nasFileSystem() {
         return new TestNasFileSystemImpl();
     }
+
+    @Bean
+    public ProviewTitleListService proviewTitleListService() {
+        return Mockito.mock(ProviewTitleListService.class);
+    }
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() throws Exception {
         final PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();

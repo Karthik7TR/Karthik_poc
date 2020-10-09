@@ -144,6 +144,15 @@ function addDynamicRow(elementName, id, name, fieldName, label, maxLength, cssCl
 	return dynamicRow;
 }
 
+function previousVersionIdsEnabledChanged() {
+	var isPreviousVersionIdsEnabled = $('input:radio[name=previousVersionIdsEnabled][value=true]:checked').val();
+	if(isPreviousVersionIdsEnabled == "true" || isPreviousVersionIdsEnabled == true) {
+		$("#previousVersionDocIdsData").show();
+	} else {
+		$("#previousVersionDocIdsData").hide();
+	}
+}
+
 $(function() {
 	$(document).ready(function() {
 		// Declare Global Variables
@@ -729,6 +738,8 @@ $(function() {
 		$('input:radio[name=splitBook]').change(function () {splitChanged()});
 		$('input:radio[name=splitTypeAuto]').change(function() {splitAutoChanged()});		
 		$('#splitEBookParts').change(function() {splitSizeChanged()});
+
+		$('input:radio[name=previousVersionIdsEnabled]').change(function () {previousVersionIdsEnabledChanged()});
 
 		$('#state').change(function () {
 			state = $(this).val();

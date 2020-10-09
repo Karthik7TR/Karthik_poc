@@ -152,6 +152,7 @@ $(function() {
 		showSelectOptions($("#publisher").val() !== "cw" && sourceType !== "XPP", "#displayPubCutoffDateOptions");
 		splitChanged();
 		splitSizeChanged();
+		previousVersionIdsEnabledChanged();
 		if(sourceType == "TOC") {
 			$("#displayTOC").show();
 			$("#displayFinalStage").show();

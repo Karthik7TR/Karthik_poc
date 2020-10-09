@@ -65,7 +65,7 @@ import org.xml.sax.helpers.AttributesImpl;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-class TitleManifestFilter extends AbstractTitleManifestFilter {
+public class TitleManifestFilter extends AbstractTitleManifestFilter {
     private static final Logger LOG = LogManager.getLogger(TitleManifestFilter.class);
     private PlaceholderDocumentService placeholderDocumentService;
     private UuidGenerator uuidGenerator;
@@ -83,11 +83,11 @@ class TitleManifestFilter extends AbstractTitleManifestFilter {
     // Element names that correspond to the toc.xml to title.xml transformation
     private static final String URI = "";
     private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
-    private static final String EBOOK = "EBook";
-    private static final String EBOOK_TOC = "EBookToc";
-    private static final String NAME = "Name";
-    private static final String TOC_GUID = "Guid";
-    private static final String DOCUMENT_GUID = "DocumentGuid";
+    public static final String EBOOK = "EBook";
+    public static final String EBOOK_TOC = "EBookToc";
+    public static final String NAME = "Name";
+    public static final String TOC_GUID = "Guid";
+    public static final String DOCUMENT_GUID = "DocumentGuid";
     private static final String MISSING_DOCUMENT = "MissingDocument";
     private static final String HTML_EXTENSION = ".html";
 
@@ -95,7 +95,9 @@ class TitleManifestFilter extends AbstractTitleManifestFilter {
     private static final String DOC_ELEMENT = "doc";
     private static final String DOCS_ELEMENT = "docs";
     private static final String TITLE_ELEMENT = "title";
-    private static final String TOC_ELEMENT = "toc";
+    public static final String TOC_ELEMENT = "toc";
+    public static final String ENTRY_ELEMENT = "entry";
+    public static final String TEXT_ELEMENT = "text";
 
     TitleManifestFilter(
         final TitleMetadata titleMetadata,

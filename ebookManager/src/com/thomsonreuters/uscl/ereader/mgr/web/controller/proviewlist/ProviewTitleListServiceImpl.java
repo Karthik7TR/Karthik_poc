@@ -8,10 +8,10 @@ import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.*;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -244,5 +245,37 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
 
     private boolean hasSeveralParts(final List<String> updatedTitles, final List<String> titlesToUpdate) {
         return updatedTitles.size() + titlesToUpdate.size() > 1;
+    }
+
+    @Override
+    public List<String> getPreviousVersions(final HttpSession httpSession, final String titleId) {
+        try {
+            return fetchAllProviewTitleInfo(httpSession)
+                    .get(titleId)
+                    .getProviewTitleInfos().stream()
+                    .map(ProviewTitleInfo::getVersion)
+                    .sorted(new VersionComparatorDesc())
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession) throws ProviewException {
+        Map<String, ProviewTitleContainer> allProviewTitleInfo;
+        if (httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES) != null) {
+            allProviewTitleInfo = (Map<String, ProviewTitleContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
+        } else {
+            allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
+            saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+        }
+        return allProviewTitleInfo;
+    }
+
+    private void saveAllProviewTitleInfo(
+            final HttpSession httpSession,
+            final Map<String, ProviewTitleContainer> allProviewTitleInfo) {
+        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, allProviewTitleInfo);
     }
 }

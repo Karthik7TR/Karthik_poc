@@ -16,6 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_FIELDS_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_TEMPLATE_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
+
 /**
  * Abstract class contains common builder methods e.g. creating of default features list.
  */
@@ -26,6 +31,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     private final VersionUtil versionUtil;
     private boolean withPageNumbers;
     private boolean withThesaurus;
+    private boolean withPreviousDocumentIds;
 
     private Version newBookVersion;
 
@@ -61,6 +67,12 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
      @Override
      public FeaturesListBuilder withThesaurus(final boolean withThesaurus) {
          this.withThesaurus = withThesaurus;
+         return this;
+     }
+
+     @Override
+     public FeaturesListBuilder withPreviousDocumentIds(final boolean withPreviousDocumentIds) {
+         this.withPreviousDocumentIds = withPreviousDocumentIds;
          return this;
      }
 
@@ -104,6 +116,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
                 DefaultProviewFeatures.SEARCH_TEMPLATE.feature,
                 DefaultProviewFeatures.THESAURUS_TERMS.feature
             );
+        }
+
+        if (withPreviousDocumentIds) {
+            features.add(DefaultProviewFeatures.MINOR_VERSION_MAPPING.feature);
         }
 
         return features;
@@ -150,9 +166,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         ELOOSELEAFS_BUCKET(new Feature("tr_opt_TitleType", "eReference")),
         PAGE_NUMBERS(new Feature("PageNos")),
         SPAN_PAGES(new Feature("SpanPages")),
-        SEARCH_FIELDS(new Feature("SearchFields", "fields.xml")),
-        SEARCH_TEMPLATE(new Feature("SearchTemplate", "template.xml")),
-        THESAURUS_TERMS(new Feature("ThesaurusTerms", "thesaurus.xml"));
+        SEARCH_FIELDS(new Feature("SearchFields", FORMAT_THESAURUS_FIELDS_XML_FILE.getName())),
+        SEARCH_TEMPLATE(new Feature("SearchTemplate", FORMAT_THESAURUS_TEMPLATE_XML_FILE.getName())),
+        THESAURUS_TERMS(new Feature("ThesaurusTerms", FORMAT_THESAURUS_XML_FILE.getName())),
+        MINOR_VERSION_MAPPING(new Feature("MinorVersionMapping", FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE.getName()));
 
         private final Feature feature;
 

@@ -346,6 +346,12 @@ $(document).ready(function() {
 						    </div>
 						</c:when>
 					</c:choose>
+					<c:if test="${ book.versionWithPreviousDocIds != null }">
+						<div class="row">
+							<label class="labelCol">Use previous DocIds from version</label>
+							<span class="field">${ book.versionWithPreviousDocIds }</span>
+						</div>
+					</c:if>
 				</div>
 			</div>
 		</div>

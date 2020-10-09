@@ -168,4 +168,5 @@ public class JobExecutionKey {
     public static final String WITH_INLINE_TOC = "withInlineToc";
     public static final String WITH_INLINE_INDEX = "withInlineIndex";
     public static final String WITH_THESAURUS = "withThesaurus";
+    public static final String WITH_PREVIOUS_DOCUMENT_IDS = "withPreviousDocumentIds";
 }
