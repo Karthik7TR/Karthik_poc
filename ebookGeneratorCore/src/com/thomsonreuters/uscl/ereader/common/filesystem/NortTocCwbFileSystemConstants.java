@@ -49,13 +49,13 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_THESAURUS_FIELDS_XML_FILE("fields.xml"),
     FORMAT_THESAURUS_TEMPLATE_XML_FILE("template.xml"),
     FORMAT_THESAURUS_XML_FILE("thesaurus.xml"),
-    FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE("mapping.xml"),
 
     ASSEMBLE_TITLE_FILE("title.xml"),
 
     ASSEMBLE_DOCUMENTS_DIR("documents"),
     ASSEMBLE_ASSETS_DIR("assets"),
-    ASSEMBLE_ARTWORK_DIR("artwork");
+    ASSEMBLE_ARTWORK_DIR("artwork"),
+    ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE("mapping.xml");
 
     private final String name;
 

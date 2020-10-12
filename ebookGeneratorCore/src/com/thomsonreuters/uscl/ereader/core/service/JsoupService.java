@@ -58,8 +58,12 @@ public class JsoupService {
     }
 
     public void saveDocument(final File destDir, final String fileName, final Element doc) {
+        saveDocument(new File(destDir, fileName), doc);
+    }
+
+    public void saveDocument(final File destFile, final Element doc) {
         try {
-            FileUtils.write(new File(destDir, fileName), doc.outerHtml(), StandardCharsets.UTF_8.name());
+            FileUtils.write(destFile, doc.outerHtml(), StandardCharsets.UTF_8.name());
         } catch (final IOException e) {
             throw new EBookException(e);
         }

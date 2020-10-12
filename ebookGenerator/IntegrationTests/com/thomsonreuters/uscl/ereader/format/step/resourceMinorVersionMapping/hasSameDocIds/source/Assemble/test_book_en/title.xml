@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<title>
+	<toc>
+		<entry s="FrontMatterTitle2/FrontMatterTitleAnchor">
+			<text>Title Page</text>
+		</entry>
+		<entry s="documentPublisherOne/toc0001">
+			<text>ItemOne</text>
+			<entry s="documentPublisherOne/toc0002">
+				<text>Publisher</text>
+				<entry s="documentPublisherOne/toc0003">
+					<text>PublisherOne</text>
+				</entry>
+			</entry>
+			<entry s="documentPublisherTwo/toc0004">
+				<text>Publisher</text>
+				<entry s="documentPublisherTwo/toc0005">
+					<text>PublisherTwo</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="documentItemTwoPage/toc0006">
+			<text>ItemTwo</text>
+			<entry s="documentItemTwoPage/toc0007">
+				<text>Title</text>
+				<entry s="documentItemTwoPage/toc0008">
+					<text>Page</text>
+				</entry>
+			</entry>
+			<entry s="documentItemTwoNoteTwo/toc0009">
+				<text>NoteTwo</text>
+			</entry>
+		</entry>
+		<entry s="documentItemThreePage/toc0010">
+			<text>ItemTree</text>
+			<entry s="documentItemThreePage/toc0011">
+				<text>Title</text>
+				<entry s="documentItemThreePage/toc0012">
+					<text>Page</text>
+				</entry>
+			</entry>
+			<entry s="documentItemThreeNoteThree/toc0013">
+				<text>NoteThree</text>
+			</entry>
+		</entry>
+	</toc>
+</title>

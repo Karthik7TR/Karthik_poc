@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -24,7 +23,7 @@ public class MinorVersionMappingFileSaver {
     @Autowired
     private JsoupService jsoup;
 
-    public void saveMapToFile(final Map<String, Set<String>> oldIdToNewIds, final File destDir, final String fileName) {
+    public void saveMapToFile(final Map<String, Set<String>> oldIdToNewIds, final File destFile) {
         Document document = jsoup.createDocument();
 
         Element mapping = document.appendElement(MAPPING);
@@ -32,7 +31,7 @@ public class MinorVersionMappingFileSaver {
             mapping.appendChild(docElement(oldId, String.join(DELIMITER, newIds)));
         });
 
-        jsoup.saveDocument(destDir, fileName, document);
+        jsoup.saveDocument(destFile, document);
     }
 
     private Node docElement(final String oldId, final String newIds) {

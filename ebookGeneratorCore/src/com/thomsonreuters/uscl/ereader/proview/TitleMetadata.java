@@ -36,7 +36,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_FIELDS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_TEMPLATE_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
@@ -348,7 +348,7 @@ public final class TitleMetadata implements Serializable {
         }
 
         private boolean filesFilterFromAssets(final String fileName) {
-            return !THESAURUS_FILE_NAMES.contains(fileName) && !FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE.getName().equals(fileName);
+            return !THESAURUS_FILE_NAMES.contains(fileName) && !ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE.getName().equals(fileName);
         }
 
         @NotNull

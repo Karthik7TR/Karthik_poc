@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_FIELDS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_TEMPLATE_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
@@ -31,7 +31,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     private final VersionUtil versionUtil;
     private boolean withPageNumbers;
     private boolean withThesaurus;
-    private boolean withPreviousDocumentIds;
+    private boolean withMinorVersionMapping;
 
     private Version newBookVersion;
 
@@ -71,8 +71,8 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
      }
 
      @Override
-     public FeaturesListBuilder withPreviousDocumentIds(final boolean withPreviousDocumentIds) {
-         this.withPreviousDocumentIds = withPreviousDocumentIds;
+     public FeaturesListBuilder withMinorVersionMapping(final boolean withMinorVersionMapping) {
+         this.withMinorVersionMapping = withMinorVersionMapping;
          return this;
      }
 
@@ -118,7 +118,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
             );
         }
 
-        if (withPreviousDocumentIds) {
+        if (withMinorVersionMapping) {
             features.add(DefaultProviewFeatures.MINOR_VERSION_MAPPING.feature);
         }
 
@@ -169,7 +169,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         SEARCH_FIELDS(new Feature("SearchFields", FORMAT_THESAURUS_FIELDS_XML_FILE.getName())),
         SEARCH_TEMPLATE(new Feature("SearchTemplate", FORMAT_THESAURUS_TEMPLATE_XML_FILE.getName())),
         THESAURUS_TERMS(new Feature("ThesaurusTerms", FORMAT_THESAURUS_XML_FILE.getName())),
-        MINOR_VERSION_MAPPING(new Feature("MinorVersionMapping", FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE.getName()));
+        MINOR_VERSION_MAPPING(new Feature("MinorVersionMapping", ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE.getName()));
 
         private final Feature feature;
 

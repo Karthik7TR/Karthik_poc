@@ -106,12 +106,6 @@
 
 		<step id="transformToc">
 			<tasklet ref="transformTocXmlTask"/>
-			<next on="COMPLETED" to="buildPreviousDocumentIdsMapping"/>
-			<fail on="FAILED"/>
-		</step>
-
-		<step id="buildPreviousDocumentIdsMapping">
-			<tasklet ref="buildPreviousDocumentIdsMappingTask"/>
 			<next on="COMPLETED" to="generateFrontMatterHTML"/>
 			<fail on="FAILED"/>
 		</step>
@@ -231,6 +225,12 @@
 		
 		<step id="generateTitleManifest">
 			<tasklet ref="generateTitleManifestTask"/>
+			<next on="COMPLETED" to="minorVersionsMapping"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<step id="minorVersionsMapping">
+			<tasklet ref="minorVersionsMappingStepTask"/>
 			<next on="COMPLETED" to="nextTask"/>
 			<fail on="FAILED"/>
 		</step>
@@ -323,7 +323,6 @@
 				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="buildThesaurusTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.BuildThesaurusStep" />
-	<beans:bean id="buildPreviousDocumentIdsMappingTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.BuildPreviousDocumentIdsMappingStep" />
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask"
                 scope="step" parent="bookStep"/>
 	<beans:bean id="getStaticImagesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" />
@@ -371,6 +370,7 @@
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory"/>
 	<beans:bean id="createDirectoriesAndMoveResourcesTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources"/>
 	<beans:bean id="generateTitleManifestTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata"/>
+	<beans:bean id="minorVersionsMappingStepTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.MinorVersionMappingStep" />
 	<beans:bean id="assembleEBookTask" scope="step" parent="assembleStep"
 				class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" />
 	<beans:bean id="deliverEBookTask" scope="step" parent="deliverStep"

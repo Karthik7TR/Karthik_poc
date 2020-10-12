@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianTopicCodeService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.batch.core.ExitStatus;

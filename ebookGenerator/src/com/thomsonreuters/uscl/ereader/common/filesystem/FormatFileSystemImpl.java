@@ -15,7 +15,6 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
@@ -148,11 +147,5 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @Override
     public File getThesaurusStaticFilesDirectory() {
         return thesaurusStaticFilesDir;
-    }
-
-    @NotNull
-    @Override
-    public File getOldToNewDocumentIdMappingXml(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), FORMAT_OLD_TO_NEW_DOCUMENT_IDS_MAPPING_XML_FILE.getName());
     }
 }

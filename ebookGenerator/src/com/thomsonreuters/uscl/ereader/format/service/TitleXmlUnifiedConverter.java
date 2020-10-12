@@ -7,6 +7,8 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
 import static com.thomsonreuters.uscl.ereader.assemble.service.TitleManifestFilter.ENTRY_ELEMENT;
 import static com.thomsonreuters.uscl.ereader.assemble.service.TitleManifestFilter.TEXT_ELEMENT;
 import static com.thomsonreuters.uscl.ereader.assemble.service.TitleManifestFilter.TOC_ELEMENT;
@@ -50,8 +52,15 @@ public class TitleXmlUnifiedConverter {
     @Autowired
     private JsoupService jsoup;
 
-    public Document convertDocumentToUnifiedFormat(final String oldVersionTitleXml) {
-        Document document = jsoup.parseXml(oldVersionTitleXml);
+    public Document convertDocumentToUnifiedFormat(final File titleXml) {
+        return convertDocumentToUnifiedFormat(jsoup.loadDocument(titleXml));
+    }
+
+    public Document convertDocumentToUnifiedFormat(final String titleXml) {
+        return convertDocumentToUnifiedFormat(jsoup.parseXml(titleXml));
+    }
+
+    public Document convertDocumentToUnifiedFormat(final Document document) {
         Document unifiedDoc = jsoup.createDocument();
         Element toc = unifiedDoc.appendElement(TOC_UNIFIED);
         convertEntryChildren(document.selectFirst(TOC_ELEMENT), toc);

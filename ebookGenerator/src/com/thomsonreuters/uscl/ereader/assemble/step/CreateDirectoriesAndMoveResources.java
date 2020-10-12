@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -136,7 +137,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                 .withTitleDocs(getDocsByTitles(docMap))
                 .withPageNumbers(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS))
                 .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS))
-                .withPreviousDocumentIds(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS));
+                .withMinorVersionMapping(Objects.nonNull(bookDefinition.getVersionWithPreviousDocIds()));
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks
@@ -244,7 +245,6 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         // Style sheets
         moveResourcesUtil.moveStylesheet(assetsDirectory);
         moveResourcesUtil.moveThesaurus(this, assetsDirectory);
-        moveResourcesUtil.moveMinorVersionMapping(this, assembleFileSystem.getAssetsDirectory(this));
         // Dynamic images
         final File dynamicImagesDir = imageFileSystem.getImageDynamicDirectory(this);
         final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);

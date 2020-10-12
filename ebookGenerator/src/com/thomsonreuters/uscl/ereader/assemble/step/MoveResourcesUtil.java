@@ -142,10 +142,4 @@ public class MoveResourcesUtil {
             FileUtils.copyFileToDirectory(formatFileSystem.getThesaurusXml(step), assetsDirectory);
         }
     }
-
-    protected void moveMinorVersionMapping(final BookStepImpl step, final File assetsDirectory) {
-        if (step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS)) {
-            FileUtils.copyFileToDirectory(formatFileSystem.getOldToNewDocumentIdMappingXml(step), assetsDirectory);
-        }
-    }
 }

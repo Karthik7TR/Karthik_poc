@@ -137,4 +137,7 @@ public interface AssembleFileSystem {
      */
     @NotNull
     Integer countAssembleDocs(@NotNull BookStep step);
+
+    @NotNull
+    File getMinorVersionMappingXml(@NotNull BookStep step);
 }

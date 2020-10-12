@@ -133,7 +133,4 @@ public interface FormatFileSystem {
 
     @NotNull
     File getThesaurusStaticFilesDirectory();
-
-    @NotNull
-    File getOldToNewDocumentIdMappingXml(@NotNull BookStep step);
 }

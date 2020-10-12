@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.File;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getDir;
 import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getFile;
 
@@ -116,5 +117,11 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
     @NotNull
     public Integer countAssembleDocs(@NotNull final BookStep step) {
         return FileUtils.listFiles(getDocumentsDirectory(step), null, true).size();
+    }
+
+    @NotNull
+    @Override
+    public File getMinorVersionMappingXml(@NotNull final BookStep step) {
+        return new File(getAssetsDirectory(step), ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE.getName());
     }
 }

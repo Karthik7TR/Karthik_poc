@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -103,7 +104,7 @@ public class GenerateTitleMetadata extends BookStepImpl {
                     .withBookVersion(new Version("v" + versionNumber))
                     .withPageNumbers(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS))
                     .withThesaurus(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_THESAURUS))
-                    .withPreviousDocumentIds(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PREVIOUS_DOCUMENT_IDS));
+                    .withMinorVersionMapping(Objects.nonNull(bookDefinition.getVersionWithPreviousDocIds()));
             if (bookDefinition.isSplitBook()) {
                 splitBookTitle(titleMetadataBuilder.build());
             } else {

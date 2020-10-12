@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<title>
+	<toc>
+		<entry s="documentPublisherOne/toc0001">
+			<text>ItemOne</text>
+			<entry s="documentPublisherOne/toc0002">
+				<text>Publisher</text>
+				<entry s="documentPublisherOne/toc0003">
+					<text>PublisherOne</text>
+				</entry>
+			</entry>
+			<entry s="documentPublisherTwo/toc0004">
+				<text>Publisher</text>
+				<entry s="documentPublisherTwo/toc0005">
+					<text>PublisherTwo</text>
+				</entry>
+			</entry>
+		</entry>
+		<entry s="documentItemTwoPage/toc0006">
+			<text>ItemTwo</text>
+			<entry s="documentItemTwoPage/toc0007">
+				<text>Title</text>
+				<entry s="documentItemTwoPage/toc0008">
+					<text>Page</text>
+				</entry>
+			</entry>
+			<entry s="documentItemTwoNoteTwo/toc0009">
+				<text>NoteTwo</text>
+			</entry>
+		</entry>
+		<entry s="documentItemThreePage/toc0010">
+			<text>ItemTree</text>
+			<entry s="documentItemThreePage/toc0011">
+				<text>Title</text>
+				<entry s="documentItemThreePage/toc0012">
+					<text>Page</text>
+				</entry>
+			</entry>
+			<entry s="documentItemThreeNoteThree/toc0013">
+				<text>NoteThree</text>
+			</entry>
+		</entry>
+		<entry s="I18803e50a11e11eabda1f9e2f892817e/Ia49676705e2011eaaeca8a99d55be43a1178">
+			<text>Part VIII. Remedies</text>
+			<entry s="I18803e50a11e11eabda1f9e2f892817e/Ia4969d805e2011eaaeca8a99d55be43a1179">
+				<text>Chapter 26. Remedies</text>
+				<entry s="I18803e50a11e11eabda1f9e2f892817e/Ia496eba05e2011eaaeca8a99d55be43a1180">
+					<text>I. Historical Development</text>
+					<entry s="I18803e50a11e11eabda1f9e2f892817e/I85b24dcda11d11eabafbf5373d14f37c1181">
+						<text>&#167;  26:1. Generally</text>
+					</entry>
+				</entry>
+				<entry s="I18803e51a11e11eabda1f9e2f892817e/Ia49ae3405e2011eaaeca8a99d55be43a1182">
+					<text>II. Equitable Jurisdiction</text>
+					<entry s="I18803e51a11e11eabda1f9e2f892817e/I85b24dd0a11d11eabafbf5373d14f37c1183">
+						<text>&#167;  26:2. The Effect of Equity: Presumptions and Reverse Onuses</text>
+					</entry>
+					<entry s="I18803e52a11e11eabda1f9e2f892817e/I85b24dd3a11d11eabafbf5373d14f37c1184">
+						<text>&#167;  26:3. Irrelevance of Inability of &#8220;Beneficiary&#8221; to Attain the Benefit</text>
+					</entry>
+					<entry s="I18806560a11e11eabda1f9e2f892817e/I85b24dd6a11d11eabafbf5373d14f37c1185">
+						<text>&#167;  26:4. Set-off</text>
+					</entry>
+					<entry s="I18806561a11e11eabda1f9e2f892817e/I85b24dd9a11d11eabafbf5373d14f37c1186">
+						<text>&#167;  26:5. Irrelevance of the Inevitability of Loss</text>
+					</entry>
+				</entry>
+				<entry s="I18806562a11e11eabda1f9e2f892817e/Ia4b76bf05e2011eaaeca8a99d55be43a1187">
+					<text>III. Types of Relief in Equity</text>
+					<entry s="I18806562a11e11eabda1f9e2f892817e/I85b24ddca11d11eabafbf5373d14f37c1188">
+						<text>&#167;  26:6. Generally</text>
+					</entry>
+					<entry s="I18808c70a11e11eabda1f9e2f892817e/I85b24ddfa11d11eabafbf5373d14f37c1189">
+						<text>&#167;  26:7. Declaratory Relief: Declaration of Trustee Status</text>
+					</entry>
+					<entry s="I18808c71a11e11eabda1f9e2f892817e/I85b24de2a11d11eabafbf5373d14f37c1190">
+						<text>&#167;  26:8. The Accounting Remedy</text>
+					</entry>
+					<entry s="I18808c72a11e11eabda1f9e2f892817e/I85b24de5a11d11eabafbf5373d14f37c1191">
+						<text>&#167;  26:9. --Generally</text>
+					</entry>
+					<entry s="I18808c73a11e11eabda1f9e2f892817e/I85b24de8a11d11eabafbf5373d14f37c1192">
+						<text>&#167;  26:10. --Factors Influencing the Quantification of the Accounting Remedy</text>
+					</entry>
+					<entry s="I1880b380a11e11eabda1f9e2f892817e/I85b24deba11d11eabafbf5373d14f37c1193">
+						<text>&#167;  26:11. Restitution and Rescission Through Tracing</text>
+					</entry>
+					<entry s="I1880b381a11e11eabda1f9e2f892817e/I85b24deea11d11eabafbf5373d14f37c1194">
+						<text>&#167;  26:12. Constructive Trust</text>
+					</entry>
+					<entry s="I1880b382a11e11eabda1f9e2f892817e/I85b24df1a11d11eabafbf5373d14f37c1195">
+						<text>&#167;  26:13. --Generally</text>
+					</entry>
+					<entry s="I1881ec00a11e11eabda1f9e2f892817e/I85b24df4a11d11eabafbf5373d14f37c1196">
+						<text>&#167;  26:14. --Irrelevance of Absence of Gain</text>
+					</entry>
+					<entry s="I1881ec01a11e11eabda1f9e2f892817e/I85b274d1a11d11eabafbf5373d14f37c1197">
+						<text>&#167;  26:15. Injunctions</text>
+					</entry>
+				</entry>
+			</entry>
+		</entry>
+	</toc>
+</title>
