@@ -12,11 +12,13 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
@@ -29,6 +31,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
@@ -210,13 +213,12 @@ public class GroupServiceImpl implements GroupService {
             oldHasSubgroups = (lastGroupDef.getSubGroupInfoList().get(0).getHeading() != null);
         }
 
-        // check if major version changed
-        final String previousHeadTitle = lastGroupDef != null ? lastGroupDef.getHeadTitle() : null;
-        if (isTitleWithVersion(previousHeadTitle)
-            && !majorVersionStr.equals(StringUtils.substringAfterLast(previousHeadTitle, "/"))) {
-            // head titles without version do not have subgroups, making a major version change irrelevant
-            majorVersionChange = true;
-        }
+        // Get list of titles in ProView so invalid versions are not added to the group from previous
+        final List<ProviewTitleInfo> proviewTitleInfoList = getMajorVersionProviewTitles(fullyQualifiedTitleId);
+        final Set<BigInteger> majorVersionSet = proviewTitleInfoList.stream()
+                .map(ProviewTitleInfo::getMajorVersion)
+                .collect(Collectors.toSet());
+        majorVersionChange = isMajorVersionChanged(majorVersionSet, majorVersionStr);
 
         // so splitTitles can be used generally
         if (splitTitles == null) {
@@ -224,12 +226,6 @@ public class GroupServiceImpl implements GroupService {
             splitTitles.add(fullyQualifiedTitleId);
         }
 
-        // Get list of titles in ProView so invalid versions are not added to the group from previous
-        final List<ProviewTitleInfo> proviewTitleInfoList = getMajorVersionProviewTitles(fullyQualifiedTitleId);
-        final Set<BigInteger> majorVersionList = new HashSet<>();
-        for (final ProviewTitleInfo ProviewTitleInfo : proviewTitleInfoList) {
-            majorVersionList.add(ProviewTitleInfo.getMajorVersion());
-        }
 
         final List<String> pilotBooks = getPilotBooks(bookDefinition);
 
@@ -267,7 +263,7 @@ public class GroupServiceImpl implements GroupService {
             }
 
             // update subgroups
-            cleanAllSubgroups(fullyQualifiedTitleId, allSubGroupInfo, pilotBooks, majorVersionList);
+            cleanAllSubgroups(fullyQualifiedTitleId, allSubGroupInfo, pilotBooks, majorVersionSet);
             if (oldHasSubgroups && newHasSubgroups) {
                 // add new title to the appropriate subgroup
                 SubGroupInfo selectedSubgroup = null;
@@ -328,6 +324,15 @@ public class GroupServiceImpl implements GroupService {
         groupDefinition.setSubGroupInfoList(allSubGroupInfo);
 
         return groupDefinition;
+    }
+
+    @NotNull
+    private Boolean isMajorVersionChanged(final Set<BigInteger> majorVersionSet, final String finalMajorVersionStr) {
+        return majorVersionSet.stream()
+                .max(BigInteger::compareTo)
+                .map(item -> Version.VERSION_PREFIX + item)
+                .map(item -> !item.equals(finalMajorVersionStr))
+                .orElse(false);
     }
 
     /**
@@ -478,13 +483,13 @@ public class GroupServiceImpl implements GroupService {
      */
     private boolean isTitleInProview(
         String title,
-        final Set<BigInteger> majorVersionList,
+        final Set<BigInteger> majorVersionSet,
         final String fullyQualifiedTitleId) throws ProviewException {
         if (StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId)) {
             if (isTitleWithVersion(title)) {
                 final String version = StringUtils.substringAfterLast(title, "/v");
                 final BigInteger majorVersion = new BigInteger(StringUtils.substringBefore(version, "."));
-                return majorVersionList.contains(majorVersion);
+                return majorVersionSet.contains(majorVersion);
             }
         }
         // It must be a pilot book
