@@ -1029,7 +1029,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void validateIndexFields(final EditBookDefinitionForm form, final Errors errors) {
-        if (form.isIndexIncluded()) {
+        if (form.isIndexIncluded() && SourceType.TOC.equals(form.getSourceType())) {
             checkSpecialCharacters(errors, form.getTocCollectionName(), "indexTocCollectionName", true);
             checkGuidFormat(errors, form.getRootTocGuid(), "indexTocRootGuid");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocCollectionName", "error.required");

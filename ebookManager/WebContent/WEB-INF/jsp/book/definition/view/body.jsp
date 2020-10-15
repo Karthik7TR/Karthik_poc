@@ -157,7 +157,7 @@ $(document).ready(function() {
 					</c:if>
 					<c:choose>
 					<c:when test="${ book.sourceType == 'TOC' }">
-						<div id="displayTOC">
+						<div class="displayTOC">
 							<div class="row">
 								<label class="labelCol">TOC Collection</label>
 								<span class="field">${ book.tocCollectionName }</span>
@@ -170,24 +170,6 @@ $(document).ready(function() {
 								<label class="labelCol">Root TOC Guid</label>
 								<span class="field">${ book.rootTocGuid }</span>
 							</div>
-                            <div class="row">
-                                <label class="labelCol">Print Page Numbers</label>
-                                <span class="field">${ book.printPageNumbers }</span>
-                            </div>
-                            <div class="row">
-                                <label class="labelCol">Index Included</label>
-                                <span class="field">${ book.indexIncluded }</span>
-                            </div>
-							<c:if test="${book.indexIncluded=='true'}">
-								<div class="row">
-									<label class="labelCol">Index Collection</label>
-									<span class="field">${ book.indexTocCollectionName }</span>
-								</div>
-								<div class="row">
-									<label class="labelCol">Index Root Guid</label>
-									<span class="field">${ book.indexTocRootGuid }</span>
-								</div>
-							</c:if>
 						</div>
 					</c:when>
 					<c:when test="${ book.sourceType == 'NORT' }">
@@ -267,6 +249,24 @@ $(document).ready(function() {
 						</div>
 					</c:otherwise>
 					</c:choose>
+					<div class="row xppHideClass cwbHideClass">
+						<label class="labelCol">Print Page Numbers</label>
+						<span class="field">${ book.printPageNumbers }</span>
+					</div>
+					<div class="row xppHideClass cwbHideClass">
+						<label class="labelCol">Index Included</label>
+						<span class="field">${ book.indexIncluded }</span>
+					</div>
+					<c:if test="${book.indexIncluded == 'true' && book.sourceType == 'TOC'}">
+						<div class="row displayTOC">
+							<label class="labelCol">Index Collection</label>
+							<span class="field">${ book.indexTocCollectionName }</span>
+						</div>
+						<div class="row displayTOC">
+							<label class="labelCol">Index Root Guid</label>
+							<span class="field">${ book.indexTocRootGuid }</span>
+						</div>
+					</c:if>
 					<div class="row">
 						<label class="labelCol">Inline TOC Included</label>
 						<span class="field">${ book.inlineTocIncluded }</span>

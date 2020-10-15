@@ -139,7 +139,7 @@ $(function() {
     };
 
 	var updateSourceType = function(sourceType) {
-		$("#displayTOC").hide();
+		$(".displayTOC").hide();
 		$("#displayNORT").hide();
 		$("#displayFILE").hide();
 		$("#displayXPP").hide();
@@ -154,7 +154,7 @@ $(function() {
 		splitSizeChanged();
 		previousVersionIdsEnabledChanged();
 		if(sourceType == "TOC") {
-			$("#displayTOC").show();
+			$(".displayTOC").show();
 			$("#displayFinalStage").show();
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");

@@ -334,7 +334,7 @@
 					</div>
 				</div>
 			</c:if>
-			<div id="displayTOC" style="display:none">
+			<div class="displayTOC" style="display:none">
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>
 					<form:input disabled="${disableUnderPubPlusRole}" path="tocCollectionName" maxlength="64" />
@@ -354,32 +354,6 @@
 					<form:input disabled="${disableUnderPubPlusRole}" path="rootTocGuid" maxlength="33"/>
 					<div class="errorDiv">
 						<form:errors path="rootTocGuid" cssClass="errorMessage" />
-					</div>
-				</div>
-				<div class="row">
-					<form:label disabled="${disableUnderPubPlusRole}" path="printPageNumbers" class="labelCol">Print Page Numbers:</form:label>
-					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="true" />Enabled
-					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="false" />Disabled
-				</div>
-                <div class="row">
-                    <form:label disabled="${disableUnderPubPlusRole}" path="indexIncluded" class="labelCol">Index:</form:label>
-                    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="true" />Enabled
-                    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="false" />Disabled
-                </div>
-				<div id="indexData" style="display: none;">
-					<div class="row">
-						<form:label disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" class="labelCol">Index Collection:</form:label>
-						<form:input disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" maxlength="64" />
-						<div class="errorDiv">
-							<form:errors path="indexTocCollectionName" cssClass="errorMessage" />
-						</div>
-					</div>
-					<div class="row">
-						<form:label disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" class="labelCol">Index Root Guid:</form:label>
-						<form:input disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" maxlength="64" />
-						<div class="errorDiv">
-							<form:errors path="indexTocRootGuid" cssClass="errorMessage" />
-						</div>
 					</div>
 				</div>
 			</div>
@@ -488,6 +462,32 @@
 				</div>
 				<div class="row">
 					<input type="button" id="performSapRequest" value="Request data from SAP" onclick="requestDataFromSap();"/>
+				</div>
+			</div>
+			<div class="row xppHideClass cwbHideClass">
+				<form:label disabled="${disableUnderPubPlusRole}" path="printPageNumbers" class="labelCol">Print Page Numbers:</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="true" />Enabled
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="printPageNumbers" value="false" />Disabled
+			</div>
+			<div class="row xppHideClass cwbHideClass">
+				<form:label disabled="${disableUnderPubPlusRole}" path="indexIncluded" class="labelCol">Index:</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="true" />Enabled
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="false" />Disabled
+			</div>
+			<div id="indexData" style="display: none;">
+				<div class="row displayTOC">
+					<form:label disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" class="labelCol">Index Collection:</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" maxlength="64" />
+					<div class="errorDiv">
+						<form:errors path="indexTocCollectionName" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div class="row displayTOC">
+					<form:label disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" class="labelCol">Index Root Guid:</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" maxlength="64" />
+					<div class="errorDiv">
+						<form:errors path="indexTocRootGuid" cssClass="errorMessage" />
+					</div>
 				</div>
 			</div>
 			<div class="row">

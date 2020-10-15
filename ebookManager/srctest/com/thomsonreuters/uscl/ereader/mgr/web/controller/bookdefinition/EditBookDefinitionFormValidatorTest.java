@@ -1253,14 +1253,29 @@ public final class EditBookDefinitionFormValidatorTest {
 
     @Test
     public void testNoIndexTocCollectionName() {
+        form.setSourceType(SourceType.TOC);
         form.setIndexTocCollectionName(null);
         testIndexFieldIsEmpty("indexTocCollectionName");
     }
 
     @Test
     public void testNoIndexTocRootGuid() {
+        form.setSourceType(SourceType.TOC);
         form.setIndexTocRootGuid(null);
         testIndexFieldIsEmpty("indexTocRootGuid");
+    }
+
+    @Test
+    public void testEmptyIndexFieldsInNortBook() {
+        form.setSourceType(SourceType.NORT);
+        form.setIndexIncluded(true);
+        form.setIndexTocCollectionName(null);
+        form.setIndexTocRootGuid(null);
+
+        validator.validate(form, errors);
+
+        Assert.assertNull(errors.getFieldError("indexTocCollectionName"));
+        Assert.assertNull(errors.getFieldError("indexTocRootGuid"));
     }
 
     private void testIndexFieldIsEmpty(final String fieldName) {
