@@ -42,7 +42,7 @@ public class InlineIndexStep extends BookStepImpl {
 
     @Override
     public ExitStatus executeStep() throws Exception {
-        if (getBookDefinition().isIndexIncluded()) {
+        if (getBookDefinition().isIndexIncluded() && BookDefinition.SourceType.TOC.equals(getBookDefinition().getSourceType())) {
             final boolean pages = getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS);
             final File indexXml = gatherFileSystem.getGatherIndexFile(this);
             final File outputDir = formatFileSystem.getTransformedDirectory(this);
