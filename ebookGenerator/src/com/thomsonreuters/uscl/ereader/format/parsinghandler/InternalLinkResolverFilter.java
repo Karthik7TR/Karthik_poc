@@ -103,7 +103,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
                 }
             }
 
-            docMetadata = getNormalizedCiteDocMetadata(cite, pubId, jobId);
+            docMetadata = getNormalizedCiteDocMetadata(cite, pubId);
         } else if (StringUtils.isNotEmpty(documentUuid)) {
             docMetadata = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid().get(documentUuid);
         } else if (StringUtils.isNotEmpty(serialNum)) {
@@ -127,9 +127,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
      *
      * @return docMetadata DocumentMetadata
      */
-    private DocMetadata getNormalizedCiteDocMetadata(final String cite, final Long pubId, final Long jobId) {
-        DocMetadata docMetadata = Optional.ofNullable(documentMetadataAuthority.getDocMetadataByCite(cite, docGuid))
-            .orElseGet(() -> documentMetadataAuthority.getDocMetadataByCite(cite.replaceAll("\\s", ""), docGuid));
+    private DocMetadata getNormalizedCiteDocMetadata(final String cite, final Long pubId) {
+        DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataByCite(cite, docGuid);
 
         if (docMetadata == null) {
             if (!pubId.equals(PUB_NOT_PRESENT)) {

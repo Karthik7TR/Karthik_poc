@@ -6,13 +6,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import static com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil.normalizeNoDashesNoWhitespaces;
+import static java.util.Optional.ofNullable;
 
 /**
  * Instances of this class represent the collection of document metadata for a given publishing run.
@@ -22,7 +27,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  */
 public class DocumentMetadataAuthority {
-    private static final String DASH = "-";
     //this represents the document metadata record for a run of an ebook.
     private Set<DocMetadata> docMetadataSet = new HashSet<>();
 
@@ -32,9 +36,17 @@ public class DocumentMetadataAuthority {
     private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByThirdLineCite = new HashMap<>();
 
     public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet) {
-        this.docMetadataSet = Optional.ofNullable(docMetadataSet)
+        initializeMaps(docMetadataSet);
+    }
+
+    /**
+     * public view is for testing purposes
+     */
+    public void initializeMaps(final Set<DocMetadata> docMetadataSet) {
+        this.docMetadataSet = ofNullable(docMetadataSet)
             .orElseThrow(() -> new IllegalArgumentException(
                 "Cannot instantiate DocumentMetadataAuthority without a set of document metadata"));
 
@@ -53,21 +65,30 @@ public class DocumentMetadataAuthority {
                 addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getSecondlineCitePubId);
                 addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getThirdlineCitePubId);
             }
+            addThirdLineCiteMapping(docMetadata);
         });
     }
 
+    private void addThirdLineCiteMapping(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getThirdlineCite())
+                .map(NormalizationRulesUtil::normalizeThirdLineCite)
+                .ifPresent(thirdLineCite -> docMetadataKeyedByThirdLineCite.putIfAbsent(thirdLineCite, docMetadata));
+    }
+
     private void addDocMetadataToCiteMap(final DocMetadata docMetadata) {
-        final String cite = Optional.ofNullable(docMetadata.getNormalizedFirstlineCite())
-            .orElse(docMetadata.getFindOrig());
-        final List<DocMetadata> list = Optional.ofNullable(docMetadataKeyedByCite.get(cite)).orElseGet(ArrayList::new);
-        list.add(docMetadata);
-        docMetadataKeyedByCite.putIfAbsent(cite.replaceAll(DASH, StringUtils.EMPTY), list);
+        Stream.of(docMetadata.getNormalizedFirstlineCite(), docMetadata.getFindOrig())
+                .filter(Objects::nonNull)
+                .map(NormalizationRulesUtil::normalizeNoDashesNoWhitespaces)
+                .peek(cite -> docMetadataKeyedByCite.putIfAbsent(cite, new ArrayList<>()))
+                .map(docMetadataKeyedByCite::get)
+                .findFirst()
+                .ifPresent(list -> list.add(docMetadata));
     }
 
     private void addDocMetadataToPubPageMap(final DocMetadata docMetadata,
                                             final String firstlineCitePubId,
                                             final Supplier<Long> pubIdSupplier) {
-        Optional.ofNullable(pubIdSupplier.get())
+        ofNullable(pubIdSupplier.get())
             .map(cite -> cite + firstlineCitePubId)
             .ifPresent(key -> docMetadataKeyedByPubIdAndPubPage.put(key, docMetadata));
     }
@@ -92,8 +113,9 @@ public class DocumentMetadataAuthority {
         return Collections.unmodifiableMap(docMetadataKeyedByCite);
     }
 
-    public DocMetadata getDocMetadataByCite(final String cite, final String guid) {
-        DocMetadata docMetadata = null;
+    public DocMetadata getDocMetadataByCite(String cite, final String guid) {
+        cite = normalizeNoDashesNoWhitespaces(cite);
+        DocMetadata docMetadata;
         if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(cite)
             && docMetadataKeyedByDocumentUuid.containsKey(guid)) {
             final List<DocMetadata> list = docMetadataKeyedByCite.get(cite);
@@ -102,6 +124,8 @@ public class DocumentMetadataAuthority {
                 .filter(item -> item.isDocumentEffective() != originatingMetadata.isDocumentEffective())
                 .findAny()
                 .orElse(list.get(0));
+        } else {
+            docMetadata = docMetadataKeyedByThirdLineCite.get(cite);
         }
         return docMetadata;
     }

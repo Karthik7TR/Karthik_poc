@@ -269,7 +269,7 @@ public final class TitleMetadata implements Serializable {
         }
 
         @NotNull
-        public TitleMetadataBuilder publishedDate(@NotNull final String publishedDate) {
+        public TitleMetadataBuilder publishedDate(final String publishedDate) {
             this.publishedDate = publishedDate;
             return this;
         }

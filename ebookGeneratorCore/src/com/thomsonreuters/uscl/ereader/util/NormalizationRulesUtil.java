@@ -3,11 +3,16 @@ package com.thomsonreuters.uscl.ereader.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
+import static java.util.Optional.ofNullable;
+
 /**
  *
  * @author Ravi Nandikolla c139353
  */
 public class NormalizationRulesUtil {
+    private static final String DASH = "-";
+    private static final String PUNCTUATION_AND_BRACES_REGEX = "\\.|,|'|\\(.*\\)";
+    private static final String WHITESPACE_REGEX = "\\s";
     private static String UNICODE_SECTION_SYMBOL = "\u00A7";
     private static String UNICODE_PARAGRAPH_SYMBOL = "\u00B6";
     private static String UNICODE_LEFT_BRACKET_SYMBOL = "\u005B";
@@ -58,7 +63,7 @@ public class NormalizationRulesUtil {
             normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_PARAGRAPH_SYMBOL), "P");
             normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_LEFT_BRACKET_SYMBOL), "(");
             normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_RIGHT_BRACKET_SYMBOL), ")");
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_CARET_SYMBOL), "-");
+            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_CARET_SYMBOL), DASH);
         }
 
         return normalizedCite;
@@ -73,22 +78,22 @@ public class NormalizationRulesUtil {
     public static String hyphenNormalizationRules(String text) {
         if (StringUtils.isNotBlank(text)) {
             // Replace different unicode hypens into HYPHEN-MINUS which is used on the keyboard
-            text = StringUtils.replace(text, UNICODE_FIGURE_DASH, "-");
-            text = StringUtils.replace(text, UNICODE_EN_DASH, "-");
-            text = StringUtils.replace(text, UNICODE_EM_DASH, "-");
-            text = StringUtils.replace(text, UNICODE_HORIZONTAL_BAR, "-");
-            text = StringUtils.replace(text, UNICODE_HEBREW_PUNCTUATION, "-");
-            text = StringUtils.replace(text, UNICODE_HYPHEN, "-");
-            text = StringUtils.replace(text, UNICODE_NON_BREAKING_HYPHEN, "-");
-            text = StringUtils.replace(text, UNICODE_SMALL_EM_DASH, "-");
-            text = StringUtils.replace(text, UNICODE_SMALL_HYPEN_MINUS, "-");
-            text = StringUtils.replace(text, UNICODE_FULLWIDTH_HYPEN_MINUS, "-");
+            text = StringUtils.replace(text, UNICODE_FIGURE_DASH, DASH);
+            text = StringUtils.replace(text, UNICODE_EN_DASH, DASH);
+            text = StringUtils.replace(text, UNICODE_EM_DASH, DASH);
+            text = StringUtils.replace(text, UNICODE_HORIZONTAL_BAR, DASH);
+            text = StringUtils.replace(text, UNICODE_HEBREW_PUNCTUATION, DASH);
+            text = StringUtils.replace(text, UNICODE_HYPHEN, DASH);
+            text = StringUtils.replace(text, UNICODE_NON_BREAKING_HYPHEN, DASH);
+            text = StringUtils.replace(text, UNICODE_SMALL_EM_DASH, DASH);
+            text = StringUtils.replace(text, UNICODE_SMALL_HYPEN_MINUS, DASH);
+            text = StringUtils.replace(text, UNICODE_FULLWIDTH_HYPEN_MINUS, DASH);
         }
 
         return text;
     }
     public static String replaceHyphenToDash(String text) {
-        return StringUtils.replace(hyphenNormalizationRules(text), "-", " — ");
+        return StringUtils.replace(hyphenNormalizationRules(text), DASH, " — ");
     }
     public static String whiteSpaceNormalizationRules(String text) {
         // replace special white space with \u0020
@@ -133,10 +138,26 @@ public class NormalizationRulesUtil {
             cite = hyphenNormalizationRules(cite);
 
             // Remove spaces
-            cite = cite.replaceAll("\\s", "");
+            cite = cite.replaceAll(WHITESPACE_REGEX, StringUtils.EMPTY);
             cite = cite.trim();
         }
 
         return cite;
+    }
+
+    public static String normalizeNoDashesNoWhitespaces(final String cite) {
+        return ofNullable(cite).map(c -> c.replaceAll(DASH, StringUtils.EMPTY).replaceAll(WHITESPACE_REGEX, StringUtils.EMPTY))
+                .orElse(null);
+    }
+
+    public static String normalizeThirdLineCite(final String cite) {
+        return ofNullable(pubPageNormalizationRules(cite))
+                .map(NormalizationRulesUtil::removePunctuationAndBraces)
+                .map(NormalizationRulesUtil::normalizeNoDashesNoWhitespaces)
+                .orElse(null);
+    }
+
+    private static String removePunctuationAndBraces(final String cite) {
+        return cite.replaceAll(PUNCTUATION_AND_BRACES_REGEX, StringUtils.EMPTY);
     }
 }
