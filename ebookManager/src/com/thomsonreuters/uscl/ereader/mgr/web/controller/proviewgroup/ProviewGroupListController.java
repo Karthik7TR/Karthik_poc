@@ -67,8 +67,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId.VERSION_SPLITTER;
-
 @Slf4j
 @Controller
 public class ProviewGroupListController extends BaseProviewGroupListController {
@@ -459,9 +457,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
         final SubgroupInfo subgroup = proviewGroup.getSubgroupInfoList().get(0);
         final Set<String> uniqueTitleIds = subgroup.getTitleIdList().stream()
-                .map(item -> item.contains(VERSION_SPLITTER)
-                        ? new BookTitleId(item).getTitleId()
-                        : item)
+                .map(BookTitleId::getTitleIdWithoutVersion)
                 .collect(Collectors.toSet());
         for (final String titleId : uniqueTitleIds) {
             // get group details for each titleID directly from the ProView

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.SubgroupInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -88,7 +89,7 @@ public class ProviewGroupsParser {
                         if (NAME.equals(qName)) {
                             proviewGroup.setGroupName(value);
                         } else if (HEADTITLE.equals(qName)) {
-                            proviewGroup.setHeadTitle(StringUtils.substringBeforeLast(value, "/v"));
+                            proviewGroup.setHeadTitle(BookTitleId.getTitleIdWithoutVersion(value));
                         } else if (GROUP.equals(qName)) {
                             if (groupMap.get(proviewGroup.getGroupId()) == null) {
                                 groupMap.put(proviewGroup.getGroupId(), new ProviewGroupContainer());

@@ -16,20 +16,23 @@ import org.springframework.util.Assert;
 @AllArgsConstructor
 public class BookTitleId implements Comparable<BookTitleId> {
     private static final String TITLE_WITH_VERSION = "%s/%s";
-    public static final String VERSION_SPLITTER = "/v";
     @NonNull
     private final String titleId;
     @NonNull
     private final Version version;
 
     public BookTitleId(@NonNull String titleIdWithMajorVersion) {
-        int versionStartIndex = titleIdWithMajorVersion.lastIndexOf(VERSION_SPLITTER);
-        Assert.isTrue(versionStartIndex != -1, "String should match pattern: <titleId>v<major_version>.[<minor_version>]");
-        String titleIdWithoutVersion = StringUtils.substringBeforeLast(titleIdWithMajorVersion, VERSION_SPLITTER);
-        String version = titleIdWithMajorVersion.substring(versionStartIndex + 1);
+        Assert.isTrue(isTitleWithVersion(titleIdWithMajorVersion), "String should match pattern: <titleId>v<major_version>.[<minor_version>]");
+        String titleIdWithoutVersion = StringUtils.substringBeforeLast(titleIdWithMajorVersion, "/");
+        String version = StringUtils.substringAfterLast(titleIdWithMajorVersion, "/");
         this.version = new Version(version);
         this.titleId = titleIdWithoutVersion;
     }
+
+    private static boolean isTitleWithVersion(@NonNull final String titleIdWithMajorVersion) {
+        return StringUtils.countMatches(titleIdWithMajorVersion, "/") == 3;
+    }
+
     @NotNull
     public String getTitleIdWithMajorVersion() {
         return String.format(TITLE_WITH_VERSION, titleId, version.getMajorVersion());
@@ -43,6 +46,12 @@ public class BookTitleId implements Comparable<BookTitleId> {
     @NotNull
     public String getHeadTitleIdWithMajorVersion() {
         return String.format(TITLE_WITH_VERSION, new TitleId(titleId).getHeadTitleId(), version.getMajorVersion());
+    }
+
+    public static String getTitleIdWithoutVersion(final String titleId) {
+        return isTitleWithVersion(titleId)
+                ? new BookTitleId(titleId).getTitleId()
+                : titleId;
     }
 
     @Override
