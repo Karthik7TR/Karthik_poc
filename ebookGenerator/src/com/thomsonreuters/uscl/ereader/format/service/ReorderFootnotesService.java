@@ -1,30 +1,44 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.getLabel;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.*;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.XmlDeclaration;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.getLabel;
 
 @Component
 public class ReorderFootnotesService {
@@ -42,6 +56,8 @@ public class ReorderFootnotesService {
     private static final String SUP = "sup";
     private static final String AUTHOR_FOOTNOTES = "author.footnotes";
     private static final String FOOTNOTE_BLOCK = "footnote.block";
+    private static final String SECTION_FRONT = "section.front";
+    private static final String LABEL_DESIGNATOR = "label.designator";
     private static final String FTNNAME = "ftnname";
     private static final String TR_FTN = "tr_ftn";
     private static final String TR_FOOTNOTES = "tr_footnotes";
@@ -67,11 +83,16 @@ public class ReorderFootnotesService {
     private static final String INITIAL_PAGE_LABEL = "extractPageNumbersInitialPageLabel";
     private static final String PARA = "para";
     private static final String PARATEXT = "paratext";
-    public static final String BOP = "bop";
-    public static final String BOS = "bos";
-    public static final String EOP = "eop";
-    public static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
-    public static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
+    private static final String BOP = "bop";
+    private static final String BOS = "bos";
+    private static final String EOP = "eop";
+    private static final String EOS = "eos";
+    private static final String SECTION_LABEL = "[Section %s]";
+    private static final String DOT = ".";
+    private static final String UNDERSCORE = "_";
+    private static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
+    private static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
+    private static final String SECTION_LABEL_REG = "\\[Section \\d+(\\s*|.)(\\s*|\\d+)\\]";
 
     @Autowired
     private JsoupService jsoup;
@@ -183,15 +204,22 @@ public class ReorderFootnotesService {
     private void convertFootnotes(final Document doc, final Optional<Element> footnotesSection) {
         footnotesSection.ifPresent(element ->
             element.getElementsByClass(CO_FOOTNOTE_NUMBER).stream()
-            .map(footnote -> footnote.parent())
+            .map(Element::parent)
             .forEach(footnote -> convertFootnote(footnote, doc))
         );
+    }
+
+    private String getSectionLabel(final Optional<Document> xmlDoc) {
+        return xmlDoc.flatMap(document -> Optional.ofNullable(document.getElementsByTag(SECTION_FRONT).first())
+                .map(sectionFront -> sectionFront.getElementsByTag(LABEL_DESIGNATOR).first())
+                .map(Element::html))
+                .orElse(null);
     }
 
     private Map<String, Element> getFootnotesMap(final Optional<Element> footnotesSection) {
         return footnotesSection.map(element ->
             element.getElementsByClass(TR_FOOTNOTE).stream()
-            .collect(Collectors.toMap(footnote -> getFootnoteId(footnote), Function.identity()))
+            .collect(Collectors.toMap(this::getFootnoteId, Function.identity()))
         ).orElse(new HashMap<>());
     }
 
@@ -226,12 +254,13 @@ public class ReorderFootnotesService {
         final PagePointer pagePointer) {
         final Optional<File> xmlFile = Optional.ofNullable(nameToXmlFile.get(fileUuid));
         final Optional<Document> xmlDoc = xmlFile.map(file -> jsoup.loadDocument(file));
+        String sectionLabel = getSectionLabel(xmlDoc);
         final Optional<Element> footnotesTemplate = xmlDoc.map(doc -> doc.getElementsByTag(FOOTNOTE_BLOCK).first());
 
         if (footnotesTemplate.isPresent()) {
-            return constructBasedOnTemplate(getFootnotesMap(footnotesBlock), footnotesTemplate.get(), xmlDoc.get(), pagePointer);
+            return constructBasedOnTemplate(getFootnotesMap(footnotesBlock), footnotesTemplate.get(), xmlDoc.get(), pagePointer, sectionLabel);
         } else {
-            return constructBasedOnBlock(footnotesBlock, document, pagePointer);
+            return constructBasedOnBlock(footnotesBlock, document, pagePointer, sectionLabel);
         }
     }
 
@@ -239,9 +268,11 @@ public class ReorderFootnotesService {
         final Map<String, Element> idToFootnote,
         final Element footnotesTemplate,
         final Document xmlDoc,
-        final PagePointer pagePointer) {
+        final PagePointer pagePointer,
+        final String sectionLabel) {
         convertPagebreaksToProviewPbs(footnotesTemplate);
         convertTopToFootnotesSection(footnotesTemplate);
+        addSectionLabel(footnotesTemplate, sectionLabel);
 
         fillTemplateWithFootnotes(idToFootnote, footnotesTemplate);
         addAuthorFootnotes(idToFootnote, footnotesTemplate, xmlDoc);
@@ -249,9 +280,10 @@ public class ReorderFootnotesService {
         return footnotesTemplate;
     }
 
-    private Element constructBasedOnBlock(final Optional<Element> block, final Document doc, final PagePointer pagePointer) {
+    private Element constructBasedOnBlock(final Optional<Element> block, final Document doc, final PagePointer pagePointer, final String sectionLabel) {
         final Element footnotesBlock = block.orElse(new Element(DIV));
         convertTopToFootnotesSection(footnotesBlock);
+        addSectionLabel(footnotesBlock, sectionLabel);
 
         footnotesBlock.getElementsByClass(CO_FOOTNOTE_SECTION_TITLE).remove();
         insertPagebreaksWithContentOnFirstPage(footnotesBlock, doc, pagePointer);
@@ -303,6 +335,7 @@ public class ReorderFootnotesService {
             case BOP:
             case BOS:
             case EOP:
+            case EOS:
                 break;
             default:
                 converted = false;
@@ -338,6 +371,27 @@ public class ReorderFootnotesService {
         footnotesTemplate.addClass(TR_FOOTNOTES);
     }
 
+    private void addSectionLabel(final Element footnotesTemplate, String sectionLabel) {
+        if (StringUtils.isNotEmpty(sectionLabel)) {
+            sectionLabel = formatSectionLabel(sectionLabel);
+            String html = getFootnotesSectionWithSectionLabel(footnotesTemplate, sectionLabel);
+            footnotesTemplate.html(html);
+        }
+    }
+
+    private String getFootnotesSectionWithSectionLabel(final Element footnotesTemplate, final String sectionLabel) {
+        String html = footnotesTemplate.html();
+        if (Pattern.compile(SECTION_LABEL_REG).matcher(html).find()) {
+            return html.replaceFirst(SECTION_LABEL_REG, sectionLabel);
+        }
+        return sectionLabel + html;
+    }
+
+    private String formatSectionLabel(String sectionLabel) {
+        sectionLabel = StringUtils.removeEnd(sectionLabel, DOT);
+        return String.format(SECTION_LABEL, sectionLabel);
+    }
+
     private void convertFootnoteReferencesInMainSection(final Element mainSection) {
         mainSection.getElementsByClass(CO_FOOTNOTE_REFERENCE)
             .forEach(ftnRef -> {
@@ -356,6 +410,7 @@ public class ReorderFootnotesService {
 
     private void convertFootnoteReference(final Element innerRef, final boolean addHref) {
         final Element ref = innerRef.parent();
+        removePagebreaksFromFootnoteReference(ref);
 
         ref.addClass(TR_FTN);
         final String refName = extractReferenceName(innerRef.attr(HREF));
@@ -366,25 +421,38 @@ public class ReorderFootnotesService {
         ref.append(innerRef.text());
     }
 
+    private void removePagebreaksFromFootnoteReference(final Element reference) {
+        getProviewPagebreaks(reference).forEach(pagebreak -> {
+            reference.parent().after(createPagebreak(getLabel(pagebreak)));
+            pagebreak.remove();
+        });
+    }
+
     private String extractReferenceName(final String reference) {
         return reference.substring(reference.lastIndexOf("/") + 1);
     }
 
     private void addPageLabels(final Element mainSection, final Element footnotesSection, final String fileUuid) {
         addPageReferencesInMainSection(mainSection, fileUuid);
-        appendPagenumbersToFootnotesSection(footnotesSection, fileUuid);
+        appendPagenumbersToFootnotesSection(footnotesSection, fileUuid, mainSection);
+        addMissingPageLabelsToFootnotesSection(mainSection, footnotesSection, fileUuid);
     }
 
-    private void appendPagenumbersToFootnotesSection(final Element footnotesSection, final String fileUuid) {
-        getProviewPagebreaks(footnotesSection).forEach(pagebreak ->
-            pagebreak.before(createPageNumberFootnote(getLabel(pagebreak), fileUuid))
-        );
+    private void appendPagenumbersToFootnotesSection(final Element footnotesSection, final String fileUuid, final Element mainSection) {
+        getProviewPagebreaks(footnotesSection).forEach(pagebreak -> {
+            Element pageNumberFootnote = createPageNumberFootnote(pagebreak, fileUuid, mainSection);
+            if (pageNumberFootnote != null) {
+                pagebreak.before(pageNumberFootnote);
+            } else {
+                pagebreak.remove();
+            }
+        });
     }
 
     private void convertPageEndsToPageStarts(final Element section, final PagePointer pagePointer) {
         final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(section);
 
-        if(pagePointer.isStartDocument()) {
+        if (pagePointer.isStartDocument()) {
             section.prependChild(createPagebreak(pagePointer.firstPage()));
         }
 
@@ -464,12 +532,18 @@ public class ReorderFootnotesService {
         return FOOTNOTE.equals(element.tagName()) || element.className().matches(TR_FOOTNOTE_CLASS_REG);
     }
 
-    private Element createPageNumberFootnote(final String label, final String fileUuid) {
-        return Jsoup.parse(prepareHtmlFromTemplate(pageNumberFootnoteTemplate, label, fileUuid)).selectFirst(TR_FOOTNOTE_CLASS);
+    private Element createPageNumberFootnote(final XmlDeclaration pagebreak, final String fileUuid, final Element mainSection) {
+        Elements mainSectionReferences = mainSection.getElementsByClass(TR_FTN);
+        boolean hasReference = isPagebreakReferenceInMainSection(mainSectionReferences, pagebreak);
+        if (hasReference) {
+            return Jsoup.parse(prepareHtmlFromTemplate(pageNumberFootnoteTemplate, getLabel(pagebreak), fileUuid))
+                    .selectFirst(TR_FOOTNOTE_CLASS);
+        }
+        return null;
     }
 
     private String prepareHtmlFromTemplate(final String template, final String label, final String fileUuid) {
-        return template.replaceAll(PAGE_NUMBER_FOOTNOTE_ID_PLACEHOLDER, fileUuid + "_" + label)
+        return template.replaceAll(PAGE_NUMBER_FOOTNOTE_ID_PLACEHOLDER, fileUuid + UNDERSCORE + label)
                        .replaceAll(PAGE_NUMBER_PLACEHOLDER, label);
     }
 
@@ -478,6 +552,39 @@ public class ReorderFootnotesService {
             .forEach(pagebreak ->
                 pagebreak.before(prepareHtmlFromTemplate(PAGE_NUMBER_REFERENCE_TEMPLATE, getLabel(pagebreak), fileUuid))
             );
+    }
+
+    private boolean isPagebreakReferenceInMainSection(final Elements mainSectionReferences, final XmlDeclaration pagebreak) {
+        for (Element reference : mainSectionReferences) {
+            String name = reference.attr(NAME);
+            int indexOfUnderscoreBeforePageNumber = name.lastIndexOf(UNDERSCORE);
+            String pageNumberFromRef = name.substring(indexOfUnderscoreBeforePageNumber + 1);
+            if (pageNumberFromRef.equals(getLabel(pagebreak))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addMissingPageLabelsToFootnotesSection(final Element mainSection, final Element footnotesSection, final String fileUuid) {
+        List<XmlDeclaration> mainSectionPagebreaks = getProviewPagebreaks(mainSection);
+        List<XmlDeclaration> footnotesPagebreaks = getProviewPagebreaks(footnotesSection);
+        List<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
+                .filter(mainSectionPagebreak -> !isPagebreakLabelInFootnotesSection(footnotesPagebreaks, getLabel(mainSectionPagebreak)))
+                .collect(Collectors.toList());
+        addPageLabelsToSection(missingPagebreaks, footnotesSection, fileUuid);
+    }
+
+    private void addPageLabelsToSection(final List<XmlDeclaration> missingPagebreaks, final Element section, final String fileUuid) {
+        for (XmlDeclaration pagebreak : missingPagebreaks) {
+            String pageNumberReference = prepareHtmlFromTemplate(pageNumberFootnoteTemplate, getLabel(pagebreak), fileUuid);
+            section.html(pageNumberReference + pagebreak.toString() + section.html());
+        }
+    }
+
+    private boolean isPagebreakLabelInFootnotesSection(final List<XmlDeclaration> footnotesPagebreaks, final String pagebreakLabel) {
+        return footnotesPagebreaks.stream()
+                .anyMatch(footnotePagebreak -> pagebreakLabel.equals(getLabel(footnotePagebreak)));
     }
 
     private void convertPagebreaksToProviewPbs(final Element footnotesTemplate) {
@@ -489,8 +596,8 @@ public class ReorderFootnotesService {
         return getProviewPagebreaks(footnotesSection).stream().findFirst();
     }
 
-    private List<XmlDeclaration> getPagebreaks(final Element element) {
-        return jsoup.selectXmlProcessingInstructions(element, PAGEBREAK);
+    private Elements getPagebreaks(final Element element) {
+        return element.getElementsByTag(PAGEBREAK);
     }
 
     private List<XmlDeclaration> getProviewPagebreaks(final Element element) {

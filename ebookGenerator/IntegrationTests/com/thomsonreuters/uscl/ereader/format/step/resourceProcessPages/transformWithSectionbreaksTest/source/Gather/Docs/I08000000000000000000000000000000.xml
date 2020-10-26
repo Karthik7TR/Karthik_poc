@@ -17,18 +17,18 @@
 					<para>
 						<paratext>The taxpayer is conducting a business and the ordinary and reasonable expenses of the business are deductible against income realized from the operation.</paratext>
 					</para>
-					<?page no="24"?>
+					<page no="24"/>
 					<para>
 						<paratext>The second category<footnote.reference refid="I01a2f010680911e88f4a9c1f64100801">1</footnote.reference> of real estate is property used as a personal residence. This is technically a capital asset, which is the next category to be discussed.</paratext>
 					</para>
-					<?page no="25"?>
+					<page no="25"/>
 					<para>
 						<paratext>Being a personal<footnote.reference refid="I01a2f010680911e88f4a9c1f64100802">9</footnote.reference> residence, however, causes different tax doctrines to apply. Gain on the sale of a residence held for longer than one year is taxed as long-term capital gain.</paratext>
 					</para>
 			</section.body>
 		</section>
 		<footnote.block>
-			<?page no="24"?>
+			<page no="24"/>
 			[Section 1:6]
             <footnote ID="I01a2f010680911e88f4a9c1f64100801">
                 <label.designator>1</label.designator>
@@ -39,7 +39,7 @@
                     </para>
                 </footnote.body>
             </footnote>
-			<?page no="25"?>
+			<page no="25"/>
             <footnote ID="I01a2f010680911e88f4a9c1f64100802">
                 <label.designator>9</label.designator>
                 <footnote.body>

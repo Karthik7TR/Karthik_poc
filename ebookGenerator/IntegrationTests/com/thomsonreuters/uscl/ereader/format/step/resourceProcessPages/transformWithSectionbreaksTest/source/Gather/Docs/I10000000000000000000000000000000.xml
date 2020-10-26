@@ -15,7 +15,7 @@
 			</section.front>
 			<section.body>
 					<para>
-						<paratext>The Florida Vacation and Timesharing Act1<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference> establishes procedures for the creation, sale, and operation of timesharing plans, by which is meant any arrangement, plan, scheme, or similar device, but not including exchange programs, whether by membership, agreement, tenancy in <?page no="26"?>common, sale, lease, deed, rental agreement, license, rightto-use agreement, or by any other means, whereby a purchaser, in exchange for consideration, receives a right to use accommodation or facilities, or both, for a speciﬁc period of time less than a full year during any given year, but not necessarily for consecutive years, and which extends for a period of more than three years. </paratext>
+						<paratext>The Florida Vacation and Timesharing Act1<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference> establishes procedures for the creation, sale, and operation of timesharing plans, by which is meant any arrangement, plan, scheme, or similar device, but not including exchange programs, whether by membership, agreement, tenancy in <page no="26"/>common, sale, lease, deed, rental agreement, license, rightto-use agreement, or by any other means, whereby a purchaser, in exchange for consideration, receives a right to use accommodation or facilities, or both, for a speciﬁc period of time less than a full year during any given year, but not necessarily for consecutive years, and which extends for a period of more than three years. </paratext>
 					</para>
 			</section.body>
 		</section>
@@ -33,7 +33,7 @@
                     </para>
                 </footnote.body>
             </footnote>
-			<?page no="26"?>
+			<page no="26"/>
 		</footnote.block>
 		<content.metadata.block>
 			<cmd.identifiers>

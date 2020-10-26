@@ -7,7 +7,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,13 +47,13 @@ public final class PageNumberUtilTest {
 
     @Test
     public void shouldDetectPagebreak() {
-        final XmlDeclaration node = new XmlDeclaration(PAGEBREAK, false);
+        final Element node = new Element(PAGEBREAK);
         assertTrue(PageNumberUtil.isPagebreak(node));
     }
 
     @Test
     public void shouldProtectPagebreak() {
-        final XmlDeclaration node = new XmlDeclaration(PAGEBREAK, false);
+        final Element node = new Element(PAGEBREAK);
         node.attr(PageNumberUtil.LABEL_NO, LABEL_VALUE);
         assertEquals(PAGEBREAK_PROTECTED, PageNumberUtil.protectPagebreak(node));
     }

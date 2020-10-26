@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.protectPagebreak;
-
 import java.io.File;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -12,9 +10,12 @@ import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.protectPagebreak;
 
 @Component
 public class InlineIndexService {
@@ -126,7 +127,7 @@ public class InlineIndexService {
             .filter(Objects::nonNull)
             .filter(child -> child.nodeName().matches(regex))
             .collect(Collectors.toList())
-            .forEach(element -> element.remove());
+            .forEach(Node::remove);
     }
 
     private String getStyle(final Element indexXml, final boolean isHeader) {

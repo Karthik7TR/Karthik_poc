@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.util;
 
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
 import org.xml.sax.SAXException;
@@ -30,12 +31,12 @@ public final class PageNumberUtil {
         return new XmlDeclaration(PB, false).attr(LABEL, label);
     }
 
-    public static Node convertToProviewPagebreak(final Node pagebreak) {
+    public static Node convertToProviewPagebreak(final Element pagebreak) {
         return createPagebreak(pagebreak.attr(LABEL_NO));
     }
 
     public static boolean isPagebreak(final Node node) {
-        return node instanceof XmlDeclaration && PAGEBREAK.equals(((XmlDeclaration) node).name());
+        return PAGEBREAK.equals(node.nodeName());
     }
 
     public static String protectPagebreak(final Node pagebreak) {

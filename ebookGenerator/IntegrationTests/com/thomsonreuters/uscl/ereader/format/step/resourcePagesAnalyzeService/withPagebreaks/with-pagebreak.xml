@@ -3,7 +3,7 @@
 		<content.metadata.block>
 			<cmd.identifiers>
 				<bos/>Multidistrict Lit Man Highlights<eos/>
-				<?page no="1"?>
+				<page no="1"/>
 			</cmd.identifiers>
 		</content.metadata.block>
 	</doc>

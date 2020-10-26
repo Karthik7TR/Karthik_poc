@@ -25,7 +25,7 @@ public class PagesAnalyzeService {
 
     private boolean documentContainsPagebreak(final File document) {
         final Document doc = jsoup.loadDocument(document);
-        return jsoup.selectXmlProcessingInstructions(doc, PAGEBREAK).size() > 0;
+        return doc.getElementsByTag(PAGEBREAK).size() > 0;
     }
 
 }
