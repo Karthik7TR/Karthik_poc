@@ -5,6 +5,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.ExternalLinksTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.JsoupTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.LegalTopicBlockGeneration;
+import com.thomsonreuters.uscl.ereader.format.service.jsoup.TableStylesAddition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.CanadianDigestDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestService;
@@ -63,6 +64,12 @@ public class JsoupConversionsIntegrationTest {
     }
 
     @Test
+    public void shouldAddStylesToCWTables() throws Exception {
+        setUpCwBookDefinition();
+        runner.test(step, "addStylesToCWTables");
+    }
+
+    @Test
     public void shouldTransformExternalLinks() throws Exception {
         givenJobInstanceId(step.getChunkContext(), JOB_1);
         setUpCwBookDefinition();
@@ -99,6 +106,11 @@ public class JsoupConversionsIntegrationTest {
         @Bean
         public JsoupTransformation legalTopicBlockGeneration() {
             return new LegalTopicBlockGeneration();
+        }
+
+        @Bean
+        public JsoupTransformation tableStylesAddition() {
+            return new TableStylesAddition();
         }
 
         @Bean
