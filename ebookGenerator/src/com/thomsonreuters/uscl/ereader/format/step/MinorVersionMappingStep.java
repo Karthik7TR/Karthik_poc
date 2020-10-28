@@ -41,7 +41,7 @@ public class MinorVersionMappingStep extends BookStepImpl {
 
     @Override
     public ExitStatus executeStep() throws Exception {
-        if (getBookDefinition().getVersionWithPreviousDocIds() != null) {
+        if (getBookDefinition().getVersionWithPreviousDocIds() != null && !getBookDefinition().isSplitBook()) {
             MinorVersionCollections unifiedTocMaps = buildCollections();
             Map<String, Set<String>> oldIdToNewIds = minorVersionMappingService.createOldIdsToNewIdsMap(unifiedTocMaps);
 

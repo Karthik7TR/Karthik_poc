@@ -14,6 +14,20 @@ const ELOOSELEAFS_BUCKET = 'ELOOSELEAFS';
 const FILE_EXTENSION_PATTERN = /\.[^/.]+$/;
 const PDF_NAME_ALLOWED_CHARACTERS = /^[-_!A-Za-z0-9]+$/;
 
+
+function updateMinorVersionMappingDiv() {
+	if ($('#publisher').val() === "cw") {
+		let isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
+		if(isSplitBook == "true" || isSplitBook == true) {
+			$('#minorVersionMappingDiv').hide();
+		} else {
+			$('#minorVersionMappingDiv').show();
+		}
+	} else {
+		$('#minorVersionMappingDiv').hide();
+	}
+}
+
 function splitChanged() {
 	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
 	$("#splitTypeDiv").hide();			
@@ -31,6 +45,7 @@ function splitChanged() {
 		splitDocumentIndex = 0;
 		$("#splitEBookParts").find('option').removeAttr('selected');
 	}
+	updateMinorVersionMappingDiv();
 }
 
 function splitAutoChanged() {
@@ -239,7 +254,7 @@ $(function() {
 			$('#productCodeDiv').hide();
 			$('#bookLanguageDiv').hide();
 			$('#contentTypeDiv').hide();
-			
+			updateMinorVersionMappingDiv();
 			if (publisher) {
 				$('.keywordLabelDisabled').addClass('keywordLabel').removeClass('keywordLabelDisabled');
 				$('.uploadPdf').removeAttr('disabled');

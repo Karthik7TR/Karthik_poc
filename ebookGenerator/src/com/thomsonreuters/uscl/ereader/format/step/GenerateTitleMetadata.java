@@ -19,6 +19,9 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
@@ -41,6 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * This class is responsible for generating title metadata based on information taken from the Job Parameters, Execution Context, and the file-system.
@@ -72,6 +77,8 @@ public class GenerateTitleMetadata extends BookStepImpl {
     private DateProvider dateProvider;
     @Autowired
     private CoverArtUtil coverArtUtil;
+    @Autowired(required = false)
+    private ProviewHandler proviewHandler;
 
     @Override
     public ExitStatus executeStep() {
@@ -79,7 +86,9 @@ public class GenerateTitleMetadata extends BookStepImpl {
         final String versionNumber = getJobParameters().getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
         final TitleMetadataBuilder titleMetadataBuilder =
-            TitleMetadata.builder(bookDefinition).versionNumber(versionNumber)
+            TitleMetadata.builder(bookDefinition)
+                .titleIdCaseSensitive(getTitleIdCaseSensitive(bookDefinition))
+                .versionNumber(versionNumber)
                 .lastUpdated(dateProvider.getDate())
                 .inlineToc(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC))
                 .indexIncluded(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_INDEX));
@@ -132,6 +141,28 @@ public class GenerateTitleMetadata extends BookStepImpl {
         }
 
         return ExitStatus.COMPLETED;
+    }
+
+    private String getTitleIdCaseSensitive(final BookDefinition bookDefinition) {
+        final String titleId = bookDefinition.getFullyQualifiedTitleId();
+        if (bookDefinition.isSplitBook()) {
+            return titleId;
+        } else {
+            try {
+                ProviewTitleInfo proviewTitleInfo;
+                if (bookDefinition.getVersionWithPreviousDocIds() != null) {
+                    proviewTitleInfo = proviewHandler.getPublishedProviewTitleInfoForVersion(titleId, bookDefinition.getVersionWithPreviousDocIds());
+                } else {
+                    proviewTitleInfo = proviewHandler.getLatestPublishedProviewTitleInfo(titleId);
+                }
+                return ofNullable(proviewTitleInfo)
+                        .map(ProviewTitleInfo::getTitleIdCaseSensitive)
+                        .orElse(titleId);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return titleId;
+            }
+        }
     }
 
     protected void splitBookTitle(final TitleMetadata titleMetadata) throws Exception {

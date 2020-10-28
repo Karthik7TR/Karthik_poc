@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -28,6 +29,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.*;
+import static java.util.Optional.ofNullable;
 
 @Service("proviewTitleListService")
 @Slf4j
@@ -72,7 +74,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         @NotNull final List<ProviewTitleInfo> titleInfos,
         @Nullable final BookDefinition book) {
         return titleInfos.stream()
-                .map(titleInfo -> Optional.ofNullable(book)
+                .map(titleInfo -> ofNullable(book)
                         .map(item -> {
                             final String status = titleInfo.getStatus();
                             final boolean canPromote = book.getPilotBookStatus() != PilotBookStatus.IN_PROGRESS && canPromote(status);
@@ -249,28 +251,30 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
 
     @Override
     public List<String> getPreviousVersions(final HttpSession httpSession, final String titleId) {
-        try {
-            return fetchAllProviewTitleInfo(httpSession)
-                    .get(titleId)
-                    .getProviewTitleInfos().stream()
-                    .map(ProviewTitleInfo::getVersion)
-                    .sorted(new VersionComparatorDesc())
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+        return ofNullable(titleId)
+                .map(e -> fetchAllProviewTitleInfo(httpSession))
+                .map(titles -> titles.get(titleId))
+                .map(ProviewTitleContainer::getProviewTitleInfos)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(ProviewTitleInfo::getVersion)
+                .sorted(new VersionComparatorDesc())
+                .collect(Collectors.toList());
     }
 
-    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession) throws ProviewException {
-        Map<String, ProviewTitleContainer> allProviewTitleInfo;
-        if (httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES) != null) {
-            allProviewTitleInfo = (Map<String, ProviewTitleContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
-        } else {
-            allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
-            saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession) {
+        try {
+            Map<String, ProviewTitleContainer> allProviewTitleInfo;
+            if (httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES) != null) {
+                allProviewTitleInfo = (Map<String, ProviewTitleContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
+            } else {
+                allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
+                saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+            }
+            return allProviewTitleInfo;
+        } catch (ProviewException e) {
+            throw new EBookException(e);
         }
-        return allProviewTitleInfo;
     }
 
     private void saveAllProviewTitleInfo(

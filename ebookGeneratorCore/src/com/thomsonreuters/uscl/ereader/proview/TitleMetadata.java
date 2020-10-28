@@ -41,6 +41,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_TEMPLATE_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.RELEASE_NOTES_HEADER;
+import static java.util.Optional.ofNullable;
 
 /**
  * This class represents the metadata within a title. Instances of this class are mutable.
@@ -70,9 +71,10 @@ public final class TitleMetadata implements Serializable {
     private final String status = "Review";
     @XmlElement(name = "onlineexpiration")
     private final String onlineexpiration = "29991231";
-
     @XmlElement(name = "titleId")
     private String titleId;
+    @XmlTransient
+    private String titleIdCaseSensitive;
     @XmlElement(name = "titleVersion")
     private String titleVersion;
     @XmlElement(name = "lastUpdated")
@@ -129,6 +131,7 @@ public final class TitleMetadata implements Serializable {
 
     private TitleMetadata(final TitleMetadataBuilder builder) {
         titleId = builder.fullyQualifiedTitleId;
+        titleIdCaseSensitive = ofNullable(builder.titleIdCaseSensitive).orElse(titleId);
         titleVersion = builder.versionNumber;
         proviewFeatures = builder.proviewFeatures;
         keywords = builder.keywords;
@@ -147,7 +150,7 @@ public final class TitleMetadata implements Serializable {
         isCwBook = builder.isCwBook;
         isElooseleafsEnabled = builder.isElooseleafsEnabled;
 
-        authorNames = Optional.ofNullable(builder.authors)
+        authorNames = ofNullable(builder.authors)
             .filter(CollectionUtils::isNotEmpty)
             .map(Collection::stream)
             .map(stream -> stream.map(Author::getFullName))
@@ -212,6 +215,7 @@ public final class TitleMetadata implements Serializable {
         private static final String VERSION_NUMBER_PREFIX = "v";
 
         private String fullyQualifiedTitleId;
+        private String titleIdCaseSensitive;
         private String versionNumber;
         private List<Feature> proviewFeatures;
         private List<Keyword> keywords;
@@ -241,6 +245,12 @@ public final class TitleMetadata implements Serializable {
         @NotNull
         public TitleMetadataBuilder fullyQualifiedTitleId(@NotNull final String fullyQualifiedTitleId) {
             this.fullyQualifiedTitleId = fullyQualifiedTitleId;
+            return this;
+        }
+
+        @NotNull
+        public TitleMetadataBuilder titleIdCaseSensitive(@NotNull final String titleIdCaseSensitive) {
+            this.titleIdCaseSensitive = titleIdCaseSensitive;
             return this;
         }
 
@@ -331,7 +341,7 @@ public final class TitleMetadata implements Serializable {
 
         @NotNull
         public TitleMetadataBuilder artworkFileName(@NotNull final String artworkFileName) {
-            this.artworkFileName = Optional.ofNullable(artworkFileName)
+            this.artworkFileName = ofNullable(artworkFileName)
                 .filter(StringUtils::isNotEmpty)
                 .orElseThrow(() -> new IllegalArgumentException("coverImage must not be blank"));
             return this;
@@ -360,7 +370,7 @@ public final class TitleMetadata implements Serializable {
 
         @NotNull
         public TitleMetadataBuilder assetFileName(@NotNull final String assetFileName) {
-            assetFileNames = Optional.ofNullable(assetFileNames).orElseGet(TreeSet::new);
+            assetFileNames = ofNullable(assetFileNames).orElseGet(TreeSet::new);
             assetFileNames.add(assetFileName);
             return this;
         }
@@ -434,7 +444,7 @@ public final class TitleMetadata implements Serializable {
         }
 
         private void checkFile(final File file, final Predicate<File> predicate, final String message) {
-            Optional.ofNullable(file)
+            ofNullable(file)
                 .filter(predicate)
                 .orElseThrow(() ->new IllegalArgumentException(message));
         }

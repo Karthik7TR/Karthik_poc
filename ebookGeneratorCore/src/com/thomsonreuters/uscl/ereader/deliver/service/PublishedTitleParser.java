@@ -18,6 +18,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * Parse all title info from proview.
  *
@@ -127,9 +129,11 @@ public class PublishedTitleParser {
                             charBuffer = new StringBuffer();
                             proviewTitleInfo = new ProviewTitleInfo();
 
-                            proviewTitleInfo.setTitleId(Optional.ofNullable(atts.getValue(ID))
+
+                            proviewTitleInfo.setTitleId(ofNullable(atts.getValue(ID))
                                     .map(String::toLowerCase)
                                     .orElse(null));
+                            proviewTitleInfo.setTitleIdCaseSensitive(atts.getValue(ID));
                             proviewTitleInfo.setTitle(atts.getValue(NAME));
                             proviewTitleInfo.setVersion(atts.getValue(VERSION));
                             proviewTitleInfo.setPublisher(atts.getValue(PUBLISHER));

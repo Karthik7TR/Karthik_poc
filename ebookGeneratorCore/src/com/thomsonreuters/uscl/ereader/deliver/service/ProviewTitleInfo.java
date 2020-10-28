@@ -23,6 +23,7 @@ import lombok.ToString;
 public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<ProviewTitleInfo> {
     private static final long serialVersionUID = -4229230493652304110L;
     private String titleId;
+    private String titleIdCaseSensitive;
     private String version;
 
     private String publisher;

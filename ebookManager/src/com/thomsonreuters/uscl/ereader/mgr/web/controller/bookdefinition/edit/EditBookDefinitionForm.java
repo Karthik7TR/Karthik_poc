@@ -268,7 +268,7 @@ public class EditBookDefinitionForm {
     private String indexTocRootGuid;
 
     @Getter @Setter
-    private boolean previousVersionIdsEnabled = true;
+    private boolean previousVersionIdsEnabled = false;
     @Getter @Setter
     private String versionWithPreviousDocIds;
 
@@ -406,10 +406,9 @@ public class EditBookDefinitionForm {
                 subGroupHeading = book.getSubGroupHeading();
             }
 
-            if (StringUtils.isBlank(book.getVersionWithPreviousDocIds())) {
-                previousVersionIdsEnabled = false;
-            } else {
+            if (StringUtils.isNotBlank(book.getVersionWithPreviousDocIds())) {
                 versionWithPreviousDocIds = book.getVersionWithPreviousDocIds();
+                previousVersionIdsEnabled = true;
             }
 
             // Determine if ExcludeDocuments are present in Book Definition

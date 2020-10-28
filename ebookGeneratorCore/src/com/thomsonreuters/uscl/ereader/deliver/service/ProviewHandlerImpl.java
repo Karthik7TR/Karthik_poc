@@ -15,6 +15,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -254,6 +255,16 @@ public class ProviewHandlerImpl implements ProviewHandler {
                 .orElse(null);
     }
 
+    public ProviewTitleInfo getPublishedProviewTitleInfoForVersion(final String fullyQualifiedTitleId, final String version) {
+        try {
+            final ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
+            return proviewTitleContainer.getProviewTitleInfos().stream()
+                    .filter(proviewTitleInfo -> proviewTitleInfo.getVersion().equalsIgnoreCase(version))
+                    .findFirst().orElseThrow(() -> new EBookException("Can't find ProviewTitleInfo for " + fullyQualifiedTitleId + "/" + version));
+        } catch (ProviewException e) {
+            throw new EBookException(e);
+        }
+    }
     /*
     @Override
     public ProviewTitleInfo getProviewTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException {
