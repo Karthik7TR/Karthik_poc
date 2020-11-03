@@ -310,7 +310,6 @@ public class EditBookDefinitionController {
         final Model model) throws Exception {
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
-        final boolean isPublished = false;
         final Long bookDefinitionId = form.getBookdefinitionId();
         final String username = UserUtils.getAuthenticatedUserName();
 
@@ -374,7 +373,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
         }
 
-        model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
+        model.addAttribute(WebConstants.KEY_IS_PUBLISHED, bookDef.getPublishedOnceFlag());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         initializeModel(httpSession, model, form);
 

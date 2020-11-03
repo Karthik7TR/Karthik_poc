@@ -804,6 +804,7 @@ public final class EditBookDefinitionControllerTest {
         request.setMethod(HttpMethod.POST.name());
 
         final BookDefinition book = createBookDef(fullyQualifiedTitleId);
+        book.setPublishedOnceFlag(true);
 
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID))
             .andReturn(book)
@@ -852,6 +853,7 @@ public final class EditBookDefinitionControllerTest {
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
+            assertTrue((boolean) model.get(WebConstants.KEY_IS_PUBLISHED));
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
