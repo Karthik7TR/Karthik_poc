@@ -67,6 +67,7 @@ public class DocServiceMockImpl implements DocService {
         MDLITMAN("mock_mdlitman", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman/Docs"),
         MDLITMAN_SMALL("mock_mdlitman_small", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Docs"),
         GAEVIDENCE("mock_gaevidence", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/gaevidence/Docs"),
+        GAEVIDENCE_SMALL("mock_gaevidence_small", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/gaevidence-small/Docs"),
         THORBURN("mock_thorburn", "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn/Docs"),
         THORBURN_SMALL("mock_thorburn_small", "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn-small/Docs"),
         FCF_SMALL("mock_fcf_small", "/WEB-INF/poc/Novus_Novus_POC/mockBooks/fletcherCorporationForms-small/Docs");

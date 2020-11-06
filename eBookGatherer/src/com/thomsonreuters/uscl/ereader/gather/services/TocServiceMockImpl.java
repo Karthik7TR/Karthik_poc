@@ -80,6 +80,7 @@ public class TocServiceMockImpl implements TocService {
         MDLITMAN_SMALL("mock_mdlitman_small", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Toc/toc.xml"),
         MDLITMAN_SMALL_INDEX("mock_mdlitman_small_index", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/mdlitman-small/Toc/indexDocsSingle.xml"),
         GAEVIDENCE("mock_gaevidence", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/gaevidence/Toc/toc.xml"),
+        GAEVIDENCE_SMALL("mock_gaevidence_small", "/WEB-INF/poc/Novus_Novus_POC/annualPamphlets/gaevidence-small/Toc/toc.xml"),
         THORBURN("mock_thorburn", "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn/Toc/toc.xml"),
         THORBURN_SMALL("mock_thorburn_small", "/WEB-INF/poc/Novus_Novus_POC/eLooseleafs/thorburn-small/Toc/toc.xml"),
         FCF_SMALL("mock_fcf_small", "/WEB-INF/poc/Novus_Novus_POC/mockBooks/fletcherCorporationForms-small/Toc/toc.xml");
