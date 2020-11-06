@@ -76,6 +76,7 @@ public class ReorderFootnotesService {
     private static final String CO_END_OF_DOCUMENT = "co_endOfDocument";
     private static final String CO_PARAGRAPH = "co_paragraph";
     private static final String CO_PARAGRAPH_TEXT = "co_paragraphText";
+    private static final String SECTION_LABEL_CLASS = "section-label";
     private static final String DOCUMENT_GUID = "DocumentGuid";
     private static final String PAGE_NUMBER_REFERENCE_TEMPLATE = "<a ftnname=\"page_number_footnote_PAGE_NUMBER_FOOTNOTE_ID\" name=\"page_number_fnRef_PAGE_NUMBER_FOOTNOTE_ID\" href=\"#page_number_footnote_PAGE_NUMBER_FOOTNOTE_ID\" class=\"tr_ftn\" />";
     private static final String PAGE_NUMBER_FOOTNOTE_ID_PLACEHOLDER = "PAGE_NUMBER_FOOTNOTE_ID";
@@ -389,7 +390,10 @@ public class ReorderFootnotesService {
 
     private String formatSectionLabel(String sectionLabel) {
         sectionLabel = StringUtils.removeEnd(sectionLabel, DOT);
-        return String.format(SECTION_LABEL, sectionLabel);
+        sectionLabel = String.format(SECTION_LABEL, sectionLabel);
+        return new Element(DIV).text(sectionLabel)
+                .addClass(SECTION_LABEL_CLASS)
+                .toString();
     }
 
     private void convertFootnoteReferencesInMainSection(final Element mainSection) {
