@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.format.service.RemoveGapsBetweenChaptersService;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.ExternalLinksTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.JsoupTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.LegalTopicBlockGeneration;
@@ -36,7 +37,8 @@ import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 @ActiveProfiles("IntegrationTests")
 public class JsoupConversionsIntegrationTest {
     private static final Long JOB_1 = 1L;
-    private static final String TITLE_ID = "cw/eg/thorburn_en";
+    private static final String TITLE_ID = "uscl/an/title";
+    private static final String CW_TITLE_ID = "cw/eg/thorburn_en";
     private static final String DOC_1 = "Id7201723682311ea83aee46e6decbb85";
     private static final String DOC_2 = "Id7210175682311ea83aee46e6decbb85";
     private static final String CLASSIFNUM_1 = "classifnum1";
@@ -64,6 +66,15 @@ public class JsoupConversionsIntegrationTest {
     }
 
     @Test
+    public void shouldRemoveGapsBetweenChapters() throws Exception {
+        BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setPrintPageNumbers(true);
+        bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
+        givenBook(step.getChunkContext(), bookDefinition);
+        runner.test(step, "removeGapsBetweenChapters");
+    }
+
+    @Test
     public void shouldAddStylesToCWTables() throws Exception {
         setUpCwBookDefinition();
         runner.test(step, "addStylesToCWTables");
@@ -85,7 +96,7 @@ public class JsoupConversionsIntegrationTest {
 
     private void setUpCwBookDefinition() {
         BookDefinition bookDefinition = new BookDefinition();
-        bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
+        bookDefinition.setFullyQualifiedTitleId(CW_TITLE_ID);
         givenBook(step.getChunkContext(), bookDefinition);
     }
 
@@ -111,6 +122,11 @@ public class JsoupConversionsIntegrationTest {
         @Bean
         public JsoupTransformation tableStylesAddition() {
             return new TableStylesAddition();
+        }
+
+        @Bean
+        public JsoupTransformation removeGapsBetweenChapters() {
+            return new RemoveGapsBetweenChaptersService();
         }
 
         @Bean
