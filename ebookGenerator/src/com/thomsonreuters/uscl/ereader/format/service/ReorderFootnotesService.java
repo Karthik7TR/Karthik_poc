@@ -373,11 +373,15 @@ public class ReorderFootnotesService {
     }
 
     private void addSectionLabel(final Element footnotesTemplate, String sectionLabel) {
-        if (StringUtils.isNotEmpty(sectionLabel)) {
+        if (shouldSectionLabelBeAdded(footnotesTemplate, sectionLabel)) {
             sectionLabel = formatSectionLabel(sectionLabel);
             String html = getFootnotesSectionWithSectionLabel(footnotesTemplate, sectionLabel);
             footnotesTemplate.html(html);
         }
+    }
+
+    private boolean shouldSectionLabelBeAdded(final Element footnotesTemplate, final String sectionLabel) {
+        return footnotesTemplate.children().size() > 0 && StringUtils.isNotEmpty(sectionLabel);
     }
 
     private String getFootnotesSectionWithSectionLabel(final Element footnotesTemplate, final String sectionLabel) {
