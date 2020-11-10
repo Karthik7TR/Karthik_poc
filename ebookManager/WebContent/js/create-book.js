@@ -16,7 +16,7 @@ const PDF_NAME_ALLOWED_CHARACTERS = /^[-_!A-Za-z0-9]+$/;
 
 
 function updateMinorVersionMappingDiv() {
-	if ($('#publisher').val() === "cw") {
+	if ($('#publisher').val() === CW_PUBLISHER) {
 		let isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
 		if(isSplitBook == "true" || isSplitBook == true) {
 			$('#minorVersionMappingDiv').hide();

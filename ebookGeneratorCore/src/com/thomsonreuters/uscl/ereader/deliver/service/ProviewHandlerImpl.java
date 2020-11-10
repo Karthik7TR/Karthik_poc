@@ -255,12 +255,11 @@ public class ProviewHandlerImpl implements ProviewHandler {
                 .orElse(null);
     }
 
-    public ProviewTitleInfo getPublishedProviewTitleInfoForVersion(final String fullyQualifiedTitleId, final String version) {
+    @Override
+    public String getTitleIdCaseSensitiveForVersion(final String fullyQualifiedTitleId, final String version) {
         try {
-            final ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
-            return proviewTitleContainer.getProviewTitleInfos().stream()
-                    .filter(proviewTitleInfo -> proviewTitleInfo.getVersion().equalsIgnoreCase(version))
-                    .findFirst().orElseThrow(() -> new EBookException("Can't find ProviewTitleInfo for " + fullyQualifiedTitleId + "/" + version));
+            String rawTitleInfo = proviewClient.getTitleInfo(fullyQualifiedTitleId, version);
+            return new TitleInfoParser(rawTitleInfo).getId();
         } catch (ProviewException e) {
             throw new EBookException(e);
         }

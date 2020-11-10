@@ -55,8 +55,9 @@ public interface ProviewHandler {
 
     ProviewTitleInfo getLatestProviewTitleInfo(String fullyQualifiedTitleId) throws ProviewException;
 
+    String getTitleIdCaseSensitiveForVersion(String fullyQualifiedTitleId, String version);
+
     // ProviewTitleInfo getProviewTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException;
-    ProviewTitleInfo getPublishedProviewTitleInfoForVersion(String fullyQualifiedTitleId, String version);
 
     List<GroupDetails> getSingleTitleGroupDetails(String fullyQualifiedTitleId) throws ProviewException;
 

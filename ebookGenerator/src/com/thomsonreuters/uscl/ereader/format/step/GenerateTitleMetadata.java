@@ -8,7 +8,6 @@ import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
@@ -19,7 +18,6 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
-import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -72,12 +70,10 @@ public class GenerateTitleMetadata extends BookStepImpl {
     @Autowired
     private AssembleFileSystem assembleFileSystem;
     @Autowired
-    private GatherFileSystem gatherFileSystem;
-    @Autowired
     private DateProvider dateProvider;
     @Autowired
     private CoverArtUtil coverArtUtil;
-    @Autowired(required = false)
+    @Autowired
     private ProviewHandler proviewHandler;
 
     @Override
@@ -149,15 +145,14 @@ public class GenerateTitleMetadata extends BookStepImpl {
             return titleId;
         } else {
             try {
-                ProviewTitleInfo proviewTitleInfo;
                 if (bookDefinition.getVersionWithPreviousDocIds() != null) {
-                    proviewTitleInfo = proviewHandler.getPublishedProviewTitleInfoForVersion(titleId, bookDefinition.getVersionWithPreviousDocIds());
+                    return ofNullable(proviewHandler.getTitleIdCaseSensitiveForVersion(titleId, getBookDefinition().getVersionWithPreviousDocIds()))
+                            .orElseThrow(() -> new EBookException("Can not retrieve case sensitive titleId for " + titleId));
                 } else {
-                    proviewTitleInfo = proviewHandler.getLatestPublishedProviewTitleInfo(titleId);
+                    return ofNullable(proviewHandler.getLatestPublishedProviewTitleInfo(titleId))
+                            .map(ProviewTitleInfo::getTitleIdCaseSensitive)
+                            .orElseThrow(() -> new EBookException("Can not retrieve case sensitive titleId for " + titleId));
                 }
-                return ofNullable(proviewTitleInfo)
-                        .map(ProviewTitleInfo::getTitleIdCaseSensitive)
-                        .orElse(titleId);
             } catch (Exception e) {
                 e.printStackTrace();
                 return titleId;

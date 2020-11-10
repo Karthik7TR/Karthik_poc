@@ -60,8 +60,8 @@ public class ProviewTitleServiceImpl implements ProviewTitleService {
         try {
             final String titleInfoResponse =
                 proviewClient.getTitleInfo(titleId.getTitleId(), titleId.getVersion().getFullVersion());
-            return new TitleInfoParser().getDocuments(titleInfoResponse);
-        } catch (final ProviewException e) {
+            return new TitleInfoParser(titleInfoResponse).getDocuments();
+        } catch (final Exception e) {
             throw new RuntimeException("Cannot get title info from ProView", e);
         }
     }

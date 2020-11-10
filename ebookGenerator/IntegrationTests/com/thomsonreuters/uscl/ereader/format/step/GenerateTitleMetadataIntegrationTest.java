@@ -12,12 +12,15 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtilImpl;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.title.ProviewTitleService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacadeImpl;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -135,6 +138,15 @@ public class GenerateTitleMetadataIntegrationTest {
             ImageService imageService = mock(ImageService.class);
             when(imageService.getDocImageListMap(any())).thenReturn(Collections.emptyMap());
             return imageService;
+        }
+        @Bean
+        @SneakyThrows
+        public ProviewHandler proviewHandler() {
+            ProviewHandler proviewHandler = mock(ProviewHandler.class);
+            ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+            titleInfo.setTitleIdCaseSensitive(CW_BOOK);
+            when(proviewHandler.getTitleIdCaseSensitiveForVersion(any(), any())).thenReturn(CW_BOOK);
+            return proviewHandler;
         }
     }
 }
