@@ -257,12 +257,12 @@ $(document).ready(function() {
 						<label class="labelCol">Index Included</label>
 						<span class="field">${ book.indexIncluded }</span>
 					</div>
-					<c:if test="${book.indexIncluded == 'true' && book.sourceType == 'TOC'}">
-						<div class="row displayTOC">
+					<c:if test="${book.indexIncluded == 'true'}">
+						<div class="row">
 							<label class="labelCol">Index Collection</label>
 							<span class="field">${ book.indexTocCollectionName }</span>
 						</div>
-						<div class="row displayTOC">
+						<div class="row">
 							<label class="labelCol">Index Root Guid</label>
 							<span class="field">${ book.indexTocRootGuid }</span>
 						</div>

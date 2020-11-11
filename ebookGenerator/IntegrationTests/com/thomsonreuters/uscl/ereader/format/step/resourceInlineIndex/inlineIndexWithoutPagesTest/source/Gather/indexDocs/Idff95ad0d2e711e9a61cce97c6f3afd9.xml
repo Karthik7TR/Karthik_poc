@@ -1,0 +1,79 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>BFL-LF Index</cmd.second.line.cite>
+					<cmd.normalizedcite>FLLBIDX000000009</cmd.normalizedcite>
+				</cmd.cites>
+			</cmd.identifiers>
+			<cmd.dates>
+				<cmd.currency.default iso.d="20190909">
+					<bop/>
+					<bos/>Index updated September 2019<eos/>
+					<eop/>
+				</cmd.currency.default>
+			</cmd.dates>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw. © 2019 Thomson Reuters.</cmd.copyright>
+			</cmd.royalty>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Florida Jur Forms Legal and Business</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Florida Jur Forms Legal and Business Index</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>AGENTS</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA" n-include_collection="w_wlnv_msg"/>
+		</message.block>
+		<index align="left" prelead="0.01i" lindent="0.14i" fv="0" size="0.14i" cm="normal" column="1">
+			<page no="Index-2"/>
+			<doc.title>
+				<head>
+					<headtext>REQUIREMENTS FOR TRANSFER</headtext>
+				</head>
+			</doc.title>
+			<index.entry level="1" align="left" prelead="0.01i" lindent="0.14i" fv="0" size="0.14i" cm="normal">
+				<bop/>
+				<bos/>
+				<subject>Generally, </subject>
+				<cite.query ID="I000f400243d311e89d19b91ad8ebf16b" w-normalized-cite="MDLITMANs1:1" w-pub-number="185218" w-ref-type="DA">§ 5:2</cite.query>
+				<eos/>
+				<eop/>
+			</index.entry>
+			<index.entry level="1" align="left" prelead="0.01i" lindent="0.14i" fv="0" size="0.14i" cm="normal">
+				<bop/>
+				<bos/>
+				<subject>Trust, </subject>
+				<cite.query ID="I000f400243d311e89d19b91ad7ebf16b" w-normalized-cite="MDLITMANs1:1" w-pub-number="185218" w-ref-type="DA">§ 5:3</cite.query>
+				<eos/>
+				<eop/>
+			</index.entry>
+		</index>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>BFL-LF Index</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

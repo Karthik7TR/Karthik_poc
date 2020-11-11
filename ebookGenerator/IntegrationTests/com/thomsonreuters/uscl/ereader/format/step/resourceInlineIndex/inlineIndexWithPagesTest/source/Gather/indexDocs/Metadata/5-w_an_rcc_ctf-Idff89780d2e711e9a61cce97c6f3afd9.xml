@@ -1,0 +1,57 @@
+<n-metadata>
+	<metadata.block>
+		<md.identifiers>
+			<md.cites>
+				<md.first.line.cite>BFL-LF Index</md.first.line.cite>
+				<md.second.line.cite>BFL-LF Index</md.second.line.cite>
+				<md.third.line.cite>BFL-LF Index</md.third.line.cite>
+				<md.normalizedcite>FLLBIDX000000012</md.normalizedcite>
+			</md.cites>
+			<md.westlawids>
+				<md.case.slug>BFLLF</md.case.slug>
+			</md.westlawids>
+			<md.uuid>Idff89780d2e711e9a61cce97c6f3afd9</md.uuid>
+		</md.identifiers>
+		<md.sortkeys>
+			<md.volsequence>BFLLF</md.volsequence>
+			<md.ordersequence>0999000000012</md.ordersequence>
+		</md.sortkeys>
+		<md.descriptions>
+			<md.doc.family.uuid>Idff89781d2e711e9a61cce97c6f3afd9</md.doc.family.uuid>
+		</md.descriptions>
+		<md.dates>
+			<md.publisheddate>20190909</md.publisheddate>
+			<md.revisiondate>20190909</md.revisiondate>
+			<md.currency.default>Index updated September 2019</md.currency.default>
+			<md.pubyear/>
+		</md.dates>
+		<md.subjects>
+			<md.subject>
+				<md.keywords>
+					<md.keyword>ADDTERM</md.keyword>
+				</md.keywords>
+				<md.pubtype.name>WGR</md.pubtype.name>
+				<md.doctype.name>1F</md.doctype.name>
+				<md.view>FF1</md.view>
+			</md.subject>
+		</md.subjects>
+		<md.jurisdictions>
+			<md.jurisdiction>
+				<md.jurisnum>3121</md.jurisnum>
+				<md.jurisstate>FL</md.jurisstate>
+			</md.jurisdiction>
+		</md.jurisdictions>
+		<md.publications>
+			<md.publication>
+				<md.pubid>152480</md.pubid>
+				<md.pubname>Florida Jur Forms Legal and Business</md.pubname>
+				<md.pubvolume/>
+			</md.publication>
+		</md.publications>
+		<md.royalty>
+			<md.copyright>Westlaw. © 2019 Thomson Reuters.</md.copyright>
+		</md.royalty>
+	</metadata.block>
+	<n-view>FF1</n-view>
+	<prism-clipdate>19001225231100</prism-clipdate>
+</n-metadata>

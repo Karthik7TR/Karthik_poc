@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineIndexService;
@@ -35,6 +36,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("IntegrationTests")
 public final class InlineIndexStepIntegrationTest {
     private static final int DOC_COUNT = 10;
+    public static final String INDEX_TOC_ROOT_GUID = "Ia15421801ea311eb9098b1e6f64a6f2d";
+    public static final String COLLECTION_NAME = "w_an_rcc_ctf";
 
     @Autowired
     private InlineIndexStep step;
@@ -49,7 +52,10 @@ public final class InlineIndexStepIntegrationTest {
     public void setUp() throws URISyntaxException, IOException {
         runner.setUp(step, "resourceInlineIndex");
 
-        step.getBookDefinition().setIndexIncluded(true);
+        BookDefinition bookDefinition = step.getBookDefinition();
+        bookDefinition.setIndexIncluded(true);
+        bookDefinition.setIndexTocRootGuid(INDEX_TOC_ROOT_GUID);
+        bookDefinition.setIndexTocCollectionName(COLLECTION_NAME);
 
         final File guids = new File(bookFileSystem.getWorkDirectory(step), "docs.txt");
         guids.createNewFile();
@@ -67,12 +73,6 @@ public final class InlineIndexStepIntegrationTest {
     public void shouldCreateIndexWithPages() throws Exception {
         test("inlineIndexWithPagesTest", true);
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
-    }
-
-    @Test
-    public void shouldNotCreateInlineIndexIfNoIndexToc() throws Exception {
-        runner.testWithSourceOnly(step, "noIndexTocTest");
-        verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
     }
 
     @Test

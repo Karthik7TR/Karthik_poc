@@ -475,14 +475,14 @@
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="indexIncluded" value="false" />Disabled
 			</div>
 			<div id="indexData" style="display: none;">
-				<div class="row displayTOC">
+				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" class="labelCol">Index Collection:</form:label>
 					<form:input disabled="${disableUnderPubPlusRole}" path="indexTocCollectionName" maxlength="64" />
 					<div class="errorDiv">
 						<form:errors path="indexTocCollectionName" cssClass="errorMessage" />
 					</div>
 				</div>
-				<div class="row displayTOC">
+				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" class="labelCol">Index Root Guid:</form:label>
 					<form:input disabled="${disableUnderPubPlusRole}" path="indexTocRootGuid" maxlength="64" />
 					<div class="errorDiv">

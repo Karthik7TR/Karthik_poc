@@ -32,7 +32,8 @@ public enum NortTocCwbFileSystemConstants {
     FORMAT_SPLIT_EBOOK_DIR("12.splitEbook"),
 
     TOC_FILE("toc.xml"),
-    GATHER_INDEX_TOC_FILE("indexDocsSingle.xml"),
+    GATHER_INDEX_TOC_DIR("indexToc"),
+    GATHER_INDEX_DOCS_DIR("indexDocs"),
     GATHER_DOCS_METADATA_DIR("Metadata"),
     GATHER_DOCS_GUIDS_FILE("docs-guids.txt"),
     GATHER_DOC_MISSING_GUIDS_FILE("Docs_doc_missing_guids.txt"),

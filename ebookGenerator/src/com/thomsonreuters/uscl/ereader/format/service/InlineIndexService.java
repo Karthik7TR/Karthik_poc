@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +48,7 @@ public class InlineIndexService {
     private static final String CO_DRAG = "co_drag";
     private static final String UI_DRAGGABLE = "ui-draggable";
     private static final String HREF = "href";
+    private static final String XML = ".xml";
 
     @Autowired
     private JsoupService jsoup;
@@ -58,31 +59,27 @@ public class InlineIndexService {
     @Autowired
     private CiteQueryAdapter citeQueryAdapter;
 
-    public boolean generateInlineIndex(final File source, final File destDir, final boolean pages) {
-        final Document gatheredIndexXml = jsoup.loadDocument(source);
-
+    public void generateInlineIndex(final List<String> indexDocGuids, final File sourceDir, final File destDir, final boolean pages) {
         final Element indexSection = new Element(DIV).addClass(SECTION);
+        indexDocGuids.forEach(indexDocGuid -> convertIndexDoc(indexDocGuid, sourceDir, indexSection, pages));
+        jsoup.saveDocument(destDir, INLINE_INDEX_FILE_NAME, indexSection);
+    }
 
-        Elements documents = gatheredIndexXml.select(DOCUMENT);
-        if (!documents.isEmpty()) {
-            documents.forEach(indexDoc -> {
-                final String originatingDoc = indexDoc.getElementsByTag(MD_UUID).text();
-                final Element index = indexDoc.selectFirst(INDEX);
+    private void convertIndexDoc(final String indexDocGuid, final File sourceDir, final Element indexSection, final boolean pages) {
+        File indexFile = new File(sourceDir, indexDocGuid + XML);
 
-                moveFirstPagebreakBeforeIndexItem(index, indexSection, pages);
-                index.attr(STYLE, getStyle(index, true));
-                index.tagName(DIV).addClass(CO_INDEX);
-                processTitle(index);
-                processIndexEntries(index);
-                transformCiteQueries(index, originatingDoc);
+        final Document indexXml = jsoup.loadDocument(indexFile);
+        Element indexDoc = indexXml.selectFirst("doc");
+        final Element index = indexDoc.selectFirst(INDEX);
 
-                indexSection.appendChild(index);
-            });
+        moveFirstPagebreakBeforeIndexItem(index, indexSection, pages);
+        index.attr(STYLE, getStyle(index, true));
+        index.tagName(DIV).addClass(CO_INDEX);
+        processTitle(index);
+        processIndexEntries(index);
+        transformCiteQueries(index, indexDocGuid);
 
-            jsoup.saveDocument(destDir, INLINE_INDEX_FILE_NAME, indexSection);
-            return true;
-        }
-        return false;
+        indexSection.appendChild(index);
     }
 
     private void processTitle(final Element indexXml) {

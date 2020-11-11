@@ -1,0 +1,77 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>GAEVIDENCE Index</cmd.second.line.cite>
+					<cmd.normalizedcite>GAEVIDENCEIDX000000001</cmd.normalizedcite>
+				</cmd.cites>
+			</cmd.identifiers>
+			<cmd.dates>
+				<cmd.currency.default iso.d="20201104">
+					<bop/>
+					<bos/>Index updated November 2020<eos/>
+					<eop/>
+				</cmd.currency.default>
+			</cmd.dates>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw. © 2020 Thomson Reuters.</cmd.copyright>
+			</cmd.royalty>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Georgia Evidence, General Index</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>INDEX CONTENTS</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<index>
+			<doc.title>
+				<head>
+					<headtext>Agnor&apos;s Georgia Evidence Index Contents</headtext>
+				</head>
+			</doc.title>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5301ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Idffba4c0d2e711e9a61cce97c6f3afd9">ACCOUNTANT-CLIENT PRIVILEGE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5311ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Idffa6c40d2e711e9a61cce97c6f3afd9">ADMINISTRATIVE LAW</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5321ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Idffaba60d2e711e9a61cce97c6f3afd9">ADMISSION AND EXCLUSION OF EVIDENCE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5331ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Idff95ad0d2e711e9a61cce97c6f3afd9">ADMISSIONS BY WITNESSES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5341ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Idff89780d2e711e9a61cce97c6f3afd9">AFFIRMATIONS</cite.query>
+			</index.entry>
+		</index>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>GAEVIDENCE Index</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

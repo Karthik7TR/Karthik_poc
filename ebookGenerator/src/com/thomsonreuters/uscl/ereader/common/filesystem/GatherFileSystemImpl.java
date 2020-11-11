@@ -10,7 +10,8 @@ import java.io.File;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_TOC_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_DOCS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.TOC_FILE;
 import static com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.getDir;
@@ -39,8 +40,18 @@ public class GatherFileSystemImpl implements GatherFileSystem {
     }
 
     @Override
-    public File getGatherIndexFile(final BookStep step) {
-        return getGatherRootDirectory(step).toPath().resolve(GATHER_TOC_DIR.getName()).resolve(GATHER_INDEX_TOC_FILE.getName()).toFile();
+    public File getGatherIndexTocDir(final BookStep step) {
+        return getDir(getGatherRootDirectory(step), GATHER_INDEX_TOC_DIR.getName());
+    }
+
+    @Override
+    public File getGatherIndexDocsDir(final BookStep step) {
+        return getDir(getGatherRootDirectory(step), GATHER_INDEX_DOCS_DIR.getName());
+    }
+
+    @Override
+    public File getGatherMetadataDir(final File dir) {
+        return getDir(dir, GATHER_DOCS_METADATA_DIR.getName());
     }
 
     @NotNull
