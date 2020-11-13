@@ -1,0 +1,77 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>GAEVIDENCE Index</cmd.second.line.cite>
+					<cmd.normalizedcite>GAEVIDENCEIDX000000001</cmd.normalizedcite>
+				</cmd.cites>
+			</cmd.identifiers>
+			<cmd.dates>
+				<cmd.currency.default iso.d="20201104">
+					<bop/>
+					<bos/>Index updated November 2020<eos/>
+					<eop/>
+				</cmd.currency.default>
+			</cmd.dates>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw. © 2020 Thomson Reuters.</cmd.copyright>
+			</cmd.royalty>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Georgia Evidence, General Index</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>INDEX CONTENTS</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<index>
+			<doc.title>
+				<head>
+					<headtext>Agnor&apos;s Georgia Evidence Index Contents</headtext>
+				</head>
+			</doc.title>
+			<index.entry level="1">
+				<cite.query ID="Ia27792e31ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1c448701ea311eb81ada8ec9acde6bf">CREDIBILITY</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27967a61ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1f088901ea311eb81ada8ec9acde6bf">IMPEACHMENT</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27a52021ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia21af3f01ea311eb81ada8ec9acde6bf">MENTAL HEALTH</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27c4dd41ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia24167b01ea311eb81ada8ec9acde6bf">PRIVILEGES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27f5b111ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia25a1fd01ea311eb81ada8ec9acde6bf">STATUTORY PRIVILEGES</cite.query>
+			</index.entry>
+		</index>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>GAEVIDENCE Index</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

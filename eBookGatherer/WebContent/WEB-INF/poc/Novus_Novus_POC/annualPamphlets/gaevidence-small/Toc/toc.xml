@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EBook>
-<EBookToc><Name>Chapter 2. Witnesses</Name><Guid>I2561f160630a11eab5989292d3e016317</Guid>
-<EBookToc><Name>D. Credibility; Impeachment</Name><Guid>I25cc24e0630a11eab5989292d3e0163129</Guid>
-<EBookToc><Name>&#167;  2:19. In general</Name><Guid>Id71f05e0682311ea83aee46e6decbb8530</Guid><DocumentGuid>Id71f05e1682311ea83aee46e6decbb85</DocumentGuid></EBookToc>
-<EBookToc><Name>&#167;  2:24. Similar transactions, other acts and prior difficulties</Name><Guid>Id71f2cbd682311ea83aee46e6decbb8535</Guid><DocumentGuid>Id71f2cbe682311ea83aee46e6decbb85</DocumentGuid></EBookToc>
-</EBookToc>
-</EBookToc>
-<EBookToc><Name>Chapter 3. Statutory Privileges</Name><Guid>I260dc1c0630a11eab5989292d3e0163136</Guid>
-<EBookToc><Name>&#167;  3:1. In general</Name><Guid>Id71f2cc0682311ea83aee46e6decbb8537</Guid><DocumentGuid>Id71f2cc1682311ea83aee46e6decbb85</DocumentGuid></EBookToc>
-<EBookToc><Name>&#167;  3:9. Veterinarian-patient privilege</Name><Guid>Id71f2cd8682311ea83aee46e6decbb8545</Guid><DocumentGuid>Id71f2cd9682311ea83aee46e6decbb85</DocumentGuid></EBookToc>
-<EBookToc><Name>&#167;  3:10. Mental health privilege</Name><Guid>Id71f2cdb682311ea83aee46e6decbb8546</Guid><DocumentGuid>Id71f2cdc682311ea83aee46e6decbb85</DocumentGuid></EBookToc>
-</EBookToc>
+	<EBookToc>
+		<Name>INTRODUCTION TO 2019-2020 EDITION</Name>
+		<Guid>Id71ede91682311ea83aee46e6decbb852</Guid>
+		<DocumentGuid>Id71ede92682311ea83aee46e6decbb85</DocumentGuid>
+	</EBookToc>
+	<EBookToc>
+		<Name>Chapter 2. Witnesses</Name>
+		<Guid>I2561f160630a11eab5989292d3e016317</Guid>
+		<EBookToc>
+			<Name>D. Credibility; Impeachment</Name>
+			<Guid>I25cc24e0630a11eab5989292d3e0163129</Guid>
+			<EBookToc>
+				<Name>&#167;  2:19. In general</Name>
+				<Guid>Id71f05e0682311ea83aee46e6decbb8530</Guid>
+				<DocumentGuid>Id71f05e1682311ea83aee46e6decbb85</DocumentGuid>
+			</EBookToc>
+			<EBookToc>
+				<Name>&#167;  2:24. Similar transactions, other acts and prior difficulties</Name>
+				<Guid>Id71f2cbd682311ea83aee46e6decbb8535</Guid>
+				<DocumentGuid>Id71f2cbe682311ea83aee46e6decbb85</DocumentGuid>
+			</EBookToc>
+		</EBookToc>
+	</EBookToc>
+	<EBookToc>
+		<Name>Chapter 3. Statutory Privileges</Name>
+		<Guid>I260dc1c0630a11eab5989292d3e0163136</Guid>
+		<EBookToc>
+			<Name>&#167;  3:1. In general</Name>
+			<Guid>Id71f2cc0682311ea83aee46e6decbb8537</Guid>
+			<DocumentGuid>Id71f2cc1682311ea83aee46e6decbb85</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>&#167;  3:9. Veterinarian-patient privilege</Name>
+			<Guid>Id71f2cd8682311ea83aee46e6decbb8545</Guid>
+			<DocumentGuid>Id71f2cd9682311ea83aee46e6decbb85</DocumentGuid>
+		</EBookToc>
+		<EBookToc>
+			<Name>&#167;  3:10. Mental health privilege</Name>
+			<Guid>Id71f2cdb682311ea83aee46e6decbb8546</Guid>
+			<DocumentGuid>Id71f2cdc682311ea83aee46e6decbb85</DocumentGuid>
+		</EBookToc>
+	</EBookToc>
 </EBook>
