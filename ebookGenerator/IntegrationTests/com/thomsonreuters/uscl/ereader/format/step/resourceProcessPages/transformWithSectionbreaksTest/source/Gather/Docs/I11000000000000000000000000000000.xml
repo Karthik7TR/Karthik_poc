@@ -19,10 +19,9 @@
 					</para>
 			</section.body>
 			<page no="28"/>
-			Content on page 29<footnote.reference refid="I01a2f010680911e88f4a9c1f64101103">3</footnote.reference>
-			<page no="29"/>
-			<page no="30"/>
-			<page no="31"/>
+			Content on page 29<footnote.reference refid="I01a2f010680911e88f4a9c1f64101103">3<page no="29"/><page no="30"/><page no="31"/></footnote.reference>
+			<page no="32"/>
+			<page no="33"/>
 		</section>
 		<footnote.block>
 			[Section 1:9]
@@ -56,6 +55,8 @@
                 </footnote.body>
             </footnote>
 			<page no="31"/>
+			<page no="32"/>
+			<page no="33"/>
 		</footnote.block>
 		<content.metadata.block>
 			<cmd.identifiers>

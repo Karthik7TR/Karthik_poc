@@ -418,7 +418,7 @@ public class ReorderFootnotesService {
 
     private void convertFootnoteReference(final Element innerRef, final boolean addHref) {
         final Element ref = innerRef.parent();
-        removePagebreaksFromFootnoteReference(ref);
+        removePagebreaksFromFootnoteReference(innerRef, ref.parent());
 
         ref.addClass(TR_FTN);
         final String refName = extractReferenceName(innerRef.attr(HREF));
@@ -429,9 +429,11 @@ public class ReorderFootnotesService {
         ref.append(innerRef.text());
     }
 
-    private void removePagebreaksFromFootnoteReference(final Element reference) {
-        getProviewPagebreaks(reference).forEach(pagebreak -> {
-            reference.parent().after(createPagebreak(getLabel(pagebreak)));
+    private void removePagebreaksFromFootnoteReference(final Element innerReference, final Element referenceParent) {
+        List<XmlDeclaration> pagebreaks = getProviewPagebreaks(innerReference);
+        Collections.reverse(pagebreaks);
+        pagebreaks.forEach(pagebreak -> {
+            referenceParent.after(createPagebreak(getLabel(pagebreak)));
             pagebreak.remove();
         });
     }
