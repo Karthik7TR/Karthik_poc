@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import lombok.SneakyThrows;
 import org.easymock.EasyMock;
@@ -37,6 +38,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -75,6 +77,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {EditBookDefinitionControllerTest.Config.class})
@@ -92,6 +96,9 @@ public final class EditBookDefinitionControllerTest {
     private static final String PDF_FILENAME_1 = "PDF Filename 1";
     private static final String TITLE_ID = "uscl/an/test";
     private static final String EXPECTED_HTML = "html";
+    private static final String VERSION_1_5 = "v1.5";
+    private static final String VERSION_1_0 = "v1.0";
+    private static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/abcd";
     private static List<KeywordTypeCode> KEYWORD_CODES = new ArrayList<>();
     private final KeywordTypeCode subject = new KeywordTypeCode();
 
@@ -122,6 +129,8 @@ public final class EditBookDefinitionControllerTest {
     private PrintComponentsCompareController mockPrintComponentsCompareController;
     @Autowired
     private FrontMatterPreviewService mockFrontMatterPreviewService;
+    @Autowired
+    private ProviewTitleListService proviewTitleListService;;
 
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
@@ -273,7 +282,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testCreateBookDefintionPostIncompleteSuccess() {
-        final String titleId = "uscl/an/abcd";
+        final String titleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("contentTypeId", "1");
@@ -402,7 +411,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("contentTypeId", "1");
         request.setParameter("pubAbbr", "abcd");
         request.setParameter("publisher", "uscl");
-        request.setParameter("titleId", "uscl/an/abcd");
+        request.setParameter("titleId", FULLY_QUALIFIED_TITLE_ID);
         request.setParameter("bucket", Bucket.BOOKS.toString());
         request.setParameter("isComplete", "true");
 
@@ -452,7 +461,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testCreateBookDefintionPostCompleteStateSuccess() {
-        final String titleId = "uscl/an/abcd";
+        final String titleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("contentTypeId", "1");
@@ -514,13 +523,46 @@ public final class EditBookDefinitionControllerTest {
      * Test the GET to the Edit Book Definition page
      */
     @Test
-    public void testEditBookDefintionGet() {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
+    public void testEditBookDefinitionGet() throws Exception {
+        when(proviewTitleListService.getPreviousVersions(any(), any())).thenReturn(Collections.singletonList(VERSION_1_5));
+
+        Map<String, Object> model = testEditBookDefinitionGet(null);
+
+        List<String> versions = (List<String>) model.get(WebConstants.KEY_PREVIOUS_VERSIONS);
+        assertEquals(1, versions.size());
+        assertEquals(VERSION_1_5, versions.get(0));
+        Mockito.reset(proviewTitleListService);
+    }
+
+    @Test
+    public void testEditBookDefinitionGetNoProview() throws Exception {
+        when(proviewTitleListService.getPreviousVersions(any(), any())).thenThrow(new RuntimeException());
+
+        Map<String, Object> model = testEditBookDefinitionGet(VERSION_1_0);
+
+        List<String> versions = (List<String>) model.get(WebConstants.KEY_PREVIOUS_VERSIONS);
+        assertEquals(1, versions.size());
+        assertEquals(VERSION_1_0, versions.get(0));
+        Mockito.reset(proviewTitleListService);
+    }
+
+    @Test
+    public void testEditBookDefinitionGetNoProviewNoPreviousVersion() throws Exception {
+        when(proviewTitleListService.getPreviousVersions(any(), any())).thenThrow(new RuntimeException());
+
+        Map<String, Object> model = testEditBookDefinitionGet(null);
+
+        List<String> versions = (List<String>) model.get(WebConstants.KEY_PREVIOUS_VERSIONS);
+        assertEquals(0, versions.size());
+        Mockito.reset(proviewTitleListService);
+    }
+
+    private Map<String, Object> testEditBookDefinitionGet(final String versionWithPreviousDocIds) throws Exception {
+        final BookDefinition book = createBookDef(FULLY_QUALIFIED_TITLE_ID);
+        book.setVersionWithPreviousDocIds(versionWithPreviousDocIds);
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
         request.setMethod(HttpMethod.GET.name());
-
-        final BookDefinition book = createBookDef(fullyQualifiedTitleId);
 
         setupDropdownMenuAndKeywords(2);
 
@@ -541,33 +583,30 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockLockService);
 
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
-            .andReturn(subject);
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
+                .andReturn(subject);
         EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
-            .andReturn(subject);
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
-        final ModelAndView mav;
-        try {
-            mav = handlerAdapter.handle(request, response, controller);
 
-            assertNotNull(mav);
-            // Verify the returned view name
-            assertEquals(WebConstants.VIEW_BOOK_DEFINITION_EDIT, mav.getViewName());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-            // Check the state of the model
-            final Map<String, Object> model = mav.getModel();
-            checkInitialValuesDynamicContentForPublished(model);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            Assert.fail(e.getMessage());
-        }
+        assertNotNull(mav);
+        // Verify the returned view name
+        assertEquals(WebConstants.VIEW_BOOK_DEFINITION_EDIT, mav.getViewName());
+
+        // Check the state of the model
+        final Map<String, Object> model = mav.getModel();
+        checkInitialValuesDynamicContentForPublished(model);
 
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(mockJobRequestService);
         EasyMock.verify(mockEditBookDefinitionService);
         EasyMock.verify(mockLockService);
         EasyMock.verify(mockMiscConfigService);
+
+        return model;
     }
 
     /**
@@ -653,7 +692,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testEditBookDefintionLocked() {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
+        final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
         request.setMethod(HttpMethod.GET.name());
@@ -697,7 +736,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testEditBookDefintionPOST() {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
+        final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("ProviewDisplayName", "Name in Proview");
         request.setParameter("contentTypeId", "1");
@@ -785,7 +824,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testEditBookDefintionPOSTFailed() {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
+        final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("contentTypeId", "1");
         request.setParameter("pubAbbr", "abcd");
@@ -873,7 +912,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testEditBookDefintionLockedPOST() {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
+        final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("ProviewDisplayName", "Name in Proview");
         request.setParameter("contentTypeId", "1");
@@ -951,7 +990,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testCopyBookDefintionGet() {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
+        final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
         request.setMethod(HttpMethod.GET.name());
@@ -1087,7 +1126,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testCopyBookDefintionPostIncompleteSuccess() {
-        final String titleId = "uscl/an/abcd";
+        final String titleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("contentTypeId", "1");
@@ -1143,7 +1182,7 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("contentTypeId", "1");
         request.setParameter("pubAbbr", "abcd");
         request.setParameter("publisher", "uscl");
-        request.setParameter("titleId", "uscl/an/abcd");
+        request.setParameter("titleId", FULLY_QUALIFIED_TITLE_ID);
         request.setParameter("isComplete", "true");
         request.setParameter("bucket", Bucket.BOOKS.toString());
 
@@ -1194,7 +1233,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testCopyBookDefintionPostCompleteStateSuccess() {
-        final String titleId = "uscl/an/abcd";
+        final String titleId = FULLY_QUALIFIED_TITLE_ID;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("contentTypeId", "1");

@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -560,7 +561,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
         model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
         model.addAttribute(WebConstants.KEY_FRONT_MATTER_THEMES, editBookDefinitionService.getFrontMatterThemes());
-        model.addAttribute(WebConstants.KEY_PREVIOUS_VERSIONS, proviewTitleListService.getPreviousVersions(httpSession, form.getTitleId()));
+        model.addAttribute(WebConstants.KEY_PREVIOUS_VERSIONS, getPreviousVersions(httpSession, form));
         model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
         model.addAttribute(WebConstants.KEY_BUCKETS, editBookDefinitionService.getBuckets());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
@@ -576,6 +577,17 @@ public class EditBookDefinitionController {
                         .orElseGet(() -> keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER))
                         .getId()));
         printComponentsCompareController.setPrintComponentHistoryAttributes(form.getBookdefinitionId(), model);
+    }
+
+    private List<String> getPreviousVersions(final HttpSession httpSession, final EditBookDefinitionForm form) {
+        try {
+            return proviewTitleListService.getPreviousVersions(httpSession, form.getTitleId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Stream.of(form.getVersionWithPreviousDocIds())
+                    .filter(StringUtils::isNotBlank)
+                    .collect(Collectors.toList());
+        }
     }
 
     /**
