@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -47,6 +48,8 @@ public class ReorderFootnotesService {
     private static final String DIV = "div";
     private static final String FOOTNOTE = "footnote";
     private static final String FOOTNOTE_BODY = "footnote_body";
+    private static final String FOOTNOTE_BODY_POPUP_BOX = "footnote_body_box";
+    private static final String FOOTNOTE_BODY_BOTTOM = "footnote_body_bottom";
     private static final String FOOTNOTE_BODY_TAG = "footnote.body";
     private static final String SECTION = "section";
     private static final String A_TAG = "a";
@@ -476,8 +479,23 @@ public class ReorderFootnotesService {
     }
 
     private void movePagebreakOutOfFootnotes(final Element footnoteSection) {
+        protectFootnoteBodyForPopupBox(footnoteSection);
         final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(footnoteSection);
         pagebreakEnds.forEach(this::movePagebreakOutOfFootnote);
+    }
+
+    private void protectFootnoteBodyForPopupBox(final Element footnoteSection) {
+        footnoteSection.getElementsByClass(FOOTNOTE_BODY).stream()
+                .filter(footnoteBody -> CollectionUtils.isNotEmpty(getProviewPagebreaks(footnoteBody)))
+                .forEach(footnoteBody -> {
+                    Element popupFootnoteBody = footnoteBody.clone();
+                    getProviewPagebreaks(popupFootnoteBody).forEach(Node::remove);
+
+                    popupFootnoteBody.addClass(FOOTNOTE_BODY_POPUP_BOX);
+                    footnoteBody.addClass(FOOTNOTE_BODY_BOTTOM);
+
+                    footnoteBody.before(popupFootnoteBody);
+                });
     }
 
     private void movePagebreakOutOfFootnote(final XmlDeclaration pagebreak) {

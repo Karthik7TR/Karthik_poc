@@ -244,7 +244,7 @@ sed -i 's!</xsl:stylesheet>!\
 <\!-- <\/updateStyleSheet.sh> -->\
 &!g' Platform/ContentBlocks/eBookContextAndAnalysis.xsl
 
-echo "Add indentations to V.T.C.A. line" >> log.txt
+echo "Add indentations to V.T.C.A. line and hidden footnotes body styles" >> log.txt
 sed -i 's/.co_indentBottom + .co_indentTop {/\
 \/* <updateStyleSheet.sh> *\/\
 .co_indentTop05 {\
@@ -256,6 +256,14 @@ sed -i 's/.co_indentBottom + .co_indentTop {/\
 .co_page_number {\
   text-align: center;\
   font-weight: bold;\
+}\
+\
+.footnote .footnote_body_bottom {\
+	display: inline;\
+}\
+\
+.footnote .footnote_body_box, .footnote_body_bottom {\
+	display: none;\
 }\
 \/* <\/updateStyleSheet.sh> *\/\
 &/g' document.css
