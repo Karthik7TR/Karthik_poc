@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +14,7 @@ import org.jsoup.nodes.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createProviewPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.protectPagebreak;
 
 @Component
@@ -49,6 +49,8 @@ public class InlineIndexService {
     private static final String UI_DRAGGABLE = "ui-draggable";
     private static final String HREF = "href";
     private static final String XML = ".xml";
+    private static final String DOC = "doc";
+    private static final String INDEX_PAGE_NAME = "Index";
 
     @Autowired
     private JsoupService jsoup;
@@ -61,18 +63,26 @@ public class InlineIndexService {
 
     public void generateInlineIndex(final List<String> indexDocGuids, final File sourceDir, final File destDir, final boolean pages) {
         final Element indexSection = new Element(DIV).addClass(SECTION);
-        indexDocGuids.forEach(indexDocGuid -> convertIndexDoc(indexDocGuid, sourceDir, indexSection, pages));
+
+        addFirstPagebreak(indexSection, pages);
+
+        indexDocGuids.forEach(indexDocGuid -> convertIndexDoc(indexDocGuid, sourceDir, indexSection));
         jsoup.saveDocument(destDir, INLINE_INDEX_FILE_NAME, indexSection);
     }
 
-    private void convertIndexDoc(final String indexDocGuid, final File sourceDir, final Element indexSection, final boolean pages) {
+    private void addFirstPagebreak(final Element indexSection, final boolean pages) {
+        if (pages) {
+            indexSection.append(protectPagebreak(createProviewPagebreak(INDEX_PAGE_NAME)));
+        }
+    }
+
+    private void convertIndexDoc(final String indexDocGuid, final File sourceDir, final Element indexSection) {
         File indexFile = new File(sourceDir, indexDocGuid + XML);
 
         final Document indexXml = jsoup.loadDocument(indexFile);
-        Element indexDoc = indexXml.selectFirst("doc");
+        Element indexDoc = indexXml.selectFirst(DOC);
         final Element index = indexDoc.selectFirst(INDEX);
 
-        moveFirstPagebreakBeforeIndexItem(index, indexSection, pages);
         index.attr(STYLE, getStyle(index, true));
         index.tagName(DIV).addClass(CO_INDEX);
         processTitle(index);
@@ -136,17 +146,6 @@ public class InlineIndexService {
             style = stylingService.getDefaultIndexStyle(isHeader);
         }
         return style;
-    }
-
-    private void moveFirstPagebreakBeforeIndexItem(final Element indexXml, final Element indexHtml, final boolean pages) {
-        jsoup.firstChild(indexXml)
-            .filter(PageNumberUtil::isPagebreak)
-            .ifPresent(node -> {
-                node.remove();
-                if (pages) {
-                    indexHtml.append(protectPagebreak(node));
-                }
-            });
     }
 
     private void transformCiteQueries(final Element indexSection, final String originatingDoc) {

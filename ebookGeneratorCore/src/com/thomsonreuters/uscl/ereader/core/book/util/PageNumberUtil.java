@@ -31,6 +31,10 @@ public final class PageNumberUtil {
         return new XmlDeclaration(PB, false).attr(LABEL, label);
     }
 
+    public static Node createProviewPagebreak(final String label) {
+        return new XmlDeclaration(PB, false).attr(LABEL_NO, label);
+    }
+
     public static Node convertToProviewPagebreak(final Element pagebreak) {
         return createPagebreak(pagebreak.attr(LABEL_NO));
     }

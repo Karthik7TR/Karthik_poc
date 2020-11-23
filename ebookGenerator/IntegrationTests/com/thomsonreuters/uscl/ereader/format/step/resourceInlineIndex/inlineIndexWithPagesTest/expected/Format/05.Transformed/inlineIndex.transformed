@@ -1,6 +1,6 @@
 <div class="section">
- {pagebreak-open no="Index-1" close-pagebreak}
- <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index">  
+ {pagebreak-open no="Index" close-pagebreak}
+ <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
    <div class="co_headtext">
     PROCEDURE
@@ -98,8 +98,8 @@
      <a id="co_link_I000f400243d311e89d19b91ad8ebf89b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANPREMAT&amp;originatingDoc=Idffaba60d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 4:29</a>   
     </div></li>
   </ol>
- </div>{pagebreak-open no="Index-2" close-pagebreak}
- <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index">  
+ </div>
+ <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
    <div class="co_headtext">
     REQUIREMENTS FOR TRANSFER
