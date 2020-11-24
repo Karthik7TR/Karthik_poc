@@ -121,37 +121,45 @@ public class ReorderFootnotesService {
         final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
 
         List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);
+        String firstFileName = getFirstFileName(srcFilesOrdered);
         Map<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered);
 
         final PagePointer mainPage = new PagePointer(pageNumbers);
         final PagePointer footnotePage = new PagePointer(pageNumbers);
 
         srcFilesOrdered.forEach(file ->
-            processDocument(destDir, nameToXmlFile, mainPage, footnotePage, file)
+            processDocument(destDir, nameToXmlFile, firstFileName, mainPage, footnotePage, file)
         );
         processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir);
     }
 
-    private void processDocument(final File destDir, final Map<String, File> nameToXmlFile, final PagePointer mainPage, final PagePointer footnotePage, final File file) {
+    private String getFirstFileName(final List<File> srcFilesOrdered) {
+        File firstFile = srcFilesOrdered.get(0);
+        return firstFile != null ? firstFile.getName() : null;
+    }
+
+    private void processDocument(final File destDir, final Map<String, File> nameToXmlFile, final String firstFileName,
+    final PagePointer mainPage, final PagePointer footnotePage, final File file) {
         final Document doc = jsoup.loadDocument(file);
         final String fileUuid = FilenameUtils.removeExtension(file.getName());
         final Element mainSection = doc.selectFirst(SECTION);
         final Optional<Element> footnotesBlock = Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
+        boolean isFirstFile = StringUtils.isNotEmpty(firstFileName) && firstFileName.equals(file.getName());
         mainPage.nextDocument();
         footnotePage.nextDocument();
 
         footnotesBlock.ifPresent(Element::remove);
 
         final List<XmlDeclaration> pagebreaksFromMain = getProviewPagebreaks(mainSection);
-        if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0) {
+        if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0 || isFirstFile) {
             convertFootnoteReferencesInMainSection(mainSection);
             convertFootnotes(doc, footnotesBlock);
 
             final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
             addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
-            convertPageEndsToPageStarts(mainSection, mainPage);
-            convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage);
+            convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
+            convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage, isFirstFile);
             mainSection.after(footnotesSectionToAppend);
         }
 
@@ -168,7 +176,7 @@ public class ReorderFootnotesService {
             Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
             final PagePointer mainPage = new PagePointer(pageNumbers);
             final PagePointer footnotePage = new PagePointer(pageNumbers);
-            processDocument(destDir, Collections.emptyMap(), mainPage, footnotePage, file);
+            processDocument(destDir, Collections.emptyMap(), null, mainPage, footnotePage, file);
         });
     }
 
@@ -462,10 +470,10 @@ public class ReorderFootnotesService {
         });
     }
 
-    private void convertPageEndsToPageStarts(final Element section, final PagePointer pagePointer) {
+    private void convertPageEndsToPageStarts(final Element section, final PagePointer pagePointer, final boolean isFirstFile) {
         final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(section);
 
-        if (pagePointer.isStartDocument()) {
+        if (isFirstFile) {
             section.prependChild(createPagebreak(pagePointer.firstPage()));
         }
 
