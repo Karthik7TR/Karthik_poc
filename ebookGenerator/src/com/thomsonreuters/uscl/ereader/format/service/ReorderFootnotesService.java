@@ -97,6 +97,9 @@ public class ReorderFootnotesService {
     private static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
     private static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
     private static final String SECTION_LABEL_REG = "\\[Section \\d+(\\s*|.)(\\s*|\\d+)\\]";
+    private static final String INLINE_TOC = "inlineToc.html";
+    private static final String INLINE_INDEX = "inlineIndex.html";
+    private static final List<String> EXCLUDED_FROM_PROCESSING = Arrays.asList(INLINE_TOC, INLINE_INDEX);
 
     @Autowired
     private JsoupService jsoup;
@@ -173,10 +176,14 @@ public class ReorderFootnotesService {
     private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir) {
         List<File> auxiliaryFiles = getAuxiliaryFiles(srcDir, processedFiles);
         auxiliaryFiles.forEach(file -> {
-            Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
-            final PagePointer mainPage = new PagePointer(pageNumbers);
-            final PagePointer footnotePage = new PagePointer(pageNumbers);
-            processDocument(destDir, Collections.emptyMap(), null, mainPage, footnotePage, file);
+            if (EXCLUDED_FROM_PROCESSING.contains(file.getName())) {
+                com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.copyFileToDirectory(file, destDir);
+            } else {
+                Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
+                final PagePointer mainPage = new PagePointer(pageNumbers);
+                final PagePointer footnotePage = new PagePointer(pageNumbers);
+                processDocument(destDir, Collections.emptyMap(), null, mainPage, footnotePage, file);
+            }
         });
     }
 
