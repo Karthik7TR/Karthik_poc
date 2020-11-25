@@ -144,6 +144,14 @@ public final class XMLContentChangerFilterTest {
     }
 
     @Test
+    public void testProtectPagebreaksInAppendix() {
+        final String xmlTestStr = "<appendix><appendix.body><div>Test</div><page no=\"i\"/></appendix.body></appendix>";
+        final String expectedResult = "<appendix><appendix.body><div>Test</div>{pagebreak-open no=\"i\" close-pagebreak}</appendix.body></appendix>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
     public void testNoChange() {
         final String xmlTestStr =
             "<body><message.block><include.something n-include_guid=\"987654321\">This is a copyright</include.something></message.block>"

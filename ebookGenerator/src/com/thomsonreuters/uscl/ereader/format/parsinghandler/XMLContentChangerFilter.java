@@ -24,6 +24,7 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
     private static final String CURRENCY_TAG = "include.currency";
     private static final String SECTION = "section";
     private static final String FOOTNOTE_BODY = "footnote.body";
+    private static final String APPENDIX_BODY = "appendix.body";
     private static final String CONTENT_METADATA_BLOCK = "content.metadata.block";
     private static final String PROP_BLOCK = "prop.block";
     private static final String MESSAGE_BLOCK = "message.block";
@@ -75,7 +76,7 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
                     replaceMessageElement(uri, localName, qName, atts, copyright.getNewText());
                 }
             }
-        } else if (qName.equals(SECTION) || qName.equals(FOOTNOTE_BODY) || qName.equals(INDEX)
+        } else if (qName.equals(SECTION) || qName.equals(FOOTNOTE_BODY) || qName.equals(APPENDIX_BODY) || qName.equals(INDEX)
                 || qName.equals(CONTENT_METADATA_BLOCK) || qName.equals(PROP_BLOCK) || qName.equals(MESSAGE_BLOCK)) {
             canSavePagebreaks = true;
         } else if (qName.equals(PAGEBREAK)) {
@@ -108,7 +109,7 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
 
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        if (qName.equals(SECTION) || qName.equals(FOOTNOTE_BODY) || qName.equals(INDEX)
+        if (qName.equals(SECTION) || qName.equals(FOOTNOTE_BODY) || qName.equals(APPENDIX_BODY) || qName.equals(INDEX)
                 || qName.equals(CONTENT_METADATA_BLOCK) || qName.equals(PROP_BLOCK) || qName.equals(MESSAGE_BLOCK)) {
             canSavePagebreaks = false;
         }
