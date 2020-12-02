@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.service.PlaceholderDocumentService;
 import com.thomsonreuters.uscl.ereader.assemble.service.PlaceholderDocumentServiceImpl;
@@ -85,6 +86,26 @@ public class GenerateTitleMetadataIntegrationTest {
         bookDefinition.setFullyQualifiedTitleId(CW_BOOK);
 
         runner.test(step, "cwBookTest");
+    }
+
+    @Test
+    public void shouldGenerateTitleMetadataWithSummaryTocWhenPagesEnabled() throws Exception {
+        final BookDefinition bookDefinition = step.getBookDefinition();
+        bookDefinition.setFullyQualifiedTitleId(USCL_BOOK);
+        when(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC)).thenReturn(true);
+        when(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(true);
+
+        runner.test(step, "pagesEnabledTest");
+    }
+
+    @Test
+    public void shouldGenerateTitleMetadataWithSummaryTocWhenPagesDisabled() throws Exception {
+        final BookDefinition bookDefinition = step.getBookDefinition();
+        bookDefinition.setFullyQualifiedTitleId(USCL_BOOK);
+        when(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC)).thenReturn(true);
+        when(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(false);
+
+        runner.test(step, "pagesDisabledTest");
     }
 
     @Configuration

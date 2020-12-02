@@ -22,7 +22,10 @@ import org.xml.sax.helpers.XMLFilterImpl;
 @Slf4j
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     private static final String INLINE_TOC_ITEM = "Table of Contents";
+    private static final String SUMMARY_TOC_ITEM = "Summary of Contents";
     private static final String INLINE_TOC_FILE = "inlineToc";
+    private static final String SUMMARY_TOC_ANCHOR = "summaryToc";
+    private static final String DETAILED_TOC_ANCHOR = "detailedToc";
     private static final String INLINE_INDEX_ITEM = "Index";
     private static final String INLINE_INDEX_FILE = "inlineIndex";
     public static final String URI = "";
@@ -117,6 +120,10 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 
     public void createFrontMatterNode(final String guidBase, final String nodeText, final boolean isSplitBook)
         throws SAXException {
+        createFrontMatterNode(guidBase, nodeText, isSplitBook, guidBase, true);
+    }
+
+    public void createFrontMatterNode(final String guidBase, final String nodeText, final boolean isSplitBook, final String anchorName, final boolean isNewDoc) throws SAXException {
         currentNode = new TocEntry(currentDepth);
         currentNode.setDocumentUuid(guidBase);
         currentNode.setText(nodeText);
@@ -124,19 +131,26 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         if (isSplitBook) {
             currentNode.setSplitTitle(titleMetadata.getTitleId());
         }
-        currentNode.setTocNodeUuid(guidBase + FrontMatterFileName.ANCHOR);
+        currentNode.setTocNodeUuid(anchorName + FrontMatterFileName.ANCHOR);
         final TocNode parentNode = determineParent();
         currentNode.setParent(parentNode);
         parentNode.addChild(currentNode);
         previousDepth = currentDepth;
         previousNode = currentNode;
-        orderedDocuments.add(new Doc(guidBase, guidBase + HTML_EXTENSION, 0, null));
+        if (isNewDoc) {
+            orderedDocuments.add(new Doc(guidBase, guidBase + HTML_EXTENSION, 0, null));
+        }
         nodesContainingDocuments.add(currentNode);
     }
 
     private void createInlineTocNode(final boolean isSplitBook) throws SAXException {
         if (titleMetadata.isInlineToc()) {
-            createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
+            if (titleMetadata.isPagesEnabled()) {
+                createFrontMatterNode(INLINE_TOC_FILE, SUMMARY_TOC_ITEM, isSplitBook, SUMMARY_TOC_ANCHOR, true);
+                createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook, DETAILED_TOC_ANCHOR, false);
+            } else {
+                createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
+            }
         }
     }
 

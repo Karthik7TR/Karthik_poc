@@ -87,7 +87,8 @@ public class GenerateTitleMetadata extends BookStepImpl {
                 .versionNumber(versionNumber)
                 .lastUpdated(dateProvider.getDate())
                 .inlineToc(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC))
-                .indexIncluded(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_INDEX));
+                .indexIncluded(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_INDEX))
+                .isPagesEnabled(getJobExecutionPropertyBoolean(JobExecutionKey.WITH_PAGE_NUMBERS));
 
         final Long jobInstanceId =
             chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();

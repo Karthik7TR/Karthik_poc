@@ -32,7 +32,10 @@ public class InlineTocService {
     private static final String DETAILED = "detailed";
     private static final String TOC = "toc-";
     private static final String DIV = "div";
+    private static final String A_TAG = "a";
     private static final String INLINE_TOC_ANCHOR = "inlineTocAnchor";
+    private static final String SUMMARY_TOC_ANCHOR = "summaryTocAnchor";
+    private static final String DETAILED_TOC_ANCHOR = "detailedTocAnchor";
     private static final String SUMMARY_HEADING = "SummaryHeading";
     private static final String DETAILED_HEADING = "DetailedHeading";
     private static final String SECTION = "section";
@@ -143,7 +146,6 @@ public class InlineTocService {
     private TocDocument loadInputElements(final Document tocXml, final long jobId, final String titleId, final Version version) {
         final Document document = jsoup.loadDocument(proviewHtmlTemplate);
         final Element section = document.selectFirst(SECTION);
-        section.appendElement("a").attr(NAME_ATTR, INLINE_TOC_ANCHOR);
 
         final Optional<Element> summaryHeading = Optional.ofNullable(tocXml.selectFirst(SUMMARY_HEADING));
         final Optional<Element> detailedHeading = Optional.ofNullable(tocXml.selectFirst(DETAILED_HEADING));
@@ -173,7 +175,10 @@ public class InlineTocService {
     private void generateWithoutPages(final TocDocument doc) {
         final Element section = doc.getSection();
 
-        doc.getSummaryHeading().ifPresent(heading -> appendHeader(section, heading));
+        doc.getSummaryHeading().ifPresent(heading -> {
+            appendAnchor(section, INLINE_TOC_ANCHOR);
+            appendHeader(section, heading);
+        });
         doc.getSummaryTocElements().forEach(tocItem -> appendSummaryTocItem(section, tocItem));
 
         doc.getDetailedHeading().ifPresent(heading -> appendHeader(section, heading));
@@ -186,12 +191,20 @@ public class InlineTocService {
         final Map<Integer, String> detailedPageLabels = getPageLabelsMap(doc.getDetailedTocElements(), DET_SERIAL_PG, DET_PRINT_PG);
         final Map<Integer, Element> detailedPages = createPageSections(detailedPageLabels, DET_PG_TEMPLATE, doc);
 
-        doc.getSummaryHeading().ifPresent(heading -> appendHeader(firstPage(summaryPages, summaryPageLabels), heading));
+        doc.getSummaryHeading().ifPresent(heading -> {
+            final Element firstPage = firstPage(summaryPages, summaryPageLabels);
+            appendAnchor(firstPage, SUMMARY_TOC_ANCHOR);
+            appendHeader(firstPage, heading);
+        });
         doc.getSummaryTocElements().forEach(tocItem -> appendSummaryTocItem(getPage(summaryPages, tocItem, SUM_SERIAL_PG), tocItem));
 
         insertGapPagesFromSummaryToDetailed(summaryPages, summaryPageLabels, detailedPageLabels);
 
-        doc.getDetailedHeading().ifPresent(heading -> appendHeader(firstPage(detailedPages, detailedPageLabels), heading));
+        doc.getDetailedHeading().ifPresent(heading -> {
+            final Element firstPage = firstPage(detailedPages, detailedPageLabels);
+            appendAnchor(firstPage, DETAILED_TOC_ANCHOR);
+            appendHeader(firstPage, heading);
+        });
         doc.getDetailedTocElements().forEach(tocItem -> appendDetailedTocItem(getPage(detailedPages, tocItem, DET_SERIAL_PG), tocItem, doc));
     }
 
@@ -245,10 +258,14 @@ public class InlineTocService {
             .text(heading.text());
     }
 
+    private void appendAnchor(final Element section, final String anchorName) {
+        section.appendElement(A_TAG).attr(NAME_ATTR, anchorName);
+    }
+
     private void appendSummaryTocItem(final Element section, final Element eBookToc) {
         section.appendElement(DIV)
             .attr(STYLE, stylingService.getStyleByElement(eBookToc, "sum_"))
-            .appendElement("a")
+            .appendElement(A_TAG)
             .attr(HREF, String.format("er:#inlineToc/sum%s", eBookToc.selectFirst(GUID).text()))
             .text(eBookToc.selectFirst(NAME).text());
     }
@@ -259,7 +276,7 @@ public class InlineTocService {
 
         section.appendElement(DIV)
             .attr(STYLE, stylingService.getStyleByElement(eBookToc, "det_"))
-            .appendElement("a")
+            .appendElement(A_TAG)
             .attr(NAME_ATTR, String.format("sum%s", guid))
             .attr(HREF, String.format("er:%s#%s/%s",
                     getSplitTitleId(doc, documentGuid),

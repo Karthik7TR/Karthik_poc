@@ -124,6 +124,8 @@ public final class TitleMetadata implements Serializable {
     private boolean isCwBook;
     @XmlTransient
     private boolean isElooseleafsEnabled;
+    @XmlTransient
+    private boolean isPagesEnabled;
 
     private TitleMetadata() {
         //JaxB required default constructor
@@ -149,6 +151,7 @@ public final class TitleMetadata implements Serializable {
         indexIncluded = builder.indexIncluded;
         isCwBook = builder.isCwBook;
         isElooseleafsEnabled = builder.isElooseleafsEnabled;
+        isPagesEnabled = builder.isPagesEnabled;
 
         authorNames = ofNullable(builder.authors)
             .filter(CollectionUtils::isNotEmpty)
@@ -236,6 +239,7 @@ public final class TitleMetadata implements Serializable {
         private boolean indexIncluded;
         private boolean isCwBook;
         private boolean isElooseleafsEnabled;
+        private boolean isPagesEnabled;
         private Date lastUpdated;
 
         private TitleMetadataBuilder() {
@@ -403,6 +407,11 @@ public final class TitleMetadata implements Serializable {
 
         public TitleMetadataBuilder isElooseleafsEnabled(final boolean isElooseleafsEnabled) {
             this.isElooseleafsEnabled = isElooseleafsEnabled;
+            return this;
+        }
+
+        public TitleMetadataBuilder isPagesEnabled(final boolean isPagesEnabled) {
+            this.isPagesEnabled = isPagesEnabled;
             return this;
         }
 
