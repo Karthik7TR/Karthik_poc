@@ -105,6 +105,7 @@ public class ReorderFootnotesService {
     private static final String CO_ITALIC = "co_italic";
     private static final String CSC = "csc";
     private static final String CO_SMALL_CAPS = "co_smallCaps";
+    private static final String CO_INLINE = "co_inline";
 
     @Autowired
     private JsoupService jsoup;
@@ -362,9 +363,11 @@ public class ReorderFootnotesService {
                 break;
             case ITAL:
                 element.addClass(CO_ITALIC);
+                element.addClass(CO_INLINE);
                 break;
             case CSC:
                 element.addClass(CO_SMALL_CAPS);
+                element.addClass(CO_INLINE);
                 break;
             case BOP:
             case BOS:
