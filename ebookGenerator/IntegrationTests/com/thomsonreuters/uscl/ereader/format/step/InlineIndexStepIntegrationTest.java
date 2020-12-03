@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
+import com.thomsonreuters.uscl.ereader.format.service.CiteQueryService;
 import com.thomsonreuters.uscl.ereader.format.service.CssStylingService;
 import com.thomsonreuters.uscl.ereader.format.service.InlineIndexService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
@@ -117,6 +118,11 @@ public final class InlineIndexStepIntegrationTest {
         @Bean
         public GatherService gatherService() {
             return Mockito.mock(GatherService.class);
+        }
+
+        @Bean
+        public CiteQueryService CiteQueryService() {
+            return new CiteQueryService();
         }
 
         @Bean

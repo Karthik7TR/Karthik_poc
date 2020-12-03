@@ -6,6 +6,9 @@ import org.jsoup.nodes.XmlDeclaration;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class PageNumberUtil {
     public static final String PB = "pb";
     public static final String LABEL = "label";
@@ -49,5 +52,15 @@ public final class PageNumberUtil {
 
     public static String getLabel(final Node pagebreak) {
         return pagebreak.attr(LABEL);
+    }
+
+    public static List<Element> parents(final Node pagebreak) {
+        List<Element> parents = new ArrayList<>();
+        if (pagebreak.hasParent()) {
+            Element parent = (Element) pagebreak.parent();
+            parents.add(parent);
+            parents.addAll(parent.parents());
+        }
+        return parents;
     }
 }

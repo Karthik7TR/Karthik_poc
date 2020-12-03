@@ -6,8 +6,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
-import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -21,8 +19,6 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.prot
 public class InlineIndexService {
     private static final String DIV = "div";
     private static final String SECTION = "section";
-    private static final String DOCUMENT = "n-document";
-    private static final String MD_UUID = "md.uuid";
     private static final String STYLE = "style";
     private static final String CO_INDEX = "co_index";
     private static final String INLINE_INDEX_FILE_NAME = "inlineIndex.transformed";
@@ -39,15 +35,6 @@ public class InlineIndexService {
     private static final String LI = "li";
     private static final String CO_TOC_HEADING = "co_tocHeading";
     private static final String UNUSED_TAGS_REGEX = "bop|bos|eos|eop";
-    private static final String CITE_QUERY = "cite.query";
-    private static final String CITE_QUERY_SOURCE_CITE = "ebook";
-    private static final String ANCHOR = "a";
-    private static final String ID = "id";
-    private static final String CO_LINK = "co_link_";
-    private static final String CO_LINK2 = "co_link";
-    private static final String CO_DRAG = "co_drag";
-    private static final String UI_DRAGGABLE = "ui-draggable";
-    private static final String HREF = "href";
     private static final String XML = ".xml";
     private static final String DOC = "doc";
     private static final String INDEX_PAGE_NAME = "Index";
@@ -59,7 +46,7 @@ public class InlineIndexService {
     private CssStylingService stylingService;
 
     @Autowired
-    private CiteQueryAdapter citeQueryAdapter;
+    private CiteQueryService citeQueryService;
 
     public void generateInlineIndex(final List<String> indexDocGuids, final File sourceDir, final File destDir, final boolean pages) {
         final Element indexSection = new Element(DIV).addClass(SECTION);
@@ -87,7 +74,7 @@ public class InlineIndexService {
         index.tagName(DIV).addClass(CO_INDEX);
         processTitle(index);
         processIndexEntries(index);
-        transformCiteQueries(index, indexDocGuid);
+        citeQueryService.transformCiteQueries(index, indexDocGuid);
 
         indexSection.appendChild(index);
     }
@@ -146,24 +133,5 @@ public class InlineIndexService {
             style = stylingService.getDefaultIndexStyle(isHeader);
         }
         return style;
-    }
-
-    private void transformCiteQueries(final Element indexSection, final String originatingDoc) {
-        indexSection.getElementsByTag(CITE_QUERY).forEach(citeQuery -> transformCiteQuery(citeQuery, originatingDoc));
-    }
-
-    private void transformCiteQuery(final Element citeQuery, final String originatingDoc) {
-        final String urlString = citeQueryAdapter.GetCiteQueryLink(citeQuery.outerHtml(), originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
-        citeQuery.replaceWith(createCiteQueryAnchor(citeQuery, urlString));
-    }
-
-    private Element createCiteQueryAnchor(final Element citeQuery, final String urlString) {
-        return new Element(ANCHOR)
-            .attr(ID, CO_LINK + citeQuery.attr(ID))
-            .addClass(CO_LINK2)
-            .addClass(CO_DRAG)
-            .addClass(UI_DRAGGABLE)
-            .attr(HREF, urlString)
-            .append(citeQuery.text());
     }
 }

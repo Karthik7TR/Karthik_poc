@@ -6,11 +6,15 @@ import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
+import com.thomsonreuters.uscl.ereader.format.service.CiteQueryService;
 import com.thomsonreuters.uscl.ereader.format.service.ReorderFootnotesService;
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -55,6 +59,15 @@ public final class ProcessPagesIntegrationTest {
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
+        @Value("${mud.domain}")
+        private String mudDomain;
+
+        @Value("${mud.parameter.rs}")
+        private String mudParameterRs;
+
+        @Value("${mud.parameter.vr}")
+        private String mudParameterVr;
+
         @Bean
         public ProcessPages processPages() {
             return new ProcessPages();
@@ -63,6 +76,23 @@ public final class ProcessPagesIntegrationTest {
         @Bean
         public ReorderFootnotesService reorderFootnotesService() {
             return new ReorderFootnotesService();
+        }
+
+        @Bean
+        public CiteQueryService CiteQueryService() {
+            return new CiteQueryService();
+        }
+
+        @Bean
+        @SneakyThrows
+        public CiteQueryAdapter citeQueryAdapter() {
+            final CiteQueryAdapter adapter = new CiteQueryAdapter();
+
+            adapter.setHostname(mudDomain);
+            adapter.setRs(mudParameterRs);
+            adapter.setVr(mudParameterVr);
+
+            return adapter;
         }
     }
 }

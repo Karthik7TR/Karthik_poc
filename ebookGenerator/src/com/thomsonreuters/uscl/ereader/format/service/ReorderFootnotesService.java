@@ -40,6 +40,7 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.getLabel;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.parents;
 
 @Component
 public class ReorderFootnotesService {
@@ -100,12 +101,19 @@ public class ReorderFootnotesService {
     private static final String INLINE_TOC = "inlineToc.html";
     private static final String INLINE_INDEX = "inlineIndex.html";
     private static final List<String> EXCLUDED_FROM_PROCESSING = Arrays.asList(INLINE_TOC, INLINE_INDEX);
+    private static final String ITAL = "ital";
+    private static final String CO_ITALIC = "co_italic";
+    private static final String CSC = "csc";
+    private static final String CO_SMALL_CAPS = "co_smallCaps";
 
     @Autowired
     private JsoupService jsoup;
 
     @Value("${page.number.footnote.template}")
     private File pageNumberFootnoteTemplateFile;
+
+    @Autowired
+    private CiteQueryService citeQueryService;
 
     private String pageNumberFootnoteTemplate;
 
@@ -159,6 +167,7 @@ public class ReorderFootnotesService {
             convertFootnotes(doc, footnotesBlock);
 
             final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
+            citeQueryService.transformCiteQueries(footnotesSectionToAppend, fileUuid);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
             addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
@@ -351,6 +360,12 @@ public class ReorderFootnotesService {
             case PARATEXT:
                 element.addClass(CO_PARAGRAPH_TEXT);
                 break;
+            case ITAL:
+                element.addClass(CO_ITALIC);
+                break;
+            case CSC:
+                element.addClass(CO_SMALL_CAPS);
+                break;
             case BOP:
             case BOS:
             case EOP:
@@ -429,8 +444,7 @@ public class ReorderFootnotesService {
         final Element div = doc.createElement(DIV);
         div.addClass(className);
         div.append(element.html());
-
-        element.children().remove();
+        element.empty();
         element.appendChild(div);
     }
 
@@ -504,13 +518,25 @@ public class ReorderFootnotesService {
                 .filter(footnoteBody -> CollectionUtils.isNotEmpty(getProviewPagebreaks(footnoteBody)))
                 .forEach(footnoteBody -> {
                     Element popupFootnoteBody = footnoteBody.clone();
-                    getProviewPagebreaks(popupFootnoteBody).forEach(Node::remove);
+                    cleanupPopupFootnoteBody(popupFootnoteBody);
 
                     popupFootnoteBody.addClass(FOOTNOTE_BODY_POPUP_BOX);
                     footnoteBody.addClass(FOOTNOTE_BODY_BOTTOM);
 
                     footnoteBody.before(popupFootnoteBody);
                 });
+    }
+
+    private void cleanupPopupFootnoteBody(final Element popupFootnoteBody) {
+        getProviewPagebreaks(popupFootnoteBody).forEach(Node::remove);
+        popupFootnoteBody.getElementsByTag(A_TAG).forEach(this::cleanUpAnchor);
+    }
+
+    private Element cleanUpAnchor(final Element anchor) {
+        if (A_TAG.equalsIgnoreCase(anchor.tagName())) {
+            anchor.removeAttr(ID);
+        }
+        return anchor;
     }
 
     private void movePagebreakOutOfFootnote(final XmlDeclaration pagebreak) {
@@ -543,7 +569,7 @@ public class ReorderFootnotesService {
         if (base.tagName().matches(FOOTNOTE + "|" + FOOTNOTE_BODY_TAG) || base.className().matches(FOOTNOTE_IN_CLASS_REG)) {
             return new Element(DIV);
         }
-        return base.shallowClone();
+        return cleanUpAnchor(base.shallowClone());
     }
 
     @NotNull
@@ -564,11 +590,7 @@ public class ReorderFootnotesService {
     }
 
     private boolean isInsideFootnote(final XmlDeclaration pagebreak) {
-        if (pagebreak.hasParent()) {
-            Element parent = (Element) pagebreak.parent();
-            return isFootnote(parent) || parent.parents().stream().anyMatch(this::isFootnote);
-        }
-        return false;
+        return parents(pagebreak).stream().anyMatch(this::isFootnote);
     }
 
     private boolean isFootnote(final Element element) {

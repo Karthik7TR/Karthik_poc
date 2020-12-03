@@ -140,7 +140,7 @@ public final class StepTestUtil {
             if (expected.isDirectory()) {
                 validateDirsOnExpected(expected, new File(actualDir, expected.getName()));
             } else {
-                assertThat(new File(actualDir, expected.getName()), hasSameContentAs(expected));
+                assertThat(expected.getName(), new File(actualDir, expected.getName()), hasSameContentAs(expected));
             }
         });
     }
