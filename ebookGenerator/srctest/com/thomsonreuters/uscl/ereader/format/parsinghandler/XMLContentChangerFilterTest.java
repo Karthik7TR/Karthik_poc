@@ -171,4 +171,16 @@ public final class XMLContentChangerFilterTest {
 
         testHelper(xmlTestStr, expectedResult);
     }
+
+    @Test
+    public void testPIctlbNotProcessed() {
+        final String xmlTestStr =
+                "<message.block><?ctbl ampex.cols=\"2\"?>" +
+                        "<?ctbl ampex.horiz.rule=\"<l6><justified.line quadding='c'><pcty num='84' arg='_'></pcty></justified.line></l6>\"?></message.block>";
+        final String expectedResult =
+                "<message.block/>";
+
+        testHelper(xmlTestStr, expectedResult);
+
+    }
 }

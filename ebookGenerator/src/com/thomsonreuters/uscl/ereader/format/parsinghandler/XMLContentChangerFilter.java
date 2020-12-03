@@ -29,6 +29,7 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
     private static final String PROP_BLOCK = "prop.block";
     private static final String MESSAGE_BLOCK = "message.block";
     private static final String INDEX = "index";
+    private static final String CTBL_PI = "ctbl";
     private boolean isChanging;
     private List<DocumentCopyright> copyrights;
     private List<DocumentCopyright> copyCopyrights;
@@ -53,6 +54,11 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
         this.currencies = currencies;
         this.copyCurrencies = copyCurrencies;
         this.protectPagebreaks = protectPagebreaks;
+    }
+
+    @Override
+    public void processingInstruction(final String target, final String data) throws SAXException {
+        if (!CTBL_PI.equalsIgnoreCase(target)) super.processingInstruction(target, data);
     }
 
     @Override
