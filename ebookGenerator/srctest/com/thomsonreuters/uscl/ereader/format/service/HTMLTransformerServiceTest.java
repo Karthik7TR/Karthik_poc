@@ -11,32 +11,54 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * JUnit test for HTMLTransformerserviceImpl.java
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
+@Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = HTMLTransformerServiceTest.Config.class)
+@ActiveProfiles("IntegrationTests")
 public final class HTMLTransformerServiceTest {
-    private HTMLTransformerServiceImpl transformerService;
+    @Autowired
+    private HTMLTransformerService transformerService;
+    @Autowired
+    private FileHandlingHelper helper;
+    @Autowired
+    private DocMetadataService metadataMoc;
+    private DocumentMetadataAuthority docMetaAuthority;
+    private DocMetadata docMeta;
     private File tempRootDir; // root directory for all test files
 
-    /* arguments */
     private File srcDir;
     private File targetDir;
     private File staticImgList;
@@ -50,11 +72,6 @@ public final class HTMLTransformerServiceTest {
     private boolean isStrikethrough;
     private boolean delEditorNodeHeading;
     private String version = "test";
-
-    /* service mocks and return values */
-    private DocMetadataServiceImpl metadataMoc;
-    private DocumentMetadataAuthority docMetaAuthority;
-    private DocMetadata docMeta;
 
     /**
      * makeFile( File directory, String name, String content ) helper method to streamline file creation
@@ -79,8 +96,6 @@ public final class HTMLTransformerServiceTest {
 
     @Before
     public void setUp() {
-        transformerService = new HTMLTransformerServiceImpl();
-
         /* initialize arguments */
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
         tempRootDir.mkdir();
@@ -96,14 +111,7 @@ public final class HTMLTransformerServiceTest {
         /* service mocks and return values */
         final FileExtensionFilter filter = new FileExtensionFilter();
         filter.setAcceptedFileExtensions(new String[] {"transformed"});
-        final FileHandlingHelper helper = new FileHandlingHelper();
         helper.setFilter(filter);
-        // FileHandlingHelper fileHelper = EasyMock.createMock(FileHandlingHelper.class); // cannot mock
-        // pass-by-reference behavior
-        transformerService.setfileHandlingHelper(helper);
-
-        metadataMoc = EasyMock.createMock(DocMetadataServiceImpl.class);
-        transformerService.setdocMetadataService(metadataMoc);
 
         final Set<DocMetadata> docMetadataSet = new LinkedHashSet<>();
         docMetaAuthority = new DocumentMetadataAuthority(docMetadataSet);
@@ -119,6 +127,7 @@ public final class HTMLTransformerServiceTest {
     public void tearDown() throws Exception {
         /* recursively deletes the root directory, and all its subdirectories and files */
         FileUtils.deleteDirectory(tempRootDir);
+        EasyMock.reset(metadataMoc);
     }
 
     /**
@@ -178,15 +187,6 @@ public final class HTMLTransformerServiceTest {
         docMeta.setProviewFamilyUUIDDedup(Integer.valueOf(1));
         docMeta.setDocFamilyUuid("hello test!");
         FileUtils.deleteQuietly(targetDir);
-        /* ----------------------------------------------------- */
-
-        /* set up additional serviceMOCs */
-        final PaceMetadataService paceMetaMoc = EasyMock.createMock(PaceMetadataService.class);
-        transformerService.setpaceMetadataService(paceMetaMoc);
-
-        final ImageService imgServiceMoc = EasyMock.createMock(ImageServiceImpl.class);
-        transformerService.setimgService(imgServiceMoc);
-        /* ---------------------------- */
 
         try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
@@ -404,5 +404,35 @@ public final class HTMLTransformerServiceTest {
 
         final File postTransform = new File(targetDir.getAbsolutePath(), title + ".posttransform");
         assertTrue(postTransform.exists());
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class Config {
+        @Bean
+        public HTMLTransformerService htmlTransformerService() {
+            return new HTMLTransformerServiceImpl();
+        }
+        @Bean
+        public FileHandlingHelper transformedFileHandlingHelper() {
+            return new FileHandlingHelper();
+        }
+        @Bean
+        public ImageService imageService() {
+            return new ImageServiceImpl();
+        }
+        @Bean
+        public DocMetadataService docMetadataService() {
+            return EasyMock.createMock(DocMetadataService.class);
+        }
+        @Bean
+        public InternalLinkResolverService internalLinkResolverService() {
+            return new InternalLinkResolverService();
+        }
+        @Bean
+        public PaceMetadataService paceMetadataService() {
+            return EasyMock.createMock(PaceMetadataServiceImpl.class);
+        }
     }
 }

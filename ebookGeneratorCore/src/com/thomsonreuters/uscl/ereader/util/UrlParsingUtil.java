@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,7 +27,7 @@ public class UrlParsingUtil {
      * @return urlContents is a Map , which contains all the Url query values and/or references.
      * @throws SAXException
      */
-    public static Map<String, String> parseUrlContents(final String resourceUrl) throws SAXException {
+    public static Map<String, String> parseUrlContents(final String resourceUrl) {
         final Map<String, String> urlContents = new HashMap<>();
 
         final String documentUuid = getDocumentUuid(resourceUrl);
@@ -62,7 +63,7 @@ public class UrlParsingUtil {
                 urlContents.put(name, value);
             }
         } catch (final Exception e) {
-            throw new SAXException(
+            throw new EBookException(
                 UTF8_ENCODING
                     + " encoding not supported when attempting to parse normalized cite from URL: "
                     + resourceUrl,

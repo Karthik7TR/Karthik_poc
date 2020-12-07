@@ -20,7 +20,7 @@ import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
+import com.thomsonreuters.uscl.ereader.format.service.InternalLinkResolverService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
@@ -34,12 +34,17 @@ import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
 import org.easymock.EasyMock;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -49,6 +54,8 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 @Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = InternalLinkResolverFilterTest.Config.class)
 public final class InternalLinkResolverFilterTest {
     private static final String VERSION = "1";
     private static final String DOC_UUID = "NF8C65500AFF711D8803AE0632FEDDFBF";
@@ -64,10 +71,13 @@ public final class InternalLinkResolverFilterTest {
     private DocumentMetadataAuthority mockDocumentMetadataAuthority;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Autowired
+    private InternalLinkResolverService internalLinkResolverService;
+    @Autowired
+    private PaceMetadataService mockPaceMetadataService;
 
     @Before
     public void setUp() throws Exception {
-        PaceMetadataService mockPaceMetadataService = EasyMock.createMock(PaceMetadataServiceImpl.class);
         PaceMetadata mockPaceMetadata = EasyMock.createMock(PaceMetadata.class);
         mockPaceMetadata.setPublicationName("CCPEMPLOYMENT");
         mockPaceMetadata.setAuditId(Long.valueOf("3862349"));
@@ -97,10 +107,9 @@ public final class InternalLinkResolverFilterTest {
         writeDocumentLinkFile(internalLinkResolverTestFile);
 
         internalLinksFilter = new InternalLinkResolverFilter(
+                internalLinkResolverService,
             mockDocumentMetadataAuthority,
             internalLinkResolverTestFile,
-            mockPaceMetadataService,
-            1234L,
             DOC_UUID_CURRENT,
             VERSION);
         internalLinksFilter.setParent(saxParser.getXMLReader());
@@ -114,10 +123,11 @@ public final class InternalLinkResolverFilterTest {
     public void tearDown() {
         serializer = null;
         internalLinksFilter = null;
+        EasyMock.reset(mockPaceMetadataService);
     }
 
     @Test
-    public void testGetDocumentUuidFromResourceUrl() throws Exception {
+    public void testGetDocumentUuidFromResourceUrl() {
         String resourceUrl =
             "https://a.next.westlaw.com/Document/FullText?Iff5a5aaa7c8f11da9de6e47d6d5aa7a5/View/FullText.html?transitionType=Default&contextData=(sc.Default)";
         Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -425,5 +435,17 @@ public final class InternalLinkResolverFilterTest {
             log.error(errMessage, e);
         }
         log.debug("size of file : " + internalLinkResolverTestFile.length());
+    }
+
+    @Configuration
+    public static class Config {
+        @Bean
+        public InternalLinkResolverService internalLinkResolverService() {
+            return new InternalLinkResolverService();
+        }
+        @Bean
+        public PaceMetadataService paceMetadataService() {
+            return EasyMock.createMock(PaceMetadataServiceImpl.class);
+        }
     }
 }

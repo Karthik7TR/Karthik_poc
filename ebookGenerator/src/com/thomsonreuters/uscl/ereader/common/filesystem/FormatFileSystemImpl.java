@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.File;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DE_DUPPING_ANCHOR_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_HTML_DIR;
@@ -15,6 +16,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_JSOUP_TRANSFORMATION_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_POST_TRANSFORM_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
@@ -85,6 +87,12 @@ public class FormatFileSystemImpl implements FormatFileSystem {
 
     @NotNull
     @Override
+    public File getPostTransformDirectory(@NotNull final BookStep step) {
+        return getDir(getFormatDirectory(step), FORMAT_POST_TRANSFORM_DIR.getName());
+    }
+
+    @NotNull
+    @Override
     public File getHtmlWrapperDirectory(@NotNull final BookStep step) {
         return new File(getFormatDirectory(step), FORMAT_HTML_WRAPPER_DIR.getName());
     }
@@ -148,4 +156,12 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     public File getThesaurusStaticFilesDirectory() {
         return thesaurusStaticFilesDir;
     }
+
+    @NotNull
+    @Override
+    public File getDeDuppingAnchorFile(@NotNull final BookStep step) {
+        return getFile(getFormatDirectory(step), FORMAT_DE_DUPPING_ANCHOR_FILE.getName());
+    }
+
+
 }

@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_CREATED_LINKS_TRANSFORM_DIR;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DE_DUPPING_ANCHOR_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FIXED_TRANSFORM_DIR;
@@ -192,14 +191,6 @@ public class InitializeTask extends AbstractSbTasklet {
             final File splitNodeInfoFile = newFile(splitEbookDirectory, FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE);
             final File imageToDocumentManifestFile = newFile(formatDirectory, FORMAT_DOC_TO_IMAGE_MANIFEST_FILE);
 
-            final File deDuppingAnchorFile = newFile(formatDirectory, FORMAT_DE_DUPPING_ANCHOR_FILE);
-
-            if (deDuppingAnchorFile.exists()) {
-                deDuppingAnchorFile.delete();
-            }
-
-            deDuppingAnchorFile.createNewFile();
-
             //File htmlDirectory = new File(formatDirectory, "HTML");
 
             // Create the absolute path to the final e-book artifact - a GNU ZIP file
@@ -207,8 +198,6 @@ public class InitializeTask extends AbstractSbTasklet {
             final File ebookFile = new File(workDirectory, titleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 
             jobExecutionContext.putString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
-
-            jobExecutionContext.putString(JobExecutionKey.DEDUPPING_FILE, deDuppingAnchorFile.getAbsolutePath());
 
             jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
             jobExecutionContext.putString(JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());

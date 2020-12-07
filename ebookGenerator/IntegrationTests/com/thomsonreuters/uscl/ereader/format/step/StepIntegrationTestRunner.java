@@ -85,22 +85,23 @@ public class StepIntegrationTestRunner {
     }
 
     public void testWithSourceOnly(final BaseStep step, final String resourceTestDir) throws Exception {
-        test(step, new File(resourceRootDir, resourceTestDir), true, false);
+        test(step, resourceTestDir, true, false);
     }
 
     public void testWithExpectedOnly(final BaseStep step, final String resourceTestDir) throws Exception {
-        test(step, new File(resourceRootDir, resourceTestDir), false, true);
+        test(step, resourceTestDir, false, true);
     }
 
     public void test(final BaseStep step, final String resourceTestDir) throws Exception {
-        test(step, new File(resourceRootDir, resourceTestDir), true, true);
+        test(step, resourceTestDir, true, true);
     }
 
     public void test(final BaseStep step) throws Exception {
         test(step, null, false, false);
     }
 
-    private void test(final BaseStep step, final File resource, boolean withSourceDir, boolean withExpectedDir) throws Exception {
+    private void test(final BaseStep step, final String testDirName, boolean withSourceDir, boolean withExpectedDir) throws Exception {
+        File resource = getTestDir(testDirName);
         initWorkDir();
         copyNasDir();
         copySourceDir(resource, withSourceDir);
@@ -138,6 +139,10 @@ public class StepIntegrationTestRunner {
         if (withExpectedDir) {
             validateDirsOnExpected(new File(resource, EXPECTED), workDir);
         }
+    }
+
+    public File getTestDir(final String resourceTestDir) {
+        return resourceTestDir != null ? new File(resourceRootDir, resourceTestDir): null;
     }
 
     @Configuration

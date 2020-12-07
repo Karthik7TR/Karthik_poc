@@ -42,7 +42,6 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +49,9 @@ import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -61,30 +63,20 @@ import org.xml.sax.SAXException;
  */
 
 @Slf4j
+@Service
 public class HTMLTransformerServiceImpl implements HTMLTransformerService {
+    @Autowired
+    @Qualifier("transformedFileHandlingHelper")
     private FileHandlingHelper fileHandlingHelper;
-    private ImageService imgService;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
     private DocMetadataService docMetadataService;
-    private PaceMetadataService paceMetadataService;
+    @Autowired
+    private InternalLinkResolverService internalLinkResolver;
 
     private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">";
     private static final String END_WRAPPER_TAG = "</div>";
-
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
-        this.fileHandlingHelper = fileHandlingHelper;
-    }
-
-    public void setimgService(final ImageService imgService) {
-        this.imgService = imgService;
-    }
-
-    public void setdocMetadataService(final DocMetadataService docMetadataService) {
-        this.docMetadataService = docMetadataService;
-    }
-
-    public void setpaceMetadataService(final PaceMetadataService paceMetadataService) {
-        this.paceMetadataService = paceMetadataService;
-    }
 
     /**
      * This method applies multiple XMLFilters to the source HTML to apply various
@@ -277,10 +269,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                 }
 
                 final InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(
-                    documentMetadataAuthority,
+                        internalLinkResolver,
+                        documentMetadataAuthority,
                     docsGuidFile,
-                    paceMetadataService,
-                    jobIdentifier,
                     guid,
                     version);
                 internalLinkResolverFilter.setParent(piZapperFilter);
@@ -296,7 +287,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                 editNotesFilter.setParent(spmrkUpFilter);
 
                 final HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
-                anchorFilter.setimgService(imgService);
+                anchorFilter.setimgService(imageService);
                 anchorFilter.setjobInstanceId(jobIdentifier);
                 anchorFilter.setDocGuid(guid);
                 anchorFilter.setParent(editNotesFilter);

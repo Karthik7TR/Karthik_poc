@@ -34,7 +34,6 @@ public final class KeyCiteBlockGenerationServiceImplTest {
         docMetadata = new DocMetadata();
 
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
-        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         mockCitationNormalizer = EasyMock.createMock(CitationNormalizer.class);
         service = new KeyCiteBlockGenerationServiceImpl();
         service.setDocMetadataService(mockDocMetadataService);

@@ -64,6 +64,14 @@ public interface FormatFileSystem {
     File getTransformedDirectory(@NotNull BookStep step);
 
     /**
+     * Returns transformed directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /PostTransform}
+     */
+    @NotNull
+    File getPostTransformDirectory(@NotNull BookStep step);
+
+    /**
      * Returns html wrapper directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link getFormatDirectory Format}{@code /HTMLWrapper}
@@ -133,4 +141,12 @@ public interface FormatFileSystem {
 
     @NotNull
     File getThesaurusStaticFilesDirectory();
+
+    /**
+     * Returns the flat file that contains the mapping of all de-dupping anchors in each document.
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /eBG_deDupping_anchors.txt}
+     */
+    @NotNull
+    File getDeDuppingAnchorFile(@NotNull BookStep step);
 }

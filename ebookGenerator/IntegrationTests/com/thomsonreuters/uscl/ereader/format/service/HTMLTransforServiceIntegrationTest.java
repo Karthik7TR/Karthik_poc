@@ -19,20 +19,34 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import org.apache.commons.io.IOUtils;
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -43,41 +57,39 @@ import org.w3c.dom.NodeList;
  *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {HTMLTransforServiceIntegrationTest.Config.class})
+@ActiveProfiles("IntegrationTests")
 public final class HTMLTransforServiceIntegrationTest {
     private static final String preRenderedInput = "NADB029C0880F11D881E9FEF4A4D44D69";
     private String titleId;
     private String novusXmlFilename;
     private String novusXmlFileName1;
     private long jobId;
+    @Autowired
     private FileHandlingHelper fileHandlingHelper;
-    private FileExtensionFilter fileExtFilter;
-    private HTMLTransformerServiceImpl htmlTransforService;
-    private DocMetadata mockDocMetadata;
+    @Autowired
+    private HTMLTransformerServiceImpl htmlTransformerServiceImpl;
+    @Autowired
     private DocMetadataService mockDocMetadataService;
+    @Rule
+    public TemporaryFolder tempDirectory = new TemporaryFolder();
+
+    private FileExtensionFilter fileExtFilter;
+    private DocMetadata mockDocMetadata;
     private DocumentMetadataAuthority mockDocumentMetadataAuthority;
     private Map<String, Set<String>> targetAnchors;
 
     private final String testExtension = ".html";
     private File docsGuidFile;
-    @Rule
-    public TemporaryFolder tempDirectory = new TemporaryFolder();
     private String version = "1";
 
     @Before
     public void setUp() {
-//        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
-//        EasyMock.expect(
-//            mockDocMetadataService.findDocMetadataByPrimaryKey(
-//                "uscl/an/IMPH", new Integer(12345), preRenderedInput)).andReturn(mockDocMetadata);
+        mockDocMetadata = EasyMock.createMock(DocMetadata.class);
         fileExtFilter = EasyMock.createMock(FileExtensionFilter.class);
-        fileHandlingHelper = EasyMock.createMock(FileHandlingHelper.class);
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
-        fileHandlingHelper.setFilter(fileExtFilter);
-        htmlTransforService = new HTMLTransformerServiceImpl();
-        htmlTransforService.setfileHandlingHelper(fileHandlingHelper);
 
-        // mockDocumentMetadataAuthority = EasyMock.createMock(DocumentMetadataAuthority.class);
-        // EasyMock.replay(mockDocMetadataService);
         EasyMock.replay(fileExtFilter);
         EasyMock.replay(fileHandlingHelper);
 
@@ -89,6 +101,11 @@ public final class HTMLTransforServiceIntegrationTest {
         final String docGuid = "sample-docs-guid.txt";
 
         docsGuidFile = new File(HTMLTransforServiceIntegrationTest.class.getResource(docGuid).getFile());
+    }
+
+    @After
+    public void cleanUp() {
+        EasyMock.reset(fileExtFilter, fileHandlingHelper);
     }
 
     @Ignore
@@ -107,7 +124,6 @@ public final class HTMLTransforServiceIntegrationTest {
         Assert.isTrue(count > 0, "Unable to transform as Table View");
     }
 
-    @Ignore
     @Test
     public void testInternalLinks() throws EBookFormatException, FileNotFoundException, IOException {
         final int count = getInternalLinkInfo();
@@ -137,11 +153,11 @@ public final class HTMLTransforServiceIntegrationTest {
             builder = domFactory.newDocumentBuilder();
 
             final Document doc = builder.parse(new ByteArrayInputStream(str.getBytes("UTF-8")));
-
             final XPathFactory factory = XPathFactory.newInstance();
             final XPath xpath = factory.newXPath();
             final XPathExpression expr = xpath.compile(xpathExpression);
             final Object result = expr.evaluate(doc, XPathConstants.NODESET);
+
             nodes = (NodeList) result;
         } catch (final Exception e) {
             e.printStackTrace();
@@ -160,7 +176,6 @@ public final class HTMLTransforServiceIntegrationTest {
      */
     private int getTableViewInfo(final boolean isTableViewRequired)
         throws EBookFormatException, FileNotFoundException, IOException {
-        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", Long.valueOf(12345), preRenderedInput))
             .andReturn(mockDocMetadata);
@@ -242,18 +257,16 @@ public final class HTMLTransforServiceIntegrationTest {
 
         mockDocumentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
 
-        htmlTransforService.setdocMetadataService(mockDocMetadataService);
-
         final Set<String> staticImages = new HashSet<>();
         final File transformedDirectory = tempDirectory.newFolder("transformed");
         final File novusXml =
             new File(HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
-        htmlTransforService.transformHTMLFile(
+        htmlTransformerServiceImpl.transformHTMLFile(
             novusXml,
             transformedDirectory,
             staticImages,
-            new ArrayList<TableViewer>(),
-            new ArrayList<TableViewer>(),
+            new ArrayList<>(),
+            new ArrayList<>(),
             titleId,
             jobId,
             mockDocumentMetadataAuthority,
@@ -278,7 +291,6 @@ public final class HTMLTransforServiceIntegrationTest {
      * @throws IOException
      */
     private int getInternalLinkInfo() throws EBookFormatException, FileNotFoundException, IOException {
-        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", Long.valueOf(12345), preRenderedInput))
             .andReturn(mockDocMetadata);
@@ -369,19 +381,17 @@ public final class HTMLTransforServiceIntegrationTest {
 
         mockDocumentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
 
-        htmlTransforService.setdocMetadataService(mockDocMetadataService);
-
         final Set<String> staticImages = new HashSet<>();
         final File transformedDirectory = tempDirectory.newFolder("transformed");
 
         final File novusXml =
             new File(HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
-        htmlTransforService.transformHTMLFile(
+        htmlTransformerServiceImpl.transformHTMLFile(
             novusXml,
             transformedDirectory,
             staticImages,
-            new ArrayList<TableViewer>(),
-            new ArrayList<TableViewer>(),
+            new ArrayList<>(),
+            new ArrayList<>(),
             titleId,
             jobId,
             mockDocumentMetadataAuthority,
@@ -406,7 +416,6 @@ public final class HTMLTransforServiceIntegrationTest {
      * @throws IOException
      */
     private int getInternalLinkInfo1() throws EBookFormatException, FileNotFoundException, IOException {
-        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         EasyMock
             .expect(
                 mockDocMetadataService.findDocMetadataByPrimaryKey(
@@ -592,19 +601,17 @@ public final class HTMLTransforServiceIntegrationTest {
 
         mockDocumentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
 
-        htmlTransforService.setdocMetadataService(mockDocMetadataService);
-
         final Set<String> staticImages = new HashSet<>();
         final File transformedDirectory = tempDirectory.newFolder("transformed");
 
         final File novusXml =
             new File(HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFileName1).getFile());
-        htmlTransforService.transformHTMLFile(
+        htmlTransformerServiceImpl.transformHTMLFile(
             novusXml,
             transformedDirectory,
             staticImages,
-            new ArrayList<TableViewer>(),
-            new ArrayList<TableViewer>(),
+            new ArrayList<>(),
+            new ArrayList<>(),
             titleId,
             jobId,
             mockDocumentMetadataAuthority,
@@ -620,5 +627,35 @@ public final class HTMLTransforServiceIntegrationTest {
                 new File(transformedDirectory, "Id8ec0a72cfe111da9bb4a39a5015044e" + ".postTransform")));
 
         return buildTableAnchorsFromOutput(renderedOutput, "//a[@href='er:#777x123456789']");
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class Config {
+        @Bean
+        public HTMLTransformerServiceImpl htmlTransformerServiceImpl() {
+            return new HTMLTransformerServiceImpl();
+        }
+        @Bean
+        public FileHandlingHelper transformedFileHandlingHelper() {
+            return EasyMock.createMock(FileHandlingHelper.class);
+        }
+        @Bean
+        public ImageService imageService() {
+            return new ImageServiceImpl();
+        }
+        @Bean
+        public DocMetadataService docMetadataService() {
+            return EasyMock.createMock(DocMetadataService.class);
+        }
+        @Bean
+        public InternalLinkResolverService internalLinkResolverService() {
+            return new InternalLinkResolverService();
+        }
+        @Bean
+        public PaceMetadataService paceMetadataService() {
+            return EasyMock.createMock(PaceMetadataServiceImpl.class);
+        }
     }
 }

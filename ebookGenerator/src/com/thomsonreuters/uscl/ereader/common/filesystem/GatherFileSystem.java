@@ -66,4 +66,12 @@ public interface GatherFileSystem {
      */
     @NotNull
     File getGatherDocsMetadataDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns gather docs metadata directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getGatherRootDirectory Gather}{@code /}{@code /docs-guids.txt}
+     */
+    @NotNull
+    File getGatherDocGuidsFile(@NotNull BookStep step);
 }

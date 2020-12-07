@@ -442,6 +442,10 @@ public class PublishingStats implements Serializable, Comparable<PublishingStats
     public PublishingStats() {
     }
 
+    public PublishingStats(final Long jobInstanceId) {
+        this.jobInstanceId = jobInstanceId;
+    }
+
     /**
      * Returns a textual representation of a bean.
      *

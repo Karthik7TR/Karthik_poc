@@ -1,9 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
-
-import javax.annotation.Resource;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
@@ -21,12 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class ProcessPages extends BookStepImpl {
-    @Resource(name = "gatherFileSystem")
+    @Autowired
     private GatherFileSystem gatherFileSystem;
-
-    @Resource(name = "formatFileSystem")
+    @Autowired
     private FormatFileSystem formatFileSystem;
-
     @Autowired
     private ReorderFootnotesService reorderFootnotesService;
 
@@ -38,7 +33,7 @@ public class ProcessPages extends BookStepImpl {
         final File destDir = getDir(NortTocCwbFileSystemConstants.FORMAT_PROCESS_PAGES_DIR);
 
         if (shouldReorderFootnotes()) {
-            reorderFootnotesService.reorderFootnotes(toc, srcGatherDir, srcDir, destDir);
+            reorderFootnotesService.reorderFootnotes(toc, srcGatherDir, srcDir, destDir, this);
         } else {
             FileUtils.copyDirectory(srcDir, destDir);
         }

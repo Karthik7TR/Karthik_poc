@@ -41,8 +41,13 @@
 							</csc>
 						</cite.query>
 						<cite.query w-src-number="0287017248" w-serial-number="1979135171" w-seq-number="00071" w-ref-type="RT" w-pub-number="0000708" ID="I9d45939519c011ebbea6fcce6570c4b3">
-							<ital>Jackson v. Virginia</ital>
+							<ital>Broken link Jackson v. Virginia</ital>
 						</cite.query>
+						<cite.query w-normalized-cite="MDLITMANHIGHLIGHTS" id="Ideebe97119c011eb9186f10f857b4088" w-pub-number="160247" w-ref-type="DA">Internal link 001</cite.query>
+						<cite.query w-normalized-cite="MDLITMANPREMAT" id="Ideebe97119c011eb9186f10f857b4089" w-pub-number="160247" w-ref-type="TS">Internal link 002</cite.query>
+						<begin.quote ID="QT_0002"/>“the litigation<bos/><eos/>
+							<begin.quote ID="QT_0003"/>‘testimony of witnesses’
+						<end.quote refid="QT_0003"/>”<end.quote refid="QT_0002"/>
 					</para>
 				</footnote.body>
 			</footnote>

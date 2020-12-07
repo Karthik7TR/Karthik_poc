@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.nodes.XmlDeclaration;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +108,8 @@ public class ReorderFootnotesService {
     private static final String CSC = "csc";
     private static final String CO_SMALL_CAPS = "co_smallCaps";
     private static final String CO_INLINE = "co_inline";
+    private static final String BEGIN_QUOTE = "begin.quote";
+    private static final String END_QUOTE = "end.quote";
 
     @Autowired
     private JsoupService jsoup;
@@ -114,7 +118,7 @@ public class ReorderFootnotesService {
     private File pageNumberFootnoteTemplateFile;
 
     @Autowired
-    private CiteQueryService citeQueryService;
+    private LinksResolverService linksResolverService;
 
     private String pageNumberFootnoteTemplate;
 
@@ -128,7 +132,8 @@ public class ReorderFootnotesService {
         return toc.select(DOCUMENT_GUID).eachText();
     }
 
-    public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir) throws IOException {
+    public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir,
+                                 final BookStep step) throws IOException {
         pageNumberFootnoteTemplate = FileUtils.readFileToString(pageNumberFootnoteTemplateFile);
         final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
 
@@ -140,9 +145,9 @@ public class ReorderFootnotesService {
         final PagePointer footnotePage = new PagePointer(pageNumbers);
 
         srcFilesOrdered.forEach(file ->
-            processDocument(destDir, nameToXmlFile, firstFileName, mainPage, footnotePage, file)
+            processDocument(destDir, nameToXmlFile, firstFileName, mainPage, footnotePage, file, step)
         );
-        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir);
+        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir, step);
     }
 
     private String getFirstFileName(final List<File> srcFilesOrdered) {
@@ -151,7 +156,7 @@ public class ReorderFootnotesService {
     }
 
     private void processDocument(final File destDir, final Map<String, File> nameToXmlFile, final String firstFileName,
-    final PagePointer mainPage, final PagePointer footnotePage, final File file) {
+    final PagePointer mainPage, final PagePointer footnotePage, final File file, final BookStep step) {
         final Document doc = jsoup.loadDocument(file);
         final String fileUuid = FilenameUtils.removeExtension(file.getName());
         final Element mainSection = doc.selectFirst(SECTION);
@@ -168,7 +173,7 @@ public class ReorderFootnotesService {
             convertFootnotes(doc, footnotesBlock);
 
             final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
-            citeQueryService.transformCiteQueries(footnotesSectionToAppend, fileUuid);
+            linksResolverService.transformCiteQueries(footnotesSectionToAppend, fileUuid, step);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
             addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
@@ -183,7 +188,7 @@ public class ReorderFootnotesService {
         jsoup.saveDocument(destDir, file.getName(), doc);
     }
 
-    private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir) {
+    private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir, final BookStep step) {
         List<File> auxiliaryFiles = getAuxiliaryFiles(srcDir, processedFiles);
         auxiliaryFiles.forEach(file -> {
             if (EXCLUDED_FROM_PROCESSING.contains(file.getName())) {
@@ -192,7 +197,7 @@ public class ReorderFootnotesService {
                 Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
                 final PagePointer mainPage = new PagePointer(pageNumbers);
                 final PagePointer footnotePage = new PagePointer(pageNumbers);
-                processDocument(destDir, Collections.emptyMap(), null, mainPage, footnotePage, file);
+                processDocument(destDir, Collections.emptyMap(), null, mainPage, footnotePage, file, step);
             }
         });
     }
@@ -373,7 +378,10 @@ public class ReorderFootnotesService {
             case BOS:
             case EOP:
             case EOS:
-                break;
+            case BEGIN_QUOTE:
+            case END_QUOTE:
+                remove(element);
+                return new TextNode(StringUtils.EMPTY);
             default:
                 converted = false;
         }

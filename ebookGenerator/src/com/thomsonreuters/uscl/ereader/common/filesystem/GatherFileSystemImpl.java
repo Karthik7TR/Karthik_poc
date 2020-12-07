@@ -9,6 +9,7 @@ import java.io.File;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_GUIDS_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_DOCS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_INDEX_TOC_DIR;
@@ -64,5 +65,11 @@ public class GatherFileSystemImpl implements GatherFileSystem {
     @Override
     public File getGatherDocsMetadataDirectory(@NotNull final BookStep step) {
         return new File(getGatherDocsDirectory(step), GATHER_DOCS_METADATA_DIR.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getGatherDocGuidsFile(@NotNull final BookStep step) {
+        return new File(getGatherRootDirectory(step), GATHER_DOCS_GUIDS_FILE.getName());
     }
 }
