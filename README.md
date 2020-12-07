@@ -1,3 +1,5 @@
+> :information_source:  **NOTE:**  This sample application, like all Cumulus examples, uses eu-west-1 as the region of choice.
+
 # ECS Sample App
 This is a Sample application created by the CCNG TechOps team's interns that can be used to test deployments.  
 > :star: ***HINT:***
@@ -34,6 +36,8 @@ Perform the steps below in order.  However, if this is an onsite hands-on traini
 
 ## Cleanup
 When you are finished, you can run this to cleanup all of the stuff the cumulus installer created.  
-`cumulus installer uninstall --profile-name ${AWS_PROFILE} --installer-file installer_input.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}`
+`cumulus installer uninstall --profile-name ${AWS_PROFILE} --installer-file cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}`
 
-To delete the services, you'll have to delete the CloudFormation stacks manually.  They will follow the syntax `a206296-${ServiceName}-${Environment}-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx is a random string.
+To delete the services, you'll have to delete the CloudFormation stacks from the non-CI/CD account manually.  The
+ stack names will follow the syntax `a206296-[TEN-Acct-Id]-[dev/qa]-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx
+  is a random string.

@@ -31,6 +31,6 @@
   "details": {
     "assignment_group": "CLOUD-SCRUM-TR",
     "configuration_item": "AIID203756",
-    "problem_sns_topic": "arn:aws:sns:eu-west-1:307097860667:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"
+    "problem_sns_topic": "arn:aws:sns:eu-west-1:462066144630:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"
   }
 }

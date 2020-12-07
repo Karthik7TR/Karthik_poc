@@ -13,8 +13,8 @@ More information about this file can be found in the [configuration guide](https
 1. We will now run the installation.  In the script below, change the ARTIFACTORY_USERNAME variable to what you use to login to Artifactory.  This is your Enterprise Single Sign-On username (i.e. 0123456, x0123456, c0123456) and is listed in the upper right of the page when you log into Artifactory.  Also change the ARTIFACTORY_API_TOKEN to your current API token for Artifactory. You can find your current token by clicking on your username in the upper right of the page when you log into Artifactory, then click edit profile. Your key can be copied from there.
 ```sh
 ARTIFACTORY_USERNAME="0123456"
-ARTIFACTORY_API_TOKEN="your_current_api_token_goes_here"
-AWS_PROFILE="tr-tax-prof1-cicd-nonprod"
+ARTIFACTORY_API_TOKEN="[YOUR TOKEN HERE]"
+AWS_PROFILE="tr-tax-prof-cicd-sandbox"
 cumulus installer install --profile-name ${AWS_PROFILE} --installer-file cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}
 ```
 4. You should get an email from AWS SNS to confirm your subscription to a new topic.  Approve this.  If you don't get the email after 5 minutes, search through your Outlook folders as you may have a rule set up to move, mark as read, or even delete emails from SNS.

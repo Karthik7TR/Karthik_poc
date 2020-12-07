@@ -26,7 +26,7 @@ phases:
       # This Python script tags and pushes the images to the ECRs in the accounts and regions in the environments in your deployspec.
       # It also modifies the deployspec to put the right image URL in the given path in your deployspec environents.
       - |-
-        python3 bake_helper.py --image ${IMAGE_NAME} --tag ${HASH} --param-path DeployerParameters.Stack.Parameters.ImageUrl
+        python3 bake_helper.py --image ${IMAGE_NAME} --tag ${HASH} --param-path DeployerParameters.Stack.Parameters.ContainerImageUri
 
 artifacts:
   files:

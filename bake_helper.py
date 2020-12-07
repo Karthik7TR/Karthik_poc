@@ -8,7 +8,7 @@
 # python3 bake_helper.py --image <IMAGE_NAME> --tag <TAG> --param-path <PARAM_PATH>
 #
 # Example:
-# python3 bake_helper.py --image my-docker-image --tag 1444 --param-path DeployerParameters.StackParameters.ImageUrl
+# python3 bake_helper.py --image my-docker-image --tag 1444 --param-path DeployerParameters.StackParameters.ContainerImageUri
 #
 # Requirements:
 # boto3 docker pyyaml
