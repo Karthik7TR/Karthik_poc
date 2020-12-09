@@ -245,13 +245,15 @@ sed -i 's!</xsl:stylesheet>!\
 &!g' Platform/ContentBlocks/eBookContextAndAnalysis.xsl
 
 echo "Add indentations to V.T.C.A. line and hidden footnotes body styles" >> log.txt
-sed -i 's/.co_indentBottom + .co_indentTop {/\
+sed -i -e '$a\
 \/* <updateStyleSheet.sh> *\/\
 .co_indentTop05 {\
-	padding-top: .5em; }\
+  padding-top: .5em;\
+}\
 \
 .co_indentBottom05 {\
-  padding-bottom: .5em; }\
+  padding-bottom: .5em;\
+}\
 \
 .co_page_number {\
   text-align: center;\
@@ -259,14 +261,96 @@ sed -i 's/.co_indentBottom + .co_indentTop {/\
 }\
 \
 .footnote .footnote_body_bottom {\
-	display: inline;\
+  display: inline;\
 }\
 \
 .footnote .footnote_body_box, .footnote_body_bottom {\
-	display: none;\
+  display: none;\
+}\
+\
+.abr-clas-label{\
+  display: block;\
+  margin: 1em 0 0;\
+  cursor: pointer;\
+}\
+\
+.abr-clas-input {\
+  position: absolute;\
+  left: -999em;\
+  cursor: auto;\
+}\
+\
+.abr-clas-hdiv {\
+  width: 100%;\
+  max-height: 0;\
+  border: none;\
+  opacity: 0;\
+  height: auto;\
+  overflow: hidden;\
+  position: relative;\
+  top: -40;\
+  font-size: 0;\
+}\
+\
+.abr-clas-input[type=checkbox]:checked + .abr-clas-hdiv {\
+  opacity: 1;\
+  max-height: 99em;\
+  border: 5px solid #000;\
+  transition: opacity 0.5s linear, max-height 0.5s linear;\
+  z-index: 200000;\
+  border-radius: 6px;\
+  position: relative;\
+  top: 0em;\
+  font-size: 1em;\
+}\
+\
+.fs-small {\
+  font-size: 0.84em;\
+}\
+\
+.abr-clas-hdiv p {\
+  padding: 0.5em;\
+  margin: 0;\
+}\
+\
+table.co_borderedTable td.cw_padding_4, table.co_borderedTable th.cw_padding_4 {\
+  padding: 4px;\
+}\
+\
+table.cw_fixed_table {\
+  table-layout: fixed;\
+}\
+\
+.remove-min-height {\
+  min-height: 0 !important;\
+}\
+\
+.section-label {\
+  margin: 9px 0 7px 0;\
+  font-weight: bold;\
+}\
+\
+.tr_footnote div {\
+  display: inline;\
+}\
+\
+.tr_footnote .co_footnoteNumber span {\
+  margin-left: 1.5em;\
+}\
+\
+.tr_footnote div.co_page_number {\
+	display: block;\
+}\
+\
+.footnote .footnote_body_bottom {\
+  display: inline;\
+}\
+\
+.footnote .footnote_body_box, .footnote_body_bottom {\
+  display: none;\
 }\
 \/* <\/updateStyleSheet.sh> *\/\
-&/g' document.css
+' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
 <!-- <updateStyleSheet.sh> -->\
 <!ENTITY indentTop05Class "co_indentTop05">\
