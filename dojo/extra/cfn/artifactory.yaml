@@ -1,0 +1,16 @@
+Description: Creates the Read Only Artifactory credentials to use for the Cumulus training.
+Parameters:
+  AssetId:
+    Type: String
+    Default: 206296
+  ArtifactoryToken:
+    Type: String
+    NoEcho: True
+    Description: The token for the service account.
+Resources:
+  SecretManager:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: "The token used for the Artifactory service account 's.cumulus.read.only'"
+      Name: !Sub a${AssetId}-artifactory-s-cumulus-read-only
+      SecretString: !Ref ArtifactoryToken

@@ -15,7 +15,8 @@ More information about this file can be found in the [configuration guide](https
 ARTIFACTORY_USERNAME="0123456"
 ARTIFACTORY_API_TOKEN="[YOUR TOKEN HERE]"
 AWS_PROFILE="tr-tax-prof-cicd-sandbox"
-cumulus installer install --profile-name ${AWS_PROFILE} --installer-file cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}
+REGION="eu-west-1"
+cumulus installer install --profile ${AWS_PROFILE} --region ${REGION} --installer-file cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}
 ```
 4. You should get an email from AWS SNS to confirm your subscription to a new topic.  Approve this.  If you don't get the email after 5 minutes, search through your Outlook folders as you may have a rule set up to move, mark as read, or even delete emails from SNS.
 

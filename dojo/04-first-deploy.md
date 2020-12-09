@@ -48,11 +48,11 @@ If you do not receive the email to approve the release, there is a way to do it 
 
 1. Run the following command to find the deployment ID and table name you will need to approve the release.
     ```sh
-    cumulus bluegreen list-pending-deployments
+    cumulus bluegreen list-pending-deployments --profile tr-tax-prof-cicd-sandbox  --region eu-west-1
 
     ```
 
 1. Use the blue green ID and the table name to approve the release.
     ```sh
-    cumulus bluegreen approve-deployment --table a206296-TEN-Acct-Id-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+    cumulus bluegreen approve-deployment --profile tr-tax-prof-cicd-sandbox  --region eu-west-1 --table a206296-TEN-Acct-Id-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
     ```

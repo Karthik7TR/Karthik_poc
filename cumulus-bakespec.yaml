@@ -11,6 +11,11 @@ phases:
       # Get ecr credentials and login
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --no-include-email --region ${REGION} --registry-ids ${ACCOUNT_ID})
+
+      - echo Logging into artifactory
+      - docker login tr1-docker-remote.jfrog.io -u ${ARTIFACTORY_USERNAME} -p ${ARTIFACTORY_PASSWORD}
+
+      - echo Installing pre-requisites.
       - pip3 install boto3 docker pyyaml  # Requirements for helper script
 
   build:

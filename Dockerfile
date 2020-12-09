@@ -1,4 +1,4 @@
-FROM node:10
+FROM tr1-docker-remote.jfrog.io/node:10
 
 # Create app directory
 WORKDIR /var/lib/project/ccng/

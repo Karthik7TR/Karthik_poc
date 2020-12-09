@@ -85,6 +85,11 @@ Resources:
           - {"Name": "ACCOUNT_ID", "Value": {"Ref": "AWS::AccountId"}}
           - {"Name": "REGION", "Value": {"Ref": "AWS::Region"}}
           - {"Name": "SERVICE_NAME", "Value": {"Ref": ServiceName}}
+          - Name: ARTIFACTORY_USERNAME
+            Value: s.cumulus.read.only
+          - Name: ARTIFACTORY_PASSWORD
+            Value: arn:aws:secretsmanager:eu-west-1:462066144630:secret:a206296-artifactory-s-cumulus-read-only
+            Type: SECRETS_MANAGER
       Source:
         Type: CODEPIPELINE
         BuildSpec:
