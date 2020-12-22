@@ -9,12 +9,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.Nullable;
 
 import static com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil.normalizeNoDashesNoWhitespaces;
 import static java.util.Optional.ofNullable;
@@ -27,11 +30,15 @@ import static java.util.Optional.ofNullable;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  */
 public class DocumentMetadataAuthority {
+    private static final String CITE_WITHOUT_DATE = "citeWithoutDate";
+    private static final Pattern NORMALIZED_CITE_WITHOUT_DATE_PATTERN = Pattern.compile(String.format("(?<%s>.*)(\\(\\d+/\\d+/\\d+\\))", CITE_WITHOUT_DATE));
+
     //this represents the document metadata record for a run of an ebook.
     private Set<DocMetadata> docMetadataSet = new HashSet<>();
 
     //these are keyed maps used to search for the corresponding metadata without hitting the database.
     private Map<String, List<DocMetadata>> docMetadataKeyedByCite = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteWithoutDate = new HashMap<>();
     private Map<Long, DocMetadata> docMetadataKeyedBySerialNumber = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<>();
@@ -52,7 +59,7 @@ public class DocumentMetadataAuthority {
 
         docMetadataSet.forEach(docMetadata -> {
             addDocMetadataToCiteMap(docMetadata);
-
+            addDocMetadataToCiteMapWithoutDate(docMetadata);
             // Prevent overwriting of value with duplicate serial number
             docMetadataKeyedBySerialNumber.putIfAbsent(docMetadata.getSerialNumber(), docMetadata);
 
@@ -85,6 +92,22 @@ public class DocumentMetadataAuthority {
                 .ifPresent(list -> list.add(docMetadata));
     }
 
+    private void addDocMetadataToCiteMapWithoutDate(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getNormalizedFirstlineCite())
+                .map(this::getCiteWithoutDate)
+                .ifPresent(cite -> docMetadataKeyedByCiteWithoutDate.put(cite, docMetadata));
+    }
+
+    @Nullable
+    private String getCiteWithoutDate(final String item) {
+        Matcher matcher = NORMALIZED_CITE_WITHOUT_DATE_PATTERN.matcher(item);
+        if (matcher.matches()) {
+            return matcher.group(CITE_WITHOUT_DATE);
+        } else {
+            return null;
+        }
+    }
+
     private void addDocMetadataToPubPageMap(final DocMetadata docMetadata,
                                             final String firstlineCitePubId,
                                             final Supplier<Long> pubIdSupplier) {
@@ -113,19 +136,25 @@ public class DocumentMetadataAuthority {
         return Collections.unmodifiableMap(docMetadataKeyedByCite);
     }
 
-    public DocMetadata getDocMetadataByCite(String cite, final String guid) {
-        cite = normalizeNoDashesNoWhitespaces(cite);
+    public Map<String, DocMetadata> getDocMetadataKeyedByCiteWithoutDate() {
+        return Collections.unmodifiableMap(docMetadataKeyedByCiteWithoutDate);
+    }
+
+    public DocMetadata getDocMetadataByCite(final String cite, final String guid) {
+        final String normalizedCite = normalizeNoDashesNoWhitespaces(cite);
         DocMetadata docMetadata;
-        if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(cite)
+        if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(normalizedCite)
             && docMetadataKeyedByDocumentUuid.containsKey(guid)) {
-            final List<DocMetadata> list = docMetadataKeyedByCite.get(cite);
+            final List<DocMetadata> list = docMetadataKeyedByCite.get(normalizedCite);
             final DocMetadata originatingMetadata = docMetadataKeyedByDocumentUuid.get(guid);
             docMetadata = list.stream()
                 .filter(item -> item.isDocumentEffective() != originatingMetadata.isDocumentEffective())
                 .findAny()
                 .orElse(list.get(0));
+        } else if (docMetadataKeyedByCiteWithoutDate.containsKey(cite)) {
+            docMetadata = docMetadataKeyedByCiteWithoutDate.get(cite);
         } else {
-            docMetadata = docMetadataKeyedByThirdLineCite.get(cite);
+            docMetadata = docMetadataKeyedByThirdLineCite.get(normalizedCite);
         }
         return docMetadata;
     }

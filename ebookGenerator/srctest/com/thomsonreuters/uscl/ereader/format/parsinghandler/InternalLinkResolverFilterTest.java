@@ -61,6 +61,7 @@ public final class InternalLinkResolverFilterTest {
     private static final String DOC_UUID = "NF8C65500AFF711D8803AE0632FEDDFBF";
     private static final String DOC_FAMILY_UUID = "IC6A94E80FF6011DC95B0EEFA5102EA59";
     private static final String FIRST_LINE_CITE = "42USCAS1395W-133";
+    private static final String FIRST_LINE_CITE_WITH_DATE = FIRST_LINE_CITE + "(11/1/18)";
     private static final String DOC_UUID_2 = "docUuid2";
     private static final String DOC_FAMILY_UUID_2 = "docUuid2";
     private static final String FIRST_LINE_CITE_2 = "FEDFORMS";
@@ -192,6 +193,19 @@ public final class InternalLinkResolverFilterTest {
 
         testHelperLinks(inputLink, expectedLink);
     }
+
+    @Test
+    public void testGetLinkParameterWithDate() throws Exception {
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE_WITH_DATE));
+
+        final String inputLink =
+                "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+        final String expectedLink =
+                "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+
+        testHelperLinks(inputLink, expectedLink);
+    }
+
 
     @Test
     public void testSplitDocLink() throws Exception {
