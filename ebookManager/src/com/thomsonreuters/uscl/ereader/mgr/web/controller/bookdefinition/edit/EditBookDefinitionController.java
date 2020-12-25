@@ -12,7 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -82,12 +80,8 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class EditBookDefinitionController {
     private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
-    private static final String WRONG_PDF_FILE_EXTENSION = "Please upload file of type PDF";
-    private static final String CHARACTERS_NOT_ALLOWED = "PDF name contains forbidden characters. Allowed characters are: A-Z, a-z, 0-9, _, -, !";
     private static final String FRONT_MATTER_PAGE_ID_MISSING_ERROR = "Additional front matter page id is missing in request";
     private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
-    private static String PDF_NAME_ALLOWED_CHARACTERS = "^.*[^_\\-!A-Za-z0-9].*$";
-    private static String PDF = "pdf";
     @Autowired
     private BookDefinitionService bookDefinitionService;
     @Autowired
@@ -110,6 +104,8 @@ public class EditBookDefinitionController {
     private NasFileSystem nasFileSystem;
     @Resource(name="editBookDefinitionFormValidator")
     private Validator validator;
+    @Autowired
+    private PdfFileNameValidator pdfFileNameValidator;
     @Autowired
     private ProviewTitleListService proviewTitleListService;
 
@@ -494,24 +490,14 @@ public class EditBookDefinitionController {
     @ResponseBody
     public ResponseEntity<?> uploadPdf(@RequestParam("file") final MultipartFile pdf,
         @RequestParam final String fileName, @RequestParam final String publisher) {
-        if (isFileExtensionNotPdf(fileName)) {
-            return new ResponseEntity<>(WRONG_PDF_FILE_EXTENSION, HttpStatus.CONFLICT);
+        if (pdfFileNameValidator.isFileExtensionNotPdf(fileName)) {
+            return new ResponseEntity<>(pdfFileNameValidator.getWrongPdfFileExtensionErrorMessage(), HttpStatus.CONFLICT);
         }
-        if (isFileNameContainsForbiddenCharacters(fileName)) {
-            return new ResponseEntity<>(CHARACTERS_NOT_ALLOWED, HttpStatus.CONFLICT);
+        if (pdfFileNameValidator.isFileNameContainsForbiddenCharacters(fileName)) {
+            return new ResponseEntity<>(pdfFileNameValidator.getForbiddenCharactersErrorMessage(), HttpStatus.CONFLICT);
         }
         File file = new File(getPdfLocation(publisher), fileName);
         return writePdf(pdf, file);
-    }
-
-    private boolean isFileExtensionNotPdf(final String fileName) {
-        String extension = FilenameUtils.getExtension(fileName);
-        return !PDF.equalsIgnoreCase(extension);
-    }
-
-    private boolean isFileNameContainsForbiddenCharacters(final String fileName) {
-        String baseName = FilenameUtils.getBaseName(fileName);
-        return baseName.matches(PDF_NAME_ALLOWED_CHARACTERS);
     }
 
     private File getPdfLocation(final String publisher) {

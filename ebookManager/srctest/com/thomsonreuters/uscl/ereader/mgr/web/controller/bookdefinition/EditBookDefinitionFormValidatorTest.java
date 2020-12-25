@@ -77,7 +77,11 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String WRONG_DATE_PATTERN = "dd-mm-yyyy";
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
     private static final String WRONG_DATE_FORMAT_ERROR = "error.date.format";
+    private static final String NOT_EXIST_ERROR = "error.not.exist";
     private static final String REQUIRED_ERROR = "error.required";
+    private static final String REQUIRED_ERROR_PDF = "error.required.pdf";
+    private static final String WRONG_PDF_FILE_EXTENSION_ERROR = "error.pdf.wrong.extension";
+    private static final String FORBIDDEN_CHARACTERS_IN_PDF_NAME_ERROR = "error.pdf.forbidden.characters";
     private static final Map<String, String> TITLE_ID_BY_PUBLISHER = new HashMap<>();
 
     private List<KeywordTypeCode> KEYWORD_CODES;
@@ -1142,9 +1146,7 @@ public final class EditBookDefinitionFormValidatorTest {
         expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
-        final FrontMatterPage page = new FrontMatterPage();
-        page.setPageTocLabel("Toc Label");
-        page.setSequenceNum(1);
+        final FrontMatterPage page = createFrontMatterPage();
 
         final FrontMatterSection section = new FrontMatterSection();
         page.getFrontMatterSections().add(section);
@@ -1166,29 +1168,23 @@ public final class EditBookDefinitionFormValidatorTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
-
         expectReplayDocTypeCode();
-
         populateFormDataAnalyticalToc();
-        final FrontMatterPage page = new FrontMatterPage();
-        page.setPageTocLabel("Toc Label");
-        page.setSequenceNum(1);
 
-        final FrontMatterSection section = new FrontMatterSection();
-        section.setSectionText("text section");
-        section.setSequenceNum(1);
-
+        final FrontMatterPage page = createFrontMatterPage();
+        final FrontMatterSection section = createFrontMatterSection();
         final FrontMatterPdf pdf = new FrontMatterPdf();
-        pdf.setPdfFilename("filename");
+        pdf.setPdfFilename("filename.pdf");
         section.getPdfs().add(pdf);
         page.getFrontMatterSections().add(section);
         form.getFrontMatters().add(page);
+
         validator.validate(form, errors);
+
         Assert.assertTrue(errors.hasErrors());
         Assert.assertEquals(
-            "error.required.pdf",
+            REQUIRED_ERROR_PDF,
             errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
-
         EasyMock.verify(mockBookDefinitionService);
     }
 
@@ -1197,37 +1193,18 @@ public final class EditBookDefinitionFormValidatorTest {
      */
     @Test
     public void testFrontMatterPdfDoesNotExist() {
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
-            .andReturn(null);
-        EasyMock.replay(mockBookDefinitionService);
+        testPdfFileNameError("filename.pdf", NOT_EXIST_ERROR);
+    }
 
-        expectReplayDocTypeCode();
-        expectReplayKeywordTypeCodes();
+    @Test
+    public void testPdfFileExtension() {
+        testPdfFileNameError("filename.img", WRONG_PDF_FILE_EXTENSION_ERROR);
 
-        populateFormDataAnalyticalToc();
-        form.setValidateForm(true);
-        final FrontMatterPage page = new FrontMatterPage();
-        page.setPageTocLabel("Toc Label");
-        page.setSequenceNum(1);
+    }
 
-        final FrontMatterSection section = new FrontMatterSection();
-        section.setSectionText("text section");
-        section.setSequenceNum(1);
-
-        final FrontMatterPdf pdf = new FrontMatterPdf();
-        pdf.setPdfFilename("filename");
-        pdf.setPdfLinkText("Link");
-        pdf.setSequenceNum(1);
-        section.getPdfs().add(pdf);
-        page.getFrontMatterSections().add(section);
-        form.getFrontMatters().add(page);
-        validator.validate(form, errors);
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals(
-            "error.not.exist",
-            errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
-
-        EasyMock.verify(mockBookDefinitionService);
+    @Test
+    public void testPdfForbiddenCharacters() {
+        testPdfFileNameError("&jyp?$#Sk9.pdf", FORBIDDEN_CHARACTERS_IN_PDF_NAME_ERROR);
     }
 
     @Test
@@ -1494,6 +1471,55 @@ public final class EditBookDefinitionFormValidatorTest {
         typeValue.setKeywordTypeCode(typeCode);
         typeValue.setName(value);
         return typeValue;
+    }
+
+    private void testPdfFileNameError(final String pdfFileName, final String errorCode) {
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
+                .andReturn(null);
+        EasyMock.replay(mockBookDefinitionService);
+        expectReplayDocTypeCode();
+        expectReplayKeywordTypeCodes();
+        populateFormDataAnalyticalToc();
+        form.setValidateForm(true);
+        createFrontMatter(pdfFileName);
+
+        validator.validate(form, errors);
+
+        Assert.assertTrue(errors.hasErrors());
+        Assert.assertEquals(errorCode,
+                errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
+        EasyMock.verify(mockBookDefinitionService);
+    }
+
+    private void createFrontMatter(final String fileName) {
+        final FrontMatterPage page = createFrontMatterPage();
+        final FrontMatterSection section = createFrontMatterSection();
+        final FrontMatterPdf pdf = createFrontMatterPdf(fileName);
+        section.getPdfs().add(pdf);
+        page.getFrontMatterSections().add(section);
+        form.getFrontMatters().add(page);
+    }
+
+    private FrontMatterPage createFrontMatterPage() {
+        final FrontMatterPage page = new FrontMatterPage();
+        page.setPageTocLabel("Toc Label");
+        page.setSequenceNum(1);
+        return page;
+    }
+
+    private FrontMatterSection createFrontMatterSection() {
+        final FrontMatterSection section = new FrontMatterSection();
+        section.setSectionText("Text");
+        section.setSequenceNum(1);
+        return section;
+    }
+
+    private FrontMatterPdf createFrontMatterPdf(final String fileName) {
+        final FrontMatterPdf pdf = new FrontMatterPdf();
+        pdf.setPdfFilename(fileName);
+        pdf.setPdfLinkText("Link");
+        pdf.setSequenceNum(1);
+        return pdf;
     }
 
     private void setupPublisherAndTitleId(

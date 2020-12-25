@@ -9,15 +9,14 @@ import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IsbnValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.IssnValidator;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.PdfFileNameValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.request.service.PrintComponentHistoryService;
 import org.easymock.EasyMock;
@@ -48,6 +47,10 @@ public class TestConfig {
     @Bean
     public IssnValidator issnValidator() {
         return new IssnValidator();
+    }
+    @Bean
+    public PdfFileNameValidator pdfFileNameValidator() {
+        return new PdfFileNameValidator();
     }
     @Bean
     public BookDefinitionService bookDefinitionService() {

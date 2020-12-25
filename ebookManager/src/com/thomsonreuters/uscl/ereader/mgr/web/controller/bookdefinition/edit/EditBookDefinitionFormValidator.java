@@ -52,6 +52,8 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.ALL_PUBLISHERS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CW_PUBLISHER_NAME;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DATE_FORMATTER;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.USCL_PUBLISHER_NAME;
+import static com.thomsonreuters.uscl.ereader.mgr.web.ErrorMessageCodes.FORBIDDEN_CHARACTERS_IN_PDF_NAME;
+import static com.thomsonreuters.uscl.ereader.mgr.web.ErrorMessageCodes.WRONG_PDF_FILE_EXTENSION;
 import static org.apache.commons.lang3.StringUtils.LF;
 
 @Component("editBookDefinitionFormValidator")
@@ -86,6 +88,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private NasFileSystem nasFileSystem;
     @Autowired
     private IssnValidator issnValidator;
+    @Autowired
+    private PdfFileNameValidator pdfFileNameValidator;
 
     @Override
     public boolean supports(final Class clazz) {
@@ -928,12 +932,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 Collections.sort(pdfs);
                 section.setPdfs(pdfs);
                 for (final FrontMatterPdf pdf : pdfs) {
-                    checkMaxLength(
-                        errors,
-                        MAXIMUM_CHARACTER_1024,
-                        pdf.getPdfFilename(),
-                        "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
-                        new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
+                    String pdfFileNameField = "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename";
+                    validatePdfFileName(pdf.getPdfFilename(), pdfFileNameField, errors);
                     checkMaxLength(
                         errors,
                         MAXIMUM_CHARACTER_1024,
@@ -963,6 +963,21 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 j++;
             }
             i++;
+        }
+    }
+
+    private void validatePdfFileName(final String pdfFileName, final String pdfFileNameField, final Errors errors) {
+        if (pdfFileNameValidator.isFileExtensionNotPdf(pdfFileName)) {
+            errors.rejectValue(pdfFileNameField, WRONG_PDF_FILE_EXTENSION);
+        }
+        checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_1024,
+                pdfFileName,
+                pdfFileNameField,
+                new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
+        if (pdfFileNameValidator.isFileNameContainsForbiddenCharacters(pdfFileName)) {
+            errors.rejectValue(pdfFileNameField, FORBIDDEN_CHARACTERS_IN_PDF_NAME);
         }
     }
 

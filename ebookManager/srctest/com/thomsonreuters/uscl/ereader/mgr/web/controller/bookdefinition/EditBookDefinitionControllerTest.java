@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.PdfFileNameValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import lombok.SneakyThrows;
@@ -130,7 +131,9 @@ public final class EditBookDefinitionControllerTest {
     @Autowired
     private FrontMatterPreviewService mockFrontMatterPreviewService;
     @Autowired
-    private ProviewTitleListService proviewTitleListService;;
+    private ProviewTitleListService proviewTitleListService;
+    @Autowired
+    private PdfFileNameValidator mockPdfFileNameValidator;
 
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
@@ -1452,6 +1455,8 @@ public final class EditBookDefinitionControllerTest {
         private File file;
         @Mock
         private NasFileSystem nasFileSystem;
+        @Mock
+        private PdfFileNameValidator pdfFileNameValidator;
         private MockMultipartFile multipartFile;
 
         @Before
@@ -1463,6 +1468,8 @@ public final class EditBookDefinitionControllerTest {
         @SneakyThrows
         @Test
         public void testUploadPdf() {
+            when(pdfFileNameValidator.isFileExtensionNotPdf(Mockito.anyString())).thenReturn(false);
+            when(pdfFileNameValidator.isFileNameContainsForbiddenCharacters(Mockito.anyString())).thenReturn(false);
             PowerMockito.when(nasFileSystem.getFrontMatterUsclPdfDirectory()).thenReturn(rootDir);
             PowerMockito.whenNew(File.class).withArguments(rootDir, PDF_FILE_NAME)
                     .thenReturn(file);
@@ -1475,6 +1482,8 @@ public final class EditBookDefinitionControllerTest {
         @SneakyThrows
         @Test
         public void testUploadCwPdf() {
+            when(pdfFileNameValidator.isFileExtensionNotPdf(Mockito.anyString())).thenReturn(false);
+            when(pdfFileNameValidator.isFileNameContainsForbiddenCharacters(Mockito.anyString())).thenReturn(false);
             PowerMockito.when(nasFileSystem.getFrontMatterCwPdfDirectory()).thenReturn(rootDir);
             PowerMockito.whenNew(File.class).withArguments(rootDir, PDF_FILE_NAME)
                     .thenReturn(file);
@@ -1486,6 +1495,8 @@ public final class EditBookDefinitionControllerTest {
 
         @Test
         public void testUploadPdfWrongFileExtension() {
+            when(pdfFileNameValidator.isFileExtensionNotPdf(Mockito.anyString())).thenReturn(true);
+            when(pdfFileNameValidator.getWrongPdfFileExtensionErrorMessage()).thenReturn(WRONG_PDF_FILE_EXTENSION_ERROR_MESSAGE);
             ResponseEntity<?> response = editBookDefinitionController.uploadPdf(multipartFile, IMG_NAME,
                     CoreConstants.USCL_PUBLISHER_NAME);
 
@@ -1494,6 +1505,9 @@ public final class EditBookDefinitionControllerTest {
 
         @Test
         public void testUploadPdfSpecialCharacters() {
+            when(pdfFileNameValidator.isFileExtensionNotPdf(Mockito.anyString())).thenReturn(false);
+            when(pdfFileNameValidator.isFileNameContainsForbiddenCharacters(Mockito.anyString())).thenReturn(true);
+            when(pdfFileNameValidator.getForbiddenCharactersErrorMessage()).thenReturn(CHARACTERS_NOT_ALLOWED_ERROR_MESSAGE);
             ResponseEntity<?> response = editBookDefinitionController.uploadPdf(multipartFile,
                     PDF_FILE_NAME_WITH_SPECIAL_CHARACTERS, CoreConstants.USCL_PUBLISHER_NAME);
 
