@@ -933,7 +933,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 section.setPdfs(pdfs);
                 for (final FrontMatterPdf pdf : pdfs) {
                     String pdfFileNameField = "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename";
-                    validatePdfFileName(pdf.getPdfFilename(), pdfFileNameField, errors);
+                    String pdfFileName = pdf.getPdfFilename();
+                    if (StringUtils.isNotEmpty(pdfFileName)) {
+                        validatePdfFileName(pdfFileName, pdfFileNameField, errors);
+                    }
                     checkMaxLength(
                         errors,
                         MAXIMUM_CHARACTER_1024,
@@ -953,9 +956,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                         pdfSequenceChecker);
 
                     // Check both fields of PDF is filled
-                    if (StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
+                    if (StringUtils.isBlank(pdfFileName) || StringUtils.isBlank(pdf.getPdfLinkText())) {
                         errors.rejectValue(
-                            "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
+                            pdfFileNameField,
                             "error.required.pdf");
                     }
                     k++;
