@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,7 +29,7 @@ public class ExternalLinksTransformation implements JsoupTransformation {
     private String westlawCanadaUrl;
 
     @Override
-    public void transform(final String fileName, final Document document, final BookStep bookStep) {
+    public void transform(final File file, final Document document, final BookStep bookStep) {
         if (bookStep.getBookDefinition().isCwBook()) {
             getAttributesWithUrlValue().forEach(attribute -> document.getElementsByAttributeValueContaining(attribute, westlawUrl)
                     .forEach(element -> {

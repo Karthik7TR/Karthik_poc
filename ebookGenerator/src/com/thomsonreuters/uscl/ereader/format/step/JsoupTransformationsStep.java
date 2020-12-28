@@ -44,7 +44,7 @@ public class JsoupTransformationsStep extends BookStepImpl {
         Files.list(srcDir.toPath()).forEach(file -> {
             Document document = jsoup.loadDocument(file.toFile());
             document.outputSettings().prettyPrint(false);
-            conversions.forEach(item -> item.transform(FilenameUtils.removeExtension(file.getFileName().toString()), document, this));
+            conversions.forEach(item -> item.transform(file.toFile(), document, this));
             jsoup.saveDocument(destDir, file.getFileName().toString(), document);
         });
         conversions.forEach(item -> item.clear(this));

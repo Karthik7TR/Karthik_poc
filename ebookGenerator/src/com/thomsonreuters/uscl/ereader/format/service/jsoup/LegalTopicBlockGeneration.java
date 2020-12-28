@@ -4,11 +4,13 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestService;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import org.apache.commons.io.FilenameUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +53,8 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
     }
 
     @Override
-    public void transform(final String docGuid, final Document document, final BookStep bookStep) {
+    public void transform(final File file, final Document document, final BookStep bookStep) {
+        final String docGuid = FilenameUtils.removeExtension(file.getName());
         final Map<String, List<CanadianDigest>> docGuidToTopicMap = getGuidToTopicMapFromStep(bookStep);
         if (docGuidToTopicMap.containsKey(docGuid)) {
             final String legalTopic = buildLegalTopic(docGuidToTopicMap.get(docGuid), docGuid);

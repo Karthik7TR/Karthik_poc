@@ -349,6 +349,14 @@ table.cw_fixed_table {\
 .footnote .footnote_body_box, .footnote_body_bottom {\
   display: none;\
 }\
+\
+.hidden_footnote {\
+	display: none;\
+}\
+\
+.hidden_footnote_reference {\
+	visibility: hidden;\
+}\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\

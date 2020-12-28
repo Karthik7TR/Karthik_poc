@@ -5,6 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 @Service
 public class TableStylesAddition implements JsoupTransformation {
     private static final String TABLE_SELECTOR = "table.co_borderedTable";
@@ -14,7 +16,7 @@ public class TableStylesAddition implements JsoupTransformation {
     private static final String CW_PADDING_4 = "cw_padding_4";
 
     @Override
-    public void transform(final String fileName, final Document document, final BookStep bookStep) {
+    public void transform(final File file, final Document document, final BookStep bookStep) {
         if (bookStep.getBookDefinition().isCwBook()) {
             Elements tables = document.select(TABLE_SELECTOR);
             tables.forEach(table -> {

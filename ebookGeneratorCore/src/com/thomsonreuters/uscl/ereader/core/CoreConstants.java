@@ -59,6 +59,7 @@ public class CoreConstants {
 
     public static final String KEY_SIMPLE_REST_RESPONSE = "simpleResponse";
     public static final String KEY_DOC_GUID_TO_TOPIC_MAP = "docGuidToTopicMap";
+    public static final String PAGE_NUMBERS_MAP = "pageNumbersMap";
 
     public static final String KEY_PROVIEW_HOST = "proviewHost";
 

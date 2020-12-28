@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Component
 public class JsoupService {
@@ -74,15 +75,23 @@ public class JsoupService {
     }
 
     public List<XmlDeclaration> selectXmlProcessingInstructions(final Element element, final String target) {
-        final List<XmlDeclaration> foundNodes = new ArrayList<>();
+        final List<Node> foundNodes = new ArrayList<>();
         treeSearch(element, node -> node instanceof XmlDeclaration && target.equals(((XmlDeclaration) node).name()), foundNodes);
+        return foundNodes.stream()
+                .map(node -> (XmlDeclaration) node)
+                .collect(Collectors.toList());
+    }
+
+    public List<Node> selectNodes(final Element element, final Predicate<Node> searchCondition) {
+        final List<Node> foundNodes = new ArrayList<>();
+        treeSearch(element, searchCondition, foundNodes);
         return foundNodes;
     }
 
-    private void treeSearch(final Node element, final Predicate<Node> searchCondition, final List<XmlDeclaration> output) {
+    private void treeSearch(final Node element, final Predicate<Node> searchCondition, final List<Node> output) {
         element.childNodes().forEach(child -> {
             if (searchCondition.test(child)) {
-                output.add((XmlDeclaration) child);
+                output.add(child);
             }
             treeSearch(child, searchCondition, output);
         });

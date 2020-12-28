@@ -18,10 +18,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
@@ -58,6 +62,7 @@ public class ReorderFootnotesService {
     private static final String A_TAG = "a";
     private static final String A_HREF = "a[href]";
     private static final String HREF = "href";
+    private static final String PAGE = "page";
     private static final String NAME = "name";
     private static final String SUP = "sup";
     private static final String AUTHOR_FOOTNOTES = "author.footnotes";
@@ -139,7 +144,8 @@ public class ReorderFootnotesService {
 
         List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);
         String firstFileName = getFirstFileName(srcFilesOrdered);
-        Map<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered);
+        BidiMap<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered);
+        step.setJobExecutionProperty(PAGE_NUMBERS_MAP, pageNumbers);
 
         final PagePointer mainPage = new PagePointer(pageNumbers);
         final PagePointer footnotePage = new PagePointer(pageNumbers);
@@ -178,6 +184,7 @@ public class ReorderFootnotesService {
             addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
             convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage, isFirstFile);
+            setPageAttrInReferencesInMainSectionAndFootnotes(mainSection, footnotesSectionToAppend, mainPage, footnotePage);
             mainSection.after(footnotesSectionToAppend);
         }
 
@@ -209,8 +216,8 @@ public class ReorderFootnotesService {
                 .collect(Collectors.toList());
     }
 
-    private Map<String, String> extractPageNumbers(final List<File> srcFilesOrdered) {
-        Map<String, String> pageNumbers = new HashMap<>();
+    private BidiMap<String, String> extractPageNumbers(final List<File> srcFilesOrdered) {
+        BidiMap<String, String> pageNumbers = new DualHashBidiMap<>();
         String pagebreakPrevious = INITIAL_PAGE_LABEL;
         for (File file : srcFilesOrdered) {
             final Document doc = jsoup.loadDocument(file);
@@ -518,6 +525,30 @@ public class ReorderFootnotesService {
         });
     }
 
+    private void setPageAttrInReferencesInMainSectionAndFootnotes(final Element mainSection, final Element footnotesSectionToAppend,
+        final PagePointer mainPage, final PagePointer footnotePage) {
+        mainPage.setCurrentPage(mainPage.getInitialPageInCurrentDocument());
+        footnotePage.setCurrentPage(footnotePage.getInitialPageInCurrentDocument());
+        setPageAttrInReferences(mainSection, mainPage);
+        setPageAttrInReferences(footnotesSectionToAppend, footnotePage);
+    }
+
+    private void setPageAttrInReferences(final Element section, final PagePointer pagePointer) {
+        for (Node node : getFootnoteReferencesAndPagebreaks(section)) {
+            if (node instanceof XmlDeclaration) {
+                pagePointer.setCurrentPage(PageNumberUtil.getLabel(node));
+            } else {
+                node.attr(PAGE, pagePointer.getCurrentPage());
+            }
+        }
+    }
+
+    private List<Node> getFootnoteReferencesAndPagebreaks(final Element section) {
+        return jsoup.selectNodes(section, node ->
+                (node instanceof XmlDeclaration && PB.equals(((XmlDeclaration) node).name()))
+                        || (node instanceof Element && A_TAG.equals(node.nodeName()) && ((Element) node).hasClass(TR_FTN)));
+    }
+
     private void movePagebreakOutOfFootnotes(final Element footnoteSection) {
         protectFootnoteBodyForPopupBox(footnoteSection);
         final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(footnoteSection);
@@ -679,7 +710,7 @@ public class ReorderFootnotesService {
     private List<XmlDeclaration> getProviewPagebreaks(final Element element) {
         return jsoup.selectXmlProcessingInstructions(element, PB);
     }
-    
+
     private void remove(final Element element) {
         if (Objects.nonNull(element)) {
             element.remove();

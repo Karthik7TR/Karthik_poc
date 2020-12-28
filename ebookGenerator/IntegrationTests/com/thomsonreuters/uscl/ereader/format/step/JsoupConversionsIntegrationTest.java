@@ -2,15 +2,18 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.format.service.RemoveGapsBetweenChaptersService;
+import com.thomsonreuters.uscl.ereader.format.service.jsoup.AddHiddenFootnotesAndReferences;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.ExternalLinksTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.JsoupTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.LegalTopicBlockGeneration;
+import com.thomsonreuters.uscl.ereader.format.service.jsoup.RemoveGapsBetweenChaptersService;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.TableStylesAddition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.CanadianDigestDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestServiceImpl;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +32,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import static com.thomsonreuters.uscl.ereader.JobExecutionKey.WITH_PAGE_NUMBERS;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {JsoupConversionsIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
@@ -72,6 +78,17 @@ public class JsoupConversionsIntegrationTest {
         bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
         givenBook(step.getChunkContext(), bookDefinition);
         runner.test(step, "removeGapsBetweenChapters");
+    }
+
+    @Test
+    public void shouldAddHiddenReferencesAndFootnotes() throws Exception {
+        BidiMap<String, String> pageNumbers = new DualHashBidiMap<>();
+        pageNumbers.put("48", "49");
+        pageNumbers.put("49", "50");
+        pageNumbers.put("50", "51");
+        when(step.getJobExecutionProperty(PAGE_NUMBERS_MAP)).thenReturn(pageNumbers);
+        when(step.getJobExecutionProperty(WITH_PAGE_NUMBERS)).thenReturn(true);
+        runner.test(step, "addHiddenFootnotesAndReferences");
     }
 
     @Test
@@ -127,6 +144,11 @@ public class JsoupConversionsIntegrationTest {
         @Bean
         public JsoupTransformation removeGapsBetweenChapters() {
             return new RemoveGapsBetweenChaptersService();
+        }
+
+        @Bean
+        public JsoupTransformation addHiddenFootnotesAndReferences() {
+            return new AddHiddenFootnotesAndReferences();
         }
 
         @Bean
