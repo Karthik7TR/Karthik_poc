@@ -1,0 +1,215 @@
+diff --git a/Java/.classpath b/Java/.classpath
+index 3f5bf48..45238d3 100644
+--- a/Java/.classpath
++++ b/Java/.classpath
+@@ -1,13 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-
+ <classpath>
+-    <classpathentry kind="src" path="src" output="bin" />
+-    <classpathentry kind="src" path="resources" output="bin" />
+-    <classpathentry kind="src" path="UnitTests" output="bin-test" />
+-    <classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=UrlBuilder&amp;ivyXmlPath=ivy.xml&amp;confs=local%2Cmaster&amp;ivySettingsPath=%24%7Bworkspace_loc%3AUrlBuilder%2Fivysettings.xml%7D&amp;loadSettingsOnDemand=false&amp;propertyFiles=" />
+-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+-        <attributes>
+-            <attribute name="owner.project.facets" value="java" />
+-        </attributes>
+-    </classpathentry>
++	<classpathentry kind="src" output="bin" path="src"/>
++	<classpathentry kind="src" output="bin" path="resources"/>
++	<classpathentry kind="src" output="bin-test" path="UnitTests"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
++		<attributes>
++			<attribute name="module" value="true"/>
++			<attribute name="owner.project.facets" value="java"/>
++		</attributes>
++	</classpathentry>
++	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ebookBuilder-lib"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/junit-lib"/>
++	<classpathentry kind="output" path="bin"/>
+ </classpath>
+diff --git a/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java b/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java
+index 3f4963f..9f2c3f1 100644
+--- a/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java
++++ b/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java
+@@ -147,9 +147,8 @@ public final class CiteQueryTests
+ 
+                 testIndex += 1;
+             }
++            assertThat(testIndex).isEqualTo(citeQueries.size());
+         }
+-
+-        assertThat(testIndex).isEqualTo(citeQueries.size());
+         assertThat(results.toString()).describedAs(results.toString()).isEmpty();
+     }
+ 
+@@ -187,6 +186,96 @@ public final class CiteQueryTests
+         verifyCiteQueryTests(citeQueries);
+     }
+ 
++    @Test
++    public void validateCiteQueriesCarswellIGLong() throws Exception
++    {
++        final String linkElement = "<cite.query " +
++            "w-src-number=\"0298627304\" " +
++            "w-seq-number=\"00005\" " +
++            "w-ref-type=\"IG\" " +
++            "w-serial-number=\"280630688\" " +
++            "w-docfamily-uuid=\"I3ddb5756f4f511d99f28ffa0ae8c2575\" " +
++            "w-pub-number=\"135090\" " +
++            "w-target-preference=\"DocLanguage:EN\" " +
++            "w-pinpoint-page=\"AA41F635A60162C8E0540010E03EEFE0\" " +
++            "ID=\"I5a92d0f12b3e11eb987de62c8a9b3ff1\">section 205</cite.query>";
++        // Arrange
++        List<CiteQueryTestResult> citeQueries = new ArrayList<CiteQueryTestResult>();
++        citeQueries.add(new CiteQueryTestResult(linkElement, "/Link/Document/FullText?findType=Y&serNum=0000000000280630688&pubNum=135090&originatingDoc=origdoc&refType=IG&docFamilyGuid=I3ddb5756f4f511d99f28ffa0ae8c2575&targetPreference=DocLanguage%3AEN&originationContext=origctx#co_pp_AA41F635A60162C8E0540010E03EEFE0"));
++
++        verifyCiteQueryTests(citeQueries);
++    }
++
++    @Test
++    public void validateCiteQueriesCarswellIGMedium() throws Exception
++    {
++        final String linkElement = "<cite.query " +
++            "w-src-number=\"0298627319\" " +
++            "w-seq-number=\"00001\" " +
++            "w-ref-type=\"IG\" " +
++            "w-serial-number=\"280379381\" " +
++            "w-docfamily-uuid=\"I949d2716f46d11d99f28ffa0ae8c2575\" " +
++            "w-pub-number=\"134158\" " +
++            "w-target-preference=\"DocLanguage:EN\" " +
++            "ID=\"I5fed0e312b3e11eb987de62c8a9b3ff1\">text</cite.query>";
++        // Arrange
++        List<CiteQueryTestResult> citeQueries = new ArrayList<CiteQueryTestResult>();
++        citeQueries.add(new CiteQueryTestResult(linkElement, "/Link/Document/FullText?findType=Y&serNum=0000000000280379381&pubNum=134158&originatingDoc=origdoc&refType=IG&docFamilyGuid=I949d2716f46d11d99f28ffa0ae8c2575&targetPreference=DocLanguage%3AEN&originationContext=origctx"));
++
++        verifyCiteQueryTests(citeQueries);
++    }
++
++    @Test
++    public void validateCiteQueriesCarswellIGShort() throws Exception
++    {
++        final String linkElement = "<cite.query " +
++            "w-src-number=\"0298627309\" " +
++            "w-seq-number=\"00002\" " +
++            "w-ref-type=\"IG\" " +
++            "w-normalized-cite=\"null\" " +
++            "ID=\"I5d5bb4f22b3e11eb987de62c8a9b3ff1\">text</cite.query>";
++        // Arrange
++        List<CiteQueryTestResult> citeQueries = new ArrayList<CiteQueryTestResult>();
++        citeQueries.add(new CiteQueryTestResult(linkElement, ""));//"/Link/Document/FullText?findType=Y&cite=null&originatingDoc=origdoc&refType=IG&originationContext=origctx"));
++
++        verifyCiteQueryTests(citeQueries);
++    }
++
++    @Test
++    public void validateCiteQueriesForCarswellIXLong() throws Exception
++    {
++        final String linkElement = "<cite.query " +
++            "w-src-number=\"0298627318\" " +
++            "w-seq-number=\"00001\" " +
++            "w-ref-type=\"IX\" " +
++            "w-serial-number=\"280700496\" " +
++            "w-docfamily-uuid=\"Ib5ade80ff4ed11d99f28ffa0ae8c2575\" " +
++            "w-pub-number=\"146294\" " +
++            "w-target-preference=\"DocLanguage:EN\" " +
++            "ID=\"I5f1572e12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
++        // Arrange
++        List<CiteQueryTestResult> citeQueries = new ArrayList<CiteQueryTestResult>();
++        citeQueries.add(new CiteQueryTestResult(linkElement, "/Link/Document/FullText?findType=Y&serNum=0000000000280700496&pubNum=146294&originatingDoc=origdoc&refType=IG&docFamilyGuid=Ib5ade80ff4ed11d99f28ffa0ae8c2575&targetPreference=DocLanguage%3AEN&originationContext=origctx"));
++
++        verifyCiteQueryTests(citeQueries);
++    }
++
++    @Test
++    public void validateCiteQueriesForCarswellIXShort() throws Exception
++    {
++        final String linkElement = "<cite.query " +
++            "w-src-number=\"0298627304\" " +
++            "w-seq-number=\"00003\" " +
++            "w-ref-type=\"IX\" " +
++            "w-docfamily-uuid=\"UNKNOWN\" " +
++            "ID=\"I5a9282d12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
++        // Arrange
++        List<CiteQueryTestResult> citeQueries = new ArrayList<CiteQueryTestResult>();
++        citeQueries.add(new CiteQueryTestResult(linkElement, ""));//"/Link/Document/FullText?findType=Y&originatingDoc=origdoc&refType=IG&docFamilyGuid=UNKNOWN&originationContext=origctx"));
++
++        verifyCiteQueryTests(citeQueries);
++    }
++
+     @Test @Ignore("Heuer 2/26/2014 - This no longer works due to Entity Id change in Document")
+     public void verifyGeneratedUrlExists() throws Exception
+     {
+diff --git a/Java/resources/com/trgr/cobalt/util/urlbuilder/RefTypesByContainerData.json b/Java/resources/com/trgr/cobalt/util/urlbuilder/RefTypesByContainerData.json
+index dffc747..687cc86 100644
+--- a/Java/resources/com/trgr/cobalt/util/urlbuilder/RefTypesByContainerData.json
++++ b/Java/resources/com/trgr/cobalt/util/urlbuilder/RefTypesByContainerData.json
+@@ -2,7 +2,7 @@
+   {
+     "Container": [ "Cobalt", "CobaltMobile", "web2.westlaw.com", "WestlawNext", "Forms.Westlaw", "ORION.WESTLAW", "SLWB.WESTLAW", "NEXTTAX.WESTLAW", "DRAFTING.WESTLAW", "LFD.THOMSONREUTERS", "MONITORSUITE.THOMSONREUTERS", "JUDICIALPRACTICE.TR" ],
+ 			"ApprovedRefTypes": [ "A1", "A2", "AA", "AJ", "AK", "AM", "AN", "AP", "AV", "AZ", "BR", "CA", "CC", "CK", "CM", "CN", "CO", "CP", "CW", "CZ", "DA", "DB", "DE", "DN", "E1", "EN", "EU", "EW", "EX", "FI", "FP", "FR", "GA", "GE", "GM", "GN", "HN", "JP", "JV", "KD", "KW", "LC", "LQ", "LR", "MB", "MC", "ME", "MK", "MM", "N2", "N4", "N5", "N7", "N8", "NA", "NK", "NM", "NR", "NZ", "OA", "OC", "OG", "OE", "OS", "PA", "PC", "PD", "PG", "PP", "PS", "PY", "QC", "QS", "RB", "RC", "RE", "RJ", "RM", "RP", "RQ", "SA", "SC", "SL", "SP", "ST", "SU", "SX", "TG", "TN", "TR", "TS", "TT", "TU", "TV", "U2", "U4", "U5", "U7", "U8", "UB", "UF", "V1", "V4", "VB", "VE", "VP", "VQ", "WC", "WK", "WM", "WN", "WP", "Z1", "Z4", "ZV" ],
+-    "MissingRefTypes": [ "AB", "AD", "AE", "AG", "BD", "CD", "CH", "CL", "CR", "CV", "CX", "C1", "DD", "DF", "DI", "DJ", "DK", "DM", "DO", "DQ", "DS", "DU", "DV", "D1", "EA", "EG", "EI", "EM", "EV", "FE", "FM", "FN", "FT", "FW", "GB", "GC", "GD", "GG", "GK", "GL", "GS", "G1", "HD", "HI", "IA", "IC", "IE", "IJ", "IL", "IM", "IN", "IP", "IQ", "IR", "JI", "JR", "KE", "KP", "KS", "LD", "LE", "LH", "LJ", "LL", "LM", "LN", "LV", "MD", "MJ", "MP", "MR", "MU", "M1", "NE", "NF", "NH", "NJ", "NO", "NS", "NT", "NV", "OP", "PE", "PF", "PH", "PI", "PJ", "PL", "PR", "PW", "QH", "QT", "RA", "RR", "RU", "RX", "R9", "SD", "SE", "SG", "SS", "SV", "SX", "TB", "TC", "TD", "TF", "TJ", "TK", "TL", "TM", "TQ", "UA", "UC", "UD", "UJ", "UL", "UM", "UO", "UT", "UX", "UY", "UZ", "U1", "VO", "VS", "VV", "WD", "XX", "ZA", "ZZ", "Z9" ],
++    "MissingRefTypes": [ "AB", "AD", "AE", "AG", "BD", "CD", "CH", "CL", "CR", "CV", "CX", "C1", "DD", "DF", "DI", "DJ", "DK", "DM", "DO", "DQ", "DS", "DU", "DV", "D1", "EA", "EG", "EI", "EM", "EV", "FE", "FM", "FN", "FT", "FW", "GB", "GC", "GD", "GG", "GK", "GL", "GS", "G1", "HD", "HI", "IA", "IC", "IE", "IJ", "IL", "IM", "IN", "IP", "IQ", "IR", "JI", "JR", "KE", "KP", "KS", "LD", "LE", "LH", "LJ", "LL", "LM", "LN", "LV", "MD", "MJ", "MP", "MR", "MU", "M1", "NE", "NF", "NH", "NJ", "NO", "NS", "NT", "NV", "OP", "PE", "PF", "PH", "PI", "PJ", "PL", "PR", "PW", "QH", "QT", "RA", "RR", "RU", "RX", "R9", "SD", "SE", "SG", "SS", "SV", "SX", "TB", "TC", "TD", "TF", "TJ", "TK", "TL", "TM", "TQ", "UA", "UC", "UD", "UJ", "UL", "UM", "UO", "UT", "UX", "UY", "UZ", "U1", "VO", "VS", "VV", "WD", "XX", "ZA", "ZZ", "Z9",               "IX", "IG", "ML", "UE"                 ],
+     "WNormalizedCiteRuledRefTypes": [ "DE", "LR", "PA", "PE", "PG", "PH", "PJ", "PL", "PR", "PS", "PW", "TV" ],
+     "ApprovedNormalizedCiteRuledRefTypes": [ "DE" ]
+   },
+@@ -16,7 +16,7 @@
+   {
+     "Container": [ "CARSWELL.WESTLAW" ],
+     "ApprovedRefTypes": [ "A1", "A2", "AA", "AM", "AN", "BR", "CA", "CC", "CM", "CN", "CP", "CK", "CW", "CZ", "DA", "DB", "DE", "DN", "EW", "EX", "FI", "FR", "GA", "GE", "GM", "HN", "JV", "KD", "KW", "LQ", "LR", "MC", "NA", "NR", "PA", "PC", "PD", "PS", "RB", "RC", "RE", "RM", "RP", "RQ", "SA", "SL", "SP", "ST", "SU", "TG", "TR", "TS", "TT", "TU", "TV", "VB", "VE", "VP", "VQ", "WM", "WN", "WP" ],
+-    "MissingRefTypes": [ "AB", "AD", "AE", "AG", "BD", "CD", "CH", "CL", "CR", "CV", "CX", "C1", "DD", "DF", "DI", "DJ", "DK", "DM", "DO", "DQ", "DS", "DU", "DV", "D1", "EA", "EG", "EI", "EM", "EV", "FE", "FM", "FN", "FT", "FW", "GB", "GC", "GD", "GG", "GK", "GL", "GS", "G1", "HD", "HI", "IA", "IC", "IE", "IG", "IJ", "IL", "IM", "IN", "IP", "IQ", "IR", "JI", "JR", "KE", "KP", "KS", "LD", "LE", "LH", "LJ", "LL", "LM", "LN", "LV", "MD", "MJ", "ML", "MP", "MR", "MU", "M1", "NE", "NF", "NH", "NJ", "NO", "NS", "NT", "NV", "OP", "PE", "PF", "PH", "PI", "PJ", "PL", "PR", "PW", "QH", "QT", "RA", "RR", "RU", "RX", "R9", "SD", "SE", "SG", "SS", "SV", "TB", "TC", "TD", "TF", "TJ", "TK", "TL", "TM", "TQ", "UA", "UC", "UD", "UE", "UJ", "UL", "UM", "UO", "UT", "UX", "UY", "UZ", "U1", "VO", "VS", "VV", "WD", "WK", "XX", "ZA", "ZZ", "Z9" ],
++    "MissingRefTypes": [ "AB", "AD", "AE", "AG", "BD", "CD", "CH", "CL", "CR", "CV", "CX", "C1", "DD", "DF", "DI", "DJ", "DK", "DM", "DO", "DQ", "DS", "DU", "DV", "D1", "EA", "EG", "EI", "EM", "EV", "FE", "FM", "FN", "FT", "FW", "GB", "GC", "GD", "GG", "GK", "GL", "GS", "G1", "HD", "HI", "IA", "IC", "IE", "IG", "IJ", "IL", "IM", "IN", "IP", "IQ", "IR", "JI", "JR", "KE", "KP", "KS", "LD", "LE", "LH", "LJ", "LL", "LM", "LN", "LV", "MD", "MJ", "ML", "MP", "MR", "MU", "M1", "NE", "NF", "NH", "NJ", "NO", "NS", "NT", "NV", "OP", "PE", "PF", "PH", "PI", "PJ", "PL", "PR", "PW", "QH", "QT", "RA", "RR", "RU", "RX", "R9", "SD", "SE", "SG", "SS", "SV", "TB", "TC", "TD", "TF", "TJ", "TK", "TL", "TM", "TQ", "UA", "UC", "UD", "UE", "UJ", "UL", "UM", "UO", "UT", "UX", "UY", "UZ", "U1", "VO", "VS", "VV", "WD", "WK", "XX", "ZA", "ZZ", "Z9",                    "IX"                ],
+     "WNormalizedCiteRuledRefTypes": [ "LR" ],
+     "ApprovedNormalizedCiteRuledRefTypes": []
+   },
+diff --git a/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java b/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java
+index b0bf880..3689758 100644
+--- a/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java
++++ b/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java
+@@ -62,7 +62,6 @@ public class CiteQuery
+     private static final String START_INDEX_PARAMETER_NAME = "startIndex";
+     private static final String CONTEXT_DATA_PARAMETER_NAME = "contextData";
+     private static final String CATEGORY_PAGE_URL_PARAMETER_NAME = "categoryPageUrl";
+-    private static final String COMPARE_TYPE = "compareType";
+ 
+     private Set<String> MissingRefTypes = new HashSet<String>();
+     private Set<String> ApprovedRefTypes = new HashSet<String>();
+@@ -102,7 +101,7 @@ public class CiteQuery
+         "LC", "LR", "MK", "ML", "N2", "N4", "N5", "N7", "N8", "NA", "NK", "NR", "NZ", "OP", "PA", "PD", "PE", "PG",
+         "PH", "PJ", "PL", "PR", "PW", "RA", "RC", "RM", "RN", "RP", "R9", "SA", "SD", "SS", "ST", "SU", "TG", "TR",
+         "TS", "TV", "TX", "U2", "U4", "U5", "U7", "U8", "UA", "UB", "UC", "UJ", "UL", "UT", "UY", "UZ", "V1", "V4",
+-        "VO", "VV", "Z1", "Z4", "ZV"));
++        "VO", "VV", "Z1", "Z4", "ZV", "IX"));
+     private static Set<String> RefTypesMappedTobcfFindTypes = new HashSet<String>(Arrays.asList(//
+         "CO"));
+     private static Set<String> RefTypesMappedToUNKNOWNFindTypes = new HashSet<String>(Arrays.asList(//
+@@ -339,6 +338,11 @@ public class CiteQuery
+         if (StringUtils.isNotBlank(citeQuery.getRefType())
+             && (ApprovedRefTypes.contains(citeQuery.getRefType()) || MissingRefTypes.contains(citeQuery.getRefType())))
+         {
++            changeIXtoIG(citeQuery);
++            if (citeQuery.getRefType().equalsIgnoreCase("IG") && StringUtils.isBlank(citeQuery.getSerialNumber())) {
++                return null;
++            }
++
+             if (citeQuery.getRefType().equalsIgnoreCase("DB"))
+             {
+                 return CiteQuery.CreateDBRefTypeUrl(citeQuery);
+@@ -613,6 +617,17 @@ public class CiteQuery
+         return null;
+     }
+ 
++    /**
++     * temporary solution till nextcanada.westlaw.com will be able to manage ref type IX
++     */
++    private void changeIXtoIG(CiteQueryNode citeQuery)
++    {
++        if (citeQuery.getRefType().equalsIgnoreCase("IX"))
++        {
++            citeQuery.setRefType("IG");
++        }
++    }
++
+     private boolean isNormalizedCitedRefTypeWithoutLink(CiteQueryNode citeQuery)
+     {
+         return StringUtils.isNotBlank(citeQuery.getRefType())

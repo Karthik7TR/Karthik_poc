@@ -12,6 +12,8 @@ import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import static org.junit.Assert.assertEquals;
+
 public final class CiteQueryAdapterTest {
     private static final String CITE_QUERY_SOURCE_CITE = "ebook";
 
@@ -161,6 +163,112 @@ public final class CiteQueryAdapterTest {
         final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
 
         Assert.isTrue(StringUtils.isNotEmpty(urlString));
+    }
+
+
+    @Test
+    public void validateCiteQueriesCarswellIGLong() {
+        final String linkElement = "<cite.query " +
+                "w-src-number=\"0298627304\" " +
+                "w-seq-number=\"00005\" " +
+                "w-ref-type=\"IG\" " +
+                "w-serial-number=\"280630688\" " +
+                "w-docfamily-uuid=\"I3ddb5756f4f511d99f28ffa0ae8c2575\" " +
+                "w-pub-number=\"135090\" " +
+                "w-target-preference=\"DocLanguage:EN\" " +
+                "w-pinpoint-page=\"AA41F635A60162C8E0540010E03EEFE0\" " +
+                "ID=\"I5a92d0f12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+        final String originatingDoc = "origdoc";
+        final String expectedUrl = "null/Link/Document/FullText?findType=Y&serNum=0000000000280630688&pubNum=135090&originatingDoc=origdoc" +
+                "&refType=IG" +
+                "&docFamilyGuid=I3ddb5756f4f511d99f28ffa0ae8c2575&targetPreference=DocLanguage%3AEN&originationContext=ebook" +
+                "&RS=null&vr=null" +
+                "#co_pp_AA41F635A60162C8E0540010E03EEFE0";
+
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
+
+        assertEquals(expectedUrl, urlString);
+    }
+
+    @Test
+    public void validateCiteQueriesCarswellIGMedium() {
+        final String linkElement = "<cite.query " +
+                "w-src-number=\"0298627319\" " +
+                "w-seq-number=\"00001\" " +
+                "w-ref-type=\"IG\" " +
+                "w-serial-number=\"280379381\" " +
+                "w-docfamily-uuid=\"I949d2716f46d11d99f28ffa0ae8c2575\" " +
+                "w-pub-number=\"134158\" " +
+                "w-target-preference=\"DocLanguage:EN\" " +
+                "ID=\"I5fed0e312b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+        final String originatingDoc = "origdoc";
+        final String expectedUrl = "null/Link/Document/FullText?findType=Y&serNum=0000000000280379381&pubNum=134158" +
+                "&originatingDoc=origdoc" +
+                "&refType=IG" +
+                "&docFamilyGuid=I949d2716f46d11d99f28ffa0ae8c2575" +
+                "&targetPreference=DocLanguage%3AEN&originationContext=ebook" +
+                "&RS=null&vr=null";
+
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
+
+        assertEquals(expectedUrl, urlString);
+    }
+
+    @Test
+    public void validateCiteQueriesCarswellIGShort() {
+        final String linkElement = "<cite.query " +
+                "w-src-number=\"0298627309\" " +
+                "w-seq-number=\"00002\" " +
+                "w-ref-type=\"IG\" " +
+                "w-normalized-cite=\"null\" " +
+                "ID=\"I5d5bb4f22b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+        final String originatingDoc = "origdoc";
+        final String expectedUrl = "";
+
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
+
+        assertEquals(expectedUrl, urlString);
+    }
+
+    @Test
+    public void validateCiteQueriesForCarswellIXLong() {
+        final String linkElement = "<cite.query " +
+                "w-src-number=\"0298627318\" " +
+                "w-seq-number=\"00001\" " +
+                "w-ref-type=\"IX\" " +
+                "w-serial-number=\"280700496\" " +
+                "w-docfamily-uuid=\"Ib5ade80ff4ed11d99f28ffa0ae8c2575\" " +
+                "w-pub-number=\"146294\" " +
+                "w-target-preference=\"DocLanguage:EN\" " +
+                "ID=\"I5f1572e12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+        final String originatingDoc = "origdoc";
+        final String expectedUrl = "null/Link/Document/FullText?findType=Y&serNum=0000000000280700496&pubNum=146294" +
+                "&originatingDoc=origdoc" +
+                "&refType=IG" +
+                "&docFamilyGuid=Ib5ade80ff4ed11d99f28ffa0ae8c2575" +
+                "&targetPreference=DocLanguage%3AEN&originationContext=ebook" +
+                "&RS=null&vr=null";
+
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
+
+        assertEquals(expectedUrl, urlString);
+    }
+
+
+    @Test
+    public void validateCiteQueriesForCarswellIXShort() {
+        final String linkElement = "<cite.query " +
+                "w-src-number=\"0298627304\" " +
+                "w-seq-number=\"00003\" " +
+                "w-ref-type=\"IX\" " +
+                "w-docfamily-uuid=\"UNKNOWN\" " +
+                "ID=\"I5a9282d12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+        final String originatingDoc = "origdoc";
+        final String expectedUrl = "";
+
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
+
+        assertEquals(expectedUrl, urlString);
     }
 
     @Before
