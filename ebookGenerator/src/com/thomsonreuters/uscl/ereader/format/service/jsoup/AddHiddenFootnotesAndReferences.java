@@ -40,7 +40,6 @@ public class AddHiddenFootnotesAndReferences implements JsoupTransformation {
     private static final String FOOTNOTE_BODY_CLASS_NAME = "footnote_body";
     private static final String HIDDEN_FOOTNOTE_CLASS_NAME = "hidden_footnote";
     private static final String HIDDEN_FOOTNOTE_REFERENCE_CLASS_NAME = "hidden_footnote_reference";
-    private static final String PAGE_NUMBER_FOOTNOTE = "page_number_footnote";
     private static final String HIDDEN_FOOTNOTE_NAME_SUFFIX = "_hidden";
 
     @Autowired
