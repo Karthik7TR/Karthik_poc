@@ -36,7 +36,7 @@
 			<author.line>
 				<bop/>
 				<bos/>
-				<author>David F. Herr[<footnote.reference refid="If13cd1706b3e11e99b03e53d6dd36aa2">a0</footnote.reference>]</author>
+				<author>David F. Herr</author>
 				<eos/>
 				<eop/>
 			</author.line>
@@ -132,20 +132,6 @@
 			</intro.block>
 			<page no="1"/>
 		</grade.notes>
-		<author.footnotes>
-			<footnote ID="If13cd1706b3e11e99b03e53d6dd36aa2">
-				<label.designator>a0</label.designator>
-				<footnote.body>
-					<para>
-						<bop/>
-						<bos/>
-						<paratext>Maslon Edelman Borman &amp; Brand, LLP, Minneapolis, Minnesota.<eos/>
-						</paratext>
-						<eop/>
-					</para>
-				</footnote.body>
-			</footnote>
-		</author.footnotes>
 		<content.metadata.block>
 			<cmd.royalty>
 				<cmd.copyright>

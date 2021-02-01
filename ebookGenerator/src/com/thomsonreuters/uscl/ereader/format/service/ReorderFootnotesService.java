@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import org.apache.commons.collections4.iterators.ReverseListIterator;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -564,14 +565,17 @@ public class ReorderFootnotesService {
     private void movePagebreakToNextDocument(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
         final Element mainSection, final Element footnoteSection) {
         prependPagebreakAndFootnoteFromPreviousDocument(mainSection, footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
-        clearLastPagebreaksAndFootnotes(pagebreakAndFootnoteToMoveToNextDocument);
+        pagebreakAndFootnoteToMoveToNextDocument.clear();
         saveLastPagebreakAndFootnoteToPrependToNextDocument(mainSection, footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
+        pagebreakAndFootnoteToMoveToNextDocument.removeElementsIfAvailable();
     }
 
     private void prependPagebreakAndFootnoteFromPreviousDocument(final Element mainSection, final Element footnoteSection,
         final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        prependPagebreakFromPreviousDocument(mainSection, pagebreakAndFootnoteToMoveToNextDocument);
-        prependFootnoteFromPreviousDocument(footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
+        if (pagebreakAndFootnoteToMoveToNextDocument.isAvailable()) {
+            prependPagebreakFromPreviousDocument(mainSection, pagebreakAndFootnoteToMoveToNextDocument);
+            prependFootnoteFromPreviousDocument(footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
+        }
     }
 
     private void prependPagebreakFromPreviousDocument(final Element mainSection,
@@ -586,8 +590,17 @@ public class ReorderFootnotesService {
 
     private void prependFootnoteFromPreviousDocument(final Element footnoteSection,
         final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
+        List<Node> pagebreakSiblingsFromFootnoteSection = pagebreakAndFootnoteToMoveToNextDocument.getPagebreakSiblingsInFootnotesSection();
         Node pagebreakFromFootnoteSection = pagebreakAndFootnoteToMoveToNextDocument.getPagebreakFromFootnotesSection();
         Node footnote = pagebreakAndFootnoteToMoveToNextDocument.getFootnote();
+
+        if (pagebreakSiblingsFromFootnoteSection != null) {
+            ReverseListIterator<Node> it = new ReverseListIterator<Node>(pagebreakSiblingsFromFootnoteSection);
+            while (it.hasNext()) {
+                footnoteSection.prependChild(it.next());
+            }
+        }
+
         if (pagebreakFromFootnoteSection != null && footnote != null) {
             footnoteSection.prependChild(pagebreakFromFootnoteSection);
             footnoteSection.prependChild(footnote);
@@ -612,7 +625,7 @@ public class ReorderFootnotesService {
             if (child instanceof XmlDeclaration) {
                 XmlDeclaration xmlDeclaration = (XmlDeclaration) child;
                 if (PageNumberUtil.PB.equals(xmlDeclaration.name())) {
-                    removeLastPagebreak(xmlDeclaration, pagebreakAndFootnoteToMoveToNextDocument);
+                    saveLastPagebreak(xmlDeclaration, pagebreakAndFootnoteToMoveToNextDocument);
                     break;
                 }
             } else {
@@ -636,13 +649,11 @@ public class ReorderFootnotesService {
                 && !CO_END_OF_DOCUMENT.equals(child.attr(ID));
     }
 
-    private void removeLastPagebreak(final XmlDeclaration pagebreak,
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
+    private void saveLastPagebreak(final XmlDeclaration pagebreak,
+                                   final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
         pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromMainSection(pagebreak);
         Node reference = pagebreak.previousSibling();
         pagebreakAndFootnoteToMoveToNextDocument.setReference(reference);
-        reference.remove();
-        pagebreak.remove();
     }
 
     private void saveFootnoteNodesAfterText(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
@@ -651,26 +662,35 @@ public class ReorderFootnotesService {
         Collections.reverse(pagebreaks);
         for (XmlDeclaration pagebreak : pagebreaks) {
             if (pageNumber.equals(PageNumberUtil.getLabel(pagebreak))) {
-                removeFootnoteNodesAfterText(pagebreakAndFootnoteToMoveToNextDocument, pagebreak);
+                saveFootnoteAfterText(pagebreakAndFootnoteToMoveToNextDocument, pagebreak);
                 break;
             }
         }
     }
 
-    private void removeFootnoteNodesAfterText(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
-        final XmlDeclaration pagebreak) {
-        pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromFootnotesSection(pagebreak);
-        Node footnote = pagebreak.previousSibling();
-        pagebreakAndFootnoteToMoveToNextDocument.setFootnote(footnote);
-        footnote.remove();
-        pagebreak.remove();
+    private void saveFootnoteAfterText(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
+                                       final XmlDeclaration pagebreak) {
+        List<Node> nextSiblings = getNextSiblings(pagebreak);
+        if (hasNoFootnotesAfterPagebreak(nextSiblings)) {
+            pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromFootnotesSection(pagebreak);
+            Node footnote = pagebreak.previousSibling();
+            pagebreakAndFootnoteToMoveToNextDocument.setFootnote(footnote);
+            pagebreakAndFootnoteToMoveToNextDocument.setPagebreakSiblingsInFootnotesSection(nextSiblings);
+        }
     }
 
-    private void clearLastPagebreaksAndFootnotes(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromMainSection(null);
-        pagebreakAndFootnoteToMoveToNextDocument.setReference(null);
-        pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromFootnotesSection(null);
-        pagebreakAndFootnoteToMoveToNextDocument.setFootnote(null);
+    private List<Node> getNextSiblings(final XmlDeclaration pagebreak) {
+        List<Node> siblings = new ArrayList<>();
+        Node sibling = pagebreak.nextSibling();
+        while (sibling != null) {
+            siblings.add(sibling);
+            sibling = sibling.nextSibling();
+        }
+        return siblings;
+    }
+
+    private boolean hasNoFootnotesAfterPagebreak(final List<Node> nextSiblings) {
+        return nextSiblings.stream().noneMatch(node -> node instanceof Element && isFootnote((Element)node));
     }
 
     private void protectFootnoteBodyForPopupBox(final Element footnoteSection) {
@@ -841,6 +861,35 @@ public class ReorderFootnotesService {
         private Node pagebreakFromMainSection;
         private Node footnote;
         private Node pagebreakFromFootnotesSection;
+        private List<Node> pagebreakSiblingsInFootnotesSection;
+
+        public void removeElementsIfAvailable() {
+            if (isAvailable()) {
+                remove();
+            } else {
+                clear();
+            }
+        }
+
+        private boolean isAvailable() {
+            return reference != null && pagebreakFromMainSection != null && footnote != null && pagebreakFromFootnotesSection != null;
+        }
+
+        private void remove() {
+            reference.remove();
+            pagebreakFromMainSection.remove();
+            footnote.remove();
+            pagebreakFromFootnotesSection.remove();
+            pagebreakSiblingsInFootnotesSection.forEach(Node::remove);
+        }
+
+        public void clear() {
+            reference = null;
+            pagebreakFromFootnotesSection = null;
+            footnote = null;
+            pagebreakFromFootnotesSection = null;
+            pagebreakSiblingsInFootnotesSection = null;
+        }
     }
 
     @Data
