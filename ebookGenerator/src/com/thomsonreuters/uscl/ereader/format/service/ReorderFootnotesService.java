@@ -42,6 +42,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.LABEL;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
@@ -781,10 +782,14 @@ public class ReorderFootnotesService {
         Elements mainSectionReferences = mainSection.getElementsByClass(TR_FTN);
         boolean hasReference = isPagebreakReferenceInMainSection(mainSectionReferences, pagebreak);
         if (hasReference) {
-            return Jsoup.parse(prepareHtmlFromTemplate(pageNumberFootnoteTemplate, getLabel(pagebreak), fileUuid))
-                    .selectFirst(TR_FOOTNOTE_CLASS);
+            return createPageNumberElement(getLabel(pagebreak), fileUuid);
         }
         return null;
+    }
+
+    private Element createPageNumberElement(final String label, final String fileUuid) {
+        return Jsoup.parse(prepareHtmlFromTemplate(pageNumberFootnoteTemplate, label, fileUuid))
+                .selectFirst(TR_FOOTNOTE_CLASS);
     }
 
     private String prepareHtmlFromTemplate(final String template, final String label, final String fileUuid) {
@@ -817,19 +822,41 @@ public class ReorderFootnotesService {
         List<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
                 .filter(mainSectionPagebreak -> !isPagebreakLabelInFootnotesSection(footnotesPagebreaks, getLabel(mainSectionPagebreak)))
                 .collect(Collectors.toList());
-        addPageLabelsToSection(missingPagebreaks, footnotesSection, fileUuid);
-    }
-
-    private void addPageLabelsToSection(final List<XmlDeclaration> missingPagebreaks, final Element section, final String fileUuid) {
-        for (XmlDeclaration pagebreak : missingPagebreaks) {
-            String pageNumberReference = prepareHtmlFromTemplate(pageNumberFootnoteTemplate, getLabel(pagebreak), fileUuid);
-            section.html(pageNumberReference + pagebreak.toString() + section.html());
+        if (CollectionUtils.isNotEmpty(missingPagebreaks)) {
+            addPageLabelsToSection(missingPagebreaks, mainSectionPagebreaks.get(0), footnotesSection, fileUuid);
         }
     }
 
     private boolean isPagebreakLabelInFootnotesSection(final List<XmlDeclaration> footnotesPagebreaks, final String pagebreakLabel) {
         return footnotesPagebreaks.stream()
                 .anyMatch(footnotePagebreak -> pagebreakLabel.equals(getLabel(footnotePagebreak)));
+    }
+
+    private void addPageLabelsToSection(final List<XmlDeclaration> missingPagebreaks, final XmlDeclaration firstPagebreakFromMain,
+        final Element section, final String fileUuid) {
+        XmlDeclaration firstMissingPagebreak = missingPagebreaks.get(0);
+        boolean shouldPrependMissingPagebreaks = shouldPrependMissingPagebreaks(firstMissingPagebreak, firstPagebreakFromMain);
+        if (shouldPrependMissingPagebreaks) {
+            Collections.reverse(missingPagebreaks);
+        }
+        for (XmlDeclaration pagebreak : missingPagebreaks) {
+            Element pageNumberFootnote = createPageNumberElement(getLabel(pagebreak), fileUuid);
+            addPageLabelToSection(pagebreak, pageNumberFootnote, section, shouldPrependMissingPagebreaks);
+        }
+    }
+
+    private boolean shouldPrependMissingPagebreaks(final XmlDeclaration firstMissingPagebreak, final XmlDeclaration firstPagebreakFromMain) {
+        return firstPagebreakFromMain.attr(LABEL).equals(firstMissingPagebreak.attr(LABEL));
+    }
+
+    private void addPageLabelToSection(final XmlDeclaration pagebreak, final Element pageNumberFootnote, final Element section, final boolean shouldPrependMissingPagebreaks) {
+        if (shouldPrependMissingPagebreaks) {
+            section.prependChild(pagebreak.clone());
+            section.prependChild(pageNumberFootnote);
+        } else {
+            section.appendChild(pageNumberFootnote);
+            section.appendChild(pagebreak.clone());
+        }
     }
 
     private void convertPagebreaksToProviewPbs(final Element footnotesTemplate) {
