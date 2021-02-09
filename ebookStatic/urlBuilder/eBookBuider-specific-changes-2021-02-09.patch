@@ -1,0 +1,45 @@
+diff --git a/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java b/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java
+index 8995e30..84a318c 100644
+--- a/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java
++++ b/Java/UnitTests/com/trgr/cobalt/util/urlbuilder/CiteQueryTests.java
+@@ -816,7 +816,7 @@ public final class CiteQueryTests
+         citeQueries.add(
+             new CiteQueryTestResult(
+                 linkElement,
+-                "/Link/Document/FullText?findType=Y&serNum=0000000000280700496&pubNum=146294&originatingDoc=origdoc&refType=IG&docFamilyGuid=Ib5ade80ff4ed11d99f28ffa0ae8c2575&targetPreference=DocLanguage%3AEN&originationContext=origctx"));
++                ""));
+ 
+         verifyCiteQueryTests(citeQueries);
+     }
+diff --git a/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java b/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java
+index 3689758..d245048 100644
+--- a/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java
++++ b/Java/src/com/trgr/cobalt/util/urlbuilder/CiteQuery.java
+@@ -338,8 +338,7 @@ public class CiteQuery
+         if (StringUtils.isNotBlank(citeQuery.getRefType())
+             && (ApprovedRefTypes.contains(citeQuery.getRefType()) || MissingRefTypes.contains(citeQuery.getRefType())))
+         {
+-            changeIXtoIG(citeQuery);
+-            if (citeQuery.getRefType().equalsIgnoreCase("IG") && StringUtils.isBlank(citeQuery.getSerialNumber())) {
++            if (citeQuery.getRefType().equalsIgnoreCase("IX") || (citeQuery.getRefType().equalsIgnoreCase("IG") && StringUtils.isBlank(citeQuery.getSerialNumber()))) {
+                 return null;
+             }
+ 
+@@ -617,17 +616,6 @@ public class CiteQuery
+         return null;
+     }
+ 
+-    /**
+-     * temporary solution till nextcanada.westlaw.com will be able to manage ref type IX
+-     */
+-    private void changeIXtoIG(CiteQueryNode citeQuery)
+-    {
+-        if (citeQuery.getRefType().equalsIgnoreCase("IX"))
+-        {
+-            citeQuery.setRefType("IG");
+-        }
+-    }
+-
+     private boolean isNormalizedCitedRefTypeWithoutLink(CiteQueryNode citeQuery)
+     {
+         return StringUtils.isNotBlank(citeQuery.getRefType())

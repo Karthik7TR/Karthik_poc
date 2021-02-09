@@ -242,12 +242,7 @@ public final class CiteQueryAdapterTest {
                 "w-target-preference=\"DocLanguage:EN\" " +
                 "ID=\"I5f1572e12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
         final String originatingDoc = "origdoc";
-        final String expectedUrl = "null/Link/Document/FullText?findType=Y&serNum=0000000000280700496&pubNum=146294" +
-                "&originatingDoc=origdoc" +
-                "&refType=IG" +
-                "&docFamilyGuid=Ib5ade80ff4ed11d99f28ffa0ae8c2575" +
-                "&targetPreference=DocLanguage%3AEN&originationContext=ebook" +
-                "&RS=null&vr=null";
+        final String expectedUrl = "";
 
         final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
 
