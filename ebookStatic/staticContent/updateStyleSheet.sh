@@ -321,14 +321,18 @@ table.cw_fixed_table {\
   table-layout: fixed;\
 }\
 \
+\/* <EB-3152 remove gaps between chapters> */\
 .remove-min-height {\
   min-height: 0 !important;\
 }\
+\/* </EB-3152> */\
 \
+\/* <EB-3153 format section label> */\
 .section-label {\
   margin: 9px 0 7px 0;\
   font-weight: bold;\
 }\
+\/* </EB-3153> */\
 \
 .tr_footnote div {\
   display: inline;\
@@ -350,6 +354,7 @@ table.cw_fixed_table {\
   display: none;\
 }\
 \
+\/* <EB-3167 wrong footnote popup body> */\
 .hidden_footnote {\
 	display: none;\
 }\
@@ -357,6 +362,7 @@ table.cw_fixed_table {\
 .hidden_footnote_reference {\
 	visibility: hidden;\
 }\
+\/* </EB-3167> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
