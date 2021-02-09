@@ -268,6 +268,7 @@ sed -i -e '$a\
   display: none;\
 }\
 \
+\/* <Canadian legal topics> */\
 .abr-clas-label{\
   display: block;\
   margin: 1em 0 0;\
@@ -312,20 +313,23 @@ sed -i -e '$a\
   padding: 0.5em;\
   margin: 0;\
 }\
+\/* </Canadian legal topics> */\
 \
+\/* <EB-3113 right border of table importing in PDF> */\
 table.co_borderedTable td.cw_padding_4, table.co_borderedTable th.cw_padding_4 {\
   padding: 4px;\
 }\
+\
+table.cw_fixed_table {\
+  table-layout: fixed;\
+}\
+\/* </EB-3113> */\
 \
 \/* <EB-3284 cw table text position fix> */\
 table.co_borderedTable td.cw_padding_left_24 {\
   padding-left: 24px;\
 }\
 \/* </EB-3284> */\
-\
-table.cw_fixed_table {\
-  table-layout: fixed;\
-}\
 \
 \/* <EB-3152 remove gaps between chapters> */\
 .remove-min-height {\
@@ -340,6 +344,7 @@ table.cw_fixed_table {\
 }\
 \/* </EB-3153> */\
 \
+\/* <EB-3231 footnotes indentation> */\
 .tr_footnote div {\
   display: inline;\
 }\
@@ -351,14 +356,7 @@ table.cw_fixed_table {\
 .tr_footnote div.co_page_number {\
 	display: block;\
 }\
-\
-.footnote .footnote_body_bottom {\
-  display: inline;\
-}\
-\
-.footnote .footnote_body_box, .footnote_body_bottom {\
-  display: none;\
-}\
+\/* </EB-3231> */\
 \
 \/* <EB-3167 wrong footnote popup body> */\
 .hidden_footnote {\
@@ -369,6 +367,23 @@ table.cw_fixed_table {\
 	visibility: hidden;\
 }\
 \/* </EB-3167> */\
+\
+\/* <EB-3283 lines at the top of the line in PDF> */\
+table span.co_baselineTextRule::after, .co_form span.co_baselineTextRule::after {\
+  content: "\00a0";\
+}\
+\
+table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
+  line-height: 0.8em;\
+}\
+\/* </EB-3283> */\
+\
+\/* <EB-3202 left text disappears from PDF> */\
+.co_commentaryEnhancement .co_form .co_paragraph.co_indentHanging {\
+  margin-left: 1em;\
+  text-indent: -1em;\
+}\
+\/* </EB-3202> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
