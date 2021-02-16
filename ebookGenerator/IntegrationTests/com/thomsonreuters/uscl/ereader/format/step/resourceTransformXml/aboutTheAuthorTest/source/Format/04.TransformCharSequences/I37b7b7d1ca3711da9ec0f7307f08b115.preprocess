@@ -1,0 +1,104 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Resales of Restricted Securities About the Author<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Resales of Restricted Securities</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I37b7b7d0ca3711da9ec0f7307f08b115">
+				<bop/>
+				<headtext/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20210201">
+						<bop/>
+						<bos/>February 2021 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>J. William Hicks</author>
+				<eos/>
+				<eop/>
+			</author.line>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<bio>
+			<doc.title toc-guid="I37b7b7d0ca3711da9ec0f7307f08b115">
+				<head parent="doc.title">
+					<bop/>
+					<bos/>
+					<headtext>About the Author</headtext>
+					<eos/>
+					<eop/>
+				</head>
+			</doc.title>
+			<para>
+				<bop/>
+				<bos/>
+				<paratext>
+					<bold>J. William Hicks</bold> received his B.A. from the University of Notre Dame in 1962, his M.A. from New York University in 1968, and his J.D. from the University of Michigan in 1965. <eos/>
+					<bos/>He was a member of the editorial staff of the Michigan Law Review. <eos/>
+					<bos/>He is currently the C. Ben Dutton Professor Emeritus of Law at Indiana University Maurer School of Law (Bloomington).<eos/>
+					<bos/> Professor Hicks was a regular member of the faculty at the ALI-ABA/FBA and ALI-CLE Courses of Study on Regulation D Private Offering Exemptions. <eos/>
+					<bos/>He is the author of Exempted Transactions Under the Securities Act of 1933 and Civil Liabilities: Enforcement &amp; Litigation Under the 1933 Act, two treatises in the Securities Law Series, as well as the handbooks Limited Offering Exemptions: Regulation D Resales of Restricted Securities, and International Dimensions of U.S. Securities Law. <eos/>
+					<bos/>Professor Hicks has also contributed to law reviews. <eos/>
+				</paratext>
+				<eop/>
+			</para>
+			<para>
+				<bop/>
+				<bos/>
+				<paratext>Since October 2020, Paul W. Richter, Attorney, PW Richter plc, updates this publication. <eos/>
+					<bos/>Mr. Richter has been practicing securities and corporate law since 1985. <eos/>
+					<bos/>He has an L.LM. in Securities Regulation from Georgetown University Law Center, Washington, D.C. and a J.D. from George Mason University Law School in Arlington, Virginia. <eos/>
+					<bos/>Mr. Richter has served as in-house counsel to a NASDAQ-quoted public corporation as well as representing small public companies in private practice since 2001. <eos/>
+					<bos/>He originated and served as initial author of <ital>Corporate Anti-Takeover Defenses: The Poison Pill Device</ital> and he updates other Thomson Reuters West securities law books. <eos/>
+					<bos/>Prior to becoming a lawyer, Mr. Richter was an operational executive with a subsidiary of Paramount Communications, Inc. </paratext>
+				<eos/>
+				<eop/>
+			</para>
+		</bio>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2021 Thomson Reuters. <eos/>
+					<bos/>No Claim to Orig. U.S. Govt. <eos/>
+					<bos/>Works.<eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>SECRESR AUTHOR<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

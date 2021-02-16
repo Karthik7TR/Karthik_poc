@@ -109,7 +109,7 @@ public final class TransformerServiceTest {
         transformerService.setfileHandlingHelper(helper);
 
         metadataMoc = EasyMock.createMock(DocMetadataServiceImpl.class);
-        transformerService.setdocMetadataService(metadataMoc);
+        transformerService.setDocMetadataService(metadataMoc);
 
         dataBlockService = EasyMock.createMock(GenerateDocumentDataBlockServiceImpl.class);
         transformerService.setGenerateDocumentDataBlockService(dataBlockService);

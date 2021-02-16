@@ -34,6 +34,8 @@ import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLMapperParser;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -52,6 +54,8 @@ public class TransformerServiceImpl implements TransformerService {
     private static final String START_WRAPPER_TAG = "<Document>";
     private static final String END_WRAPPER_TAG = "</Document>";
 
+    @Getter
+    @Setter
     private DocMetadataService docMetadataService;
 
     private GenerateDocumentDataBlockService generateDocumentDataBlockService;
@@ -66,10 +70,6 @@ public class TransformerServiceImpl implements TransformerService {
     public void setGenerateDocumentDataBlockService(
         final GenerateDocumentDataBlockService generateDocumentDataBlockService) {
         this.generateDocumentDataBlockService = generateDocumentDataBlockService;
-    }
-
-    public void setdocMetadataService(final DocMetadataService docMetadataService) {
-        this.docMetadataService = docMetadataService;
     }
 
     public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
@@ -339,6 +339,7 @@ public class TransformerServiceImpl implements TransformerService {
             transformer.setParameter("SpecialVersionParam", "3.0");
             transformer.setParameter("Target", "_top");
             transformer.setParameter("DisplayOriginalImageLink", true);
+            transformer.setParameter("IAC-AUTHOR", true);
 //	        transformer.setParameter("LinkColor", "");
 //	        transformer.setParameter("FontSize", "");
             //None of the highlighting parameters are set, example:

@@ -106,7 +106,7 @@ public final class PersistentUrlTransformIntegrationTests {
         EasyMock.replay(mockDocMetadata);
 
         transformerService = new TransformerServiceImpl();
-        transformerService.setdocMetadataService(mockDocMetadataService);
+        transformerService.setDocMetadataService(mockDocMetadataService);
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
 
         bookDefinition = new BookDefinition();
@@ -560,7 +560,7 @@ public final class PersistentUrlTransformIntegrationTests {
                 mocGenerateDocumentDataBlockService
                     .getDocumentDataBlockAsStream(titleId, Long.valueOf(12345), preRenderedInput))
             .andReturn(MOCK_INPUT_STREAM);
-        transformerService.setdocMetadataService(mockDocMetadataService);
+        transformerService.setDocMetadataService(mockDocMetadataService);
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
         EasyMock.replay(mocGenerateDocumentDataBlockService);
 

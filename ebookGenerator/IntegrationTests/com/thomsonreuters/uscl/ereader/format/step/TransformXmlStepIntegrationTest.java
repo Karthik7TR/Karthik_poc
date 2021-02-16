@@ -2,38 +2,32 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.GenerateDocumentDataBlockService;
-import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -51,11 +45,16 @@ import static org.mockito.Mockito.when;
 public final class TransformXmlStepIntegrationTest {
     private static final String COLLECTION_NAME = "w_codesstatxnvdp";
     private static final String DOC_TYPE = "6A";
+    private static final String COLLECTION_NAME_AUTHOR = "w_an_rcc_texts";
+    private static final String DOC_TYPE_AUTHOR = "3A";
     private static final int DOCS_NUMBER = 1;
     private static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/octxcoa";
 
     @Autowired
     private TransformXML step;
+
+    @Autowired
+    private TransformerServiceImpl transformerService;
 
     @Autowired
     private StepIntegrationTestRunner runner;
@@ -68,6 +67,7 @@ public final class TransformXmlStepIntegrationTest {
 
     @Test
     public void shouldTransformAnnotations() throws Exception {
+        setDocMetadataParams(COLLECTION_NAME, DOC_TYPE);
         final BookDefinition bookDefinition = step.getBookDefinition();
         bookDefinition.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
         bookDefinition.setIncludeAnnotations(true);
@@ -78,8 +78,22 @@ public final class TransformXmlStepIntegrationTest {
 
     @Test
     public void shouldTransformMetadata() throws Exception {
+        setDocMetadataParams(COLLECTION_NAME, DOC_TYPE);
         step.getBookDefinition().setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
         runner.test(step, "metadataTest");
+    }
+
+    @Test
+    public void shouldTransformAboutTheAuthor() throws Exception {
+        setDocMetadataParams(COLLECTION_NAME_AUTHOR, DOC_TYPE_AUTHOR);
+        step.getBookDefinition().setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
+        runner.test(step, "aboutTheAuthorTest");
+    }
+
+    private void setDocMetadataParams(final String collectionName, final String docType) {
+        DocMetadata docMetadata = transformerService.getDocMetadataService().findDocMetadataByPrimaryKey("", 0L, "");
+        docMetadata.setCollectionName(collectionName);
+        docMetadata.setDocType(docType);
     }
 
     @Configuration
@@ -123,9 +137,9 @@ public final class TransformXmlStepIntegrationTest {
         }
 
         @Bean
-        public TransformerService transformerService() throws EBookFormatException {
+        public TransformerServiceImpl transformerService() throws EBookFormatException {
             final TransformerServiceImpl service = new TransformerServiceImpl();
-            service.setdocMetadataService(getDocMetadataService());
+            service.setDocMetadataService(getDocMetadataService());
             service.setGenerateDocumentDataBlockService(getGenerateDocumentDataBlockService());
             service.setfileHandlingHelper(getFileHandlingHelper());
             return service;
@@ -152,10 +166,7 @@ public final class TransformXmlStepIntegrationTest {
         }
 
         private DocMetadata getDocMetadata() {
-            final DocMetadata docMetadata = new DocMetadata();
-            docMetadata.setCollectionName(COLLECTION_NAME);
-            docMetadata.setDocType(DOC_TYPE);
-            return docMetadata;
+            return new DocMetadata();
         }
 
         private InputStream getBlockAsStream() {
