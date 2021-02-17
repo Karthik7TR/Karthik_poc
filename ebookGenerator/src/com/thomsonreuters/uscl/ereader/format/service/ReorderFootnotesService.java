@@ -26,11 +26,9 @@ import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.collections4.iterators.ReverseListIterator;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -38,7 +36,6 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.nodes.XmlDeclaration;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
@@ -75,7 +72,6 @@ public class ReorderFootnotesService {
     private static final String TR_FTN = "tr_ftn";
     private static final String TR_FOOTNOTES = "tr_footnotes";
     private static final String TR_FOOTNOTE = "tr_footnote";
-    private static final String TR_FOOTNOTE_CLASS = ".tr_footnote";
     private static final String CO_FOOTNOTE_CLASS_PREFIX = "co_footnote_";
     private static final String CO_FOOTNOTE_REFERENCE = "co_footnoteReference";
     private static final String CO_FOOTNOTE_SECTION_ID = "#co_footnoteSection";
@@ -87,13 +83,11 @@ public class ReorderFootnotesService {
     private static final String CO_DIVIDER = "co_divider";
     private static final String CO_COPYRIGHT = "co_copyright";
     private static final String CO_END_OF_DOCUMENT = "co_endOfDocument";
+    private static final String CO_PAGE_NUMBER = "co_page_number";
     private static final String CO_PARAGRAPH = "co_paragraph";
     private static final String CO_PARAGRAPH_TEXT = "co_paragraphText";
     private static final String SECTION_LABEL_CLASS = "section-label";
     private static final String DOCUMENT_GUID = "DocumentGuid";
-    private static final String PAGE_NUMBER_REFERENCE_TEMPLATE = "<a ftnname=\"page_number_footnote_PAGE_NUMBER_FOOTNOTE_ID\" name=\"page_number_fnRef_PAGE_NUMBER_FOOTNOTE_ID\" href=\"#page_number_footnote_PAGE_NUMBER_FOOTNOTE_ID\" class=\"tr_ftn\" />";
-    private static final String PAGE_NUMBER_FOOTNOTE_ID_PLACEHOLDER = "PAGE_NUMBER_FOOTNOTE_ID";
-    private static final String PAGE_NUMBER_PLACEHOLDER = "PAGE_NUMBER";
     private static final String INITIAL_PAGE_LABEL = "extractPageNumbersInitialPageLabel";
     private static final String PARA = "para";
     private static final String PARATEXT = "paratext";
@@ -121,13 +115,8 @@ public class ReorderFootnotesService {
     @Autowired
     private JsoupService jsoup;
 
-    @Value("${page.number.footnote.template}")
-    private File pageNumberFootnoteTemplateFile;
-
     @Autowired
     private LinksResolverService linksResolverService;
-
-    private String pageNumberFootnoteTemplate;
 
     private List<File> orderedDocuments(final File gatherToc, final File srcDir) {
         final Map<String, File> nameToSrcFile = getNameFileMap(srcDir);
@@ -141,7 +130,6 @@ public class ReorderFootnotesService {
 
     public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir,
                                  final BookStep step) throws IOException {
-        pageNumberFootnoteTemplate = FileUtils.readFileToString(pageNumberFootnoteTemplateFile);
         final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
 
         List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);
@@ -151,11 +139,11 @@ public class ReorderFootnotesService {
 
         final PagePointer mainPage = new PagePointer(pageNumbers);
         final PagePointer footnotePage = new PagePointer(pageNumbers);
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument = new PagebreakAndFootnoteToMoveToNextDocument();
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument = new PagebreakToMoveToNextDocument();
 
         srcFilesOrdered.forEach(file ->
             processDocument(destDir, nameToXmlFile, firstFileName, mainPage, footnotePage,
-                    pagebreakAndFootnoteToMoveToNextDocument, file, step)
+                    pagebreakToMoveToNextDocument, file, step)
         );
         processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir, step);
     }
@@ -167,7 +155,7 @@ public class ReorderFootnotesService {
 
     private void processDocument(final File destDir, final Map<String, File> nameToXmlFile,
         final String firstFileName, final PagePointer mainPage, final PagePointer footnotePage,
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument, final File file, final BookStep step) {
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument, final File file, final BookStep step) {
         final Document doc = jsoup.loadDocument(file);
         final String fileUuid = FilenameUtils.removeExtension(file.getName());
         final Element mainSection = doc.selectFirst(SECTION);
@@ -186,11 +174,12 @@ public class ReorderFootnotesService {
             final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
             linksResolverService.transformCiteQueries(footnotesSectionToAppend, fileUuid, step);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
+            removeExtraPagebreaksFromFootnotesSection(mainSection, footnotesSectionToAppend);
             addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
             convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage, isFirstFile);
             setPageAttrInReferencesInMainSectionAndFootnotes(mainSection, footnotesSectionToAppend, mainPage, footnotePage);
-            movePagebreakToNextDocument(pagebreakAndFootnoteToMoveToNextDocument, mainSection, footnotesSectionToAppend);
+            movePagebreakToNextDocument(pagebreakToMoveToNextDocument, mainSection, footnotesSectionToAppend);
             mainSection.after(footnotesSectionToAppend);
         }
 
@@ -203,7 +192,7 @@ public class ReorderFootnotesService {
 
     private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir, final BookStep step) {
         List<File> auxiliaryFiles = getAuxiliaryFiles(srcDir, processedFiles);
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument = new PagebreakAndFootnoteToMoveToNextDocument();
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument = new PagebreakToMoveToNextDocument();
         auxiliaryFiles.forEach(file -> {
             if (EXCLUDED_FROM_PROCESSING.contains(file.getName())) {
                 com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.copyFileToDirectory(file, destDir);
@@ -212,7 +201,7 @@ public class ReorderFootnotesService {
                 final PagePointer mainPage = new PagePointer(pageNumbers);
                 final PagePointer footnotePage = new PagePointer(pageNumbers);
                 processDocument(destDir, Collections.emptyMap(), null, mainPage, footnotePage,
-                        pagebreakAndFootnoteToMoveToNextDocument, file, step);
+                        pagebreakToMoveToNextDocument, file, step);
             }
         });
     }
@@ -500,20 +489,22 @@ public class ReorderFootnotesService {
         return reference.substring(reference.lastIndexOf("/") + 1);
     }
 
+    private void removeExtraPagebreaksFromFootnotesSection(final Element mainSection, final Element footnotesSection) {
+        List<XmlDeclaration> mainSectionPagebreaks = getProviewPagebreaks(mainSection);
+        getProviewPagebreaks(footnotesSection).stream()
+                .filter(pagebreak -> !isPagebreakLabelInSection(mainSectionPagebreaks, getLabel(pagebreak)))
+                .forEach(Node::remove);
+    }
+
     private void addPageLabels(final Element mainSection, final Element footnotesSection, final String fileUuid) {
-        addPageReferencesInMainSection(mainSection, fileUuid);
-        appendPagenumbersToFootnotesSection(footnotesSection, fileUuid, mainSection);
+        appendPagenumbersToFootnotesSection(footnotesSection);
         addMissingPageLabelsToFootnotesSection(mainSection, footnotesSection, fileUuid);
     }
 
-    private void appendPagenumbersToFootnotesSection(final Element footnotesSection, final String fileUuid, final Element mainSection) {
+    private void appendPagenumbersToFootnotesSection(final Element footnotesSection) {
         getProviewPagebreaks(footnotesSection).forEach(pagebreak -> {
-            Element pageNumberFootnote = createPageNumberFootnote(pagebreak, fileUuid, mainSection);
-            if (pageNumberFootnote != null) {
-                pagebreak.before(pageNumberFootnote);
-            } else {
-                pagebreak.remove();
-            }
+            Element pageNumber = createPageNumber(getLabel(pagebreak));
+            pagebreak.before(pageNumber);
         });
     }
 
@@ -563,70 +554,62 @@ public class ReorderFootnotesService {
         pagebreakEnds.forEach(this::movePagebreakOutOfFootnote);
     }
 
-    private void movePagebreakToNextDocument(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
+    private void movePagebreakToNextDocument(final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument,
         final Element mainSection, final Element footnoteSection) {
-        prependPagebreakAndFootnoteFromPreviousDocument(mainSection, footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
-        pagebreakAndFootnoteToMoveToNextDocument.clear();
-        saveLastPagebreakAndFootnoteToPrependToNextDocument(mainSection, footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
-        pagebreakAndFootnoteToMoveToNextDocument.removeElementsIfAvailable();
+        prependPagebreakFromPreviousDocument(mainSection, footnoteSection, pagebreakToMoveToNextDocument);
+        pagebreakToMoveToNextDocument.clear();
+        saveLastPagebreakAndTrailingFootnoteNodesToPrependToNextDocument(mainSection, footnoteSection, pagebreakToMoveToNextDocument);
+        pagebreakToMoveToNextDocument.removeElementsIfAvailable();
     }
 
-    private void prependPagebreakAndFootnoteFromPreviousDocument(final Element mainSection, final Element footnoteSection,
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        if (pagebreakAndFootnoteToMoveToNextDocument.isAvailable()) {
-            prependPagebreakFromPreviousDocument(mainSection, pagebreakAndFootnoteToMoveToNextDocument);
-            prependFootnoteFromPreviousDocument(footnoteSection, pagebreakAndFootnoteToMoveToNextDocument);
+    private void prependPagebreakFromPreviousDocument(final Element mainSection, final Element footnoteSection,
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument) {
+        if (pagebreakToMoveToNextDocument.isAvailable()) {
+            prependMainSectionPagebreakFromPreviousDocument(mainSection, pagebreakToMoveToNextDocument);
+            prependFootnotesFromPreviousDocument(footnoteSection, pagebreakToMoveToNextDocument);
         }
     }
 
-    private void prependPagebreakFromPreviousDocument(final Element mainSection,
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        Node pagebreakFromMainSection = pagebreakAndFootnoteToMoveToNextDocument.getPagebreakFromMainSection();
-        Node reference = pagebreakAndFootnoteToMoveToNextDocument.getReference();
-        if (pagebreakFromMainSection != null && reference != null) {
-            mainSection.prependChild(pagebreakFromMainSection);
-            mainSection.prependChild(reference);
-        }
+    private void prependMainSectionPagebreakFromPreviousDocument(final Element mainSection,
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument) {
+        Node pagebreakFromMainSection = pagebreakToMoveToNextDocument.getPagebreakFromMainSection();
+        mainSection.prependChild(pagebreakFromMainSection);
     }
 
-    private void prependFootnoteFromPreviousDocument(final Element footnoteSection,
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        List<Node> pagebreakSiblingsFromFootnoteSection = pagebreakAndFootnoteToMoveToNextDocument.getPagebreakSiblingsInFootnotesSection();
-        Node pagebreakFromFootnoteSection = pagebreakAndFootnoteToMoveToNextDocument.getPagebreakFromFootnotesSection();
-        Node footnote = pagebreakAndFootnoteToMoveToNextDocument.getFootnote();
+    private void prependFootnotesFromPreviousDocument(final Element footnoteSection,
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument) {
+        List<Node> pagebreakSiblingsFromFootnoteSection = pagebreakToMoveToNextDocument.getPagebreakSiblingsInFootnotesSection();
+        Node pagebreakFromFootnoteSection = pagebreakToMoveToNextDocument.getPagebreakFromFootnotesSection();
 
         if (pagebreakSiblingsFromFootnoteSection != null) {
-            ReverseListIterator<Node> it = new ReverseListIterator<Node>(pagebreakSiblingsFromFootnoteSection);
+            ReverseListIterator<Node> it = new ReverseListIterator<>(pagebreakSiblingsFromFootnoteSection);
             while (it.hasNext()) {
                 footnoteSection.prependChild(it.next());
             }
         }
 
-        if (pagebreakFromFootnoteSection != null && footnote != null) {
-            footnoteSection.prependChild(pagebreakFromFootnoteSection);
-            footnoteSection.prependChild(footnote);
-        }
+        footnoteSection.prependChild(pagebreakFromFootnoteSection);
     }
 
-    private void saveLastPagebreakAndFootnoteToPrependToNextDocument(final Element mainSection, final Element footnoteSection,
-        PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        savePagebreakNodesAfterText(mainSection.childNodes(), pagebreakAndFootnoteToMoveToNextDocument);
-        Node pagebreakFromMainSection = pagebreakAndFootnoteToMoveToNextDocument.getPagebreakFromMainSection();
-        if (pagebreakFromMainSection != null && pagebreakAndFootnoteToMoveToNextDocument.getReference() != null) {
+    private void saveLastPagebreakAndTrailingFootnoteNodesToPrependToNextDocument(final Element mainSection, final Element footnoteSection,
+        PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument) {
+        savePagebreakAfterText(mainSection.childNodes(), pagebreakToMoveToNextDocument);
+        Node pagebreakFromMainSection = pagebreakToMoveToNextDocument.getPagebreakFromMainSection();
+        if (pagebreakFromMainSection != null) {
             String pageNumber = PageNumberUtil.getLabel(pagebreakFromMainSection);
-            saveFootnoteNodesAfterText(pagebreakAndFootnoteToMoveToNextDocument,
+            saveFootnoteNodesAfterText(pagebreakToMoveToNextDocument,
                     footnoteSection, pageNumber);
         }
     }
 
-    private void savePagebreakNodesAfterText(final List<Node> children,
-        final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
+    private void savePagebreakAfterText(final List<Node> children,
+        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument) {
         for (int i = children.size() - 1; i >= 0; i--) {
             Node child = children.get(i);
             if (child instanceof XmlDeclaration) {
                 XmlDeclaration xmlDeclaration = (XmlDeclaration) child;
                 if (PageNumberUtil.PB.equals(xmlDeclaration.name())) {
-                    saveLastPagebreak(xmlDeclaration, pagebreakAndFootnoteToMoveToNextDocument);
+                    pagebreakToMoveToNextDocument.setPagebreakFromMainSection(xmlDeclaration);
                     break;
                 }
             } else {
@@ -634,7 +617,7 @@ public class ReorderFootnotesService {
                     break;
                 }
                 if (isElementWithPossibleText(child)) {
-                    savePagebreakNodesAfterText(child.childNodes(), pagebreakAndFootnoteToMoveToNextDocument);
+                    savePagebreakAfterText(child.childNodes(), pagebreakToMoveToNextDocument);
                     break;
                 }
             }
@@ -650,33 +633,24 @@ public class ReorderFootnotesService {
                 && !CO_END_OF_DOCUMENT.equals(child.attr(ID));
     }
 
-    private void saveLastPagebreak(final XmlDeclaration pagebreak,
-                                   final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument) {
-        pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromMainSection(pagebreak);
-        Node reference = pagebreak.previousSibling();
-        pagebreakAndFootnoteToMoveToNextDocument.setReference(reference);
-    }
-
-    private void saveFootnoteNodesAfterText(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
+    private void saveFootnoteNodesAfterText(final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument,
         final Element footnoteSection, final String pageNumber) {
         List<XmlDeclaration> pagebreaks = getProviewPagebreaks(footnoteSection);
         Collections.reverse(pagebreaks);
         for (XmlDeclaration pagebreak : pagebreaks) {
             if (pageNumber.equals(PageNumberUtil.getLabel(pagebreak))) {
-                saveFootnoteAfterText(pagebreakAndFootnoteToMoveToNextDocument, pagebreak);
+                saveFootnoteAfterText(pagebreakToMoveToNextDocument, pagebreak);
                 break;
             }
         }
     }
 
-    private void saveFootnoteAfterText(final PagebreakAndFootnoteToMoveToNextDocument pagebreakAndFootnoteToMoveToNextDocument,
+    private void saveFootnoteAfterText(final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument,
                                        final XmlDeclaration pagebreak) {
         List<Node> nextSiblings = getNextSiblings(pagebreak);
         if (hasNoFootnotesAfterPagebreak(nextSiblings)) {
-            pagebreakAndFootnoteToMoveToNextDocument.setPagebreakFromFootnotesSection(pagebreak);
-            Node footnote = pagebreak.previousSibling();
-            pagebreakAndFootnoteToMoveToNextDocument.setFootnote(footnote);
-            pagebreakAndFootnoteToMoveToNextDocument.setPagebreakSiblingsInFootnotesSection(nextSiblings);
+            pagebreakToMoveToNextDocument.setPagebreakFromFootnotesSection(pagebreak);
+            pagebreakToMoveToNextDocument.setPagebreakSiblingsInFootnotesSection(nextSiblings);
         }
     }
 
@@ -778,70 +752,37 @@ public class ReorderFootnotesService {
         return FOOTNOTE.equals(element.tagName()) || element.className().matches(TR_FOOTNOTE_CLASS_REG);
     }
 
-    private Element createPageNumberFootnote(final XmlDeclaration pagebreak, final String fileUuid, final Element mainSection) {
-        Elements mainSectionReferences = mainSection.getElementsByClass(TR_FTN);
-        boolean hasReference = isPagebreakReferenceInMainSection(mainSectionReferences, pagebreak);
-        if (hasReference) {
-            return createPageNumberElement(getLabel(pagebreak), fileUuid);
-        }
-        return null;
-    }
-
-    private Element createPageNumberElement(final String label, final String fileUuid) {
-        return Jsoup.parse(prepareHtmlFromTemplate(pageNumberFootnoteTemplate, label, fileUuid))
-                .selectFirst(TR_FOOTNOTE_CLASS);
-    }
-
-    private String prepareHtmlFromTemplate(final String template, final String label, final String fileUuid) {
-        return template.replaceAll(PAGE_NUMBER_FOOTNOTE_ID_PLACEHOLDER, fileUuid + UNDERSCORE + label)
-                       .replaceAll(PAGE_NUMBER_PLACEHOLDER, label);
-    }
-
-    private void addPageReferencesInMainSection(final Element mainSection, final String fileUuid) {
-        getProviewPagebreaks(mainSection)
-            .forEach(pagebreak ->
-                pagebreak.before(prepareHtmlFromTemplate(PAGE_NUMBER_REFERENCE_TEMPLATE, getLabel(pagebreak), fileUuid))
-            );
-    }
-
-    private boolean isPagebreakReferenceInMainSection(final Elements mainSectionReferences, final XmlDeclaration pagebreak) {
-        for (Element reference : mainSectionReferences) {
-            String name = reference.attr(NAME);
-            int indexOfUnderscoreBeforePageNumber = name.lastIndexOf(UNDERSCORE);
-            String pageNumberFromRef = name.substring(indexOfUnderscoreBeforePageNumber + 1);
-            if (pageNumberFromRef.equals(getLabel(pagebreak))) {
-                return true;
-            }
-        }
-        return false;
+    private Element createPageNumber(final String label) {
+        return new Element(DIV).addClass(CO_PAGE_NUMBER)
+                .text(label);
     }
 
     private void addMissingPageLabelsToFootnotesSection(final Element mainSection, final Element footnotesSection, final String fileUuid) {
         List<XmlDeclaration> mainSectionPagebreaks = getProviewPagebreaks(mainSection);
         List<XmlDeclaration> footnotesPagebreaks = getProviewPagebreaks(footnotesSection);
         List<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
-                .filter(mainSectionPagebreak -> !isPagebreakLabelInFootnotesSection(footnotesPagebreaks, getLabel(mainSectionPagebreak)))
+                .filter(mainSectionPagebreak -> !isPagebreakLabelInSection(footnotesPagebreaks, getLabel(mainSectionPagebreak)))
                 .collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(missingPagebreaks)) {
-            addPageLabelsToSection(missingPagebreaks, mainSectionPagebreaks.get(0), footnotesSection, fileUuid);
+            addPageLabelsToSection(missingPagebreaks, mainSectionPagebreaks.get(0), footnotesSection);
         }
     }
 
-    private boolean isPagebreakLabelInFootnotesSection(final List<XmlDeclaration> footnotesPagebreaks, final String pagebreakLabel) {
-        return footnotesPagebreaks.stream()
-                .anyMatch(footnotePagebreak -> pagebreakLabel.equals(getLabel(footnotePagebreak)));
+    private boolean isPagebreakLabelInSection(final List<XmlDeclaration> pagebreaks, final String pagebreakLabel) {
+        return pagebreaks.stream()
+                .anyMatch(pagebreak -> pagebreakLabel.equals(getLabel(pagebreak)));
     }
 
     private void addPageLabelsToSection(final List<XmlDeclaration> missingPagebreaks, final XmlDeclaration firstPagebreakFromMain,
-        final Element section, final String fileUuid) {
+        final Element section) {
         XmlDeclaration firstMissingPagebreak = missingPagebreaks.get(0);
         boolean shouldPrependMissingPagebreaks = shouldPrependMissingPagebreaks(firstMissingPagebreak, firstPagebreakFromMain);
         if (shouldPrependMissingPagebreaks) {
             Collections.reverse(missingPagebreaks);
         }
         for (XmlDeclaration pagebreak : missingPagebreaks) {
-            Element pageNumberFootnote = createPageNumberElement(getLabel(pagebreak), fileUuid);
-            addPageLabelToSection(pagebreak, pageNumberFootnote, section, shouldPrependMissingPagebreaks);
+            Element pageNumber = createPageNumber(getLabel(pagebreak));
+            addPageLabelToSection(pagebreak, pageNumber, section, shouldPrependMissingPagebreaks);
         }
     }
 
@@ -849,12 +790,12 @@ public class ReorderFootnotesService {
         return firstPagebreakFromMain.attr(LABEL).equals(firstMissingPagebreak.attr(LABEL));
     }
 
-    private void addPageLabelToSection(final XmlDeclaration pagebreak, final Element pageNumberFootnote, final Element section, final boolean shouldPrependMissingPagebreaks) {
+    private void addPageLabelToSection(final XmlDeclaration pagebreak, final Element pageNumber, final Element section, final boolean shouldPrependMissingPagebreaks) {
         if (shouldPrependMissingPagebreaks) {
             section.prependChild(pagebreak.clone());
-            section.prependChild(pageNumberFootnote);
+            section.prependChild(pageNumber);
         } else {
-            section.appendChild(pageNumberFootnote);
+            section.appendChild(pageNumber);
             section.appendChild(pagebreak.clone());
         }
     }
@@ -883,10 +824,8 @@ public class ReorderFootnotesService {
     }
 
     @Data
-    private static class PagebreakAndFootnoteToMoveToNextDocument {
-        private Node reference;
+    private static class PagebreakToMoveToNextDocument {
         private Node pagebreakFromMainSection;
-        private Node footnote;
         private Node pagebreakFromFootnotesSection;
         private List<Node> pagebreakSiblingsInFootnotesSection;
 
@@ -899,21 +838,17 @@ public class ReorderFootnotesService {
         }
 
         private boolean isAvailable() {
-            return reference != null && pagebreakFromMainSection != null && footnote != null && pagebreakFromFootnotesSection != null;
+            return pagebreakFromMainSection != null && pagebreakFromFootnotesSection != null;
         }
 
         private void remove() {
-            reference.remove();
             pagebreakFromMainSection.remove();
-            footnote.remove();
             pagebreakFromFootnotesSection.remove();
             pagebreakSiblingsInFootnotesSection.forEach(Node::remove);
         }
 
         public void clear() {
-            reference = null;
             pagebreakFromFootnotesSection = null;
-            footnote = null;
             pagebreakFromFootnotesSection = null;
             pagebreakSiblingsInFootnotesSection = null;
         }

@@ -256,6 +256,7 @@ sed -i -e '$a\
 }\
 \
 .co_page_number {\
+  margin-top: 25px;\
   text-align: center;\
   font-weight: bold;\
 }\
@@ -351,10 +352,6 @@ table.co_borderedTable td.cw_padding_left_24 {\
 \
 .tr_footnote .co_footnoteNumber span {\
   margin-left: 1.5em;\
-}\
-\
-.tr_footnote div.co_page_number {\
-	display: block;\
 }\
 \/* </EB-3231> */\
 \
