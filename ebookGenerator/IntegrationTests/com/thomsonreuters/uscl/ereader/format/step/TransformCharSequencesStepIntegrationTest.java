@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 @ActiveProfiles("IntegrationTests")
 public class TransformCharSequencesStepIntegrationTest {
     private static final String RESOURCE_DIR_NAME = "resourceTransformChars";
+    private static final String CW_TITLE_ID = "cw/eg/title";
 
     @Autowired
     private TransformCharSequencesStep transformCharSequencesStep;
@@ -38,6 +39,13 @@ public class TransformCharSequencesStepIntegrationTest {
     @SneakyThrows
     public void shouldRemoveDoubleHyphensOnlyInAnnotations() {
         runner.test(transformCharSequencesStep, "test");
+    }
+
+    @Test
+    @SneakyThrows
+    public void shouldAddCarswellContainerToCiteQueryInCwBooks() {
+        transformCharSequencesStep.getBookDefinition().setFullyQualifiedTitleId(CW_TITLE_ID);
+        runner.test(transformCharSequencesStep, "testCw");
     }
 
     @Configuration

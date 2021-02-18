@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.links;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
@@ -11,6 +12,15 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilder;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilderInput;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.CARSWELL_WESTLAW_CONTAINER;
+import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.URL_BUILDER_CONTAINER_ATTRIBUTE;
+
 /**
  * This class serves as an adapter to ensure that any calls to GetCiteQueryLink, during the
  * xslt transformation process, return a Persistent MUD URL.  This class is a Java port of the
@@ -20,15 +30,20 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderInput;
  */
 public class CiteQueryAdapter {
     private static final Logger LOG = LogManager.getLogger(CiteQueryAdapter.class);
+    private static final String CONTAINER_GROUP = "containerGroup";
+    private static final String CONTAINER_REGEX = String.format("%s=\"(?<%s>.*?)\"", URL_BUILDER_CONTAINER_ATTRIBUTE, CONTAINER_GROUP);
+    private static final Pattern CONTAINER_PATTERN = Pattern.compile(CONTAINER_REGEX);
+
     private static String HOSTNAME;
     private static String MUD_PARAMETERS_RS;
     private static String MUD_PARAMETERS_VR;
-    private CiteQuery citeQuery;
+    private final Map<String, CiteQuery> citeQueryMap = new HashMap<>();
     private UrlBuilder urlBuilder;
 
     public CiteQueryAdapter()
         throws Exception {
-        citeQuery = new CiteQuery(Container.COBALT.name());
+        citeQueryMap.put(Container.COBALT.name(), new CiteQuery(Container.COBALT.name()));
+        citeQueryMap.put(CARSWELL_WESTLAW_CONTAINER, new CiteQuery(CARSWELL_WESTLAW_CONTAINER));
         urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
     }
 
@@ -238,9 +253,9 @@ public class CiteQueryAdapter {
         final String sourceCite,
         final String... parameters) {
         try {
-            final UrlBuilderInput input =
-                citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, "ebook");
-
+            final String container = getUrlBuilderContainer(linkElement);
+            final UrlBuilderInput input = citeQueryMap.get(container)
+                    .getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, "ebook");
             if (input == null) {
                 return "";
             }
@@ -249,7 +264,7 @@ public class CiteQueryAdapter {
 
             try {
                 response = HOSTNAME
-                    + urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
+                    + urlBuilder.createUrl(container, input.getUrlTemplateName(), input.getParameters());
                 response = addExtraParameters(response);
             } catch (final UrlBuilderException e) {
                 response = "";
@@ -278,7 +293,9 @@ public class CiteQueryAdapter {
         final String sourceCite,
         final String... parameters) {
         try {
-            final UrlBuilderInput input = citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
+            final String container = getUrlBuilderContainer(linkElement);
+            final UrlBuilderInput input = citeQueryMap.get(container)
+                    .getCiteQueryLink(StringUtils.removePattern(linkElement, CONTAINER_REGEX), originatingDoc, keyText, sourceCite);
 
             if (input == null) {
                 return "";
@@ -288,7 +305,7 @@ public class CiteQueryAdapter {
 
             try {
                 response = HOSTNAME
-                    + urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
+                    + urlBuilder.createUrl(container, input.getUrlTemplateName(), input.getParameters());
                 response = addExtraParameters(response);
             } catch (final UrlBuilderException e) {
                 response = "";
@@ -300,5 +317,21 @@ public class CiteQueryAdapter {
         } catch (final Exception e) {
             return "";
         }
+    }
+
+    private String getUrlBuilderContainer(final String linkElement) {
+        Matcher matcher = CONTAINER_PATTERN.matcher(linkElement);
+        if (matcher.find()) {
+            return matcher.group(CONTAINER_GROUP);
+        } else {
+            return Container.COBALT.name();
+        }
+    }
+
+    private String getUrlBuilderContainer(final Node linkElement) {
+        return Optional.ofNullable(linkElement.getAttributes())
+                .map(attributes -> attributes.getNamedItem(URL_BUILDER_CONTAINER_ATTRIBUTE))
+                .map(Node::getNodeValue)
+                .orElse(Container.COBALT.name());
     }
 }

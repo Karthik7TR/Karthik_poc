@@ -30,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServi
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import lombok.SneakyThrows;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -65,6 +66,7 @@ public final class ProcessPagesIntegrationTest {
         runner.setUp(step, "resourceProcessPages");
     }
 
+    @Ignore
     @Test
     public void shouldTransformPages() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);

@@ -4,84 +4,84 @@
 			<cmd.identifiers>
 				<cmd.cites>
 					<cmd.first.line.cite>
-						<bop />
-						<bos />TX FAMILY § 1.101<eos />
-						<eop />
+						<bop/>
+						<bos/>TX FAMILY § 1.101<eos/>
+						<eop/>
 					</cmd.first.line.cite>
 					<cmd.second.line.cite>
-						<bop />
-						<bos />V.T.C.A., Family Code § 1.101<eos />
-						<eop />
+						<bop/>
+						<bos/>V.T.C.A., Family Code § 1.101<eos/>
+						<eop/>
 					</cmd.second.line.cite>
 				</cmd.cites>
 			</cmd.identifiers>
 		</content.metadata.block>
 		<prelim.block>
-			<bop />
+			<bop/>
 			<prelim.head>
 				<head ID="I6129E590975911E9898AC5E1A2A08F91" ampexmnem="0.sb1">
-					<bos />
+					<bos/>
 					<head.info>
-						<headtext>Family Code <hide.historical.version>
+						<headtext>Family Code &bull3;<hide.historical.version>
 								<internal.reference refid="I612A33B0975911E9898AC5E1A2A08F91">Currentness</internal.reference>
 							</hide.historical.version>
 						</headtext>
 					</head.info>
-					<eos />
+					<eos/>
 				</head>
 				<prelim.head>
 					<head ID="I612ACFF0975911E9898AC5E1A2A08F91" ampexmnem="1.sb2">
-						<bos />
+						<bos/>
 						<head.info>
 							<headtext>Title  1. The Marriage Relationship</headtext>
 						</head.info>
-						<eos />
+						<eos/>
 					</head>
 					<prelim.head>
 						<head ID="I612C0870975911E9898AC5E1A2A08F91" ampexmnem="2.sb4">
-							<bos />
+							<bos/>
 							<head.info>
 								<headtext>
 									<cite.query w-normalized-cite="PRT_008232672" ID="I5d0d1f71975b11e9ad3ab2679a3fd0c8" w-ref-type="SB">
 										<n-private-char charName="TLRbrowse"></n-private-char> Subtitle A</cite.query>. Marriage</headtext>
 							</head.info>
-							<eos />
+							<eos/>
 						</head>
 						<prelim.head>
 							<head ID="I612CF2D0975911E9898AC5E1A2A08F91" ampexmnem="3.sb5">
-								<bos />
+								<bos/>
 								<head.info>
 									<headtext>
 										<cite.query w-normalized-cite="PRT_008232673" ID="I5d0d4680975b11e9ad3ab2679a3fd0c8" w-ref-type="SB">
 											<n-private-char charName="TLRbrowse"></n-private-char> Chapter 1</cite.query>. General Provisions</headtext>
 								</head.info>
-								<eos />
+								<eos/>
 							</head>
 							<prelim.head>
 								<head ID="I612DDD30975911E9898AC5E1A2A08F91" ampexmnem="4.sb6">
-									<bos />
+									<bos/>
 									<head.info>
 										<headtext>
 											<cite.query w-normalized-cite="PRT_008232682" ID="I5d0d4682975b11e9ad3ab2679a3fd0c8" w-ref-type="SB">
 												<n-private-char charName="TLRbrowse"></n-private-char> Subchapter B</cite.query>. Public Policy</headtext>
 									</head.info>
-									<eos />
+									<eos/>
 								</head>
 							</prelim.head>
 						</prelim.head>
 					</prelim.head>
 				</prelim.head>
 			</prelim.head>
-			<eop />
+			<eop/>
 		</prelim.block>
 		<include.sb.currency.block>
-			<include.sb.currency n-include_collection="w_codes_stamsgp" n-include_guid="I5D581221BDC911DA9D3000123F3FA40A" />
+			<include.sb.currency n-include_collection="w_codes_stamsgp" n-include_guid="I5D581221BDC911DA9D3000123F3FA40A"/>
 			<message.code>3TXT</message.code>
 		</include.sb.currency.block>
 		<doc.title>
 			<head ID="I7B317990B6C711DDB396C25BF2D8D9A8" ampexmnem="5.snl">
-				<bop />
-				<bos />
+				<bop/>
+				<bos/>
 				<head.info>
 					<headtext>
 						<cite.query w-normalized-cite="TX008232682" ID="I5d0d6d90975b11e9ad3ab2679a3fd0c8" w-pinpoint-page="S1.101" w-ref-type="LK">
@@ -89,100 +89,49 @@
 						</cite.query>
 					</headtext>
 				</head.info>
-				<eos />
-				<eop />
+				<eos/>
+				<eop/>
 			</head>
 		</doc.title>
 		<body ID="I61350921975911E9898AC5E1A2A08F91">
 			<para ID="I7B317991B6C711DDB396C25BF2D8D9A8" ampexmnem="smp">
 				<paratext>
-					<bop />
-					<bos />In order to promote the public health and welfare and to provide the necessary records, this code specifies detailed rules to be followed in establishing the marriage relationship.<eos />
-					<bos />  However, in order to provide stability for those entering into the marriage relationship in good faith and to provide for an orderly determination of parentage and security for the children of the relationship, it is the policy of this state to preserve and uphold each marriage against claims of invalidity unless a strong reason exists for holding the marriage void or voidable.<eos />
-					<bos />  Therefore, every marriage entered into in this state is presumed to be valid unless expressly made void by Chapter 6 or unless expressly made voidable by Chapter 6 and annulled as provided by that chapter.<eos />
-					<eop />
-					<cite.query w-src-number="0494502764" w-seq-number="00017" w-ref-type="DA" w-serial-number="280582161" w-pub-number="0134158" ID="I65ec4100bacf11ea9ab0d17fa9761b04" ebook-url-builder-container="COBALT">R.S.C. 1985, c. I-21, s. 34</cite.query>. See <cite.query w-src-number="0494502764" w-seq-number="00013" w-ref-type="IC" w-serial-number="2030936962" w-pub-number="0007122" ID="I65eba4c0bacf11ea9ab0d17fa9761b04">Ontario (Ministry of Labour) v. Sunrise Propane Energy Group Inc., 2013 ONCJ 358</cite.query>.
+					<bop/>
+					<bos/>In order to promote the public health and welfare and to provide the necessary records, this code specifies detailed rules to be followed in establishing the marriage relationship.<eos/>
+					<bos/>  However -- in order to provide stability for those entering into the marriage relationship in good faith and to provide for an orderly determination of parentage and security for the children of the relationship -- it is the policy of this state to preserve and uphold each marriage against claims of invalidity unless a strong reason exists for holding the marriage void or voidable.<eos/>
+					<bos/>  Therefore, every marriage entered into in this state is presumed to be valid unless expressly made void by Chapter 6 or unless expressly made voidable by Chapter 6 and annulled as provided by that chapter.<eos/>
+					<eop/>
 				</paratext>
 			</para>
 		</body>
 		<credit ID="I613641A0975911E9898AC5E1A2A08F91">
-			<bop />
+			<bop/>
 			<head ID="I6136B6D0975911E9898AC5E1A2A08F91" ampexmnem="sclh">
 				<headtext>CREDIT(S)</headtext>
 			</head>
 			<para ID="I7B317992B6C711DDB396C25BF2D8D9A8" ampexmnem="scl">
 				<paratext>
-					<bos />Added by <cite.query w-seq-number="00001" w-normalized-cite="I8B4EA3B613-F54370BA8EA-937D6768027" ID="I5d17f4e1975b11e9b2b3f9327ce2c558" w-pub-number="1077005" w-ref-type="SL">Acts 1997, 75th Leg., ch. 7, § 1, eff. April 17, 1997</cite.query>.<eos />
+					<bos/>Added by -- <cite.query w-seq-number="00001" w-normalized-cite="I8B4EA3B613-F54370BA8EA-937D6768027" ID="I5d17f4e1975b11e9b2b3f9327ce2c558" w-pub-number="1077005" w-ref-type="SL">Acts 1997, 75th Leg., ch. 7, § 1, eff. April 17, 1997</cite.query>.<eos/>
 				</paratext>
 			</para>
-			<eop />
+			<eop/>
 		</credit>
-		<propagated.block />
+		<propagated.block/>
 		<annotations>
 			<reference.block ID="I61383D70975911E9898AC5E1A2A08F91">
-				<bref />
-				<author.reference.block>
-					<head ID="IFB11528A5F3711DE8DE1CC575AC2777A" ampexmnem="xre">
-						<bop/>
-						<bos/>
-						<head.info>LEADING CLE/LAW REVIEW PUBLICATIONS</head.info>
-						<eos/>
-						<eop/>
-					</head>
-					<author.reference.body>
-						<author.reference ID="IFB11527A5F3711DE8DE1CC575AC2777A" ampexmnem="xre.gnp">
-							<bop/>
-							<bos/>
-							<reference.text>Shade, <cite.query w-seq-number="00025" ID="Id8af45d1d27611e99f16ed38b3f69944" w-pub-number="0001099" w-serial-number="0105554599" w-ref-type="LR">Petroleum Land Titles: Title Examination &amp; Other Title Opinions, 46 Baylor L. Rev. 1007 (1994)</cite.query>.</reference.text>
-							<eos/>
-							<eop/>
-						</author.reference>
-						<author.reference ID="ICFC1409B4A7F11E7B8DCC775BA927E9B" ampexmnem="xre.gnp">
-							<bop/>
-							<bos/>
-							<reference.text>Wilson, Platting: All You Need to Know, State Bar of Texas, Advanced Real Estate Strategies, Ch. 1.2 (2016).</reference.text>
-							<eos/>
-							<eop/>
-						</author.reference>
-					</author.reference.body>
-				</author.reference.block>
-				<eref />
+				<bref/>
+				<eref/>
 			</reference.block>
 		</annotations>
 		<oconnor.annotations source="oconnor">
-			<other.misc.block source="oconnor">
-				<head ID="I83CEFEE582D411EABE7096D2210E18D4" ampexmnem="xcono">
-					<head.info>
-						<oconnor.headtext>TREATISE CROSS-REFERENCES</oconnor.headtext>
-					</head.info>
-				</head>
-				<head ID="I83CEFED782D411EABE7096D2210E18D4" ampexmnem="gnh">
-					<head.info>
-						<oconnor.headtext>
-							<ital>Patent Law Fundamentals</ital>
-						</oconnor.headtext>
-					</head.info>
-				</head>
-				<other.misc.body source="oconnor">
-					<other.misc ID="I4466BD7E82D511EABE7096D2210E18D4" source="oconnor">
-						<oconnor.reference.text>Ch. 1, <ital>What a Patent Is</ital>, §1:20</oconnor.reference.text>
-					</other.misc>
-					<other.misc ID="I4466BD6C82D511EABE7096D2210E18D4" source="oconnor">
-						<oconnor.reference.text>Ch. 2, <ital>Some Popularly Held Misconceptions About Patents</ital>, §2:8</oconnor.reference.text>
-					</other.misc>
-					<other.misc ID="I4466BD5A82D511EABE7096D2210E18D4" source="oconnor">
-						<oconnor.reference.text>Ch. 4, <ital>Trade Secrets</ital>, §4:22</oconnor.reference.text>
-					</other.misc>
-				</other.misc.body>
-			</other.misc.block>
 			<other.ed.note.block source="oconnor">
 				<head ID="IAF88B34071BD11E9830BF2151B89F774" ampexmnem="xconed">
-					<oconnor.headtext>O’CONNOR’S EDITOR NOTES</oconnor.headtext>
+					<oconnor.headtext>&bull3; O’CONNOR’S EDITOR NOTES</oconnor.headtext>
 				</head>
 				<other.ed.note.body source="oconnor">
 					<other.ed.note ID="IAF88B34171BD11E9830BF2151B89F774" source="oconnor">
 						<oconnor.reference.text>
-							<bold>Source:</bold> — Former Fam. Code §2.01.</oconnor.reference.text>
+							<bold>Source:</bold> -- Former Fam. Code §2.01.</oconnor.reference.text>
 					</other.ed.note>
 				</other.ed.note.body>
 			</other.ed.note.block>
@@ -194,22 +143,10 @@
 					<other.cross.reference ID="IAF8753B171BD11E9830BF2151B89F774" source="oconnor">
 						<oconnor.reference.text>See also <ital>
 								<bold>O'Connor's Fam. Law Handbook</bold>
-							</ital> (2018), “Applying presumption of validity,” — ch. 3-A, §3.1.2.</oconnor.reference.text>
+							</ital> (2018), “Applying presumption of validity,” -- ch. 3-A, §3.1.2.</oconnor.reference.text>
 					</other.cross.reference>
 				</other.cross.reference.body>
 			</other.cross.reference.block>
-			<other.chart.block source="oconnor">
-				<head ID="IB2DB7465B28211E9B3CF9D514CD9E494" ampexmnem="xcon">
-					<head.info>
-						<oconnor.headtext> </oconnor.headtext>
-					</head.info>
-				</head>
-				<other.chart.body source="oconnor">
-					<other.chart ID="IB2DB9B64B28211E9B3CF9D514CD9E494" source="oconnor">
-						<oconnor.reference.text>See “Statutes of Limitations”.</oconnor.reference.text>
-					</other.chart>
-				</other.chart.body>
-			</other.chart.block>
 			<other.legislative.note.block source="oconnor">
 				<head ID="I1CAD98A2930111E9B8E3C6D7E5DD9369" ampexmnem="xconau">
 					<head.info>
@@ -225,11 +162,6 @@
 					</other.legislative.note>
 				</other.legislative.note.body>
 			</other.legislative.note.block>
-			<other.legislative.note.block source="oconnor">
-				<head ID="I1CAD98A2930111E9B8E3C6D7E5DD9369" ampexmnem="xconau">
-					<oconnor.headtext>LEGISLATIVE NOTES</oconnor.headtext>
-				</head>
-			</other.legislative.note.block>
 			<other.comment.block source="oconnor">
 				<head ID="I6BF6E3E9781111E9A9D5ED3111DF1B83" ampexmnem="xconm">
 					<oconnor.headtext>O’CONNOR’S OFFICIAL COMMENTS</oconnor.headtext>
@@ -241,7 +173,7 @@
 						</oconnor.headtext>
 					</head>
 					<other.comment ID="I6BF6E3BF781111E9A9D5ED3111DF1B83" source="oconnor">
-						<oconnor.reference.text> — This subchapter governs direct filing of an income withholding order from one state to an employer in another state. Except as provided in §159.507, the provisions of this subchapter only apply to an interstate case and do not apply to an income-withholding order from a foreign country. While U.S. employers routinely enforce sister state income-withholding orders, enforcement of the wide variety of possible foreign support orders would provide too many complexities and challenges to justify requiring an employer to interpret and enforce an ostensible foreign income-withholding order. Indeed, income-withholding orders from a foreign country are quite rare at this time, although instances of that enforcement remedy probably will increase in the future.</oconnor.reference.text>
+						<oconnor.reference.text> -- This subchapter governs direct filing of an income withholding order from one state to an employer in another state. Except as provided in §159.507, the provisions of this subchapter only apply to an interstate case and do not apply to an income-withholding order from a foreign country. While U.S. employers routinely enforce sister state income-withholding orders, enforcement of the wide variety of possible foreign support orders would provide too many complexities and challenges to justify requiring an employer to interpret and enforce an ostensible foreign income-withholding order. Indeed, income-withholding orders from a foreign country are quite rare at this time, although instances of that enforcement remedy probably will increase in the future.</oconnor.reference.text>
 					</other.comment>
 				</other.comment.body>
 			</other.comment.block>
@@ -265,7 +197,7 @@
 						<oconnor.reference.text>
 							<ital>
 								<bold>Estate of Durrill</bold>
-							</ital>, 570 S.W.3d 945, 958 (Tex.App.—Corpus Christi 2019, no pet.). Alleged W “relies upon the Declaration [of informal marriage] as prima facie evidence of the marriage to invoke the separate presumption of validity. The presumption that a marriage is valid may also be rebutted. <ital>At 960:</ital> Although the Declaration may be some evidence that [alleged W and testator] were married <charfill numchar="3">․</charfill>, [alleged W] admitted that they did not hold themselves out to others as married at any time before November 2, 2015. [¶] Because [alleged W] admitted that she and [testator] did not hold themselves out as married to the community, there was no valid informal marriage before November 2, 2015, and thus, no presumption of validity of a marriage before that date.”</oconnor.reference.text>
+							</ital>, 570 S.W.3d 945, 958 (Tex.App.--Corpus Christi 2019, no pet.). Alleged W “relies upon the Declaration [of informal marriage] as prima facie evidence of the marriage to invoke the separate presumption of validity. The presumption that a marriage is valid may also be rebutted. <ital>At 960:</ital> Although the Declaration may be some evidence that [alleged W and testator] were married <charfill numchar="3">․</charfill>, [alleged W] admitted that they did not hold themselves out to others as married at any time before November 2, 2015. [¶] Because [alleged W] admitted that she and [testator] did not hold themselves out as married to the community, there was no valid informal marriage before November 2, 2015, and thus, no presumption of validity of a marriage before that date.”</oconnor.reference.text>
 					</other.annotation>
 					<other.annotation ID="ICCDF138271BD11E9A061AF957A777F70" source="oconnor">
 						<oconnor.reference.text>
@@ -290,12 +222,12 @@
 						<oconnor.reference.text>
 							<ital>
 								<bold>In re K.M.L.</bold>
-							</ital>, 443 S.W.3d 101, 112-13 (—Tex.2014). “Our traditional legal sufficiency—or ‘no evidence’—standard of review upholds a finding supported by ‘[a]nything more than a scintilla of evidence.’ However, ‘[r]equiring only anything more than a mere scintilla of evidence does not equate to clear and convincing evidence.’ Thus, our legal sufficiency review in a parental termination case must take into consideration whether the evidence is such that a factfinder could reasonably form a firm belief or conviction about the truth of the matter on which the State bears the burden of proof. [¶] In a legal sufficiency challenge, we credit evidence that supports the verdict if reasonable jurors could have done so and disregard contrary evidence unless reasonable jurors could not have done so. However, the reviewing court should not disregard undisputed facts that do not support the verdict to determine whether there is clear and convincing evidence. In cases requiring clear and convincing evidence, even evidence that does more than raise surmise and suspicion will not suffice unless that evidence is capable of producing a firm belief or conviction that the allegation is true. If the reviewing court determines that no reasonable factfinder could form a firm belief or conviction that the matter to be proven is true, then the court must conclude that the evidence is legally insufficient.” <ital>See also </ital>
+							</ital>, 443 S.W.3d 101, 112-13 (--Tex.2014). “Our traditional legal sufficiency--or ‘no evidence’--standard of review upholds a finding supported by ‘[a]nything more than a scintilla of evidence.’ However, ‘[r]equiring only anything more than a mere scintilla of evidence does not equate to clear and convincing evidence.’ Thus, our legal sufficiency review in a parental termination case must take into consideration whether the evidence is such that a factfinder could reasonably form a firm belief or conviction about the truth of the matter on which the State bears the burden of proof. [¶] In a legal sufficiency challenge, we credit evidence that supports the verdict if reasonable jurors could have done so and disregard contrary evidence unless reasonable jurors could not have done so. However, the reviewing court should not disregard undisputed facts that do not support the verdict to determine whether there is clear and convincing evidence. In cases requiring clear and convincing evidence, even evidence that does more than raise surmise and suspicion will not suffice unless that evidence is capable of producing a firm belief or conviction that the allegation is true. If the reviewing court determines that no reasonable factfinder could form a firm belief or conviction that the matter to be proven is true, then the court must conclude that the evidence is legally insufficient.” <ital>See also </ital>
 							<ital>
 								<bold>In re E.N.C.</bold>
-							</ital>, 384 S.W.3d 796, 802-03 (—Tex.2012); <ital>
+							</ital>, 384 S.W.3d 796, 802-03 (--Tex.2012); <ital>
 								<bold>In re J.F.C.</bold>
-							</ital>, 96 S.W.3d 256, 265-66 (—Tex.2002).</oconnor.reference.text>
+							</ital>, 96 S.W.3d 256, 265-66 (--Tex.2002).</oconnor.reference.text>
 					</other.annotation>
 				</other.annotation.body>
 			</other.annotation.block>
@@ -304,15 +236,15 @@
 			<cmd.identifiers>
 				<cmd.cites>
 					<cmd.expandedcite>
-						<bop />
-						<bos />V. T. C. A., Family Code § 1.101, TX FAMILY § 1.101<eos />
-						<eop />
+						<bop/>
+						<bos/>V. T. C. A., Family Code § 1.101, TX FAMILY § 1.101<eos/>
+						<eop/>
 					</cmd.expandedcite>
 				</cmd.cites>
 			</cmd.identifiers>
 		</content.metadata.block>
 		<include.currency.block>
-			<currency.id ID="I612A33B0975911E9898AC5E1A2A08F91" />
+			<currency.id ID="I612A33B0975911E9898AC5E1A2A08F91"/>
 			<include.currency n-include_collection="w_codes_stamsgp" n-include_guid="I5D581220BDC911DA9D3000123F3FA40A">Current to legislation effective May 29, 2019, of the 2019 Regular Session of the 86th Legislature. Some statute sections may be more current, but not necessarily complete through the whole Session. See credits for details.</include.currency>
 			<message.code>3TXT</message.code>
 		</include.currency.block>

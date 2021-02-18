@@ -21,8 +21,12 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLink() {
-        final String linkElement =
-            "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-ref-type=\"DA\" " +
+                "w-normalized-cite=\"IMPHDMYREFCH5\" " +
+                "w-pub-number=\"135162\" " +
+                "ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\" " +
+                "ebook-url-builder-container=\"COBALT\">References</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String keyText = "";
         final String sourceCite = "Immigr. Proc. Handbook � 5:42";
@@ -40,8 +44,12 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLink1() {
-        final String linkElement =
-            "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-ref-type=\"DA\" " +
+                "w-normalized-cite=\"IMPHDMYREFCH5\" " +
+                "w-pub-number=\"135162\" " +
+                "ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\" " +
+                "ebook-url-builder-container=\"COBALT\">References</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String keyText = "";
         final String sourceCite = "Immigr. Proc. Handbook � 5:42";
@@ -56,8 +64,12 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLink2() {
-        final String linkElement =
-            "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-ref-type=\"DA\" " +
+                "w-normalized-cite=\"IMPHDMYREFCH5\" " +
+                "w-pub-number=\"135162\" " +
+                "ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\" " +
+                "ebook-url-builder-container=\"COBALT\">References</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String keyText = "";
         final String sourceCite = "Immigr. Proc. Handbook � 5:42";
@@ -74,8 +86,12 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLink3() {
-        final String linkElement =
-            "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-ref-type=\"DA\" " +
+                "w-normalized-cite=\"IMPHDMYREFCH5\" " +
+                "w-pub-number=\"135162\" " +
+                "ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\" " +
+                "ebook-url-builder-container=\"COBALT\">References</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String keyText = "";
         final String sourceCite = "Immigr. Proc. Handbook � 5:42";
@@ -92,9 +108,14 @@ public final class CiteQueryAdapterTest {
     }
 
     @Test
+
     public void getCiteQueryLinkWithNode() {
-        final String linkStr =
-            "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
+        final String linkStr = "<cite.query " +
+                "w-ref-type=\"DA\" " +
+                "w-normalized-cite=\"IMPHDMYREFCH5\" " +
+                "w-pub-number=\"135162\" " +
+                "ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\" " +
+                "ebook-url-builder-container=\"COBALT\">References</cite.query>";
         final DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
         Node linkElement = null;
 
@@ -126,8 +147,12 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLinkWithoutParameters() {
-        final String linkElement =
-            "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-ref-type=\"DA\" " +
+                "w-normalized-cite=\"IMPHDMYREFCH5\" " +
+                "w-pub-number=\"135162\" " +
+                "ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\" " +
+                "ebook-url-builder-container=\"COBALT\">References</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String keyText = "";
         final String sourceCite = "Immigr. Proc. Handbook � 5:42";
@@ -140,7 +165,14 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLinkEmpty() {
-        final String linkElement = "<cite.query w-seq-number=\"00062\" id=\"I0e1c8f2519c011ebbea6fcce6570c4b3\" w-src-number=\"0287018091\" w-pub-number=\"0000711\" w-serial-number=\"1969134013\" w-ref-type=\"RS\">Smith</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-seq-number=\"00062\" " +
+                "id=\"I0e1c8f2519c011ebbea6fcce6570c4b3\" " +
+                "w-src-number=\"0287018091\" " +
+                "w-pub-number=\"0000711\" " +
+                "w-serial-number=\"1969134013\" " +
+                "w-ref-type=\"RS\" " +
+                "ebook-url-builder-container=\"COBALT\">Smith</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
 
@@ -149,7 +181,14 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLinkEmpty2() {
-        final String linkElement = "<cite.query w-seq-number=\"00007\" id=\"I12f6c6f119c011ebbea6fcce6570c4b3\" w-src-number=\"0287018096\" w-pub-number=\"0000359\" w-serial-number=\"2030644789\" w-ref-type=\"RT\">infra</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-seq-number=\"00007\" " +
+                "id=\"I12f6c6f119c011ebbea6fcce6570c4b3\" " +
+                "w-src-number=\"0287018096\" " +
+                "w-pub-number=\"0000359\" " +
+                "w-serial-number=\"2030644789\" " +
+                "w-ref-type=\"RT\"> " +
+                "ebook-url-builder-container=\"COBALT\">infra</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
 
@@ -158,7 +197,12 @@ public final class CiteQueryAdapterTest {
 
     @Test
     public void getCiteQueryLinkInternal() {
-        final String linkElement = "<cite.query w-normalized-cite=\"GAEVIDENCES8:8\" id=\"Ideebe97119c011eb9186f10f857b4088\" w-pub-number=\"160247\" w-ref-type=\"DA\">8:8</cite.query>";
+        final String linkElement = "<cite.query " +
+                "w-normalized-cite=\"GAEVIDENCES8:8\" " +
+                "id=\"Ideebe97119c011eb9186f10f857b4088\" " +
+                "w-pub-number=\"160247\" " +
+                "w-ref-type=\"DA\"> " +
+                "ebook-url-builder-container=\"COBALT\">8:8</cite.query>";
         final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
         final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
 
@@ -177,7 +221,8 @@ public final class CiteQueryAdapterTest {
                 "w-pub-number=\"135090\" " +
                 "w-target-preference=\"DocLanguage:EN\" " +
                 "w-pinpoint-page=\"AA41F635A60162C8E0540010E03EEFE0\" " +
-                "ID=\"I5a92d0f12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+                "ID=\"I5a92d0f12b3e11eb987de62c8a9b3ff1\" " +
+                "ebook-url-builder-container=\"CARSWELL.WESTLAW\">text</cite.query>";
         final String originatingDoc = "origdoc";
         final String expectedUrl = "null/Link/Document/FullText?findType=Y&serNum=0000000000280630688&pubNum=135090&originatingDoc=origdoc" +
                 "&refType=IG" +
@@ -200,7 +245,8 @@ public final class CiteQueryAdapterTest {
                 "w-docfamily-uuid=\"I949d2716f46d11d99f28ffa0ae8c2575\" " +
                 "w-pub-number=\"134158\" " +
                 "w-target-preference=\"DocLanguage:EN\" " +
-                "ID=\"I5fed0e312b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+                "ID=\"I5fed0e312b3e11eb987de62c8a9b3ff1\" " +
+                "ebook-url-builder-container=\"CARSWELL.WESTLAW\">text</cite.query>";
         final String originatingDoc = "origdoc";
         final String expectedUrl = "null/Link/Document/FullText?findType=Y&serNum=0000000000280379381&pubNum=134158" +
                 "&originatingDoc=origdoc" +
@@ -221,9 +267,10 @@ public final class CiteQueryAdapterTest {
                 "w-seq-number=\"00002\" " +
                 "w-ref-type=\"IG\" " +
                 "w-normalized-cite=\"null\" " +
-                "ID=\"I5d5bb4f22b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+                "ID=\"I5d5bb4f22b3e11eb987de62c8a9b3ff1\" " +
+                "ebook-url-builder-container=\"CARSWELL.WESTLAW\">text</cite.query>";
         final String originatingDoc = "origdoc";
-        final String expectedUrl = "";
+        final String expectedUrl = "null/Link/Document/FullText?findType=Y&cite=null&originatingDoc=origdoc&refType=IG&originationContext=ebook&RS=null&vr=null";
 
         final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, StringUtils.EMPTY, CITE_QUERY_SOURCE_CITE);
 
@@ -240,7 +287,8 @@ public final class CiteQueryAdapterTest {
                 "w-docfamily-uuid=\"Ib5ade80ff4ed11d99f28ffa0ae8c2575\" " +
                 "w-pub-number=\"146294\" " +
                 "w-target-preference=\"DocLanguage:EN\" " +
-                "ID=\"I5f1572e12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+                "ID=\"I5f1572e12b3e11eb987de62c8a9b3ff1\" " +
+                "ebook-url-builder-container=\"CARSWELL.WESTLAW\">text</cite.query>";
         final String originatingDoc = "origdoc";
         final String expectedUrl = "";
 
@@ -257,7 +305,8 @@ public final class CiteQueryAdapterTest {
                 "w-seq-number=\"00003\" " +
                 "w-ref-type=\"IX\" " +
                 "w-docfamily-uuid=\"UNKNOWN\" " +
-                "ID=\"I5a9282d12b3e11eb987de62c8a9b3ff1\">text</cite.query>";
+                "ID=\"I5a9282d12b3e11eb987de62c8a9b3ff1\" " +
+                "ebook-url-builder-container=\"CARSWELL.WESTLAW\">text</cite.query>";
         final String originatingDoc = "origdoc";
         final String expectedUrl = "";
 
