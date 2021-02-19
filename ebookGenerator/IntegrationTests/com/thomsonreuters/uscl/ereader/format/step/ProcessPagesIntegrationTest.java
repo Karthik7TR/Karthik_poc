@@ -66,7 +66,6 @@ public final class ProcessPagesIntegrationTest {
         runner.setUp(step, "resourceProcessPages");
     }
 
-    @Ignore
     @Test
     public void shouldTransformPages() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);

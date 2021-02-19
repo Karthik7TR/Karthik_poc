@@ -6,7 +6,9 @@
 				Main <page no="300"/>text<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference>
 				section<footnote.reference refid="I01a2f010680911e88f4a9c1f64101002">2</footnote.reference>
 				<page no="301"/>
-				<page no="302"/>
+				<page no="302_a"/>
+				<page no="302_b"/>
+				<page no="302_c"/>
 			</section.body>
 		</section>
 		<footnote.block>
@@ -52,7 +54,9 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<page no="302"/>
+			<page no="302_a"/>
+			<page no="302_b"/>
+			<page no="302_c"/>
 		</footnote.block>
 	</doc>
 </n-docbody>

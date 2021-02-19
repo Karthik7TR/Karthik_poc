@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
@@ -175,7 +176,7 @@ public class ReorderFootnotesService {
             linksResolverService.transformCiteQueries(footnotesSectionToAppend, fileUuid, step);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
             removeExtraPagebreaksFromFootnotesSection(mainSection, footnotesSectionToAppend);
-            addPageLabels(mainSection, footnotesSectionToAppend, fileUuid);
+            addPageLabels(mainSection, footnotesSectionToAppend);
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
             convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage, isFirstFile);
             setPageAttrInReferencesInMainSectionAndFootnotes(mainSection, footnotesSectionToAppend, mainPage, footnotePage);
@@ -195,7 +196,7 @@ public class ReorderFootnotesService {
         final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument = new PagebreakToMoveToNextDocument();
         auxiliaryFiles.forEach(file -> {
             if (EXCLUDED_FROM_PROCESSING.contains(file.getName())) {
-                com.thomsonreuters.uscl.ereader.core.book.util.FileUtils.copyFileToDirectory(file, destDir);
+                FileUtils.copyFileToDirectory(file, destDir);
             } else {
                 Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
                 final PagePointer mainPage = new PagePointer(pageNumbers);
@@ -496,9 +497,9 @@ public class ReorderFootnotesService {
                 .forEach(Node::remove);
     }
 
-    private void addPageLabels(final Element mainSection, final Element footnotesSection, final String fileUuid) {
+    private void addPageLabels(final Element mainSection, final Element footnotesSection) {
         appendPagenumbersToFootnotesSection(footnotesSection);
-        addMissingPageLabelsToFootnotesSection(mainSection, footnotesSection, fileUuid);
+        addMissingPageLabelsToFootnotesSection(mainSection, footnotesSection);
     }
 
     private void appendPagenumbersToFootnotesSection(final Element footnotesSection) {
@@ -757,7 +758,7 @@ public class ReorderFootnotesService {
                 .text(label);
     }
 
-    private void addMissingPageLabelsToFootnotesSection(final Element mainSection, final Element footnotesSection, final String fileUuid) {
+    private void addMissingPageLabelsToFootnotesSection(final Element mainSection, final Element footnotesSection) {
         List<XmlDeclaration> mainSectionPagebreaks = getProviewPagebreaks(mainSection);
         List<XmlDeclaration> footnotesPagebreaks = getProviewPagebreaks(footnotesSection);
         List<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
@@ -848,7 +849,7 @@ public class ReorderFootnotesService {
         }
 
         public void clear() {
-            pagebreakFromFootnotesSection = null;
+            pagebreakFromMainSection = null;
             pagebreakFromFootnotesSection = null;
             pagebreakSiblingsInFootnotesSection = null;
         }
