@@ -20,8 +20,8 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(vdsLdapAuthenticationProvider)
-            .authenticationProvider(testingAuthenticationProvider);
+        auth.authenticationProvider(testingAuthenticationProvider)
+            .authenticationProvider(vdsLdapAuthenticationProvider);
     }
 
     @Override
