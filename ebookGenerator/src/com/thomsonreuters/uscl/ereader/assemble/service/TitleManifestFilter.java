@@ -165,7 +165,7 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
         } else if (MISSING_DOCUMENT.equals(qName)) {
             // this node is missing text, generate a new doc guid and xhtml5
             // content for the heading.
-            final String missingDocumentGuid = uuidGenerator.generateUuid();
+            final String missingDocumentGuid = currentNode.getTocGuid();
             final String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
             final File missingDocument = new File(documentsDirectory, missingDocumentFilename);
             try {

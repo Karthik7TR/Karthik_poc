@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+	<EBookToc>
+		<Name>Toc 1</Name>
+		<Guid>I97a8</Guid>
+		<EBookToc>
+			<Name>Toc 2</Name>
+			<Guid>I97a9</Guid>
+			<EBookToc>
+				<Name>Live</Name>
+				<Guid>I97aa</Guid>
+				<DocumentGuid>I10000000000000000000000000000000</DocumentGuid>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 1</Name>
+				<Guid>I97ab</Guid>
+				<EBookToc>
+					<Name>Missing 1</Name>
+					<Guid>I97ac</Guid>
+					<MissingDocument/>
+				</EBookToc>
+			</EBookToc>
+			<EBookToc>
+				<Name>Live</Name>
+				<Guid>I97ad</Guid>
+				<DocumentGuid>I20000000000000000000000000000000</DocumentGuid>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 2</Name>
+				<Guid>I97ae</Guid>
+				<EBookToc>
+					<Name>Missing 2</Name>
+					<Guid>I97af</Guid>
+					<MissingDocument/>
+				</EBookToc>
+				<EBookToc>
+					<Name>Live 2</Name>
+					<Guid>I97b0</Guid>
+					<DocumentGuid>I30000000000000000000000000000000</DocumentGuid>
+				</EBookToc>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 3</Name>
+				<Guid>I97b1</Guid>
+				<EBookToc>
+					<Name>Live 3</Name>
+					<Guid>I97b2</Guid>
+					<DocumentGuid>I40000000000000000000000000000000</DocumentGuid>
+				</EBookToc>
+				<EBookToc>
+					<Name>Missing 3</Name>
+					<Guid>I97b3</Guid>
+					<MissingDocument/>
+				</EBookToc>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 4</Name>
+				<Guid>I97b4</Guid>
+				<EBookToc>
+					<Name>Missing 4.1</Name>
+					<Guid>I97b5</Guid>
+					<MissingDocument/>
+				</EBookToc>
+				<EBookToc>
+					<Name>Missing 4.2</Name>
+					<Guid>I97b6</Guid>
+					<MissingDocument/>
+				</EBookToc>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 5 Missing</Name>
+				<Guid>I97b7</Guid>
+				<MissingDocument/>
+			</EBookToc>
+		</EBookToc>
+	</EBookToc>
+</EBook>

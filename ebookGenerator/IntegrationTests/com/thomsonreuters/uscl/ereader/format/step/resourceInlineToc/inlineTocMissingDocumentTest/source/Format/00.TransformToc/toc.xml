@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+	<EBookToc>
+		<Name>Toc 1</Name>
+		<Guid>1</Guid>
+		<EBookToc>
+			<Name>Toc 2</Name>
+			<Guid>2</Guid>
+			<EBookToc>
+				<Name>Case 1</Name>
+				<Guid>Icbcfa40095cb11e4a7a2f300942ac02c</Guid>
+				<EBookToc>
+					<Name>Missing document 1</Name>
+					<Guid>NE4D3920046AF11E59A00ABA1B3B75BAD907</Guid>
+					<MissingDocument/>
+				</EBookToc>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 2</Name>
+				<Guid>I97a8da30933b11da99e2b07024dacc26</Guid>
+				<EBookToc>
+					<Name>Missing document 2</Name>
+					<Guid>NE4D3920046AF11E59A00ABA1B3B75BAD908</Guid>
+					<MissingDocument/>
+				</EBookToc>
+				<EBookToc>
+					<Name>Live document 2</Name>
+					<Guid>I67919ab1114511e69f7284fc34408711</Guid>
+					<DocumentGuid>I10000000000000000000000000000000</DocumentGuid>
+				</EBookToc>
+			</EBookToc>
+			<EBookToc>
+				<Name>Case 3</Name>
+				<Guid>Icbcfa40095cb11e4a7a2f300942ac02e</Guid>
+				<EBookToc>
+					<Name>Live document 3</Name>
+					<Guid>I67919ab1114511e69f7284fc34408713</Guid>
+					<DocumentGuid>I20000000000000000000000000000000</DocumentGuid>
+				</EBookToc>
+				<EBookToc>
+					<Name>Missing document 3</Name>
+					<Guid>NE4D3920046AF11E59A00ABA1B3B75BAD909</Guid>
+					<MissingDocument/>
+				</EBookToc>
+			</EBookToc>
+		</EBookToc>
+	</EBookToc>
+</EBook>

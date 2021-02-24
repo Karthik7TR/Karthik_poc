@@ -485,14 +485,8 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase {
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
         familyGuidMap.put("DOC_GUID3", "FAM_GUID1");
 
-        final InputStream caFedRules2012 =
-            SplitTocManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012.xml");
-
+        final InputStream caFedRules2012 = SplitTocManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012.xml");
         final UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
-        EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_1");
-        EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_2");
-        EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_3");
-        EasyMock.replay(mockUuidGenerator);
         final SplitTocManifestFilter filter = new SplitTocManifestFilter(
             titleMetadata,
             familyGuidMap,

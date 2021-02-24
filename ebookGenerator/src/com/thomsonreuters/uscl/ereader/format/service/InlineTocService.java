@@ -1,11 +1,14 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
+import static java.util.Optional.ofNullable;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InlineTocService {
     private static final String DOCUMENT_GUID = "DocumentGuid";
+    private static final String MISSING_DOCUMENT = "MissingDocument";
     private static final String EBOOK_TOC = "EBookToc";
     private static final String SUMMARY = "summary";
     private static final String DETAILED = "detailed";
@@ -147,8 +151,8 @@ public class InlineTocService {
         final Document document = jsoup.loadDocument(proviewHtmlTemplate);
         final Element section = document.selectFirst(SECTION);
 
-        final Optional<Element> summaryHeading = Optional.ofNullable(tocXml.selectFirst(SUMMARY_HEADING));
-        final Optional<Element> detailedHeading = Optional.ofNullable(tocXml.selectFirst(DETAILED_HEADING));
+        final Optional<Element> summaryHeading = ofNullable(tocXml.selectFirst(SUMMARY_HEADING));
+        final Optional<Element> detailedHeading = ofNullable(tocXml.selectFirst(DETAILED_HEADING));
 
         final List<Element> summaryTocElements = extractTocElements(tocXml, SUMMARY);
         final List<Element> detailedTocElements = extractTocElements(tocXml, DETAILED);
@@ -272,22 +276,68 @@ public class InlineTocService {
 
     private void appendDetailedTocItem(final Element section, final Element eBookToc, final TocDocument doc) {
         String guid = eBookToc.selectFirst(GUID).text();
-        String documentGuid = eBookToc.selectFirst(DOCUMENT_GUID).text();
+        String documentGuid = getDocumentGuid(eBookToc);
+        String familyGuid = getFamilyGuid(doc, documentGuid);
+        String splitTitleId = getSplitTitleId(eBookToc, doc, documentGuid);
 
         section.appendElement(DIV)
             .attr(STYLE, stylingService.getStyleByElement(eBookToc, "det_"))
             .appendElement(A_TAG)
             .attr(NAME_ATTR, String.format("sum%s", guid))
             .attr(HREF, String.format("er:%s#%s/%s",
-                    getSplitTitleId(doc, documentGuid),
-                    doc.getFamilyGuidMap().get(documentGuid),
+                    splitTitleId,
+                    familyGuid,
                     guid))
             .text(eBookToc.selectFirst(NAME).text());
     }
 
-    private String getSplitTitleId(final TocDocument doc, final String documentGuid) {
+    private String getDocumentGuid(final Element eBookToc) {
+        return ofNullable(eBookToc.selectFirst(DOCUMENT_GUID))
+                .orElseGet(() -> getSiblingGuid(eBookToc.selectFirst(MISSING_DOCUMENT)))
+                .text();
+    }
+
+    private Element getSiblingGuid(final Element element) {
+        return element.parent().selectFirst(GUID);
+    }
+
+    private String getFamilyGuid(final TocDocument doc, final String documentGuid) {
+        return ofNullable(doc.getFamilyGuidMap().get(documentGuid)).orElse(documentGuid);
+    }
+
+    private String getSplitTitleId(final Element eBookToc, final TocDocument doc, final String documentGuid) {
+        DocMetadata docMetadata = getDocMetadata(eBookToc, doc, documentGuid);
+        return docMetadata == null || docMetadata.isFirstSplitTitle() ? StringUtils.EMPTY : docMetadata.getSplitBookTitle() + "/" + doc.getVersion().getMajorVersion();
+    }
+
+    private DocMetadata getDocMetadata(final Element eBookToc, final TocDocument doc, final String documentGuid) {
         DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(doc.getTitleId(), doc.getJobIdentifier(), documentGuid);
-        return docMetadata.isFirstSplitTitle() ? StringUtils.EMPTY : docMetadata.getSplitBookTitle() + "/" + doc.getVersion().getMajorVersion();
+        if (docMetadata == null) {
+            String siblingDocumentGuid = getAnyClosestDocumentGuid(eBookToc);
+            docMetadata = docMetadataService.findDocMetadataByPrimaryKey(doc.getTitleId(), doc.getJobIdentifier(), siblingDocumentGuid);
+        }
+        return docMetadata;
+    }
+
+    private String getAnyClosestDocumentGuid(final Element eBookToc) {
+        Element current = eBookToc;
+        String documentGuid = null;
+        while(current != null && documentGuid == null) {
+            documentGuid = getAnySiblingDocumentGuid(current);
+            current = current.parent();
+        }
+        return documentGuid;
+    }
+
+    private String getAnySiblingDocumentGuid(final Element eBookToc) {
+        return ofNullable(getSiblingDocumentGuid(eBookToc.nextElementSiblings()))
+                .orElse(getSiblingDocumentGuid(eBookToc.previousElementSiblings()));
+    }
+
+    private String getSiblingDocumentGuid(final Collection<Element> siblings) {
+        return siblings.stream().map(siblingToc -> siblingToc.selectFirst(DOCUMENT_GUID))
+                .filter(Objects::nonNull).findFirst()
+                .map(Element::text).orElse(null);
     }
 
     @Getter

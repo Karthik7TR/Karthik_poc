@@ -40,6 +40,8 @@ public final class InlineTocStepIntegrationTest {
     private static final String TITLE_ID = "book";
     private static final String TITLE_ID_SPLIT_BOOK = "split_book";
     private static final String TITLE_ID_SPLIT_BOOK_PART_2 = "split_book_pt2";
+    private static final String TITLE_ID_SPLIT_BOOK_PART_3 = "split_book_pt3";
+    private static final String TITLE_ID_SPLIT_BOOK_PART_4 = "split_book_pt4";
     private static final long JOB_ID = 1L;
     private static final String DOC_UUID_1 = "I10000000000000000000000000000000";
     private static final String DOC_UUID_2 = "I20000000000000000000000000000000";
@@ -65,41 +67,46 @@ public final class InlineTocStepIntegrationTest {
     @Test
     public void shouldCreateTocWithPages() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
-
         runner.test(step, "inlineTocWithPagesTest");
-
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
 
     @Test
     public void shouldCreateTocWithoutPages() throws Exception {
         runner.test(step, "inlineTocWithoutPagesTest");
-
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
 
     @Test
     public void shouldCreateTocForSplitBook() throws Exception {
         step.getBookDefinition().setFullyQualifiedTitleId(TITLE_ID_SPLIT_BOOK);
-
         runner.test(step, "inlineTocSplitBookTest");
-
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
 
     @Test
     public void shouldCreateTocWithDefaultStyles() throws Exception {
         runner.test(step, "noInlineTocAttributes");
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
+    }
 
+    @Test
+    public void shouldCreateTocWithMissingDocument() throws Exception {
+        runner.test(step, "inlineTocMissingDocumentTest");
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
+    }
+
+    @Test
+    public void shouldCreateTocWithMissingDocumentSplitBook() throws Exception {
+        step.getBookDefinition().setFullyQualifiedTitleId(TITLE_ID_SPLIT_BOOK);
+        runner.test(step, "inlineTocMissingDocumentSplitBookTest");
         verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
 
     @Test
     public void shouldNotCreateToc() throws Exception {
         step.getBookDefinition().setInlineTocIncluded(false);
-
         step.executeStep();
-
         verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_TOC, Boolean.TRUE);
     }
 
@@ -142,6 +149,8 @@ public final class InlineTocStepIntegrationTest {
             whenFindDocMetadata(docMetadataService, TITLE_ID, null, null);
             whenFindDocMetadata(docMetadataService, TITLE_ID_SPLIT_BOOK, DOC_UUID_1, TITLE_PREFIX + TITLE_ID_SPLIT_BOOK);
             whenFindDocMetadata(docMetadataService, TITLE_ID_SPLIT_BOOK, DOC_UUID_2, TITLE_PREFIX + TITLE_ID_SPLIT_BOOK_PART_2);
+            whenFindDocMetadata(docMetadataService, TITLE_ID_SPLIT_BOOK, DOC_UUID_3, TITLE_PREFIX + TITLE_ID_SPLIT_BOOK_PART_3);
+            whenFindDocMetadata(docMetadataService, TITLE_ID_SPLIT_BOOK, DOC_UUID_4, TITLE_PREFIX + TITLE_ID_SPLIT_BOOK_PART_4);
 
             return docMetadataService;
         }

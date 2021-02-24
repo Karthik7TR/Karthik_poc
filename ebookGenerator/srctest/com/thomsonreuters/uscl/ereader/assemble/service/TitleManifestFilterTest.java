@@ -637,12 +637,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         familyGuidMap.put("DOC_GUID3", "FAM_GUID1");
 
         final InputStream caFedRules2012 = TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012.xml");
-
         final UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
-        EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_1");
-        EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_2");
-        EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_3");
-        EasyMock.replay(mockUuidGenerator);
         final Map<String, String> altIdMap = new HashMap<>();
         final TitleManifestFilter filter = new TitleManifestFilter(
             titleMetadata,
