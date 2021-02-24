@@ -30,7 +30,6 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServi
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import lombok.SneakyThrows;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -83,6 +82,24 @@ public final class ProcessPagesIntegrationTest {
     @Test
     public void shouldCopyPages() throws Exception {
         runner.test(step, "copyTest");
+    }
+
+    @Test
+    public void shouldProcessLastPage() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "processLastPage");
+    }
+
+    @Test
+    public void shouldProcessLastPageMissingInMain() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "processLastPageMissingInMain");
+    }
+
+    @Test
+    public void shouldProcessLastPageMissingInFootnotes() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "processLastPageMissingInFootnotes");
     }
 
     private void setUpDocMetadata(final String resourceTestDir) {
