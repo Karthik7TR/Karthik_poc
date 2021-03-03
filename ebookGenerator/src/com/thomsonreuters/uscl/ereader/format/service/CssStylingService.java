@@ -31,9 +31,9 @@ public class CssStylingService {
     private static final int ITALIC = 2;
     private static final int BOLD_ITALIC = 3;
     private static final String DEFAULT_TEXT_ALIGN = "left";
-    private static final String DEFAULT_MARGIN_TOP = "0.025";
+    private static final String DEFAULT_MARGIN_TOP = "0.1";
     private static final String DEFAULT_MARGIN_LEFT = "0.350";
-    private static final String DEFAULT_FONT_SIZE = "0.8";
+    private static final String DEFAULT_FONT_SIZE = "1.0";
     private static final String DEFAULT_PADDING_TOP = "1";
 
     public String getStyleByElement(final Element element) {

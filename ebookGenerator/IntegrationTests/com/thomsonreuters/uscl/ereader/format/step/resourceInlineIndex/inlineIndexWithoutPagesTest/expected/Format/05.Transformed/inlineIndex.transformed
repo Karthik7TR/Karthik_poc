@@ -1,9 +1,7 @@
 <div class="section">
  <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <div class="co_headtext">
-    PROCEDURE
-   </div>
+   <h3 class="co_headtext" id="procedure">PROCEDURE</h3>
   </div>     
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
@@ -29,70 +27,66 @@
     </div></li>
   </ol>
  </div>
- <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; padding-top: 1em; " class="co_index"> 
+ <div style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; padding-top: 1em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <div class="co_headtext">
-    REMAND
-   </div>
+   <h3 class="co_headtext" id="remand">REMAND</h3>
   </div>    
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
-    <div level="1" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; ">   
+    <div level="1" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; ">   
      <span>Effect, </span> 
      <a id="co_link_I000f400243d311e89d19b91ad8ebf86a" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANHIGHLIGHTS&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 10:5</a>   
     </div></li>
    <li class="co_tocHeading" style="list-style-type: none">
-    <div level="1" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; ">   
+    <div level="1" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; ">   
      <span>Factors affecting decision</span>        
      <ol class="co_toc">
       <li class="co_tocHeading" style="list-style-type: none">
-       <div level="2" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; "> 
+       <div level="2" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; "> 
         <span>Generally, </span> 
         <a id="co_link_I000f400243d311e89d19b91ad8ebf81a" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANPREMAT&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 002 (Premat)</a> et seq.
        </div></li>
       <li class="co_tocHeading" style="list-style-type: none">
-       <div level="2" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; "> 
+       <div level="2" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; "> 
         <span>Dissatisfaction with transferee court rulings, </span> 
         <a id="co_link_I000f400243d311e89d19b91ad8ebf82b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANs1%3A1&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 003 (§ 1:1)</a> 
        </div></li>
       <li class="co_tocHeading" style="list-style-type: none">
-       <div level="2" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; "> 
+       <div level="2" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; "> 
         <span>Transferee court rulings, </span> 
         <a id="co_link_I000f400243d311e89d19b91ad8ebf83b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANPTII&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 004 (Pt 11)</a> 
        </div></li>
       <li class="co_tocHeading" style="list-style-type: none">
-       <div level="2" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; "> 
+       <div level="2" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; "> 
         <span>Views of transferee judge, </span> 
         <a id="co_link_I000f400243d311e89d19b91ad8ebf84b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANBIBLIO&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 005 (Biblio)</a> 
        </div></li>
       <li class="co_tocHeading" style="list-style-type: none">
-       <div level="2" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; "> 
+       <div level="2" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; "> 
         <span>Views of transferee judge 2, </span> 
         <a id="co_link_I000f400243d311e89d19b91ad8ebf85b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANBIBLIO&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 005 (Biblio2)</a> 
        </div></li>
      </ol>
     </div></li>
    <li class="co_tocHeading" style="list-style-type: none">
-    <div level="1" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; ">   
+    <div level="1" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; ">   
      <span>Frequency, </span> 
      <a id="co_link_I000f400243d311e89d19b91ad8ebf87b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANBIBLIO&amp;originatingDoc=Idffa6c40d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 10:4</a>   
     </div></li>
   </ol>
  </div>
- <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; padding-top: 1em; " class="co_index"> 
+ <div style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; padding-top: 1em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <div class="co_headtext">
-    RECONSIDERATION
-   </div>
+   <h3 class="co_headtext" id="reconsideration">RECONSIDERATION</h3>
   </div>   
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
-    <div level="1" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; ">   
+    <div level="1" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; ">   
      <span>By transferee court, </span> 
      <a id="co_link_I000f400243d311e89d19b91ad8ebf88b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANHIGHLIGHTS&amp;originatingDoc=Idffaba60d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 9:3</a>   
     </div></li>
    <li class="co_tocHeading" style="list-style-type: none">
-    <div level="1" style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; ">   
+    <div level="1" style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; ">   
      <span>Rehearing by Panel, </span> 
      <a id="co_link_I000f400243d311e89d19b91ad8ebf89b" class="co_link co_drag ui-draggable" href="https://www.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=185218&amp;cite=MDLITMANPREMAT&amp;originatingDoc=Idffaba60d2e711e9a61cce97c6f3afd9&amp;refType=DA&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0">§ 4:29</a>   
     </div></li>
@@ -100,9 +94,7 @@
  </div>
  <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <div class="co_headtext">
-    REQUIREMENTS FOR TRANSFER
-   </div>
+   <h3 class="co_headtext" id="requirements_for_transfer">REQUIREMENTS FOR TRANSFER</h3>
   </div>   
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
@@ -119,9 +111,7 @@
  </div>
  <div style="text-align: left; margin-top: 0.200em; font-weight: bold; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <div class="co_headtext">
-    APPOINTMENT
-   </div>
+   <h3 class="co_headtext" id="appointment">APPOINTMENT</h3>
   </div>  
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">

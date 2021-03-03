@@ -101,15 +101,18 @@ public class StepIntegrationTestRunner {
     }
 
     private void test(final BaseStep step, final String testDirName, boolean withSourceDir, boolean withExpectedDir) throws Exception {
-        File resource = getTestDir(testDirName);
-        initWorkDir();
-        copyNasDir();
-        copySourceDir(resource, withSourceDir);
+        try {
+            File resource = getTestDir(testDirName);
+            initWorkDir();
+            copyNasDir();
+            copySourceDir(resource, withSourceDir);
 
-        step.executeStep();
+            step.executeStep();
 
-        validateResult(resource, withExpectedDir);
-        tearDown();
+            validateResult(resource, withExpectedDir);
+        } finally {
+            tearDown();
+        }
     }
 
     private void initWorkDir() {

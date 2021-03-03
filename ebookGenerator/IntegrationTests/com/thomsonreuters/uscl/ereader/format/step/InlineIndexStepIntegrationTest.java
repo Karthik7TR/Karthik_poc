@@ -77,6 +77,12 @@ public final class InlineIndexStepIntegrationTest {
     }
 
     @Test
+    public void shouldCreateInlineIndexThisIndexLinks() throws Exception {
+        test("inlineIndexThisIndexLinksTest", true);
+        verify(step.getJobExecutionContext()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
+    }
+
+    @Test
     public void shouldNotCreateInlineIndexIfNoIndexTocFile() throws Exception {
         runner.test(step);
         verify(step.getJobExecutionContext(), never()).put(JobExecutionKey.WITH_INLINE_INDEX, Boolean.TRUE);
