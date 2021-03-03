@@ -15,7 +15,7 @@ public class InlineIndexInternalLinks {
     private static final String HASH = "#";
     private static final String ANCHOR = "a";
     private static final Pattern INTERNAL_REFERENCE_PATTERN = Pattern.compile(String.format("(.+\\.)?\\s*" +
-            "(see also |for detailed treatment see |see |)(?<%s>.+),\\s*%s", HEADER_NAME_GROUP, THIS_INDEX));
+            "(generally, see |see also |for detailed treatment see |see |)(?<%s>.+),\\s*%s", HEADER_NAME_GROUP, THIS_INDEX));
 
     private final Set<String> headerIds = new HashSet<>();
     private final Set<Element> thisIndexReferences = new HashSet<>();
