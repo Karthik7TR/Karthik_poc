@@ -11,6 +11,7 @@ import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_GROUP_NEX
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_ISBN;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_IS_COMPLETE;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_IS_NEW_ISBN;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_IS_PUBLISHED;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_MAJOR_VERSION_NUMBER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_MINOR_VERSION_NUMBER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER;
@@ -158,6 +159,7 @@ public final class GenerateEbookControllerTest {
                     KEY_IS_COMPLETE,
                     KEY_PILOT_BOOK_STATUS,
                     KEY_VERSION_NUMBER,
+                    KEY_IS_PUBLISHED,
                     KEY_NEW_OVERWRITE_VERSION_NUMBER,
                     KEY_NEW_MAJOR_VERSION_NUMBER,
                     KEY_NEW_MINOR_VERSION_NUMBER,
@@ -186,6 +188,7 @@ public final class GenerateEbookControllerTest {
                 .andExpect(status().is(200))
                 .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
                 .andExpect(model().attribute(KEY_VERSION_NUMBER, "1.8"))
+                .andExpect(model().attribute(KEY_IS_PUBLISHED, true))
                 .andExpect(model().attribute(KEY_NEW_MAJOR_VERSION_NUMBER, "3.0"))
                 .andExpect(model().attribute(KEY_NEW_MINOR_VERSION_NUMBER, "2.1"))
                 .andExpect(model().attribute(KEY_NEW_OVERWRITE_VERSION_NUMBER, "2.0"))
