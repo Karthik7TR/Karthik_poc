@@ -347,6 +347,26 @@ public final class InternalLinkResolverFilterTest {
         testHelper(inputCite, expectedHref);
     }
 
+    @Test
+    public void testNormalizedCiteWithParagraphSign() throws Exception {
+        final String firstLineCite = "GAEVIDENCE S 5:7";
+        final String inputCite = "GAEVIDENCEs5%3A7";
+        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
+
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite, expectedHref);
+    }
+
+    @Test
+    public void testNormalizedCiteNoParagraphSign() throws Exception {
+        final String firstLineCite = "GAEVIDENCE S 5:7";
+        final String inputCite = "GAEVIDENCE5%3A7";
+        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
+
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite, expectedHref);
+    }
+
     private Set<DocMetadata> getDocsMetadataSplit(final String firstLineCite, final String thirdLineCite) {
         final DocMetadata dm = getDocMetadata(DOC_UUID, DOC_FAMILY_UUID, firstLineCite, thirdLineCite, "us/an/splitBookTitle");
         return toCollectionWithDocMetadataCurrent(dm);
@@ -400,13 +420,8 @@ public final class InternalLinkResolverFilterTest {
      * @param expectedResult the expected output for the specified input string.
      */
     public void testHelperLinks(final String inputXML, final String expectedResult) throws SAXException {
-        ByteArrayInputStream input = null;
-        ByteArrayOutputStream output = null;
-
-        try {
-            input = new ByteArrayInputStream(inputXML.getBytes());
-            output = new ByteArrayOutputStream();
-
+        try (ByteArrayInputStream input = new ByteArrayInputStream(inputXML.getBytes());
+             ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             serializer.setOutputStream(output);
 
             internalLinksFilter.setContentHandler(serializer.asContentHandler());
@@ -417,20 +432,8 @@ public final class InternalLinkResolverFilterTest {
             assertEquals(expectedResult, result);
         } catch (final SAXException e) {
             throw e;
-        } catch (final Exception e) {
+        } catch (final Throwable e) {
             fail("Encountered exception during test: " + e.getMessage());
-        } finally {
-            try {
-                if (input != null) {
-                    input.close();
-                }
-
-                if (output != null) {
-                    output.close();
-                }
-            } catch (final Exception e) {
-                fail("Could clean up resources: " + e.getMessage());
-            }
         }
     }
 

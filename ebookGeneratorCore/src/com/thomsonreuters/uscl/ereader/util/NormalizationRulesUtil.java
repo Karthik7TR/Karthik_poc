@@ -3,6 +3,9 @@ package com.thomsonreuters.uscl.ereader.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static java.util.Optional.ofNullable;
 
 /**
@@ -13,40 +16,44 @@ public class NormalizationRulesUtil {
     private static final String DASH = "-";
     private static final String PUNCTUATION_AND_BRACES_REGEX = "\\.|,|'|\\(.*\\)";
     private static final String WHITESPACE_REGEX = "\\s";
-    private static String UNICODE_SECTION_SYMBOL = "\u00A7";
-    private static String UNICODE_PARAGRAPH_SYMBOL = "\u00B6";
-    private static String UNICODE_LEFT_BRACKET_SYMBOL = "\u005B";
-    private static String UNICODE_RIGHT_BRACKET_SYMBOL = "\u005D";
-    private static String UNICODE_CARET_SYMBOL = "\u005E";
+    private static final String UNICODE_SECTION_SYMBOL = "\u00A7";
+    private static final String UNICODE_PARAGRAPH_SYMBOL = "\u00B6";
+    private static final String UNICODE_LEFT_BRACKET_SYMBOL = "\u005B";
+    private static final String UNICODE_RIGHT_BRACKET_SYMBOL = "\u005D";
+    private static final String UNICODE_CARET_SYMBOL = "\u005E";
 
     // Special hypens
-    private static String UNICODE_HEBREW_PUNCTUATION = "\u05BE";
-    private static String UNICODE_HYPHEN = "\u2010";
-    private static String UNICODE_NON_BREAKING_HYPHEN = "\u2011";
-    private static String UNICODE_FIGURE_DASH = "\u2012";
-    private static String UNICODE_EN_DASH = "\u2013";
-    private static String UNICODE_EM_DASH = "\u2014";
-    private static String UNICODE_HORIZONTAL_BAR = "\u2015";
-    private static String UNICODE_SMALL_EM_DASH = "\uFE58";
-    private static String UNICODE_SMALL_HYPEN_MINUS = "\uFE63";
-    private static String UNICODE_FULLWIDTH_HYPEN_MINUS = "\uFF0D";
+    private static final String UNICODE_HEBREW_PUNCTUATION = "\u05BE";
+    private static final String UNICODE_HYPHEN = "\u2010";
+    private static final String UNICODE_NON_BREAKING_HYPHEN = "\u2011";
+    private static final String UNICODE_FIGURE_DASH = "\u2012";
+    private static final String UNICODE_EN_DASH = "\u2013";
+    private static final String UNICODE_EM_DASH = "\u2014";
+    private static final String UNICODE_HORIZONTAL_BAR = "\u2015";
+    private static final String UNICODE_SMALL_EM_DASH = "\uFE58";
+    private static final String UNICODE_SMALL_HYPEN_MINUS = "\uFE63";
+    private static final String UNICODE_FULLWIDTH_HYPEN_MINUS = "\uFF0D";
 
     // Special whitespace
-    private static String UNICODE_NO_BREAK_SPACE = "\u00A0";
-    private static String UNICODE_EN_QUAD = "\u2000";
-    private static String UNICODE_EM_QUAD = "\u2001";
-    private static String UNICODE_EN_SPACE = "\u2002";
-    private static String UNICODE_EM_SPACE = "\u2003";
-    private static String UNICODE_THREE_PER_EM_SPACE = "\u2004";
-    private static String UNICODE_FOUR_PER_EM_SPACE = "\u2005";
-    private static String UNICODE_SIX_PER_EM_SPACE = "\u2006";
-    private static String UNICODE_FIGURE_SPACE = "\u2007";
-    private static String UNICODE_PUNCTUATION_SPACE = "\u2008";
-    private static String UNICODE_THIN_SPACE = "\u2009";
-    private static String UNICODE_HAIR_SPACE = "\u200A";
-    private static String UNICODE_NARROW_NO_BREAK_SPACE = "\u202F";
-    private static String UNICODE_MEDIUM_MATHEMATICAL_SPACE = "\u205F";
-    private static String UNICODE_IDEOGRAPHIC_SPACE = "\u3000";
+    private static final String UNICODE_NO_BREAK_SPACE = "\u00A0";
+    private static final String UNICODE_EN_QUAD = "\u2000";
+    private static final String UNICODE_EM_QUAD = "\u2001";
+    private static final String UNICODE_EN_SPACE = "\u2002";
+    private static final String UNICODE_EM_SPACE = "\u2003";
+    private static final String UNICODE_THREE_PER_EM_SPACE = "\u2004";
+    private static final String UNICODE_FOUR_PER_EM_SPACE = "\u2005";
+    private static final String UNICODE_SIX_PER_EM_SPACE = "\u2006";
+    private static final String UNICODE_FIGURE_SPACE = "\u2007";
+    private static final String UNICODE_PUNCTUATION_SPACE = "\u2008";
+    private static final String UNICODE_THIN_SPACE = "\u2009";
+    private static final String UNICODE_HAIR_SPACE = "\u200A";
+    private static final String UNICODE_NARROW_NO_BREAK_SPACE = "\u202F";
+    private static final String UNICODE_MEDIUM_MATHEMATICAL_SPACE = "\u205F";
+    private static final String UNICODE_IDEOGRAPHIC_SPACE = "\u3000";
+    
+    private static final String BOOK_NAME_GROUP = "bookName";
+    private static final String PARAGRAPH_GROUP = "paragraph";
+    private static final Pattern CITE_PATTERN = Pattern.compile(String.format("(?<%s>.+)S(?<%s>[0-9]+:[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
 
     /**
      * This method will apply list of normalization rules for given cite.
@@ -155,6 +162,20 @@ public class NormalizationRulesUtil {
                 .map(NormalizationRulesUtil::removePunctuationAndBraces)
                 .map(NormalizationRulesUtil::normalizeNoDashesNoWhitespaces)
                 .orElse(null);
+    }
+
+    public static String normalizeCiteNoParagraphSign(final String cite) {
+        return ofNullable(normalizeThirdLineCite(cite))
+                .map(NormalizationRulesUtil::removeParagraphSign)
+                .orElse(null);
+    }
+
+    private static String removeParagraphSign(final String cite) {
+        final Matcher matcher = CITE_PATTERN.matcher(cite);
+        if (matcher.matches()) {
+            return matcher.group(BOOK_NAME_GROUP) + matcher.group(PARAGRAPH_GROUP);
+        }
+        return cite;
     }
 
     private static String removePunctuationAndBraces(final String cite) {

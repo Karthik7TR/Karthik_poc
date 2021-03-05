@@ -44,6 +44,7 @@ public class DocumentMetadataAuthority {
     private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByThirdLineCite = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteNoParagraphSign = new HashMap<>();
 
     public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet) {
         initializeMaps(docMetadataSet);
@@ -73,13 +74,8 @@ public class DocumentMetadataAuthority {
                 addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getThirdlineCitePubId);
             }
             addThirdLineCiteMapping(docMetadata);
+            addCiteNoParagraphSignMapping(docMetadata);
         });
-    }
-
-    private void addThirdLineCiteMapping(final DocMetadata docMetadata) {
-        ofNullable(docMetadata.getThirdlineCite())
-                .map(NormalizationRulesUtil::normalizeThirdLineCite)
-                .ifPresent(thirdLineCite -> docMetadataKeyedByThirdLineCite.putIfAbsent(thirdLineCite, docMetadata));
     }
 
     private void addDocMetadataToCiteMap(final DocMetadata docMetadata) {
@@ -153,10 +149,24 @@ public class DocumentMetadataAuthority {
                 .orElse(list.get(0));
         } else if (docMetadataKeyedByCiteWithoutDate.containsKey(cite)) {
             docMetadata = docMetadataKeyedByCiteWithoutDate.get(cite);
-        } else {
+        } else if (docMetadataKeyedByThirdLineCite.containsKey(normalizedCite)) {
             docMetadata = docMetadataKeyedByThirdLineCite.get(normalizedCite);
+        } else {
+            docMetadata = docMetadataKeyedByCiteNoParagraphSign.get(normalizedCite);
         }
         return docMetadata;
+    }
+
+    private void addThirdLineCiteMapping(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getThirdlineCite())
+                .map(NormalizationRulesUtil::normalizeThirdLineCite)
+                .ifPresent(thirdLineCite -> docMetadataKeyedByThirdLineCite.putIfAbsent(thirdLineCite, docMetadata));
+    }
+
+    private void addCiteNoParagraphSignMapping(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getNormalizedFirstlineCite())
+                .map(NormalizationRulesUtil::normalizeCiteNoParagraphSign)
+                .ifPresent(cite -> docMetadataKeyedByCiteNoParagraphSign.putIfAbsent(cite, docMetadata));
     }
 
     /**
