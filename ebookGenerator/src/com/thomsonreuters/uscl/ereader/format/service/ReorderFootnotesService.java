@@ -77,10 +77,8 @@ public class ReorderFootnotesService {
     private static final String CO_FOOTNOTE_REFERENCE = "co_footnoteReference";
     private static final String CO_FOOTNOTE_SECTION_ID = "#co_footnoteSection";
     private static final String CO_FOOTNOTE_SECTION_TITLE = "co_footnoteSectionTitle";
-    private static final String CO_FOOTNOTE_NUMBER = "co_footnoteNumber";
-    private static final String CO_FOOTNOTE_NUMBER_CLASS = ".co_footnoteNumber";
+    private static final String CO_FOOTNOTE_NUMBER_OR_LARGE_SELECTOR = "[class~=(co_footnoteNumber|co_footnoteNumberLarge)]";
     private static final String DIV_CO_FOOTNOTE_BODY = "div.co_footnoteBody";
-    private static final String DIV_CO_FOOTNOTE_NUMBER = "div.co_footnoteNumber";
     private static final String CO_DIVIDER = "co_divider";
     private static final String CO_COPYRIGHT = "co_copyright";
     private static final String CO_END_OF_DOCUMENT = "co_endOfDocument";
@@ -98,7 +96,6 @@ public class ReorderFootnotesService {
     private static final String EOS = "eos";
     private static final String SECTION_LABEL = "[Section %s]";
     private static final String DOT = ".";
-    private static final String UNDERSCORE = "_";
     private static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
     private static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
     private static final String SECTION_LABEL_REG = "\\[Section \\d+(\\s*|.)(\\s*|\\d+)\\]";
@@ -256,7 +253,7 @@ public class ReorderFootnotesService {
 
     private void convertFootnotes(final Document doc, final Optional<Element> footnotesSection) {
         footnotesSection.ifPresent(element ->
-            element.getElementsByClass(CO_FOOTNOTE_NUMBER).stream()
+            element.select(CO_FOOTNOTE_NUMBER_OR_LARGE_SELECTOR).stream()
             .map(Element::parent)
             .forEach(footnote -> convertFootnote(footnote, doc))
         );
@@ -277,7 +274,7 @@ public class ReorderFootnotesService {
     }
 
     private String getFootnoteId(final Element footnote) {
-        return footnote.selectFirst(CO_FOOTNOTE_NUMBER_CLASS)
+        return footnote.selectFirst(CO_FOOTNOTE_NUMBER_OR_LARGE_SELECTOR)
                        .selectFirst(A_TAG)
                        .attr(NAME)
                        .replaceFirst(CO_FOOTNOTE_CLASS_PREFIX, "");
@@ -286,7 +283,7 @@ public class ReorderFootnotesService {
     private void convertFootnote(final Element footnote, final Document doc) {
         footnote.addClass(TR_FOOTNOTE);
 
-        final Element footnoteNumber = footnote.selectFirst(DIV_CO_FOOTNOTE_NUMBER);
+        final Element footnoteNumber = footnote.selectFirst(CO_FOOTNOTE_NUMBER_OR_LARGE_SELECTOR);
         footnoteNumber.tagName(SUP);
 
         final Element ref = footnoteNumber.selectFirst(A_HREF);
