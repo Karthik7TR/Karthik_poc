@@ -296,7 +296,6 @@ public class GenerateEbookController {
         final String currentVersion = getCurrentVersion(publishedProviewTitleInfo);
         form.setCurrentVersion(currentVersion);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
-        model.addAttribute(WebConstants.KEY_IS_PUBLISHED, publishedProviewTitleInfo != null);
     }
 
     private String getLatestProviewVersion(final ProviewTitleInfo latestProviewTitleInfo) {
