@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class ProviewListFilterController {
@@ -81,16 +80,11 @@ public class ProviewListFilterController {
         return form;
     }
 
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_LIST_FILTERED_POST, method = RequestMethod.GET)
-    public ModelAndView doFilterGet() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_PROVIEW_TITLES));
-    }
-
     /**
      * Handle submit/post of a new set of filter criteria.
      */
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_LIST_FILTERED_POST, method = RequestMethod.POST)
-    public ModelAndView doFilterPost(
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_LIST_FILTERED, method = RequestMethod.GET)
+    public ModelAndView doFilterGet(
         final HttpSession httpSession,
         @ModelAttribute(ProviewListFilterForm.FORM_NAME) final ProviewListFilterForm filterForm,
         final BindingResult errors,

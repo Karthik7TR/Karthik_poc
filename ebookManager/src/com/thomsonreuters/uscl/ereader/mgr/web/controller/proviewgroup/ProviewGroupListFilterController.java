@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class ProviewGroupListFilterController extends BaseProviewGroupListController {
@@ -32,13 +31,8 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
         this.outageService = outageService;
     }
 
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED_POST, method = RequestMethod.GET)
-    public ModelAndView doFilterGet() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_PROVIEW_GROUPS));
-    }
-
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED_POST, method = RequestMethod.POST)
-    public ModelAndView doFilterPost(
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED, method = RequestMethod.GET)
+    public ModelAndView doFilterGet(
         final HttpSession httpSession,
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm filterForm,
         final BindingResult errors,

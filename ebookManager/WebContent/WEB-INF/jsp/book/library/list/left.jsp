@@ -67,8 +67,8 @@
 	<![endif]-->
 <div class="header">Filters</div>
  	
-<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST%>"
-			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" method="post">
+<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED%>"
+			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" method="get">
 	<form:hidden path="filterCommand"/>
 	
 	<%-- Validation Error Message Presentation (if any) --%>

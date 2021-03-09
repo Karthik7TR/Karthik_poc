@@ -40,8 +40,8 @@ function submitAuditFilterForm(command) {
 </script>
 
 <div class="header">Filters</div>
-<form:form action="<%=WebConstants.MVC_BOOK_AUDIT_LIST_FILTER_POST %>"
-		   commandName="<%=BookAuditFilterForm.FORM_NAME%>" method="post">
+<form:form action="<%=WebConstants.MVC_BOOK_AUDIT_LIST_FILTER %>"
+		   commandName="<%=BookAuditFilterForm.FORM_NAME%>" method="get">
 	<form:hidden path="filterCommand"/>
 	
 	<%-- Validation Error Message Presentation (if any) --%>

@@ -6,9 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
@@ -25,7 +23,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import org.springframework.web.servlet.view.RedirectView;
 
 public final class BookLibraryFilterControllerTest {
     private List<LibraryList> LIBRARY_LIST = new ArrayList<>();
@@ -52,60 +49,62 @@ public final class BookLibraryFilterControllerTest {
     }
 
     @Test
-    public void testBookLibraryFilterPost() throws Exception {
+    public void testBookLibraryFilterGetWithoutParams() throws Exception {
+        testBookLibraryFilterGet();
+    }
+
+    @Test
+    public void testBookLibraryFilterGetWithParams() throws Exception {
         // Set up the request URL
         // Filter form values
         final String titleId = "uscl/junit/test/abc";
         final String fromDate = "01/01/2012";
         final String toDate = "03/01/2012";
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
         // The filter values
         request.setParameter(WebConstants.KEY_TITLE_ID, titleId);
         request.setParameter("fromString", fromDate);
         request.setParameter("toString", toDate);
-        final HttpSession session = request.getSession();
 
-        EasyMock
-            .expect(
-                mockLibraryListService.findBookDefinitions(
-                    EasyMock.anyObject(LibraryListFilter.class),
-                    EasyMock.anyObject(LibraryListSort.class)))
-            .andReturn(LIBRARY_LIST);
-        EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class)))
-            .andReturn(1);
-        EasyMock.replay(mockLibraryListService);
-
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-        EasyMock.replay(keywordTypeCodeSevice);
-
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-        EasyMock.replay(mockOutageService);
-
-        // Invoke the controller method via the URL
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertNotNull(mav);
-        final Map<String, Object> model = mav.getModel();
-        BookLibraryControllerTest.validateModel(session, model);
+        Map<String, Object> model = testBookLibraryFilterGet();
 
         // Verify the saved filter form
         final BookLibraryFilterForm filterForm = (BookLibraryFilterForm) model.get(BookLibraryFilterForm.FORM_NAME);
         Assert.assertEquals(titleId, filterForm.getTitleId());
         Assert.assertEquals(fromDate, filterForm.getFromString());
         Assert.assertEquals(toDate, filterForm.getToString());
+    }
+
+    public Map<String, Object> testBookLibraryFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_FILTERED);
+        request.setMethod(HttpMethod.GET.name());
+        final HttpSession session = request.getSession();
+
+        EasyMock
+                .expect(
+                        mockLibraryListService.findBookDefinitions(
+                                EasyMock.anyObject(LibraryListFilter.class),
+                                EasyMock.anyObject(LibraryListSort.class)))
+                .andReturn(LIBRARY_LIST);
+        EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class)))
+                .andReturn(1);
+        EasyMock.replay(mockLibraryListService);
+
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<>());
+        EasyMock.replay(keywordTypeCodeSevice);
+
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<>());
+        EasyMock.replay(mockOutageService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        Assert.assertNotNull(mav);
+        final Map<String, Object> model = mav.getModel();
+        BookLibraryControllerTest.validateModel(session, model);
 
         EasyMock.verify(mockLibraryListService);
         EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockOutageService);
-    }
 
-    @Test
-    public void testBookLibraryFilterGet() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST);
-        request.setMethod(HttpMethod.GET.name());
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_LIBRARY_LIST);
+        return model;
     }
 }

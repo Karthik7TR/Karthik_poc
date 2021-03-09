@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
@@ -47,18 +44,34 @@ public final class JobSummaryFilterControllerTest {
     }
 
     @Test
-    public void testJobSummaryFilterPost() throws Exception {
+    public void testJobSummaryFilterGetWithoutParams() throws Exception {
+        testJobSummaryFilterGet();
+    }
+
+    @Test
+    public void testJobSummaryFilterGetWithParams() throws Exception {
         // Set up the request URL
         // Filter form values
         final String titleId = "uscl/junit/test/abc";
         final String fromDate = "01/01/2012 00:00:00";
         final String toDate = "03/01/2012 23:59:59";
-        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_FILTER_POST);
-        request.setMethod(HttpMethod.POST.name());
         // The filter values
         request.setParameter(WebConstants.KEY_TITLE_ID, titleId);
         request.setParameter("fromDateString", fromDate);
         request.setParameter("toDateString", toDate);
+
+        Map<String, Object> model = testJobSummaryFilterGet();
+
+        // Verify the saved filter form
+        final FilterForm filterForm = (FilterForm) model.get(FilterForm.FORM_NAME);
+        Assert.assertEquals(titleId, filterForm.getTitleId());
+        Assert.assertEquals(fromDate, filterForm.getFromDateString());
+        Assert.assertEquals(toDate, filterForm.getToDateString());
+    }
+
+    public Map<String, Object> testJobSummaryFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_FILTER);
+        request.setMethod(HttpMethod.GET.name());
         final HttpSession session = request.getSession();
 
         final Long JEID = 1965L;
@@ -70,12 +83,12 @@ public final class JobSummaryFilterControllerTest {
         jobExecutions.add(jobExecution);
 
         EasyMock.expect(
-            mockJobService.findJobExecutions(EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class)))
-            .andReturn(jobExecutionIds);
-        EasyMock.expect(mockJobService.findJobSummary(jobExecutionIds)).andReturn(new ArrayList<JobSummary>());
+                mockJobService.findJobExecutions(EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class)))
+                .andReturn(jobExecutionIds);
+        EasyMock.expect(mockJobService.findJobSummary(jobExecutionIds)).andReturn(new ArrayList<>());
         EasyMock.replay(mockJobService);
 
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<>());
         EasyMock.replay(mockOutageService);
 
         // Invoke the controller method via the URL
@@ -84,39 +97,9 @@ public final class JobSummaryFilterControllerTest {
         final Map<String, Object> model = mav.getModel();
         JobSummaryControllerTest.validateModel(session, model);
 
-        // Verify the saved filter form
-        final FilterForm filterForm = (FilterForm) model.get(FilterForm.FORM_NAME);
-        Assert.assertEquals(titleId, filterForm.getTitleId());
-        Assert.assertEquals(fromDate, filterForm.getFromDateString());
-        Assert.assertEquals(toDate, filterForm.getToDateString());
-
         EasyMock.verify(mockJobService);
         EasyMock.verify(mockOutageService);
-    }
 
-    @Test
-    public void testJobSummaryFilterValidationFailurePost() throws Exception {
-        final String fromDate = "03/01/2012 00:00:00";
-        final String toDate = "01/01/2012 23:59:59";
-        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_FILTER_POST);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("fromDateString", fromDate);
-        request.setParameter("toDateString", toDate);
-        final HttpSession session = request.getSession();
-
-        EasyMock.expect(mockJobService.findJobSummary(Collections.emptyList())).andReturn(Collections.emptyList());
-        EasyMock.replay(mockJobService);
-        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(Collections.emptyList());
-        EasyMock.replay(mockOutageService);
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertNotNull(mav);
-        final Map<String, Object> model = mav.getModel();
-        JobSummaryControllerTest.validateModel(session, model);
-
-        final JobPaginatedList jobPaginatedList = (JobPaginatedList) model.get("paginatedList");
-        Assert.assertEquals(jobPaginatedList.getFullListSize(), 0);
-        EasyMock.verify(mockJobService);
-        EasyMock.verify(mockOutageService);
+        return model;
     }
 }

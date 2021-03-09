@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class BookLibraryFilterController extends BaseBookLibraryController {
@@ -45,16 +44,11 @@ public class BookLibraryFilterController extends BaseBookLibraryController {
         binder.setValidator(validator);
     }
 
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST, method = RequestMethod.GET)
-    public ModelAndView doFilterGet() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
-    }
-
     /**
      * Handle submit/post of a new set of filter criteria.
      */
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST, method = RequestMethod.POST)
-    public ModelAndView doFilterPost(
+    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_FILTERED, method = RequestMethod.GET)
+    public ModelAndView doFilterGet(
         final HttpSession httpSession,
         @ModelAttribute(BookLibraryFilterForm.FORM_NAME) @Valid final BookLibraryFilterForm filterForm,
         final BindingResult errors,

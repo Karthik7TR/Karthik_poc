@@ -19,7 +19,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import org.springframework.web.servlet.view.RedirectView;
 
 public final class ProviewGroupListFilterControllerTest {
     private ProviewGroupListFilterController controller;
@@ -38,16 +37,22 @@ public final class ProviewGroupListFilterControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
     }
 
+    @Test
+    public void testDoFilterGetWithoutParams() throws Exception {
+        final List<ProviewGroup> allLatestProviewGroups = new ArrayList<>();
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
+
+        testDoFilterGet();
+    }
+
     /**
      * @throws Exception
      */
     @Test
-    public void testDoFilterPost() throws Exception {
+    public void testDoFilterGetWithParams() throws Exception {
         final String groupName = "GroupName";
         final String groupId = "GroupID";
-
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.POST.name());
         final HttpSession session = request.getSession();
 
         final List<ProviewGroup> allLatestProviewGroups = new ArrayList<>();
@@ -57,19 +62,16 @@ public final class ProviewGroupListFilterControllerTest {
         allLatestProviewGroups.add(proviewGroup);
         session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
 
+        testDoFilterGet();
+    }
+
+    public void testDoFilterGet() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED);
+        request.setMethod(HttpMethod.GET.name());
+
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
-    }
-
-    @Test
-    public void testDoFilterGet() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED_POST);
-        request.setMethod(HttpMethod.GET.name());
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_PROVIEW_GROUPS);
     }
 }

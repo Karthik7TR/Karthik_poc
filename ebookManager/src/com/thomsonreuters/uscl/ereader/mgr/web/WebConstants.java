@@ -169,10 +169,10 @@ public class WebConstants {
     public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
-    public static final String MVC_BOOK_LIBRARY_FILTERED_POST = "bookLibraryListFiltered.mvc";
+    public static final String MVC_BOOK_LIBRARY_FILTERED = "bookLibraryListFiltered.mvc";
     public static final String MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT = "bookLibraryChangeRowCount.mvc";
-    public static final String MVC_PROVIEW_LIST_FILTERED_POST = "proviewListFiltered.mvc";
-    public static final String MVC_PROVIEW_GROUP_LIST_FILTERED_POST = "proviewGroupListFiltered.mvc";
+    public static final String MVC_PROVIEW_LIST_FILTERED = "proviewListFiltered.mvc";
+    public static final String MVC_PROVIEW_GROUP_LIST_FILTERED = "proviewGroupListFiltered.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
     public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
     public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
@@ -214,7 +214,7 @@ public class WebConstants {
     public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
     public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc";
     public static final String MVC_JOB_SUMMARY_CHANGE_ROW_COUNT = "jobSummaryChangeRowCount.mvc";
-    public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
+    public static final String MVC_JOB_SUMMARY_FILTER = "jobSummaryFilter.mvc";
     public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
     public static final String MVC_BOOK_JOB_HISTORY = "eBookJobHistory.mvc";
     public static final String MVC_BOOK_JOB_HISTORY_PAGE_AND_SORT = "eBookJobHistoryPageAndSort.mvc";
@@ -223,7 +223,7 @@ public class WebConstants {
 
     public static final String MVC_BOOK_AUDIT_LIST = "bookAuditList.mvc";
     public static final String MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT = "bookAuditListPageAndSort.mvc";
-    public static final String MVC_BOOK_AUDIT_LIST_FILTER_POST = "bookAuditListFilterPost.mvc";
+    public static final String MVC_BOOK_AUDIT_LIST_FILTER = "bookAuditListFilter.mvc";
     public static final String MVC_BOOK_AUDIT_CHANGE_ROW_COUNT = "bookAuditChangeRowCount.mvc";
     public static final String MVC_PROVIEW_GROUP_OPERATION = "proviewGroupOperation.mvc";
     public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";

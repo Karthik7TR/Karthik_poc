@@ -40,8 +40,8 @@ function submitJobSummaryFilterForm(command) {
 </script>
 
 <div class="header">Filters</div>
-<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_FILTER_POST%>"
-		   commandName="<%=FilterForm.FORM_NAME%>" method="post">
+<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_FILTER%>"
+		   commandName="<%=FilterForm.FORM_NAME%>" method="get">
 	<form:hidden path="filterCommand"/>
 	
 	<%-- Validation Error Message Presentation (if any) --%>

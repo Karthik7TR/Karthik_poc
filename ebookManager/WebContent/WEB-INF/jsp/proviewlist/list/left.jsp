@@ -37,8 +37,8 @@
 <div class="header">Filters</div>
 
 	
-<form:form action="<%=WebConstants.MVC_PROVIEW_LIST_FILTERED_POST%>"
-			   commandName="<%=ProviewListFilterForm.FORM_NAME%>" name="theForm" method="post">
+<form:form action="<%=WebConstants.MVC_PROVIEW_LIST_FILTERED%>"
+			   commandName="<%=ProviewListFilterForm.FORM_NAME%>" name="theForm" method="get">
 	<form:hidden path="filterCommand"/>
 	
 	<%-- Validation Error Message Presentation (if any) --%>
