@@ -85,6 +85,7 @@ public class WebConstants {
     public static final String KEY_SUPER_PUBLISHER_PLUS = "superUserPublisherPlusVisibility";
     public static final String KEY_IS_IN_JOB_REQUEST = "isInJobRequest";
     public static final String KEY_VERSION_NUMBER = "versionNumber";
+    public static final String KEY_NEW_VERSION_NUMBER = "newGeneratedBookVersion";
     public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
     public static final String KEY_NEW_MINOR_VERSION_NUMBER = "newMinorVersionNumber";
     public static final String KEY_NEW_OVERWRITE_VERSION_NUMBER = "newOverwriteVersionNumber";

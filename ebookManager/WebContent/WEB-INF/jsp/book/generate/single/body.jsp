@@ -3,21 +3,25 @@
 	Proprietary and Confidential information of TRGR. Disclosure, Use or
 	Reproduction without the written authorization of TRGR is prohibited
 --%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm" %>
+<%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-  <script type="text/javascript" src="js/book/book-fields.js"></script>
-  <script type="text/javascript">
+<% String MAJOR = GenerateBookForm.Version.MAJOR.toString(); %>
+<% String MINOR = GenerateBookForm.Version.MINOR.toString(); %>
+<% String OVERWRITE = GenerateBookForm.Version.OVERWRITE.toString(); %>
+
+<script type="text/javascript" src="js/book/book-fields.js"></script>
+<script type="text/javascript">
 
   const VERSION_TYPE = {
-      MAJOR : "<%=GenerateBookForm.Version.MAJOR.toString()%>",
-      MINOR : "<%=GenerateBookForm.Version.MINOR.toString()%>",
-      OVERWRITE : "<%=GenerateBookForm.Version.OVERWRITE.toString()%>"
+      MAJOR : "<%= MAJOR %>",
+      MINOR : "<%= MINOR %>",
+      OVERWRITE : "<%= OVERWRITE %>"
   };
   const NOT_PUBLISHED = "Not published";
 
@@ -126,7 +130,7 @@
       } else {
           const isIsbnChanged = "${isbnChanged}" === "true";
           const isCurrentProviewVersionMinor = currentProviewVersion.split('.')[1] !== '0';
-          const versionType = $('#newVersion option:selected').val();
+          const versionType = $('#jsVersionTypeSelect option:selected').val();
 		  if (isIsbnChanged) {
 			  if (!isNewISBN) {
 				  message += warningMessages[warningTypes.EXISTED_ISBN](isbn);
@@ -179,7 +183,7 @@
 	}
 
 	function groupValidation() {
-		const versionType = $('#newVersion option:selected').val();
+		const versionType = $('#jsVersionTypeSelect option:selected').val();
 		var errorMessage = "${groupNextErrorMessage}";
 
 		if (errorMessage && versionType === VERSION_TYPE.MAJOR) {
@@ -194,10 +198,17 @@
 		return checkVersion() && checkPublishingCutoffDate() && checkIsbn() && checkPilotBookStatus() && groupValidation();
 	}
 
-$(document).ready(function() {
-	hideFields("${ book.sourceType }");
-})
-  </script>
+	$(document.body).on('change', '#jsVersionTypeSelect', function() {
+		changeNewVersion(this);
+	});
+
+	$(document).ready(function() {
+		hideFields("${ book.sourceType }");
+		if ($('#jsVersionTypeSelect').val() !== "") {
+			changeNewVersion($('#jsVersionTypeSelect'));
+		}
+	})
+</script>
 
  <c:choose>
  <c:when test="${book != null}">
@@ -245,7 +256,7 @@ $(document).ready(function() {
 
 		  <tr>
 		  	<td>ProView Version New:</td>
-		  	<td id="newVersionNumber"></td>
+		  	<td id="newVersionNumber">${newGeneratedBookVersion}</td>
 		  </tr>
 		  <tr class="cwbHideClass">
 		  	<td>Novus Stage:</td>
@@ -260,19 +271,29 @@ $(document).ready(function() {
 				</c:choose>
 			</td>
 		  </tr>
-		  <tr>
-		  	<td>Generate Version Type:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
-			<td>
-			  	<form:select path="newVersion" onchange="changeNewVersion(this)">
-			  		<form:option label="Select version" value=""/>
-					<c:if test="${overwriteAllowed == 'Y'}">
-						<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>"/>
-					</c:if>
-					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>"/>
-					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>"/>
-				</form:select>
-			 </td>
-		  </tr>
+			<tr>
+				<td>Generate Version Type:&nbsp;</td> <%-- Indicates the way version of generated book can be updated --%>
+				<td>
+					<c:choose>
+						<c:when test="${!isPublished}">
+							<form:select path="" disabled="true" id="jsVersionTypeSelect">
+								<form:option label="<%= MAJOR %>" value="<%= MAJOR %>" selected="true"/>
+							</form:select>
+							<form:input path="newVersion" type="hidden" value="<%= MAJOR %>"/>
+						</c:when>
+						<c:otherwise>
+							<form:select path="newVersion" id="jsVersionTypeSelect">
+								<form:option label="Select version" value=""/>
+								<c:if test="${overwriteAllowed == 'Y'}">
+									<form:option label="<%= OVERWRITE %>" value="<%= OVERWRITE %>"/>
+								</c:if>
+								<form:option label="<%= MINOR %>" value="<%= MINOR %>"/>
+								<form:option label="<%= MAJOR %>" value="<%= MAJOR %>"/>
+							</form:select>
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
 
 		  <tr>
 			<td>Job Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>

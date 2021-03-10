@@ -107,7 +107,7 @@ public class GenerateEbookController {
             final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
             final Optional<String> error = generateFormService.getError(book, form);
             if (error.isPresent()) {
-                redirectAttributes.addFlashAttribute("errMessage", error.get());
+                redirectAttributes.addFlashAttribute(WebConstants.KEY_ERR_MESSAGE, error.get());
                 path = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW;
                 break;
             } else {
@@ -117,9 +117,10 @@ public class GenerateEbookController {
                 }
                 final Object[] args = {book.getFullyQualifiedTitleId(), generateFormService.getPriorityLabel(form)};
                 redirectAttributes
-                    .addFlashAttribute("infoMessage", generateFormService.getMessage("mesg.job.enqueued.success", null, args));
+                    .addFlashAttribute(WebConstants.KEY_INFO_MESSAGE, generateFormService.getMessage("mesg.job.enqueued.success", null, args));
                 redirectAttributes
                     .addFlashAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS, "disabled=\"disabled\"");
+                redirectAttributes.addFlashAttribute(WebConstants.KEY_NEW_VERSION_NUMBER, version);
             }
 
             path = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW;
@@ -296,6 +297,7 @@ public class GenerateEbookController {
         final String currentVersion = getCurrentVersion(publishedProviewTitleInfo);
         form.setCurrentVersion(currentVersion);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
+        model.addAttribute(WebConstants.KEY_IS_PUBLISHED, publishedProviewTitleInfo != null);
     }
 
     private String getLatestProviewVersion(final ProviewTitleInfo latestProviewTitleInfo) {
