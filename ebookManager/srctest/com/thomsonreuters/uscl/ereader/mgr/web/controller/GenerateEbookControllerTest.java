@@ -16,6 +16,9 @@ import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_MAJOR
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_MINOR_VERSION_NUMBER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_VERSION_NUMBER;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_IS_BOOK_GENERATION_ENQUEUED;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_IS_HIGH_PRIORITY_JOB;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_NEW_VERSION_TYPE;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_OVERWRITE_ALLOWED;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_PILOT_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY;
@@ -70,6 +73,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Version;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperService;
@@ -256,9 +260,13 @@ public final class GenerateEbookControllerTest {
                 post("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                     .param("command", Command.GENERATE.toString())
                     .param("id", BOOK_DEFINITION_ID.toString())
-                    .param("isHighPriorityJob", "true"))
+                    .param("highPriorityJob", "true")
+                    .param(NEW_VERSION_PARAM, Version.MAJOR.toString()))
             .andExpect(status().isFound())
             .andExpect(redirectedUrlPattern(removeExtension(MVC_BOOK_SINGLE_GENERATE_PREVIEW) + ".*"))
+            .andExpect(flash().attribute(KEY_IS_HIGH_PRIORITY_JOB, true))
+            .andExpect(flash().attribute(KEY_IS_BOOK_GENERATION_ENQUEUED, true))
+            .andExpect(flash().attribute(KEY_NEW_VERSION_TYPE, Version.MAJOR.toString()))
             .andExpect(flash().attribute(KEY_NEW_VERSION_NUMBER, version));
         verify(mockJobRequestService).saveQueuedJobRequest(eq(book), eq(version), anyInt(), any());
     }

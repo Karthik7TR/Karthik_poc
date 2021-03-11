@@ -89,6 +89,9 @@ public class WebConstants {
     public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
     public static final String KEY_NEW_MINOR_VERSION_NUMBER = "newMinorVersionNumber";
     public static final String KEY_NEW_OVERWRITE_VERSION_NUMBER = "newOverwriteVersionNumber";
+    public static final String KEY_IS_BOOK_GENERATION_ENQUEUED = "isBookGenerationEnqueued";
+    public static final String KEY_IS_HIGH_PRIORITY_JOB = "isHighPriorityJob";
+    public static final String KEY_NEW_VERSION_TYPE = "newVersionType";
     public static final String KEY_PUBLISHING_CUT_OFF_DATE = "publishingCutOffDate";
     public static final String KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY =
         "publishingCutOffDateGreaterThanToday";

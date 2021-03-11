@@ -121,6 +121,10 @@ public class GenerateEbookController {
                 redirectAttributes
                     .addFlashAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS, "disabled=\"disabled\"");
                 redirectAttributes.addFlashAttribute(WebConstants.KEY_NEW_VERSION_NUMBER, version);
+                redirectAttributes.addFlashAttribute(WebConstants.KEY_IS_BOOK_GENERATION_ENQUEUED, true);
+                redirectAttributes.addFlashAttribute(WebConstants.KEY_IS_HIGH_PRIORITY_JOB, form.isHighPriorityJob());
+                redirectAttributes
+                    .addFlashAttribute(WebConstants.KEY_NEW_VERSION_TYPE, form.getNewVersion().toString());
             }
 
             path = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW;

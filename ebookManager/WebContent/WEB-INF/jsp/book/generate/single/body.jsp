@@ -204,10 +204,22 @@
 
 	$(document).ready(function() {
 		hideFields("${ book.sourceType }");
-		if ($('#jsVersionTypeSelect').val() !== "") {
-			changeNewVersion($('#jsVersionTypeSelect'));
+
+		const isBookGenerationEnqueued = "${isBookGenerationEnqueued}" === "true";
+		const jQueryVersionType = $('#jsVersionTypeSelect');
+		const isVersionTypeSelected = jQueryVersionType.val() !== "";
+		if (!isBookGenerationEnqueued && isVersionTypeSelected) {
+			changeNewVersion(jQueryVersionType);
 		}
-	})
+
+		if (isBookGenerationEnqueued) {
+			const jQueryJobPriority = $('#jsJobPriority');
+			jQueryVersionType.prop("disabled", true);
+			jQueryVersionType.val("${newVersionType}");
+			jQueryJobPriority.prop("disabled", true);
+			jQueryJobPriority.val("${ isHighPriorityJob ? true : false }");
+		}
+	});
 </script>
 
  <c:choose>
@@ -298,11 +310,11 @@
 		  <tr>
 			<td>Job Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  <form:select path="highPriorityJob">
-			    <form:option label="NORMAL" value="false"/>
-				<form:option label="HIGH" value="true"/>
-			  </form:select>
-			 </td>
+				<form:select path="highPriorityJob" id="jsJobPriority">
+					<form:option label="NORMAL" value="false"/>
+					<form:option label="HIGH" value="true"/>
+				</form:select>
+			</td>
 		  </tr>
 		</table>
 
