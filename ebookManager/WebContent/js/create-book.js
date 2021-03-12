@@ -897,8 +897,9 @@ $(function() {
 			const fileField = pdfRow.find('.pdfFile');
 			const file = fileField.prop('files')[0];
 			const fileNameField = pdfRow.find('.pdfFilename');
-			const fileName = removeSpacesFromPdfFileName(file.name);
-			if (!checkFileExtension(fileName) || !checkFileSize(file) || !checkSpecialCharacters(fileName)) {
+			const rawFileName = file.name;
+			const fileName = rawFileName.replace(/\s/g, '_');
+			if (!confirmRenaming(rawFileName, fileName) || !checkFileExtension(fileName) || !checkFileSize(file) || !checkSpecialCharacters(fileName)) {
 				fileField.val(null);
 				return;
 			}
@@ -979,12 +980,12 @@ $(function() {
 			return true;
 		};
 
-		const removeSpacesFromPdfFileName = function(fileName) {
-			if (/\s/.test(fileName)) {
-				fileName =  fileName.replace(/\s/g, '_');
-				alert('Filename contains whitespaces and will be changed to ' + fileName);
+		const confirmRenaming = function(rawFileName, fileName) {
+			let isRenamingConfirmed = true;
+			if (/\s/.test(rawFileName)) {
+				isRenamingConfirmed = window.confirm('Filename contains whitespaces. Rename to ' + fileName + ' and start uploading file?');
 			}
-			return fileName;
+			return isRenamingConfirmed;
 		};
 
 		const getUploadPdfFormData = function(file, fileName) {
