@@ -37,17 +37,23 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm filterForm,
         final BindingResult errors,
         final Model model) {
-        List<ProviewGroup> selectedProviewGroupList = new ArrayList<ProviewGroup>();
-        final List<ProviewGroup> allLatestProviewGroupList = fetchAllLatestProviewGroups(httpSession);
+        try {
+            List<ProviewGroup> selectedProviewGroupList;
+            final List<ProviewGroup> allLatestProviewGroupList = fetchAllLatestProviewGroups(httpSession);
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
-            filterForm.initNull();
-            selectedProviewGroupList = allLatestProviewGroupList;
-        } else {
-            selectedProviewGroupList = filterProviewGroupList(filterForm, allLatestProviewGroupList);
+            if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
+                filterForm.initNull();
+                selectedProviewGroupList = allLatestProviewGroupList;
+            } else {
+                selectedProviewGroupList = filterProviewGroupList(filterForm, allLatestProviewGroupList);
+            }
+            saveSelectedProviewGroups(httpSession, selectedProviewGroupList);
+            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroupList);
+            model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroupList.size());
+        } catch (Exception e) {
+            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
         }
 
-        saveSelectedProviewGroups(httpSession, selectedProviewGroupList);
         saveProviewGroupListFilterForm(httpSession, filterForm);
 
         final ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
@@ -56,8 +62,6 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
         }
         model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
-        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroupList);
-        model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroupList.size());
         model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);

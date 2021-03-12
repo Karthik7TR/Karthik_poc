@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public final class ProviewGroupListFilterControllerTest {
         final HttpSession session = request.getSession();
         session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
 
-        testDoFilterGet();
+        testDoFilterGet(false);
     }
 
     /**
@@ -62,10 +63,27 @@ public final class ProviewGroupListFilterControllerTest {
         allLatestProviewGroups.add(proviewGroup);
         session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
 
-        testDoFilterGet();
+        testDoFilterGet(false);
     }
 
-    public void testDoFilterGet() throws Exception {
+    @Test
+    public void testDoFilterGetProviewDown() throws Exception {
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, null);
+
+        testDoFilterGet(true);
+    }
+
+    @Test
+    public void testDoFilterGetResetProviewDown() throws Exception {
+        final HttpSession session = request.getSession();
+        request.setParameter("FilterCommand", ProviewListFilterForm.FilterCommand.RESET.toString());
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, null);
+
+        testDoFilterGet(true);
+    }
+
+    public void testDoFilterGet(boolean errorOccurred) throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED);
         request.setMethod(HttpMethod.GET.name());
 
@@ -73,5 +91,11 @@ public final class ProviewGroupListFilterControllerTest {
 
         assertNotNull(mav);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
+
+        if (errorOccurred) {
+            Assert.assertEquals(Boolean.TRUE, mav.getModel().get(WebConstants.KEY_ERROR_OCCURRED));
+        } else {
+            Assert.assertNotNull(mav.getModel().get(WebConstants.KEY_PAGINATED_LIST));
+        }
     }
 }

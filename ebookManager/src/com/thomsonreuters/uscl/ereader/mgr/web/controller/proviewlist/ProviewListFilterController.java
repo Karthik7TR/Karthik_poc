@@ -89,9 +89,32 @@ public class ProviewListFilterController {
         @ModelAttribute(ProviewListFilterForm.FORM_NAME) final ProviewListFilterForm filterForm,
         final BindingResult errors,
         final Model model) {
-        List<ProviewTitleInfo> selectedProviewTitleInfo = new ArrayList<ProviewTitleInfo>();
-        final List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
+        try {
+            final List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
+            List<ProviewTitleInfo> selectedProviewTitleInfo = getFilteredProviewTitleInfos(filterForm, allLatestProviewTitleInfo);
+            saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
+            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
+            model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
+        } catch (Exception e) {
+            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
+        }
 
+        saveProviewListFilterForm(httpSession, filterForm);
+
+        final ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
+        if (proviewTitleForm.getObjectsPerPage() == null) {
+            proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+        }
+        model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+        model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
+        model.addAttribute(ProviewListFilterForm.FORM_NAME, filterForm);
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+
+        return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
+    }
+
+    private List<ProviewTitleInfo> getFilteredProviewTitleInfos(final ProviewListFilterForm filterForm, final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
+        List<ProviewTitleInfo> selectedProviewTitleInfo = new ArrayList<>();
         if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initNull();
             selectedProviewTitleInfo = allLatestProviewTitleInfo;
@@ -193,22 +216,6 @@ public class ProviewListFilterController {
                 }
             }
         }
-
-        saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
-        saveProviewListFilterForm(httpSession, filterForm);
-
-        final ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-        if (proviewTitleForm.getObjectsPerPage() == null) {
-            proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-        }
-        model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
-        model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
-
-        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
-        model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
-        model.addAttribute(ProviewListFilterForm.FORM_NAME, filterForm);
-        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-
-        return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
+        return selectedProviewTitleInfo;
     }
 }

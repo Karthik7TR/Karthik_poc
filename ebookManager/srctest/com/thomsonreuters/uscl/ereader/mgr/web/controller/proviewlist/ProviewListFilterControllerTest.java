@@ -138,6 +138,22 @@ public final class ProviewListFilterControllerTest {
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLES);
     }
 
+    @Test
+    public void testProviewDown() throws Exception {
+        initRequest( TITLE_NAME, TEST_TITLE_ID);
+        request.getSession().setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, null);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(Boolean.TRUE, mav.getModel().get(WebConstants.KEY_ERROR_OCCURRED));
+    }
+
+    @Test
+    public void testResetProviewDown() throws Exception {
+        initResetRequest();
+        request.getSession().setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, null);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(Boolean.TRUE, mav.getModel().get(WebConstants.KEY_ERROR_OCCURRED));
+    }
+
     private ProviewTitleInfo getProviewTitleInfo() {
         return getProviewTitleInfo("");
     }
