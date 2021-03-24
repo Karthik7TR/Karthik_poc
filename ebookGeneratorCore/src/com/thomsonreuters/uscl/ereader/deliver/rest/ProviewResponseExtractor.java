@@ -16,6 +16,7 @@ import org.springframework.web.client.ResponseExtractor;
  */
 public class ProviewResponseExtractor implements ResponseExtractor<String> {
     private static final Logger LOG = LogManager.getLogger(ProviewResponseExtractor.class);
+    private static final int MAX_RESPONSE_LENGTH = 10000;
 
     /**
      * Logs the ProView HTTP response for publishing operations and returns the response body as a unicode string.
@@ -28,7 +29,11 @@ public class ProviewResponseExtractor implements ResponseExtractor<String> {
 
         LOG.debug("HTTP HEADERS: " + clientHttpResponse.getHeaders().toString());
         LOG.debug("HTTP STATUS: " + statusCode + ", Reason: " + statusPhrase);
-        LOG.debug("HTTP BODY: " + responseBody);
+        if (responseBody.length() < MAX_RESPONSE_LENGTH) {
+            LOG.debug("HTTP BODY: " + responseBody);
+        } else {
+            LOG.debug("HTTP BODY: response is too long to log");
+        }
 
         return responseBody;
     }
