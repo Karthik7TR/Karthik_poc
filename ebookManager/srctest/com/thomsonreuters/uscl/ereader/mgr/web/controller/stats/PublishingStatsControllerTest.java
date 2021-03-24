@@ -1,7 +1,13 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
@@ -14,23 +20,33 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.easymock.EasyMock;
+import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+@RunWith(MockitoJUnitRunner.class)
 public final class PublishingStatsControllerTest {
+    @InjectMocks
     private PublishingStatsController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
-    private AnnotationMethodHandlerAdapter handlerAdapter;
-    private PublishingStatsService mockService;
+    private HandlerAdapter handlerAdapter;
+    @Mock
+    private PublishingStatsService publishingStatsService;
+    @SuppressWarnings("unused")
+    @Mock
     private OutageService outageService;
 
     @Before
@@ -38,9 +54,6 @@ public final class PublishingStatsControllerTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
-        mockService = EasyMock.createMock(PublishingStatsService.class);
-        outageService = EasyMock.createMock(OutageService.class);
-        controller = new PublishingStatsController(mockService, outageService);
     }
 
     @Test
@@ -54,18 +67,29 @@ public final class PublishingStatsControllerTest {
         session.setAttribute(PublishingStatsFilterForm.FORM_NAME, filterForm);
         request.setSession(session);
 
-        EasyMock
-            .expect(
-                mockService.findPublishingStats(
-                    EasyMock.anyObject(PublishingStatsFilter.class),
-                    EasyMock.anyObject(PublishingStatsSort.class)))
-            .andReturn(null);
-        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-            .andReturn(1);
-        EasyMock.replay(mockService);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(WebConstants.VIEW_STATS, mav.getViewName());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
+        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
+    }
+
+    @SneakyThrows
+    @Test
+    public void specificBookStat_bookDefinitionIdIsGiven_idIsAddedToModel() {
+        request.setRequestURI("/" + WebConstants.MVC_STATS_SPECIFIC_BOOK);
+        request.setMethod(HttpMethod.GET.name());
+        final Long bookDefinitionId = 42L;
+        request.setParameter(WebConstants.KEY_ID, bookDefinitionId.toString());
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+
+        assertNotNull(mav);
+        assertEquals(WebConstants.VIEW_STATS, mav.getViewName());
+        final Map<String, Object> model = mav.getModel();
+        assertNotNull(model.get(PublishingStatsForm.FORM_NAME));
+        final Long actualBookDefinitionId =
+            ((PublishingStatsFilterForm) model.get(PublishingStatsFilterForm.FORM_NAME)).getBookDefinitionId();
+        assertEquals(bookDefinitionId, actualBookDefinitionId);
     }
 
     @Test
@@ -80,18 +104,10 @@ public final class PublishingStatsControllerTest {
         session.setAttribute(PublishingStatsForm.FORM_NAME, filterForm);
         request.setSession(session);
 
-        EasyMock
-            .expect(
-                mockService.findPublishingStats(
-                    EasyMock.anyObject(PublishingStatsFilter.class),
-                    EasyMock.anyObject(PublishingStatsSort.class)))
-            .andReturn(null);
-        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-            .andReturn(1);
-        EasyMock.replay(mockService);
-
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+        Assert.assertEquals(WebConstants.VIEW_STATS, mav.getViewName());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
+        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
     }
 
     @Test
@@ -107,18 +123,10 @@ public final class PublishingStatsControllerTest {
         session.setAttribute(PublishingStatsForm.FORM_NAME, filterForm);
         request.setSession(session);
 
-        EasyMock
-            .expect(
-                mockService.findPublishingStats(
-                    EasyMock.anyObject(PublishingStatsFilter.class),
-                    EasyMock.anyObject(PublishingStatsSort.class)))
-            .andReturn(null);
-        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-            .andReturn(1);
-        EasyMock.replay(mockService);
-
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+        Assert.assertEquals(WebConstants.VIEW_STATS, mav.getViewName());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
+        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
     }
 
     @Test
@@ -127,7 +135,7 @@ public final class PublishingStatsControllerTest {
         request.setMethod(HttpMethod.GET.name());
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertNotNull(mav);
-        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_STATS);
+        Assert.assertEquals(WebConstants.MVC_STATS, ((RedirectView) mav.getView()).getUrl());
     }
 
     @Test
@@ -143,18 +151,10 @@ public final class PublishingStatsControllerTest {
         session.setAttribute(BasePublishingStatsController.PAGE_AND_SORT_NAME, pageAndSort);
         request.setSession(session);
 
-        EasyMock
-            .expect(
-                mockService.findPublishingStats(
-                    EasyMock.anyObject(PublishingStatsFilter.class),
-                    EasyMock.anyObject(PublishingStatsSort.class)))
-            .andReturn(null);
-        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-            .andReturn(1);
-        EasyMock.replay(mockService);
-
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+        Assert.assertEquals(WebConstants.VIEW_STATS, mav.getViewName());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
+        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
     }
 
     @Test
@@ -168,19 +168,10 @@ public final class PublishingStatsControllerTest {
         session.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
         request.setSession(session);
 
-        EasyMock
-            .expect(
-                mockService.findPublishingStats(
-                    EasyMock.anyObject(PublishingStatsFilter.class)
-                   ))
-            .andReturn(null);
-        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-            .andReturn(1);
-        EasyMock.replay(mockService);
-
         handlerAdapter.handle(request, response, controller);
 
         final ServletOutputStream outStream = response.getOutputStream();
-        Assert.assertTrue(!outStream.toString().isEmpty());
+        Assert.assertFalse(outStream.toString().isEmpty());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class));
     }
 }

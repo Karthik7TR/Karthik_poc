@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -137,12 +138,11 @@ public class PublishingStatsController extends BasePublishingStatsController {
         final HttpServletRequest request,
         final HttpServletResponse response) {
         final PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
+        final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
+        final List<PublishingStats> stats = fetch(filterForm);
+        httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
 
-        try {
-            final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
-            final List<PublishingStats> stats = fetch(filterForm);
-            httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
-            final Workbook wb = excelExportService.createExcelDocument(httpSession);
+        try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
             final String stringDate = s.format(date);
@@ -151,7 +151,7 @@ public class PublishingStatsController extends BasePublishingStatsController {
             final ServletOutputStream out = response.getOutputStream();
             wb.write(out);
             out.flush();
-        } catch (final Exception e) {
+        } catch (final IOException e) {
             log.error(e.getMessage());
         }
     }

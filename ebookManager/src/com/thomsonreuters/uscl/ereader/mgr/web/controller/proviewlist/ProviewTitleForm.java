@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -8,7 +9,8 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
-public class ProviewTitleForm {
+public class ProviewTitleForm implements Serializable {
+    public static final long serialVersionUID = 3423742385720087L;
     public static final String FORM_NAME = "proviewTitleInfoForm";
 
     public enum Command {
@@ -17,7 +19,7 @@ public class ProviewTitleForm {
         PROMOTE,
         REFRESH,
         PAGESIZE
-    };
+    }
 
     private String titleId;
     private String version;

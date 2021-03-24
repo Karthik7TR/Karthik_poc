@@ -190,8 +190,7 @@ public class ProviewTitleListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)
     public void downloadPublishingStatsExcel(final HttpSession httpSession, final HttpServletResponse response) {
         final ProviewListExcelExportService excelExportService = new ProviewListExcelExportService();
-        try {
-            final Workbook wb = excelExportService.createExcelDocument(httpSession);
+        try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
             final String stringDate = s.format(date);
@@ -261,7 +260,7 @@ public class ProviewTitleListController {
     public ModelAndView singleTitleAllVersions(
         @RequestParam("titleId") final String titleId,
         final HttpSession httpSession,
-        final Model model) throws Exception {
+        final Model model) throws ProviewException {
         Assert.notNull(titleId);
 
         Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
@@ -514,11 +513,10 @@ public class ProviewTitleListController {
     private void updateSelectedProviewTitleInfo(final Map<String, ProviewTitleContainer> proviewTitleContainerMap,
         final String title, final String version, final HttpSession httpSession) {
         final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
-        if (selectedProviewTitleInfo.removeIf(item -> item.getTitleId().equals(title) && item.getVersion().equals(version))) {
-            if (proviewTitleContainerMap.containsKey(title)) {
-                final ProviewTitleInfo updatedLatestVersion = proviewTitleContainerMap.get(title).getLatestVersion();
-                selectedProviewTitleInfo.add(updatedLatestVersion);
-            }
+        final boolean isAnyRemoved = selectedProviewTitleInfo.removeIf(item -> item.getTitleId().equals(title) && item.getVersion().equals(version));
+        if (isAnyRemoved && proviewTitleContainerMap.containsKey(title)) {
+            final ProviewTitleInfo updatedLatestVersion = proviewTitleContainerMap.get(title).getLatestVersion();
+            selectedProviewTitleInfo.add(updatedLatestVersion);
         }
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
     }
