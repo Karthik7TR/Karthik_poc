@@ -3,3 +3,4 @@ app/.vscode
 app/test-results.json
 *pipeline.yaml
 pipeline-cfn.yaml
+pipeline-source.zip

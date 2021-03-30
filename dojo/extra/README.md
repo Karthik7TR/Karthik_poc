@@ -20,8 +20,6 @@ The `*.sh` files in the `./scripts` folder can help you with certain parts of th
 
 The available scripts are:
 
-- **[create_pipeline.sh](./scripts/create_pipeline.sh)** will create and deploy a pipeline using the cumulus-pipelinespec in the repo.
-
 - **[get_stack_outputs.sh](./scripts/get_stack_outputs.sh)** will retrieve the FIXME values that you need to fill in the DeploySpec.
 
 - **[trigger_pipeline.sh](./scripts/trigger_pipeline.sh)** will zip up the repo and copy it to the pipeline source, which triggers a new run of the pipeline.

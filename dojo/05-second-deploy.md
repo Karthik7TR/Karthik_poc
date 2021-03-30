@@ -8,7 +8,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
     > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
     ```sh
     SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-    S3_SOURCE_BUCKET_DIR="TEN-Acct-Id" # FIXME Change this to your u ID (e.x. u0106226)
+    S3_SOURCE_BUCKET_DIR="TEN-Acct-Id" # FIXME Change this to your u ID
     S3_BUCKET_NAME="a206296-tr-tax-prof-cicd-sandbox-eu-west-1-dojo"
     AWS_PROFILE="tr-tax-prof-cicd-sandbox"
     REGION="eu-west-1"
@@ -20,7 +20,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 1. Navigate back to the Pipeline to see it travel through the stages again.
 1. You will get a email notifying you that testing has started. Unless you've modified the tested code,
     the tests should succeed and you will eventually get the release approval email.
-1. When you get the release approval email, **DO NOT** press approve yet.  Let us navigate into the console again to the ALB.
+1. When you get the release approval email, **DO NOT** run the approve command yet.  Let us navigate into the console again to the ALB.
 1. Click the listeners tab | view/edit rules
 1. Notice how the priorities are set up to allow for traffic without a header to get to the old version of your app.  
     Further, at a higher priority (lower numerically), there is another rule to allow traffic to your new version at the same path but with the addition of your header.  
@@ -29,7 +29,6 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
     > :pushpin: **NOTE:** If you do not receive the email, see the [Appendix](#approving-deployments) at the bottom of this page.
 
 1. Reestablish the tunnel:
-    > :pushpin: **NOTE:** You may need to connect to the DCAG VPN and **turn off** ZScaler to create the ssh-tunnel
     ```sh
     ALB_DNS_NAME="Your alb DNS name"
     AWS_PROFILE="tr-tax-prof-sandbox"
@@ -46,7 +45,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 # Appendix
 
 ## Approving Deployments
-If you do not receive the email to approve the release, there is a way to do in from the command line.  To do so, follow these instructions:
+If you do not receive the email to approve the release, you can find the command to run via the Cumulus CLI.  To do so, follow these instructions:
 1. Run the following command to find the deployment ID and table name you will need to approve the release.
     ```sh
     cumulus bluegreen list-pending-deployments --profile tr-tax-prof-cicd-sandbox  --region eu-west-1

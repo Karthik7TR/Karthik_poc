@@ -11,11 +11,11 @@ This is a Sample application created by the CCNG TechOps team's interns that can
 # Infrastructure
 Each implementer of the demo should have already deployed their infrastructure before following the Cumulus steps below.
 
-The infrastructure required for this application can be found in [this Cloud IaC project.](https://github.com/tr/cumulus_iac-sample-application-nodejs-ecs).
+The infrastructure required for this application can be found in [this Cloud IaC project](https://github.com/tr/cumulus_iac-sample-application-nodejs-ecs).
 
 # Hands-On Cumulus Instructions
 You will have the opportunity to create Cumulus pipelines and use them to deploy an ECS backed application in a blue/green fashion.
-You will then see how to release a newer version of the application slowly over time [using a linear shift](https://github.com/tr/cumulus_cicd-blue-green-deployer/blob/stable/docs/routers/ALB.md).
+You will then see how to release a newer version of the application slowly over time [using a linear shift](https://github.com/tr/cumulus_cicd-blue-green-deployer/blob/stable/docs/routers/alb).
 Please follow along with the videos linked to at the top of this page.
 The videos will go more in-depth into what you're doing than the written instructions.
 The files in this repo are all that you will need, however, we assume that the infrastructure has already been created.
@@ -36,7 +36,7 @@ Perform the steps below in order.  However, if this is an onsite hands-on traini
 
 ## Cleanup
 When you are finished, you can run this to cleanup all of the stuff the cumulus installer created.  
-`cumulus installer uninstall --profile ${AWS_PROFILE} --installer-file cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}`
+`cumulus installer uninstall --profile ${AWS_PROFILE} --installer-file cicd/cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN} -d`
 
 To delete the services, you'll have to delete the CloudFormation stacks from the non-CI/CD account manually.  The
  stack names will follow the syntax `a206296-[TEN-Acct-Id]-[dev/qa]-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx

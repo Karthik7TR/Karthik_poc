@@ -3,15 +3,10 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      docker: 18
       python: 3.8
 
   pre_build:
     commands:
-      # Get ecr credentials and login
-      - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region ${REGION} --registry-ids ${ACCOUNT_ID})
-
       - echo Logging into artifactory
       - docker login tr1-docker-remote.jfrog.io -u ${ARTIFACTORY_USERNAME} -p ${ARTIFACTORY_PASSWORD}
 
@@ -30,6 +25,7 @@ phases:
     commands:
       # This Python script tags and pushes the images to the ECRs in the accounts and regions in the environments in your deployspec.
       # It also modifies the deployspec to put the right image URL in the given path in your deployspec environents.
+      - cd cicd
       - |-
         python3 bake_helper.py --image ${IMAGE_NAME} --tag ${HASH} --param-path DeployerParameters.Stack.Parameters.ContainerImageUri
 

@@ -22,5 +22,5 @@ Clone this repo and personalize it to distinguish it from others deployed in the
 1. In a different browser, or in your browser's private mode, login to the Nonprod account (tr-tax-prof-sandbox) as the a206296-PowerUser2 role.
 1. Open the project in an editor (Visual Studio Code or Atom) so that you can modify all the files.  There are several we need to change.
 1. Do a recursive find and replace on all the files in this repo for the following items:
-  * `TEN-Acct-Id` => your TEN account ID (e.g. TEN-Acct-Id)  **This should be all lowercase**
+  * `TEN-Acct-Id` => your TEN account ID (e.g. u0123456)  **This should be all lowercase**
   * `firstname.lastname@tr.com` => Your email
