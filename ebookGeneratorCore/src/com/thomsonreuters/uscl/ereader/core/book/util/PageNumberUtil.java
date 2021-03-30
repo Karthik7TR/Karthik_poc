@@ -39,7 +39,7 @@ public final class PageNumberUtil {
     }
 
     public static Node convertToProviewPagebreak(final Element pagebreak) {
-        return createPagebreak(pagebreak.attr(LABEL_NO));
+        return createPagebreak(getLabelNo(pagebreak));
     }
 
     public static boolean isPagebreak(final Node node) {
@@ -47,11 +47,15 @@ public final class PageNumberUtil {
     }
 
     public static String protectPagebreak(final Node pagebreak) {
-        return String.format(PAGEBREAK_PROTECTED, PAGEBREAK_WRAPPER_OPEN, pagebreak.attr(LABEL_NO), PAGEBREAK_WRAPPER_CLOSE);
+        return String.format(PAGEBREAK_PROTECTED, PAGEBREAK_WRAPPER_OPEN, getLabelNo(pagebreak), PAGEBREAK_WRAPPER_CLOSE);
     }
 
     public static String getLabel(final Node pagebreak) {
         return pagebreak.attr(LABEL);
+    }
+
+    public static String getLabelNo(final Node pagebreak) {
+        return pagebreak.attr(LABEL_NO);
     }
 
     public static List<Element> parents(final Node pagebreak) {

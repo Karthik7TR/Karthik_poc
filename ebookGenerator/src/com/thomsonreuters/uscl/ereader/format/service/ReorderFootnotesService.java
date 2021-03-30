@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -127,7 +126,7 @@ public class ReorderFootnotesService {
     }
 
     public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir,
-                                 final BookStep step) throws IOException {
+                                 final BookStep step) {
         final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
 
         List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);

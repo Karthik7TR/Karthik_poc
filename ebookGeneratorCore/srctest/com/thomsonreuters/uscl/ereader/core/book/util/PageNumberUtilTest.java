@@ -19,7 +19,9 @@ import org.xml.sax.helpers.XMLFilterImpl;
 public final class PageNumberUtilTest {
     private static final String LABEL_VALUE = "1";
     private static final String TARGET = "pb";
-    private static final String CONTENT = "label=\"1\"";
+    private static final String LABEL = "label";
+    private static final String LABEL_NO = "no";
+    private static final String CONTENT = LABEL + "=\"1\"";
     private static final String PAGEBREAK = "page";
     private static final String PAGEBREAK_PROTECTED = "{pagebreak-open no=\"1\" close-pagebreak}";
 
@@ -56,5 +58,19 @@ public final class PageNumberUtilTest {
         final Element node = new Element(PAGEBREAK);
         node.attr(PageNumberUtil.LABEL_NO, LABEL_VALUE);
         assertEquals(PAGEBREAK_PROTECTED, PageNumberUtil.protectPagebreak(node));
+    }
+
+    @Test
+    public void shouldGetLabel() {
+        final Element node = new Element(PAGEBREAK);
+        node.attr(LABEL, LABEL_VALUE);
+        assertEquals(LABEL_VALUE, PageNumberUtil.getLabel(node));
+    }
+
+    @Test
+    public void shouldGetLabelNo() {
+        final Element node = new Element(PAGEBREAK);
+        node.attr(LABEL_NO, LABEL_VALUE);
+        assertEquals(LABEL_VALUE, PageNumberUtil.getLabelNo(node));
     }
 }

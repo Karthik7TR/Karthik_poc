@@ -1,0 +1,117 @@
+<n-docbody>
+	<doc bill="Y">
+		<section>
+			<section.body>
+				p1<page no="p1"/>
+				
+				p2<page no="p2"/>
+				p2<page no="p2"/>
+				
+				p3[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101003">3<page no="p3"/></footnote.reference>]
+				
+				p4[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101004">4<page no="p4"/></footnote.reference>]
+				p4<page no="p4"/>
+				
+				p5[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101005">5<page no="p5"/></footnote.reference>]
+				p5<page no="p5"/>
+				p5<page no="p5"/>
+				
+				p6<footnote.reference refid="I01a2f010680911e88f4a9c1f64101016">6_1<page no="p6"/></footnote.reference>
+				p6<footnote.reference refid="I01a2f010680911e88f4a9c1f64101026">6_2<page no="p6"/></footnote.reference>
+				
+				p7[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101017">7_1<page no="p7"/></footnote.reference>]
+				p7[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101027">7_2<page no="p7"/></footnote.reference>]
+				p7<page no="p7"/>
+				
+				p8[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101018">8_1<page no="p8"/></footnote.reference>]
+				p8[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101028">8_2<page no="p8"/></footnote.reference>]
+				p8<page no="p8"/>
+				p8<page no="p8"/>
+				
+				p9<footnote.reference refid="I01a2f010680911e88f4a9c1f64101009">9<page no="p9"/></footnote.reference>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101003">
+				<label.designator>3<page no="p1"/></label.designator>
+				<footnote.body>
+						Ftn p3.
+						<page no="p2"/>
+						<page no="p3"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101004">
+				<label.designator>4</label.designator>
+				<footnote.body>
+						p4<page no="p4"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101005">
+				<label.designator>5</label.designator>
+				<footnote.body>
+						p5<page no="p5"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101016">
+				<label.designator>6_1</label.designator>
+				<footnote.body>
+						p6_1
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101026">
+				<label.designator>6_2</label.designator>
+				<footnote.body>
+						p6_2<page no="p6"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101017">
+				<label.designator>7_1</label.designator>
+				<footnote.body>
+						p7_1
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101027">
+				<label.designator>7_2</label.designator>
+				<footnote.body>
+						p7_2<page no="p7"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101018">
+				<label.designator>8_1</label.designator>
+				<footnote.body>
+						p8_1
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101028">
+				<label.designator>8_2</label.designator>
+				<footnote.body>
+						p8_2<page no="p8"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101009">
+				<label.designator>9</label.designator>
+				<footnote.body>
+						p9<page no="p9"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+	</doc>
+</n-docbody>

@@ -1,8 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import java.io.File;
-import java.nio.file.Files;
-
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.trgr.cobalt.util.urlbuilder.Container;
 import lombok.SneakyThrows;
@@ -10,6 +7,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.nio.file.Files;
 
 import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.CARSWELL_WESTLAW_CONTAINER;
 import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.URL_BUILDER_CONTAINER_ATTRIBUTE;
@@ -27,6 +27,9 @@ public class TransformCharSequencesService {
     @Autowired
     private JsoupService jsoup;
 
+    @Autowired
+    private DuplicatedPagebreaksResolver duplicatedPagebreaksResolver;
+
     @SneakyThrows
     public void transformCharSequences(final File srcDir, final File destDir, final boolean isCwBook) {
         Files.list(srcDir.toPath())
@@ -40,6 +43,7 @@ public class TransformCharSequencesService {
         transformDoubleHyphensIntoEmDashesInDocument(document);
         transformBulletsInDocument(document);
         addContainerAttributeToCiteQuery(document, isCwBook);
+        duplicatedPagebreaksResolver.fixDuplicatedPagebreaks(document);
         jsoup.saveDocument(destDir, file.getName(), document);
     }
 
