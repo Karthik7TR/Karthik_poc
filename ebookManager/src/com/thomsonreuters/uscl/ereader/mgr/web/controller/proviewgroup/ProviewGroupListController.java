@@ -75,6 +75,8 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     private static final String DELETE = "Delete";
     private static final String REMOVE = "Remove";
     private static final String UNSUCCESSFUL = "Unsuccessful";
+    private static final int MAX_NUMBER_OF_RETRIES = 3;
+    private static final String BRACKETS_OR_BRACES_REGEX = "[\\[\\]{}]";
 
     @Autowired
     private ProviewHandler proviewHandler;
@@ -96,7 +98,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     private String environmentName;
 
     private String booksNotFoundMsg;
-    private int maxNumberOfRetries = 3;
 
     @InitBinder(ProviewGroupListFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder) {
@@ -156,8 +157,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)
     public void downloadProviewGroupExcel(final HttpSession httpSession, final HttpServletResponse response) {
         final ProviewGroupExcelExportService excelExportService = new ProviewGroupExcelExportService();
-        try {
-            final Workbook wb = excelExportService.createExcelDocument(httpSession);
+        try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
             final String stringDate = s.format(date);
@@ -351,13 +351,13 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             }
 
             if (booksNotFoundMsg != null) {
-                booksNotFoundMsg = booksNotFoundMsg.replaceAll("\\[|\\]|\\{|\\}", "");
+                booksNotFoundMsg = booksNotFoundMsg.replaceAll(BRACKETS_OR_BRACES_REGEX, "");
                 model.addAttribute(
                     WebConstants.KEY_WARNING_MESSAGE,
                     "Books were deleted from Proview " + Arrays.asList(booksNotFoundMsg.split("\\s*,\\s*")));
             }
         } catch (final ProviewException e) {
-            final String msg = e.getMessage().replaceAll("\\[|\\]|\\{|\\}", "");
+            final String msg = e.getMessage().replaceAll(BRACKETS_OR_BRACES_REGEX, "");
             model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, Arrays.asList(msg.split("\\s*,\\s*")));
             httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, 0);
             log.warn(e.getMessage(), e);
@@ -664,7 +664,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         String[] titlesString = {};
         for (String bookTitlesWithVersion : form.getGroupIds()) {
             if (!bookTitlesWithVersion.isEmpty()) {
-                bookTitlesWithVersion = bookTitlesWithVersion.replaceAll("\\[|\\]|\\{|\\}", "");
+                bookTitlesWithVersion = bookTitlesWithVersion.replaceAll(BRACKETS_OR_BRACES_REGEX, "");
                 if (!bookTitlesWithVersion.isEmpty()) {
                     titlesString = bookTitlesWithVersion.split(",");
                 }
@@ -782,47 +782,50 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
     private void doTitleOperation(final String operation, final String title, final String version) throws Exception {
         switch (operation) {
-        case PROMOTE: {
-            proviewHandler.promoteTitle(title, version);
-            TimeUnit.SECONDS.sleep(3);
-            break;
-        }
-        case REMOVE: {
-            proviewHandler.removeTitle(title, new Version(version));
-            TimeUnit.SECONDS.sleep(3);
-            break;
-        }
-        case DELETE: {
-            deleteTitleWithRetryLogic(title, version);
-            TimeUnit.SECONDS.sleep(3);
-            break;
-        }
+            case PROMOTE:
+                proviewHandler.promoteTitle(title, version);
+                TimeUnit.SECONDS.sleep(3);
+                break;
+            case REMOVE:
+                proviewHandler.removeTitle(title, new Version(version));
+                TimeUnit.SECONDS.sleep(3);
+                break;
+            case DELETE:
+                deleteTitleWithRetryLogic(title, version);
+                TimeUnit.SECONDS.sleep(3);
+                break;
+            default:
+                throw new ProviewException(String.format("Unexpected operation on title. Name of the operation: %s",
+                    operation));
         }
     }
 
-    private void doGroupOperation(final String operation, final String groupIdByVersion) throws Exception {
+    private void doGroupOperation(final String operation, final String groupIdByVersion) throws ProviewException {
         switch (operation) {
-        case PROMOTE:
-            proviewHandler.promoteGroup(
-                StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
-                StringUtils.substringAfterLast(groupIdByVersion, "/"));
-            break;
-        case REMOVE:
-            proviewHandler.removeGroup(
-                StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
-                StringUtils.substringAfterLast(groupIdByVersion, "/"));
-            break;
-        case DELETE:
-            proviewHandler.deleteGroup(
-                StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
-                StringUtils.substringAfterLast(groupIdByVersion, "/"));
-            break;
+            case PROMOTE:
+                proviewHandler.promoteGroup(
+                    StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
+                    StringUtils.substringAfterLast(groupIdByVersion, "/"));
+                break;
+            case REMOVE:
+                proviewHandler.removeGroup(
+                    StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
+                    StringUtils.substringAfterLast(groupIdByVersion, "/"));
+                break;
+            case DELETE:
+                proviewHandler.deleteGroup(
+                    StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
+                    StringUtils.substringAfterLast(groupIdByVersion, "/"));
+                break;
+            default:
+                throw new ProviewException(String.format("Unexpected operation on group. Name of the operation: %s",
+                    operation));
         }
     }
 
     protected void deleteTitleWithRetryLogic(final String title, final String version) throws ProviewException {
         boolean retryRequest = true;
-        int baseRetryInterval = 15; // in milliseconds
+        int baseRetryInterval = 15; // in seconds
         int retryCount = 0;
         do {
             retryRequest = !proviewHandler.deleteTitle(title, new Version(version));
@@ -830,10 +833,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
                 retryCount++;
                 try {
                     TimeUnit.SECONDS.sleep(baseRetryInterval);
-                    // increment by 15 milliseconds every time
+                    // increment by 15 seconds every time
                     baseRetryInterval = baseRetryInterval + 15;
                 } catch (final InterruptedException e) {
                     log.error("InterruptedException during HTTP retry", e);
+                    Thread.currentThread().interrupt();
                 }
             }
         } while (retryRequest && retryCount < getMaxNumberOfRetries());
@@ -853,7 +857,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     }
 
     public int getMaxNumberOfRetries() {
-        return maxNumberOfRetries;
+        return MAX_NUMBER_OF_RETRIES;
     }
 
     private void updateGroupTitlesLatestUpdateDates(final Collection<ProviewGroupContainer> proviewGroupContainers,
@@ -879,21 +883,19 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         Optional.ofNullable(groups)
             .map(Collection::stream)
             .orElseGet(Stream::empty)
-            .forEach(proviewGroup -> {
-                getProviewGroupTitleIds(proviewGroup).stream()
-                    .map(latestUpdateDates::get)
-                    .filter(Objects::nonNull)
-                    .max(Comparator.naturalOrder())
-                    .map(date -> DateFormatUtils.format(date, "yyyyMMdd"))
-                    .ifPresent(proviewGroup::setLatestUpdateDate);
-            });
+            .forEach(proviewGroup -> getProviewGroupTitleIds(proviewGroup).stream()
+                .map(latestUpdateDates::get)
+                .filter(Objects::nonNull)
+                .max(Comparator.naturalOrder())
+                .map(date -> DateFormatUtils.format(date, "yyyyMMdd"))
+                .ifPresent(proviewGroup::setLatestUpdateDate));
     }
 
     private Set<String> getProviewGroupTitleIds(final ProviewGroup proviewGroup) {
         return Optional.ofNullable(proviewGroup.getSubgroupInfoList())
             .map(Collection::stream)
             .orElseGet(Stream::empty)
-            .flatMap(Subgroup -> Subgroup.getTitleIdList().stream())
+            .flatMap(subgroup -> subgroup.getTitleIdList().stream())
             .collect(Collectors.toSet());
     }
 }
