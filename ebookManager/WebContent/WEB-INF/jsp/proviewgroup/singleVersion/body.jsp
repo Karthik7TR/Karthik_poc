@@ -247,6 +247,7 @@ function submitGroupForm(command) {
 	<div class="buttons">
 		<input id="promoteButton" type="button" ${disableButtons} value="Promote to Final" onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
 		<input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
+		<input id="returnToListButton" type="button" onclick="location.href='<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>?<%=WebConstants.KEY_GROUP_IDS%>=${proviewGroupID}';" value="Return to list"/>
 	</div>
 
 	<c:if test="${pilotBookStatus == pilotInProgress}">

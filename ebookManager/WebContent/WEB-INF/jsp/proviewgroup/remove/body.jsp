@@ -117,7 +117,7 @@
 		
 		<div class="buttons">
 			<input id="RemoveButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if> value="Remove" onclick="submitRemove()"/>
-			<input id="cancelButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
+			<input id="returnToGroupVersionButton" type="button" onclick="location.href='<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Return to Group Version"/>
 		</div>
 		
 		<%-- Informational Messages area --%>
