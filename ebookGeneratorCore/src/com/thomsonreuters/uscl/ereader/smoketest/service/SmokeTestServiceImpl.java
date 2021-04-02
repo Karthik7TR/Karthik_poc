@@ -46,6 +46,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
 
     private static final String NOVUS_CLIENT_TEST_DOC_ID = "I41077696b67411d9947c9ea867b7826a";
     private static final int TIME_OUT = 3000; // In milliseconds
+    private static final int TIME_OUT_SMTP = 5000;
     private static final String PROJECTS_PATTERN = "eBook";
     private static final String OLD_VERSION_PATTERN = "_X";
     private static final String APPLICATION_LIST_COMMAND = "cd /appserver/tomcat && ls";
@@ -225,7 +226,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     }
 
     private SmokeTest testSMTPStatus() {
-        final SmokeTest smokeTest = getServerStatus(smtpHost);
+        final SmokeTest smokeTest = getServerStatus(smtpHost, TIME_OUT_SMTP);
         smokeTest.setName("SMTP");
         smokeTest.setAddress(smtpHost);
         return smokeTest;
@@ -245,12 +246,16 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     }
 
     private SmokeTest getServerStatus(final String serverName) {
+        return getServerStatus(serverName, TIME_OUT);
+    }
+
+    private SmokeTest getServerStatus(final String serverName, final int timeOut) {
         final SmokeTest serverStatus = new SmokeTest();
         try {
             final InetAddress address = InetAddress.getByName(serverName);
             serverStatus.setName(address.getHostName());
             serverStatus.setAddress(address.getHostAddress());
-            serverStatus.setIsRunning(address.isReachable(TIME_OUT));
+            serverStatus.setIsRunning(address.isReachable(timeOut));
         } catch (final UnknownHostException e) {
             LOG.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
