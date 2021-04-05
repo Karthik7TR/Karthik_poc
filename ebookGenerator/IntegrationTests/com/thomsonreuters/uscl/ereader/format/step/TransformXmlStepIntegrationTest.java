@@ -77,6 +77,13 @@ public final class TransformXmlStepIntegrationTest {
     }
 
     @Test
+    public void shouldTransformFootnotes() throws Exception {
+        setDocMetadataParams(COLLECTION_NAME, DOC_TYPE);
+        step.getBookDefinition().setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
+        runner.test(step, "tableFootnotesTest");
+    }
+
+    @Test
     public void shouldTransformMetadata() throws Exception {
         setDocMetadataParams(COLLECTION_NAME, DOC_TYPE);
         step.getBookDefinition().setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
