@@ -327,8 +327,8 @@ table.cw_fixed_table {\
 \/* </EB-3113> */\
 \
 \/* <EB-3284 cw table text position fix> */\
-table.co_borderedTable td.cw_padding_left_24 {\
-  padding-left: 24px;\
+table.co_borderedTable td.cw_text_indent_0 {\
+  text-indent: 0;\
 }\
 \/* </EB-3284> */\
 \

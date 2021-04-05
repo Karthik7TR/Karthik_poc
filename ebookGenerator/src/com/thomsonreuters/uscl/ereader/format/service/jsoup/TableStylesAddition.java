@@ -14,7 +14,7 @@ public class TableStylesAddition implements JsoupTransformation {
     private static final String TH = "th";
     private static final String TD = "td";
     private static final String CW_PADDING_4 = "cw_padding_4";
-    private static final String CW_PADDING_LEFT_24 = "cw_padding_left_24";
+    private static final String CW_TEXT_INDENT_0 = "cw_text_indent_0";
 
     @Override
     public void transform(final File file, final Document document, final BookStep bookStep) {
@@ -24,7 +24,7 @@ public class TableStylesAddition implements JsoupTransformation {
                 table.addClass(CW_FIXED_TABLE);
                 table.select(TH).addClass(CW_PADDING_4);
                 table.select(TD).addClass(CW_PADDING_4)
-                        .addClass(CW_PADDING_LEFT_24);
+                        .addClass(CW_TEXT_INDENT_0);
             });
         }
     }
