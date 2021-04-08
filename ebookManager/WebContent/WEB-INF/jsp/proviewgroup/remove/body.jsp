@@ -11,6 +11,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
+	<script type="text/javascript" src="js/buttons.js"></script>
 	<script type="text/javascript">
 		
 		function submitForm(){
@@ -20,13 +21,13 @@
 		}
 		
 		function submitRemove(){
-			var confirmed = confirm("Are you sure to Remove?");
+			const confirmed = confirm("Are you sure to Remove?");
 			if (confirmed){
+				disableAndGrayOutButton($('#RemoveButton'));
 				submitForm();
 			}
 			return confirmed;
 		}
-		
 	</script>
 	<style>
 		/* fuss with the css to make the table pretty */
