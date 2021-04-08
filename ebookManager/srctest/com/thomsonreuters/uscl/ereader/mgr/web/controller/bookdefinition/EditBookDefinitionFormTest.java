@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,20 +41,22 @@ public final class EditBookDefinitionFormTest {
         "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"},"
        + "{\"printComponentId\":\"2\",\"componentOrder\":2,\"materialNumber\":\"234\",\"componentName\":\"" + COMPONENT_NAME_ESCAPED + "\"},"
        + "{\"printComponentId\":\"3\",\"componentOrder\":3,\"materialNumber\":\"345\",\"componentName\":\"" + COMPONENT_NAME_CROSS_SITE_INJECTION_ATTEMPT + "\"}]";
+    private static final String USCL_TITLE_ID = "uscl/an/title_id";
+    private static final String USCL_TITLE_ID_WITH_LANG = "uscl/an/title_id_en";
+    private static final String CW_TITLE_ID = "cw/eg/title_id_fr";
+    private static final String BOOK_LANG_FR = "fr";
+    private static final String USCL_PUB_INFO_WITH_LANG = "title_id_en";
+    private static final String CW_PUB_INFO = "title_id";
 
     private EditBookDefinitionForm form;
 
-    private String titleId = "test/test/titleId";
     private List<Author> authorInfo;
     private List<PilotBook> pilotBookInfo;
     private EbookName frontMatterTitle;
     private EbookName frontMatterSubtitle;
     private EbookName frontMatterSeries;
     private List<FrontMatterPage> frontMatters;
-    // private List<ExcludeDocument> excludeDocuments;
-    // private List<ExcludeDocument> excludeDocumentsCopy;
     private List<SplitDocument> splitDocuments;
-    // private List<RenameTocEntry> renameTocEntries;
     private List<TableViewer> tableViewers;
     private List<DocumentCopyright> documentCopyrights;
     private List<DocumentCurrency> documentCurrencies;
@@ -69,10 +72,7 @@ public final class EditBookDefinitionFormTest {
         frontMatterSubtitle = new EbookName();
         frontMatterSeries = new EbookName();
         frontMatters = new ArrayList<>();
-        // excludeDocuments = new ArrayList<ExcludeDocument>();
-        // excludeDocumentsCopy = new ArrayList<ExcludeDocument>();
         splitDocuments = new ArrayList<>();
-        // renameTocEntries = new ArrayList<RenameTocEntry>();
         tableViewers = new ArrayList<>();
         documentCopyrights = new ArrayList<>();
         documentCurrencies = new ArrayList<>();
@@ -95,11 +95,7 @@ public final class EditBookDefinitionFormTest {
         final List<FrontMatterSection> sections = new ArrayList<>();
         sections.add(section);
         page.setFrontMatterSections(sections);
-        // ExcludeDocument exclude = new ExcludeDocument();
-        // excludeDocuments.add(exclude);
-        // excludeDocumentsCopy.add(exclude);
         final SplitDocument doc = new SplitDocument();
-        // RenameTocEntry entry = new RenameTocEntry();
         final TableViewer viewer = new TableViewer();
         final DocumentCopyright copyright = new DocumentCopyright();
         final DocumentCurrency currency = new DocumentCurrency();
@@ -109,7 +105,7 @@ public final class EditBookDefinitionFormTest {
         final Long noneKeywordId = -1L;
         final NortFileLocation location = new NortFileLocation();
 
-        form.setTitleId(titleId);
+        form.setTitleId(USCL_TITLE_ID);
         form.setAuthorInfo(authorInfo);
         authorInfo.add(author);
         form.setPilotBookInfo(pilotBookInfo);
@@ -124,8 +120,6 @@ public final class EditBookDefinitionFormTest {
         frontMatters.add(page);
         form.setSplitDocuments(splitDocuments);
         splitDocuments.add(doc);
-        // form.setRenameTocEntries(renameTocEntries);
-        // renameTocEntries.add(entry);
         form.setTableViewers(tableViewers);
         form.setTableViewersCopy(tableViewers);
         tableViewers.add(viewer);
@@ -171,26 +165,41 @@ public final class EditBookDefinitionFormTest {
     }
 
     @Test
-    public void testCopyBookDefinition() {
-        final DocumentTypeCode documentTypeCodes = new DocumentTypeCode();
-        documentTypeCodes.setName("");
-
-        final BookDefinition book = new BookDefinition();
-        book.setFullyQualifiedTitleId(titleId);
-        book.setKeyciteToplineFlag(true);
-        book.setAutoUpdateSupportFlag(true);
-        book.setSearchIndexFlag(true);
-        book.setIsAuthorDisplayVertical(true);
-        book.setEnableCopyFeatureFlag(true);
-        book.setIsSplitBook(false);
-        book.setIsSplitTypeAuto(false);
-        book.setDocumentTypeCodes(documentTypeCodes);
-
+    public void testCopyUsclBookDefinition() {
+        final BookDefinition book = createBookDefinition(USCL_TITLE_ID);
         final List<KeywordTypeCode> keywordCodes = new ArrayList<>();
 
         form.copyBookDefinition(book, keywordCodes);
+
         Assert.assertTrue(form.toString().length() > 0);
         Assert.assertTrue(form.isSplitTypeAuto());
+        Assert.assertNull(form.getBookLanguage());
+    }
+
+    @Test
+    public void testCopyUsclBookDefinitionWithLanguageInTitleId() {
+        final BookDefinition book = createBookDefinition(USCL_TITLE_ID_WITH_LANG);
+        final List<KeywordTypeCode> keywordCodes = new ArrayList<>();
+
+        form.copyBookDefinition(book, keywordCodes);
+
+        Assert.assertTrue(form.toString().length() > 0);
+        Assert.assertTrue(form.isSplitTypeAuto());
+        Assert.assertNull(form.getBookLanguage());
+        Assert.assertEquals(USCL_PUB_INFO_WITH_LANG, form.getPubInfo());
+    }
+
+    @Test
+    public void testCopyCwBookDefinition() {
+        final BookDefinition book = createBookDefinition(CW_TITLE_ID);
+        final List<KeywordTypeCode> keywordCodes = new ArrayList<>();
+
+        form.copyBookDefinition(book, keywordCodes);
+
+        Assert.assertTrue(form.toString().length() > 0);
+        Assert.assertTrue(form.isSplitTypeAuto());
+        Assert.assertEquals(BOOK_LANG_FR, form.getBookLanguage());
+        Assert.assertEquals(CW_PUB_INFO, form.getPubInfo());
     }
 
     @Test
@@ -232,5 +241,25 @@ public final class EditBookDefinitionFormTest {
     @Test
     public void defaultNotesOfDecisionsValue() {
         assertTrue(form.isIncludeNotesOfDecisions());
+    }
+
+    private BookDefinition createBookDefinition(final String titleId) {
+        final BookDefinition book = new BookDefinition();
+        book.setFullyQualifiedTitleId(titleId);
+        book.setKeyciteToplineFlag(true);
+        book.setAutoUpdateSupportFlag(true);
+        book.setSearchIndexFlag(true);
+        book.setIsAuthorDisplayVertical(true);
+        book.setEnableCopyFeatureFlag(true);
+        book.setIsSplitBook(false);
+        book.setIsSplitTypeAuto(false);
+        book.setDocumentTypeCodes(getEmptyDocumentTypeCode());
+        return book;
+    }
+
+    private DocumentTypeCode getEmptyDocumentTypeCode() {
+        final DocumentTypeCode documentTypeCode = new DocumentTypeCode();
+        documentTypeCode.setName(StringUtils.EMPTY);
+        return documentTypeCode;
     }
 }

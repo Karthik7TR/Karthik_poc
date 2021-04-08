@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,6 +69,8 @@ public class EditBookDefinitionForm {
     private static final int PUBLISHER_INDEX = 0;
     private static final int PRODUCT_CODE_INDEX = 1;
     private static final int TITLE_NAME_INDEX = 2;
+    private static final String SLASH = "/";
+    private static final String UNDERSCORE = "_";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final UuidGenerator UUID_GENERATOR = new UuidGenerator();
 
@@ -665,8 +668,8 @@ public class EditBookDefinitionForm {
         contentTypeId = documentType.getId();
 
         // Parse titleId
-        final String[] fullyqualifiedtitleArray = titleId.split("/");
-        final String[] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
+        final String[] fullyqualifiedtitleArray = titleId.split(SLASH);
+        final String[] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split(UNDERSCORE);
 
         publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
 
@@ -683,8 +686,26 @@ public class EditBookDefinitionForm {
         } else {
             productCode = fullyqualifiedtitleArray[PRODUCT_CODE_INDEX];
             pubInfo = createPubInfo(documentType, titleIdArray);
+            if (book.isCwBook()) {
+                removeBookLanguageFromPubInfo(titleIdArray);
+            }
         }
     }
+
+    private void removeBookLanguageFromPubInfo(final String[] titleIdArray) {
+        String lastPartOfTitleId = titleIdArray[titleIdArray.length - 1];
+        if (isBookLanguageInTitleId(lastPartOfTitleId)) {
+            bookLanguage = lastPartOfTitleId;
+            pubInfo = pubInfo.substring(0, pubInfo.lastIndexOf(UNDERSCORE));
+        }
+    }
+
+    private boolean isBookLanguageInTitleId(final String lastPartOfTitleId) {
+        return Arrays.stream(BookLanguage.values())
+                .map(BookLanguage::getBookLanguage)
+                .anyMatch(bookLanguage -> bookLanguage.equals(lastPartOfTitleId));
+    }
+
 
     private String createPubInfo(final DocumentTypeCode documentType, final String[] titleId) {
         Stream<String> titleIdParts = Stream.of(titleId);
@@ -697,7 +718,7 @@ public class EditBookDefinitionForm {
             titleIdParts = titleIdParts.skip(1);
         }
 
-        return titleIdParts.collect(Collectors.joining("_"));
+        return titleIdParts.collect(Collectors.joining(UNDERSCORE));
     }
 
     public String getPrintComponents() throws JsonProcessingException {
@@ -723,11 +744,11 @@ public class EditBookDefinitionForm {
     }
 
     public String createCoverImageName() {
-        return String.format("%s_%s.%s", titleId.replaceAll("/", "_"), "cover", "png");
+        return String.format("%s_%s.%s", titleId.replaceAll(SLASH, UNDERSCORE), "cover", "png");
     }
 
     public String createPilotBookCsvName() {
-        return String.format("%s.%s", titleId.replaceAll("/", "_"), "csv");
+        return String.format("%s.%s", titleId.replaceAll(SLASH, UNDERSCORE), "csv");
     }
 
     public void removeEmptyRows() {
