@@ -188,7 +188,7 @@ $(function() {
 		var pubInfo = "";
 		var jurisdiction = "";
 		var productCode = "";
-		var bookLanguage = "en";
+		var bookLanguage = $('#bookLanguage').val();
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
 		var updateTitleId = function() {
