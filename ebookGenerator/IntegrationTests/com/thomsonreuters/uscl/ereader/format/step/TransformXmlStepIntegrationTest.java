@@ -78,6 +78,7 @@ public final class TransformXmlStepIntegrationTest {
 
     @Test
     public void shouldTransformFootnotes() throws Exception {
+        whenJobExecutionPropertyInt(step.getJobExecutionContext(), JobExecutionKey.EBOOK_STATS_DOC_COUNT, 2);
         setDocMetadataParams(COLLECTION_NAME, DOC_TYPE);
         step.getBookDefinition().setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
         runner.test(step, "tableFootnotesTest");

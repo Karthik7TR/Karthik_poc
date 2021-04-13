@@ -113,3 +113,14 @@ XPath="/Document/n-metadata/metadata.block/md.subjects/md.subject/md.doctype.nam
 XPathValue="3A"
 />
 </CollectionGroup>
+<CollectionGroup CollectionName="w_wlnv_test3" SubgroupName="w_wlnv_test3 3A" ContentTypeName="Analytical Treatise - other Commentary" TocCollectionName="w_wlnv_testtoc2" IsVersionedToc="N">
+</CollectionGroup>
+<CollectionGroup CollectionName="crsw_phxtreatise" SubgroupName="crsw_phxtreatise 3A" ContentTypeName="Analytical Treatise - other Commentary" TocCollectionName="w_wlnv_testtoc2" IsVersionedToc="N">
+<Attribute XPath="/Document/n-metadata/metadata.block/md.subjects/md.subject/md.doctype.name" XPathValue="3A"/>
+</CollectionGroup>
+<CollectionGroup CollectionName="crsw_phxtreatise" ContentTypeName="Analytical Treatise - other Commentary">
+<Attribute XPathValue="12D+3"/>
+</CollectionGroup>
+<CollectionGroup CollectionName="crsw_artcoa" ContentTypeName="Analytical Treatise - other Commentary">
+<Attribute XPathValue="2H"/>
+</CollectionGroup>

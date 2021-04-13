@@ -326,6 +326,12 @@ table.cw_fixed_table {\
 }\
 \/* </EB-3113> */\
 \
+\/* <EB-3443 truncated text in table PDF fix> */\
+table.cw_fixed_table td, table.cw_fixed_table th {\
+  word-break: break-all;\
+}\
+\/* </EB-3443> */\
+\
 \/* <EB-3284 cw table text position fix> */\
 table.co_borderedTable td.cw_text_indent_0 {\
   text-indent: 0;\
@@ -399,5 +405,22 @@ sed -i 's/<\/xsl:stylesheet>/\
 <!-- <\/updateStyleSheet.sh> -->\
 &/g' WestlawNext/DefaultProductView/ContentTypes/CodesStatutes.xsl
 
+echo "**************Remove conflicted files**********" >> log.txt
+rm -r WestlawNext/DefaultProductView/Universal/Table
+
+echo "**************Comment styles in document.css**********" >> log.txt
+perl -i -p0e 's/(\.co_commentaryEnhancement #co_footnoteSection \.co_footnoteBody .*?})/\/*<updateStyleSheet\.sh>\n$1*\//s' document.css
+
+echo "**************Resolve issue with table footnotes**********" >> log.txt
+
+sed -i 's/<xsl:when test="not(ancestor::tbl) and \/Document\/\/tbl\[descendant-or-self::text() = concat('"'"'\[FN'"'"', $refNumberText, '"'"'\]'"'"')\]">/<!-- <updateStyleSheet.sh> -->\
+\t\t\t\t\t\t<xsl:when test="not(ancestor::tbl) and \/Document\/\/tbl\[descendant-or-self::text()\[contains(., concat('"'"'\[FN'"'"', $refNumberText, '"'"'\]'"'"'))\]\]">/g' Platform/ContentBlocks/Footnotes/Footnotes_Base.xsl
+
+sed -i 's/<xsl:variable name="tableFootnote" select="\/Document\/\/tbl\[descendant-or-self::text() = concat('"'"'\[FN'"'"', $refNumberText, '"'"'\]'"'"')\]">/<xsl:variable name="tableFootnote" select="\/Document\/\/tbl[descendant-or-self::text()\[contains(., concat('"'"'\[FN'"'"', $refNumberText, '"'"'\]'"'"'))\]\]">/g' Platform/ContentBlocks/Footnotes/Footnotes_Base.xsl
+
+sed -i 's/<a id="{$footnoteLinkPrefix}{concat($tableIdPrefix, translate($refNumberText,'"'"'\*'"'"','"'"'s'"'"'))}" href="#{$tableFootnoteReferenceLinkPrefix}{concat($tableIdPrefix, translate($refNumberText,'"'"'\*'"'"','"'"'s'"'"'))}">/<xsl:attribute name="id">\
+\t\t\t\t\t\t\t\t<xsl:value-of select="concat($footnoteLinkPrefix, concat($tableIdPrefix, translate($refNumberText, '"'"'\*'"'"', '"'"'s'"'"')))" \/>\
+\t\t\t\t\t\t\t<\/xsl:attribute>\
+\t\t\t\t\t\t\t<a href="#{$tableFootnoteReferenceLinkPrefix}{concat($tableIdPrefix, translate($refNumberText,'"'"'\*'"'"','"'"'s'"'"'))}">/g' Platform/ContentBlocks/Footnotes/Footnotes_Base.xsl
 
 echo "**************Done**********" >> log.txt
