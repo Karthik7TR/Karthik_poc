@@ -7,6 +7,24 @@ Defaults:
   ServiceName: "TEN-Acct-Id"  # FIXME  Same as your GroupName.  Outside this dojo, this would be the actual service name you are deploying.
   EnvironmentType: DEVELOPMENT # Mandatory.
   ResourceOwner: firstname.lastname@tr.com  # Mandatory FIXME Your email
+
+  # Uncomment this if using the `discover-infra-outputs` pre-deploy lambda.
+  # Validation happens before pre-deploy Lambdas.  Since we fill out some of our
+  # deployspec using pre-deploy Lambdas, this will cause validation to fail.
+  # Validation: false
+  PreDeployLambdas:
+    # The below `discover-infra-outputs` Lambda is used to update this deployspec
+    # with those items that are created using Cloud IaC such as the ListenerARN, IAM Role, etc.
+    # It is commented out by default so that you can get hands-on experience to see how infrastructure and Cumulus deploys are linked together.
+    # If you enable this, be sure to uncomment `Validation` above.
+    # - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-discover-infra-outputs
+    - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-empty-pre-deploy-lambda
+      InputLocation: dojo/extra/lambda_input.yaml
+  PostDeployLambdas:
+    - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-my-post-deploy-lambda
+  FinallyLambdas:
+    - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-my-finally-lambda
+
   DeployerParameters:  # Required: Parameters specific to the blue/green deployer.
 #    AutoApprove: True
 
