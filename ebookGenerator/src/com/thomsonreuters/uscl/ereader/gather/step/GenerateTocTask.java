@@ -343,8 +343,8 @@ public class GenerateTocTask extends AbstractSbTasklet {
             "eBook user Notification for title \"%s\", job: %s, Empty Nodes Removed",
             title,
             jobInstanceId.toString());
-        final String emailBody =
-            "Attached is the file of empty nodes removed and/or bad \"no WL pubtag\" from the TOC in this book. Format is comma seperated list of NORT guids and label.";
+        final String emailBody = String.format("Attached is the file of empty nodes removed and/or bad \"no WL pubtag\" from the TOC in this book. Format is comma seperated list of NORT guids and label. Environment: %s",
+                envName);
         LOG.debug("Notification email recipients : " + emailRecipients);
         LOG.debug("Notification email subject : " + subject);
         LOG.debug("Notification email body : " + emailBody);
