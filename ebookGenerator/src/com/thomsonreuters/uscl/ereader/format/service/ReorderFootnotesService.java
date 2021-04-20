@@ -46,6 +46,7 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.conv
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.getLabel;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.parents;
+import static java.util.Optional.ofNullable;
 
 @Component
 public class ReorderFootnotesService {
@@ -169,7 +170,7 @@ public class ReorderFootnotesService {
         final Document doc = jsoup.loadDocument(file);
         final String fileUuid = FilenameUtils.removeExtension(file.getName());
         final Element mainSection = doc.selectFirst(SECTION);
-        final Optional<Element> footnotesBlock = Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
+        final Optional<Element> footnotesBlock = ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
         boolean isFirstFile = fileNameEquals(firstFileName, file);
         boolean isLastFile = fileNameEquals(lastFileName, file);
         mainPage.nextDocument();
@@ -230,7 +231,7 @@ public class ReorderFootnotesService {
         for (File file : srcFilesOrdered) {
             final Document doc = jsoup.loadDocument(file);
             final Element mainSection = doc.selectFirst(SECTION);
-            Optional.ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID)).ifPresent(Element::remove);
+            ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID)).ifPresent(Element::remove);
             final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(mainSection);
             for (XmlDeclaration pagebreak : pagebreakEnds) {
                 if (pagebreakPrevious == null) {
@@ -259,7 +260,7 @@ public class ReorderFootnotesService {
     }
 
     private String getSectionLabel(final Optional<Document> xmlDoc) {
-        return xmlDoc.flatMap(document -> Optional.ofNullable(document.getElementsByTag(SECTION_FRONT).first())
+        return xmlDoc.flatMap(document -> ofNullable(document.getElementsByTag(SECTION_FRONT).first())
                 .map(sectionFront -> sectionFront.getElementsByTag(LABEL_DESIGNATOR).first())
                 .map(Element::html))
                 .orElse(null);
@@ -301,16 +302,14 @@ public class ReorderFootnotesService {
         final Document document,
         final String fileUuid,
         final PagePointer pagePointer) {
-        final Optional<File> xmlFile = Optional.ofNullable(nameToXmlFile.get(fileUuid));
+        final Optional<File> xmlFile = ofNullable(nameToXmlFile.get(fileUuid));
         final Optional<Document> xmlDoc = xmlFile.map(file -> jsoup.loadDocument(file));
         String sectionLabel = getSectionLabel(xmlDoc);
         final Optional<Element> footnotesTemplate = xmlDoc.map(doc -> doc.getElementsByTag(FOOTNOTE_BLOCK).first());
 
-        if (footnotesTemplate.isPresent()) {
-            return constructBasedOnTemplate(getFootnotesMap(footnotesBlock), footnotesTemplate.get(), xmlDoc.get(), pagePointer, sectionLabel);
-        } else {
-            return constructBasedOnBlock(footnotesBlock, document, pagePointer, sectionLabel);
-        }
+        return footnotesTemplate
+                .map(element -> constructBasedOnTemplate(getFootnotesMap(footnotesBlock), element, xmlDoc.get(), pagePointer, sectionLabel))
+                .orElseGet(() -> constructBasedOnBlock(footnotesBlock, document, pagePointer, sectionLabel));
     }
 
     private Element constructBasedOnTemplate(
@@ -415,15 +414,23 @@ public class ReorderFootnotesService {
         final Document xmlDoc) {
         final Element authorFootnotes = xmlDoc.getElementsByTag(AUTHOR_FOOTNOTES).first();
         if (authorFootnotes != null) {
-            final Optional<XmlDeclaration> firstPagebreak = getFirstPagebreak(footnotesTemplate);
+            final Node placeholder = getAuthorFootnotePlaceholder(footnotesTemplate);
 
             authorFootnotes.getElementsByTag(FOOTNOTE).stream()
             .sorted(Collections.reverseOrder())
-            .forEach(footnote -> {
-                final String footnoteId = footnote.attr(ID);
-                firstPagebreak.ifPresent(pagebreak -> pagebreak.after(idToFootnote.get(footnoteId)));
-            });
+            .forEach(footnote -> placeholder.after(idToFootnote.get(footnote.attr(ID))));
         }
+    }
+
+    private Node getAuthorFootnotePlaceholder(final Element footnotesTemplate) {
+        return ofNullable((Node) footnotesTemplate.getElementsByClass(SECTION_LABEL_CLASS).first())
+                    .orElseGet(() -> createSectionStartPointer(footnotesTemplate));
+    }
+
+    private Node createSectionStartPointer(final Element footnotesTemplate) {
+        Node text = new TextNode(StringUtils.EMPTY);
+        footnotesTemplate.prependChild(text);
+        return text;
     }
 
     private void convertTopToFootnotesSection(final Element footnotesTemplate) {

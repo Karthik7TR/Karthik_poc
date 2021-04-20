@@ -52,6 +52,7 @@ public class TransformCharSequencesStepIntegrationTest {
     @Test
     @SneakyThrows
     public void shouldRemovePagebreaksFromFootnoteRef() {
+        transformCharSequencesStep.getBookDefinition().setPrintPageNumbers(true);
         runner.test(transformCharSequencesStep, "testRemoveDuplicatedPagebreaks");
     }
 

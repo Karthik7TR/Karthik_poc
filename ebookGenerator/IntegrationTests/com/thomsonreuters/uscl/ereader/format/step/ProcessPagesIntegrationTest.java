@@ -102,6 +102,12 @@ public final class ProcessPagesIntegrationTest {
         runner.test(step, "processLastPageMissingInFootnotes");
     }
 
+    @Test
+    public void shouldProcessAuthorFootnotes() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "processAuthorFootnotes");
+    }
+
     private void setUpDocMetadata(final String resourceTestDir) {
         Set<DocMetadata> docsMetadata = parseDocsMetadata(resourceTestDir);
         DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(docsMetadata);

@@ -9,6 +9,7 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -20,17 +21,23 @@ public class DuplicatedPagebreaksResolver {
     private static final String SECTION = "section";
     private static final String RIGHT_SQUARE_BRACKET = "]";
     private static final String FOOTNOTE_REFERENCE = "footnote.reference";
+    private static final String FOOTNOTE_BLOCK = "footnote.block";
+    private static final String LABEL_DESIGNATOR = "label.designator";
 
     public void fixDuplicatedPagebreaks(final Document document) {
-        Elements pagebreaks = getMainSectionPagebreaks(document);
-        getLabelToPagebreaksMap(pagebreaks).forEach((k, samePagebreaks) -> {
-            Element pagebreakToLeave = choosePagebreakToLeave(samePagebreaks);
-            removeOtherPagebreaks(samePagebreaks, pagebreakToLeave);
+        fixPagebreaksInMain(document);
+        fixPagebreaksInFootnotes(document);
+    }
 
-            if (pagebreakIsInFootnoteReference(pagebreakToLeave)) {
-                extractPagebreakFromFootnoteReference(pagebreakToLeave);
-            }
-        });
+    private void fixPagebreaksInMain(final Document document) {
+        Elements pagebreaks = getMainSectionPagebreaks(document);
+        Map<String, List<Element>> labelToPagebreaks = getLabelToPagebreaksMap(pagebreaks);
+        Collections.reverse(pagebreaks);
+        pagebreaks.stream()
+                .map(PageNumberUtil::getLabelNo)
+                .distinct()
+                .map(labelToPagebreaks::get)
+                .forEach(this::fixSameLabelPagebreaks);
     }
 
     private Elements getMainSectionPagebreaks(final Document document) {
@@ -45,6 +52,15 @@ public class DuplicatedPagebreaksResolver {
                         PageNumberUtil::getLabelNo,
                         Collectors.mapping(Function.identity(), Collectors.toList())
                 ));
+    }
+
+    private void fixSameLabelPagebreaks(final List<Element> samePagebreaks) {
+        Element pagebreakToLeave = choosePagebreakToLeave(samePagebreaks);
+        removeOtherPagebreaks(samePagebreaks, pagebreakToLeave);
+
+        if (pagebreakIsInFootnoteReference(pagebreakToLeave)) {
+            extractPagebreakFromFootnoteReference(pagebreakToLeave);
+        }
     }
 
     private Element choosePagebreakToLeave(final List<Element> samePagebreaks) {
@@ -82,5 +98,14 @@ public class DuplicatedPagebreaksResolver {
 
     private void removeRightSquareBracket(final TextNode textAfter) {
         textAfter.text(textAfter.text().replace(RIGHT_SQUARE_BRACKET, StringUtils.EMPTY));
+    }
+
+    private void fixPagebreaksInFootnotes(final Document document) {
+        document.getElementsByTag(FOOTNOTE_BLOCK).stream()
+                .map(footnote -> footnote.getElementsByTag(LABEL_DESIGNATOR))
+                .flatMap(List::stream)
+                .map(section -> section.getElementsByTag(PageNumberUtil.PAGEBREAK))
+                .flatMap(List::stream)
+                .forEach(Element::remove);
     }
 }

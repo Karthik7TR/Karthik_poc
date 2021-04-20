@@ -59,7 +59,7 @@ public final class XMLContentChangerFilterTest {
         Collections.copy(copyCurrencies, currencies);
         Collections.copy(copyCopyrights, copyrights);
 
-        contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies, true);
+        contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
         contentChangeFilter.setParent(saxParser.getXMLReader());
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -126,7 +126,7 @@ public final class XMLContentChangerFilterTest {
         final String xmlTestStr =
             "<message.block><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><page no=\"i\"/></message.block>";
         final String expectedResult =
-            "<message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open no=\"i\" close-pagebreak}</message.block>";
+            "<message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright><page no=\"i\"/></message.block>";
 
         testHelper(xmlTestStr, expectedResult);
     }
@@ -137,16 +137,8 @@ public final class XMLContentChangerFilterTest {
             "<body><message.block><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><page no=\"i\"/></message.block>"
                 + "<message.block><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></message.block></body>";
         final String expectedResult =
-            "<body><message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright>{pagebreak-open no=\"i\" close-pagebreak}</message.block>"
+            "<body><message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright><page no=\"i\"/></message.block>"
                 + "<message.block><include.currency n-include_guid=\"123456789\">Currency</include.currency></message.block></body>";
-
-        testHelper(xmlTestStr, expectedResult);
-    }
-
-    @Test
-    public void testProtectPagebreaksInAppendix() {
-        final String xmlTestStr = "<appendix><appendix.body><div>Test</div><page no=\"i\"/></appendix.body></appendix>";
-        final String expectedResult = "<appendix><appendix.body><div>Test</div>{pagebreak-open no=\"i\" close-pagebreak}</appendix.body></appendix>";
 
         testHelper(xmlTestStr, expectedResult);
     }
@@ -157,17 +149,6 @@ public final class XMLContentChangerFilterTest {
             "<body><message.block><include.something n-include_guid=\"987654321\">This is a copyright</include.something></message.block>"
                 + "<message.block><include.else n-include_guid=\"123456789\">This is a currency</include.else></message.block></body>";
         final String expectedResult = xmlTestStr;
-
-        testHelper(xmlTestStr, expectedResult);
-    }
-
-    @Test
-    public void testDoNotProtectPagebreaks() {
-        contentChangeFilter.setProtectPagebreaks(false);
-        final String xmlTestStr =
-            "<message.block><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><page no=\"i\"/></message.block>";
-        final String expectedResult =
-            "<message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></message.block>";
 
         testHelper(xmlTestStr, expectedResult);
     }

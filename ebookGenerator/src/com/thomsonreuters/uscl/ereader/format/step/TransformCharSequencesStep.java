@@ -31,7 +31,7 @@ public class TransformCharSequencesStep extends BookStepImpl {
     public ExitStatus executeStep() throws Exception {
         final File srcDir = formatFileSystem.getPreprocessDirectory(this);
         final File destDir = formatFileSystem.getTransformCharSequencesDirectory(this);
-        transformCharSequencesService.transformCharSequences(srcDir, destDir, this.getBookDefinition().isCwBook());
+        transformCharSequencesService.transformCharSequences(srcDir, destDir, this.getBookDefinition().isCwBook(), this.getBookDefinition().isPrintPageNumbers());
         return ExitStatus.COMPLETED;
     }
 }

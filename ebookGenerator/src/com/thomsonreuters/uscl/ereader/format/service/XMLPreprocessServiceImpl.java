@@ -64,8 +64,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         final File targetDir,
         final boolean isFinalStage,
         final List<DocumentCopyright> copyrights,
-        final List<DocumentCurrency> currencies,
-        final boolean protectPagebreaks) throws EBookFormatException {
+        final List<DocumentCurrency> currencies) throws EBookFormatException {
         if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
@@ -104,7 +103,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
 
         int numDocs = 0;
         for (final File xmlFile : xmlFiles) {
-            transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies, protectPagebreaks);
+            transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
             numDocs++;
         }
 
@@ -160,8 +159,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies,
-        final boolean protectPagebreaks) throws EBookFormatException {
+        final List<DocumentCurrency> copyCurrencies) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         try (FileInputStream inStream = new FileInputStream(sourceFile)) {
             try (FileOutputStream outStream = new FileOutputStream(
@@ -171,7 +169,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
                 final SAXParser saxParser = factory.newSAXParser();
 
                 final XMLContentChangerFilter contentChangerFilter =
-                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies, protectPagebreaks);
+                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
                 contentChangerFilter.setParent(saxParser.getXMLReader());
 
                 final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);

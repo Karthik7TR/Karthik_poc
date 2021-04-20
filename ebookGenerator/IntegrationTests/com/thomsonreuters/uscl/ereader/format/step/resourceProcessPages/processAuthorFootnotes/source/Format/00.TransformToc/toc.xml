@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+	<EBookToc>
+		<Name>P.01</Name>
+		<Guid>1</Guid>
+		<DocumentGuid>I849912a24cca11da83dde1bec05fd8ca</DocumentGuid>
+	</EBookToc>
+	<EBookToc>
+		<Name>P.02</Name>
+		<Guid>2</Guid>
+		<DocumentGuid>I849912a54cca11da83dde1bec05fd8ca</DocumentGuid>
+	</EBookToc>
+</EBook>

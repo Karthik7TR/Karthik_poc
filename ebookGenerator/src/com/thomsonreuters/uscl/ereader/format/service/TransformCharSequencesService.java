@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.trgr.cobalt.util.urlbuilder.Container;
 import lombok.SneakyThrows;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,19 +33,20 @@ public class TransformCharSequencesService {
     private DuplicatedPagebreaksResolver duplicatedPagebreaksResolver;
 
     @SneakyThrows
-    public void transformCharSequences(final File srcDir, final File destDir, final boolean isCwBook) {
+    public void transformCharSequences(final File srcDir, final File destDir, final boolean isCwBook, final boolean isPrintPageNumbers) {
         Files.list(srcDir.toPath())
             .filter(Files::isRegularFile)
-            .forEach(path -> transformCharSequencesInFile(path.toFile(), destDir, isCwBook));
+            .forEach(path -> transformCharSequencesInFile(path.toFile(), destDir, isCwBook, isPrintPageNumbers));
     }
 
-    private void transformCharSequencesInFile(final File file, final File destDir, final boolean isCwBook ) {
+    private void transformCharSequencesInFile(final File file, final File destDir, final boolean isCwBook, final boolean shouldProtectPagebreaks) {
         final Document document = jsoup.loadDocument(file);
         document.outputSettings().prettyPrint(false);
         transformDoubleHyphensIntoEmDashesInDocument(document);
         transformBulletsInDocument(document);
         addContainerAttributeToCiteQuery(document, isCwBook);
         duplicatedPagebreaksResolver.fixDuplicatedPagebreaks(document);
+        protectPagebreaks(document, shouldProtectPagebreaks);
         jsoup.saveDocument(destDir, file.getName(), document);
     }
 
@@ -59,5 +62,14 @@ public class TransformCharSequencesService {
     private void addContainerAttributeToCiteQuery(final Document document, final boolean isCwBook) {
         final String container = isCwBook ? CARSWELL_WESTLAW_CONTAINER : Container.COBALT.name();
         document.getElementsByTag(CITE_QUERY).forEach(e -> e.attr(URL_BUILDER_CONTAINER_ATTRIBUTE, container));
+    }
+
+    private void protectPagebreaks(final Document document, final boolean shouldProtectPagebreaks) {
+        document.getElementsByTag(PageNumberUtil.PAGEBREAK).forEach(pagebreak -> {
+            if (shouldProtectPagebreaks) {
+                pagebreak.after(new TextNode(PageNumberUtil.protectPagebreak(pagebreak)));
+            }
+            pagebreak.remove();
+        });
     }
 }

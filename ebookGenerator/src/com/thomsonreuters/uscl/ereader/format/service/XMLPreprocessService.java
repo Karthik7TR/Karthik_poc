@@ -33,6 +33,5 @@ public interface XMLPreprocessService {
         File targetDir,
         boolean isFinalStage,
         List<DocumentCopyright> copyrights,
-        List<DocumentCurrency> currencies,
-        boolean protectPagebreaks) throws EBookFormatException;
+        List<DocumentCurrency> currencies) throws EBookFormatException;
 }

@@ -9,11 +9,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.LABEL_NO;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_CLOSE;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK_WRAPPER_OPEN;
-
 /**
  * Filter that handles various content changes
  *
@@ -22,13 +17,6 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGE
 public class XMLContentChangerFilter extends XMLFilterImpl {
     private static final String GUID_ATTR = "n-include_guid";
     private static final String CURRENCY_TAG = "include.currency";
-    private static final String SECTION = "section";
-    private static final String FOOTNOTE_BODY = "footnote.body";
-    private static final String APPENDIX_BODY = "appendix.body";
-    private static final String CONTENT_METADATA_BLOCK = "content.metadata.block";
-    private static final String PROP_BLOCK = "prop.block";
-    private static final String MESSAGE_BLOCK = "message.block";
-    private static final String INDEX = "index";
     private static final String CTBL_PI = "ctbl";
     private boolean isChanging;
     private List<DocumentCopyright> copyrights;
@@ -38,22 +26,16 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
     private List<DocumentCurrency> currencies;
     private List<DocumentCurrency> copyCurrencies;
 
-    @Setter
-    private boolean protectPagebreaks;
-    private boolean canSavePagebreaks;
-
     public XMLContentChangerFilter(
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies,
-        final boolean protectPagebreaks) {
+        final List<DocumentCurrency> copyCurrencies) {
         super();
         this.copyrights = copyrights;
         this.copyCopyrights = copyCopyrights;
         this.currencies = currencies;
         this.copyCurrencies = copyCurrencies;
-        this.protectPagebreaks = protectPagebreaks;
     }
 
     @Override
@@ -82,12 +64,6 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
                     replaceMessageElement(uri, localName, qName, atts, copyright.getNewText());
                 }
             }
-        } else if (qName.equals(SECTION) || qName.equals(FOOTNOTE_BODY) || qName.equals(APPENDIX_BODY) || qName.equals(INDEX)
-                || qName.equals(CONTENT_METADATA_BLOCK) || qName.equals(PROP_BLOCK) || qName.equals(MESSAGE_BLOCK)) {
-            canSavePagebreaks = true;
-        } else if (qName.equals(PAGEBREAK)) {
-            isChanging = true;
-            protectPagebreak(atts);
         }
         // Only use current element is it is not changing
         if (!isChanging) {
@@ -115,25 +91,10 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
 
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        if (qName.equals(SECTION) || qName.equals(FOOTNOTE_BODY) || qName.equals(APPENDIX_BODY) || qName.equals(INDEX)
-                || qName.equals(CONTENT_METADATA_BLOCK) || qName.equals(PROP_BLOCK) || qName.equals(MESSAGE_BLOCK)) {
-            canSavePagebreaks = false;
-        }
         if (isChanging) {
             isChanging = false;
         } else {
             super.endElement(uri, localName, qName);
         }
-    }
-
-    private void protectPagebreak(final Attributes atts) throws SAXException {
-        if (protectPagebreaks && canSavePagebreaks) {
-            final String message = wrapPagebreak(atts.getValue(LABEL_NO));
-            super.characters(message.toCharArray(), 0, message.length());
-        }
-    }
-
-    private String wrapPagebreak(final String pageNumber) {
-        return PAGEBREAK_WRAPPER_OPEN + LABEL_NO + "=\"" + pageNumber + "\"" + PAGEBREAK_WRAPPER_CLOSE;
     }
 }

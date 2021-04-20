@@ -29,6 +29,8 @@
 				p8<page no="p8"/>
 				
 				p9<footnote.reference refid="I01a2f010680911e88f4a9c1f64101009">9<page no="p9"/></footnote.reference>
+				
+				p10, p11[<footnote.reference refid="I01a2f010680911e88f4a9c1f64101010">10<page no="p10"/><page no="p11"/></footnote.reference>]
 			</section.body>
 		</section>
 		<footnote.block>
@@ -110,6 +112,14 @@
 				<label.designator>9</label.designator>
 				<footnote.body>
 						p9<page no="p9"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101010">
+				<label.designator>10<page no="p10"/><page no="p11"/></label.designator>
+				<footnote.body>
+						p10<page no="p10"/><page no="p11"/>
 				</footnote.body>
 			</footnote>
 		</footnote.block>
