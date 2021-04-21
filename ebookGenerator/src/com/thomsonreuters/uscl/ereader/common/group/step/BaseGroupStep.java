@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetry;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
@@ -38,12 +39,17 @@ public abstract class BaseGroupStep extends BookStepImpl implements GroupStep, S
 
     private void createGroup(final BookDefinition bookDefinition) throws Exception {
         final List<String> splitTitles = bookDefinition.isSplitBook() ? getSplitTitles() : null;
-        final GroupDefinition groupDefinition =
-            groupService.createGroupDefinition(bookDefinition, getBookVersion().getFullVersion(), splitTitles);
-        final GroupDefinition previousGroupDefinition = groupService.getLastGroup(bookDefinition);
-        if (!groupDefinition.isSimilarGroup(previousGroupDefinition)) {
-            groupServiceWithRetry.createGroup(groupDefinition);
-            groupVersion = groupDefinition.getGroupVersion();
+        try {
+            final GroupDefinition groupDefinition =
+                    groupService.createGroupDefinition(bookDefinition, getBookVersion().getFullVersion(), splitTitles);
+            final GroupDefinition previousGroupDefinition = groupService.getLastGroup(bookDefinition);
+            if (!groupDefinition.isSimilarGroup(previousGroupDefinition)) {
+                groupServiceWithRetry.createGroup(groupDefinition);
+                groupVersion = groupDefinition.getGroupVersion();
+            }
+        } catch (Exception e) {
+            setJobExecutionProperty(JobExecutionKey.EXCEPTION_ON_GROUP_STEP_OCCURRED, true);
+            throw e;
         }
     }
 

@@ -163,4 +163,7 @@ public class JobExecutionKey {
     public static final String WITH_INLINE_TOC = "withInlineToc";
     public static final String WITH_INLINE_INDEX = "withInlineIndex";
     public static final String WITH_THESAURUS = "withThesaurus";
+
+    public static final String EXCEPTION_ON_GROUP_STEP_OCCURRED = "exceptionOnGroupStepOccurred";
+
 }
