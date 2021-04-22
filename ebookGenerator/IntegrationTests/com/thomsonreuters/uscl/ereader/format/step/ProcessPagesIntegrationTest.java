@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.CiteQueryService;
+import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksResolver;
 import com.thomsonreuters.uscl.ereader.format.service.InternalLinkResolverService;
 import com.thomsonreuters.uscl.ereader.format.service.LinksResolverService;
 import com.thomsonreuters.uscl.ereader.format.service.ReorderFootnotesService;
@@ -103,9 +104,22 @@ public final class ProcessPagesIntegrationTest {
     }
 
     @Test
+    public void shouldRemovePagebreaksFromLabelDesignator() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "pagebreaksInLabelDesignatorTest");
+    }
+
+    @Test
     public void shouldProcessAuthorFootnotes() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "processAuthorFootnotes");
+    }
+
+
+    @Test
+    public void shouldProcessFootnoteWithoutLabelDesignator() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "absenceLabelDesignatorTest");
     }
 
     private void setUpDocMetadata(final String resourceTestDir) {
@@ -203,6 +217,11 @@ public final class ProcessPagesIntegrationTest {
         @Bean
         public DocMetadataService docMetadataService() {
             return mock(DocMetadataService.class);
+        }
+
+        @Bean
+        public DuplicatedPagebreaksResolver duplicatedPagebreaksResolver() {
+            return new DuplicatedPagebreaksResolver();
         }
     }
 }

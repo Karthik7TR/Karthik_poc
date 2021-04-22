@@ -116,6 +116,9 @@ public class ReorderFootnotesService {
     @Autowired
     private LinksResolverService linksResolverService;
 
+    @Autowired
+    private DuplicatedPagebreaksResolver duplicatedPagebreaksResolver;
+
     private List<File> orderedDocuments(final File gatherToc, final File srcDir) {
         final Map<String, File> nameToSrcFile = getNameFileMap(srcDir);
         return orderedDocumentIds(gatherToc).stream().map(nameToSrcFile::get).collect(Collectors.toList());
@@ -260,8 +263,8 @@ public class ReorderFootnotesService {
     }
 
     private String getSectionLabel(final Optional<Document> xmlDoc) {
-        return xmlDoc.flatMap(document -> ofNullable(document.getElementsByTag(SECTION_FRONT).first())
-                .map(sectionFront -> sectionFront.getElementsByTag(LABEL_DESIGNATOR).first())
+        return xmlDoc.flatMap(document -> ofNullable(getElementByTag(document, SECTION_FRONT))
+                .map(sectionFront -> getElementByTag(sectionFront, LABEL_DESIGNATOR))
                 .map(Element::html))
                 .orElse(null);
     }
@@ -305,7 +308,7 @@ public class ReorderFootnotesService {
         final Optional<File> xmlFile = ofNullable(nameToXmlFile.get(fileUuid));
         final Optional<Document> xmlDoc = xmlFile.map(file -> jsoup.loadDocument(file));
         String sectionLabel = getSectionLabel(xmlDoc);
-        final Optional<Element> footnotesTemplate = xmlDoc.map(doc -> doc.getElementsByTag(FOOTNOTE_BLOCK).first());
+        final Optional<Element> footnotesTemplate = xmlDoc.map(doc -> getElementByTag(doc, FOOTNOTE_BLOCK));
 
         return footnotesTemplate
                 .map(element -> constructBasedOnTemplate(getFootnotesMap(footnotesBlock), element, xmlDoc.get(), pagePointer, sectionLabel))
@@ -318,6 +321,7 @@ public class ReorderFootnotesService {
         final Document xmlDoc,
         final PagePointer pagePointer,
         final String sectionLabel) {
+        removeDuplicatedPagebreaks(footnotesTemplate);
         convertPagebreaksToProviewPbs(footnotesTemplate);
         convertTopToFootnotesSection(footnotesTemplate);
         addSectionLabel(footnotesTemplate, sectionLabel);
@@ -326,6 +330,10 @@ public class ReorderFootnotesService {
         addAuthorFootnotes(idToFootnote, footnotesTemplate, xmlDoc);
 
         return footnotesTemplate;
+    }
+
+    private void removeDuplicatedPagebreaks(final Element footnotesXml) {
+        duplicatedPagebreaksResolver.fixPagebreaksInFootnotes(footnotesXml);
     }
 
     private Element constructBasedOnBlock(final Optional<Element> block, final Document doc, final PagePointer pagePointer, final String sectionLabel) {
@@ -354,18 +362,21 @@ public class ReorderFootnotesService {
     }
 
     private void fillTemplateWithFootnotes(final Map<String, Element> idToFootnote, final Element footnotesTemplate) {
-        footnotesTemplate.getElementsByTag(FOOTNOTE)
-            .forEach(footnote -> {
-                final String footnoteId = footnote.attr(ID);
-
-                Element footnoteHtml = idToFootnote.get(footnoteId);
-
-                Element bodyTemplate = footnote.getElementsByTag(FOOTNOTE_BODY_TAG).first();
-                Element bodyHtml = footnoteHtml.getElementsByClass(FOOTNOTE_BODY).first();
-
-                bodyHtml.replaceWith(convertToHtml(bodyTemplate));
-                footnote.replaceWith(footnoteHtml);
+        footnotesTemplate.getElementsByTag(FOOTNOTE).forEach(footnote -> {
+                Element footnoteHtml = idToFootnote.get(footnote.attr(ID));
+                if (footnoteHtml != null) {
+                    processFootnoteBody(footnote, footnoteHtml);
+                } else {
+                    footnote.remove();
+                }
             });
+    }
+
+    private void processFootnoteBody(final Element footnoteXml, final Element footnoteHtml) {
+        Element bodyXml = getElementByTag(footnoteXml, FOOTNOTE_BODY_TAG);
+        Element bodyHtml = getElementByClass(footnoteHtml, FOOTNOTE_BODY);
+        bodyHtml.replaceWith(convertToHtml(bodyXml));
+        footnoteXml.replaceWith(footnoteHtml);
     }
 
     private Node convertToHtml(final Element element) {
@@ -412,7 +423,7 @@ public class ReorderFootnotesService {
         final Map<String, Element> idToFootnote,
         final Element footnotesTemplate,
         final Document xmlDoc) {
-        final Element authorFootnotes = xmlDoc.getElementsByTag(AUTHOR_FOOTNOTES).first();
+        final Element authorFootnotes = getElementByTag(xmlDoc, AUTHOR_FOOTNOTES);
         if (authorFootnotes != null) {
             final Node placeholder = getAuthorFootnotePlaceholder(footnotesTemplate);
 
@@ -423,7 +434,7 @@ public class ReorderFootnotesService {
     }
 
     private Node getAuthorFootnotePlaceholder(final Element footnotesTemplate) {
-        return ofNullable((Node) footnotesTemplate.getElementsByClass(SECTION_LABEL_CLASS).first())
+        return ofNullable((Node) getElementByClass(footnotesTemplate, SECTION_LABEL_CLASS))
                     .orElseGet(() -> createSectionStartPointer(footnotesTemplate));
     }
 
@@ -841,16 +852,26 @@ public class ReorderFootnotesService {
             .forEach(pagebreak -> pagebreak.replaceWith(convertToProviewPagebreak(pagebreak)));
     }
 
-    private Optional<XmlDeclaration> getFirstPagebreak(final Element footnotesSection) {
-        return getProviewPagebreaks(footnotesSection).stream().findFirst();
-    }
-
     private Elements getPagebreaks(final Element element) {
         return element.getElementsByTag(PAGEBREAK);
     }
 
     private List<XmlDeclaration> getProviewPagebreaks(final Element element) {
         return jsoup.selectXmlProcessingInstructions(element, PB);
+    }
+
+    private Set<String> getPagebreakLabels(final Element element) {
+        return getProviewPagebreaks(element).stream()
+                .map(PageNumberUtil::getLabel)
+                .collect(Collectors.toSet());
+    }
+
+    private Element getElementByTag(final Element parentElement, final String tagName) {
+        return parentElement.getElementsByTag(tagName).first();
+    }
+
+    private Element getElementByClass(final Element parentElement, final String className) {
+        return parentElement.getElementsByClass(className).first();
     }
 
     private void remove(final Element element) {

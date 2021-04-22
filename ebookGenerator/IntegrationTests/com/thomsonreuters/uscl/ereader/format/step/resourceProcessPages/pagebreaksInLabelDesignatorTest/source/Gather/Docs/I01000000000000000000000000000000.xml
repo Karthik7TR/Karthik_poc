@@ -1,0 +1,48 @@
+<n-docbody>
+	<doc bill="Y">
+		<section>
+			<section.body>
+				Main p0<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference>
+				<page no="p01"/>
+				<page no="p02"/>
+				main p1<footnote.reference refid="I01a2f010680911e88f4a9c1f64101002">2</footnote.reference>
+				<page no="p11"/>
+				<page no="p12"/>
+				main p2<footnote.reference refid="I01a2f010680911e88f4a9c1f64101003">3</footnote.reference>
+				<page no="p20"/>
+				<page no="p21"/>
+				<page no="p22"/>
+				main after.
+				<page no="p3"/>
+				<footnote.reference refid="I01a2f010680911e88f4a9c1f64101004">4</footnote.reference>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101001">
+				<label.designator>1<page no="p01"/><page no="p02"/></label.designator>
+				<footnote.body>
+						Ftn p01<page no="p01"/><page no="p02"/>ftn p11
+				</footnote.body>
+			</footnote>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101002">
+				<label.designator>2<page no="p11"/><page no="p12"/></label.designator>
+				<footnote.body>
+					Another ftn p12<page no="p12"/>Ftn p20.
+				</footnote.body>
+			</footnote>
+			<page no="p20"/>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101003">
+				<label.designator>3<page no="p21"/><page no="p22"/></label.designator>
+				<footnote.body>
+						Ftn p3<page no="p3"/>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101004">
+				<label.designator>4<page no="p3"/></label.designator>
+				<footnote.body>
+						Ftn after.
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+	</doc>
+</n-docbody>

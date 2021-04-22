@@ -13,8 +13,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
 
 @Service
 public class DuplicatedPagebreaksResolver {
@@ -26,24 +30,41 @@ public class DuplicatedPagebreaksResolver {
 
     public void fixDuplicatedPagebreaks(final Document document) {
         fixPagebreaksInMain(document);
-        fixPagebreaksInFootnotes(document);
+        removePagebreaksFromLabelDesignatorFootnotes(document);
     }
 
     private void fixPagebreaksInMain(final Document document) {
-        Elements pagebreaks = getMainSectionPagebreaks(document);
+        ofNullable(document.getElementsByTag(SECTION).first()).ifPresent(mainSection ->
+            fixPagebreaks(mainSection, true,
+                    pagebreak -> pagebreakIsInElementToExtract(pagebreak, FOOTNOTE_REFERENCE),
+                    this::extractPagebreakFromFootnoteReference));
+    }
+
+    public void fixPagebreaksInFootnotes(final Element footnotesSection) {
+        fixPagebreaks(footnotesSection, false,
+                pagebreak -> pagebreakIsInElementToExtract(pagebreak, LABEL_DESIGNATOR),
+                this::extractPagebreakFromLabelDesignator);
+    }
+
+    private void fixPagebreaks(final Element section,
+                               final boolean movePagebreaksForward,
+                               final Predicate<Element> isInElementToExtract,
+                               final Consumer<Element> extractor) {
+        Elements pagebreaks = getPagebreaks(section);
         Map<String, List<Element>> labelToPagebreaks = getLabelToPagebreaksMap(pagebreaks);
-        Collections.reverse(pagebreaks);
+
+        if (movePagebreaksForward) {
+            Collections.reverse(pagebreaks);
+        }
         pagebreaks.stream()
                 .map(PageNumberUtil::getLabelNo)
                 .distinct()
                 .map(labelToPagebreaks::get)
-                .forEach(this::fixSameLabelPagebreaks);
+                .forEach(samePagebreaks -> fixSameLabelPagebreaks(samePagebreaks, isInElementToExtract, extractor));
     }
 
-    private Elements getMainSectionPagebreaks(final Document document) {
-        return document.getElementsByTag(SECTION).stream()
-                .map(section -> section.getElementsByTag(PageNumberUtil.PAGEBREAK))
-                .findFirst().orElseGet(Elements::new);
+    private Elements getPagebreaks(final Element section) {
+        return section.getElementsByTag(PageNumberUtil.PAGEBREAK);
     }
 
     private Map<String, List<Element>> getLabelToPagebreaksMap(final Elements pagebreaks) {
@@ -54,18 +75,20 @@ public class DuplicatedPagebreaksResolver {
                 ));
     }
 
-    private void fixSameLabelPagebreaks(final List<Element> samePagebreaks) {
-        Element pagebreakToLeave = choosePagebreakToLeave(samePagebreaks);
+    private void fixSameLabelPagebreaks(final List<Element> samePagebreaks,
+                                        final Predicate<Element> isInElementToExtract,
+                                        final Consumer<Element> extractor) {
+        Element pagebreakToLeave = choosePagebreakToLeave(samePagebreaks, isInElementToExtract);
         removeOtherPagebreaks(samePagebreaks, pagebreakToLeave);
 
-        if (pagebreakIsInFootnoteReference(pagebreakToLeave)) {
-            extractPagebreakFromFootnoteReference(pagebreakToLeave);
+        if (isInElementToExtract.test(pagebreakToLeave)) {
+            extractor.accept(pagebreakToLeave);
         }
     }
 
-    private Element choosePagebreakToLeave(final List<Element> samePagebreaks) {
+    private Element choosePagebreakToLeave(final List<Element> samePagebreaks, final Predicate<Element> isInElementToExtract) {
         return samePagebreaks.stream()
-                .filter(this::pagebreakIsNotInFootnoteReference)
+                .filter(isInElementToExtract.negate())
                 .findFirst().orElseGet(() -> samePagebreaks.iterator().next());
     }
 
@@ -73,12 +96,8 @@ public class DuplicatedPagebreaksResolver {
         samePagebreaks.stream().filter(p -> !Objects.equals(p, pagebreakToLeave)).forEach(Element::remove);
     }
 
-    private boolean pagebreakIsNotInFootnoteReference(final Element pagebreak) {
-        return !pagebreakIsInFootnoteReference(pagebreak);
-    }
-
-    private boolean pagebreakIsInFootnoteReference(final Element pagebreak) {
-        return pagebreak.parent().tagName().equals(FOOTNOTE_REFERENCE);
+    private boolean pagebreakIsInElementToExtract(final Element pagebreak, final String extractTagName) {
+        return pagebreak.parent().tagName().equals(extractTagName);
     }
 
     private void extractPagebreakFromFootnoteReference(final Element pagebreakToLeave) {
@@ -92,6 +111,12 @@ public class DuplicatedPagebreaksResolver {
         }
     }
 
+    private void extractPagebreakFromLabelDesignator(final Element pagebreakToLeave) {
+        Element footnote = pagebreakToLeave.parent().parent();
+        pagebreakToLeave.remove();
+        footnote.before(pagebreakToLeave);
+    }
+
     private boolean startsWithSquareBracket(final Node nextSibling) {
         return nextSibling instanceof TextNode && ((TextNode) nextSibling).text().startsWith(RIGHT_SQUARE_BRACKET);
     }
@@ -100,7 +125,7 @@ public class DuplicatedPagebreaksResolver {
         textAfter.text(textAfter.text().replace(RIGHT_SQUARE_BRACKET, StringUtils.EMPTY));
     }
 
-    private void fixPagebreaksInFootnotes(final Document document) {
+    private void removePagebreaksFromLabelDesignatorFootnotes(final Document document) {
         document.getElementsByTag(FOOTNOTE_BLOCK).stream()
                 .map(footnote -> footnote.getElementsByTag(LABEL_DESIGNATOR))
                 .flatMap(List::stream)
