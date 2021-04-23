@@ -3,38 +3,34 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * This class builds Document data block for document file.
- *
- * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-
 @Slf4j
+@Service("generateDocumentDataBlockService")
 public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDataBlockService {
+    private static final String DATE_FORMAT = "yyyyMMddhhmmss";
+    @Autowired
     private DocMetadataService docMetadataService;
-
-    @Required
-    public void setDocMetadataService(final DocMetadataService docMetadataService) {
-        this.docMetadataService = docMetadataService;
-    }
+    @Autowired
+    private DateProvider dateProvider;
 
     /**
      * Builds document data block using passed in collection,version information.
      * @param versioned
-     * @param guidCollection
-     * @param docGuid
-     * @return
+     * @param collectionName
      *
      */
-    private InputStream buildDocumentDataBlock(final String versioned, final String collectionName, final String cite) {
+    private InputStream buildDocumentDataBlock(final String versioned, final String collectionName) {
         final String currentDate = dateString();
         final StringBuffer documentDataBlocks = new StringBuffer();
         documentDataBlocks.append("<document-data>");
@@ -80,21 +76,15 @@ public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDat
 
         final String collectionName = docMetadata.getCollectionName();
         final String versioned = "False";
-        final String cite = null;
-        final InputStream stringBuffer = buildDocumentDataBlock(versioned, collectionName, cite);
-
-        return stringBuffer;
+        return buildDocumentDataBlock(versioned, collectionName);
     }
 
     /**
-     * Returns data in yyyyddMMhhmmss format.
+     * Returns data in yyyyMMddhhmmss format.
      * @return
      */
     private String dateString() {
-        final Date date = new Date();
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyddMMhhmmss");
-        final String formattedDate = sdf.format(date);
-
-        return formattedDate;
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        return sdf.format(dateProvider.getDate());
     }
 }
