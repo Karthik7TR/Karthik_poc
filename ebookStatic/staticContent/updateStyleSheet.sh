@@ -405,13 +405,13 @@ sed -i 's/<\/xsl:stylesheet>/\
 <!-- <\/updateStyleSheet.sh> -->\
 &/g' WestlawNext/DefaultProductView/ContentTypes/CodesStatutes.xsl
 
-echo "**************Remove conflicted files**********" >> log.txt
+echo "Remove conflicted files" >> log.txt
 rm -r WestlawNext/DefaultProductView/Universal/Table
 
-echo "**************Comment styles in document.css**********" >> log.txt
+echo "Comment styles in document.css" >> log.txt
 perl -i -p0e 's/(\.co_commentaryEnhancement #co_footnoteSection \.co_footnoteBody .*?})/\/*<updateStyleSheet\.sh>\n$1*\//s' document.css
 
-echo "**************Resolve issue with table footnotes**********" >> log.txt
+echo "Resolve issue with table footnotes" >> log.txt
 
 sed -i 's/<xsl:when test="not(ancestor::tbl) and \/Document\/\/tbl\[descendant-or-self::text() = concat('"'"'\[FN'"'"', $refNumberText, '"'"'\]'"'"')\]">/<!-- <updateStyleSheet.sh> -->\
 \t\t\t\t\t\t<xsl:when test="not(ancestor::tbl) and \/Document\/\/tbl\[descendant-or-self::text()\[contains(., concat('"'"'\[FN'"'"', $refNumberText, '"'"'\]'"'"'))\]\]">/g' Platform/ContentBlocks/Footnotes/Footnotes_Base.xsl
@@ -422,5 +422,17 @@ sed -i 's/<a id="{$footnoteLinkPrefix}{concat($tableIdPrefix, translate($refNumb
 \t\t\t\t\t\t\t\t<xsl:value-of select="concat($footnoteLinkPrefix, concat($tableIdPrefix, translate($refNumberText, '"'"'\*'"'"', '"'"'s'"'"')))" \/>\
 \t\t\t\t\t\t\t<\/xsl:attribute>\
 \t\t\t\t\t\t\t<a href="#{$tableFootnoteReferenceLinkPrefix}{concat($tableIdPrefix, translate($refNumberText,'"'"'\*'"'"','"'"'s'"'"'))}">/g' Platform/ContentBlocks/Footnotes/Footnotes_Base.xsl
+
+echo "Resolve issue with embedded hist.note elements" >> log.txt
+
+sed -i 's/<\/li>/&\
+\t\t<!-- <updateStyleSheet.sh> -->\
+\t\t<xsl:apply-templates select="hist.note"\/>\
+\t\t<!-- <\/updateStyleSheet.sh\> -->/' Platform/ContentBlocks/HistoryNotes.xsl
+
+echo "Resolve issue with endnotes" >> log.txt
+
+sed -i 's#and (/Document//footnote.reference/@ID=$updatedFootnoteId#&\
+\t\t\t\t\t\t\t\tor /Document//endnote.reference/@refid=$updatedFootnoteId#' Platform/ContentBlocks/Footnotes/Footnotes_Base.xsl
 
 echo "**************Done**********" >> log.txt
