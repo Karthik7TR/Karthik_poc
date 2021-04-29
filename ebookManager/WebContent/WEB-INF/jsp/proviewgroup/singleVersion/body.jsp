@@ -19,11 +19,26 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 
+<c:set var="promoteButtonCanBeEnabled" value="false"/>
+<sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+	<c:set var="promoteButtonCanBeEnabled" value="true"/>
+</sec:authorize>
+<c:if test="${pilotBookStatus == pilotInProgress}">
+	<c:set var="promoteButtonCanBeEnabled" value="false"/>
+</c:if>
+<c:set var="disableRemoveButtons" value="disabled"/>
+<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+	<c:set var="disableRemoveButtons" value=""/>
+</sec:authorize>
+
 <script src="js/tables.js"></script>
+<script src="js/promote-button.js"></script>
 <script>
 $(document).ready(function() {
 	$('#selectAll').click(function () {
-		$(this).parents('#<%= WebConstants.KEY_GROUP_DETAIL %>').find(':checkbox').prop('checked', this.checked);
+		const checkboxes = $(this).parents('#<%= WebConstants.KEY_GROUP_DETAIL %>').find(':checkbox');
+		checkboxes.prop('checked', this.checked);
+		changePromoteButtonVisibilityAfterSelectAllCheckboxStatusChange(checkboxes, '${promoteButtonCanBeEnabled}');
 	});
 });
 
@@ -145,9 +160,9 @@ function submitGroupForm(command) {
 						<span class="field">${ headTitle }</span>
 	
 	</div>
-	<div class="row" id="groupSatus">
+	<div class="row" id="groupStatus">
 						<label class="labelCol">Group Status:</label>
-						<span class="field">${ groupStatus }</span>
+						<span id="groupStatusValue" class="field">${ groupStatus }</span>
 	
 	</div>	
 	<div class="row" id="groupVersion">
@@ -158,7 +173,8 @@ function submitGroupForm(command) {
 		<c:when test="${resultSize != 0}">
 			<div class="row" id ="groupOp">
 				<form:label path="groupOperation">Group:</form:label>
-				<form:checkbox path="groupOperation" id='groupChecked' value='false'/>
+				<form:checkbox path="groupOperation" id='groupChecked' value='false'
+					onclick="changePromoteButtonVisibilityAfterGroupCheckboxStatusChange(this, '${promoteButtonCanBeEnabled}')"/>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -192,7 +208,8 @@ function submitGroupForm(command) {
 		<display:setProperty name="paging.banner.onepage" value=" " />
 		
 		<display:column title="${selectAllElement}"  style="text-align: center">
-			<form:checkbox path="groupMembers" class="simple-checkbox" value="${groupDetail.idWithVersion}" onclick="updateSelectAll(this)" />
+			<form:checkbox path="groupMembers" class="simple-checkbox" value="${groupDetail.idWithVersion}"
+				onclick="changePromoteButtonVisibilityAfterBookCheckboxStatusChange(this, '${promoteButtonCanBeEnabled}')" />
 		</display:column>
 		<c:choose>
 		
@@ -213,7 +230,7 @@ function submitGroupForm(command) {
 					<table class="displayTagTable">
 						<c:forEach items="${values}" var="value" varStatus="status">
 							<tbody>
-								<tr><td>${ value.status }</td></tr>
+								<tr><td class="bookStatus">${ value.status }</td></tr>
 							</tbody>
 						</c:forEach>
 					</table>
@@ -223,7 +240,7 @@ function submitGroupForm(command) {
 			<c:otherwise>
 				<display:column title="Proview Display Name" property="proviewDisplayName" sortable="true"/>
 				<display:column title="Title ID" property= "titleId" sortable="true"/>
-				<display:column title="Book Status" property="bookStatus" sortable="true"/>
+				<display:column class="bookStatus" title="Book Status" property="bookStatus" sortable="true"/>
 			</c:otherwise>
 			
 		</c:choose>
@@ -232,20 +249,8 @@ function submitGroupForm(command) {
 		<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true" />
 	</display:table>
 	
-	<c:set var="disableButtons" value="disabled"/>
-	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
-		<c:set var="disableButtons" value=""/>
-	</sec:authorize>
-	<c:if test="${pilotBookStatus == pilotInProgress}">
-		<c:set var="disableButtons" value="disabled"/>
-	</c:if>
-	<c:set var="disableRemoveButtons" value="disabled"/>
-	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-		<c:set var="disableRemoveButtons" value=""/>
-	</sec:authorize>
-	
 	<div class="buttons">
-		<input id="promoteButton" type="button" ${disableButtons} value="Promote to Final" onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
+		<input id="promoteButton" type="button" disabled value="Promote to Final" onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
 		<input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
 		<input id="returnToListButton" type="button" onclick="location.href='<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>?<%=WebConstants.KEY_GROUP_IDS%>=${proviewGroupID}';" value="Return to list"/>
 	</div>
