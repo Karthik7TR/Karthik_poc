@@ -21,6 +21,7 @@ import org.springframework.batch.item.ExecutionContext;
 @Slf4j
 @Setter
 public class GeneratorNotificationServiceImpl implements NotificationService {
+    private static final String EMAIL_BODY_FORMAT = "eBook Publishing Failure - %s\nProview Display Name: %s\nEnvironment: %s\nJob Instance ID: %s\nJob Execution ID: %s\n%s";
     private EmailService emailService;
     private EmailUtil emailUtil;
 
@@ -46,7 +47,14 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
             bookDefinition.getProviewDisplayName(),
             jobInstanceId,
             jobExecutionId);
-        final String body = String.format("%s  %n%s", subject, bodyMessage);
+
+        final String body = String.format(EMAIL_BODY_FORMAT,
+                bookDefinition.getFullyQualifiedTitleId(),
+                bookDefinition.getProviewDisplayName(),
+                jobEnvironment,
+                jobInstanceId,
+                jobExecutionId,
+                bodyMessage);
 
         getImageMissingGuidsFileFromContextPath(jobExecutionContext, fileList);
         getImageMissingGuidsFileFromGatherDocsDir(jobExecutionContext, fileList);
