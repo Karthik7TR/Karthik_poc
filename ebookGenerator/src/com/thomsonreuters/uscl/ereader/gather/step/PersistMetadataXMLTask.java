@@ -42,8 +42,6 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
         final String titleId = bookDefinition.getTitleId();
         final Long jobInstanceId = jobInstance.getId();
 
-        String docCollectionName = null;
-
         final File metaDataDirectory =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
 
@@ -57,13 +55,8 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
             if (metaDataDirectory.isDirectory()) {
                 final File[] allFiles = metaDataDirectory.listFiles();
                 for (final File metadataFile : allFiles) {
-                    final String fileName = metadataFile.getName();
-                    if (fileName.lastIndexOf("-") > -1) {
-                        final int startIndex = fileName.indexOf("-") + 1;
-                        docCollectionName = fileName.substring(startIndex, fileName.indexOf("-", startIndex));
-                    }
                     docMetadataService
-                        .parseAndStoreDocMetadata(titleId, jobInstanceId, docCollectionName, metadataFile);
+                        .parseAndStoreDocMetadata(titleId, jobInstanceId, metadataFile);
                     numDocsMetaDataRun++;
                 }
             }

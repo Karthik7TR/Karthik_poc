@@ -2,13 +2,9 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.util.Collection;
 
 @Service
 public class TransformTocServiceImpl implements TransformTocService {
@@ -21,11 +17,9 @@ public class TransformTocServiceImpl implements TransformTocService {
     private JsoupService jsoup;
 
     @Override
-    public void transformToc(final File toc, final File destDir) {
-        final Document tocDocument = jsoup.loadDocument(toc);
+    public void transformToc(final Document tocDocument) {
         tocDocument.outputSettings().prettyPrint(false);
         transformDoubleHyphensIntoLongDashes(tocDocument);
-        jsoup.saveDocument(destDir, toc.getName(), tocDocument);
     }
 
     private void transformDoubleHyphensIntoLongDashes(final Document document) {

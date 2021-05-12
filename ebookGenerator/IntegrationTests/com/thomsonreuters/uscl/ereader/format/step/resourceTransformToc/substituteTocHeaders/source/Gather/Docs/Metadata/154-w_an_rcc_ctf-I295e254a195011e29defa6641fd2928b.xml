@@ -1,0 +1,91 @@
+<n-metadata>
+	<metadata.block>
+		<md.identifiers>
+			<md.cites>
+				<md.first.line.cite>206 ATRCOUN-NL 1</md.first.line.cite>
+				<md.second.line.cite>206 Antitrust Counselor NL 1</md.second.line.cite>
+				<md.normalizedcite>206ATRCOUN-NL1</md.normalizedcite>
+			</md.cites>
+			<md.westlawids>
+				<md.dmsserial>287017561</md.dmsserial>
+				<md.case.slug>BLAT</md.case.slug>
+				<md.case.slug.code>17990</md.case.slug.code>
+			</md.westlawids>
+			<md.uuid>I295e254a195011e29defa6641fd2928b</md.uuid>
+		</md.identifiers>
+		<md.sortkeys>
+			<md.volsequence>ATRCOUN</md.volsequence>
+			<md.ordersequence>0355100995010</md.ordersequence>
+			<md.sequencenumber>0355100995010</md.sequencenumber>
+		</md.sortkeys>
+		<md.descriptions>
+			<md.westlawdescrip>
+				<md.readlist>READLIST</md.readlist>
+			</md.westlawdescrip>
+			<md.doc.family.uuid>I1360d6e1b44811ea9f088758eb3c1051</md.doc.family.uuid>
+		</md.descriptions>
+		<md.dates>
+			<md.decideddate>20120201</md.decideddate>
+			<md.publisheddate>20210317</md.publisheddate>
+			<md.revisiondate>20120201</md.revisiondate>
+			<md.currency.default>February 2012</md.currency.default>
+			<md.pubyear/>
+		</md.dates>
+		<md.references/>
+		<md.subjects>
+			<md.subject>
+				<md.keywords>
+					<md.keyword>ADDTERM</md.keyword>
+				</md.keywords>
+				<md.pubtype.name>WGR</md.pubtype.name>
+				<md.doctype.name>2D</md.doctype.name>
+				<md.doctype.rank>0045</md.doctype.rank>
+				<md.view>FE</md.view>
+				<md.view>AT6</md.view>
+				<md.view>COL</md.view>
+				<md.view>RTA</md.view>
+				<md.view>NWL</md.view>
+				<md.view>ATRCOUN</md.view>
+			</md.subject>
+		</md.subjects>
+		<md.jurisdictions>
+			<md.jurisdiction>
+				<md.jurisnum>8226</md.jurisnum>
+				<md.jurisstate>FE</md.jurisstate>
+			</md.jurisdiction>
+		</md.jurisdictions>
+		<md.publications>
+			<md.publication>
+				<md.pubid>189902</md.pubid>
+				<md.pubname>ATRCOUN&amp;ndash;NL</md.pubname>
+				<md.pubvolume>206</md.pubvolume>
+				<md.pubpage>1</md.pubpage>
+			</md.publication>
+			<md.publication>
+				<md.pubid>189902</md.pubid>
+				<md.pubname>ATRCOUN&amp;ndash;NL</md.pubname>
+				<md.pubvolume>206</md.pubvolume>
+				<md.pubpage>1</md.pubpage>
+			</md.publication>
+			<md.publication>
+				<md.pubid>999</md.pubid>
+				<md.pubname>WL</md.pubname>
+				<md.pubvolume>2020</md.pubvolume>
+				<md.pubpage>3402108</md.pubpage>
+			</md.publication>
+			<md.sourcepubid>189902</md.sourcepubid>
+		</md.publications>
+		<md.royalty>
+			<md.royalty.code>5872</md.royalty.code>
+			<md.copyright>Westlaw. © 2012 Thomson Reuters.  No Claim to Orig. U.S. Govt. Works.</md.copyright>
+		</md.royalty>
+	</metadata.block>
+	<n-tocview>I295e2549195011e29defa6641fd2928b I322ee73017aa11e2b9a095ea5a67a68d I31f8bc0017aa11e2b9a095ea5a67a68d I310a8b7017aa11e2b9a095ea5a67a68d</n-tocview>
+	<n-view>FE</n-view>
+	<n-view>AT6</n-view>
+	<n-view>COL</n-view>
+	<n-view>RTA</n-view>
+	<n-view>NWL</n-view>
+	<n-view type="default">ATRCOUN</n-view>
+	<prism-clipdate>20210317091330</prism-clipdate>
+</n-metadata>

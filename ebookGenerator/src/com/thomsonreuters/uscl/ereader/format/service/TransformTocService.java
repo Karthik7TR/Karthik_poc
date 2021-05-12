@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import java.io.File;
+import org.jsoup.nodes.Document;
 
 public interface TransformTocService {
-    void transformToc(File toc, File destDir);
+    void transformToc(Document tocDocument);
 }

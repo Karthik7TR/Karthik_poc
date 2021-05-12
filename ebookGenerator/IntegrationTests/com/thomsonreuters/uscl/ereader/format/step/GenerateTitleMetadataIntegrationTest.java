@@ -44,7 +44,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {GenerateTitleMetadataIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
+@ContextConfiguration(classes = {StepIntegrationTestRunner.Config.class, GenerateTitleMetadataIntegrationTest.Config.class})
 @ActiveProfiles("IntegrationTests")
 public class GenerateTitleMetadataIntegrationTest {
     private static final String USCL_BOOK = "uscl/an/test";

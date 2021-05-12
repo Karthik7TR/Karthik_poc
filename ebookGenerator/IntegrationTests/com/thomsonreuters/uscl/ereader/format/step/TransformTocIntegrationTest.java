@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.format.service.TocHeadersSubstitutionService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformTocService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformTocServiceImpl;
 import lombok.SneakyThrows;
@@ -41,11 +42,17 @@ public class TransformTocIntegrationTest {
         runner.test(transformToc, "transformDoubleHyphensIntoEmDashes");
     }
 
+    @Test
+    @SneakyThrows
+    public void shouldSubstituteTocHeaders() {
+        transformToc.getBookDefinition().setSubstituteTocHeaders(true);
+        runner.test(transformToc, "substituteTocHeaders");
+    }
+
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
-
         @Bean
         public TransformToc transformToc() {
             return new TransformToc();
@@ -54,6 +61,11 @@ public class TransformTocIntegrationTest {
         @Bean
         public TransformTocService transformTocService() {
             return new TransformTocServiceImpl();
+        }
+
+        @Bean
+        public TocHeadersSubstitutionService tocHeadersSubstitutionService() {
+            return new TocHeadersSubstitutionService();
         }
     }
 }

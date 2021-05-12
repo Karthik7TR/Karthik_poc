@@ -2,12 +2,20 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobExecutionContext;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.validateDirsOnExpected;
+import static java.util.Collections.emptyList;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
@@ -19,10 +27,15 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestNasFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BaseStep;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
+import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import lombok.Getter;
 import org.mockito.Answers;
 import org.mockito.Mockito;
@@ -47,6 +60,11 @@ public class StepIntegrationTestRunner {
     private BookFileSystem bookFileSystem;
     @Autowired
     private NasFileSystem nasFileSystem;
+    @Autowired
+    private GatherFileSystem gatherFileSystem;
+    @Autowired
+    private DocMetadataService docMetadataService;
+
     private File workDir;
     private File nasDir;
 
@@ -63,8 +81,8 @@ public class StepIntegrationTestRunner {
     }
 
     public void setUp(final BaseStep step, final boolean isSpy) {
-        final ExecutionContext jobExecutionContext = isSpy ? Mockito.spy(ExecutionContext.class) : Mockito.mock(ExecutionContext.class);
-        final ChunkContext chunkContext = Mockito.mock(ChunkContext.class, Answers.RETURNS_DEEP_STUBS.get());
+        final ExecutionContext jobExecutionContext = isSpy ? Mockito.spy(ExecutionContext.class) : mock(ExecutionContext.class);
+        final ChunkContext chunkContext = mock(ChunkContext.class, Answers.RETURNS_DEEP_STUBS.get());
 
         step.setChunkContext(chunkContext);
         when(jobExecutionContext.get(JobParameterKey.EBOOK_DEFINITON)).thenReturn(getBookDefinition());
@@ -84,28 +102,29 @@ public class StepIntegrationTestRunner {
         return documentTypeCode;
     }
 
-    public void testWithSourceOnly(final BaseStep step, final String resourceTestDir) throws Exception {
+    public void testWithSourceOnly(final BookStep step, final String resourceTestDir) throws Exception {
         test(step, resourceTestDir, true, false);
     }
 
-    public void testWithExpectedOnly(final BaseStep step, final String resourceTestDir) throws Exception {
+    public void testWithExpectedOnly(final BookStep step, final String resourceTestDir) throws Exception {
         test(step, resourceTestDir, false, true);
     }
 
-    public void test(final BaseStep step, final String resourceTestDir) throws Exception {
+    public void test(final BookStep step, final String resourceTestDir) throws Exception {
         test(step, resourceTestDir, true, true);
     }
 
-    public void test(final BaseStep step) throws Exception {
+    public void test(final BookStep step) throws Exception {
         test(step, null, false, false);
     }
 
-    private void test(final BaseStep step, final String testDirName, boolean withSourceDir, boolean withExpectedDir) throws Exception {
+    private void test(final BookStep step, final String testDirName, boolean withSourceDir, boolean withExpectedDir) throws Exception {
         try {
             File resource = getTestDir(testDirName);
             initWorkDir();
             copyNasDir();
             copySourceDir(resource, withSourceDir);
+            loadDocMetadata(step);
 
             step.executeStep();
 
@@ -148,6 +167,38 @@ public class StepIntegrationTestRunner {
         return resourceTestDir != null ? new File(resourceRootDir, resourceTestDir): null;
     }
 
+    private void loadDocMetadata(final BookStep step) {
+        final String titleId = step.getBookDefinition().getTitleId();
+        final Long jobInstanceId = step.getJobInstanceId();
+        getMetadataFiles(step).forEach(metaDataFile -> {
+            final DocMetadata docMetaData = parseDocMetadata(titleId, jobInstanceId, metaDataFile.toFile());
+            when(docMetadataService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docMetaData.getDocUuid()))
+                    .thenReturn(docMetaData);
+        });
+    }
+
+    private List<Path> getMetadataFiles(final BookStep step) {
+        try {
+            File metaDataDir = gatherFileSystem.getGatherDocsMetadataDirectory(step);
+            if (metaDataDir.exists()) {
+                return Files.list(metaDataDir.toPath()).collect(Collectors.toList());
+            }
+            return emptyList();
+        } catch (IOException e) {
+            throw new EBookException(e);
+        }
+    }
+
+    private DocMetadata parseDocMetadata(final String titleId, final Long jobInstanceId, final File metaDataFile) {
+        try {
+            final String collectionName = DocMetadataServiceImpl.extractDocCollectionName(metaDataFile);
+            final DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
+            return xmlParser.parseDocument(titleId, jobInstanceId, collectionName, metaDataFile);
+        } catch (Exception e) {
+            throw new EBookException(e);
+        }
+    }
+
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
@@ -165,6 +216,11 @@ public class StepIntegrationTestRunner {
         @Bean
         public AssembleFileSystem assembleFileSystem() {
             return new AssembleFileSystemImpl();
+        }
+
+        @Bean
+        public DocMetadataService docMetadataService() {
+            return mock(DocMetadataService.class);
         }
 
         @Bean

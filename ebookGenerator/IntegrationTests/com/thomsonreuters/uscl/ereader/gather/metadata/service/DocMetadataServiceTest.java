@@ -223,8 +223,7 @@ public class DocMetadataServiceTest {
         final String titleId = "TEST_TILE";
         final Long jobInstanceId = Long.valueOf(12345);
         final String docUuid = "123456";
-        final String collectionName = "collection_name";
-        documentMetadataService.parseAndStoreDocMetadata(titleId, jobInstanceId, collectionName, new File(docUuid));
+        documentMetadataService.parseAndStoreDocMetadata(titleId, jobInstanceId, new File(docUuid));
     }
 
     @Test

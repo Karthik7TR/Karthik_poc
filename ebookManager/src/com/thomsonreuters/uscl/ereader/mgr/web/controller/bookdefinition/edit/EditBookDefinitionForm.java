@@ -274,6 +274,8 @@ public class EditBookDefinitionForm {
     private boolean previousVersionIdsEnabled = false;
     @Getter @Setter
     private String versionWithPreviousDocIds;
+    @Getter @Setter
+    private boolean substituteTocHeaders = false;
 
     /**
      * Reset some book definition fields before copying in to the form
@@ -400,6 +402,7 @@ public class EditBookDefinitionForm {
             indexTocCollectionName = book.getIndexTocCollectionName();
             indexDocCollectionName = book.getIndexDocCollectionName();
             indexTocRootGuid = book.getIndexTocRootGuid();
+            substituteTocHeaders = book.isSubstituteTocHeaders();
 
             // Determine if ProView groups are set
             if (StringUtils.isBlank(book.getGroupName())) {
@@ -621,6 +624,7 @@ public class EditBookDefinitionForm {
         book.setFrontMatterTheme(fmThemeText);
 
         book.setVersionWithPreviousDocIds(previousVersionIdsEnabled ? versionWithPreviousDocIds : null);
+        book.setSubstituteTocHeaders(substituteTocHeaders);
     }
 
     private <T extends CopyAware<T> & SequenceNumAware & EbookDefinitionAware> List<T> copyList(

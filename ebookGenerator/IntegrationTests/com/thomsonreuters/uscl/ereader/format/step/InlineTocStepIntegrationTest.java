@@ -32,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {InlineTocStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
+@ContextConfiguration(classes = {StepIntegrationTestRunner.Config.class, InlineTocStepIntegrationTest.Config.class})
 @ActiveProfiles("IntegrationTests")
 public final class InlineTocStepIntegrationTest {
     private static final String VERSION = "1.0";

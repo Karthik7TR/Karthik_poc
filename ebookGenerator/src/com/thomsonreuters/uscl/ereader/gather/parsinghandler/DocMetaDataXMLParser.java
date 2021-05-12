@@ -44,6 +44,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
     private static final String CAN_MD_DIGEST_CLASSIFNUM = "can.md.digest.classifnum";
     private static final String CAN_MD_DIGEST_CLASSIFICATION = "can.md.digest.classification";
     private static final String CAN_MD_DIGEST = "can.md.digest";
+    private static final String MD_CURRENCY_DEFAULT = "md.currency.default";
 
     private StringBuffer tempValBuffer;
 
@@ -186,6 +187,8 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
             if (docMetadata.getFindOrig() == null) {
                 docMetadata.setFindOrig(tempVal);
             }
+        } else if (MD_CURRENCY_DEFAULT.equals(qName)) {
+            docMetadata.setCurrencyDefault(tempVal);
         }
     }
 

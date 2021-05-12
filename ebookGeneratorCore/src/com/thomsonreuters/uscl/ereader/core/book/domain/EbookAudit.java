@@ -395,6 +395,10 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private String indexTocRootGuid;
 
+    @Column(name="SUBSTITUTE_TOC_HEADERS")
+    @Basic(fetch = FetchType.EAGER)
+    private String substituteTocHeaders;
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }
@@ -541,6 +545,7 @@ public class EbookAudit implements Serializable {
         setTocCollectionName(that.getTocCollectionName());
         setDocCollectionName(that.getDocCollectionName());
         setRootTocGuid(that.getRootTocGuid());
+        setSubstituteTocHeaders(that.isSubstituteTocHeaders());
     }
 
     /**
@@ -627,6 +632,7 @@ public class EbookAudit implements Serializable {
         setTocCollectionName(that.getTocCollectionName());
         setDocCollectionName(that.getDocCollectionName());
         setRootTocGuid(that.getRootTocGuid());
+        setSubstituteTocHeaders(that.isSubstituteTocHeaders());
     }
 
     @Transient
@@ -722,6 +728,7 @@ public class EbookAudit implements Serializable {
         buffer.append("printPageNumbers=[").append(printPageNumbers).append("] ");
         buffer.append("inlineTocIncluded=[").append(inlineTocIncluded).append("] ");
         buffer.append("indexIncluded=[").append(indexIncluded).append("] ");
+        buffer.append("substituteTocHeaders=[").append(substituteTocHeaders).append("] ");
         if (isEqualsYes(indexIncluded)) {
             buffer.append("indexTocCollectionName=[").append(indexTocCollectionName).append("] ");
             buffer.append("indexDocCollectionName=[").append(indexDocCollectionName).append("] ");
@@ -931,5 +938,13 @@ public class EbookAudit implements Serializable {
 
     public void setIndexIncluded(final boolean isIndexIncluded) {
         indexIncluded = getStringForBooleanValue(isIndexIncluded);
+    }
+
+    public void setSubstituteTocHeaders(final boolean isSubstituteTocHeaders) {
+        substituteTocHeaders = getStringForBooleanValue(isSubstituteTocHeaders);
+    }
+
+    public boolean isSubstituteTocHeaders() {
+        return isEqualsYes(substituteTocHeaders);
     }
 }

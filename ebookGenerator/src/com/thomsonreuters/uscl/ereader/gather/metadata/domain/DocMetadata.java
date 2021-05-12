@@ -145,6 +145,12 @@ public class DocMetadata implements Serializable {
 
     @Getter
     @Setter
+    @Column(name = "CURRENCY_DEFAULT")
+    @XmlElement
+    private String currencyDefault;
+
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "docMetadata", orphanRemoval = true, cascade = CascadeType.ALL)
     @Basic(fetch = FetchType.LAZY)
     @XmlElement

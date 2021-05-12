@@ -628,6 +628,11 @@
 					</div>
 				</div>
 			</c:if>
+			<div class="row">
+				<form:label path="substituteTocHeaders" class="labelCol">Substitute Toc headers with dates</form:label>
+				<form:radiobutton path="substituteTocHeaders" value="true" />Enabled
+				<form:radiobutton path="substituteTocHeaders" value="false" />Disabled
+			</div>
 		</div>
 	</div>
 </div>
