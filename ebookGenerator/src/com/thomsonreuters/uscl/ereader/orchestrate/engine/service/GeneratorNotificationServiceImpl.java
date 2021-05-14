@@ -21,7 +21,7 @@ import org.springframework.batch.item.ExecutionContext;
 @Slf4j
 @Setter
 public class GeneratorNotificationServiceImpl implements NotificationService {
-    private static final String EMAIL_BODY_FORMAT = "eBook Publishing Failure - %s\nProview Display Name: %s\nEnvironment: %s\nJob Instance ID: %s\nJob Execution ID: %s\n%s";
+    private static final String EMAIL_BODY_FORMAT = "eBook Publishing Failure - %s\t\nProview Display Name: %s\t\nEnvironment: %s\t\nJob Instance ID: %s\t\nJob Execution ID: %s\t\n%s";
     private EmailService emailService;
     private EmailUtil emailUtil;
 

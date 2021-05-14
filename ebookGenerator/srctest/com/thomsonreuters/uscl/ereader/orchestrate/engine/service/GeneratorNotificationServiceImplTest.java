@@ -35,9 +35,9 @@ public final class GeneratorNotificationServiceImplTest {
     private static final Long JOB_EXECUTION_ID = 2L;
     private static final String EXPECTED_SUBJECT = "eBook Publishing Failure:  " + TEST_ENV + "  " + TITLE_ID + "  "
             + PROVIEW_DISPLAY_NAME + "  " + JOB_INSTANCE_ID + "  " + JOB_EXECUTION_ID;
-    private static final String EXPECTED_BODY = "eBook Publishing Failure - " + TITLE_ID + "\nProview Display Name: " +
-            PROVIEW_DISPLAY_NAME + "\nEnvironment: " + TEST_ENV + "\nJob Instance ID: " + JOB_INSTANCE_ID +
-            "\nJob Execution ID: " + JOB_EXECUTION_ID + "\n" + BODY_MESSAGE;
+    private static final String EXPECTED_BODY = "eBook Publishing Failure - " + TITLE_ID + "\t\nProview Display Name: " +
+            PROVIEW_DISPLAY_NAME + "\t\nEnvironment: " + TEST_ENV + "\t\nJob Instance ID: " + JOB_INSTANCE_ID +
+            "\t\nJob Execution ID: " + JOB_EXECUTION_ID + "\t\n" + BODY_MESSAGE;
 
     @InjectMocks
     private GeneratorNotificationServiceImpl generatorNotificationService;
