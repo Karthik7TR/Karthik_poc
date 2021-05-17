@@ -20,4 +20,6 @@ public interface EmailService {
 
     void sendWithAttachment(final Collection<InternetAddress> recipients, final String subject,
         final String body, final List<String> fileNames);
+
+    boolean isUpAndRunning();
 }

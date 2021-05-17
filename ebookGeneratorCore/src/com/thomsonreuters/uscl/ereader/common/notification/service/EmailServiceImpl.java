@@ -31,6 +31,7 @@ public class EmailServiceImpl implements EmailService {
     private static final String TIMEOUT_PROPERTY = "mail.smtp.timeout";
     private static final String NO_SUBJECT_ERROR_MESSAGE = "No subject provided";
     private static final String NO_RECIPIENTS_ERROR_MESSAGE = "No recipients provided";
+    private static final String SMTP = "smtp";
 
     @Value("${mail.smtp.host}")
     public String host;
@@ -81,6 +82,22 @@ public class EmailServiceImpl implements EmailService {
     public void sendWithAttachment(final Collection<InternetAddress> recipients,
             final String subject, final String body, final List<String> fileNames) {
         sendWithAttachment(convertToCsv(recipients), subject, body, fileNames);
+    }
+
+    @Override
+    public boolean isUpAndRunning() {
+        try {
+            Session session = Session.getInstance(getProperties());
+            Transport transport = session.getTransport(SMTP);
+            transport.connect();
+            if (transport.isConnected()) {
+                transport.close();
+                return true;
+            }
+        } catch (MessagingException e) {
+            log.error(e.getMessage(), e);
+        }
+        return false;
     }
 
     private void sendWithAttachment(final String toEmail, final String toSubject, final String toText,

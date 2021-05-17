@@ -18,6 +18,7 @@ import javax.jms.Connection;
 import com.ibm.mq.jms.MQQueueConnectionFactory;
 import com.thomsonreuters.uscl.ereader.common.EBookApps;
 import com.thomsonreuters.uscl.ereader.common.EBookApps.AppEnv;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.sap.service.SapService;
@@ -65,6 +66,8 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     public String smtpHost;
     @Resource
     private SapService sapService;
+    @Resource
+    private EmailService emailService;
     @Resource
     private MiscConfigSyncService miscConfigSyncService;
     @Value("${image.vertical.context.url}")
@@ -226,7 +229,8 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     }
 
     private SmokeTest testSMTPStatus() {
-        final SmokeTest smokeTest = getServerStatus(smtpHost, TIME_OUT_SMTP);
+        final SmokeTest smokeTest = new SmokeTest();
+        smokeTest.setIsRunning(emailService.isUpAndRunning());
         smokeTest.setName("SMTP");
         smokeTest.setAddress(smtpHost);
         return smokeTest;
