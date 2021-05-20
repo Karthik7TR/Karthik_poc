@@ -1,7 +1,7 @@
 <div class="section">
  <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <h3 class="co_headtext" id="procedure">PROCEDURE</h3>
+   <h3 class="co_headtext"><a name="procedure">PROCEDURE</a></h3>
   </div>     
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
@@ -29,7 +29,7 @@
  </div>
  <div style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; padding-top: 1em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <h3 class="co_headtext" id="remand">REMAND</h3>
+   <h3 class="co_headtext"><a name="remand">REMAND</a></h3>
   </div>    
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
@@ -77,7 +77,7 @@
  </div>
  <div style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; padding-top: 1em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <h3 class="co_headtext" id="reconsideration">RECONSIDERATION</h3>
+   <h3 class="co_headtext"><a name="reconsideration">RECONSIDERATION</a></h3>
   </div>   
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
@@ -94,7 +94,7 @@
  </div>
  <div style="text-align: left; margin-top: 0.025em; margin-left: 0.350em; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <h3 class="co_headtext" id="requirements_for_transfer">REQUIREMENTS FOR TRANSFER</h3>
+   <h3 class="co_headtext"><a name="requirements_for_transfer">REQUIREMENTS FOR TRANSFER</a></h3>
   </div>   
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">
@@ -111,7 +111,7 @@
  </div>
  <div style="text-align: left; margin-top: 0.200em; font-weight: bold; font-size: 0.8em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
-   <h3 class="co_headtext" id="appointment">APPOINTMENT</h3>
+   <h3 class="co_headtext"><a name="appointment">APPOINTMENT</a></h3>
   </div>  
   <ol class="co_toc">
    <li class="co_tocHeading" style="list-style-type: none">

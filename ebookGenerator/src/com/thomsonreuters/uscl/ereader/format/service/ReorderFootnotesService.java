@@ -39,6 +39,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ANCHOR;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.AUTHOR_FOOTNOTES;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BEGIN_QUOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOP;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_FOOTNOTE_REFERENCE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_FOOTNOTE_SECTION_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_INLINE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_ITALIC;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_PAGE_NUMBER;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_PARAGRAPH;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_PARAGRAPH_TEXT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_SMALL_CAPS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CSC;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV_CO_FOOTNOTE_BODY;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.END_QUOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOP;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BLOCK;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BODY;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BODY_BOTTOM;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BODY_POPUP_BOX;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BODY_TAG;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FTNNAME;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HREF;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ITAL;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.NAME;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_COPYRIGHT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_DIVIDER;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_END_OF_DOCUMENT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_FOOTNOTE_CLASS_PREFIX;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LABEL_DESIGNATOR;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.PAGE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.PARA;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.PARATEXT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.PROVIEW_FOOTNOTE_CLASS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SECTION;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SECTION_FRONT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SECTION_LABEL_CLASS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SUP;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ID;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FOOTNOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FOOTNOTES;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FTN;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.LABEL;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
@@ -50,50 +96,11 @@ import static java.util.Optional.ofNullable;
 
 @Component
 public class ReorderFootnotesService {
-    private static final String PROVIEW_FOOTNOTE_CLASS = "er_rp_search_volume_content_data";
-    private static final String ID = "id";
-    private static final String DIV = "div";
-    private static final String FOOTNOTE = "footnote";
-    private static final String FOOTNOTE_BODY = "footnote_body";
-    private static final String FOOTNOTE_BODY_POPUP_BOX = "footnote_body_box";
-    private static final String FOOTNOTE_BODY_BOTTOM = "footnote_body_bottom";
-    private static final String FOOTNOTE_BODY_TAG = "footnote.body";
-    private static final String SECTION = "section";
-    private static final String A_TAG = "a";
     private static final String A_HREF = "a[href]";
-    private static final String HREF = "href";
-    private static final String PAGE = "page";
-    private static final String NAME = "name";
-    private static final String SUP = "sup";
-    private static final String AUTHOR_FOOTNOTES = "author.footnotes";
-    private static final String FOOTNOTE_BLOCK = "footnote.block";
-    private static final String SECTION_FRONT = "section.front";
-    private static final String LABEL_DESIGNATOR = "label.designator";
-    private static final String FTNNAME = "ftnname";
-    private static final String TR_FTN = "tr_ftn";
-    private static final String TR_FOOTNOTES = "tr_footnotes";
-    private static final String TR_FOOTNOTE = "tr_footnote";
-    private static final String CO_FOOTNOTE_CLASS_PREFIX = "co_footnote_";
-    private static final String CO_FOOTNOTE_REFERENCE = "co_footnoteReference";
     private static final String CO_FOOTNOTE_SECTION_ID = "#co_footnoteSection";
-    private static final String CO_FOOTNOTE_SECTION_TITLE = "co_footnoteSectionTitle";
     private static final String CO_FOOTNOTE_NUMBER_OR_LARGE_SELECTOR = "[class~=(co_footnoteNumber|co_footnoteNumberLarge)]";
-    private static final String DIV_CO_FOOTNOTE_BODY = "div.co_footnoteBody";
-    private static final String CO_DIVIDER = "co_divider";
-    private static final String CO_COPYRIGHT = "co_copyright";
-    private static final String CO_END_OF_DOCUMENT = "co_endOfDocument";
-    private static final String CO_PAGE_NUMBER = "co_page_number";
-    private static final String CO_PARAGRAPH = "co_paragraph";
-    private static final String CO_PARAGRAPH_TEXT = "co_paragraphText";
-    private static final String SECTION_LABEL_CLASS = "section-label";
     private static final String DOCUMENT_GUID = "DocumentGuid";
     private static final String INITIAL_PAGE_LABEL = "extractPageNumbersInitialPageLabel";
-    private static final String PARA = "para";
-    private static final String PARATEXT = "paratext";
-    private static final String BOP = "bop";
-    private static final String BOS = "bos";
-    private static final String EOP = "eop";
-    private static final String EOS = "eos";
     private static final String SECTION_LABEL = "[Section %s]";
     private static final String DOT = ".";
     private static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
@@ -102,13 +109,6 @@ public class ReorderFootnotesService {
     private static final String INLINE_TOC = "inlineToc.html";
     private static final String INLINE_INDEX = "inlineIndex.html";
     private static final List<String> EXCLUDED_FROM_PROCESSING = Arrays.asList(INLINE_TOC, INLINE_INDEX);
-    private static final String ITAL = "ital";
-    private static final String CO_ITALIC = "co_italic";
-    private static final String CSC = "csc";
-    private static final String CO_SMALL_CAPS = "co_smallCaps";
-    private static final String CO_INLINE = "co_inline";
-    private static final String BEGIN_QUOTE = "begin.quote";
-    private static final String END_QUOTE = "end.quote";
 
     @Autowired
     private JsoupService jsoup;
@@ -278,7 +278,7 @@ public class ReorderFootnotesService {
 
     private String getFootnoteId(final Element footnote) {
         return footnote.selectFirst(CO_FOOTNOTE_NUMBER_OR_LARGE_SELECTOR)
-                       .selectFirst(A_TAG)
+                       .selectFirst(ANCHOR)
                        .attr(NAME)
                        .replaceFirst(CO_FOOTNOTE_CLASS_PREFIX, "");
     }
@@ -595,7 +595,7 @@ public class ReorderFootnotesService {
     private List<Node> getFootnoteReferencesAndPagebreaks(final Element section) {
         return jsoup.selectNodes(section, node ->
                 (node instanceof XmlDeclaration && PB.equals(((XmlDeclaration) node).name()))
-                        || (node instanceof Element && A_TAG.equals(node.nodeName()) && ((Element) node).hasClass(TR_FTN)));
+                        || (node instanceof Element && ANCHOR.equals(node.nodeName()) && ((Element) node).hasClass(TR_FTN)));
     }
 
     private void movePagebreakOutOfFootnotes(final Element footnoteSection) {
@@ -734,11 +734,11 @@ public class ReorderFootnotesService {
 
     private void cleanupPopupFootnoteBody(final Element popupFootnoteBody) {
         getProviewPagebreaks(popupFootnoteBody).forEach(Node::remove);
-        popupFootnoteBody.getElementsByTag(A_TAG).forEach(this::cleanUpAnchor);
+        popupFootnoteBody.getElementsByTag(ANCHOR).forEach(this::cleanUpAnchor);
     }
 
     private Element cleanUpAnchor(final Element anchor) {
-        if (A_TAG.equalsIgnoreCase(anchor.tagName())) {
+        if (ANCHOR.equalsIgnoreCase(anchor.tagName())) {
             anchor.removeAttr(ID);
         }
         return anchor;

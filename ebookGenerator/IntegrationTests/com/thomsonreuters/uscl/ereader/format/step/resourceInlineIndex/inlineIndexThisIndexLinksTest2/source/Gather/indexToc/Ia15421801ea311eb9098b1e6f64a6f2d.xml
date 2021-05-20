@@ -1,0 +1,137 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>GAEVIDENCE Index</cmd.second.line.cite>
+					<cmd.normalizedcite>GAEVIDENCEIDX000000001</cmd.normalizedcite>
+				</cmd.cites>
+			</cmd.identifiers>
+			<cmd.dates>
+				<cmd.currency.default iso.d="20201104">
+					<bop/>
+					<bos/>Index updated November 2020<eos/>
+					<eop/>
+				</cmd.currency.default>
+			</cmd.dates>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw. © 2020 Thomson Reuters.</cmd.copyright>
+			</cmd.royalty>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Agnor&apos;s Georgia Evidence</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Georgia Evidence, General Index</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>INDEX CONTENTS</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copr. (C) West 2005 No Claim to Orig. U.S. Govt. Works</include.copyright>
+		</message.block>
+		<index>
+			<doc.title>
+				<head>
+					<headtext>Agnor&apos;s Georgia Evidence Index Contents</headtext>
+				</head>
+			</doc.title>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5321ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia18802c01ea311eb81ada8ec9acde6bf">ADMISSION AND EXCLUSION OF EVIDENCE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5331ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1893b401ea311eb81ada8ec9acde6bf">ADMISSIONS BY WITNESSES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5361ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia18718601ea311eb81ada8ec9acde6bf">AGREEMENTS</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia275e5371ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia18ae8f01ea311eb81ada8ec9acde6bf">ALCOHOL</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia2760c431ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia19fa9701ea311eb81ada8ec9acde6bf">ATTENDANCE OF WITNESSES AT TRIAL</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ibdb4df81767911eb86ded44ac1a656c5" w-ref-type="WN" w-pub-number="186100" w-normalized-cite="I7a1acba6a61411e3827b95f7ac461c4b">ATTORNEYS&apos; FEES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia2776bd31ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1bc0b101ea311eb81ada8ec9acde6bf">CONFESSIONS</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27792e01ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1c002b01ea311eb81ada8ec9acde6bf">COPIES OF DOCUMENTS</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia277b9f31ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1cab1101ea311eb81ada8ec9acde6bf">DOCUMENTARY AND DEMONSTRATIVE EVIDENCE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia277e1051ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1d02f501ea311eb81ada8ec9acde6bf">EXCLUSION OF EVIDENCE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27808101ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1d586801ea311eb81ada8ec9acde6bf">EXPERT WITNESSES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27967a01ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1eb0a501ea311eb81ada8ec9acde6bf">HEARSAY</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia279b5c01ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia1f718421ea311eb81ada8ec9acde6bf">INTOXICATING BEVERAGES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27a03e21ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia210bac01ea311eb81ada8ec9acde6bf">MARRIAGE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27a03e41ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia214b2601ea311eb81ada8ec9acde6bf">MEDICAL CARE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27bd8a11ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia236e0601ea311eb81ada8ec9acde6bf">PAROL EVIDENCE RULE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27c26c31ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia23d49001ea311eb81ada8ec9acde6bf">PHYSICIAN-PATIENT PRIVILEGE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27dd4711ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia24a41511ea311eb81ada8ec9acde6bf">REPORTS</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27dfb821ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia24e11ee1ea311eb81ada8ec9acde6bf">SCIENTIFIC EVIDENCE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27dfb831ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia24e87121ea311eb81ada8ec9acde6bf">SEARCH AND SEIZURE LAW</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27f34011ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia257d5e01ea311eb81ada8ec9acde6bf">SPOUSES</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27f5b151ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia25c69c01ea311eb81ada8ec9acde6bf">SUFFICIENCY OF EVIDENCE</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27f82231ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia25df0601ea311eb81ada8ec9acde6bf">TRIALS</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27f82221ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia25e8ca61ea311eb81ada8ec9acde6bf">TESTIMONY</cite.query>
+			</index.entry>
+			<index.entry level="1">
+				<cite.query ID="Ia27ff7501ea311eb9261bb06ef06a105" w-ref-type="WN" w-pub-number="160247" w-normalized-cite="Ia265dfa01ea311eb81ada8ec9acde6bf">WITNESSES</cite.query>
+			</index.entry>
+		</index>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>GAEVIDENCE Index</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

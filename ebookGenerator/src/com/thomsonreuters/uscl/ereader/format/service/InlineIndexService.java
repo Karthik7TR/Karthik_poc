@@ -9,39 +9,39 @@ import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ANCHOR;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_HEADTEXT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_INDEX;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_TOC;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_TOC_HEADING;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DOC;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DOC_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.H3;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HEADTEXT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INDEX;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INDEX_ENTRY;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LI;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.OL;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SECTION;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SPAN;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.STYLE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.NAME;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SUBJECT;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createProviewPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.protectPagebreak;
 import static com.thomsonreuters.uscl.ereader.format.service.InlineIndexInternalLinks.THIS_INDEX;
 
 @Component
 public class InlineIndexService {
-    private static final String DIV = "div";
-    private static final String SECTION = "section";
-    private static final String STYLE = "style";
-    private static final String CO_INDEX = "co_index";
     private static final String INLINE_INDEX_FILE_NAME = "inlineIndex.transformed";
-    private static final String INDEX = "index";
-    private static final String DOC_TITLE = "doc.title";
-    private static final String CO_TITLE = "co_title";
-    private static final String HEADTEXT = "headtext";
-    private static final String CO_HEADTEXT = "co_headtext";
-    private static final String OL = "ol";
-    private static final String CO_TOC = "co_toc";
-    private static final String INDEX_ENTRY = "index.entry";
-    private static final String SUBJECT = ">subject";
-    private static final String SPAN = "span";
-    private static final String LI = "li";
-    private static final String CO_TOC_HEADING = "co_tocHeading";
     private static final String UNUSED_TAGS_REGEX = "bop|bos|eos|eop";
     private static final String XML = ".xml";
-    private static final String DOC = "doc";
     private static final String INDEX_PAGE_NAME = "Index";
-    private static final String H3 = "h3";
-    private static final String ID = "id";
 
     @Autowired
     private JsoupService jsoup;
@@ -88,11 +88,11 @@ public class InlineIndexService {
     private void processTitle(final Element indexXml, final InlineIndexInternalLinks internalLinks) {
         indexXml.getElementsByTag(DOC_TITLE).forEach(title -> {
             title.tagName(DIV).addClass(CO_TITLE).attr(STYLE, stylingService.fontWeightBold());
-            final Element headtext = indexXml.getElementsByTag(HEADTEXT).first().tagName(H3).addClass(CO_HEADTEXT);
-            String headerId = internalLinks.buildHeaderId(headtext.text());
-            headtext.attr(ID, headerId);
-            title.empty();
-            title.appendChild(headtext);
+            final Element header = indexXml.getElementsByTag(HEADTEXT).first();
+            String text = header.text();
+            String headerId = internalLinks.buildHeaderId(text);
+            header.tagName(H3).addClass(CO_HEADTEXT).empty().appendChild(new Element(ANCHOR).attr(NAME, headerId).text(text));
+            title.empty().appendChild(header);
             internalLinks.addHeaderId(headerId);
         });
     }

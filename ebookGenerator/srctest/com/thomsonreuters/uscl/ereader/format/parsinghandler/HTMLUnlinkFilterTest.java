@@ -368,6 +368,17 @@ public final class HTMLUnlinkFilterTest {
         assertEquals("ABC1234,,,,,er:#ABC1234/foundAnchor,,,,", unlinkFilter.getUnlinkDocMetadataList().get(0));
     }
 
+    @Test
+    public void testDontRemoveInnerAnchor() throws Exception {
+        final String xmlTestStr = "<test><a href=\""
+                + foundAnchor
+                + "\" inner=\"true\">1</a></test>";
+        final String expectedResult =
+                "<test><a href=\"" + foundAnchor + "\" inner=\"true\">1</a></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
     private DocMetadata initDocMetadata() {
         final DocMetadata docMetadata = new DocMetadata();
         docMetadata.setDocUuid("docUuid");

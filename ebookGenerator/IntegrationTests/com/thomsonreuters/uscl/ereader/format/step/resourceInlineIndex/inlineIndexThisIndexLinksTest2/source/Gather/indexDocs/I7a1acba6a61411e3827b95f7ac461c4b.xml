@@ -1,0 +1,69 @@
+<n-docbody>
+	<doc bill="N">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>FCIVRTACTS Index</cmd.second.line.cite>
+					<cmd.normalizedcite>FCRAIDX000000287</cmd.normalizedcite>
+				</cmd.cites>
+			</cmd.identifiers>
+			<cmd.dates>
+				<cmd.currency.default iso.d="20210224">
+					<bop/>
+					<bos/>Index updated February 2021<eos/>
+					<eop/>
+				</cmd.currency.default>
+			</cmd.dates>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw. © 2021 Thomson Reuters.</cmd.copyright>
+			</cmd.royalty>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Federal Civil Rights Acts</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Federal Civil Rights Acts, Third Edition, General Index</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>ATTORNEYS&apos; FEES</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<index>
+			<doc.title>
+				<head>
+					<headtext>ATTORNEYS&apos; FEES</headtext>
+				</head>
+			</doc.title>
+			<index.entry level="1">
+				<bop/>
+				<bos/>
+				<subject>General discussion, </subject>
+				<cite.query ID="Ibccd3ea3767911eb99e68b02336b4b17" w-normalized-cite="FCIVRTACTS16:1" w-pub-number="186100" w-ref-type="DA">16:1</cite.query> et seq.<eos/>
+				<eop/>
+			</index.entry>
+		</index>
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>FCIVRTACTS Index</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

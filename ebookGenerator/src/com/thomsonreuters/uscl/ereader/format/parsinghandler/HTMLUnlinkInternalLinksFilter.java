@@ -21,6 +21,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ANCHOR;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HREF;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INNER;
+
 /**
  * Filter that handles various Anchor "<a>" tags and transforms them as needed.
  *
@@ -90,14 +94,16 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
-        if ("a".equalsIgnoreCase(qName)) {
+        if (ANCHOR.equalsIgnoreCase(qName)) {
             if (atts != null
-                && atts.getValue("href") != null
-                && atts.getValue("href").startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT)
-                && atts.getValue("href").contains("/")) {
+                && atts.getValue(HREF) != null
+                && atts.getValue(HREF).startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT)
+                && atts.getValue(HREF).contains("/")
+                && atts.getValue(INNER) == null
+            ) {
                 String guid = currentGuid;
 
-                String attsHrefValue = atts.getValue("href");
+                String attsHrefValue = atts.getValue(HREF);
                 // hrefLink value without split title
                 attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
                     + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf('#'));
@@ -125,7 +131,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                             }
                         }
                         final AttributesImpl newAtts = new AttributesImpl(atts);
-                        String newAttsHrefValue = newAtts.getValue("href");
+                        String newAttsHrefValue = newAtts.getValue(HREF);
                         // hrefLink value without split title
                         final String splitTitle = StringUtils.substring(
                             newAttsHrefValue,
@@ -135,16 +141,16 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                             + StringUtils.substring(newAttsHrefValue, newAttsHrefValue.indexOf('#'));
 
                         if (attsHrefValue != null
-                            && newAtts.getIndex("href") >= 0
+                            && newAtts.getIndex(HREF) >= 0
                             && !attsHrefValue.equals(newAttsHrefValue)) {
-                            final int indexHrefId = newAtts.getIndex("href");
+                            final int indexHrefId = newAtts.getIndex(HREF);
                             // Add split title to the new link if exists
                             if (splitTitle.length() > 0) {
                                 attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
                                     + splitTitle
                                     + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf('#'));
                             }
-                            newAtts.setAttribute(indexHrefId, "", "", "href", "CDATA", attsHrefValue);
+                            newAtts.setAttribute(indexHrefId, "", "", HREF, "CDATA", attsHrefValue);
                         }
                         super.startElement(uri, localName, qName, newAtts);
                         openAnchors.push(true); // valid link denoted by TRUE
@@ -172,7 +178,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                             () -> unlinkDocMetadata.getCollectionName()));
 
                         sbDocMetadata.append(",");
-                        final String link = atts.getValue("href");
+                        final String link = atts.getValue(HREF);
                         sbDocMetadata.append(link);
 
                         final Matcher matcher = pattern.matcher(link);
@@ -226,7 +232,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        if ("a".equalsIgnoreCase(qName)) {
+        if (ANCHOR.equalsIgnoreCase(qName)) {
             // If the latest anchor was valid (TRUE) add the </a> if it was removed (FALSE) don't.
             if ((boolean) openAnchors.pop()) {
                 super.endElement(uri, localName, qName);

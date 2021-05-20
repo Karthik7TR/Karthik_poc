@@ -8,14 +8,16 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ANCHOR;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HREF;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INNER;
+
 public class InlineIndexInternalLinks {
     public static final String THIS_INDEX = "this index";
     private static final String HEADER_NAME_GROUP = "headerName";
-    private static final String HREF = "href";
     private static final String HASH = "#";
-    private static final String ANCHOR = "a";
     private static final Pattern INTERNAL_REFERENCE_PATTERN = Pattern.compile(String.format("(.+\\.)?\\s*" +
-            "(generally, see |see also |for detailed treatment see |see |)(?<%s>.+),\\s*%s", HEADER_NAME_GROUP, THIS_INDEX));
+            "(generally, see |see also |for detailed treatment see |see |)(?<%s>.+)(,\\s*%2$s|\\s\\(%2$s\\))", HEADER_NAME_GROUP, THIS_INDEX));
 
     private final Set<String> headerIds = new HashSet<>();
     private final Set<Element> thisIndexReferences = new HashSet<>();
@@ -25,14 +27,15 @@ public class InlineIndexInternalLinks {
             String text = thisIndexReference.text();
             String headerId = buildHeaderId(getHeaderName(text));
             if (headerIds.contains(headerId)) {
-                thisIndexReference.text(text.replaceAll(THIS_INDEX, StringUtils.EMPTY));
-                thisIndexReference.appendChild(buildThisIndexLink(headerId));
+
+                Element link = buildThisIndexLink(headerId);
+                thisIndexReference.html(text.replaceAll(THIS_INDEX, link.outerHtml()));
             }
         }
     }
 
     public String buildHeaderId(final String text) {
-        return text.toLowerCase().replaceAll("\\s+", "_");
+        return text.toLowerCase().replaceAll("\\s+", "_").replaceAll("'", StringUtils.EMPTY);
     }
 
     private String getHeaderName(final String text) {
@@ -46,6 +49,7 @@ public class InlineIndexInternalLinks {
     private Element buildThisIndexLink(final String id) {
         Element link = new Element(ANCHOR);
         link.attr(HREF, HASH + id);
+        link.attr(INNER, Boolean.TRUE.toString());
         link.text(THIS_INDEX);
         return link;
     }
