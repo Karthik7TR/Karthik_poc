@@ -275,7 +275,9 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String versionWithPreviousDocIds;
     @Getter @Setter
-    private boolean substituteTocHeaders = false;
+    private boolean substituteTocHeaders;
+    @Getter @Setter
+    private Integer substituteTocHeadersLevel;
 
     /**
      * Reset some book definition fields before copying in to the form
@@ -402,7 +404,13 @@ public class EditBookDefinitionForm {
             indexTocCollectionName = book.getIndexTocCollectionName();
             indexDocCollectionName = book.getIndexDocCollectionName();
             indexTocRootGuid = book.getIndexTocRootGuid();
-            substituteTocHeaders = book.isSubstituteTocHeaders();
+
+            if (book.getSubstituteTocHeadersLevel() != null && book.getSubstituteTocHeadersLevel() > 0) {
+                substituteTocHeaders = true;
+                substituteTocHeadersLevel = book.getSubstituteTocHeadersLevel();
+            } else {
+                substituteTocHeadersLevel = 0;
+            }
 
             // Determine if ProView groups are set
             if (StringUtils.isBlank(book.getGroupName())) {
@@ -624,7 +632,12 @@ public class EditBookDefinitionForm {
         book.setFrontMatterTheme(fmThemeText);
 
         book.setVersionWithPreviousDocIds(previousVersionIdsEnabled ? versionWithPreviousDocIds : null);
-        book.setSubstituteTocHeaders(substituteTocHeaders);
+
+        if (substituteTocHeaders) {
+            book.setSubstituteTocHeadersLevel(substituteTocHeadersLevel);
+        } else {
+            book.setSubstituteTocHeadersLevel(0);
+        }
     }
 
     private <T extends CopyAware<T> & SequenceNumAware & EbookDefinitionAware> List<T> copyList(

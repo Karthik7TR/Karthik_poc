@@ -7,6 +7,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.service.TocHeadersSubstitutionService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformTocService;
@@ -39,14 +40,15 @@ public class TransformToc extends BookStepImpl {
         final File toc = gatherFileSystem.getGatherTocFile(this);
         final File destDir = formatFileSystem.getTransformTocDirectory(this);
         final Document tocDocument = jsoup.loadDocument(toc);
+        final BookDefinition bookDefinition = getBookDefinition();
 
         transformTocService.transformToc(tocDocument);
         tocHeadersSubstitutionService.substituteTocHeadersWithDates(tocDocument,
                 new DocMetadataServiceContainer(docMetadataService,
                     getJobInstanceId(),
-                    getBookDefinition().getTitleId()
+                    bookDefinition.getTitleId()
                 ),
-                getBookDefinition().isSubstituteTocHeaders());
+                bookDefinition.getSubstituteTocHeadersLevel());
 
         jsoup.saveDocument(destDir, toc.getName(), tocDocument);
         return ExitStatus.COMPLETED;

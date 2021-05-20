@@ -27,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.jetbrains.annotations.NotNull;
 import org.mockito.internal.util.collections.Sets;
@@ -73,6 +74,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final String CRLF = "\r\n";
     private static final String PDF_DOES_NOT_EXIST_MESSAGE = "PDF file does not exist on server.";
     private static final Set<String> REGISTERED_PUBLISHERS = Sets.newSet(USCL_PUBLISHER_NAME, CW_PUBLISHER_NAME);
+    private static final String SUBSTITUTE_TOC_HEADERS_LEVEL = "substituteTocHeadersLevel";
+    private static final String ERROR_REQUIRED = "error.required";
+    private static final String ERROR_POSITIVE_INTEGER = "error.positive.integer";
 
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -231,27 +235,27 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
         // Only run these validation when Validate Button or Book Definition is set as Complete.
         if (form.getIsComplete() || validateForm) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", ERROR_REQUIRED);
 
             if (form.getSourceType() != SourceType.XPP) {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", ERROR_REQUIRED);
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", ERROR_REQUIRED);
             }
             switch (form.getSourceType()) {
             case TOC:
                 checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
                 checkSpecialCharacters(errors, form.getTocCollectionName(), "tocCollectionName", true);
                 checkSpecialCharacters(errors, form.getDocCollectionName(), "docCollectionName", true);
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", ERROR_REQUIRED);
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", ERROR_REQUIRED);
                 break;
             case NORT:
                 checkSpecialCharacters(errors, form.getNortDomain(), "nortDomain", true);
                 checkSpecialCharacters(errors, form.getNortFilterView(), "nortFilterView", true);
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", ERROR_REQUIRED);
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", ERROR_REQUIRED);
                 break;
             case FILE:
                 checkMaxLength(
@@ -269,9 +273,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 break;
             }
 
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", ERROR_REQUIRED);
 
             checkIsbnNumber(errors, form.getIsbn(), "isbn");
             checkIssnNumber(errors, form.getIssn(), "issn");
@@ -281,20 +285,20 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             if (isSplitBook(form)) {
                 if (!form.isGroupsEnabled()) {
-                    errors.rejectValue("groupsEnabled", "error.required");
+                    errors.rejectValue("groupsEnabled", ERROR_REQUIRED);
                 }
             }
         }
 
         if (form.isGroupsEnabled()) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "groupName", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "groupName", ERROR_REQUIRED);
             if (isSplitBook(form)) {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", ERROR_REQUIRED);
             }
         }
 
         if (!form.isSplitTypeAuto()) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitEBookParts", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitEBookParts", ERROR_REQUIRED);
             if (form.getSplitEBookParts() != null && form.getSplitEBookParts() > 0) {
                 validateSplitDocuments(form, errors);
             }
@@ -309,12 +313,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (validateForm) {
             errors.rejectValue("validateForm", "mesg.validate.form");
         }
+
+        validateSubstitutionTocLevel(form, errors);
     }
 
     // All the validations to verify that the Title ID is formed with all requirements
     private void validateTitleId(final EditBookDefinitionForm form, final Errors errors) {
         final String titleId = form.getTitleId();
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", ERROR_REQUIRED);
         checkForSpaces(errors, titleId, "titleId", "Title ID");
         checkMaxLength(
             errors,
@@ -324,7 +330,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             new Object[] {"Title ID", MAXIMUM_CHARACTER_40});
 
         // Validate publisher information
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", ERROR_REQUIRED);
 
         // Validate publication and title ID
         if (StringUtils.isNotEmpty(titleId)) {
@@ -340,28 +346,28 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                     final String pubAbbr = form.getPubAbbr();
                     checkForSpaces(errors, pubAbbr, "pubAbbr", "Pub Abbreviation");
                     checkSpecialCharacters(errors, pubAbbr, "pubAbbr", false);
-                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", "error.required");
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", ERROR_REQUIRED);
                 } else if (contentType != null
                     && WebConstants.DOCUMENT_TYPE_COURT_RULES.equalsIgnoreCase(contentType.getName())) {
                     // Validate Court Rules fields are filled out
-                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "error.required");
-                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", "error.required");
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", ERROR_REQUIRED);
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", ERROR_REQUIRED);
                 } else if (contentType != null
                     && WebConstants.DOCUMENT_TYPE_SLICE_CODES.equalsIgnoreCase(contentType.getName())) {
                     // Validate Slice Codes fields are filled out
-                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
-                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", ERROR_REQUIRED);
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", ERROR_REQUIRED);
                 } else {
-                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", ERROR_REQUIRED);
                 }
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", ERROR_REQUIRED);
             } else if (CW_PUBLISHER_NAME.equalsIgnoreCase(publisher)) {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", ERROR_REQUIRED);
             } else {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", ERROR_REQUIRED);
 
                 // Validate Product Code
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", ERROR_REQUIRED);
                 final String productCode = form.getProductCode();
                 checkForSpaces(errors, productCode, "productCode", "Product Code");
                 checkSpecialCharacters(errors, productCode, "productCode", true);
@@ -408,10 +414,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             checkForSpaces(errors, pubInfo, "pubInfo", "Pub Info");
             checkSpecialCharacters(errors, pubInfo, "pubInfo", true);
         } else {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", ERROR_REQUIRED);
         }
     }
 
@@ -584,7 +590,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final File directory,
         final String fileName) {
         if (StringUtils.isBlank(fileName)) {
-            errors.rejectValue(fieldName, "error.required");
+            errors.rejectValue(fieldName, ERROR_REQUIRED);
             return false;
         } else {
             final File file = new File(directory, fileName);
@@ -605,8 +611,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final List<String> tocGuids = new ArrayList<>();
         for (final SplitDocument document : form.getSplitDocuments()) {
             Objects.requireNonNull(document);
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].tocGuid", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].note", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].tocGuid", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].note", ERROR_REQUIRED);
 
             String tocGuid = null;
             // Check if there are duplicate guids
@@ -641,8 +647,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final List<String> documentGuids = new ArrayList<>();
         for (final ExcludeDocument document : form.getExcludeDocuments()) {
             ValidationUtils
-                .rejectIfEmptyOrWhitespace(errors, "excludeDocuments[" + i + "].documentGuid", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "excludeDocuments[" + i + "].note", "error.required");
+                .rejectIfEmptyOrWhitespace(errors, "excludeDocuments[" + i + "].documentGuid", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "excludeDocuments[" + i + "].note", ERROR_REQUIRED);
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_512,
@@ -682,10 +688,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         int i = 0;
         final List<String> tocGuids = new ArrayList<>();
         for (final RenameTocEntry label : form.getRenameTocEntries()) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].tocGuid", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].oldLabel", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].newLabel", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].note", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].tocGuid", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].oldLabel", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].newLabel", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].note", ERROR_REQUIRED);
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_1024,
@@ -738,8 +744,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         int i = 0;
         final List<String> documentGuids = new ArrayList<>();
         for (final TableViewer document : form.getTableViewers()) {
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers[" + i + "].documentGuid", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers[" + i + "].note", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers[" + i + "].documentGuid", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers[" + i + "].note", ERROR_REQUIRED);
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_512,
@@ -781,10 +787,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final List<String> copyrightGuids = new ArrayList<>();
         for (final DocumentCopyright documentCopyright : form.getDocumentCopyrights()) {
             ValidationUtils
-                .rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].copyrightGuid", "error.required");
+                .rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].copyrightGuid", ERROR_REQUIRED);
             ValidationUtils
-                .rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].newText", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].note", "error.required");
+                .rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].newText", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].note", ERROR_REQUIRED);
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_512,
@@ -822,10 +828,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final List<String> currencyGuids = new ArrayList<>();
         for (final DocumentCurrency documentCurrency : form.getDocumentCurrencies()) {
             ValidationUtils
-                .rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].currencyGuid", "error.required");
+                .rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].currencyGuid", ERROR_REQUIRED);
             ValidationUtils
-                .rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].newText", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].note", "error.required");
+                .rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].newText", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].note", ERROR_REQUIRED);
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_512,
@@ -997,7 +1003,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                     keywordTypeId,
                     form.getKeywords().computeIfAbsent(keywordTypeId, k -> Collections.emptyList())))
             .filter(idValuesPair -> idValuesPair.getRight().isEmpty() || idValuesPair.getRight().contains(-1L))
-            .forEach(idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", "error.required"));
+            .forEach(idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", ERROR_REQUIRED));
 
         validateSubjectMatterKeywords(form, errors, keywordTypeCodes);
     }
@@ -1050,8 +1056,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (form.isIndexIncluded() && SourceType.TOC.equals(form.getSourceType())) {
             checkSpecialCharacters(errors, form.getTocCollectionName(), "indexTocCollectionName", true);
             checkGuidFormat(errors, form.getRootTocGuid(), "indexTocRootGuid");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocCollectionName", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocRootGuid", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocCollectionName", ERROR_REQUIRED);
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indexTocRootGuid", ERROR_REQUIRED);
 
             checkMaxLength(
                 errors,
@@ -1185,7 +1191,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void checkPrintSubNumber(final Errors errors, final String text, final String fieldName) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, fieldName, "error.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, fieldName, ERROR_REQUIRED);
         if (StringUtils.isNotEmpty(text)) {
             final Pattern pattern = Pattern.compile("\\d");
             final Matcher matcher = pattern.matcher(text);
@@ -1262,6 +1268,16 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             if (currentOrder.equals(splitterOrders.get(index))) {
                 errors.rejectValue(PRINT_COMPONENT, "error.print.component.splitter.followed");
                 break;
+            }
+        }
+    }
+
+    private void validateSubstitutionTocLevel(final EditBookDefinitionForm form, final Errors errors) {
+        if (form.isSubstituteTocHeaders()) {
+            if (form.getSubstituteTocHeadersLevel() == null) {
+                errors.rejectValue(SUBSTITUTE_TOC_HEADERS_LEVEL, ERROR_REQUIRED);
+            } else if (form.getSubstituteTocHeadersLevel() <= 0) {
+                errors.rejectValue(SUBSTITUTE_TOC_HEADERS_LEVEL, ERROR_POSITIVE_INTEGER);
             }
         }
     }

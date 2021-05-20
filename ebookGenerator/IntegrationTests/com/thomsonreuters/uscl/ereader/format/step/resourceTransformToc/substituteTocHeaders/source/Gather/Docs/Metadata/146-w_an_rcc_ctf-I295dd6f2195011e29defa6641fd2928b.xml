@@ -28,7 +28,7 @@
 			<md.decideddate>20111001</md.decideddate>
 			<md.publisheddate>20210317</md.publisheddate>
 			<md.revisiondate>20111001</md.revisiondate>
-			<md.currency.default>October 2011</md.currency.default>
+			<md.currency.default/>
 			<md.pubyear/>
 		</md.dates>
 		<md.references/>

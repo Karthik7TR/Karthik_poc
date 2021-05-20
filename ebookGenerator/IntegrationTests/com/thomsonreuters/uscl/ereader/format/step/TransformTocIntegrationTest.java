@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.service.TocHeadersSubstitutionService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformTocService;
 import com.thomsonreuters.uscl.ereader.format.service.TransformTocServiceImpl;
@@ -24,6 +25,7 @@ import java.net.URISyntaxException;
 @ActiveProfiles("IntegrationTests")
 public class TransformTocIntegrationTest {
     private static final String RESOURCE_DIR_NAME = "resourceTransformToc";
+    private static final int SUBSTITUTING_HEADER_LEVEL = 3;
 
     @Autowired
     private TransformToc transformToc;
@@ -45,7 +47,8 @@ public class TransformTocIntegrationTest {
     @Test
     @SneakyThrows
     public void shouldSubstituteTocHeaders() {
-        transformToc.getBookDefinition().setSubstituteTocHeaders(true);
+        BookDefinition bookDefinition = transformToc.getBookDefinition();
+        bookDefinition.setSubstituteTocHeadersLevel(SUBSTITUTING_HEADER_LEVEL);
         runner.test(transformToc, "substituteTocHeaders");
     }
 

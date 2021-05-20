@@ -633,6 +633,15 @@
 				<form:radiobutton path="substituteTocHeaders" value="true" />Enabled
 				<form:radiobutton path="substituteTocHeaders" value="false" />Disabled
 			</div>
+			<div id="substituteTocHeadersLevel" style="display:none">
+				<div class="row">
+					<label for="substituteTocLevel" class="labelCol">Choose Substitution Level</label>
+					<input name="substituteTocHeadersLevel" id="substituteTocLevel" type="number" min="1" value="${editBookDefinitionForm.substituteTocHeadersLevel}"/>
+					<div class="errorDiv">
+						<form:errors path="substituteTocHeadersLevel" cssClass="errorMessage" />
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

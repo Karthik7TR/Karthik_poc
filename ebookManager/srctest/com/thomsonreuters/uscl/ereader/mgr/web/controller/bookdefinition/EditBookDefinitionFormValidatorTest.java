@@ -78,11 +78,13 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String SUBJECT_KEYWORD_ERROR = "error.keyword.max.subjecs.number.exceeded";
     private static final String WRONG_DATE_FORMAT_ERROR = "error.date.format";
     private static final String NOT_EXIST_ERROR = "error.not.exist";
-    private static final String REQUIRED_ERROR = "error.required";
+    private static final String ERROR_REQUIRED = "error.required";
     private static final String REQUIRED_ERROR_PDF = "error.required.pdf";
+    private static final String ERROR_POSITIVE_INTEGER = "error.positive.integer";
     private static final String WRONG_PDF_FILE_EXTENSION_ERROR = "error.pdf.wrong.extension";
     private static final String FORBIDDEN_CHARACTERS_IN_PDF_NAME_ERROR = "error.pdf.forbidden.characters";
     private static final Map<String, String> TITLE_ID_BY_PUBLISHER = new HashMap<>();
+    private static final String SUBSTITUTE_TOC_HEADERS_LEVEL = "substituteTocHeadersLevel";
 
     private List<KeywordTypeCode> KEYWORD_CODES;
 
@@ -134,8 +136,8 @@ public final class EditBookDefinitionFormValidatorTest {
     public void testNoTitleId() {
         // verify errors
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("publisher").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("titleId").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
         Assert.assertEquals(8, errors.getAllErrors().size());
     }
@@ -149,8 +151,8 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setPublisher(USCL);
         // verify errors
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubInfo").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("contentTypeId").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
         Assert.assertEquals(4, errors.getAllErrors().size());
     }
@@ -169,7 +171,7 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setGroupsEnabled(true);
         // verify errors
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("groupName").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
         Assert.assertEquals(8, errors.getAllErrors().size());
     }
@@ -180,8 +182,8 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setGroupsEnabled(true);
         // verify errors
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("subGroupHeading").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("groupName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("subGroupHeading").getCode());
         Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
         Assert.assertEquals(9, errors.getAllErrors().size());
     }
@@ -193,7 +195,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
         expectReplayKeywordTypeCodes();
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("printSubNumber").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("printSubNumber").getCode());
     }
 
     @Test
@@ -246,16 +248,16 @@ public final class EditBookDefinitionFormValidatorTest {
         // Verify Analytical content type requirements
         form.setPubAbbr(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("pubAbbr").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubAbbr").getCode());
 
         form.setContentTypeId(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("pubAbbr").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubAbbr").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("contentTypeId").getCode());
 
         form.setPublisher(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("publisher").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(mockDocumentTypeCodeService);
@@ -281,18 +283,18 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setState(null);
         form.setPubType(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("state").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("pubType").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("state").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubType").getCode());
 
         form.setContentTypeId(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("state").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("pubType").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("state").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubType").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("contentTypeId").getCode());
 
         form.setPublisher(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("publisher").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -317,17 +319,17 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setJurisdiction(null);
         form.setPubInfo(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("jurisdiction").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("jurisdiction").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubInfo").getCode());
 
         form.setContentTypeId(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("pubInfo").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("contentTypeId").getCode());
 
         form.setPublisher(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("publisher").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -480,15 +482,15 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setNortFilterView(null);
         form.setFrontMatterTocLabel(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("copyright").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("nortDomain").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("nortFilterView").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("keywords[2]").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("proviewDisplayName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("frontMatterTitle.bookNameText").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("copyright").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("materialId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("isbn").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("nortDomain").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("nortFilterView").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("frontMatterTocLabel").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("keywords[2]").getCode());
         Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
@@ -519,15 +521,15 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setRootTocGuid(null);
         form.setFrontMatterTocLabel(null);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("copyright").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("keywords[2]").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("proviewDisplayName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("frontMatterTitle.bookNameText").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("copyright").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("materialId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("isbn").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("tocCollectionName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("rootTocGuid").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("frontMatterTocLabel").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("keywords[2]").getCode());
         Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
@@ -564,18 +566,18 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setGroupName(null);
 
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("copyright").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("codesWorkbenchBookName").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("keywords[2]").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("proviewDisplayName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("frontMatterTitle.bookNameText").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("copyright").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("materialId").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("isbn").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("codesWorkbenchBookName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("frontMatterTocLabel").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("keywords[2]").getCode());
         Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("splitEBookParts").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("subGroupHeading").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("splitEBookParts").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("subGroupHeading").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("groupName").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(keywordTypeCodeSevice);
@@ -782,7 +784,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.required", errors.getFieldError("excludeDocuments[0].documentGuid").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("excludeDocuments[0].documentGuid").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -808,7 +810,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.required", errors.getFieldError("splitDocuments[0].tocGuid").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("splitDocuments[0].tocGuid").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -918,9 +920,9 @@ public final class EditBookDefinitionFormValidatorTest {
 
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.required", errors.getFieldError("renameTocEntries[0].tocGuid").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("renameTocEntries[0].oldLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("renameTocEntries[0].newLabel").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("renameTocEntries[0].tocGuid").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("renameTocEntries[0].oldLabel").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("renameTocEntries[0].newLabel").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -998,7 +1000,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.required", errors.getFieldError("tableViewers[0].documentGuid").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("tableViewers[0].documentGuid").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -1223,7 +1225,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
         validator.validate(form, errors);
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.required", errors.getFieldError("groupsEnabled").getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("groupsEnabled").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
@@ -1261,7 +1263,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
 
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.required", errors.getFieldError(fieldName).getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError(fieldName).getCode());
     }
 
     @Test
@@ -1335,14 +1337,14 @@ public final class EditBookDefinitionFormValidatorTest {
         keywords.put(PUBLISHER_KEYWORD_ID_USCL, Collections.singletonList(1L));
         testKeywords(USCL, keywords, Arrays.asList(
                 err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_USCL))),
-                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)).getCode())));
+                err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)).getCode())));
     }
 
     @Test
     public void testProviewKeywordsAllRequiredMissingUS() {
         testKeywords(USCL, new HashMap<>(), Arrays.asList(
-                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_USCL)).getCode()),
-                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)).getCode())));
+                err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_USCL)).getCode()),
+                err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_USCL)).getCode())));
     }
 
     @Test
@@ -1361,14 +1363,14 @@ public final class EditBookDefinitionFormValidatorTest {
         keywords.put(PUBLISHER_KEYWORD_ID_CW, Collections.singletonList(1L));
         testKeywords(CW, keywords, Arrays.asList(
                 err -> Assert.assertNull(err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_CW))),
-                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)).getCode())));
+                err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)).getCode())));
     }
 
     @Test
     public void testProviewKeywordsAllRequiredMissingCW() {
         testKeywords(CW, new HashMap<>(), Arrays.asList(
-                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_CW)).getCode()),
-                err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)).getCode())));
+                err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, PUBLISHER_KEYWORD_ID_CW)).getCode()),
+                err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, JURISDICTION_KEYWORD_ID_CW)).getCode())));
     }
 
     @Test
@@ -1381,14 +1383,14 @@ public final class EditBookDefinitionFormValidatorTest {
     public void testSubjectKeywordsUSRequired() {
         setSubjectKeywordRequired(USCL);
         testKeywords(USCL, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_USCL, 0),
-                Collections.singletonList(err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)).getCode())));
+                Collections.singletonList(err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_USCL)).getCode())));
     }
 
     @Test
     public void testSubjectKeywordsCWRequired() {
         setSubjectKeywordRequired(CW);
         testKeywords(CW, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_CW, 0),
-                Collections.singletonList(err -> Assert.assertEquals(REQUIRED_ERROR, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)).getCode())));
+                Collections.singletonList(err -> Assert.assertEquals(ERROR_REQUIRED, err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)).getCode())));
     }
 
     @Test
@@ -1421,6 +1423,38 @@ public final class EditBookDefinitionFormValidatorTest {
         testKeywords(CW, getSubjectKeywordsFormData(SUBJECT_KEYWORD_ID_CW, 4), Collections.singletonList(err -> Assert.assertEquals(
                 SUBJECT_KEYWORD_ERROR,
                 err.getFieldError(String.format(KEYWORDS_ERROR_PATTERN, SUBJECT_KEYWORD_ID_CW)).getCode())));
+    }
+
+    @Test
+    public void testSubstitutionTocHeadersLevelNotSet() {
+        form.setSubstituteTocHeaders(false);
+        form.setSubstituteTocHeadersLevel(null);
+
+        validator.validate(form, errors);
+
+        Assert.assertNull(errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL));
+    }
+
+    @Test
+    public void testSubstitutionTocHeadersLevelNull() {
+        form.setSubstituteTocHeaders(true);
+        form.setSubstituteTocHeadersLevel(null);
+
+        validator.validate(form, errors);
+
+        Assert.assertEquals(ERROR_REQUIRED,
+                errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL).getCode());
+    }
+
+    @Test
+    public void testSubstitutionTocHeadersLevelNegative() {
+        form.setSubstituteTocHeaders(true);
+        form.setSubstituteTocHeadersLevel(-1);
+
+        validator.validate(form, errors);
+
+        Assert.assertEquals(ERROR_POSITIVE_INTEGER,
+                errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL).getCode());
     }
 
     private void testKeywords(final String publisher, final Map<Long, Collection<Long>> keywords, final List<Consumer<Errors>> assertions) {

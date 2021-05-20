@@ -37,7 +37,6 @@ import org.apache.commons.lang3.StringUtils;
         query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId")})
 @Table(name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
-    //private static final Logger log = LogManager.getLogger(EbookAudit.class);
     private static final long serialVersionUID = 2L;
 
     // Lowered the Max characters to account for some unicode characters
@@ -395,9 +394,10 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private String indexTocRootGuid;
 
-    @Column(name="SUBSTITUTE_TOC_HEADERS")
+    @Column(name="SUBSTITUTE_TOC_HEADERS_LEVEL")
     @Basic(fetch = FetchType.EAGER)
-    private String substituteTocHeaders;
+    @Getter @Setter
+    private Integer substituteTocHeadersLevel;
 
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
@@ -545,7 +545,7 @@ public class EbookAudit implements Serializable {
         setTocCollectionName(that.getTocCollectionName());
         setDocCollectionName(that.getDocCollectionName());
         setRootTocGuid(that.getRootTocGuid());
-        setSubstituteTocHeaders(that.isSubstituteTocHeaders());
+        setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
     }
 
     /**
@@ -632,7 +632,7 @@ public class EbookAudit implements Serializable {
         setTocCollectionName(that.getTocCollectionName());
         setDocCollectionName(that.getDocCollectionName());
         setRootTocGuid(that.getRootTocGuid());
-        setSubstituteTocHeaders(that.isSubstituteTocHeaders());
+        setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
     }
 
     @Transient
@@ -728,7 +728,7 @@ public class EbookAudit implements Serializable {
         buffer.append("printPageNumbers=[").append(printPageNumbers).append("] ");
         buffer.append("inlineTocIncluded=[").append(inlineTocIncluded).append("] ");
         buffer.append("indexIncluded=[").append(indexIncluded).append("] ");
-        buffer.append("substituteTocHeaders=[").append(substituteTocHeaders).append("] ");
+        buffer.append("substituteTocHeadersLevel=[").append(substituteTocHeadersLevel).append("] ");
         if (isEqualsYes(indexIncluded)) {
             buffer.append("indexTocCollectionName=[").append(indexTocCollectionName).append("] ");
             buffer.append("indexDocCollectionName=[").append(indexDocCollectionName).append("] ");
@@ -938,13 +938,5 @@ public class EbookAudit implements Serializable {
 
     public void setIndexIncluded(final boolean isIndexIncluded) {
         indexIncluded = getStringForBooleanValue(isIndexIncluded);
-    }
-
-    public void setSubstituteTocHeaders(final boolean isSubstituteTocHeaders) {
-        substituteTocHeaders = getStringForBooleanValue(isSubstituteTocHeaders);
-    }
-
-    public boolean isSubstituteTocHeaders() {
-        return isEqualsYes(substituteTocHeaders);
     }
 }

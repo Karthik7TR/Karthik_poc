@@ -138,6 +138,24 @@ $(function() {
         };
     };
 
+	const addShowHideElementHandler = function(radioInputName, hidingElementId, onShow) {
+		showSelectOptions($("input:radio[name=" + radioInputName + "]:checked").val(), hidingElementId);
+		$('input:radio[name=' + radioInputName + ']').change(function () {
+			if ($(this).val() === "true") {
+				invoke(onShow);
+				$(hidingElementId).show();
+			} else {
+				$(hidingElementId).hide();
+			}
+		});
+	};
+
+	const invoke = function(functionName) {
+		if (typeof functionName == 'function') {
+			functionName();
+		}
+	}
+
 	var updateSourceType = function(sourceType) {
 		$(".displayTOC").hide();
 		$("#displayNORT").hide();
@@ -222,16 +240,15 @@ $(function() {
 			updateSourceType($(this).val());
 		});
 
-		showSelectOptions($("input:radio[name=indexIncluded]:checked").val(), "#indexData");
+		addShowHideElementHandler("indexIncluded", "#indexData");
+		addShowHideElementHandler("substituteTocHeaders", "#substituteTocHeadersLevel",
+			function() {
+				let level = $("#substituteTocLevel");
+				if (level.val() <= 0) {
+					level.val(3);
+				}
+			});
 
-        $('input:radio[name=indexIncluded]').change(function () {
-            if ($(this).val() == "true") {
-                $("#indexData").show();
-            } else {
-                $("#indexData").hide();
-            }
-        });
-		
 		updateSourceType($('input:radio[name=sourceType]:checked').val());
 		
 		// delete confirmation box

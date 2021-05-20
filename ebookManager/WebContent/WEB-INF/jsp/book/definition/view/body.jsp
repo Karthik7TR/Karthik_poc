@@ -352,10 +352,10 @@ $(document).ready(function() {
 							<span class="field">${ book.versionWithPreviousDocIds }</span>
 						</div>
 					</c:if>
-					<c:if test="${ book.substituteTocHeaders == true }">
+					<c:if test="${ book.substituteTocHeadersLevel > 0 }">
 						<div class="row">
-							<label class="labelCol">Substitute Toc headers with dates</label>
-							<span class="field">${ book.substituteTocHeaders }</span>
+							<label class="labelCol">Substitute Toc headers on level</label>
+							<span class="field">${ book.substituteTocHeadersLevel }</span>
 						</div>
 					</c:if>
 				</div>

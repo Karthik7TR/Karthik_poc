@@ -427,8 +427,10 @@ public class BookDefinition implements Serializable {
     @Getter @Setter
     private String versionWithPreviousDocIds;
 
-    @Column(name="SUBSTITUTE_TOC_HEADERS")
-    private String substituteTocHeaders;
+    @Column(name="SUBSTITUTE_TOC_HEADERS_LEVEL")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private Integer substituteTocHeadersLevel;
 
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
@@ -877,14 +879,6 @@ public class BookDefinition implements Serializable {
         return isEqualsYes(indexIncluded);
     }
 
-    public void setSubstituteTocHeaders(final boolean isSubstituteTocHeaders) {
-        substituteTocHeaders = getStringForBooleanValue(isSubstituteTocHeaders);
-    }
-
-    public boolean isSubstituteTocHeaders() {
-        return isEqualsYes(substituteTocHeaders);
-    }
-
     public BookDefinition() {
         super();
         setIsDeletedFlag(false);
@@ -901,7 +895,7 @@ public class BookDefinition implements Serializable {
         setIsInsStyleFlag(false);
         setIsDelStyleFlag(false);
         setIsRemoveEditorNoteHeadFlag(false);
-        setSubstituteTocHeaders(false);
+        setSubstituteTocHeadersLevel(0);
     }
 
     /**
@@ -973,7 +967,7 @@ public class BookDefinition implements Serializable {
         setPrintSubNumber(that.getPrintSubNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
         setInlineTocIncluded(that.isInlineTocIncluded());
-        setSubstituteTocHeaders(that.isSubstituteTocHeaders());
+        setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
     }
 
     /**
