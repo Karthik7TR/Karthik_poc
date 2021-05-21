@@ -47,6 +47,9 @@ public final class EditBookDefinitionFormTest {
     private static final String BOOK_LANG_FR = "fr";
     private static final String USCL_PUB_INFO_WITH_LANG = "title_id_en";
     private static final String CW_PUB_INFO = "title_id";
+    private static final Integer TOC_SUBSTITUTION_LEVEL_ABSENT = 0;
+    private static final Integer TOC_SUBSTITUTION_LEVEL = 2;
+    private static final Integer TOC_SUBSTITUTION_LEVEL_DEFAULT = 3;
 
     private EditBookDefinitionForm form;
 
@@ -241,6 +244,49 @@ public final class EditBookDefinitionFormTest {
     @Test
     public void defaultNotesOfDecisionsValue() {
         assertTrue(form.isIncludeNotesOfDecisions());
+    }
+
+    @Test
+    public void testTocSubstitution_openEditBookDefinitionPage_noTocSubstitution() {
+        testTocSubstitutionOpenEditBookDefinitionPage(TOC_SUBSTITUTION_LEVEL_ABSENT, TOC_SUBSTITUTION_LEVEL_DEFAULT, false);
+    }
+
+    @Test
+    public void testTocSubstitution_openEditBookDefinitionPage_withTocSubstitution() {
+        testTocSubstitutionOpenEditBookDefinitionPage(TOC_SUBSTITUTION_LEVEL, TOC_SUBSTITUTION_LEVEL, true);
+    }
+
+    @Test
+    public void testTocSubstitution_saveEditBookDefinitionPage_noTocSubstitution() throws ParseException {
+        testTocSubstitutionSaveEditBookDefinitionPage(false, TOC_SUBSTITUTION_LEVEL_ABSENT);
+    }
+
+    @Test
+    public void testTocSubstitution_saveEditBookDefinitionPage_withTocSubstitution() throws ParseException {
+        testTocSubstitutionSaveEditBookDefinitionPage(true, TOC_SUBSTITUTION_LEVEL);
+    }
+
+    private void testTocSubstitutionOpenEditBookDefinitionPage(final Integer substituteTocHeadersLevelInBookDefinition,
+                                                               final Integer substituteTocHeadersLevelInForm, final boolean isSubstituteTocHeadersInForm) {
+        final BookDefinition book = createBookDefinition(USCL_TITLE_ID);
+        book.setSubstituteTocHeadersLevel(substituteTocHeadersLevelInBookDefinition);
+
+        form.copyBookDefinition(book, null);
+
+        Assert.assertEquals(substituteTocHeadersLevelInForm, form.getSubstituteTocHeadersLevel());
+        Assert.assertEquals(isSubstituteTocHeadersInForm, form.isSubstituteTocHeaders());
+    }
+
+    private void testTocSubstitutionSaveEditBookDefinitionPage(final boolean isSubstituteTocHeadersInForm,
+                                                               final Integer substituteTocHeadersLevelInBookDefinition) throws ParseException {
+        final BookDefinition book = createBookDefinition(USCL_TITLE_ID);
+        form.setTitleId(USCL_TITLE_ID);
+        form.setSubstituteTocHeadersLevel(TOC_SUBSTITUTION_LEVEL);
+        form.setSubstituteTocHeaders(isSubstituteTocHeadersInForm);
+
+        form.loadBookDefinition(book);
+
+        Assert.assertEquals(substituteTocHeadersLevelInBookDefinition, book.getSubstituteTocHeadersLevel());
     }
 
     private BookDefinition createBookDefinition(final String titleId) {

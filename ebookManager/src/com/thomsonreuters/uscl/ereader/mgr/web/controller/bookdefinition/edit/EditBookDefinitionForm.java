@@ -69,6 +69,8 @@ public class EditBookDefinitionForm {
     private static final int PUBLISHER_INDEX = 0;
     private static final int PRODUCT_CODE_INDEX = 1;
     private static final int TITLE_NAME_INDEX = 2;
+    private static final int TOC_SUBSTITUTION_LEVEL_ABSENT = 0;
+    private static final int TOC_SUBSTITUTION_LEVEL_DEFAULT = 3;
     private static final String SLASH = "/";
     private static final String UNDERSCORE = "_";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -405,11 +407,11 @@ public class EditBookDefinitionForm {
             indexDocCollectionName = book.getIndexDocCollectionName();
             indexTocRootGuid = book.getIndexTocRootGuid();
 
-            if (book.getSubstituteTocHeadersLevel() != null && book.getSubstituteTocHeadersLevel() > 0) {
+            if (book.getSubstituteTocHeadersLevel() != null && book.getSubstituteTocHeadersLevel() > TOC_SUBSTITUTION_LEVEL_ABSENT) {
                 substituteTocHeaders = true;
                 substituteTocHeadersLevel = book.getSubstituteTocHeadersLevel();
             } else {
-                substituteTocHeadersLevel = 0;
+                substituteTocHeadersLevel = TOC_SUBSTITUTION_LEVEL_DEFAULT;
             }
 
             // Determine if ProView groups are set
@@ -636,7 +638,7 @@ public class EditBookDefinitionForm {
         if (substituteTocHeaders) {
             book.setSubstituteTocHeadersLevel(substituteTocHeadersLevel);
         } else {
-            book.setSubstituteTocHeadersLevel(0);
+            book.setSubstituteTocHeadersLevel(TOC_SUBSTITUTION_LEVEL_ABSENT);
         }
     }
 
