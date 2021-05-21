@@ -303,6 +303,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 validateSplitDocuments(form, errors);
             }
         }
+        validateSubstitutionTocLevel(form, errors);
 
         // Adding error message if any validation fails
         if (errors.hasErrors()) {
@@ -313,8 +314,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (validateForm) {
             errors.rejectValue("validateForm", "mesg.validate.form");
         }
-
-        validateSubstitutionTocLevel(form, errors);
     }
 
     // All the validations to verify that the Title ID is formed with all requirements

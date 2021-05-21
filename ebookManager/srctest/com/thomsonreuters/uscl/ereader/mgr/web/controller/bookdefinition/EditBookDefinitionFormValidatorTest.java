@@ -1427,6 +1427,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
     @Test
     public void testSubstitutionTocHeadersLevelNotSet() {
+        setRequiredFormFields();
         form.setSubstituteTocHeaders(false);
         form.setSubstituteTocHeadersLevel(null);
 
@@ -1436,25 +1437,53 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
+    public void testSubstitutionTocHeadersLevelPositive() {
+        setRequiredFormFields();
+        form.setSubstituteTocHeaders(true);
+        form.setSubstituteTocHeadersLevel(3);
+
+        validator.validate(form, errors);
+
+        Assert.assertNull(errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL));
+    }
+
+    @Test
     public void testSubstitutionTocHeadersLevelNull() {
+        setRequiredFormFields();
         form.setSubstituteTocHeaders(true);
         form.setSubstituteTocHeadersLevel(null);
 
         validator.validate(form, errors);
 
-        Assert.assertEquals(ERROR_REQUIRED,
-                errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL).getCode());
+        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL).getCode());
+        assertFormValidationErrorMessage();
     }
 
     @Test
     public void testSubstitutionTocHeadersLevelNegative() {
+        setRequiredFormFields();
         form.setSubstituteTocHeaders(true);
         form.setSubstituteTocHeadersLevel(-1);
 
         validator.validate(form, errors);
 
-        Assert.assertEquals(ERROR_POSITIVE_INTEGER,
-                errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL).getCode());
+        Assert.assertEquals(ERROR_POSITIVE_INTEGER, errors.getFieldError(SUBSTITUTE_TOC_HEADERS_LEVEL).getCode());
+        assertFormValidationErrorMessage();
+    }
+
+    private void setRequiredFormFields() {
+        form.setTitleId("uscl/an/test");
+        form.setPublisher("publisher");
+        form.setJurisdiction("jurisdiction");
+        form.setPubInfo("pubInfo");
+        form.setProductCode("productCode");
+        form.setContentTypeId(1L);
+        form.setGroupName("groupName");
+    }
+
+    private void assertFormValidationErrorMessage() {
+        Assert.assertNotNull(errors.getFieldError("validateForm"));
+        Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
     }
 
     private void testKeywords(final String publisher, final Map<Long, Collection<Long>> keywords, final List<Consumer<Errors>> assertions) {
