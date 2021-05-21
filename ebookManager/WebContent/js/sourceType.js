@@ -138,14 +138,15 @@ $(function() {
         };
     };
 
-	const addShowHideElementHandler = function(radioInputName, hidingElementId, onShow) {
+	const addShowHideElementHandler = function(radioInputName, hidingElementId, onChange) {
 		showSelectOptions($("input:radio[name=" + radioInputName + "]:checked").val(), hidingElementId);
 		$('input:radio[name=' + radioInputName + ']').change(function () {
 			if ($(this).val() === "true") {
-				invoke(onShow);
+				invoke(onChange);
 				$(hidingElementId).show();
 			} else {
 				$(hidingElementId).hide();
+				invoke(onChange);
 			}
 		});
 	};
