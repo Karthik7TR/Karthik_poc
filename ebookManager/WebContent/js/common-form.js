@@ -27,7 +27,8 @@ $(function() {
 		    $('#dialog').css('left', winW/2-$('#dialog').width()/2);
 		 
 		    //transition effect
-		    $('#dialog').fadeIn(500); 
+		    $('#dialog').fadeIn(500);
+		    $('#validateForm').val(false);
 		});
 		
 		$('#dialog .save').click(function () {
