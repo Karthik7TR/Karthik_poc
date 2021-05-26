@@ -14,7 +14,7 @@ More information about this file can be found in the [configuration guide](https
 ```sh
 ARTIFACTORY_USERNAME="0123456"
 ARTIFACTORY_API_TOKEN="[YOUR TOKEN HERE]"
-AWS_PROFILE="tr-tax-prof-cicd-sandbox"
+AWS_PROFILE="tr-ihn-cicd-sandbox"
 REGION="eu-west-1"
 cumulus installer install --profile ${AWS_PROFILE} --region ${REGION} --installer-file cicd/cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN}
 ```

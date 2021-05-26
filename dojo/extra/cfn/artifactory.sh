@@ -7,7 +7,7 @@ if [[ -z "$1" ]]; then
   exit 1
 fi
 
-PROFILE=tr-tax-prof-cicd-sandbox
+PROFILE=tr-ihn-cicd-sandbox
 ASSET_ID=206296
 RESOURCE_OWNER="trtacloudscrumteam@thomsonreuters.com"
 ENVIRONMENT_TYPE=LAB

@@ -8,7 +8,7 @@ Pipeline:
   ArtifactBucket: a206296-TEN-Acct-Id-bucket
   Notifications:
     # Mandatory: The SNS Arn to publish to for certain events in the pipeline.
-    SnsArn: arn:aws:sns:eu-west-1:462066144630:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic
+    SnsArn: arn:aws:sns:eu-west-1:586370897882:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic
     # Optional. The events to notify on. Defaults to PipelineSuccess and PipelineFailure.
     NotifyOn:
       PipelineSuccess: true
@@ -20,7 +20,7 @@ Components:
   Source:
     Type: S3
     Key: TEN-Acct-Id/pipeline-source.zip  # FIXME Where you want to upload your source file zip to.  This is where the pipeline watches to trigger.
-    Bucket: a206296-tr-tax-prof-cicd-sandbox-eu-west-1-dojo
+    Bucket: a206296-tr-ihn-cicd-sandbox-eu-west-1-dojo
   Build:
     Type: BasicCodeBuild
     BuildSpecLocation: cicd/buildspec.yaml
@@ -28,9 +28,9 @@ Components:
     Type: BasicCodeBuild
     BuildSpecLocation: cicd/bakespec.yaml
     EnvironmentVariables:
-      ARTIFACTORY_USERNAME: s.cumulus.read.only
+      ARTIFACTORY_USERNAME: s.cumulus.readonly
       ARTIFACTORY_PASSWORD:
-        Value: arn:aws:secretsmanager:eu-west-1:462066144630:secret:a206296-artifactory-s-cumulus-read-only
+        Value: arn:aws:secretsmanager:eu-west-1:586370897882:secret:a206296-artifactory-credentials-s-cumulus-readonly
         Type: SECRETS_MANAGER
 
   Deploy:
@@ -42,4 +42,4 @@ Components:
       Approval:
         Enabled: true
         CustomData: QA deploy is queued up for deployment.
-        SnsArn: arn:aws:sns:eu-west-1:462066144630:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic
+        SnsArn: arn:aws:sns:eu-west-1:586370897882:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic

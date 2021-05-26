@@ -9,8 +9,8 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
     ```sh
     SOURCE_ZIPFILE_NAME="pipeline-source.zip"
     S3_SOURCE_BUCKET_DIR="TEN-Acct-Id" # FIXME Change this to your u ID
-    S3_BUCKET_NAME="a206296-tr-tax-prof-cicd-sandbox-eu-west-1-dojo"
-    AWS_PROFILE="tr-tax-prof-cicd-sandbox"
+    S3_BUCKET_NAME="a206296-tr-ihn-cicd-sandbox-eu-west-1-dojo"
+    AWS_PROFILE="tr-ihn-cicd-sandbox"
     REGION="eu-west-1"
     zip -q -r ${SOURCE_ZIPFILE_NAME} . -x '.git/*'
     aws --profile ${AWS_PROFILE} --region ${REGION} s3 cp ${SOURCE_ZIPFILE_NAME} s3://${S3_BUCKET_NAME}/${S3_SOURCE_BUCKET_DIR}/
@@ -31,7 +31,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 1. Reestablish the tunnel:
     ```sh
     ALB_DNS_NAME="Your alb DNS name"
-    AWS_PROFILE="tr-tax-prof-sandbox"
+    AWS_PROFILE="tr-ihn-sandbox"
     REGION="eu-west-1"
     cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
     ```
@@ -48,13 +48,13 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 If you do not receive the email to approve the release, you can find the command to run via the Cumulus CLI.  To do so, follow these instructions:
 1. Run the following command to find the deployment ID and table name you will need to approve the release.
     ```sh
-    cumulus bluegreen list-pending-deployments --profile tr-tax-prof-cicd-sandbox  --region eu-west-1
+    cumulus bluegreen list-pending-deployments --profile tr-ihn-cicd-sandbox  --region eu-west-1
 
     ```
 
 1. Use the blue green ID and the table name to approve the release.
     ```sh
-    cumulus bluegreen approve-deployment --profile tr-tax-prof-cicd-sandbox  --region eu-west-1 --table a206296-TEN-Acct-Id-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+    cumulus bluegreen approve-deployment --profile tr-ihn-cicd-sandbox  --region eu-west-1 --table a206296-TEN-Acct-Id-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
     ```
 
 ## Setting Headers

@@ -17,13 +17,13 @@ Defaults:
     # with those items that are created using Cloud IaC such as the ListenerARN, IAM Role, etc.
     # It is commented out by default so that you can get hands-on experience to see how infrastructure and Cumulus deploys are linked together.
     # If you enable this, be sure to uncomment `Validation` above.
-    # - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-discover-infra-outputs
-    - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-empty-pre-deploy-lambda
+    # - LambdaArn: arn:aws:lambda:eu-west-1:586370897882:function:a206296-dojo-TEN-Acct-Id-discover-infra-outputs
+    - LambdaArn: arn:aws:lambda:eu-west-1:586370897882:function:a206296-dojo-TEN-Acct-Id-pre-deploy-lambda
       InputLocation: dojo/extra/lambda_input.yaml
   PostDeployLambdas:
-    - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-my-post-deploy-lambda
+    - LambdaArn: arn:aws:lambda:eu-west-1:586370897882:function:a206296-dojo-TEN-Acct-Id-my-post-deploy-lambda
   FinallyLambdas:
-    - LambdaArn: arn:aws:lambda:eu-west-1:462066144630:function:a206296-dojo-TEN-Acct-Id-my-finally-lambda
+    - LambdaArn: arn:aws:lambda:eu-west-1:586370897882:function:a206296-dojo-TEN-Acct-Id-my-finally-lambda
 
   DeployerParameters:  # Required: Parameters specific to the blue/green deployer.
 #    AutoApprove: True
@@ -34,7 +34,7 @@ Defaults:
     # as well as information about any testing that may have occurred.
     ApprovalNotifications:
       ApprovalSNSArns:  # Optional. SNS topic to send Release Approval request
-        - "arn:aws:sns:eu-west-1:462066144630:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"
+        - "arn:aws:sns:eu-west-1:586370897882:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"
 
       # Optional. Additional things you want in your release approval request.
       ApprovalNotificationData:
@@ -63,8 +63,8 @@ Defaults:
     # Optional. Determines how automated testing works.
     Testing:
       Automated: True  # Whether automated testing is enabled.
-      SnsArns: "arn:aws:sns:eu-west-1:462066144630:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"  # The SNS topic to notify when testing begins.
-      CodeBuildArn: "arn:aws:codebuild:eu-west-1:462066144630:project/a206296-TEN-Acct-Id-dojo-tester"  # The CodeBuild project that will run automated tests.
+      SnsArns: "arn:aws:sns:eu-west-1:586370897882:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic"  # The SNS topic to notify when testing begins.
+      CodeBuildArn: "arn:aws:codebuild:eu-west-1:586370897882:project/a206296-TEN-Acct-Id-dojo-tester"  # The CodeBuild project that will run automated tests.
       BuildSpec: "cicd/cumulus-testspec.yaml"
 
     Routing:
@@ -109,15 +109,15 @@ Defaults:
         # Alarm: "12345678"
 
       # If an Alarm was specified, this is where the Datadog API and Application keys would go.
-      # DatadogApiKeyArn: arn:aws:secretsmanager:eu-west-1:462066144630:secret:a206296-datadog-api-key
-      # DatadogApplicationKeyArn: arn:aws:secretsmanager:eu-west-1:462066144630:secret:a206296-datadog-app-key
+      # DatadogApiKeyArn: arn:aws:secretsmanager:eu-west-1:586370897882:secret:a206296-datadog-api-key
+      # DatadogApplicationKeyArn: arn:aws:secretsmanager:eu-west-1:586370897882:secret:a206296-datadog-app-key
 
     # If you wanted to skip the approval process, you could set this to True
     # AutoApprove: True
 
 dev:
-  AccountId: "330062551827" # Recommended: The account to deploy to.  Defaults to the account the Deployment Engine is in.
-  AccountRegion: eu-west-1  # Recommended: The region to deploy to.  Defaults to the region the Deployment Engine is in.
+  AccountId: "496598440491" # Mandatory: The account to deploy to.  Defaults to the account the Deployment Engine is in.
+  AccountRegion: eu-west-1  # Mandatory: The region to deploy to.  Defaults to the region the Deployment Engine is in.
   DeployerParameters:
     Stack:
       Parameters: # Environment specific stack parameters
@@ -134,8 +134,8 @@ dev:
         ListenerARN: REPLACE # FIXME HTTPAlbListener from *-dev-alb-ecs-albconfig
 
 qa:
-  AccountId: "330062551827" # Recommended: The account to deploy to.  Defaults to the account the Deployment Engine is in.
-  AccountRegion: eu-west-1  # Recommended: The region to deploy to.  Defaults to the region the Deployment Engine is in.
+  AccountId: "496598440491" # Mandatory: The account to deploy to.  Defaults to the account the Deployment Engine is in.
+  AccountRegion: eu-west-1  # Mandatory: The region to deploy to.  Defaults to the region the Deployment Engine is in.
   DeployerParameters:
     Stack:
       Parameters: # Environment specific stack parameters

@@ -7,5 +7,5 @@ Create your end-to-end pipeline.  This will be used to build the code, bake a co
 
 1. You can create and deploy the pipeline and all ancillary resources using the below command.
     ```sh
-    cumulus pipelines deploy --input-file cicd/cumulus-pipelinespec.yaml --profile tr-tax-prof-cicd-sandbox  --region eu-west-1 --require-approval never
+    cumulus pipelines deploy --input-file cicd/cumulus-pipelinespec.yaml --profile tr-ihn-cicd-sandbox  --region eu-west-1 --require-approval never
     ```

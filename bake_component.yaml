@@ -88,7 +88,7 @@ Resources:
           - Name: ARTIFACTORY_USERNAME
             Value: s.cumulus.read.only
           - Name: ARTIFACTORY_PASSWORD
-            Value: arn:aws:secretsmanager:eu-west-1:462066144630:secret:a206296-artifactory-s-cumulus-read-only
+            Value: arn:aws:secretsmanager:eu-west-1:586370897882:secret:a206296-artifactory-s-cumulus-read-only
             Type: SECRETS_MANAGER
       Source:
         Type: CODEPIPELINE
