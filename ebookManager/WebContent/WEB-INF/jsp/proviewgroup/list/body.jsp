@@ -4,22 +4,31 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm"%>
 
+<c:set var="defaultPageSize" value="<%=WebConstants.DEFAULT_PAGE_SIZE%>"/>
+
+<script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
-		function refresh(){
-			$('#command').val('<%=ProviewGroupForm.Command.REFRESH%>');
-			$('#<%=ProviewGroupForm.FORM_NAME%>').submit();
-			return true; 
-		}
-		
-		function changePageSize(){
-			$('#command').val('<%=ProviewGroupForm.Command.PAGESIZE%>');
-			$('#<%=ProviewGroupForm.FORM_NAME%>').submit();
-			return true; 
-		}
+
+	$(document).ready(function () {
+		$('#command').prop('disabled', true);
+	});
+
+	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
+	$(window).on('pageshow', function() {
+		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);
+	});
+
+	function refresh() {
+		const commandSelector = $('#command');
+		commandSelector.prop('disabled', false);
+		commandSelector.val('<%=ProviewGroupForm.Command.REFRESH%>');
+		submitLeftFormAndBodyForm();
+	}
+
 </script>
 	
 	<%-- Informational Messages area --%>
@@ -36,15 +45,18 @@
 		</div>
 		<br/>
 	</c:if>
-	
-	<form:form action="<%=WebConstants.MVC_PROVIEW_GROUPS%>"
-			   commandName="<%=ProviewGroupForm.FORM_NAME%>" name="groupForm" method="post">
-	
+
+<form:form
+		id="bodyForm"
+		modelAttribute="<%=ProviewGroupForm.FORM_NAME%>"
+		action="<%=WebConstants.MVC_PROVIEW_GROUPS%>"
+		method="get">
+
 	<form:hidden path="command"/>
-	
+
 	Items per page:
-	<form:select path="objectsPerPage" onchange="changePageSize();">
-		<form:option label="20" value="20"/>
+	<form:select path="objectsPerPage" onchange="submitLeftFormAndBodyForm();">
+		<form:option label="${ defaultPageSize }" value="${ defaultPageSize }"/>
 		<form:option label="50" value="50"/>
 		<form:option label="100" value="100"/>
 		<form:option label="250" value="250"/>
@@ -79,5 +91,5 @@
 	<div class="buttons">
 			<input id="refreshButton" type="button" value="Refresh from ProView" onclick="refresh();"/>
 	</div>
-	
-	</form:form>
+
+</form:form>

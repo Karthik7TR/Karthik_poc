@@ -10,10 +10,12 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupContainer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseProviewGroupListController {
     protected List<ProviewGroup> filterProviewGroupList(
-        final ProviewGroupListFilterForm filterForm,
+        final ProviewGroupForm form,
         final List<ProviewGroup> allLatestProviewGroups) {
         final List<ProviewGroup> selectedProviewGroupList = new ArrayList<>();
 
@@ -23,8 +25,8 @@ public abstract class BaseProviewGroupListController {
         boolean groupIdBothWayWildCard = false;
         boolean groupIdEndsWithWildCard = false;
         boolean groupIdStartsWithWildCard = false;
-        String groupNameSearchTerm = filterForm.getGroupName();
-        String groupIdSearchTerm = filterForm.getProviewGroupID();
+        String groupNameSearchTerm = form.getGroupFilterName();
+        String groupIdSearchTerm = form.getGroupFilterId();
 
         if (groupNameSearchTerm != null && groupNameSearchTerm.length() > 0) {
             if (groupNameSearchTerm.endsWith("%") && groupNameSearchTerm.startsWith("%")) {
@@ -106,29 +108,6 @@ public abstract class BaseProviewGroupListController {
 
     /**
      * @param httpSession
-     * @param filterForm
-     */
-    protected void saveProviewGroupListFilterForm(
-        final HttpSession httpSession,
-        final ProviewGroupListFilterForm filterForm) {
-        httpSession.setAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
-    }
-
-    /**
-     * @param httpSession
-     * @return
-     */
-    protected ProviewGroupListFilterForm fetchProviewGroupListFilterForm(final HttpSession httpSession) {
-        ProviewGroupListFilterForm form =
-            (ProviewGroupListFilterForm) httpSession.getAttribute(ProviewGroupListFilterForm.FORM_NAME);
-        if (form == null) {
-            form = new ProviewGroupListFilterForm();
-        }
-        return form;
-    }
-
-    /**
-     * @param httpSession
      * @param allProviewGroups
      */
     protected void saveAllProviewGroups(
@@ -157,15 +136,6 @@ public abstract class BaseProviewGroupListController {
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroupList);
     }
 
-    /**
-     *
-     * @param httpSession
-     * @return
-     */
-    protected List<ProviewGroup> fetchSelectedProviewGroups(final HttpSession httpSession) {
-        return (List<ProviewGroup>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS);
-    }
-
     protected void updateGroupStatus(final HttpSession httpSession, final String groupId,
         final String groupVersion, final String newStatus) {
         final Map<String, ProviewGroupContainer> proviewGroups = fetchAllProviewGroups(httpSession);
@@ -188,26 +158,6 @@ public abstract class BaseProviewGroupListController {
 
     /**
      * @param httpSession
-     * @param form
-     */
-    protected void saveProviewGroupForm(final HttpSession httpSession, final ProviewGroupForm form) {
-        httpSession.setAttribute(ProviewGroupForm.FORM_NAME, form);
-    }
-
-    /**
-     * @param httpSession
-     * @return
-     */
-    protected ProviewGroupForm fetchProviewGroupForm(final HttpSession httpSession) {
-        ProviewGroupForm form = (ProviewGroupForm) httpSession.getAttribute(ProviewGroupForm.FORM_NAME);
-        if (form == null) {
-            form = new ProviewGroupForm();
-        }
-        return form;
-    }
-
-    /**
-     * @param httpSession
      * @param allLatestProviewGroups
      */
     protected void saveAllLatestProviewGroups(
@@ -224,5 +174,18 @@ public abstract class BaseProviewGroupListController {
         final List<ProviewGroup> allLatestProviewGroupList =
             (List<ProviewGroup>) httpSession.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS);
         return allLatestProviewGroupList;
+    }
+
+    protected void updateUserPreferencesForCurrentSession(
+        @NotNull final ProviewGroupForm form,
+        @NotNull final HttpSession httpSession) {
+        Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            sessionPreferences.setGroupFilterName(form.getGroupFilterName());
+            sessionPreferences.setGroupFilterId(form.getGroupFilterId());
+        }
     }
 }

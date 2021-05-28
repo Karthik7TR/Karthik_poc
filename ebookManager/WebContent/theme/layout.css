@@ -772,6 +772,11 @@ div.ui-datepicker{
 	margin-left:1em;
 }
 
+#leftForm #comments, #bodyForm #comments {
+	width: 20em;
+	height: 10em;
+	margin-left:1em;
+}
 
 #supportForm #linkDescription,
 #supportForm #linkAddress {

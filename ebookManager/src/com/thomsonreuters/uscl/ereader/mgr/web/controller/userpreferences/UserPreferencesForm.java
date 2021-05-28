@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceEmailService;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceEmailServiceImpl;
@@ -81,24 +80,5 @@ public class UserPreferencesForm {
         preference.setStartPage(startPage.toString());
         preference.setEmails(StringUtils.join(emails, ","));
         return preference;
-    }
-
-    public String getURL() {
-        switch (startPage) {
-        case PROVIEW_LIST:
-            return WebConstants.MVC_PROVIEW_TITLES;
-        case AUDIT:
-            return WebConstants.MVC_BOOK_AUDIT_LIST;
-        case JOBS:
-            return WebConstants.MVC_JOB_SUMMARY;
-        case QUEUED:
-            return WebConstants.MVC_JOB_QUEUE;
-        case ADMINISTRATION:
-            return WebConstants.MVC_ADMIN_MAIN;
-        case GROUP_LIST:
-            return WebConstants.MVC_PROVIEW_GROUPS;
-        default:
-            return WebConstants.MVC_BOOK_LIBRARY_LIST;
-        }
     }
 }

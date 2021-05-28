@@ -30,6 +30,8 @@ import org.springframework.web.servlet.view.RedirectView;
  * Tests for login/logouot and authentication.
  */
 public final class LoginControllerTest {
+    private static final String CURRENT_SESSION_USER_PREFERENCES = "currentSessionUserPreferences";
+
     private LoginController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -140,6 +142,7 @@ public final class LoginControllerTest {
         Assert.assertTrue(mav.getView() instanceof RedirectView);
         final RedirectView view = (RedirectView) mav.getView();
         Assert.assertEquals(WebConstants.MVC_BOOK_AUDIT_LIST, view.getUrl());
+        assertNotNull(request.getSession().getAttribute(CURRENT_SESSION_USER_PREFERENCES));
 
         EasyMock.verify(mockPreferenceService);
     }

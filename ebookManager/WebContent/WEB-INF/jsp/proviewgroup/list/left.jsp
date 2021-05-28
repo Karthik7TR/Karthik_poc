@@ -5,7 +5,7 @@
 -->
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm"%>
+<%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -13,36 +13,35 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-  	<script>
-  	
-  		$(document).ready(function() {
-  			<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
-  			$("form input").keyup(function(event) {
-  				if (event.keyCode == 13) {
-  					submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.SEARCH%>');
-  				}
-  			});
-  			
-  			
-  		});
-		
-		function submitFilterForm(command) {
-			$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
-			$("#<%=ProviewGroupListFilterForm.FORM_NAME%>").submit();	// POST the HTML form
-		}
-		
-	</script>
-	
-	
+<script type="text/javascript" src="js/form-utils.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		<%-- Submit forms when ENTER key is pressed from within any input field. --%>
+		$("form input").keyup(function (event) {
+			if (event.keyCode == 13) {
+				submitLeftFormAndBodyForm();
+			}
+		});
+	});
+
+	$(window).on('pageshow', function() {
+		$('#groupFilterName').val('${ param.groupFilterName }');
+		$('#groupFilterId').val('${ param.groupFilterId }');
+	});
+
+</script>
+
 <div class="header">Filters</div>
 
-	
-<form:form action="<%=WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED%>"
-			   commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="get">
-	<form:hidden path="filterCommand"/>
-	
+<form:form
+		id="leftForm"
+		modelAttribute="<%=ProviewGroupForm.FORM_NAME%>"
+		action="<%=WebConstants.MVC_PROVIEW_GROUPS%>"
+		method="get">
+
 	<%-- Validation Error Message Presentation (if any) --%>
-	<spring:hasBindErrors name="<%=ProviewGroupListFilterForm.FORM_NAME%>">
+	<spring:hasBindErrors name="<%=ProviewGroupForm.FORM_NAME%>">
 		<div class="errorBox">
 	      <b><spring:message code="please.fix.errors"/>:</b><br/>
 	      <form:errors path="*">
@@ -59,18 +58,16 @@
 	
 	<div class="filterRow">
 		<label>Group Name:</label>
-		<form:input path="groupName"/>
+		<form:input path="groupFilterName"/>
 	</div>
 	<div class="filterRow">
 		<label>Group ID:</label>
-		<form:input path="proviewGroupID"/>
+		<form:input path="groupFilterId"/>
 	</div>
 	
 	<div class="wildCard">Wildcard: %</div>
 	
-	<input id="searchButton" type="button" value="Search" onclick="submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.SEARCH%>')"/>
-	<input id="resetButton" type="button" value="Reset" onclick="submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.RESET%>')"/>
-	
-	
-	
+	<input id="searchButton" type="button" value="Search" onclick="submitLeftFormAndBodyForm()"/>
+	<input id="resetButton" type="button" value="Reset" onclick="submitEmptyLeftFormAndBodyForm()"/>
+
 </form:form>

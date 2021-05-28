@@ -1,8 +1,13 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -41,7 +46,6 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -69,12 +73,19 @@ public final class ProviewGroupListControllerTest {
     private static final String TITLE_VERSION = "v1.1";
     private static final String TITLE_VERSION_2 = "v2.1";
     private static final String GROUP_ID = "groupId";
+    private static final String GROUP_NAME = "groupName";
     private static final String GROUP_VERSION = "2";
-    private static final String GROUP_NAME = "GroupName";
+    private static final String GROUP_FILTER_NAME = "groupFilterName";
+    private static final String GROUP_FILTER_ID = "groupFilterId";
     private static final String REVIEW_STATUS = "Review";
     private static final String REMOVE_STATUS = "Remove";
     private static final String DELETE_STATUS = "Delete";
     private static final String DATE_FORMAT = "yyyyMMdd";
+    private static final String COMMAND = "command";
+    private static final String OBJECTS_PER_PAGE = "objectsPerPage";
+    private static final String DEFAULT_OPP = "20";
+    private static final String OPP_50 = "50";
+    private static final String PERCENT = "%";
 
     @InjectMocks
     private ProviewGroupListController controller;
@@ -95,21 +106,66 @@ public final class ProviewGroupListControllerTest {
     @SuppressWarnings("unused")
     @Mock
     private OutageService mockOutageService;
-    private Map<String, ProviewGroupContainer> proviewGroups;
+    private Map<String, ProviewGroupContainer> allProviewGroups;
     private List<ProviewGroup> selectedProviewGroups;
+    private List<ProviewGroup> allLatestProviewGroups;
 
     @Before
     public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
-
-        proviewGroups = new HashMap<>();
     }
 
     @After
     public void reset() {
         SecurityContextHolder.getContext().setAuthentication(null);
+    }
+
+    @Test
+    public void getSelectionsForGroups_anEmptyProviewGroupListAndNoFilterParamsAreGiven_paginatedListIsNotNull() throws Exception {
+        allLatestProviewGroups = emptyList();
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
+
+        testFilteringForErrors(false);
+    }
+
+    @Test
+    public void getSelectionsForGroups_aProviewGroupListAndNoFilterParamsAreGiven_paginatedListIsNotNull() throws Exception {
+        final HttpSession session = request.getSession();
+
+        final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
+        allLatestProviewGroups = singletonList(proviewGroup);
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
+
+        testFilteringForErrors(false);
+    }
+
+    @Test
+    public void getSelectionsForGroups_proviewIsDown_errorOccurredKeyIsSetToTrue() throws Exception {
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, null);
+        when(mockProviewHandler.getAllProviewGroupInfo()).thenThrow(new ProviewException(""));
+
+        testFilteringForErrors(true);
+    }
+
+    public void testFilteringForErrors(boolean errorOccurred) throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
+        request.setMethod(HttpMethod.GET.name());
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        assertNotNull(mav);
+        assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
+
+        if (errorOccurred) {
+            assertEquals(Boolean.TRUE, mav.getModel().get(WebConstants.KEY_ERROR_OCCURRED));
+        } else {
+            assertNotNull(mav.getModel().get(WebConstants.KEY_PAGINATED_LIST));
+            assertNull(mav.getModel().get(WebConstants.KEY_ERROR_OCCURRED));
+        }
     }
 
     /**
@@ -118,26 +174,25 @@ public final class ProviewGroupListControllerTest {
      * @throws Exception
      */
     @Test
-    public void testPostSelectionsForGroupsRefresh() throws Exception {
+    public void getSelectionsForGroups_commandRefreshIsGiven_paginatedListWithProviewGroupsIsSet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("command", ProviewGroupForm.Command.REFRESH.toString());
-        final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
-        final SubgroupInfo subGroupInfo = new SubgroupInfo();
-        subGroupInfo.setTitleIdList(Collections.singletonList(TITLE_ID));
-        final ProviewGroup proviewGroup = new ProviewGroup();
-        proviewGroup.setSubgroupInfoList(Collections.singletonList(subGroupInfo));
-        final ProviewGroupContainer proviewGroupContainer = new ProviewGroupContainer();
-        proviewGroupContainer.setProviewGroups(Collections.singletonList(proviewGroup));
-        allProviewGroups.put(TITLE_ID, proviewGroupContainer);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(COMMAND, ProviewGroupForm.Command.REFRESH.toString());
 
-        final List<ProviewGroup> allLatestProviewGroups = new ArrayList<>();
-        allLatestProviewGroups.add(proviewGroup);
+        final SubgroupInfo subGroupInfo = new SubgroupInfo();
+        subGroupInfo.setTitleIdList(singletonList(TITLE_ID));
+        final ProviewGroup proviewGroup = new ProviewGroup();
+        proviewGroup.setSubgroupInfoList(singletonList(subGroupInfo));
+        final ProviewGroupContainer proviewGroupContainer = new ProviewGroupContainer();
+        proviewGroupContainer.setProviewGroups(singletonList(proviewGroup));
+        allProviewGroups = singletonMap(TITLE_ID, proviewGroupContainer);
+
+        allLatestProviewGroups = singletonList(proviewGroup);
 
         when(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
         when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
         when(mockProviewAuditService.findMaxRequestDateByTitleIds(Collections.singleton(TITLE_ID)))
-            .thenReturn(Collections.singletonMap(TITLE_ID, new Date()));
+            .thenReturn(singletonMap(TITLE_ID, new Date()));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -156,37 +211,40 @@ public final class ProviewGroupListControllerTest {
      *
      * @throws Exception
      */
-    @Test(expected = ProviewException.class)
-    public void testPostSelectionsForGroupsRefreshProviewException() throws Exception {
+    @Test
+    public void getSelectionsForGroups_commandRefreshAndProviewIsDown_errorOccurredKeyIsSetToTrue() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("command", ProviewGroupForm.Command.REFRESH.toString());
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(COMMAND, ProviewGroupForm.Command.REFRESH.toString());
 
         when(mockProviewHandler.getAllProviewGroupInfo()).thenThrow(new ProviewException(""));
 
-        handlerAdapter.handle(request, response, controller);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        assertEquals(Boolean.TRUE, mav.getModel().get(WebConstants.KEY_ERROR_OCCURRED));
     }
 
     /**
-     * Test /ebookManager/proviewGroups.mvc command = PAGESIZE
+     * Test /ebookManager/proviewGroups.mvc?objectsPerPage=50
      *
      * @throws Exception
      */
     @Test
-    public void testPostSelectionsForGroupsPagesize() throws Exception {
+    public void getSelectionsForGroups_objectsPerPageIsGiven_pageSizeAndGroupSizeAreSet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("command", ProviewGroupForm.Command.PAGESIZE.toString());
-        final List<ProviewGroup> allProviewGroups = new ArrayList<>();
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(OBJECTS_PER_PAGE, OPP_50);
+        selectedProviewGroups = emptyList();
         final HttpSession session = request.getSession();
-        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, allProviewGroups);
-        session.setAttribute("groupSize", WebConstants.KEY_TOTAL_GROUP_SIZE);
-        session.setAttribute("pageSize", WebConstants.KEY_PAGE_SIZE);
+        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroups);
         request.setSession(session);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
+        final Map<String, Object> model = mav.getModel();
         assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
+        assertEquals(selectedProviewGroups.size(), model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
+        assertEquals(OPP_50, model.get(WebConstants.KEY_PAGE_SIZE));
     }
 
     /**
@@ -195,28 +253,18 @@ public final class ProviewGroupListControllerTest {
      * @throws Exception
      */
     @Test
-    public void testAllLatestProviewGroupsList() throws Exception {
+    public void getSelectionsForGroups_formFilterParamsAreGiven_groupsAreFiltered() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.GET.name());
-        final HttpSession session = request.getSession();
+        request.setParameter(GROUP_FILTER_NAME, PERCENT + GROUP_NAME);
+        request.setParameter(GROUP_FILTER_ID, PERCENT + GROUP_ID);
 
-        final ProviewGroupListFilterForm filterForm = new ProviewGroupListFilterForm();
-        filterForm.setGroupName("%" + GROUP_NAME);
-        filterForm.setProviewGroupID("%" + GROUP_ID);
-        session.setAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
-        session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
-
-        final ProviewTitleForm mockTitleForm = new ProviewTitleForm();
-        mockTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-        session.setAttribute(ProviewTitleForm.FORM_NAME, mockTitleForm);
-        session.setAttribute(WebConstants.KEY_PAGE_SIZE, mockTitleForm.getObjectsPerPage());
-        final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
-        final List<ProviewGroup> allLatestProviewGroups = new ArrayList<>();
-        final ProviewGroup proviewGroup = new ProviewGroup();
-        proviewGroup.setGroupName(GROUP_NAME);
-        proviewGroup.setGroupId(GROUP_ID);
+        final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
+        final ProviewGroup proviewGroupToFilterOut = createProviewGroup("filter", "out");
+        allLatestProviewGroups = new ArrayList<>();
         allLatestProviewGroups.add(proviewGroup);
-
+        allLatestProviewGroups.add(proviewGroupToFilterOut);
+        allProviewGroups = emptyMap();
         when(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
         when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
 
@@ -225,49 +273,32 @@ public final class ProviewGroupListControllerTest {
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        assertEquals("20", model.get(WebConstants.KEY_PAGE_SIZE));
-
+        assertEquals(DEFAULT_OPP, model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(1, model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
+        assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
         verify(mockProviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
         verify(mockProviewHandler).getAllProviewGroupInfo();
     }
 
     @Test
-    public void allLatestProviewGroupsList_exceptionIsThrownByProview_keyErrorOccurredIsSetToTrue() throws Exception {
+    public void getSelectionsForGroups_allLatestProviewGroupsAndPageSizeAttributesAreGiven_pageSizeAndPaginatedListAreSet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.GET.name());
-        when(mockProviewHandler.getAllProviewGroupInfo()).thenThrow(new ProviewException(""));
+        request.setParameter(OBJECTS_PER_PAGE, OPP_50);
 
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        final Map<String, Object> model = mav.getModel();
-        assertEquals(Boolean.TRUE, model.get(WebConstants.KEY_ERROR_OCCURRED));
-    }
-
-    @Test
-    public void allLatestProviewGroupsList_selectedProviewGroupsAttributeIsSet_attributesAreSet() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
-        request.setMethod(HttpMethod.GET.name());
-
+        final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
+        allLatestProviewGroups = singletonList(proviewGroup);
         final HttpSession session = request.getSession();
-        final ProviewGroup proviewGroup = new ProviewGroup();
-        proviewGroup.setGroupId(GROUP_ID);
-        proviewGroup.setGroupName(GROUP_NAME);
-        selectedProviewGroups = Collections.singletonList(proviewGroup);
-        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroups);
-
-        final ProviewGroupForm proviewGroupForm = new ProviewGroupForm();
-        final String opp = "42";
-        proviewGroupForm.setObjectsPerPage(opp);
-        session.setAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
+        controller.saveAllLatestProviewGroups(session, allLatestProviewGroups);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         final Map<String, Object> model = mav.getModel();
-        assertEquals(selectedProviewGroups, model.get(WebConstants.KEY_PAGINATED_LIST));
-        assertEquals(selectedProviewGroups.size(), model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
-        assertNotNull(model.get(ProviewGroupListFilterForm.FORM_NAME));
-        final ProviewGroupForm fetchedProviewGroupForm = (ProviewGroupForm) model.get(ProviewGroupForm.FORM_NAME);
-        assertEquals(opp, fetchedProviewGroupForm.getObjectsPerPage());
+        assertEquals(OPP_50, model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(allLatestProviewGroups, model.get(WebConstants.KEY_PAGINATED_LIST));
+        assertEquals(allLatestProviewGroups, session.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS));
+        assertEquals(allLatestProviewGroups, session.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS));
+        assertEquals(allLatestProviewGroups.size(), model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
     }
 
     /**
@@ -280,14 +311,11 @@ public final class ProviewGroupListControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("groupIds", GROUP_ID);
-        final HttpSession session = request.getSession();
-        session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
 
-        final List<ProviewGroup> groupList = new ArrayList<>();
+        final List<ProviewGroup> groupList = emptyList();
         final ProviewGroupContainer groupContainer = new ProviewGroupContainer();
         groupContainer.setProviewGroups(groupList);
-        final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
-        allProviewGroups.put(GROUP_ID, groupContainer);
+        allProviewGroups = singletonMap(GROUP_ID, groupContainer);
 
         when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
 
@@ -306,7 +334,7 @@ public final class ProviewGroupListControllerTest {
         request.setParameter("groupIds", GROUP_ID);
 
         final HttpSession session = request.getSession();
-        final Map<String, ProviewGroupContainer> allProviewGroups = Collections.emptyMap();
+        allProviewGroups = emptyMap();
         session.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, allProviewGroups);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -334,8 +362,6 @@ public final class ProviewGroupListControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("groupIdByVersion", groupId + "/" + version);
-        final HttpSession session = request.getSession();
-        session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
 
         final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
         final ProviewGroupContainer groupContainer = new ProviewGroupContainer();
@@ -441,7 +467,7 @@ public final class ProviewGroupListControllerTest {
         request.setSession(session);
 
         when(emailUtil.getEmailRecipientsByUsername("tester"))
-            .thenReturn(Collections.singletonList(new InternetAddress("a@mail.com")));
+            .thenReturn(singletonList(new InternetAddress("a@mail.com")));
 
         ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertEquals(WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE, mav.getViewName());
@@ -648,9 +674,10 @@ public final class ProviewGroupListControllerTest {
         final ProviewGroupContainer proviewGroupContainer = new ProviewGroupContainer();
         final ProviewGroup group = getGroup(groupId, groupVersion);
         proviewGroupContainer.setProviewGroups(Collections.singletonList(group));
-        proviewGroups.put(groupId, proviewGroupContainer);
+        allProviewGroups = new HashMap<>();
+        allProviewGroups.put(groupId, proviewGroupContainer);
         selectedProviewGroups = Collections.singletonList(group);
-        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, proviewGroups);
+        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, allProviewGroups);
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroups);
 
         httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, getGroupDetails());
@@ -701,7 +728,7 @@ public final class ProviewGroupListControllerTest {
         GroupDetails subgroup = new GroupDetails();
         subgroup.setId(TITLE_ID);
         subgroup.setBookVersion(titleVersion);
-        subgroup.setTitleIdList(Collections.singletonList(getProviewTitleInfo(titleVersion)));
+        subgroup.setTitleIdList(singletonList(getProviewTitleInfo(titleVersion)));
         return subgroup;
     }
 
@@ -712,5 +739,12 @@ public final class ProviewGroupListControllerTest {
         proviewTitleInfo.setVersion(titleVersion);
         proviewTitleInfo.setStatus(REVIEW_STATUS);
         return proviewTitleInfo;
+    }
+
+    private ProviewGroup createProviewGroup(final String groupName, final String groupId) {
+        final ProviewGroup proviewGroup = new ProviewGroup();
+        proviewGroup.setGroupName(groupName);
+        proviewGroup.setGroupId(groupId);
+        return proviewGroup;
     }
 }

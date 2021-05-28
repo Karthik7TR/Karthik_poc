@@ -154,6 +154,10 @@ public class WebConstants {
     public static final String KEY_SUBJECT_MATTER_CANADA = "subject cw";
     public static final String KEY_SUBJECT_MATTER_IDS = "subjectIds";
 
+    // Filtering params
+    public static final String KEY_GROUP_FILTER_NAME = "groupFilterName";
+    public static final String KEY_GROUP_FILTER_ID = "groupFilterId";
+
     // Document Type Codes
     public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";
     public static final String DOCUMENT_TYPE_COURT_RULES_ABBR = "cr";
@@ -176,7 +180,6 @@ public class WebConstants {
     public static final String MVC_BOOK_LIBRARY_FILTERED = "bookLibraryListFiltered.mvc";
     public static final String MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT = "bookLibraryChangeRowCount.mvc";
     public static final String MVC_PROVIEW_LIST_FILTERED = "proviewListFiltered.mvc";
-    public static final String MVC_PROVIEW_GROUP_LIST_FILTERED = "proviewGroupListFiltered.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
     public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
     public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
@@ -306,9 +309,6 @@ public class WebConstants {
     public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
     public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
     public static final String MVC_PROVIEW_TITLE_MARK_SUPERSEDED = "proviewTitleMarkSuperseded.mvc";
-    public static final String MVC_PROVIEW_GROUP_PROMOTE = "proviewGroupPromote.mvc";
-    public static final String MVC_PROVIEW_GROUP_REMOVE = "proviewGroupRemove.mvc";
-    public static final String MVC_PROVIEW_GROUP_DELETE = "proviewGroupDelete.mvc";
     public static final String MVC_PROVIEW_GROUP_BOOK_PROMOTE = "proviewGroupBookPromote.mvc";
     public static final String MVC_PROVIEW_GROUP_BOOK_REMOVE = "proviewGroupBookRemove.mvc";
     public static final String MVC_PROVIEW_GROUP_BOOK_DELETE = "proviewGroupBookDelete.mvc";

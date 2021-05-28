@@ -6,6 +6,17 @@
 
 <c:set var="userFullName" value="<%=UserUtils.getAuthenticatedUserFullName()%>"/>
 
+<script type="text/javascript">
+	const groupListFilterParams = {
+		groupFilterName: '${ currentSessionUserPreferences.groupFilterName }',
+		groupFilterId: '${ currentSessionUserPreferences.groupFilterId }'
+	};
+	const groupListQueryString = $.param(groupListFilterParams);
+	$(window).on('pageshow', function() {
+		$('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + '?' + groupListQueryString);
+	});
+</script>
+
 <div class="headerLeftSide">
 	<span class="programTitle">THOMSON REUTERS <span style="color:orange">eBook Manager</span></span>  <span class="welcomeMessage"> - Welcome ${userFullName}</span>
 	<c:if test="${not fn:containsIgnoreCase('prod', environmentName) }">

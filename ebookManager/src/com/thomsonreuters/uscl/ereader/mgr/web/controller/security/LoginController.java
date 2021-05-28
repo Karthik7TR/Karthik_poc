@@ -16,7 +16,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import org.apache.log4j.LogManager;
@@ -151,12 +151,10 @@ public class LoginController {
         jobSummaryFilterForm.setTitleId(preferenceForm.getJobSummaryFilterTitleId());
         httpSession.setAttribute(FilterForm.FORM_NAME, jobSummaryFilterForm);
 
-        final ProviewGroupListFilterForm groupListFilterForm = new ProviewGroupListFilterForm();
-        groupListFilterForm.setGroupName(preferenceForm.getGroupFilterName());
-        groupListFilterForm.setProviewGroupID(preferenceForm.getGroupFilterId());
-        httpSession.setAttribute(ProviewGroupListFilterForm.FORM_NAME, groupListFilterForm);
+        final CurrentSessionUserPreferences sessionPreferences = new CurrentSessionUserPreferences(preferenceForm);
+        httpSession.setAttribute(CurrentSessionUserPreferences.NAME, sessionPreferences);
 
-        return new ModelAndView(new RedirectView(preferenceForm.getURL()));
+        return new ModelAndView(new RedirectView(sessionPreferences.getUri()));
     }
 
     /**

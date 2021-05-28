@@ -1,11 +1,13 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -57,16 +59,36 @@ public class UserPreferencesController {
     public ModelAndView postPreferences(
         @ModelAttribute(UserPreferencesForm.FORM_NAME) @Valid final UserPreferencesForm form,
         final BindingResult bindingResult,
+        final HttpSession httpSession,
         final Model model) {
         if (!bindingResult.hasErrors()) {
             final UserPreference preference = form.makeUserPreference();
             preference.setUserName(UserUtils.getAuthenticatedUserName());
             service.save(preference);
 
-            return new ModelAndView(new RedirectView(form.getURL()));
+            final CurrentSessionUserPreferences sessionPreferences =
+                updateAndGetCurrentSessionUserPreferences(form, httpSession);
+
+            return new ModelAndView(new RedirectView(sessionPreferences.getUri()));
         }
 
         model.addAttribute("numberOfEmails", form.getEmails().size());
         return new ModelAndView(WebConstants.VIEW_USER_PREFERENCES);
+    }
+
+    @NotNull
+    private CurrentSessionUserPreferences updateAndGetCurrentSessionUserPreferences(
+        @NotNull final UserPreferencesForm form,
+        @NotNull final HttpSession httpSession) {
+        Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+
+        if (!(preferencesSessionAttribute instanceof CurrentSessionUserPreferences)) {
+            preferencesSessionAttribute = new CurrentSessionUserPreferences(form);
+        }
+
+        final CurrentSessionUserPreferences sessionPreferences =
+            (CurrentSessionUserPreferences) preferencesSessionAttribute;
+        sessionPreferences.setStartPage(form.getStartPage());
+        return sessionPreferences;
     }
 }
