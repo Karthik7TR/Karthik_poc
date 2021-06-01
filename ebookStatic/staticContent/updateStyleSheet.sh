@@ -373,7 +373,7 @@ table.co_borderedTable td.cw_text_indent_0 {\
 \
 \/* <EB-3283 lines at the top of the line in PDF> */\
 table span.co_baselineTextRule::after, .co_form span.co_baselineTextRule::after {\
-  content: "\00a0";\
+  content: "\\00a0";\
 }\
 \
 table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
@@ -387,6 +387,16 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
   text-indent: -1em;\
 }\
 \/* </EB-3202> */\
+\
+/* <EB-3424 styles on items hierarchy> */\
+.co_document.co_KeyRules .kh_division .co_list .co_paragraph {\
+  display: inline;\
+}\
+\
+.co_document.co_KeyRules .kh_division .co_list li {\
+  margin-top: 1em;\
+}\
+/* </EB-3424> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
