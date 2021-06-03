@@ -1,0 +1,135 @@
+<n-docbody>
+    <doc bill="N">
+        <content.metadata.block>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.second.line.cite>
+                        <bop/>
+                        <bos/>Multidistrict Lit Man Preliminary Materials
+                        <eos/>
+                        <eop/>
+                    </cmd.second.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+        <prop.block>
+            <prop.head toc-guid="">
+                <bop/>
+                <bos/>
+                <headtext>Multidistrict Litigation Manual</headtext>
+                <eos/>
+                <eop/>
+            </prop.head>
+            <prop.head toc-guid="Icbcfa40095cb11e4a7a2f300942ac02c">
+                <bop/>
+                <headtext/>
+                <eop/>
+            </prop.head>
+            <content.metadata.block>
+                <cmd.dates>
+                    <cmd.currency.default iso.d="20180501">
+                        <bop/>
+                        <bos/>May 2018 Update
+                        <eos/>
+                        <eop/>
+                    </cmd.currency.default>
+                </cmd.dates>
+            </content.metadata.block>
+            <author.line>
+                <bop/>
+                <bos/>
+                <author>David F. Herr[<footnote.reference refid="I0191b201680911e88f4a9c1f64101294">
+                    a0</footnote.reference>]
+                </author>
+                <eos/>
+                <eop/>
+            </author.line>
+        </prop.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Ia366de2a302211da94bff121034f225f">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>4:8.</label.designator>
+						<headtext>Consolidation—Procedural consolidation</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Joint administration <page no="104"/>might be appropriate in reorganization cases pending in the same court by or against:[<footnote.reference refid="Ife562a707af811eb85999927c99691d3">1</footnote.reference>]</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Procedural consolidation [<eos/>
+						<bos/>
+						<footnote.reference refid="Ife562a717af811eb85999927c99691d3">2</footnote.reference>] related debtors before the <page no="105"/>court; one single unit.<eos/>
+						<page no="106"/>
+					</paratext>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="Ife562a707af811eb85999927c99691d3">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Norton Bankruptcy Law and Practice
+						</paratext>
+						<eos/>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Ife562a717af811eb85999927c99691d3">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>
+							Fed. R. Bankr. P. 1015.<eos/>
+							<page no="105"/>
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+        <content.metadata.block>
+            <cmd.royalty>
+                <cmd.copyright>
+                    <bop/>
+                    <bos/>Westlaw. © 2018 Thomson Reuters.
+                    <eos/>
+                    <bos/>No Claim to Orig. U.S. Govt.
+                    <eos/>
+                    <bos/>Works.
+                    <eos/>
+                    <eop/>
+                </cmd.copyright>
+            </cmd.royalty>
+            <cmd.identifiers>
+                <cmd.cites>
+                    <cmd.first.line.cite>
+                        <bop/>
+                        <bos/>MDLITMAN PREMAT
+                        <eos/>
+                        <eop/>
+                    </cmd.first.line.cite>
+                </cmd.cites>
+            </cmd.identifiers>
+        </content.metadata.block>
+    </doc>
+</n-docbody>

@@ -115,11 +115,16 @@ public final class ProcessPagesIntegrationTest {
         runner.test(step, "processAuthorFootnotes");
     }
 
-
     @Test
     public void shouldProcessFootnoteWithoutLabelDesignator() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "absenceLabelDesignatorTest");
+    }
+
+    @Test
+    public void shouldAppendAndPrependMissingPagebreaks() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        runner.test(step, "appendAndPrependMissingPbs");
     }
 
     private void setUpDocMetadata(final String resourceTestDir) {

@@ -44,6 +44,7 @@ public class MarkupConstants {
     public static final String AUTHOR_FOOTNOTES = "author.footnotes";
     public static final String FOOTNOTE_BLOCK = "footnote.block";
     public static final String LABEL_DESIGNATOR = "label.designator";
+    public static final String FOOTNOTE_REFERENCE = "footnote.reference";
     public static final String FTNNAME = "ftnname";
     public static final String TR_FTN = "tr_ftn";
     public static final String TR_FOOTNOTES = "tr_footnotes";

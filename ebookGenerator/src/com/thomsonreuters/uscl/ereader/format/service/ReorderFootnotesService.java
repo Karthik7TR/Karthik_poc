@@ -85,7 +85,6 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ID;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FOOTNOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FTN;
-import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.LABEL;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
@@ -541,7 +540,7 @@ public class ReorderFootnotesService {
     private void movePagebreakToTheEndOfDocument(final Element section) {
         List<XmlDeclaration> pagebreaks = getProviewPagebreaks(section);
         if (CollectionUtils.isNotEmpty(pagebreaks)) {
-            XmlDeclaration lastPagebreak = pagebreaks.get(pagebreaks.size() - 1);
+            XmlDeclaration lastPagebreak = lastElement(pagebreaks);
             lastPagebreak.remove();
             section.appendChild(lastPagebreak);
         }
@@ -810,41 +809,59 @@ public class ReorderFootnotesService {
     private void addMissingPageLabelsToFootnotesSection(final Element mainSection, final Element footnotesSection) {
         List<XmlDeclaration> mainSectionPagebreaks = getProviewPagebreaks(mainSection);
         List<XmlDeclaration> footnotesPagebreaks = getProviewPagebreaks(footnotesSection);
-        List<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
+        Set<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
                 .filter(mainSectionPagebreak -> !isPagebreakLabelInSection(footnotesPagebreaks, getLabel(mainSectionPagebreak)))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         if (CollectionUtils.isNotEmpty(missingPagebreaks)) {
-            addPageLabelsToSection(missingPagebreaks, mainSectionPagebreaks.get(0), footnotesSection);
+            addMissingPagebreaks(missingPagebreaks, mainSectionPagebreaks, footnotesPagebreaks, footnotesSection);
         }
+    }
+
+    private void addMissingPagebreaks(final Set<XmlDeclaration> missingPagebreaks, final List<XmlDeclaration> mainSectionPagebreaks,
+                                      final List<XmlDeclaration> footnotesPagebreaks, final Element footnotesSection) {
+        final MissingPagebreaksPointer pointer = new MissingPagebreaksPointer();
+        final Map<String, XmlDeclaration> labelToFootnotePagebreak = getLabelToPagebreakMap(footnotesPagebreaks);
+        final Node lastFootnotesPagebreak = lastElement(footnotesPagebreaks);
+
+        mainSectionPagebreaks.forEach(mainPagebreak -> {
+            if (missingPagebreaks.contains(mainPagebreak)) {
+                addMissingPagebreak(footnotesSection, pointer, mainPagebreak);
+            } else {
+                moveMissingPbsPointer(pointer, footnotesSection, labelToFootnotePagebreak, lastFootnotesPagebreak, mainPagebreak);
+            }
+        });
+
+    }
+
+    private void addMissingPagebreak(final Element footnotesSection, final MissingPagebreaksPointer pointer, final XmlDeclaration mainPagebreak) {
+        Node newFootnotePagebreak = mainPagebreak.clone();
+        if (pointer.isEmpty()) {
+            footnotesSection.prependChild(newFootnotePagebreak);
+        } else {
+            pointer.get().after(newFootnotePagebreak);
+        }
+        pointer.set(newFootnotePagebreak);
+    }
+
+    private void moveMissingPbsPointer(final MissingPagebreaksPointer pointer, final Element footnotesSection,
+                                       final Map<String, XmlDeclaration> labelToFootnotePagebreak,
+                                       final Node lastFootnotesPagebreak, final XmlDeclaration mainPagebreak) {
+        Node footnotesPagebreak = labelToFootnotePagebreak.get(getLabel(mainPagebreak));
+        if (footnotesPagebreak == lastFootnotesPagebreak) {
+            pointer.set(lastElement(footnotesSection.childNodes()));
+        } else {
+            pointer.set(footnotesPagebreak);
+        }
+    }
+
+    private Map<String, XmlDeclaration> getLabelToPagebreakMap(final List<XmlDeclaration> footnotesPagebreaks) {
+        return footnotesPagebreaks.stream().collect(
+                Collectors.toMap(PageNumberUtil::getLabel, Function.identity()));
     }
 
     private boolean isPagebreakLabelInSection(final List<XmlDeclaration> pagebreaks, final String pagebreakLabel) {
         return pagebreaks.stream()
                 .anyMatch(pagebreak -> pagebreakLabel.equals(getLabel(pagebreak)));
-    }
-
-    private void addPageLabelsToSection(final List<XmlDeclaration> missingPagebreaks, final XmlDeclaration firstPagebreakFromMain,
-        final Element section) {
-        XmlDeclaration firstMissingPagebreak = missingPagebreaks.get(0);
-        boolean shouldPrependMissingPagebreaks = shouldPrependMissingPagebreaks(firstMissingPagebreak, firstPagebreakFromMain);
-        if (shouldPrependMissingPagebreaks) {
-            Collections.reverse(missingPagebreaks);
-        }
-        for (XmlDeclaration pagebreak : missingPagebreaks) {
-            addPageLabelToSection(pagebreak, section, shouldPrependMissingPagebreaks);
-        }
-    }
-
-    private boolean shouldPrependMissingPagebreaks(final XmlDeclaration firstMissingPagebreak, final XmlDeclaration firstPagebreakFromMain) {
-        return firstPagebreakFromMain.attr(LABEL).equals(firstMissingPagebreak.attr(LABEL));
-    }
-
-    private void addPageLabelToSection(final XmlDeclaration pagebreak, final Element section, final boolean shouldPrependMissingPagebreaks) {
-        if (shouldPrependMissingPagebreaks) {
-            section.prependChild(pagebreak.clone());
-        } else {
-            section.appendChild(pagebreak.clone());
-        }
     }
 
     private void convertPagebreaksToProviewPbs(final Element footnotesTemplate) {
@@ -860,12 +877,6 @@ public class ReorderFootnotesService {
         return jsoup.selectXmlProcessingInstructions(element, PB);
     }
 
-    private Set<String> getPagebreakLabels(final Element element) {
-        return getProviewPagebreaks(element).stream()
-                .map(PageNumberUtil::getLabel)
-                .collect(Collectors.toSet());
-    }
-
     private Element getElementByTag(final Element parentElement, final String tagName) {
         return parentElement.getElementsByTag(tagName).first();
     }
@@ -878,6 +889,10 @@ public class ReorderFootnotesService {
         if (Objects.nonNull(element)) {
             element.remove();
         }
+    }
+
+    private <T> T lastElement(final List<T> list) {
+        return CollectionUtils.isNotEmpty(list) ? list.get(list.size() - 1) : null;
     }
 
     @Data
@@ -908,6 +923,22 @@ public class ReorderFootnotesService {
             pagebreakFromMainSection = null;
             pagebreakFromFootnotesSection = null;
             pagebreakSiblingsInFootnotesSection = null;
+        }
+    }
+
+    private static class MissingPagebreaksPointer {
+        private Node placeHolder;
+
+        public Node get() {
+            return placeHolder;
+        }
+
+        public void set(final Node placeHolder) {
+            this.placeHolder = placeHolder;
+        }
+
+        public boolean isEmpty() {
+            return placeHolder == null;
         }
     }
 

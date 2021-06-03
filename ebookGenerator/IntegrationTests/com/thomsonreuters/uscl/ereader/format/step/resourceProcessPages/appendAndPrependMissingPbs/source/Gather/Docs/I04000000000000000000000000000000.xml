@@ -1,0 +1,78 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Multidistrict Lit Man Part II<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="Ia366de24302211da94bff121034f225f">
+					<head parent="doc.title">
+						<bop/>
+						<bos/>
+						<label.name>§ </label.name>
+						<label.designator>4:6.</label.designator>
+						<headtext>Consolidation</headtext>
+						<eos/>
+						<eop/>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>Page 109 <page no="109"/>.<eos/>
+					</paratext>
+					<eop/>
+				</para>
+				<para>
+					<bop/>
+					<bos/>
+					<paratext>On<footnote.reference refid="Ife4673007af811eb85999927c99691d3">1</footnote.reference>]</paratext>
+					<eos/>
+					<eop/>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="Ife4673007af811eb85999927c99691d3">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Rights
+						</paratext>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>MDLITMAN PT II<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

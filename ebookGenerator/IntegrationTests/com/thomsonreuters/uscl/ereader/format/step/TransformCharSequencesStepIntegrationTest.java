@@ -56,6 +56,13 @@ public class TransformCharSequencesStepIntegrationTest {
         runner.test(transformCharSequencesStep, "testRemoveDuplicatedPagebreaks");
     }
 
+    @Test
+    @SneakyThrows
+    public void shouldMovePagebreaksAfterFootnoteReferences() {
+        transformCharSequencesStep.getBookDefinition().setPrintPageNumbers(true);
+        runner.test(transformCharSequencesStep, "testMovePbsAfterFtnReferences");
+    }
+
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)

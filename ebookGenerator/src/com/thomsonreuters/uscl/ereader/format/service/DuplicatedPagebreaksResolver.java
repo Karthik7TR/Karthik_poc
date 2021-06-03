@@ -18,15 +18,16 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BLOCK;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_REFERENCE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LABEL_DESIGNATOR;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SECTION;
 import static java.util.Optional.ofNullable;
 
 @Service
 public class DuplicatedPagebreaksResolver {
-    private static final String SECTION = "section";
+    private static final String LEFT_SQUARE_BRACKET = "[";
     private static final String RIGHT_SQUARE_BRACKET = "]";
-    private static final String FOOTNOTE_REFERENCE = "footnote.reference";
-    private static final String FOOTNOTE_BLOCK = "footnote.block";
-    private static final String LABEL_DESIGNATOR = "label.designator";
 
     public void fixDuplicatedPagebreaks(final Document document) {
         fixPagebreaksInMain(document);
@@ -34,28 +35,31 @@ public class DuplicatedPagebreaksResolver {
     }
 
     private void fixPagebreaksInMain(final Document document) {
-        ofNullable(document.getElementsByTag(SECTION).first()).ifPresent(mainSection ->
-            fixPagebreaks(mainSection, true,
+        ofNullable(document.getElementsByTag(SECTION).first()).ifPresent(mainSection -> {
+            Elements pagebreaks = getPagebreaks(mainSection);
+            extractPagebreaksFromElement(pagebreaks, true,
                     pagebreak -> pagebreakIsInElementToExtract(pagebreak, FOOTNOTE_REFERENCE),
-                    this::extractPagebreakFromFootnoteReference));
+                    this::extractPagebreakFromFootnoteReference);
+            movePagebreaksAfterReferences(pagebreaks);
+        });
     }
 
     public void fixPagebreaksInFootnotes(final Element footnotesSection) {
-        fixPagebreaks(footnotesSection, false,
+        Elements pagebreaks = getPagebreaks(footnotesSection);
+        extractPagebreaksFromElement(pagebreaks, false,
                 pagebreak -> pagebreakIsInElementToExtract(pagebreak, LABEL_DESIGNATOR),
                 this::extractPagebreakFromLabelDesignator);
     }
 
-    private void fixPagebreaks(final Element section,
-                               final boolean movePagebreaksForward,
-                               final Predicate<Element> isInElementToExtract,
-                               final Consumer<Element> extractor) {
-        Elements pagebreaks = getPagebreaks(section);
+    private void extractPagebreaksFromElement(final Elements pagebreaks,
+                                              final boolean movePagebreaksForward,
+                                              final Predicate<Element> isInElementToExtract,
+                                              final Consumer<Element> extractor) {
         Map<String, List<Element>> labelToPagebreaks = getLabelToPagebreaksMap(pagebreaks);
-
         if (movePagebreaksForward) {
             Collections.reverse(pagebreaks);
         }
+
         pagebreaks.stream()
                 .map(PageNumberUtil::getLabelNo)
                 .distinct()
@@ -102,12 +106,16 @@ public class DuplicatedPagebreaksResolver {
 
     private void extractPagebreakFromFootnoteReference(final Element pagebreakToLeave) {
         Element ref = pagebreakToLeave.parent();
-        pagebreakToLeave.remove();
-        Node nextSibling = ref.nextSibling();
-        ref.after(pagebreakToLeave);
+        movePagebreakAfterFootnoteReference(pagebreakToLeave, ref);
+    }
+
+    private void movePagebreakAfterFootnoteReference(final Element pagebreak, final Element footnoteReference) {
+        pagebreak.remove();
+        Node nextSibling = footnoteReference.nextSibling();
+        footnoteReference.after(pagebreak);
         if (startsWithSquareBracket(nextSibling)) {
             removeRightSquareBracket((TextNode) nextSibling);
-            ref.after(new TextNode(RIGHT_SQUARE_BRACKET));
+            footnoteReference.after(new TextNode(RIGHT_SQUARE_BRACKET));
         }
     }
 
@@ -132,5 +140,28 @@ public class DuplicatedPagebreaksResolver {
                 .map(section -> section.getElementsByTag(PageNumberUtil.PAGEBREAK))
                 .flatMap(List::stream)
                 .forEach(Element::remove);
+    }
+
+    private void movePagebreaksAfterReferences(final Elements pagebreaks) {
+        pagebreaks.stream().filter(this::isPagebreakBeforeFootnoteReference).forEach(pagebreak -> {
+            Element footnoteReference = pagebreak.nextElementSibling();
+            movePagebreakAfterFootnoteReference(pagebreak, footnoteReference);
+        });
+    }
+
+    private boolean isPagebreakBeforeFootnoteReference(final Element pagebreak) {
+        Node nextNode = pagebreak.nextSibling();
+        Element nextElement = pagebreak.nextElementSibling();
+        return nextElement != null
+                && FOOTNOTE_REFERENCE.equals(nextElement.tagName())
+                && (nextNode == nextElement || hasNoText(nextNode));
+    }
+
+    private boolean hasNoText(final Node nextNode) {
+        if (nextNode instanceof TextNode) {
+            String text = ((TextNode) nextNode).text().trim();
+            return StringUtils.isEmpty(text) || LEFT_SQUARE_BRACKET.equals(text);
+        }
+        return false;
     }
 }

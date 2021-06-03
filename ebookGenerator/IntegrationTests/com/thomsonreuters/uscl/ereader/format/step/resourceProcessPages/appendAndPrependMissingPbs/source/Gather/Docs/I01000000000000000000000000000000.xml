@@ -1,0 +1,90 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						<bop/>
+						<bos/>Multidistrict Lit Man Highlights<eos/>
+						<eop/>
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<bop/>
+				<bos/>
+				<headtext>Multidistrict Litigation Manual</headtext>
+				<eos/>
+				<eop/>
+			</prop.head>
+			<prop.head toc-guid="I67919ab1114511e69f7284fc34408711">
+				<bop/>
+				<headtext/>
+				<eop/>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20190501">
+						<bop/>
+						<bos/>May 2019 Update<eos/>
+						<eop/>
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<bop/>
+				<bos/>
+				<author>David F. Herr</author>
+				<eos/>
+				<eop/>
+			</author.line>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2017 Thomson/RIA All rights reserved.</include.copyright>
+		</message.block>
+		<section>
+			<section.body>
+				<para>
+					<paratext>Page 101<page no="101"/>Page 102<page no="102"/>Page 103<page no="103"/>[<footnote.reference refid="Ife500ff07af811eb85999927c99691a0">1</footnote.reference>]</paratext>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<page no="101"/><page no="102"/><page no="103"/>
+			<footnote ID="Ife500ff07af811eb85999927c99691a0">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<bop/>
+						<bos/>
+						<paratext>Norton Bankruptcy Law and Practice
+						</paratext>
+						<eos/>
+						<eop/>
+					</para>
+				</footnote.body>
+			</footnote>
+			<page no="104"/>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					<bop/>
+					<bos/>Westlaw. © 2019 Thomson Reuters.  <eos/>
+					<eop/>
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						<bop/>
+						<bos/>MDLITMAN HIGHLIGHTS<eos/>
+						<eop/>
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>
