@@ -6,17 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
@@ -44,13 +41,12 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +65,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
-public class ProviewGroupListController extends BaseProviewGroupListController {
+public class ProviewGroupListController {
     private static final String FINAL = "Final";
     private static final String PROMOTE = "Promote";
     private static final String DELETE = "Delete";
@@ -78,6 +74,8 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     private static final int MAX_NUMBER_OF_RETRIES = 3;
     private static final String BRACKETS_OR_BRACES_REGEX = "[\\[\\]{}]";
 
+    @Autowired
+    private ProviewGroupListService proviewGroupListService;
     @Autowired
     private ProviewHandler proviewHandler;
     @Autowired
@@ -120,74 +118,75 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         final BindingResult bindingResult,
         final HttpSession httpSession,
         final Model model) {
-
         if (bindingResult.hasErrors()) {
             log.debug("Binding errors on Group List page:\n" + bindingResult.getAllErrors().toString());
         }
-
         if (form.getObjectsPerPage() == null) {
             form.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
         }
-
         updateUserPreferencesForCurrentSession(form, httpSession);
 
+        AllProviewGroupsContainer container;
+        try {
+            container = proviewGroupListService.getProviewGroups(form, fetchAllProviewGroups(httpSession),
+                fetchAllLatestProviewGroups(httpSession));
+        } catch (final ProviewException e) {
+            log.warn(e.getMessage(), e);
+            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
+            container = AllProviewGroupsContainer.initEmpty();
+        }
+
+        saveAllProviewGroups(httpSession, container.getAllProviewGroups());
+        saveAllLatestProviewGroups(httpSession, container.getAllLatestProviewGroups());
+        saveSelectedProviewGroups(httpSession, container.getSelectedProviewGroups()); // required for ProviewGroupExcelExportService
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, container.getSelectedProviewGroups());
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 
-        final Command command = form.getCommand();
-        if (Command.REFRESH.equals(command)) {
-            try {
-                final Map<String, ProviewGroupContainer> allProviewGroups = proviewHandler.getAllProviewGroupInfo();
-                updateGroupTitlesLatestUpdateDates(allProviewGroups.values(), httpSession);
-                final List<ProviewGroup> allLatestProviewGroups =
-                    proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups);
-                fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, httpSession);
-
-                saveAllProviewGroups(httpSession, allProviewGroups);
-                saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
-            } catch (final ProviewException e) {
-                log.warn(e.getMessage(), e);
-                model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
-            }
-        }
-
-        List<ProviewGroup> allLatestProviewGroups = fetchAllLatestProviewGroups(httpSession);
-        if (allLatestProviewGroups == null) {
-            allLatestProviewGroups = new ArrayList<>();
-            Map<String, ProviewGroupContainer> allProviewGroups = fetchAllProviewGroups(httpSession);
-            try {
-                if (allProviewGroups == null) {
-                    allProviewGroups = proviewHandler.getAllProviewGroupInfo();
-                    updateGroupTitlesLatestUpdateDates(allProviewGroups.values(), httpSession);
-                    saveAllProviewGroups(httpSession, allProviewGroups);
-                }
-
-                allLatestProviewGroups = proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups);
-                fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, httpSession);
-                saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
-            } catch (final ProviewException e) {
-                log.warn(e.getMessage(), e);
-                model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
-            }
-        }
-
-        try {
-            List<ProviewGroup> selectedProviewGroupList;
-            if (form.areAllFiltersBlank()) {
-                selectedProviewGroupList = allLatestProviewGroups;
-            } else {
-                selectedProviewGroupList = filterProviewGroupList(form, allLatestProviewGroups);
-            }
-
-            saveSelectedProviewGroups(httpSession, selectedProviewGroupList); // required for ProviewGroupExcelExportService
-            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroupList);
-            model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroupList.size());
-        } catch (Exception e) {
-            log.warn(e.getMessage(), e);
-            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
-        }
-
         return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);
+    }
+
+    private void updateUserPreferencesForCurrentSession(
+        @NotNull final ProviewGroupForm form,
+        @NotNull final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            sessionPreferences.setGroupFilterName(form.getGroupFilterName());
+            sessionPreferences.setGroupFilterId(form.getGroupFilterId());
+        }
+    }
+
+    private void saveAllProviewGroups(
+        final HttpSession httpSession,
+        final Map<String, ProviewGroupContainer> allProviewGroups) {
+        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, allProviewGroups);
+    }
+
+    private Map<String, ProviewGroupContainer> fetchAllProviewGroups(
+        final HttpSession httpSession) {
+        final Map<String, ProviewGroupContainer> allProviewGroups =
+            (Map<String, ProviewGroupContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS);
+        return allProviewGroups;
+    }
+
+    private void saveSelectedProviewGroups(
+        final HttpSession httpSession,
+        final List<ProviewGroup> selectedProviewGroupList) {
+        httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroupList);
+    }
+
+    private void saveAllLatestProviewGroups(
+        final HttpSession httpSession,
+        final List<ProviewGroup> allLatestProviewGroups) {
+        httpSession.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
+    }
+
+    private List<ProviewGroup> fetchAllLatestProviewGroups(final HttpSession httpSession) {
+        final List<ProviewGroup> allLatestProviewGroupList =
+            (List<ProviewGroup>) httpSession.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS);
+        return allLatestProviewGroupList;
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)
@@ -548,6 +547,14 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
         return groupDetails;
     }
 
+    private void savePaginatedList(final HttpSession httpSession, final List<GroupDetails> groupDetailsList) {
+        httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, groupDetailsList);
+    }
+
+    private List<GroupDetails> fetchPaginatedList(final HttpSession httpSession) {
+        return (List<GroupDetails>) httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST);
+    }
+
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE, method = RequestMethod.POST)
     public ModelAndView proviewTitlePromotePost(
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm form,
@@ -616,6 +623,18 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
             log.error(e.getMessage(), e);
         }
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, getGroupDetails(httpSession, form));
+    }
+
+    private void updateGroupStatus(final HttpSession httpSession, final String groupId,
+                                   final String groupVersion, final String newStatus) {
+        final Map<String, ProviewGroupContainer> proviewGroups = fetchAllProviewGroups(httpSession);
+        proviewGroups.computeIfPresent(groupId, (key, value) -> {
+            value.getProviewGroups().stream()
+                .filter(item -> item.getVersion().toString().equals(groupVersion))
+                .forEach(item -> item.setGroupStatus(newStatus));
+            return value;
+        });
+        saveAllProviewGroups(httpSession, proviewGroups);
     }
 
     private void sendEmail(final String subject, final String body) {
@@ -835,44 +854,5 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
     public int getMaxNumberOfRetries() {
         return MAX_NUMBER_OF_RETRIES;
-    }
-
-    private void updateGroupTitlesLatestUpdateDates(final Collection<ProviewGroupContainer> proviewGroupContainers,
-                                                    final HttpSession session) {
-        final Set<String> titleIds = Optional.ofNullable(proviewGroupContainers)
-            .map(Collection::stream)
-            .orElseGet(Stream::empty)
-            .map(ProviewGroupContainer::getProviewGroups)
-            .flatMap(Collection::stream)
-            .filter(Objects::nonNull)
-            .map(this::getProviewGroupTitleIds)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toSet());
-        final Map<String, Date> latestDates = proviewAuditService.findMaxRequestDateByTitleIds(titleIds);
-        session.setAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_GROUPS, latestDates);
-    }
-
-    private void fillLatestUpdateDatesForProviewGroups(final Collection<ProviewGroup> groups, final HttpSession session) {
-        final Map<String, Date> latestUpdateDates = Optional.ofNullable(session.getAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_GROUPS))
-            .map(attribute -> (Map<String, Date>) attribute)
-            .orElseGet(Collections::emptyMap);
-
-        Optional.ofNullable(groups)
-            .map(Collection::stream)
-            .orElseGet(Stream::empty)
-            .forEach(proviewGroup -> getProviewGroupTitleIds(proviewGroup).stream()
-                .map(latestUpdateDates::get)
-                .filter(Objects::nonNull)
-                .max(Comparator.naturalOrder())
-                .map(date -> DateFormatUtils.format(date, "yyyyMMdd"))
-                .ifPresent(proviewGroup::setLatestUpdateDate));
-    }
-
-    private Set<String> getProviewGroupTitleIds(final ProviewGroup proviewGroup) {
-        return Optional.ofNullable(proviewGroup.getSubgroupInfoList())
-            .map(Collection::stream)
-            .orElseGet(Stream::empty)
-            .flatMap(subgroup -> subgroup.getTitleIdList().stream())
-            .collect(Collectors.toSet());
     }
 }

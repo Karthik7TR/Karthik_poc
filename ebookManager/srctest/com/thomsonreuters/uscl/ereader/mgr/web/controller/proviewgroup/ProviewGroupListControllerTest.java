@@ -56,6 +56,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -92,6 +93,10 @@ public final class ProviewGroupListControllerTest {
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
     private HandlerAdapter handlerAdapter;
+    @Spy
+    @InjectMocks
+    @SuppressWarnings("unused")
+    private final ProviewGroupListService proviewGroupListService = new ProviewGroupListServiceImpl();
     @Mock
     private ProviewHandler mockProviewHandler;
     @Mock
@@ -230,20 +235,15 @@ public final class ProviewGroupListControllerTest {
      * @throws Exception
      */
     @Test
-    public void getSelectionsForGroups_objectsPerPageIsGiven_pageSizeAndGroupSizeAreSet() throws Exception {
+    public void getSelectionsForGroups_objectsPerPageIsGiven_pageSizeIsSet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter(OBJECTS_PER_PAGE, OPP_50);
-        selectedProviewGroups = emptyList();
-        final HttpSession session = request.getSession();
-        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroups);
-        request.setSession(session);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         final Map<String, Object> model = mav.getModel();
         assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
-        assertEquals(selectedProviewGroups.size(), model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
         assertEquals(OPP_50, model.get(WebConstants.KEY_PAGE_SIZE));
     }
 
@@ -261,9 +261,8 @@ public final class ProviewGroupListControllerTest {
 
         final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
         final ProviewGroup proviewGroupToFilterOut = createProviewGroup("filter", "out");
-        allLatestProviewGroups = new ArrayList<>();
-        allLatestProviewGroups.add(proviewGroup);
-        allLatestProviewGroups.add(proviewGroupToFilterOut);
+        allLatestProviewGroups = Arrays.asList(proviewGroup, proviewGroupToFilterOut);
+        selectedProviewGroups = singletonList(proviewGroup);
         allProviewGroups = emptyMap();
         when(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
         when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
@@ -274,7 +273,7 @@ public final class ProviewGroupListControllerTest {
         assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
         assertEquals(DEFAULT_OPP, model.get(WebConstants.KEY_PAGE_SIZE));
-        assertEquals(1, model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
+        assertEquals(selectedProviewGroups, model.get(WebConstants.KEY_PAGINATED_LIST));
         assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
         verify(mockProviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
         verify(mockProviewHandler).getAllProviewGroupInfo();
@@ -289,7 +288,7 @@ public final class ProviewGroupListControllerTest {
         final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
         allLatestProviewGroups = singletonList(proviewGroup);
         final HttpSession session = request.getSession();
-        controller.saveAllLatestProviewGroups(session, allLatestProviewGroups);
+        session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -298,7 +297,6 @@ public final class ProviewGroupListControllerTest {
         assertEquals(allLatestProviewGroups, model.get(WebConstants.KEY_PAGINATED_LIST));
         assertEquals(allLatestProviewGroups, session.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS));
         assertEquals(allLatestProviewGroups, session.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS));
-        assertEquals(allLatestProviewGroups.size(), model.get(WebConstants.KEY_TOTAL_GROUP_SIZE));
     }
 
     /**

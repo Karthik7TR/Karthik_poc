@@ -25,7 +25,6 @@ public class WebConstants {
     public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
     public static final String KEY_ALL_PROVIEW_GROUPS = "allProviewGroups";
     public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
-    public static final String KEY_TOTAL_GROUP_SIZE = "groupSize";
     public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
     public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
     public static final String KEY_BOOK_DEFINITION = "book";
