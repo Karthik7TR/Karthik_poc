@@ -29,6 +29,7 @@ import org.apache.commons.collections4.iterators.ReverseListIterator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -104,7 +105,7 @@ public class ReorderFootnotesService {
     private static final String DOT = ".";
     private static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
     private static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
-    private static final String SECTION_LABEL_REG = "\\[Section \\d+(\\s*|.)(\\s*|\\d+)\\]";
+    private static final Pattern SECTION_LABEL_REG = Pattern.compile("\\[Section \\d+(\\s*|.)(\\s*|\\d+)\\]");
     private static final String INLINE_TOC = "inlineToc.html";
     private static final String INLINE_INDEX = "inlineIndex.html";
     private static final List<String> EXCLUDED_FROM_PROCESSING = Arrays.asList(INLINE_TOC, INLINE_INDEX);
@@ -448,32 +449,37 @@ public class ReorderFootnotesService {
         footnotesTemplate.addClass(TR_FOOTNOTES);
     }
 
-    private void addSectionLabel(final Element footnotesTemplate, String sectionLabel) {
+    private void addSectionLabel(final Element footnotesTemplate, final String sectionLabel) {
         if (shouldSectionLabelBeAdded(footnotesTemplate, sectionLabel)) {
-            sectionLabel = formatSectionLabel(sectionLabel);
-            String html = getFootnotesSectionWithSectionLabel(footnotesTemplate, sectionLabel);
-            footnotesTemplate.html(html);
+            addSectionLabel(footnotesTemplate, formatSectionLabel(sectionLabel));
+        }
+    }
+
+    private void addSectionLabel(final Element footnotesTemplate, final Element sectionLabel) {
+        TextNode sectionLabelNode = getSectionLabelNode(footnotesTemplate);
+        if (sectionLabelNode != null) {
+            sectionLabelNode.replaceWith(sectionLabel);
+        } else {
+            footnotesTemplate.prependChild(sectionLabel);
         }
     }
 
     private boolean shouldSectionLabelBeAdded(final Element footnotesTemplate, final String sectionLabel) {
-        return footnotesTemplate.children().size() > 0 && StringUtils.isNotEmpty(sectionLabel);
+        return StringUtils.isNotEmpty(sectionLabel) && footnotesTemplate.children().size() > 0;
     }
 
-    private String getFootnotesSectionWithSectionLabel(final Element footnotesTemplate, final String sectionLabel) {
-        String html = footnotesTemplate.html();
-        if (Pattern.compile(SECTION_LABEL_REG).matcher(html).find()) {
-            return html.replaceFirst(SECTION_LABEL_REG, sectionLabel);
-        }
-        return sectionLabel + html;
+    @Nullable
+    private TextNode getSectionLabelNode(final Element footnotesTemplate) {
+        return footnotesTemplate.childNodes().stream()
+                .filter(node -> node instanceof TextNode).map(node -> (TextNode)node)
+                .filter(node -> SECTION_LABEL_REG.matcher(node.text().trim()).matches())
+                .findFirst().orElse(null);
     }
 
-    private String formatSectionLabel(String sectionLabel) {
-        sectionLabel = StringUtils.removeEnd(sectionLabel, DOT);
-        sectionLabel = String.format(SECTION_LABEL, sectionLabel);
-        return new Element(DIV).text(sectionLabel)
-                .addClass(SECTION_LABEL_CLASS)
-                .toString();
+    private Element formatSectionLabel(final String sectionLabel) {
+        String formattedSectionName = String.format(SECTION_LABEL, StringUtils.removeEnd(sectionLabel, DOT));
+        return new Element(DIV).text(formattedSectionName)
+                .addClass(SECTION_LABEL_CLASS);
     }
 
     private void convertFootnoteReferencesInMainSection(final Element mainSection) {
