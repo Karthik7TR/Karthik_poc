@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -64,7 +65,8 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         final File targetDir,
         final boolean isFinalStage,
         final List<DocumentCopyright> copyrights,
-        final List<DocumentCurrency> currencies) throws EBookFormatException {
+        final List<DocumentCurrency> currencies,
+        final Set<String> pageVolumes) throws EBookFormatException {
         if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
@@ -103,7 +105,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
 
         int numDocs = 0;
         for (final File xmlFile : xmlFiles) {
-            transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
+            transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies, pageVolumes);
             numDocs++;
         }
 
@@ -159,7 +161,8 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies) throws EBookFormatException {
+        final List<DocumentCurrency> copyCurrencies,
+        final Set<String> pageVolumes) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         try (FileInputStream inStream = new FileInputStream(sourceFile)) {
             try (FileOutputStream outStream = new FileOutputStream(
@@ -169,7 +172,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
                 final SAXParser saxParser = factory.newSAXParser();
 
                 final XMLContentChangerFilter contentChangerFilter =
-                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
+                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies, pageVolumes);
                 contentChangerFilter.setParent(saxParser.getXMLReader());
 
                 final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);

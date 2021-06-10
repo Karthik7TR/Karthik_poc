@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -18,6 +20,8 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
+
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.VOL_ONE;
 
 /**
  * This step transforms the Novus extracted XML documents by adding additional mark ups and content
@@ -54,13 +58,16 @@ public class PreprocessXML extends AbstractSbTasklet {
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
 
+        Set<String> pageVolumes = new HashSet<>();
+
         try {
             final int numDocsTransformed = preprocessService.transformXML(
                 xmlDir,
                 preprocessDir,
                 bookDefinition.isFinalStage(),
                 bookDefinition.getDocumentCopyrights(),
-                bookDefinition.getDocumentCurrencies());
+                bookDefinition.getDocumentCurrencies(),
+                pageVolumes);
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of documents preprocessed did not match the number "
@@ -80,7 +87,18 @@ public class PreprocessXML extends AbstractSbTasklet {
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
 
+        setPageVolumesSetProperty(pageVolumes, jobExecutionContext);
+
         return ExitStatus.COMPLETED;
+    }
+
+    private void setPageVolumesSetProperty(final Set<String> pageVolumes, final ExecutionContext jobExecutionContext) {
+        pageVolumes.stream()
+                .filter(vol -> !VOL_ONE.equals(vol))
+                .findFirst()
+                .ifPresent(vol ->
+                    jobExecutionContext.put(JobExecutionKey.PAGE_VOLUMES_SET, Boolean.TRUE)
+                );
     }
 
     @Required

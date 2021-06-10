@@ -81,7 +81,7 @@
                         <eos/>
                         <bos/>
                         <footnote.reference refid="Idefe871019c011eb9186f10f857b4088">1
-                            <page no="45"/>
+                            <page vol="1" no="45"/>
                         </footnote.reference>
                         ]
                     </paratext>
@@ -216,7 +216,7 @@
                     <eos/>
                     <eop/>
                 </para>
-                <page no="46"/>
+                <page vol="1" no="46"/>
                 <para>
                     <bop/>
                     <bos/>
@@ -270,7 +270,7 @@
                         law.[
                         <eos/>
                         <bos/>
-                        <page no="47"/>
+                        <page vol="1" no="47"/>
                         <footnote.reference refid="Ideff4a6119c011eb9186f10f857b4088">11</footnote.reference>] In
                         <cite.query w-src-number="0287018098" w-serial-number="1980105854" w-seq-number="00018"
                                     w-ref-type="RT" w-pub-number="0000708" ID="I1478fa2219c011ebbea6fcce6570c4b3">
@@ -323,7 +323,7 @@
         <footnote.block>
             <footnote ID="Idefe871019c011eb9186f10f857b4088">
                 <label.designator>1
-                    <page no="45"/>
+                    <page vol="1" no="45"/>
                 </label.designator>
                 <footnote.body>
                     <para>
@@ -337,7 +337,7 @@
                                           w-ref-type="RP" w-pub-number="0000711" ID="I146f0f1519c011ebbea6fcce6570c4b3">
                                 Brown v. State, 199 Ga. App. 188, 404 S.E.2d 469 (1991)</cite.query>.
                             <eos/>
-                            <page no="45"/>
+                            <page vol="1" no="45"/>
                         </paratext>
                         <eop/>
                     </para>
@@ -431,7 +431,7 @@
                                                   ID="I14721c5219c011ebbea6fcce6570c4b3">Tenet Healthcare Corporation v.
                             Louisiana Forum Corporation, 273 Ga. 206, 538 S.E.2d 441 (2000)</cite.query>.
                             <eos/>
-                            <page no="46"/>
+                            <page vol="1" no="46"/>
                         </paratext>
                         <eop/>
                     </para>
@@ -527,7 +527,7 @@
                                               w-normalized-cite="USFRER501" w-pub-number="1000607"
                                               ID="I147613f019c011ebbea6fcce6570c4b3">Fed. R. Evid. 501</cite.query>.
                             <eos/>
-                            <page no="47"/>
+                            <page vol="1" no="47"/>
                         </paratext>
                         <eop/>
                     </para>

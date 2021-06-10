@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.nio.file.Files;
 
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addVolumeToPageNumber;
 import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.CARSWELL_WESTLAW_CONTAINER;
 import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.URL_BUILDER_CONTAINER_ATTRIBUTE;
 
@@ -33,20 +34,20 @@ public class TransformCharSequencesService {
     private DuplicatedPagebreaksResolver duplicatedPagebreaksResolver;
 
     @SneakyThrows
-    public void transformCharSequences(final File srcDir, final File destDir, final boolean isCwBook, final boolean isPrintPageNumbers) {
+    public void transformCharSequences(final File srcDir, final File destDir, final boolean isCwBook, final boolean isPrintPageNumbers, final boolean pageVolumesSet) {
         Files.list(srcDir.toPath())
             .filter(Files::isRegularFile)
-            .forEach(path -> transformCharSequencesInFile(path.toFile(), destDir, isCwBook, isPrintPageNumbers));
+            .forEach(path -> transformCharSequencesInFile(path.toFile(), destDir, isCwBook, isPrintPageNumbers, pageVolumesSet));
     }
 
-    private void transformCharSequencesInFile(final File file, final File destDir, final boolean isCwBook, final boolean shouldProtectPagebreaks) {
+    private void transformCharSequencesInFile(final File file, final File destDir, final boolean isCwBook, final boolean shouldProtectPagebreaks, final boolean pageVolumesSet) {
         final Document document = jsoup.loadDocument(file);
         document.outputSettings().prettyPrint(false);
         transformDoubleHyphensIntoEmDashesInDocument(document);
         transformBulletsInDocument(document);
         addContainerAttributeToCiteQuery(document, isCwBook);
         duplicatedPagebreaksResolver.fixDuplicatedPagebreaks(document);
-        protectPagebreaks(document, shouldProtectPagebreaks);
+        protectPagebreaks(document, shouldProtectPagebreaks, pageVolumesSet);
         jsoup.saveDocument(destDir, file.getName(), document);
     }
 
@@ -64,9 +65,12 @@ public class TransformCharSequencesService {
         document.getElementsByTag(CITE_QUERY).forEach(e -> e.attr(URL_BUILDER_CONTAINER_ATTRIBUTE, container));
     }
 
-    private void protectPagebreaks(final Document document, final boolean shouldProtectPagebreaks) {
+    private void protectPagebreaks(final Document document, final boolean shouldProtectPagebreaks, final boolean pageVolumesSet) {
         document.getElementsByTag(PageNumberUtil.PAGEBREAK).forEach(pagebreak -> {
             if (shouldProtectPagebreaks) {
+                if (pageVolumesSet) {
+                    addVolumeToPageNumber(pagebreak);
+                }
                 pagebreak.after(new TextNode(PageNumberUtil.protectPagebreak(pagebreak)));
             }
             pagebreak.remove();

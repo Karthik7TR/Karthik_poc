@@ -1,13 +1,17 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
-import lombok.Setter;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.VOL;
+import static java.util.Optional.ofNullable;
 
 /**
  * Filter that handles various content changes
@@ -25,17 +29,20 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
     private static final String COPYRIGHT_TAG = "include.copyright";
     private List<DocumentCurrency> currencies;
     private List<DocumentCurrency> copyCurrencies;
+    private Set<String> pageVolumes;
 
     public XMLContentChangerFilter(
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies) {
+        final List<DocumentCurrency> copyCurrencies,
+        final Set<String> pageVolumes) {
         super();
         this.copyrights = copyrights;
         this.copyCopyrights = copyCopyrights;
         this.currencies = currencies;
         this.copyCurrencies = copyCurrencies;
+        this.pageVolumes = pageVolumes;
     }
 
     @Override
@@ -64,6 +71,8 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
                     replaceMessageElement(uri, localName, qName, atts, copyright.getNewText());
                 }
             }
+        } else if (qName.equalsIgnoreCase(PAGEBREAK)) {
+            ofNullable(atts.getValue(VOL)).ifPresent(vol -> pageVolumes.add(vol));
         }
         // Only use current element is it is not changing
         if (!isChanging) {

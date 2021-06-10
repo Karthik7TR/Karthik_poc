@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
@@ -33,5 +34,6 @@ public interface XMLPreprocessService {
         File targetDir,
         boolean isFinalStage,
         List<DocumentCopyright> copyrights,
-        List<DocumentCurrency> currencies) throws EBookFormatException;
+        List<DocumentCurrency> currencies,
+        Set<String> pageVolumes) throws EBookFormatException;
 }

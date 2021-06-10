@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
@@ -31,7 +32,9 @@ public class TransformCharSequencesStep extends BookStepImpl {
     public ExitStatus executeStep() throws Exception {
         final File srcDir = formatFileSystem.getPreprocessDirectory(this);
         final File destDir = formatFileSystem.getTransformCharSequencesDirectory(this);
-        transformCharSequencesService.transformCharSequences(srcDir, destDir, this.getBookDefinition().isCwBook(), this.getBookDefinition().isPrintPageNumbers());
+        transformCharSequencesService.transformCharSequences(srcDir, destDir, this.getBookDefinition().isCwBook(),
+                this.getBookDefinition().isPrintPageNumbers(),
+                getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_VOLUMES_SET));
         return ExitStatus.COMPLETED;
     }
 }

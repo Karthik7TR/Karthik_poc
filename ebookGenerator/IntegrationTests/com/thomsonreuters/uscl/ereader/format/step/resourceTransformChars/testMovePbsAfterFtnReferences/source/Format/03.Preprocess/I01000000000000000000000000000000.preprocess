@@ -2,7 +2,7 @@
 	<doc bill="Y">
 		<section>
 			<section.body>
-				Main p0<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference><page no="p0"/>
+				Main p0<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference><page no="p0" vol="1"/>
 				main 962 <page no="962"/><page no="963"/> [<footnote.reference refid="I01a2f010680911e88f4a9c1f64101002">2</footnote.reference>]
 				main 964 <page no="964"/><footnote.reference refid="I01a2f010680911e88f4a9c1f64101003">3</footnote.reference>
 			</section.body>

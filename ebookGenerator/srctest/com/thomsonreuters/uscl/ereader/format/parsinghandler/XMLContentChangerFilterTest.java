@@ -8,8 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -33,6 +35,7 @@ import org.xml.sax.InputSource;
 public final class XMLContentChangerFilterTest {
     private XMLContentChangerFilter contentChangeFilter;
     private Serializer serializer;
+    private Set<String> pageVolumes;
 
     @Before
     public void setUp() throws Exception {
@@ -58,8 +61,9 @@ public final class XMLContentChangerFilterTest {
             new ArrayList<>(Arrays.asList(new DocumentCopyright[copyrights.size()]));
         Collections.copy(copyCurrencies, currencies);
         Collections.copy(copyCopyrights, copyrights);
+        pageVolumes = new HashSet<>();
 
-        contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
+        contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies, pageVolumes);
         contentChangeFilter.setParent(saxParser.getXMLReader());
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -71,6 +75,7 @@ public final class XMLContentChangerFilterTest {
     public void tearDown() {
         serializer = null;
         contentChangeFilter = null;
+        pageVolumes = null;
     }
 
     /**
@@ -124,11 +129,12 @@ public final class XMLContentChangerFilterTest {
     @Test
     public void testCopyrightValueChange() {
         final String xmlTestStr =
-            "<message.block><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><page no=\"i\"/></message.block>";
+            "<message.block><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright><page no=\"i\" vol=\"1\"/></message.block>";
         final String expectedResult =
-            "<message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright><page no=\"i\"/></message.block>";
+            "<message.block><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright><page no=\"i\" vol=\"1\"/></message.block>";
 
         testHelper(xmlTestStr, expectedResult);
+        assertEquals(1, pageVolumes.size());
     }
 
     @Test
@@ -141,6 +147,7 @@ public final class XMLContentChangerFilterTest {
                 + "<message.block><include.currency n-include_guid=\"123456789\">Currency</include.currency></message.block></body>";
 
         testHelper(xmlTestStr, expectedResult);
+        assertEquals(0, pageVolumes.size());
     }
 
     @Test
@@ -162,6 +169,14 @@ public final class XMLContentChangerFilterTest {
                 "<message.block/>";
 
         testHelper(xmlTestStr, expectedResult);
+    }
 
+    @Test
+    public void testPageVolumes() {
+        final String xmlTestStr =
+                "<body><page no=\"i\" vol=\"2\"/></body>";
+
+        testHelper(xmlTestStr, xmlTestStr);
+        assertEquals(1, pageVolumes.size());
     }
 }

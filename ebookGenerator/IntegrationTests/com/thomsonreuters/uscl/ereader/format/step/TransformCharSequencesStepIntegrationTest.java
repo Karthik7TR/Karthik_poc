@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksResolver;
 import com.thomsonreuters.uscl.ereader.format.service.TransformCharSequencesService;
@@ -17,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.net.URISyntaxException;
+
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.whenJobExecutionPropertyBoolean;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TransformCharSequencesStepIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
@@ -59,6 +62,7 @@ public class TransformCharSequencesStepIntegrationTest {
     @Test
     @SneakyThrows
     public void shouldMovePagebreaksAfterFootnoteReferences() {
+        whenJobExecutionPropertyBoolean(transformCharSequencesStep.getJobExecutionContext(), JobExecutionKey.PAGE_VOLUMES_SET, Boolean.TRUE);
         transformCharSequencesStep.getBookDefinition().setPrintPageNumbers(true);
         runner.test(transformCharSequencesStep, "testMovePbsAfterFtnReferences");
     }
