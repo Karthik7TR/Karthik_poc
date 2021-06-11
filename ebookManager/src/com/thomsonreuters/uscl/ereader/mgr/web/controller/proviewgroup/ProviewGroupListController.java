@@ -471,7 +471,7 @@ public class ProviewGroupListController {
      * Handle operational buttons that submit a form of selected rows, or when the user changes the number of rows displayed at
      * one time.
      */
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_OPERATION, method = RequestMethod.POST)
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_OPERATION, method = RequestMethod.GET)
     public ModelAndView performGroupOperations(
         final HttpSession httpSession,
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) @Valid final ProviewGroupListFilterForm form,

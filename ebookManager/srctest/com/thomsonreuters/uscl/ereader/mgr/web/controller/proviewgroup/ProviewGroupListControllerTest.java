@@ -446,7 +446,7 @@ public final class ProviewGroupListControllerTest {
     public void testPerformGroupOperations() throws Exception {
         setUser();
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_OPERATION);
-        request.setMethod(HttpMethod.POST.name());
+        request.setMethod(HttpMethod.GET.name());
         request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME);
         request.setParameter("groupCmd", GroupCmd.PROMOTE.toString());
         final List<String> groupMembers = new ArrayList<>();
@@ -488,7 +488,7 @@ public final class ProviewGroupListControllerTest {
     @Test
     public void testPerformGroupOperationsNoSelection() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_OPERATION);
-        request.setMethod(HttpMethod.POST.name());
+        request.setMethod(HttpMethod.GET.name());
         request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME);
         request.setParameter("groupCmd", "NONE");
 
