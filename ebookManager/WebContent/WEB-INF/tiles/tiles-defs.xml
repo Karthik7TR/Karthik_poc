@@ -416,6 +416,11 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
 	  <put-attribute name="body"  value="/WEB-INF/jsp/error/body/bookDefinitionNotFound.jsp"/>
 	</definition>
+
+	<definition name="_errorCombinedBookDefinitionNotFound" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
+		<put-attribute name="body"  value="/WEB-INF/jsp/error/body/combinedBookDefinitionNotFound.jsp"/>
+	</definition>
 	
 	<definition name="_errorTitleIdNotFound" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
@@ -492,5 +497,20 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/definition/edit/body.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/definition/edit/title.jsp"/>
 	</definition>
- 
+
+	<definition name="_combinedBookDefinitionView" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/view/title.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/view/body.jsp"/>
+	</definition>
+
+	<definition name="_combinedBookDefinitionEdit" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/edit/title.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/edit/body.jsp"/>
+	</definition>
+
+	<definition name="_combinedBookDefinitionCreate" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/create/title.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/create/body.jsp"/>
+	</definition>
+
 </tiles-definitions>

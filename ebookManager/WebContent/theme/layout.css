@@ -1059,3 +1059,28 @@ width: initial;
 	padding-top: .5em;
 	padding-bottom: .5em;
 }
+
+#grid-container {
+	height: 600px;
+}
+
+#jsGrid {
+	margin: auto;
+}
+
+.combined-book-definition-errors {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.combined-book-definition-container {
+	height: 70vh;
+}
+
+.combined-book-definition-container table tbody tr:nth-child(odd) {
+	background-color: #FFFFFF;
+}
+
+.combined-book-definition-container table tbody tr:nth-child(even) {
+	background-color: #BFDFFF;
+}
