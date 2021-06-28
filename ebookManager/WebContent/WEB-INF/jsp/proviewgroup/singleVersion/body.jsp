@@ -109,7 +109,7 @@ function submitGroupForm(command) {
 }
 
 </script>
-<form:form id="multiSelectForm" action="<%=WebConstants.MVC_PROVIEW_GROUP_OPERATION%>" autocomplete="off"
+<form:form id="multiSelectForm" action="<%=WebConstants.MVC_PROVIEW_GROUP_OPERATION%>"
 			commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="get">
 			<form:hidden path="groupCmd"/>
 			<form:hidden path="groupName" value="${groupName}"/>
