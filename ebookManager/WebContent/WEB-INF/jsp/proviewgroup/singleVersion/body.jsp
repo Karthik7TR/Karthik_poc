@@ -8,8 +8,6 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
-<%@page import="org.springframework.batch.core.BatchStatus"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -23,6 +21,7 @@
 <sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
 	<c:set var="promoteButtonCanBeEnabled" value="true"/>
 </sec:authorize>
+<c:set var="pilotInProgress" value="<%= PilotBookStatus.IN_PROGRESS.toString() %>" />
 <c:if test="${pilotBookStatus == pilotInProgress}">
 	<c:set var="promoteButtonCanBeEnabled" value="false"/>
 </c:if>
@@ -109,7 +108,7 @@ function submitGroupForm(command) {
 }
 
 </script>
-<form:form id="multiSelectForm" action="<%=WebConstants.MVC_PROVIEW_GROUP_OPERATION%>"
+<form:form id="multiSelectForm" action="<%=WebConstants.MVC_PROVIEW_GROUP_OPERATION%>" autocomplete="off"
 			commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="get">
 			<form:hidden path="groupCmd"/>
 			<form:hidden path="groupName" value="${groupName}"/>
@@ -135,16 +134,7 @@ function submitGroupForm(command) {
 		</div>
 		<br>
 	</c:if>
-	<c:set var="isSuperUser" value="false"/>
-		<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-			<c:set var="isSuperUser" value="true"/>
-		</sec:authorize>
-	<c:set var="isPlusOrSuperUser" value="false"/>
-		<sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
-			<c:set var="isPlusOrSuperUser" value="true"/>
-		</sec:authorize>
-	<c:set var="pilotInProgress" value="<%= PilotBookStatus.IN_PROGRESS.toString() %>" />
-	
+
 	<div class="row" id ="groupName">
 						<label class="labelCol" >Group Name:</label>
 						<span class="field">${ groupName }</span>

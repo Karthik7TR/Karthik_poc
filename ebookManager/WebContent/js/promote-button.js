@@ -65,14 +65,16 @@ function changePromoteButtonVisibilityAfterGroupCheckboxStatusChange(checkbox, p
         updateCheckedItemsInReviewCounterValue(checkbox, $('#groupStatusValue').text());
         changePromoteButtonVisibility();
 	}
-};
+}
 
 function updateCheckedItemsInReviewCounterValue(checkbox, itemStatus) {
 	if (isReviewStatus(itemStatus)) {
 		if (checkbox.checked) {
 			checkedItemsInReviewCounter++;
 		} else {
-			checkedItemsInReviewCounter--;
+			if (checkedItemsInReviewCounter > 0) {
+				checkedItemsInReviewCounter--;
+			}
 		}
 	}
 }
