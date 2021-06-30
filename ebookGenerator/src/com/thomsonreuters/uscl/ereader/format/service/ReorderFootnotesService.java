@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
@@ -88,6 +89,7 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TR_FTN;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PAGEBREAK;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.PB;
+import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addVolumeToPageNumber;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.convertToProviewPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.createPagebreak;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.getLabel;
@@ -176,6 +178,7 @@ public class ReorderFootnotesService {
         final Optional<Element> footnotesBlock = ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
         boolean isFirstFile = fileNameEquals(firstFileName, file);
         boolean isLastFile = fileNameEquals(lastFileName, file);
+        boolean pageVolumesSet = step.getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_VOLUMES_SET);
         mainPage.nextDocument();
         footnotePage.nextDocument();
 
@@ -186,7 +189,7 @@ public class ReorderFootnotesService {
             convertFootnoteReferencesInMainSection(mainSection);
             convertFootnotes(doc, footnotesBlock);
 
-            final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage);
+            final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage, pageVolumesSet);
             linksResolverService.transformCiteQueries(footnotesSectionToAppend, fileUuid, step);
             fixPagebreaks(mainSection, footnotesSectionToAppend, isLastFile);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
@@ -304,14 +307,15 @@ public class ReorderFootnotesService {
         final Optional<Element> footnotesBlock,
         final Document document,
         final String fileUuid,
-        final PagePointer pagePointer) {
+        final PagePointer pagePointer,
+        final boolean pageVolumesSet) {
         final Optional<File> xmlFile = ofNullable(nameToXmlFile.get(fileUuid));
         final Optional<Document> xmlDoc = xmlFile.map(file -> jsoup.loadDocument(file));
         String sectionLabel = getSectionLabel(xmlDoc);
         final Optional<Element> footnotesTemplate = xmlDoc.map(doc -> getElementByTag(doc, FOOTNOTE_BLOCK));
 
         return footnotesTemplate
-                .map(element -> constructBasedOnTemplate(getFootnotesMap(footnotesBlock), element, xmlDoc.get(), pagePointer, sectionLabel))
+                .map(element -> constructBasedOnTemplate(getFootnotesMap(footnotesBlock), element, xmlDoc.get(), pagePointer, sectionLabel, pageVolumesSet))
                 .orElseGet(() -> constructBasedOnBlock(footnotesBlock, document, pagePointer, sectionLabel));
     }
 
@@ -320,9 +324,10 @@ public class ReorderFootnotesService {
         final Element footnotesTemplate,
         final Document xmlDoc,
         final PagePointer pagePointer,
-        final String sectionLabel) {
+        final String sectionLabel,
+        final boolean pageVolumesSet) {
         removeDuplicatedPagebreaks(footnotesTemplate);
-        convertPagebreaksToProviewPbs(footnotesTemplate);
+        convertPagebreaksToProviewPbs(footnotesTemplate, pageVolumesSet);
         convertTopToFootnotesSection(footnotesTemplate);
         addSectionLabel(footnotesTemplate, sectionLabel);
 
@@ -870,9 +875,16 @@ public class ReorderFootnotesService {
                 .anyMatch(pagebreak -> pagebreakLabel.equals(getLabel(pagebreak)));
     }
 
-    private void convertPagebreaksToProviewPbs(final Element footnotesTemplate) {
-        getPagebreaks(footnotesTemplate)
+    private void convertPagebreaksToProviewPbs(final Element footnotesTemplate, final boolean pageVolumesSet) {
+        getPagebreaks(footnotesTemplate).stream()
+            .peek(pagebreak -> addVolToPageNumber(pagebreak, pageVolumesSet))
             .forEach(pagebreak -> pagebreak.replaceWith(convertToProviewPagebreak(pagebreak)));
+    }
+
+    private void addVolToPageNumber(final Element pagebreak, final boolean pageVolumesSet) {
+        if (pageVolumesSet) {
+            addVolumeToPageNumber(pagebreak);
+        }
     }
 
     private Elements getPagebreaks(final Element element) {

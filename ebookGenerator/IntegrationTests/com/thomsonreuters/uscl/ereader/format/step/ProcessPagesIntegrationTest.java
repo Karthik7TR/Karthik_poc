@@ -69,6 +69,7 @@ public final class ProcessPagesIntegrationTest {
     @Test
     public void shouldTransformPages() throws Exception {
         when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
+        when(step.getJobExecutionContext().get(JobExecutionKey.PAGE_VOLUMES_SET)).thenReturn(Boolean.TRUE);
         runner.test(step, "transformTest");
     }
 
