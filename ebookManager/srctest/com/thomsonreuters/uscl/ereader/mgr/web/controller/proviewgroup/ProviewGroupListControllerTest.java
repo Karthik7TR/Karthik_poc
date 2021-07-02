@@ -80,7 +80,6 @@ public final class ProviewGroupListControllerTest {
     private static final String GROUP_FILTER_ID = "groupFilterId";
     private static final String REVIEW_STATUS = "Review";
     private static final String REMOVE_STATUS = "Remove";
-    private static final String DELETE_STATUS = "Delete";
     private static final String DATE_FORMAT = "yyyyMMdd";
     private static final String COMMAND = "command";
     private static final String OBJECTS_PER_PAGE = "objectsPerPage";
@@ -447,8 +446,9 @@ public final class ProviewGroupListControllerTest {
         setUser();
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_OPERATION);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME);
         request.setParameter("groupCmd", GroupCmd.PROMOTE.toString());
+        request.setParameter(WebConstants.KEY_PROVIEW_GROUP_ID, GROUP_ID);
+        request.setParameter(WebConstants.KEY_GROUP_VERSION, GROUP_VERSION);
         final List<String> groupMembers = new ArrayList<>();
         groupMembers.add("test/v1");
         request.setParameter("groupMembers", groupMembers.toString());
@@ -462,8 +462,15 @@ public final class ProviewGroupListControllerTest {
         details.setTitleIdWithVersionArray(aString);
         subgroup.add(details);
         session.setAttribute(WebConstants.KEY_PAGINATED_LIST, subgroup);
+        final ProviewGroup proviewGroup = getGroup(GROUP_ID, GROUP_VERSION);
+        final ProviewGroupContainer proviewGroupContainer = new ProviewGroupContainer();
+        proviewGroupContainer.setProviewGroups(Collections.singletonList(proviewGroup));
+        allProviewGroups = Collections.singletonMap(GROUP_ID, proviewGroupContainer);
+        session.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, allProviewGroups);
         request.setSession(session);
-
+        final BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setPilotBookStatus(PilotBookStatus.IN_PROGRESS);
+        when(mockBookDefinitionService.findBookDefinitionByTitle(any())).thenReturn(bookDefinition);
         when(emailUtil.getEmailRecipientsByUsername("tester"))
             .thenReturn(singletonList(new InternetAddress("a@mail.com")));
 
@@ -473,10 +480,6 @@ public final class ProviewGroupListControllerTest {
         request.setParameter("groupCmd", GroupCmd.REMOVE.toString());
         mav = handlerAdapter.handle(request, response, controller);
         assertEquals(WebConstants.VIEW_PROVIEW_GROUP_BOOK_REMOVE, mav.getViewName());
-
-        request.setParameter("groupCmd", GroupCmd.DELETE.toString());
-        mav = handlerAdapter.handle(request, response, controller);
-        assertEquals(WebConstants.VIEW_PROVIEW_GROUP_BOOK_DELETE, mav.getViewName());
     }
 
     private void setUser() {
@@ -623,37 +626,6 @@ public final class ProviewGroupListControllerTest {
         assertEquals(2, subgroups.size());
         assertEquals(TITLE_ID + "/" + TITLE_VERSION, subgroups.get(0).getTitleIdListWithVersion().get(0));
         assertEquals(TITLE_ID + "/" + TITLE_VERSION_2, subgroups.get(1).getTitleIdListWithVersion().get(0));
-    }
-
-    /**
-     * Note: runs very slowly due to the "wait 3 seconds" command in
-     * doTitleOperation(..)
-     *
-     * @throws Exception
-     */
-    @Test
-    public void proviewGroupDeletePost_groupOperationIsTrue_titleAndGroupAreSetToDeleteInProview() throws Exception {
-        setUser();
-
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_BOOK_DELETE);
-        request.setMethod(HttpMethod.POST.name());
-
-        setUpGroupIds();
-        when(mockProviewHandler.deleteTitle(TITLE_ID, new Version(TITLE_VERSION))).thenReturn(Boolean.TRUE);
-
-        request.setParameter("groupOperation", Boolean.TRUE.toString());
-        final HttpSession httpSession = request.getSession();
-        prepareGroupAttributes(httpSession, GROUP_ID, GROUP_VERSION);
-        setGroupRequestParameters();
-        when(mockProviewHandler.deleteGroup(GROUP_ID, "v" + GROUP_VERSION)).thenReturn("");
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        assertEquals(WebConstants.VIEW_PROVIEW_GROUP_BOOK_DELETE, mav.getViewName());
-        checkGroupStatus(httpSession, GROUP_ID, DELETE_STATUS);
-        verify(mockProviewHandler).deleteGroup(any(), any());
-        verify(mockProviewHandler).deleteTitle(any(), any());
-        verifyNoMoreInteractions(mockProviewHandler);
     }
 
     @Test(expected = IllegalArgumentException.class)

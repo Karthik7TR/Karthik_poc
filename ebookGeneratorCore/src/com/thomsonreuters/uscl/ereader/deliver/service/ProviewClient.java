@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -62,7 +63,7 @@ public interface ProviewClient {
 
     String publishTitle(String fullyQualifiedTitleId, String versionNumber, File eBook) throws ProviewException;
 
-    HttpStatus promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
+    HttpStatus promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException, ExpectedProviewException;
 
     HttpStatus removeTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 

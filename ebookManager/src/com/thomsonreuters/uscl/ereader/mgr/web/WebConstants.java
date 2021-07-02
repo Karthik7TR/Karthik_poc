@@ -314,7 +314,6 @@ public class WebConstants {
     public static final String MVC_PROVIEW_TITLE_MARK_SUPERSEDED = "proviewTitleMarkSuperseded.mvc";
     public static final String MVC_PROVIEW_GROUP_BOOK_PROMOTE = "proviewGroupBookPromote.mvc";
     public static final String MVC_PROVIEW_GROUP_BOOK_REMOVE = "proviewGroupBookRemove.mvc";
-    public static final String MVC_PROVIEW_GROUP_BOOK_DELETE = "proviewGroupBookDelete.mvc";
     public static final String MVC_GROUP_DEFINITION_EDIT = "proviewGroupDefinitionEdit.mvc";
 
     // Security related URI's
@@ -441,7 +440,6 @@ public class WebConstants {
     public static final String VIEW_PROVIEW_GROUP_DELETE = "_proviewGroupDelete";
     public static final String VIEW_PROVIEW_GROUP_BOOK_PROMOTE = "_proviewGroupBookPromote";
     public static final String VIEW_PROVIEW_GROUP_BOOK_REMOVE = "_proviewGroupBookRemove";
-    public static final String VIEW_PROVIEW_GROUP_BOOK_DELETE = "_proviewGroupBookDelete";
     public static final String VIEW_GROUP_DEFINITION_EDIT = "_groupDefinitionEdit";
     public static final String VIEW_USER_PREFERENCES = "_userPreferences";
     public static final String VIEW_ISBNS_UPDATED = "isbn/isbnsUpdated";
