@@ -280,6 +280,8 @@ public class EditBookDefinitionForm {
     private boolean substituteTocHeaders;
     @Getter @Setter
     private Integer substituteTocHeadersLevel;
+    @Getter @Setter
+    private boolean titlePageImageIncluded;
 
     /**
      * Reset some book definition fields before copying in to the form
@@ -406,6 +408,7 @@ public class EditBookDefinitionForm {
             indexTocCollectionName = book.getIndexTocCollectionName();
             indexDocCollectionName = book.getIndexDocCollectionName();
             indexTocRootGuid = book.getIndexTocRootGuid();
+            titlePageImageIncluded = book.isTitlePageImageIncluded();
 
             if (book.getSubstituteTocHeadersLevel() != null && book.getSubstituteTocHeadersLevel() > TOC_SUBSTITUTION_LEVEL_ABSENT) {
                 substituteTocHeaders = true;
@@ -629,11 +632,10 @@ public class EditBookDefinitionForm {
         book.setIndexTocCollectionName(indexTocCollectionName);
         book.setIndexDocCollectionName(indexDocCollectionName);
         book.setIndexTocRootGuid(indexTocRootGuid);
-
         book.setNortFileLocations(copyList(nortFileLocations, book, NortFileLocation::new));
         book.setFrontMatterTheme(fmThemeText);
-
         book.setVersionWithPreviousDocIds(previousVersionIdsEnabled ? versionWithPreviousDocIds : null);
+        book.setTitlePageImageIncluded(titlePageImageIncluded);
 
         if (substituteTocHeaders) {
             book.setSubstituteTocHeadersLevel(substituteTocHeadersLevel);

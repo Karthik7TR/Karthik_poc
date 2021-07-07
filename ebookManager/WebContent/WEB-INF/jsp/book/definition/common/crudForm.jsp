@@ -1134,6 +1134,11 @@
 					<form:errors path="frontMatterSeries.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div class="row xppHideClass">
+				<form:label path="titlePageImageIncluded" class="labelCol">Insert cover image to title page</form:label>
+				<form:radiobutton path="titlePageImageIncluded" value="true" />True
+				<form:radiobutton path="titlePageImageIncluded" value="false" />False
+			</div>
 		</div>
 		<div class="rightDefinitionForm">
 			<div class="row xppHideClass" >

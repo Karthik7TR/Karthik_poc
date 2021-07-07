@@ -107,8 +107,9 @@ public final class CreateDirectoriesAndMoveResourcesTest {
         final List<String> imglist = new ArrayList<>();
         final List<Doc> doclist = new ArrayList<>();
         final File tempImg = makeFile(tempRootDir, "img.png", "totally an image file");
+        final File assetsDirectory = new File(tempRootDir, "assets");
         createDirectoriesAndMoveResources
-            .moveResources(jobExecutionContext, tempRootDir, true, imglist, doclist, tempImg);
+            .moveResources(jobExecutionContext, tempRootDir, assetsDirectory, true, imglist, doclist, tempImg);
     }
 
     @Test
@@ -187,11 +188,13 @@ public final class CreateDirectoriesAndMoveResourcesTest {
 
         final List<String> imgList = new ArrayList<>();
         final List<Doc> docList = new ArrayList<>();
+        final File assetsDirectory = new File(tempRootDir, "assets");
 
         boolean thrown = false;
         try {
             createDirectoriesAndMoveResources
-                .moveResources(createDirectoriesAndMoveResources.getJobExecutionContext(), tempRootDir, false, imgList, docList, tempFile);
+                .moveResources(createDirectoriesAndMoveResources.getJobExecutionContext(), tempRootDir, assetsDirectory,
+                        false, imgList, docList, tempFile);
         } catch (final EBookException e) {
             thrown = true;
         }

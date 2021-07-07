@@ -21,6 +21,7 @@ public class CoreConstants {
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/uuuu").withResolverStyle(ResolverStyle.STRICT);
     public static final String DATE_TIME_FORMAT_PATTERN = DATE_FORMAT_PATTERN + " HH:mm:ss";
     public static final String DATE_TIME_MS_FORMAT_PATTERN = DATE_TIME_FORMAT_PATTERN + ".SSS";
+    public static final String PNG = ".png";
 
     /** We are putting the *.mvc suffix on the URL's because the manager app dispatcher servlet expects the URL's to follow this pattern. */
     public static final String URI_SYNC_MISC_CONFIG = "service/sync/misc/config.mvc";
@@ -88,4 +89,6 @@ public class CoreConstants {
     public static final String TTILE_IN_QUEUE = "Title already exists in publishing queue";
 
     public static final String TTILE_STATUS_REMOVED = "Title status changed to removed";
+
+    public static final String TITLE_PAGE_IMAGE = "titlePageImage";
 }

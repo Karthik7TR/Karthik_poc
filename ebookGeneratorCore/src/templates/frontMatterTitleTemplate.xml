@@ -19,6 +19,9 @@
 						<p><frontMatterPlaceholder_bookname2/></p>
 					</div>
 					<div class="currency"><p><frontMatterPlaceholder_currency/></p></div>
+					<div class="imagecontainercenter">
+						<frontMatterPlaceholder_image/>
+					</div>
 					<frontMatterPlaceholder_authors/>
 					<frontMatterPlaceholder_theme/>
 					<div class="logo"><img src="er:#EBook_Generator_TRLogo" alt="Thomson Reuters logo"/></div>

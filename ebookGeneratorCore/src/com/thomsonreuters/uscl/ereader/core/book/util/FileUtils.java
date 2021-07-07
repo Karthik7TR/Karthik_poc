@@ -29,6 +29,14 @@ public class FileUtils {
         }
     }
 
+    public static void copyFile(final File srcFile, final File destFile) {
+        try {
+            org.apache.commons.io.FileUtils.copyFile(srcFile, destFile);
+        } catch (IOException e) {
+            throw new EBookException(e);
+        }
+    }
+
     public static void copyFileToDirectory(File srcFile, File destDir) {
         try {
             org.apache.commons.io.FileUtils.copyFileToDirectory(srcFile, destDir);

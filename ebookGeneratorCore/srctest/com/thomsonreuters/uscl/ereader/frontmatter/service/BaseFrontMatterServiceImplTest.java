@@ -39,6 +39,7 @@ public class BaseFrontMatterServiceImplTest {
 
     @Test
     public void testTitlePage() throws Exception {
+        bookDefinition.setTitlePageImageIncluded(true);
         final String expected = IOUtils.toString(getClass().getResourceAsStream("TitlePage.html"));
         final String actual = frontMatterService.generateTitlePage(bookDefinition, false).replaceAll("(?m)^[ \t]*\r?\n", "");
         assertEquals(expected, actual);

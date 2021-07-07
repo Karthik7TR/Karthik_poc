@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.thomsonreuters.uscl.ereader.format.FormatConstants;
+import com.thomsonreuters.uscl.ereader.core.FormatConstants;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;

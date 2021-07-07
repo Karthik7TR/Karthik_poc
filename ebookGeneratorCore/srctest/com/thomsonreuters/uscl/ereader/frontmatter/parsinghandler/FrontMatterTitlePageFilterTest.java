@@ -272,4 +272,22 @@ public final class FrontMatterTitlePageFilterTest {
 
         testHelper(xmlTestStr, expectedResult);
     }
+
+    @Test
+    public void testFrontMatterPlaceholder_image() {
+        bookDefinition.setTitlePageImageIncluded(true);
+
+        final String xmlTestStr = "<test><frontMatterPlaceholder_image/></test>";
+        final String expectedResult = "<test><img src=\"er:#titlePageImage\" alt=\"titlePageImage\"/></test>";
+
+        testHelper(xmlTestStr, expectedResult, true);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_image_absence() {
+        final String xmlTestStr = "<test><frontMatterPlaceholder_image/></test>";
+        final String expectedResult = "<test/>";
+
+        testHelper(xmlTestStr, expectedResult, true);
+    }
 }

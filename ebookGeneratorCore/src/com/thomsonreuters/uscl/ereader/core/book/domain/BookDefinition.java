@@ -432,6 +432,10 @@ public class BookDefinition implements Serializable {
     @Getter @Setter
     private Integer substituteTocHeadersLevel;
 
+    @Column(name = "TITLE_PAGE_IMAGE_INCLUDED")
+    @Basic(fetch = FetchType.EAGER)
+    private String titlePageImageIncluded;
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }
@@ -879,6 +883,14 @@ public class BookDefinition implements Serializable {
         return isEqualsYes(indexIncluded);
     }
 
+    public void setTitlePageImageIncluded(final boolean isTitlePageImageIncluded) {
+        titlePageImageIncluded = getStringForBooleanValue(isTitlePageImageIncluded);
+    }
+
+    public boolean isTitlePageImageIncluded() {
+        return isEqualsYes(titlePageImageIncluded);
+    }
+
     public BookDefinition() {
         super();
         setIsDeletedFlag(false);
@@ -967,7 +979,9 @@ public class BookDefinition implements Serializable {
         setPrintSubNumber(that.getPrintSubNumber());
         setPrintPageNumbers(that.isPrintPageNumbers());
         setInlineTocIncluded(that.isInlineTocIncluded());
+        setIndexIncluded(that.isIndexIncluded());
         setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
+        setTitlePageImageIncluded(that.isTitlePageImageIncluded());
     }
 
     /**

@@ -399,6 +399,11 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private Integer substituteTocHeadersLevel;
 
+    @Column(name="TITLE_PAGE_IMAGE_INCLUDED")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String titlePageImageIncluded;
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }
@@ -546,6 +551,7 @@ public class EbookAudit implements Serializable {
         setDocCollectionName(that.getDocCollectionName());
         setRootTocGuid(that.getRootTocGuid());
         setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
+        setTitlePageImageIncluded(that.isTitlePageImageIncluded());
     }
 
     /**
@@ -633,6 +639,7 @@ public class EbookAudit implements Serializable {
         setDocCollectionName(that.getDocCollectionName());
         setRootTocGuid(that.getRootTocGuid());
         setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
+        setTitlePageImageIncluded(that.isTitlePageImageIncluded());
     }
 
     @Transient
@@ -734,6 +741,7 @@ public class EbookAudit implements Serializable {
             buffer.append("indexDocCollectionName=[").append(indexDocCollectionName).append("] ");
             buffer.append("indexTocRootGuid=[").append(indexTocRootGuid).append("] ");
         }
+        buffer.append("titlePageImageIncluded=[").append(titlePageImageIncluded).append("] ");
         return buffer.toString();
     }
 
@@ -938,5 +946,13 @@ public class EbookAudit implements Serializable {
 
     public void setIndexIncluded(final boolean isIndexIncluded) {
         indexIncluded = getStringForBooleanValue(isIndexIncluded);
+    }
+
+    public void setTitlePageImageIncluded(final boolean isTitlePageImageIncluded) {
+        titlePageImageIncluded = getStringForBooleanValue(isTitlePageImageIncluded);
+    }
+
+    public boolean isTitlePageImageIncluded() {
+        return isEqualsYes(titlePageImageIncluded);
     }
 }

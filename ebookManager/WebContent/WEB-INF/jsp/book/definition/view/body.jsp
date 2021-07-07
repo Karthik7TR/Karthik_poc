@@ -574,7 +574,13 @@ $(document).ready(function() {
 					<div class="row" ${xppHide}>
 						<label class="labelCol">Copyright Page Text</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.copyrightPageText) }</div>
-					</div>					
+					</div>
+					<c:if test="${ book.titlePageImageIncluded }">
+						<div class="row" ${xppHide}>
+							<label class="labelCol">Insert cover image to title page</label>
+							<span class="field">${ book.titlePageImageIncluded }</span>
+						</div>
+					</c:if>
 				</div>
 				<div class="rightDefinitionForm">
 					<div class="row" ${xppHide}>

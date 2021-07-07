@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
-import com.thomsonreuters.uscl.ereader.format.FormatConstants;
+import com.thomsonreuters.uscl.ereader.core.FormatConstants;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;

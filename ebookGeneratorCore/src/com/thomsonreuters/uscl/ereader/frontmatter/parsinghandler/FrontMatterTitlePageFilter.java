@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
+import static com.thomsonreuters.uscl.ereader.core.FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addPageNumber;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
@@ -28,6 +30,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     private static final String CURRENCY_TAG = "frontMatterPlaceholder_currency";
     private static final String AUTHORS_TAG = "frontMatterPlaceholder_authors";
     private static final String THEME_TAG = "frontMatterPlaceholder_theme";
+    private static final String IMAGE_TAG = "frontMatterPlaceholder_image";
+
 
     /** Defines the HTML tags that will be created by the filter */
     private static final String HTML_DIV_TAG = "div";
@@ -94,6 +98,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
             createAuthorSection();
         } else if (qName.equalsIgnoreCase(THEME_TAG)) {
             createFrontMatterThemeSection();
+        } else if (qName.equalsIgnoreCase(IMAGE_TAG)) {
+            createTitlePageImage();
         } else {
             super.startElement(uri, localName, qName, atts);
         }
@@ -113,7 +119,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
             || qName.equalsIgnoreCase(BOOK_NAME3_TAG)
             || qName.equalsIgnoreCase(CURRENCY_TAG)
             || qName.equalsIgnoreCase(AUTHORS_TAG)
-            || qName.equalsIgnoreCase(THEME_TAG)) {
+            || qName.equalsIgnoreCase(THEME_TAG)
+            || qName.equalsIgnoreCase(IMAGE_TAG)) {
             //Remove the placeholder tag
         } else {
             super.endElement(uri, localName, qName);
@@ -197,6 +204,16 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
                 }
             }
             super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
+        }
+    }
+
+    private void createTitlePageImage() throws SAXException {
+        if (bookDefinition.isTitlePageImageIncluded()) {
+            AttributesImpl newAtts = new AttributesImpl();
+            newAtts.addAttribute("", HTML_TAG_SRC_ATTRIBUTE, HTML_TAG_SRC_ATTRIBUTE, CDATA, PROVIEW_ASSERT_REFERENCE_PREFIX + TITLE_PAGE_IMAGE);
+            newAtts.addAttribute("", HTML_TAG_ALT_ATTRIBUTE, HTML_TAG_ALT_ATTRIBUTE, CDATA, TITLE_PAGE_IMAGE);
+            super.startElement("", HTML_IMG_TAG, HTML_IMG_TAG, newAtts);
+            super.endElement("", HTML_IMG_TAG, HTML_IMG_TAG);
         }
     }
 }

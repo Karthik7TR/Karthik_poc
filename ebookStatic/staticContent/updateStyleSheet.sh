@@ -397,6 +397,13 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
   margin-top: 1em;\
 }\
 /* </EB-3424> */\
+\
+/* <EB-3658 title page image> */\
+.imagecontainercenter {\
+  margin-left: auto;\
+  margin-right: auto;\
+}\
+/* </EB-3658> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\

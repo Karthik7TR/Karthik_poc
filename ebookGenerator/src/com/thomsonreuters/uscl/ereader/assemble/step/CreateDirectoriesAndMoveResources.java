@@ -143,7 +143,11 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
             // splitBooks
             for (int i = 1; i <= parts; i++) {
                 firstSplitBook = false;
-                String splitTitle = String.format("%s_pt%s", bookDefinition.getTitleId(), i);
+                String splitTitle = i == 1 ? bookDefinition.getTitleId() : String.format("%s_pt%s", bookDefinition.getTitleId(), i);
+                final File ebookDirectory = new File(assembleDirectory, splitTitle);
+                ebookDirectory.mkdir();
+                final File assetsDirectory = createAssetsDirectory(ebookDirectory);
+
                 titleMetadataBuilder.displayName(String.format("%s (eBook %s of %s)", bookDefinition.getProviewDisplayName(), i, parts));
                 titleMetadataBuilder.fullyQualifiedTitleId(String.format("%s_pt%s", fullyQualifiedTitleId, i));
 
@@ -159,8 +163,6 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
 
                 // Only for first split book
                 if (i == 1) {
-                    splitTitle = bookDefinition.getTitleId();
-
                     bookDefinition.getFrontMatterPdfFileNames()
                         .forEach(titleMetadataBuilder::assetFileName);
 
@@ -174,6 +176,10 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                                 .forEach(titleMetadataBuilder::assetFileName);
                     }
 
+                    if (bookDefinition.isTitlePageImageIncluded()) {
+                        moveResourcesUtil.moveTitlePageImage(jobExecutionContext, assetsDirectory);
+                    }
+
                     titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
                     firstSplitBook = true;
                 }
@@ -181,9 +187,6 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                 featuresListBuilder.forTitleId(new BookTitleId(key,
                         new Version(BigInteger.ZERO, BigInteger.ZERO)));
                 titleMetadataBuilder.proviewFeatures(featuresListBuilder.getFeatures());
-
-                final File ebookDirectory = new File(assembleDirectory, splitTitle);
-                ebookDirectory.mkdir();
 
                 final File splitTitleXml = formatFileSystem.getSplitTitleXml(this);
                 splitTitleXMLStream = new FileInputStream(splitTitleXml);
@@ -197,7 +200,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                     splitTitleXMLStream,
                     titleManifest,
                     nasFileSystem.getPilotBookCsvDirectory().getAbsolutePath());
-                moveResources(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
+                moveResources(jobExecutionContext, ebookDirectory, assetsDirectory, firstSplitBook, imgList, docList, coverArtFile);
                 //Drop assets for current split book part
                 titleMetadataBuilder.assetFileNames(null);
                 addAssetsForAllBooks(bookDefinition, titleMetadataBuilder);
@@ -233,12 +236,11 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
     public void moveResources(
         final ExecutionContext jobExecutionContext,
         final File ebookDirectory,
+        final File assetsDirectory,
         final boolean firstSplitBook,
         final List<String> imgList,
         final List<Doc> docList,
         final File coverArtFile) {
-        // Move assets
-        final File assetsDirectory = createAssetsDirectory(ebookDirectory);
         // static images
         final File staticImagesDir = imageFileSystem.getImageStaticDirectory(this);
         moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);

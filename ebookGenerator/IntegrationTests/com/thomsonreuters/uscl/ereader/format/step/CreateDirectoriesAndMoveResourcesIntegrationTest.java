@@ -67,6 +67,7 @@ public class CreateDirectoriesAndMoveResourcesIntegrationTest {
         bookDefinition.setFrontMatterTheme(FRONT_MATTER_THEME);
         bookDefinition.setIsbn(ISBN);
         bookDefinition.setCoverImage(COVER_IMAGE);
+        bookDefinition.setSplitEBookParts(2);
 
         when(step.getJobParameters().getString(JobParameterKey.BOOK_VERSION_SUBMITTED)).thenReturn(BOOK_VERSION);
         whenJobExecutionPropertyString(step.getJobExecutionContext(),
@@ -76,10 +77,14 @@ public class CreateDirectoriesAndMoveResourcesIntegrationTest {
 
     @Test
     public void splitBookTest() throws Exception {
-        final BookDefinition bookDefinition = step.getBookDefinition();
-        bookDefinition.setSplitEBookParts(2);
-
         runner.test(step, "splitBookTest");
+    }
+
+    @Test
+    public void splitBookTitleImageTest() throws Exception {
+        final BookDefinition bookDefinition = step.getBookDefinition();
+        bookDefinition.setTitlePageImageIncluded(true);
+        runner.test(step, "splitBookTitleImageTest");
     }
 
     @Configuration

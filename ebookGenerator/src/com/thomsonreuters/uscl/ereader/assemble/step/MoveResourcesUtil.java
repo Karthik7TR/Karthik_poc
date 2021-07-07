@@ -6,6 +6,7 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
@@ -22,6 +23,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PNG;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
 
 @Component
 public class MoveResourcesUtil {
@@ -141,5 +145,10 @@ public class MoveResourcesUtil {
             FileUtils.copyDirectory(formatFileSystem.getThesaurusStaticFilesDirectory(), assetsDirectory);
             FileUtils.copyFileToDirectory(formatFileSystem.getThesaurusXml(step), assetsDirectory);
         }
+    }
+
+    public void moveTitlePageImage(final ExecutionContext jobExecutionContext, final File assetsDirectory) {
+        final File coverArt = createCoverArt(jobExecutionContext);
+        FileUtils.copyFile(coverArt, new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG));
     }
 }

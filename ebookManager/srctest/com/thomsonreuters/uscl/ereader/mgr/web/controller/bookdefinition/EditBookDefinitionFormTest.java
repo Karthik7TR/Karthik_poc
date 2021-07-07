@@ -138,6 +138,7 @@ public final class EditBookDefinitionFormTest {
         form.setNortFileLocations(nortFileLocations);
         nortFileLocations.add(location);
         form.setPrintComponents(printComponentsJson);
+        form.setTitlePageImageIncluded(true);
 
         try {
             form.loadBookDefinition(book);
@@ -155,6 +156,7 @@ public final class EditBookDefinitionFormTest {
         Assert.assertEquals(1, book.getKeywordTypeValues().size());
         Assert.assertEquals(1, book.getNortFileLocations().size());
         Assert.assertEquals(3, book.getPrintComponents().size());
+        Assert.assertTrue(book.isTitlePageImageIncluded());
 
         validateEscapingPrintComponentName(book.getPrintComponents());
     }
@@ -171,12 +173,14 @@ public final class EditBookDefinitionFormTest {
     public void testCopyUsclBookDefinition() {
         final BookDefinition book = createBookDefinition(USCL_TITLE_ID);
         final List<KeywordTypeCode> keywordCodes = new ArrayList<>();
+        book.setTitlePageImageIncluded(true);
 
         form.copyBookDefinition(book, keywordCodes);
 
         Assert.assertTrue(form.toString().length() > 0);
         Assert.assertTrue(form.isSplitTypeAuto());
         Assert.assertNull(form.getBookLanguage());
+        assertTrue(book.isTitlePageImageIncluded());
     }
 
     @Test

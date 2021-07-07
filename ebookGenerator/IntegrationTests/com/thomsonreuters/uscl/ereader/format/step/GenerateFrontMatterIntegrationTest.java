@@ -84,6 +84,7 @@ public class GenerateFrontMatterIntegrationTest {
     public void shouldGenerateFrontMatterPagesForCwBook() throws Exception {
         final BookDefinition bookDefinition = step.getBookDefinition();
         bookDefinition.setFullyQualifiedTitleId(CW_BOOK);
+        bookDefinition.setTitlePageImageIncluded(true);
 
         runner.testWithExpectedOnly(step, CW_BOOK_TEST);
     }

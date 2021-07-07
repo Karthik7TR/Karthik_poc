@@ -81,6 +81,9 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
             moveResourcesUtil.moveFrontMatterImages(this, assetsDirectory, true);
             moveResourcesUtil.moveStylesheet(assetsDirectory);
             moveResourcesUtil.moveThesaurus(this, assembleFileSystem.getAssetsDirectory(this));
+            if (getBookDefinition().isTitlePageImageIncluded()) {
+                moveResourcesUtil.moveTitlePageImage(jobExecutionContext, assetsDirectory);
+            }
         } catch (final Exception e) {
             publishStatus = "Failed";
             throw e;
