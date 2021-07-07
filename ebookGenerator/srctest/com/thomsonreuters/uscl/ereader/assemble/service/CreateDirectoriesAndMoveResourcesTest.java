@@ -43,6 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_ASSETS_DIR;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
@@ -107,7 +108,7 @@ public final class CreateDirectoriesAndMoveResourcesTest {
         final List<String> imglist = new ArrayList<>();
         final List<Doc> doclist = new ArrayList<>();
         final File tempImg = makeFile(tempRootDir, "img.png", "totally an image file");
-        final File assetsDirectory = new File(tempRootDir, "assets");
+        final File assetsDirectory = new File(tempRootDir, ASSEMBLE_ASSETS_DIR.getName());
         createDirectoriesAndMoveResources
             .moveResources(jobExecutionContext, tempRootDir, assetsDirectory, true, imglist, doclist, tempImg);
     }
@@ -188,7 +189,7 @@ public final class CreateDirectoriesAndMoveResourcesTest {
 
         final List<String> imgList = new ArrayList<>();
         final List<Doc> docList = new ArrayList<>();
-        final File assetsDirectory = new File(tempRootDir, "assets");
+        final File assetsDirectory = new File(tempRootDir, ASSEMBLE_ASSETS_DIR.getName());
 
         boolean thrown = false;
         try {

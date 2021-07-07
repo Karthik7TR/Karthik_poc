@@ -399,7 +399,7 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
 /* </EB-3424> */\
 \
 /* <EB-3658 title page image> */\
-.imagecontainercenter {\
+.image_container_center {\
   margin-left: auto;\
   margin-right: auto;\
 }\
