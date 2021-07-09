@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
-import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 
@@ -68,7 +67,7 @@ public interface ProviewHandler {
 
     String publishTitle(String fullyQualifiedTitleId, Version version, File eBook) throws ProviewException;
 
-    boolean promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException, ExpectedProviewException;
+    boolean promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
     void markTitleSuperseded(String fullyQualifiedTitleId) throws ProviewException;
 

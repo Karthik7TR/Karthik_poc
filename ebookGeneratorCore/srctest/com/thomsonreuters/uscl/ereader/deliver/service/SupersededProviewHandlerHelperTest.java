@@ -18,7 +18,6 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,7 +49,6 @@ public final class SupersededProviewHandlerHelperTest {
     }
 
     @Before
-    @SneakyThrows
     public void init() throws ProviewException {
         when(proviewClient.changeTitleVersionToSuperseded(any(), any())).thenReturn(HttpStatus.OK);
         when(proviewClient.promoteTitle(any(), any())).thenReturn(HttpStatus.OK);
@@ -180,7 +178,6 @@ public final class SupersededProviewHandlerHelperTest {
         when(versionIsbnService.getIsbnOfTitleVersion(titleId, previousFinalVersion)).thenReturn(ISBN);
     }
 
-    @SneakyThrows
     private void verifyChange(final String titleId, final String version) throws ProviewException {
         verify(proviewClient).changeTitleVersionToSuperseded(titleId, version);
         verify(proviewClient).promoteTitle(titleId, version);

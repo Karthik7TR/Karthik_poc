@@ -15,7 +15,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import com.thomsonreuters.uscl.ereader.common.retry.Retry;
-import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
@@ -117,6 +116,7 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will get all versions of group definition by Id
      *
+     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -142,6 +142,7 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will get group definition by version
      *
+     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -185,6 +186,7 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * This request will update Group status to promote
      *
+     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -208,6 +210,7 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * This request will update Group status to removed
      *
+     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -231,6 +234,7 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will delete group
      *
+     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -410,28 +414,21 @@ public class ProviewClientImpl implements ProviewClient {
         delayProperty = "proview.retry.delay.ms"
     )
     public HttpStatus promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
-        throws ProviewException, ExpectedProviewException {
+        throws ProviewException {
         validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
 
         final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
-        try (final ClientHttpResponse proviewResponse = restTemplate.execute(
-                promoteTitleUriTemplate,
-                HttpMethod.PUT,
-                proviewRequestCallback,
-                proviewResponseExtractorFactory.getSimpleResponseExtractor(),
-                urlParameters)) {
-            return getStatusCode(proviewResponse);
-        } catch (final Exception e) {
-            LOG.warn(e.getMessage(), e);
-            if (e.getMessage().contains("Title status cannot be changed from Final to Final")) {
-                throw new ExpectedProviewException(e.getMessage(), e);
-            } else {
-                throw e;
-            }
-        }
+        final ClientHttpResponse proviewResponse = restTemplate.execute(
+            promoteTitleUriTemplate,
+            HttpMethod.PUT,
+            proviewRequestCallback,
+            proviewResponseExtractorFactory.getSimpleResponseExtractor(),
+            urlParameters);
+
+        return getStatusCode(proviewResponse);
     }
 
     /*

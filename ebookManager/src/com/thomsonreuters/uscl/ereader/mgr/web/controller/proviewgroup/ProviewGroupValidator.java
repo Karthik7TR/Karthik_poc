@@ -17,6 +17,7 @@ public class ProviewGroupValidator implements Validator {
         final ProviewGroupListFilterForm form = (ProviewGroupListFilterForm) obj;
 
         if ((form.getGroupCmd() == GroupCmd.PROMOTE)
+            || (form.getGroupCmd() == GroupCmd.DELETE)
             || (form.getGroupCmd() == GroupCmd.REMOVE)) {
             if (form.getGroupMembers() == null || form.getGroupMembers().size() == 0) {
                 if (!form.isGroupOperation()) {
