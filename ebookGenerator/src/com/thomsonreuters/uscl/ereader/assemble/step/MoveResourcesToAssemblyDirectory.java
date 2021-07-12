@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
 import java.io.File;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PNG;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
+
 /**
  * This step is responsible for moving resources, identified by well-known JobExecutionKeys, to the assembly directory
  *
@@ -82,7 +85,7 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
             moveResourcesUtil.moveStylesheet(assetsDirectory);
             moveResourcesUtil.moveThesaurus(this, assembleFileSystem.getAssetsDirectory(this));
             if (getBookDefinition().isTitlePageImageIncluded()) {
-                moveResourcesUtil.moveTitlePageImage(jobExecutionContext, assetsDirectory);
+                moveResourcesUtil.moveTitlePageImage(jobExecutionContext, new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG));
             }
         } catch (final Exception e) {
             publishStatus = "Failed";

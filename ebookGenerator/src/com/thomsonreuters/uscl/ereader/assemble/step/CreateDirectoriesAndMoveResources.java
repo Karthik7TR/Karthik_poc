@@ -52,6 +52,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PNG;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
+
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class CreateDirectoriesAndMoveResources extends BookStepImpl {
@@ -177,7 +180,9 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                     }
 
                     if (bookDefinition.isTitlePageImageIncluded()) {
-                        moveResourcesUtil.moveTitlePageImage(jobExecutionContext, assetsDirectory);
+                        File titlePageImage = new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG);
+                        moveResourcesUtil.moveTitlePageImage(jobExecutionContext, titlePageImage);
+                        titleMetadataBuilder.assetFile(titlePageImage);
                     }
 
                     titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
