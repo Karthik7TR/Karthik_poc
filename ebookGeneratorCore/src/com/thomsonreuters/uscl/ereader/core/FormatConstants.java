@@ -6,4 +6,6 @@ public class FormatConstants {
     public static final String PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT = "er:";
 
     public static final String VERSION_NUMBER_PREFIX = "v";
+
+    public static final String HASH = "#";
 }

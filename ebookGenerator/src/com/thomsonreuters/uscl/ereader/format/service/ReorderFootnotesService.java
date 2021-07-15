@@ -40,7 +40,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ANCHOR;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.AUTHOR_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BEGIN_QUOTE;
@@ -139,7 +138,6 @@ public class ReorderFootnotesService {
         String firstFileName = getFirstFileName(srcFilesOrdered);
         String lastFileName = getLastFileName(srcFilesOrdered);
         BidiMap<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered);
-        step.setJobExecutionProperty(PAGE_NUMBERS_MAP, pageNumbers);
 
         final PagePointer mainPage = new PagePointer(pageNumbers);
         final PagePointer footnotePage = new PagePointer(pageNumbers);

@@ -49,6 +49,7 @@ public class MarkupConstants {
     public static final String TR_FTN = "tr_ftn";
     public static final String TR_FOOTNOTES = "tr_footnotes";
     public static final String TR_FOOTNOTE = "tr_footnote";
+    public static final String TR_FOOTNOTES_CLASS_SELECTOR = ".tr_footnotes";
     public static final String CO_FOOTNOTE_CLASS_PREFIX = "co_footnote_";
     public static final String CO_FOOTNOTE_REFERENCE = "co_footnoteReference";
     public static final String CO_FOOTNOTE_SECTION_TITLE = "co_footnoteSectionTitle";
@@ -59,6 +60,8 @@ public class MarkupConstants {
     public static final String CO_PAGE_NUMBER = "co_page_number";
     public static final String CO_PARAGRAPH = "co_paragraph";
     public static final String CO_PARAGRAPH_TEXT = "co_paragraphText";
+    public static final String HIDDEN_FOOTNOTE_CLASS_NAME = "hidden_footnote";
+    public static final String HIDDEN_FOOTNOTE_REFERENCE_CLASS_NAME = "hidden_footnote_reference";
     public static final String PARA = "para";
     public static final String PARATEXT = "paratext";
     public static final String BOP = "bop";

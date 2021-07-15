@@ -12,8 +12,6 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.dao.CanadianDigestDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestServiceImpl;
-import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +33,6 @@ import java.util.Arrays;
 import static com.thomsonreuters.uscl.ereader.JobExecutionKey.WITH_PAGE_NUMBERS;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
-import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PAGE_NUMBERS_MAP;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,11 +79,6 @@ public class JsoupConversionsIntegrationTest {
 
     @Test
     public void shouldAddHiddenReferencesAndFootnotes() throws Exception {
-        BidiMap<String, String> pageNumbers = new DualHashBidiMap<>();
-        pageNumbers.put("48", "49");
-        pageNumbers.put("49", "50");
-        pageNumbers.put("50", "51");
-        when(step.getJobExecutionProperty(PAGE_NUMBERS_MAP)).thenReturn(pageNumbers);
         when(step.getJobExecutionProperty(WITH_PAGE_NUMBERS)).thenReturn(true);
         runner.test(step, "addHiddenFootnotesAndReferences");
     }
