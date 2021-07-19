@@ -183,7 +183,7 @@ public class ReorderFootnotesService {
         footnotesBlock.ifPresent(Element::remove);
 
         final List<XmlDeclaration> pagebreaksFromMain = getProviewPagebreaks(mainSection);
-        if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0 || isFirstFile) {
+        if (footnotesBlock.isPresent() || pagebreaksFromMain.size() > 0 || isFirstFile || pagebreakToMoveToNextDocument.isAvailable()) {
             convertFootnoteReferencesInMainSection(mainSection);
             convertFootnotes(doc, footnotesBlock);
 

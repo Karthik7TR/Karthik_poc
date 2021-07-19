@@ -1,0 +1,12 @@
+<n-docbody>
+	<doc bill="Y">
+		<section>
+			<section.body>
+				<div>Text 319</div>
+				<page no="319"/>
+				<div>Text 320</div>
+				<page no="320"/>
+			</section.body>
+		</section>
+	</doc>
+</n-docbody>

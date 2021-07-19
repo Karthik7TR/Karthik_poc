@@ -1,0 +1,9 @@
+<n-docbody>
+	<doc bill="Y">
+		<section>
+			<section.body>
+				<div>Text 321 - 002</div>
+			</section.body>
+		</section>
+	</doc>
+</n-docbody>

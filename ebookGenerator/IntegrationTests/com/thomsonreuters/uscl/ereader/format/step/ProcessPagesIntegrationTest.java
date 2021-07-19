@@ -64,11 +64,11 @@ public final class ProcessPagesIntegrationTest {
     @Before
     public void setUp() throws URISyntaxException {
         runner.setUp(step, "resourceProcessPages");
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
     }
 
     @Test
     public void shouldTransformPages() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         when(step.getJobExecutionContext().get(JobExecutionKey.PAGE_VOLUMES_SET)).thenReturn(Boolean.TRUE);
         runner.test(step, "transformTest");
     }
@@ -76,55 +76,53 @@ public final class ProcessPagesIntegrationTest {
     @Test
     public void shouldTransformPagesWithSectionbreaks() throws Exception {
         final String resourceTestDir = "transformWithSectionbreaksTest";
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         setUpDocMetadata(resourceTestDir);
         runner.test(step, resourceTestDir);
     }
 
     @Test
     public void shouldCopyPages() throws Exception {
+        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.FALSE);
         runner.test(step, "copyTest");
     }
 
     @Test
+    public void movePagebreaksToNextDocTest() throws Exception {
+        runner.test(step, "movePagebreaksToNextDoc");
+    }
+
+    @Test
     public void shouldProcessLastPage() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "processLastPage");
     }
 
     @Test
     public void shouldProcessLastPageMissingInMain() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "processLastPageMissingInMain");
     }
 
     @Test
     public void shouldProcessLastPageMissingInFootnotes() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "processLastPageMissingInFootnotes");
     }
 
     @Test
     public void shouldRemovePagebreaksFromLabelDesignator() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "pagebreaksInLabelDesignatorTest");
     }
 
     @Test
     public void shouldProcessAuthorFootnotes() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "processAuthorFootnotes");
     }
 
     @Test
     public void shouldProcessFootnoteWithoutLabelDesignator() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "absenceLabelDesignatorTest");
     }
 
     @Test
     public void shouldAppendAndPrependMissingPagebreaks() throws Exception {
-        when(step.getJobExecutionContext().get(JobExecutionKey.WITH_PAGE_NUMBERS)).thenReturn(Boolean.TRUE);
         runner.test(step, "appendAndPrependMissingPbs");
     }
 
