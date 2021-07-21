@@ -195,7 +195,7 @@ public class ReorderFootnotesService {
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
             convertPageEndsToPageStarts(footnotesSectionToAppend, footnotePage, isFirstFile);
             setPageAttrInReferencesInMainSectionAndFootnotes(mainSection, footnotesSectionToAppend, mainPage, footnotePage);
-            movePagebreakToNextDocument(pagebreakToMoveToNextDocument, mainSection, footnotesSectionToAppend);
+            movePagebreakToNextDocument(pagebreakToMoveToNextDocument, mainSection, footnotesSectionToAppend, isLastFile);
             mainSection.after(footnotesSectionToAppend);
         }
 
@@ -613,11 +613,13 @@ public class ReorderFootnotesService {
     }
 
     private void movePagebreakToNextDocument(final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument,
-        final Element mainSection, final Element footnoteSection) {
-        prependPagebreakFromPreviousDocument(mainSection, footnoteSection, pagebreakToMoveToNextDocument);
-        pagebreakToMoveToNextDocument.clear();
-        saveLastPagebreakAndTrailingFootnoteNodesToPrependToNextDocument(mainSection, footnoteSection, pagebreakToMoveToNextDocument);
-        pagebreakToMoveToNextDocument.removeElementsIfAvailable();
+        final Element mainSection, final Element footnoteSection, final boolean isLastFile) {
+            prependPagebreakFromPreviousDocument(mainSection, footnoteSection, pagebreakToMoveToNextDocument);
+            pagebreakToMoveToNextDocument.clear();
+            if (!isLastFile) {
+                saveLastPagebreakAndTrailingFootnoteNodesToPrependToNextDocument(mainSection, footnoteSection, pagebreakToMoveToNextDocument);
+                pagebreakToMoveToNextDocument.removeElementsIfAvailable();
+            }
     }
 
     private void prependPagebreakFromPreviousDocument(final Element mainSection, final Element footnoteSection,

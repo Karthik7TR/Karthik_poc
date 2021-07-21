@@ -97,6 +97,11 @@ public final class ProcessPagesIntegrationTest {
     }
 
     @Test
+    public void shouldProcessLastPageEmptyMain() throws Exception {
+        runner.test(step, "processLastPageEmptyMain");
+    }
+
+    @Test
     public void shouldProcessLastPageMissingInMain() throws Exception {
         runner.test(step, "processLastPageMissingInMain");
     }
