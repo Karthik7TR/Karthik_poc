@@ -404,6 +404,12 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
   margin-right: auto;\
 }\
 /* </EB-3658> */\
+\
+/* <EB-3541 Klod points moved out of bounds> */\
+.co_commentaryEnhancement .co_researchReferenceBlock ul.co_bullList {\
+  padding-left:15px;\
+}\
+/* </EB-3541> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
