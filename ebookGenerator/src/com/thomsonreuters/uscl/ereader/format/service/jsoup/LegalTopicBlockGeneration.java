@@ -36,7 +36,7 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
                     "<input name=\"%1$s\" id=\"%1$s\" type=\"checkbox\" class=\"abr-clas-input noprint\"/>" +
                     "<div class=\"abr-clas-hdiv noprint\">\n" +
                     "<p style=\"margin-bottom:0em\" class=\"i2\">\n" +
-                    "<span style=\"overflow-wrap:break-word\" class=\"fs-small\"><b><i>Browse Legal Topics on WestlawNext Canada for more on these topics:</i></b></span>\n" +
+                    "<span style=\"overflow-wrap:break-word\" class=\"fs-small\"><b><i>Browse Legal Topics on Westlaw Canada for more on these topics:</i></b></span>\n" +
                     "</p>\n" +
                     "%2$s" +
                     "</div>";
