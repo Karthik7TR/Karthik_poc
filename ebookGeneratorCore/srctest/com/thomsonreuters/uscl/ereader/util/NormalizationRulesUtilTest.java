@@ -89,6 +89,16 @@ public final class NormalizationRulesUtilTest {
     }
 
     @Test
+    public void testNormalizeCiteExtraParagraphSign() {
+        assertEquals("KYDAMSSS5:1", NormalizationRulesUtil.normalizeCiteExtraParagraphSigns("KYDAM S 5:1"));
+    }
+
+    @Test
+    public void testNormalizeCiteTrailingDot() {
+        assertEquals("KYDAMs5:4.", NormalizationRulesUtil.normalizeCiteTrailingDot("KYDAM s 5:4"));
+    }
+
+    @Test
     public void testNormalizeNoDashesNoWhitespacesNull() {
         assertNull(NormalizationRulesUtil.normalizeNoDashesNoWhitespaces(null));
     }
@@ -105,6 +115,20 @@ public final class NormalizationRulesUtilTest {
         String wNormalizedCite = "WESTSFEDFORMSCOURTSOFAPPEALSs2:41";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCite("West&apos;s Fed. Forms, Courts of Appeals § 2:41"));
+    }
+
+    @Test
+    public void testNormalizeThirdLineCiteKeepingDecimalDot() {
+        String wNormalizedCite = "CONNPRACTRIALPRACTICEs1.29";
+        assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
+                NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Trial Practice § 1.29 (2d ed.)"));
+    }
+
+    @Test
+    public void testNormalizeThirdLineCiteKeepingDecimalDot2() {
+        String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.9";
+        assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
+                NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.9 (4th ed.)"));
     }
 
     @Test

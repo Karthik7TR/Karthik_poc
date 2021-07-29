@@ -43,8 +43,11 @@ public class DocumentMetadataAuthority {
     private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByThirdLineCiteKeepingDecimalDot = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByThirdLineCite = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByCiteNoParagraphSign = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteTrailingDot = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteExtraParagraphSigns = new HashMap<>();
 
     public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet) {
         initializeMaps(docMetadataSet);
@@ -73,8 +76,11 @@ public class DocumentMetadataAuthority {
                 addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getSecondlineCitePubId);
                 addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getThirdlineCitePubId);
             }
+            addThirdLineCiteKeepingDecimalDotMapping(docMetadata);
             addThirdLineCiteMapping(docMetadata);
             addCiteNoParagraphSignMapping(docMetadata);
+            addCiteTrailingDotMapping(docMetadata);
+            addCiteExtraParagraphSigns(docMetadata);
         });
     }
 
@@ -138,7 +144,7 @@ public class DocumentMetadataAuthority {
 
     public DocMetadata getDocMetadataByCite(final String cite, final String guid) {
         final String normalizedCite = normalizeNoDashesNoWhitespaces(cite);
-        DocMetadata docMetadata;
+        DocMetadata docMetadata = null;
         if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(normalizedCite)
             && docMetadataKeyedByDocumentUuid.containsKey(guid)) {
             final List<DocMetadata> list = docMetadataKeyedByCite.get(normalizedCite);
@@ -149,12 +155,24 @@ public class DocumentMetadataAuthority {
                 .orElse(list.get(0));
         } else if (docMetadataKeyedByCiteWithoutDate.containsKey(cite)) {
             docMetadata = docMetadataKeyedByCiteWithoutDate.get(cite);
+        } else if (docMetadataKeyedByThirdLineCiteKeepingDecimalDot.containsKey(normalizedCite)) {
+            docMetadata = docMetadataKeyedByThirdLineCiteKeepingDecimalDot.get(normalizedCite);
         } else if (docMetadataKeyedByThirdLineCite.containsKey(normalizedCite)) {
             docMetadata = docMetadataKeyedByThirdLineCite.get(normalizedCite);
-        } else {
+        } else if(docMetadataKeyedByCiteNoParagraphSign.containsKey(normalizedCite)) {
             docMetadata = docMetadataKeyedByCiteNoParagraphSign.get(normalizedCite);
+        } else if(docMetadataKeyedByCiteTrailingDot.containsKey(normalizedCite)){
+            docMetadata = docMetadataKeyedByCiteTrailingDot.get(normalizedCite);
+        } else if(docMetadataKeyedByCiteExtraParagraphSigns.containsKey(normalizedCite)){
+            docMetadata = docMetadataKeyedByCiteExtraParagraphSigns.get(normalizedCite);
         }
         return docMetadata;
+    }
+
+    private void addThirdLineCiteKeepingDecimalDotMapping(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getThirdlineCite())
+                .map(NormalizationRulesUtil::normalizeThirdLineCiteKeepingDecimalDot)
+                .ifPresent(thirdLineCite -> docMetadataKeyedByThirdLineCiteKeepingDecimalDot.putIfAbsent(thirdLineCite, docMetadata));
     }
 
     private void addThirdLineCiteMapping(final DocMetadata docMetadata) {
@@ -167,6 +185,18 @@ public class DocumentMetadataAuthority {
         ofNullable(docMetadata.getNormalizedFirstlineCite())
                 .map(NormalizationRulesUtil::normalizeCiteNoParagraphSign)
                 .ifPresent(cite -> docMetadataKeyedByCiteNoParagraphSign.putIfAbsent(cite, docMetadata));
+    }
+
+    private void addCiteTrailingDotMapping(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getNormalizedFirstlineCite())
+                .map(NormalizationRulesUtil::normalizeCiteTrailingDot)
+                .ifPresent(cite -> docMetadataKeyedByCiteTrailingDot.putIfAbsent(cite, docMetadata));
+    }
+
+    private void addCiteExtraParagraphSigns(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getNormalizedFirstlineCite())
+                .map(NormalizationRulesUtil::normalizeCiteExtraParagraphSigns)
+                .ifPresent(cite -> docMetadataKeyedByCiteExtraParagraphSigns.putIfAbsent(cite, docMetadata));
     }
 
     /**

@@ -14,7 +14,9 @@ import static java.util.Optional.ofNullable;
  */
 public class NormalizationRulesUtil {
     private static final String DASH = "-";
-    private static final String PUNCTUATION_AND_BRACES_REGEX = "\\.|,|'|\\(.*\\)";
+    private static final String DOT = ".";
+    private static final String BRACES_REGEX = "\\(.*\\)";
+    private static final String PUNCTUATION_REGEX = "\\.|,|'|";
     private static final String WHITESPACE_REGEX = "\\s";
     private static final String UNICODE_SECTION_SYMBOL = "\u00A7";
     private static final String UNICODE_PARAGRAPH_SYMBOL = "\u00B6";
@@ -53,7 +55,9 @@ public class NormalizationRulesUtil {
     
     private static final String BOOK_NAME_GROUP = "bookName";
     private static final String PARAGRAPH_GROUP = "paragraph";
-    private static final Pattern CITE_PATTERN = Pattern.compile(String.format("(?<%s>.+)S(?<%s>[0-9]+:[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
+    private static final String PARAGRAPH_SIGNS = "SSS";
+    private static final Pattern CITE_COLON_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)S(?<%s>[0-9]+:[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
+    private static final Pattern CITE_DOT_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)(?<%s>[0-9]+\\.[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
 
     /**
      * This method will apply list of normalization rules for given cite.
@@ -65,12 +69,11 @@ public class NormalizationRulesUtil {
     public static String applyCitationNormalizationRules(String normalizedCite) {
         if (normalizedCite != null) {
             normalizedCite = normalizedCite.toUpperCase();
-
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_SECTION_SYMBOL), "S");
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_PARAGRAPH_SYMBOL), "P");
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_LEFT_BRACKET_SYMBOL), "(");
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_RIGHT_BRACKET_SYMBOL), ")");
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_CARET_SYMBOL), DASH);
+            normalizedCite = normalizedCite.replace(UNICODE_SECTION_SYMBOL, "S");
+            normalizedCite = normalizedCite.replace(UNICODE_PARAGRAPH_SYMBOL, "P");
+            normalizedCite = normalizedCite.replace(UNICODE_LEFT_BRACKET_SYMBOL, "(");
+            normalizedCite = normalizedCite.replace(UNICODE_RIGHT_BRACKET_SYMBOL, ")");
+            normalizedCite = normalizedCite.replace(UNICODE_CARET_SYMBOL, DASH);
         }
 
         return normalizedCite;
@@ -157,6 +160,14 @@ public class NormalizationRulesUtil {
                 .orElse(null);
     }
 
+    public static String normalizeThirdLineCiteKeepingDecimalDot(final String cite) {
+        return ofNullable(pubPageNormalizationRules(cite))
+                .map(NormalizationRulesUtil::removeBraces)
+                .map(NormalizationRulesUtil::removePunctuationKeepingTrailingDecimalNumber)
+                .map(NormalizationRulesUtil::normalizeNoDashesNoWhitespaces)
+                .orElse(null);
+    }
+
     public static String normalizeThirdLineCite(final String cite) {
         return ofNullable(pubPageNormalizationRules(cite))
                 .map(NormalizationRulesUtil::removePunctuationAndBraces)
@@ -170,15 +181,51 @@ public class NormalizationRulesUtil {
                 .orElse(null);
     }
 
+    public static String normalizeCiteTrailingDot(final String cite) {
+        return ofNullable(normalizeNoDashesNoWhitespaces(cite))
+                .map(c -> c + DOT)
+                .orElse(null);
+    }
+
+    public static String normalizeCiteExtraParagraphSigns(final String cite) {
+        return ofNullable(normalizeNoDashesNoWhitespaces(cite))
+                .map(NormalizationRulesUtil::addExtraParagraphSigns)
+                .orElse(null);
+    }
+
     private static String removeParagraphSign(final String cite) {
-        final Matcher matcher = CITE_PATTERN.matcher(cite);
+        final Matcher matcher = CITE_COLON_SEPARATED_PATTERN.matcher(cite);
         if (matcher.matches()) {
             return matcher.group(BOOK_NAME_GROUP) + matcher.group(PARAGRAPH_GROUP);
         }
         return cite;
     }
 
+    private static String addExtraParagraphSigns(final String cite) {
+        final Matcher matcher = CITE_COLON_SEPARATED_PATTERN.matcher(cite);
+        if (matcher.matches()) {
+            return matcher.group(BOOK_NAME_GROUP) + PARAGRAPH_SIGNS + matcher.group(PARAGRAPH_GROUP);
+        }
+        return cite;
+    }
+
+    private static String removePunctuationKeepingTrailingDecimalNumber(final String cite) {
+        final Matcher matcher = CITE_DOT_SEPARATED_PATTERN.matcher(cite);
+        if (matcher.matches()) {
+            return removePunctuation(matcher.group(BOOK_NAME_GROUP)) + matcher.group(PARAGRAPH_GROUP);
+        }
+        return cite;
+    }
+
     private static String removePunctuationAndBraces(final String cite) {
-        return cite.replaceAll(PUNCTUATION_AND_BRACES_REGEX, StringUtils.EMPTY);
+        return removePunctuation(removeBraces(cite));
+    }
+
+    private static String removeBraces(final String cite) {
+        return cite.replaceAll(BRACES_REGEX, StringUtils.EMPTY);
+    }
+
+    private static String removePunctuation(final String cite) {
+        return cite.replaceAll(PUNCTUATION_REGEX, StringUtils.EMPTY);
     }
 }

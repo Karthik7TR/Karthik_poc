@@ -27,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
@@ -144,7 +145,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testExpectedLinkParameterFromResourceUrl() throws Exception {
+    public void testExpectedLinkParameterFromResourceUrl() {
         final String resourceUrl =
                 "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -156,7 +157,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetNormalizedCiteFromResourceUrl() throws Exception {
+    public void testGetNormalizedCiteFromResourceUrl() {
         String resourceUrl =
                 "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&pubNum=119616&cite=SECOPINION\u00A739%3A7&originationContext=ebook";
         Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -183,7 +184,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetLinkParameter() throws Exception {
+    public void testGetLinkParameter() {
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE));
 
         final String inputLink =
@@ -195,7 +196,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetLinkParameterWithDate() throws Exception {
+    public void testGetLinkParameterWithDate() {
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE_WITH_DATE));
 
         final String inputLink =
@@ -218,7 +219,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testLinkwithinDoc() throws Exception {
+    public void testLinkwithinDoc() {
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE));
 
         final String inputLink =
@@ -230,7 +231,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetLinkParameterwithSpace() throws Exception {
+    public void testGetLinkParameterwithSpace() {
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE));
 
         final String inputLink =
@@ -242,7 +243,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetLinkParameterwithOnlySpace() throws Exception {
+    public void testGetLinkParameterwithOnlySpace() {
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE));
 
         final String inputLink =
@@ -254,7 +255,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testRutterLink() throws Exception {
+    public void testRutterLink() {
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(FIRST_LINE_CITE));
 
         final String inputLink =
@@ -278,7 +279,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetNormalizedCiteDocumentUuidFromResourceUrl() throws Exception {
+    public void testGetNormalizedCiteDocumentUuidFromResourceUrl() {
         final String resourceUrl =
             "https://1.next.westlaw.com/Link/Document/FullText?findType=l&pubNum=1077005&cite=UUID%28ID4D58042D3-43461C8C9EE-73AA2A319F3%29&originationContext=ebook";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -289,7 +290,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testGetSerialNumberFromResourceUrl() throws Exception {
+    public void testGetSerialNumberFromResourceUrl() {
         final String resourceUrl =
             "https://a.next.westlaw.com/Document/FullText?findType=Y&serNum=123456&transitionType=Default&contextData=(sc.Default)";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -301,70 +302,77 @@ public final class InternalLinkResolverFilterTest {
     @Test
     public void testGetTOCGuid() throws Exception {
         final String documentMetadataFirstLineCite = "42USCAS1395W-133";
-        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(documentMetadataFirstLineCite));
-
         final String inputCite = "42USCAS1395W-133";
-        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
-
-        testHelper(inputCite, expectedHref);
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(documentMetadataFirstLineCite));
+        testHelper(inputCite);
     }
 
     @Test
     public void testDashesAndWhitespaces() throws Exception {
         final String firstLineCite = "FLETCHER-FRM CH 1 COR";
-
-        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
-
         final String inputCite = "FLETCHER-FRM%20CH%201%20COR";
-        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
-
-        testHelper(inputCite, expectedHref);
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite);
     }
 
     @Test
     public void testThirdLineCite() throws Exception {
         final String firstLineCite = "6 FEDFORMS § 1:9";
         final String thirdLineCite = "West&apos;s Fed. Forms, Bankruptcy Courts § 1:9 (5th ed.)";
-
-        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite, thirdLineCite));
-
         final String inputCite = "WESTSFEDFORMSBANKRUPTCYCOURTSs1%3A9";
-        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
-
-        testHelper(inputCite, expectedHref);
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite, thirdLineCite));
+        testHelper(inputCite);
     }
 
     @Test
     public void testThirdLineCiteSplitBook() throws Exception {
         final String firstLineCite = "1B FEDFORMS § 2:41";
         final String thirdLineCite = "West&apos;s Fed. Forms, Courts of Appeals § 2:41 (6th ed.)";
-
-        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadataSplit(firstLineCite, thirdLineCite));
-
         final String inputCite = "WESTSFEDFORMSCOURTSOFAPPEALSs2%3A41";
         final String expectedHref = "er:us/an/splitBookTitle/v1#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
-
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadataSplit(firstLineCite, thirdLineCite));
         testHelper(inputCite, expectedHref);
+    }
+
+    @Test
+    public void testNormalizedThirdLineCiteKeepingDecimalDot() throws Exception {
+        final String firstLineCite = "6 CTPRAC § 1.29";
+        final String thirdLineCite = "Conn. Prac., Trial Practice § 1.29 (2d ed.)";
+        final String inputCite = "CONNPRACTRIALPRACTICEs1.29";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite, thirdLineCite));
+        testHelper(inputCite);
     }
 
     @Test
     public void testNormalizedCiteWithParagraphSign() throws Exception {
         final String firstLineCite = "GAEVIDENCE S 5:7";
         final String inputCite = "GAEVIDENCEs5%3A7";
-        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
-
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
-        testHelper(inputCite, expectedHref);
+        testHelper(inputCite);
     }
 
     @Test
     public void testNormalizedCiteNoParagraphSign() throws Exception {
         final String firstLineCite = "GAEVIDENCE S 5:7";
         final String inputCite = "GAEVIDENCE5%3A7";
-        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
-
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
-        testHelper(inputCite, expectedHref);
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testNormalizedCiteExtraParagraphSign() throws Exception {
+        final String firstLineCite = "KYDAM S 5:1";
+        final String inputCite = "KYDAMs%C2%A7%C2%A7%205%3A1";//"KYDAMs§§ 5:1"
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testNormalizedCiteTrailingDot() throws Exception {
+        final String firstLineCite = "KYDAM S 5:4";
+        final String inputCite = "KYDAMs5%3A4.";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite);
     }
 
     private Set<DocMetadata> getDocsMetadataSplit(final String firstLineCite, final String thirdLineCite) {
@@ -404,7 +412,12 @@ public final class InternalLinkResolverFilterTest {
         return getDocMetadata(DOC_UUID_CURRENT, DOC_FAMILY_UUID_CURRENT, null, null, null);
     }
 
-    public void testHelper(final String inputCite, final String expectedHref) throws SAXException {
+    public void testHelper(final String inputCite) throws SAXException {
+        final String expectedHref = "er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4";
+        testHelper(inputCite, expectedHref);
+    }
+
+    public void testHelper(final String inputCite, final String expectedHref) {
         final String inputXML =
                 String.format("<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=%s&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>", inputCite);
         final String expectedResult =
@@ -419,7 +432,8 @@ public final class InternalLinkResolverFilterTest {
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelperLinks(final String inputXML, final String expectedResult) throws SAXException {
+    @SneakyThrows
+    public void testHelperLinks(final String inputXML, final String expectedResult) {
         try (ByteArrayInputStream input = new ByteArrayInputStream(inputXML.getBytes());
              ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             serializer.setOutputStream(output);
