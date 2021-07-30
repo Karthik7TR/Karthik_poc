@@ -344,6 +344,15 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
+    public void testNormalizedThirdLineCiteKeepingDecimalDot2() throws Exception {
+        final String firstLineCite = "3 CTPRAC FORM 504.1-FF";
+        final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1-FF (4th ed.)";
+        final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-FF";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite, thirdLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
     public void testNormalizedCiteWithParagraphSign() throws Exception {
         final String firstLineCite = "GAEVIDENCE S 5:7";
         final String inputCite = "GAEVIDENCEs5%3A7";
@@ -371,6 +380,22 @@ public final class InternalLinkResolverFilterTest {
     public void testNormalizedCiteTrailingDot() throws Exception {
         final String firstLineCite = "KYDAM S 5:4";
         final String inputCite = "KYDAMs5%3A4.";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testNormalizedCiteTrailingDot2() throws Exception {
+        final String firstLineCite = "KYDAM S 5:5";
+        final String inputCite = "KYDAMs5%3A5..";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testNormalizedCiteTwoParagraphSignsTrailingDot() throws Exception {
+        final String firstLineCite = "KYDAM S 12:24";
+        final String inputCite = "KYDAMs%C2%A7%2012%3A24.";
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite));
         testHelper(inputCite);
     }

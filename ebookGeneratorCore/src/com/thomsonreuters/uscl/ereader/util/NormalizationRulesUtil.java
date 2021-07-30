@@ -55,9 +55,10 @@ public class NormalizationRulesUtil {
     
     private static final String BOOK_NAME_GROUP = "bookName";
     private static final String PARAGRAPH_GROUP = "paragraph";
-    private static final String PARAGRAPH_SIGNS = "SSS";
+    private static final String PARAGRAPH_SIGNS_2 = "SS";
+    private static final String PARAGRAPH_SIGNS_3 = "SSS";
     private static final Pattern CITE_COLON_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)S(?<%s>[0-9]+:[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
-    private static final Pattern CITE_DOT_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)(?<%s>[0-9]+\\.[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
+    private static final Pattern CITE_DOT_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)(?<%s>[0-9]+\\.[0-9]+(\\-[A-Za-z]+)?)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
 
     /**
      * This method will apply list of normalization rules for given cite.
@@ -164,7 +165,6 @@ public class NormalizationRulesUtil {
         return ofNullable(pubPageNormalizationRules(cite))
                 .map(NormalizationRulesUtil::removeBraces)
                 .map(NormalizationRulesUtil::removePunctuationKeepingTrailingDecimalNumber)
-                .map(NormalizationRulesUtil::normalizeNoDashesNoWhitespaces)
                 .orElse(null);
     }
 
@@ -187,9 +187,21 @@ public class NormalizationRulesUtil {
                 .orElse(null);
     }
 
-    public static String normalizeCiteExtraParagraphSigns(final String cite) {
+    public static String normalizeCiteTrailingDot2(final String cite) {
         return ofNullable(normalizeNoDashesNoWhitespaces(cite))
-                .map(NormalizationRulesUtil::addExtraParagraphSigns)
+                .map(c -> c + DOT + DOT)
+                .orElse(null);
+    }
+
+    public static String normalizeCiteExtra3ParagraphSigns(final String cite) {
+        return ofNullable(normalizeNoDashesNoWhitespaces(cite))
+                .map(NormalizationRulesUtil::addExtra3ParagraphSigns)
+                .orElse(null);
+    }
+
+    public static String normalizeCiteExtra2ParagraphSignsTrailingDot(final String cite) {
+        return ofNullable(normalizeNoDashesNoWhitespaces(cite))
+                .map(NormalizationRulesUtil::addExtra2ParagraphSignsTrailingDot)
                 .orElse(null);
     }
 
@@ -201,10 +213,18 @@ public class NormalizationRulesUtil {
         return cite;
     }
 
-    private static String addExtraParagraphSigns(final String cite) {
+    private static String addExtra3ParagraphSigns(final String cite) {
         final Matcher matcher = CITE_COLON_SEPARATED_PATTERN.matcher(cite);
         if (matcher.matches()) {
-            return matcher.group(BOOK_NAME_GROUP) + PARAGRAPH_SIGNS + matcher.group(PARAGRAPH_GROUP);
+            return matcher.group(BOOK_NAME_GROUP) + PARAGRAPH_SIGNS_3 + matcher.group(PARAGRAPH_GROUP);
+        }
+        return cite;
+    }
+
+    private static String addExtra2ParagraphSignsTrailingDot(final String cite) {
+        final Matcher matcher = CITE_COLON_SEPARATED_PATTERN.matcher(cite);
+        if (matcher.matches()) {
+            return matcher.group(BOOK_NAME_GROUP) + PARAGRAPH_SIGNS_2 + matcher.group(PARAGRAPH_GROUP) + DOT;
         }
         return cite;
     }
@@ -218,7 +238,7 @@ public class NormalizationRulesUtil {
     }
 
     private static String removePunctuationAndBraces(final String cite) {
-        return removePunctuation(removeBraces(cite));
+        return normalizeNoDashesNoWhitespaces(removePunctuation(removeBraces(cite)));
     }
 
     private static String removeBraces(final String cite) {

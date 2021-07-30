@@ -47,7 +47,9 @@ public class DocumentMetadataAuthority {
     private Map<String, DocMetadata> docMetadataKeyedByThirdLineCite = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByCiteNoParagraphSign = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByCiteTrailingDot = new HashMap<>();
-    private Map<String, DocMetadata> docMetadataKeyedByCiteExtraParagraphSigns = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteTrailingDot2 = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteExtra3ParagraphSigns = new HashMap<>();
+    private Map<String, DocMetadata> docMetadataKeyedByCiteExtra2ParagraphSignsTrailingDot = new HashMap<>();
 
     public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet) {
         initializeMaps(docMetadataSet);
@@ -80,7 +82,9 @@ public class DocumentMetadataAuthority {
             addThirdLineCiteMapping(docMetadata);
             addCiteNoParagraphSignMapping(docMetadata);
             addCiteTrailingDotMapping(docMetadata);
-            addCiteExtraParagraphSigns(docMetadata);
+            addCiteTrailingDot2Mapping(docMetadata);
+            addCiteExtra3ParagraphSigns(docMetadata);
+            addCiteExtra2ParagraphSignsTrailingDot(docMetadata);
         });
     }
 
@@ -157,14 +161,20 @@ public class DocumentMetadataAuthority {
             docMetadata = docMetadataKeyedByCiteWithoutDate.get(cite);
         } else if (docMetadataKeyedByThirdLineCiteKeepingDecimalDot.containsKey(normalizedCite)) {
             docMetadata = docMetadataKeyedByThirdLineCiteKeepingDecimalDot.get(normalizedCite);
+        } else if (docMetadataKeyedByThirdLineCiteKeepingDecimalDot.containsKey(cite)) {
+            docMetadata = docMetadataKeyedByThirdLineCiteKeepingDecimalDot.get(cite);
         } else if (docMetadataKeyedByThirdLineCite.containsKey(normalizedCite)) {
             docMetadata = docMetadataKeyedByThirdLineCite.get(normalizedCite);
         } else if(docMetadataKeyedByCiteNoParagraphSign.containsKey(normalizedCite)) {
             docMetadata = docMetadataKeyedByCiteNoParagraphSign.get(normalizedCite);
         } else if(docMetadataKeyedByCiteTrailingDot.containsKey(normalizedCite)){
             docMetadata = docMetadataKeyedByCiteTrailingDot.get(normalizedCite);
-        } else if(docMetadataKeyedByCiteExtraParagraphSigns.containsKey(normalizedCite)){
-            docMetadata = docMetadataKeyedByCiteExtraParagraphSigns.get(normalizedCite);
+        } else if(docMetadataKeyedByCiteTrailingDot2.containsKey(normalizedCite)){
+            docMetadata = docMetadataKeyedByCiteTrailingDot2.get(normalizedCite);
+        } else if(docMetadataKeyedByCiteExtra3ParagraphSigns.containsKey(normalizedCite)){
+            docMetadata = docMetadataKeyedByCiteExtra3ParagraphSigns.get(normalizedCite);
+        } else if(docMetadataKeyedByCiteExtra2ParagraphSignsTrailingDot.containsKey(normalizedCite)){
+            docMetadata = docMetadataKeyedByCiteExtra2ParagraphSignsTrailingDot.get(normalizedCite);
         }
         return docMetadata;
     }
@@ -193,10 +203,22 @@ public class DocumentMetadataAuthority {
                 .ifPresent(cite -> docMetadataKeyedByCiteTrailingDot.putIfAbsent(cite, docMetadata));
     }
 
-    private void addCiteExtraParagraphSigns(final DocMetadata docMetadata) {
+    private void addCiteTrailingDot2Mapping(final DocMetadata docMetadata) {
         ofNullable(docMetadata.getNormalizedFirstlineCite())
-                .map(NormalizationRulesUtil::normalizeCiteExtraParagraphSigns)
-                .ifPresent(cite -> docMetadataKeyedByCiteExtraParagraphSigns.putIfAbsent(cite, docMetadata));
+                .map(NormalizationRulesUtil::normalizeCiteTrailingDot2)
+                .ifPresent(cite -> docMetadataKeyedByCiteTrailingDot.putIfAbsent(cite, docMetadata));
+    }
+
+    private void addCiteExtra3ParagraphSigns(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getNormalizedFirstlineCite())
+                .map(NormalizationRulesUtil::normalizeCiteExtra3ParagraphSigns)
+                .ifPresent(cite -> docMetadataKeyedByCiteExtra3ParagraphSigns.putIfAbsent(cite, docMetadata));
+    }
+
+    private void addCiteExtra2ParagraphSignsTrailingDot(final DocMetadata docMetadata) {
+        ofNullable(docMetadata.getNormalizedFirstlineCite())
+                .map(NormalizationRulesUtil::normalizeCiteExtra2ParagraphSignsTrailingDot)
+                .ifPresent(cite -> docMetadataKeyedByCiteExtra2ParagraphSignsTrailingDot.putIfAbsent(cite, docMetadata));
     }
 
     /**
