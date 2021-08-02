@@ -353,6 +353,15 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
+    public void testNormalizedThirdLineCiteKeepingDecimalDot3() throws Exception {
+        final String firstLineCite = "3 CTPRAC FORM 504.1-DD-1";
+        final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1-DD-1 (4th ed.)";
+        final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-DD-1";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite, thirdLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
     public void testNormalizedCiteWithParagraphSign() throws Exception {
         final String firstLineCite = "GAEVIDENCE S 5:7";
         final String inputCite = "GAEVIDENCEs5%3A7";

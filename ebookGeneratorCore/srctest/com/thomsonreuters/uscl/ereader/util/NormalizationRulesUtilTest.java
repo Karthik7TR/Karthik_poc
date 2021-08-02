@@ -149,6 +149,13 @@ public final class NormalizationRulesUtilTest {
     }
 
     @Test
+    public void testNormalizeThirdLineCiteKeepingDecimalDot4() {
+        String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-DD-1";
+        assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
+                NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.1-DD-1 (4th ed.)"));
+    }
+
+    @Test
     public void testNormalizeThirdLineCiteNull() {
         assertNull(NormalizationRulesUtil.normalizeThirdLineCite(null));
     }
