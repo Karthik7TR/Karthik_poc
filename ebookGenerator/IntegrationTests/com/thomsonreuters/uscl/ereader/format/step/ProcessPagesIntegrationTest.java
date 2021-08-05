@@ -131,6 +131,11 @@ public final class ProcessPagesIntegrationTest {
         runner.test(step, "appendAndPrependMissingPbs");
     }
 
+    @Test
+    public void shouldProcessInnerStructureInFootnotes() throws Exception {
+        runner.test(step, "processInnerStructureInFootnotes");
+    }
+
     private void setUpDocMetadata(final String resourceTestDir) {
         Set<DocMetadata> docsMetadata = parseDocsMetadata(resourceTestDir);
         DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(docsMetadata);

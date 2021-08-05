@@ -59,6 +59,16 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV_CO_FOOTNO
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.END_QUOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOP;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HEADTEXT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_HEADTEXT;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DISPLAY_QUOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_DISPLAY_QUOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_LABEL;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SPAN;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LIST;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LIST_ITEM;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.UL;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LI;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BLOCK;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE_BODY;
@@ -383,7 +393,7 @@ public class ReorderFootnotesService {
     }
 
     private Node convertToHtml(final Element element) {
-        boolean converted = true;
+        boolean shouldConvertToDiv = true;
         switch(element.tagName()) {
             case FOOTNOTE_BODY_TAG:
                 element.addClass(FOOTNOTE_BODY);
@@ -402,6 +412,25 @@ public class ReorderFootnotesService {
                 element.addClass(CO_SMALL_CAPS);
                 element.addClass(CO_INLINE);
                 break;
+            case HEADTEXT:
+                element.addClass(CO_HEADTEXT);
+                break;
+            case DISPLAY_QUOTE:
+                element.addClass(CO_DISPLAY_QUOTE);
+                break;
+            case LABEL_DESIGNATOR:
+                element.addClass(CO_LABEL);
+                element.tagName(SPAN);
+                shouldConvertToDiv = false;
+                break;
+            case LIST:
+                element.tagName(UL);
+                shouldConvertToDiv = false;
+                break;
+            case LIST_ITEM:
+                element.tagName(LI);
+                shouldConvertToDiv = false;
+                break;
             case BOP:
             case BOS:
             case EOP:
@@ -411,9 +440,9 @@ public class ReorderFootnotesService {
                 remove(element);
                 return new TextNode(StringUtils.EMPTY);
             default:
-                converted = false;
+                shouldConvertToDiv = false;
         }
-        if (converted) {
+        if (shouldConvertToDiv) {
             element.tagName(DIV);
         }
 

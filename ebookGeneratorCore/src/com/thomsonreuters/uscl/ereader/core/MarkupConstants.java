@@ -10,12 +10,15 @@ public class MarkupConstants {
     public static final String INNER = "inner";
     public static final String STYLE = "style";
     public static final String OL = "ol";
+    public static final String UL = "ul";
     public static final String LI = "li";
     public static final String H3 = "h3";
     public static final String ITAL = "ital";
     public static final String CO_ITALIC = "co_italic";
     public static final String SUP = "sup";
     public static final String SECTION = "section";
+    public static final String LIST = "list";
+    public static final String LIST_ITEM = "list.item";
     public static final String SECTION_FRONT = "section.front";
     public static final String SECTION_LABEL_CLASS = "section-label";
     public static final String INDEX = "index";
@@ -32,6 +35,8 @@ public class MarkupConstants {
     public static final String CSC = "csc";
     public static final String CO_SMALL_CAPS = "co_smallCaps";
     public static final String CO_INLINE = "co_inline";
+    public static final String CO_LABEL = "co_label";
+    public static final String DISPLAY_QUOTE = "display.quote";
     public static final String BEGIN_QUOTE = "begin.quote";
     public static final String END_QUOTE = "end.quote";
     public static final String PROVIEW_FOOTNOTE_CLASS = "er_rp_search_volume_content_data";
@@ -60,6 +65,7 @@ public class MarkupConstants {
     public static final String CO_PAGE_NUMBER = "co_page_number";
     public static final String CO_PARAGRAPH = "co_paragraph";
     public static final String CO_PARAGRAPH_TEXT = "co_paragraphText";
+    public static final String CO_DISPLAY_QUOTE = "co_display_quote";
     public static final String HIDDEN_FOOTNOTE_CLASS_NAME = "hidden_footnote";
     public static final String HIDDEN_FOOTNOTE_REFERENCE_CLASS_NAME = "hidden_footnote_reference";
     public static final String PARA = "para";

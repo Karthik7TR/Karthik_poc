@@ -410,6 +410,28 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
   padding-left:15px;\
 }\
 /* </EB-3541> */\
+\
+/* <EB-3637 styles for footnote inner structure> */\
+.tr_footnotes .co_headtext {\
+  text-align: center;\
+}\
+\
+.tr_footnotes .co_display_quote li {\
+  text-indent: 1em;\
+}\
+\
+.tr_footnotes .co_display_quote {\
+  display: block;\
+}\
+\
+.tr_footnotes li .co_label ~ .co_paragraphText {\
+  display: inline;\
+}\
+\
+.tr_footnotes ul {\
+  margin-left: 1em;\
+}\
+/* </EB-3637> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\
