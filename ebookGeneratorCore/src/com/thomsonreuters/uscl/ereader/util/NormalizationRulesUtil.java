@@ -58,7 +58,7 @@ public class NormalizationRulesUtil {
     private static final String PARAGRAPH_SIGNS_2 = "SS";
     private static final String PARAGRAPH_SIGNS_3 = "SSS";
     private static final Pattern CITE_COLON_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)S(?<%s>[0-9]+:[0-9]+)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
-    private static final Pattern CITE_DOT_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+)(?<%s>[0-9]+\\.[0-9]+(\\-[A-Za-z]+(\\-[0-9]+)?)?)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
+    private static final Pattern CITE_DOT_SEPARATED_PATTERN = Pattern.compile(String.format("(?<%s>.+[A-Za-z])(?<%s>[0-9]+\\.[0-9]+([\\.\\-][0-9A-Za-z]+)*)", BOOK_NAME_GROUP, PARAGRAPH_GROUP));
 
     /**
      * This method will apply list of normalization rules for given cite.

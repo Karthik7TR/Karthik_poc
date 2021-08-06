@@ -114,45 +114,66 @@ public final class NormalizationRulesUtilTest {
     }
 
     @Test
-    public void testNormalizeThirdLineCite() {
+    public void testThirdLineCite() {
         String wNormalizedCite = "WESTSFEDFORMSBANKRUPTCYCOURTSs1:9";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCite("West&apos;s Fed. Forms, Bankruptcy Courts § 1:9 (5th ed.)"));
     }
 
     @Test
-    public void testNormalizeThirdLineCite2() {
+    public void testThirdLineCite2() {
         String wNormalizedCite = "WESTSFEDFORMSCOURTSOFAPPEALSs2:41";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCite("West&apos;s Fed. Forms, Courts of Appeals § 2:41"));
     }
 
     @Test
-    public void testNormalizeThirdLineCiteKeepingDecimalDot() {
+    public void testThirdLineCiteWithDot() {
         String wNormalizedCite = "CONNPRACTRIALPRACTICEs1.29";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Trial Practice § 1.29 (2d ed.)"));
     }
 
     @Test
-    public void testNormalizeThirdLineCiteKeepingDecimalDot2() {
+    public void testThirdLineCiteWithDot2() {
         String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.9";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.9 (4th ed.)"));
     }
 
     @Test
-    public void testNormalizeThirdLineCiteKeepingDecimalDot3() {
+    public void testThirdLineCiteWithDot3() {
         String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-FF";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.1-FF (4th ed.)"));
     }
 
     @Test
-    public void testNormalizeThirdLineCiteKeepingDecimalDot4() {
+    public void testThirdLineCiteWithDot4() {
         String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-DD-1";
         assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
                 NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.1-DD-1 (4th ed.)"));
+    }
+
+    @Test
+    public void testThirdLineCiteWithDot5() {
+        String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.1.1";
+        assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
+                NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.1.1 (4th ed.)"));
+    }
+
+    @Test
+    public void testThirdLineCiteWithDot6() {
+        String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-1-II";
+        assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
+                NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.1-1-II (4th ed.)"));
+    }
+
+    @Test
+    public void testThirdLineCiteWithDot7() {
+        String wNormalizedCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-L.50";
+        assertEquals(NormalizationRulesUtil.applyCitationNormalizationRules(wNormalizedCite),
+                NormalizationRulesUtil.normalizeThirdLineCiteKeepingDecimalDot("Conn. Prac., Civil Practice Forms Form 504.1-L.50 (4th ed.)"));
     }
 
     @Test

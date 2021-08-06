@@ -335,7 +335,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testNormalizedThirdLineCiteKeepingDecimalDot() throws Exception {
+    public void testThirdLineCite2() throws Exception {
         final String firstLineCite = "6 CTPRAC § 1.29";
         final String thirdLineCite = "Conn. Prac., Trial Practice § 1.29 (2d ed.)";
         final String inputCite = "CONNPRACTRIALPRACTICEs1.29";
@@ -344,7 +344,7 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testNormalizedThirdLineCiteKeepingDecimalDot2() throws Exception {
+    public void testThirdLineCite3() throws Exception {
         final String firstLineCite = "3 CTPRAC FORM 504.1-FF";
         final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1-FF (4th ed.)";
         final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-FF";
@@ -353,11 +353,35 @@ public final class InternalLinkResolverFilterTest {
     }
 
     @Test
-    public void testNormalizedThirdLineCiteKeepingDecimalDot3() throws Exception {
+    public void testThirdLineCite4() throws Exception {
         final String firstLineCite = "3 CTPRAC FORM 504.1-DD-1";
         final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1-DD-1 (4th ed.)";
         final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-DD-1";
         mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata(firstLineCite, thirdLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testThirdLineCite5() throws Exception {
+        final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1.1 (4th ed.)";
+        final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1.1";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata("", thirdLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testThirdLineCite6() throws Exception {
+        final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1-1-II (4th ed.)";
+        final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-1-II";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata("", thirdLineCite));
+        testHelper(inputCite);
+    }
+
+    @Test
+    public void testThirdLineCite7() throws Exception {
+        final String thirdLineCite = "Conn. Prac., Civil Practice Forms Form 504.1-L.50 (4th ed.)";
+        final String inputCite = "CONNPRACCIVILPRACTICEFORMSForm504.1-L.50";
+        mockDocumentMetadataAuthority.initializeMaps(getDocsMetadata("", thirdLineCite));
         testHelper(inputCite);
     }
 
