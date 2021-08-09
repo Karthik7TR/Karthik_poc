@@ -74,4 +74,5 @@ public class MarkupConstants {
     public static final String BOS = "bos";
     public static final String EOP = "eop";
     public static final String EOS = "eos";
+    public static final String CASE_HISTORY = "case.history";
 }

@@ -45,6 +45,7 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.AUTHOR_FOOTNO
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BEGIN_QUOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOP;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CASE_HISTORY;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_FOOTNOTE_REFERENCE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_FOOTNOTE_SECTION_TITLE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_INLINE;
@@ -429,6 +430,10 @@ public class ReorderFootnotesService {
                 break;
             case LIST_ITEM:
                 element.tagName(LI);
+                shouldConvertToDiv = false;
+                break;
+            case CASE_HISTORY:
+                element.tagName(SPAN);
                 shouldConvertToDiv = false;
                 break;
             case BOP:
