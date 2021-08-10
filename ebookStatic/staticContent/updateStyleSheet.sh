@@ -422,6 +422,8 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
 \
 .tr_footnotes .co_display_quote {\
   display: block;\
+  font-size: 90%;\
+  margin-left: 1em;\
 }\
 \
 .tr_footnotes li .co_label ~ .co_paragraphText {\
