@@ -124,3 +124,6 @@ XPathValue="3A"
 <CollectionGroup CollectionName="crsw_artcoa" ContentTypeName="Analytical Treatise - other Commentary">
 <Attribute XPathValue="2H"/>
 </CollectionGroup>
+<CollectionGroup CollectionName="crsw_phxpvonly" ContentTypeName="Analytical Treatise - other Commentary">
+<Attribute XPathValue="12D+3"/>
+</CollectionGroup>
