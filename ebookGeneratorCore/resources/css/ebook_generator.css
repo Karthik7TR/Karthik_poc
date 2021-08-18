@@ -1,9 +1,7 @@
 
 .front_matter_page
 {
-	font-family: Arial,serif;
 	margin-top: 2.5em;
-	margin-bottom: 1em;
 }
 
 .title_page
@@ -34,7 +32,6 @@
 	margin-top: 5em;
 	margin-left: 2.5em;
 	margin-right: 2.5em;
-	text-align:center;
 }
 
 .westlaw_next_page
@@ -51,7 +48,13 @@
 	font-weight: bold;
 }
 
-.bookname p
+.bookname p,
+.bookname2 p,
+.bookname3 p,
+.currency p,
+.authorInfo p,
+.copyright p,
+.copyright_patent p
 {
 	margin-top: 0em;
 	margin-bottom: 0em;
@@ -67,15 +70,6 @@
 	margin-top:2em;
 }
 
-.bookname2 p
-{
-	margin-top: 0em;
-	margin-bottom: 0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
-	min-height: 1em;
-}
-
 .bookname3
 {
 	font-size:1.5em;
@@ -83,29 +77,11 @@
 	margin-bottom: 1.5em;
 }
 
-.bookname3 p
-{
-	margin-top: 0em;
-	margin-bottom: 0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
-	min-height: 1em;
-}
-
 .currency
 {
 	font-size:1.5em;
 	font-weight: bold;
 	margin-top: 1em;
-}
-
-.currency p
-{
-	margin-top: 0em;
-	margin-bottom: 0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
-	min-height: 1em;
 }
 
 .author1
@@ -121,15 +97,6 @@
 	margin-top: 0.3em;
 }
 
-.authorInfo p 
-{ 
-	margin-top:0em;
-	margin-bottom:0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
-	min-height: 1em;
-}
-
 .authorNext
 {
 	font-size:1.2em;
@@ -140,22 +107,12 @@
 .logo
 {
 	margin-top:3em;
-	margin-bottom:2em;
 }
 
 .copyright
 {
 	font-size:1em;
 	line-height:1.5em;
-}
-
-.copyright p
-{
-	margin-top: 0em;
-	margin-bottom: 0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
-	min-height: 1em;
 }
 
 .copyright_page_text
@@ -192,16 +149,6 @@
 {
 	font-size:1.2em;
 	margin-top:1.5em;
-	margin-bottom:2em;
-}
-
-.copyright_patent p
-{
-	margin-top: 0em;
-	margin-bottom: 0em;
-	padding-top: 0em;
-	padding-bottom: 0em;
-	min-height: 1em;
 }
 
 .research_assistance_title
@@ -209,13 +156,14 @@
 	font-size:1.2em;
 	font-weight: bold;
 	margin-top:1.5em;
+	margin-bottom:2em;
 }
 
 .research_assistance_text
 {
 	font-size:1em;
 	text-align:left;
-	margin-top:2em;
+	margin-top:1em;
 }
 
 .research_assistance_homepage
@@ -260,7 +208,6 @@
 { 
 	text-indent : 1em; 
 	margin-top:1em;
-	margin-bottom:0.3em;
 	min-height: 1em;
 }
 
@@ -272,6 +219,9 @@
 
 .contacts-table {
 	width: 100%;
+	border-spacing: 0 -0.51em;
+	border-collapse: separate;
+	border-width: 0;
 	margin: 0.5em 0 0;
 }
 
