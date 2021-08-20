@@ -1187,6 +1187,13 @@
 							<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
 							<form:hidden path="authorInfo[${aStatus.index}].sequenceNum" class="sequence"/>
 							<div class="dynamicRow">
+								<label>Additional Text</label>
+								<form:textarea path="authorInfo[${aStatus.index}].authorAddlPreText" maxlength="2048"/>
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorAddlPreText" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
 								<label>Prefix</label>
 								<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" maxlength="40" />
 								<div class="errorDiv">

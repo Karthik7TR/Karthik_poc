@@ -169,25 +169,23 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
 
         if (isAuthorDisplayVertical) {
             for (final Author author : bookDefinition.getAuthors()) {
-                AttributesImpl newAtts = new AttributesImpl();
+                final AttributesImpl authorAttributes = new AttributesImpl();
                 if (firstAuthor) {
-                    newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "author1");
+                    authorAttributes.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "author1");
                     firstAuthor = false;
                 } else {
-                    newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "authorNext");
+                    authorAttributes.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "authorNext");
                 }
-                super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
+                final AttributesImpl textAttributes = new AttributesImpl();
+                textAttributes.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "authorInfo");
+                super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, authorAttributes);
+                final String authorAdditionalPreText = author.getAuthorAddlPreText();
+                if (StringUtils.isNotBlank(authorAdditionalPreText)) {
+                    printAdditionalText(textAttributes, authorAdditionalPreText);
+                }
                 printText(author.getFullName(), SINGLE_LINE_FIELD);
                 super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
-                newAtts = new AttributesImpl();
-                newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "authorInfo");
-                super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
-                newAtts = new AttributesImpl();
-                super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, newAtts);
-                printText(author.getAuthorAddlText(), MULTI_LINE_FIELD);
-                newAtts = new AttributesImpl();
-                super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
-                super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
+                printAdditionalText(textAttributes, author.getAuthorAddlText());
             }
         } else {
             final AttributesImpl newAtts = new AttributesImpl();
@@ -205,6 +203,16 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
             }
             super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
         }
+    }
+
+    private void printAdditionalText(final AttributesImpl textAttributes, final String authorAdditionalText)
+            throws SAXException {
+        final AttributesImpl newAttributes = new AttributesImpl();
+        super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, textAttributes);
+        super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, newAttributes);
+        printText(authorAdditionalText, MULTI_LINE_FIELD);
+        super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
+        super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
     }
 
     private void createTitlePageImage() throws SAXException {

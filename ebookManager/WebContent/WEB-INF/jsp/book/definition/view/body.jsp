@@ -605,6 +605,7 @@ $(document).ready(function() {
 					<div class="row">
 						<label class="labelCol">Author Information</label>
 						<c:forEach items="${book.authors}" var="author">
+								<div class="field wordwrap"> ${fn:escapeXml(author.authorAddlPreText)}</div>
 								<div class="field">${fn:escapeXml(author.fullName) }</div>
 								<div class="field wordwrap"> ${fn:escapeXml(author.authorAddlText)}</div>
 								<br>

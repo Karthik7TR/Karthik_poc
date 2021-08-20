@@ -471,6 +471,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 author.getAuthorAddlText(),
                 "authorInfo[" + i + "].authorAddlText",
                 new Object[] {"Additional text", MAXIMUM_CHARACTER_2048});
+            checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_2048,
+                author.getAuthorAddlPreText(),
+                "authorInfo[" + i + "].authorAddlPreText",
+                new Object[] {"Additional prepended text", MAXIMUM_CHARACTER_2048});
             ValidationUtils
                 .rejectIfEmptyOrWhitespace(errors, "authorInfo[" + i + "].authorLastName", "error.author.last.name");
             // Check duplicate sequence numbers exist

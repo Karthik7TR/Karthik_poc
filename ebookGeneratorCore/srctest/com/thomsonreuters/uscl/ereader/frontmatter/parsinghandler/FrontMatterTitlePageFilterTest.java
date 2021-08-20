@@ -65,6 +65,7 @@ public final class FrontMatterTitlePageFilterTest {
 
         final List<Author> authors = new ArrayList<>();
         final Author author1 = new Author();
+        author1.setAuthorAddlPreText("Originally authored by");
         author1.setAuthorFirstName("John");
         author1.setAuthorLastName("Tester1");
         author1.setAuthorAddlText("Pirate, Arrrrrrrrrrr");
@@ -217,7 +218,9 @@ public final class FrontMatterTitlePageFilterTest {
     @Test
     public void testFrontMatterPlaceholder_authorsVertical() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_authors/></test>";
-        final String expectedResult = "<test><div class=\"author1\">John Tester1</div><div class=\"authorInfo\">"
+        final String expectedResult = "<test><div class=\"author1\">"
+            + "<div class=\"authorInfo\"><p>Originally authored by</p></div>"
+            + "John Tester1</div><div class=\"authorInfo\">"
             + "<p>Pirate, Arrrrrrrrrrr</p></div><div class=\"authorNext\">Joel Tester2</div>"
             + "<div class=\"authorInfo\"><p>Also a </p><p>Pirate, Arrrrrrrrrrr</p></div>"
             + "<div class=\"authorNext\">Ender Tester3</div><div class=\"authorInfo\"><p>Another </p><p>Pirate, Arrrrrrrrrrr</p></div></test>";

@@ -440,7 +440,7 @@ $(function() {
 			var lastSequenceNum = getSequenceNumber(lastChild);
 			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id).attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
 			expandingBox.append(sequenceBox);
-			
+			expandingBox.append(addDynamicRow("textarea", id, name, "authorAddlPreText", "Additional Text"));
 			// Add author name input boxes
 			expandingBox.append(addDynamicRow("input", id, name, "authorNamePrefix", "Prefix"));
 			expandingBox.append(addDynamicRow("input", id, name, "authorFirstName", "First Name"));

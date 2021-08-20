@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 @EqualsAndHashCode(
     of = {
         "authorAddlText",
+        "authorAddlPreText",
         "authorFirstName",
         "authorId",
         "authorLastName",
@@ -79,6 +80,10 @@ public class Author implements Serializable, Comparable<Author>, CopyAware<Autho
     @Basic(fetch = FetchType.EAGER)
     private String authorAddlText;
 
+    @Column(name = "AUTHOR_ADDL_PRE_TEXT", length = 2048)
+    @Basic(fetch = FetchType.EAGER)
+    private String authorAddlPreText;
+
     @Column(name = "SEQUENCE_NUMBER")
     @Basic(fetch = FetchType.EAGER)
     private Integer sequenceNum;
@@ -117,6 +122,7 @@ public class Author implements Serializable, Comparable<Author>, CopyAware<Autho
         setAuthorMiddleName(that.getAuthorMiddleName());
         setAuthorLastName(that.getAuthorLastName());
         setAuthorAddlText(that.getAuthorAddlText());
+        setAuthorAddlPreText(that.getAuthorAddlPreText());
         setSequenceNum(that.getSequenceNum());
         setUseCommaBeforeSuffix(that.getUseCommaBeforeSuffix());
         setEbookDefinition(that.getEbookDefinition());
@@ -134,7 +140,8 @@ public class Author implements Serializable, Comparable<Author>, CopyAware<Autho
             && StringUtils.isBlank(authorLastName)
             && StringUtils.isBlank(authorNamePrefix)
             && StringUtils.isBlank(authorNameSuffix)
-            && StringUtils.isBlank(authorAddlText);
+            && StringUtils.isBlank(authorAddlText)
+            && StringUtils.isBlank(authorAddlPreText);
     }
 
     /**

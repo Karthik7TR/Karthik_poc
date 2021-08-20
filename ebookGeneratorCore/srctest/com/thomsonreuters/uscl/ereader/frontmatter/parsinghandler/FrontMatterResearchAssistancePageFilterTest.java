@@ -58,6 +58,7 @@ public final class FrontMatterResearchAssistancePageFilterTest {
 
         final List<Author> authors = new ArrayList<>();
         final Author author1 = new Author();
+        author1.setAuthorAddlPreText("Originally authored by");
         author1.setAuthorFirstName("John");
         author1.setAuthorLastName("Tester1");
         author1.setAuthorAddlText("Pirate, Arrrrrrrrrrr");
