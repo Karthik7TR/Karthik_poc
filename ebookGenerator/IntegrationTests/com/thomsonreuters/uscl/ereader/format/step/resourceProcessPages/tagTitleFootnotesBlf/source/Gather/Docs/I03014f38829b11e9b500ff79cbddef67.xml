@@ -1,0 +1,128 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						1 Bankruptcy Law Fundamentals § 15:92
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Bankruptcy Law Fundamentals</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20210601">
+						June 2021 Update
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>Richard I. Aaron</author>
+			</author.line>
+			<prop.head toc-guid="I198dbe20dc0011d8accaf7116783774d">
+				<label.name>Chapter</label.name>
+				<label.designator>15.</label.designator>
+				<headtext>The Work of the Supreme Court</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I03014f37829b11e9b500ff79cbddef67">
+					<head parent="doc.title">
+						<label.name>§ </label.name>
+						<label.designator>15:92.</label.designator>
+						<headtext>Plans for individuals with regular income—Conversion from Chapter 7 to Chapter 13 is tempered by good faith: <ital>Marrama v. Citizens Bank of Massachusetts</ital>[<footnote.reference refid="Idf1aec30c34711eb9819b48b4c940e6a">1</footnote.reference>]<ital>U.S. v. Reorganized CF &amp; I Fabricators of Utah, Inc.</ital>[<footnote.reference refid="Idf1aec30c34711eb9819b48b4c940e6b">2</footnote.reference>]</headtext>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<paratext>
+						Any given.[<footnote.reference refid="Idf1aec33c34711eb9819b48b4c940e6a">4</footnote.reference>] In this case <page no="971"/>and prebankruptcy transfers.
+					</paratext>
+				</para>
+				<para>
+					<paratext>The majority held that a patina of good faith overlayed the debtor&apos;s choice of Chapter.[
+						<footnote.reference refid="Idf1aec34c34711eb9819b48b4c940e6a">5</footnote.reference>] 
+						Bankruptcy Code § 706(d)
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Justice <page no="972"/>process.
+					</paratext>
+				</para>
+			</section.body>
+		</section>
+		<title.footnotes>
+			<footnote ID="Idf1aec30c34711eb9819b48b4c940e6a">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Marrama v. Citizens Bank of Massachusetts
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</title.footnotes>
+		<title.footnotes>
+			<footnote ID="Idf1aec30c34711eb9819b48b4c940e6b">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Utah
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</title.footnotes>
+		<footnote.block>
+			<footnote ID="Idf1aec33c34711eb9819b48b4c940e6a">
+				<label.designator>4</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							(1978).<page no="971"/>Some courts have found
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Idf1aec34c34711eb9819b48b4c940e6a">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Although chapter
+							<page no="972"/>
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					Westlaw. © 2021 Thomson Reuters.  
+					No Claim to Orig. U.S. Govt. 
+					Works.
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						BKRFUND § 15:92
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

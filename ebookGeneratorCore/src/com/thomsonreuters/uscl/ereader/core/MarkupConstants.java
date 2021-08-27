@@ -45,8 +45,12 @@ public class MarkupConstants {
     public static final String FOOTNOTE_BODY_POPUP_BOX = "footnote_body_box";
     public static final String FOOTNOTE_BODY_BOTTOM = "footnote_body_bottom";
     public static final String FOOTNOTE_BODY_TAG = "footnote.body";
+    public static final String FORM_FOOTNOTE = "form.footnote";
+    public static final String FORM_FOOTNOTE_BODY = "form.footnote.body";
     public static final String PAGE = "page";
     public static final String AUTHOR_FOOTNOTES = "author.footnotes";
+    public static final String PROP_HEAD_FOOTNOTES = "prop.head.footnotes";
+    public static final String TITLE_FOOTNOTES = "title.footnotes";
     public static final String FOOTNOTE_BLOCK = "footnote.block";
     public static final String LABEL_DESIGNATOR = "label.designator";
     public static final String FOOTNOTE_REFERENCE = "footnote.reference";
@@ -75,4 +79,6 @@ public class MarkupConstants {
     public static final String EOP = "eop";
     public static final String EOS = "eos";
     public static final String CASE_HISTORY = "case.history";
+    public static final String BOLD = "bold";
+    public static final String STRONG = "strong";
 }

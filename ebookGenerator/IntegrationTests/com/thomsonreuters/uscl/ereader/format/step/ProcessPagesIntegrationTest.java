@@ -136,6 +136,31 @@ public final class ProcessPagesIntegrationTest {
         runner.test(step, "processInnerStructureInFootnotes");
     }
 
+    @Test
+    public void shouldProcessFormFootnotesBpgp() throws Exception {
+        runner.test(step, "tagFormFootnotesBpgp");
+    }
+
+    @Test
+    public void shouldProcessPropHeadFootnotesAlev() throws Exception {
+        runner.test(step, "tagPropHeadFootnotesAlev");
+    }
+
+    @Test
+    public void shouldProcessTitleFootnotesAsdl() throws Exception {
+        runner.test(step, "tagTitleFootnotesAsdl");
+    }
+
+    @Test
+    public void shouldProcessTitleFootnotesBlf() throws Exception {
+        runner.test(step, "tagTitleFootnotesBlf");
+    }
+
+    @Test
+    public void shouldProcessMultipleFootnotesContainers() throws Exception {
+        runner.test(step, "multipleFootnotesContainers");
+    }
+
     private void setUpDocMetadata(final String resourceTestDir) {
         Set<DocMetadata> docsMetadata = parseDocsMetadata(resourceTestDir);
         DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(docsMetadata);

@@ -1,0 +1,193 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						1 Bankruptcy Law Fundamentals § 15:92
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Bankruptcy Law Fundamentals</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20210601">
+						June 2021 Update
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>Ronald W. Eades[<footnote.reference refid="I1a1095e0768311eb991ebe5242b9d9de">a</footnote.reference>]</author>
+			</author.line>
+			<prop.head toc-guid="I198dbe20dc0011d8accaf7116783774d">
+				<label.name>Chapter</label.name>
+				<label.designator>15.</label.designator>
+				<headtext>The Work of the Supreme Court</headtext>
+			</prop.head>
+			<prop.head toc-guid="If2934ab0681611dba5ec9caeac638729">
+				<label.designator>C.</label.designator>
+				<headtext>Statements against Interests[<footnote.reference refid="Ib53fa440f53911ebbacede1916a3b784">8</footnote.reference>]</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I03014f37829b11e9b500ff79cbddef67">
+					<head parent="doc.title">
+						<label.name>§ </label.name>
+						<label.designator>15:92.</label.designator>
+						<headtext>Plans for individuals with regular income—Conversion from Chapter 7 to Chapter 13 is tempered by good faith: <ital>Marrama v. Citizens Bank of Massachusetts</ital>[<footnote.reference refid="Idf1aec30c34711eb9819b48b4c940e6a">1</footnote.reference>]</headtext>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<paratext>
+						Subsection
+						[<footnote.reference refid="Idf1aec31c34711eb9819b48b4c940e6a">2</footnote.reference>] Any other interested party who asks for conversion of the case is hedged with limitations which “the court may” examine.[
+						<footnote.reference refid="Idf1aec32c34711eb9819b48b4c940e6a">3</footnote.reference>] The House<page no="971"/> and Senate Committee <page no="972"/>Reports describe the “… one-time absolute right of conversion. …”
+						which the debtor is given.
+					</paratext>
+				</para>
+			</section.body>
+		</section>
+		<appendix>
+			<doc.title toc-guid="I32acb71484ae11df8b26d64494505e31">
+				<head parent="doc.title">
+					<label.name>§ </label.name>
+					<label.designator>C:60.</label.designator>
+					<headtext>Objection to Plan</headtext>
+				</head>
+			</doc.title>
+			<appendix.body>
+				<form ID="If7d6dc00a61d11dfb3bf0000837214a9">
+					<form.body>
+						<form.caption>
+							<form.line style="l">
+								<instruction>
+									<ital>(Caption as in Author&apos;s Form C.1)</ital>
+								</instruction>
+							</form.line>
+						</form.caption>
+						<form.head>
+							<form.headtext>
+								<ital>Objection to Plan</ital>
+							</form.headtext>
+						</form.head>
+						<form.para>
+							<form.text>
+								This objection is based upon the following ground(s):
+							</form.text>
+							<form.unit ID="Idf6177b2dad811eb971de3f642f55eef">
+								<form.unit ID="Idf6177b3dad811eb971de3f642f55eef">
+									<form.head style="c">
+										<label.designator>2.</label.designator>
+										<form.headtext>[<footnote.reference refid="Idf623b00dad811eb971de3f642f55eef">*</footnote.reference>]</form.headtext>
+									</form.head>
+									<form.para>
+										<form.text>
+											The plan does not propose to distribute on account.
+										</form.text>
+									</form.para>
+								</form.unit>
+							</form.unit>
+						</form.para>
+						<form.signature.block>
+						</form.signature.block>
+					</form.body>
+				</form>
+			</appendix.body>
+		</appendix>
+		<author.footnotes>
+			<footnote ID="I1a1095e0768311eb991ebe5242b9d9de">
+				<label.designator>a</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>Professor of Law, University of Louisville.
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+		<prop.head.footnotes>
+			<footnote ID="Ib53fa440f53911ebbacede1916a3b784">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Many Alabama cases
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</prop.head.footnotes>
+		<title.footnotes>
+			<footnote ID="Idf1aec30c34711eb9819b48b4c940e6a">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Marrama v. Citizens
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</title.footnotes>
+		<footnote.block>
+			<form.footnote ID="Idf623b00dad811eb971de3f642f55eef">
+				<label.designator>*</label.designator>
+				<form.footnote.body>
+					<para>
+						<paratext>
+							<bold>Paragraph 2 is appropriate for unsecured claims.
+							</bold>
+						</paratext>
+					</para>
+				</form.footnote.body>
+			</form.footnote>
+			<footnote ID="Idf1aec31c34711eb9819b48b4c940e6a">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Similar language enables the debtor to convert to Chapter 7 from Chapters 11, Chapter 12, or Chapter 13. 11 U.S.C.A.
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Idf1aec32c34711eb9819b48b4c940e6a">
+				<label.designator>3</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							11 U.S.C.A.<page no="971"/> and 1307(c).
+							<page no="972"/>
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					Westlaw. © 2021 Thomson Reuters.  
+					No Claim to Orig. U.S. Govt. 
+					Works.
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						BKRFUND § 15:92
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

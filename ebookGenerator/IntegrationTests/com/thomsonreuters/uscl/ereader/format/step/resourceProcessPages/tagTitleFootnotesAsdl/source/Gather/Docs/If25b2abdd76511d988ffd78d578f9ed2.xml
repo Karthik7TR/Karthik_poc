@@ -1,0 +1,84 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						1 Antidumping &amp; Countervailing Duty Laws Appendix A
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Antidumping &amp; Countervailing Duty Laws</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20200801">
+						August 2020 Update
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<prop.head toc-guid="Iaafb4ed0c13a11d8b88bb98cc759b352">
+				<headtext>Appendices</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<appendix ID="Iaafc6040c13a11d8b88bb98cc759b352">
+			<doc.title toc-guid="If25b2abcd76511d988ffd78d578f9ed2">
+				<head parent="doc.title">
+					<label.name>APPENDIX</label.name>
+					<label.designator>A.</label.designator>
+					<headtext>
+						U.S. Antidumping and Countervailing Duty[<footnote.reference refid="I21161910dd2b11eab582c9524303092f">*</footnote.reference>]
+						Investigations[<footnote.reference refid="I21161910dd2b11eab582c9524303093f">**</footnote.reference>]
+					</headtext>
+				</head>
+			</doc.title>
+			<appendix.body>
+				Appendix body
+			</appendix.body>
+		</appendix>
+		<title.footnotes>
+			<footnote ID="I21161910dd2b11eab582c9524303092f">
+				<label.designator>*</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							International Trade
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="I21161910dd2b11eab582c9524303093f">
+				<label.designator>**</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Commission
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</title.footnotes>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					Westlaw. © 2020 Thomson Reuters.  
+					No Claim to Orig. U.S. Govt. 
+					Works.
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						ANTIDUMP APP A
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

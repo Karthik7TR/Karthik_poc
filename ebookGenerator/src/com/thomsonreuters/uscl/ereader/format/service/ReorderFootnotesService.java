@@ -43,6 +43,7 @@ import org.springframework.stereotype.Component;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ANCHOR;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.AUTHOR_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BEGIN_QUOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOLD;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOP;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.BOS;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CASE_HISTORY;
@@ -60,14 +61,19 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV_CO_FOOTNO
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.END_QUOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOP;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FORM_FOOTNOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FORM_FOOTNOTE_BODY;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HEADTEXT;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_HEADTEXT;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DISPLAY_QUOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_DISPLAY_QUOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_LABEL;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.PROP_HEAD_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SPAN;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LIST;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LIST_ITEM;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.STRONG;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TITLE_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.UL;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LI;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FOOTNOTE;
@@ -105,6 +111,7 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.crea
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.getLabel;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.parents;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 @Component
 public class ReorderFootnotesService {
@@ -321,18 +328,48 @@ public class ReorderFootnotesService {
         final Optional<File> xmlFile = ofNullable(nameToXmlFile.get(fileUuid));
         final Optional<Document> xmlDoc = xmlFile.map(file -> jsoup.loadDocument(file));
         String sectionLabel = getSectionLabel(xmlDoc);
-        final Optional<Element> footnotesTemplate = xmlDoc.map(doc -> getElementByTag(doc, FOOTNOTE_BLOCK));
+        final Optional<Element> footnotesTemplate = xmlDoc.map(this::getCombinedFootnotesTemplate);
 
         return footnotesTemplate
-                .map(element -> constructBasedOnTemplate(getFootnotesMap(footnotesBlock), element, xmlDoc.get(), pagePointer, sectionLabel, pageVolumesSet))
+                .map(element -> constructBasedOnTemplate(getFootnotesMap(footnotesBlock), element, sectionLabel, pageVolumesSet))
                 .orElseGet(() -> constructBasedOnBlock(footnotesBlock, document, pagePointer, sectionLabel));
+    }
+
+    private Element getCombinedFootnotesTemplate(final Document doc) {
+        Elements authorFootnotes = doc.getElementsByTag(AUTHOR_FOOTNOTES);
+        Elements propHeadFootnotes = doc.getElementsByTag(PROP_HEAD_FOOTNOTES);
+        Elements titleFootnotes = doc.getElementsByTag(TITLE_FOOTNOTES);
+        Optional<Element> footnoteBlock = ofNullable(getElementByTag(doc, FOOTNOTE_BLOCK));
+
+        if(footnoteBlock.isPresent() || isNotEmpty(authorFootnotes) || isNotEmpty(propHeadFootnotes) || isNotEmpty(titleFootnotes)) {
+            Element baseFootnoteBlock = footnoteBlock.orElse(new Element(FOOTNOTE_BLOCK));
+
+            prepend(titleFootnotes, baseFootnoteBlock);
+            prepend(propHeadFootnotes, baseFootnoteBlock);
+            prepend(authorFootnotes, baseFootnoteBlock);
+
+            renameFormFootnotes(baseFootnoteBlock);
+            return baseFootnoteBlock;
+        }
+        return null;
+    }
+
+    private void prepend(final Elements prependingBlocks, final Element baseBlock) {
+        Collections.reverse(prependingBlocks);
+        prependingBlocks.forEach(block -> baseBlock.insertChildren(0, block.children()));
+    }
+
+    private void renameFormFootnotes(final Element footnoteBlock) {
+        footnoteBlock.children().stream()
+                .filter(footnote -> FORM_FOOTNOTE.equals(footnote.tagName()))
+                .peek(footnote -> footnote.tagName(FOOTNOTE))
+                .map(footnote -> footnote.getElementsByTag(FORM_FOOTNOTE_BODY).first())
+                .forEach(footnoteBody -> footnoteBody.tagName(FOOTNOTE_BODY_TAG));
     }
 
     private Element constructBasedOnTemplate(
         final Map<String, Element> idToFootnote,
         final Element footnotesTemplate,
-        final Document xmlDoc,
-        final PagePointer pagePointer,
         final String sectionLabel,
         final boolean pageVolumesSet) {
         removeDuplicatedPagebreaks(footnotesTemplate);
@@ -341,7 +378,6 @@ public class ReorderFootnotesService {
         addSectionLabel(footnotesTemplate, sectionLabel);
 
         fillTemplateWithFootnotes(idToFootnote, footnotesTemplate);
-        addAuthorFootnotes(idToFootnote, footnotesTemplate, xmlDoc);
 
         return footnotesTemplate;
     }
@@ -436,6 +472,10 @@ public class ReorderFootnotesService {
                 element.tagName(SPAN);
                 shouldConvertToDiv = false;
                 break;
+            case BOLD:
+                element.tagName(STRONG);
+                shouldConvertToDiv = false;
+                break;
             case BOP:
             case BOS:
             case EOP:
@@ -454,25 +494,6 @@ public class ReorderFootnotesService {
         element.children().forEach(this::convertToHtml);
 
         return element;
-    }
-
-    private void addAuthorFootnotes(
-        final Map<String, Element> idToFootnote,
-        final Element footnotesTemplate,
-        final Document xmlDoc) {
-        final Element authorFootnotes = getElementByTag(xmlDoc, AUTHOR_FOOTNOTES);
-        if (authorFootnotes != null) {
-            final Node placeholder = getAuthorFootnotePlaceholder(footnotesTemplate);
-
-            authorFootnotes.getElementsByTag(FOOTNOTE).stream()
-            .sorted(Collections.reverseOrder())
-            .forEach(footnote -> placeholder.after(idToFootnote.get(footnote.attr(ID))));
-        }
-    }
-
-    private Node getAuthorFootnotePlaceholder(final Element footnotesTemplate) {
-        return ofNullable((Node) getElementByClass(footnotesTemplate, SECTION_LABEL_CLASS))
-                    .orElseGet(() -> createSectionStartPointer(footnotesTemplate));
     }
 
     private Node createSectionStartPointer(final Element footnotesTemplate) {
@@ -582,7 +603,7 @@ public class ReorderFootnotesService {
 
     private void movePagebreakToTheEndOfDocument(final Element section) {
         List<XmlDeclaration> pagebreaks = getProviewPagebreaks(section);
-        if (CollectionUtils.isNotEmpty(pagebreaks)) {
+        if (isNotEmpty(pagebreaks)) {
             XmlDeclaration lastPagebreak = lastElement(pagebreaks);
             lastPagebreak.remove();
             section.appendChild(lastPagebreak);
@@ -764,7 +785,7 @@ public class ReorderFootnotesService {
 
     private void protectFootnoteBodyForPopupBox(final Element footnoteSection) {
         footnoteSection.getElementsByClass(FOOTNOTE_BODY).stream()
-                .filter(footnoteBody -> CollectionUtils.isNotEmpty(getProviewPagebreaks(footnoteBody)))
+                .filter(footnoteBody -> isNotEmpty(getProviewPagebreaks(footnoteBody)))
                 .forEach(footnoteBody -> {
                     Element popupFootnoteBody = footnoteBody.clone();
                     cleanupPopupFootnoteBody(popupFootnoteBody);
@@ -857,7 +878,7 @@ public class ReorderFootnotesService {
         Set<XmlDeclaration> missingPagebreaks = mainSectionPagebreaks.stream()
                 .filter(mainSectionPagebreak -> !isPagebreakLabelInSection(footnotesPagebreaks, getLabel(mainSectionPagebreak)))
                 .collect(Collectors.toSet());
-        if (CollectionUtils.isNotEmpty(missingPagebreaks)) {
+        if (isNotEmpty(missingPagebreaks)) {
             addMissingPagebreaks(missingPagebreaks, mainSectionPagebreaks, footnotesPagebreaks, footnotesSection);
         }
     }
@@ -944,7 +965,7 @@ public class ReorderFootnotesService {
     }
 
     private <T> T lastElement(final List<T> list) {
-        return CollectionUtils.isNotEmpty(list) ? list.get(list.size() - 1) : null;
+        return isNotEmpty(list) ? list.get(list.size() - 1) : null;
     }
 
     @Data

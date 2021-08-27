@@ -1,0 +1,192 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						Bankr. Prac. for Gen. Practitioner Appendix C § C:60
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Bankruptcy Practice for the General Practitioner</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20210701">
+						July 2021 Update
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>Hon. W. Homer Drake, Jr. and , Karen D. Visser</author>
+			</author.line>
+			<prop.head toc-guid="I22771f5000d011d98317eea5c5a5d413">
+				<headtext>Forms Appendices</headtext>
+			</prop.head>
+			<prop.head toc-guid="I4db2e160344811db9f4af2f606900ec7">
+				<label.name>Appendix</label.name>
+				<label.designator>C.</label.designator>
+				<headtext>Author&apos;s Forms</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<appendix>
+			<doc.title toc-guid="I32acb71484ae11df8b26d64494505e31">
+				<head parent="doc.title">
+					<label.name>§ </label.name>
+					<label.designator>C:60.</label.designator>
+					<headtext>Objection to Plan</headtext>
+				</head>
+			</doc.title>
+			<appendix.body>
+				<form ID="If7d6dc00a61d11dfb3bf0000837214a9">
+					<form.body>
+						<form.caption>
+							<form.line style="l">
+								<instruction>
+									<ital>(Caption as in Author&apos;s Form C.1)</ital>
+								</instruction>
+							</form.line>
+						</form.caption>
+						<form.head>
+							<form.headtext>
+								<ital>Objection to Plan</ital>
+							</form.headtext>
+						</form.head>
+						<form.para>
+							<form.text>
+								Comes now <leaveout>
+									<fill.in>
+										<textrule weight="0.5pt" position="baseline" length="16em "/>
+									</fill.in>
+								</leaveout>, a secured (unsecured) creditor, and files this objection to the confirmation of the debtor&apos;s Plan of Arrangement.
+							</form.text>
+						</form.para>
+						<form.para>
+							<form.text>
+								This objection is based upon the following ground(s):
+							</form.text>
+							<form.unit ID="Idf6177b0dad811eb971de3f642f55eef">
+								<form.unit ID="Idf6177b1dad811eb971de3f642f55eef">
+									<form.head style="c">
+										<label.designator>1.</label.designator>
+									</form.head>
+									<form.para>
+										<form.text>
+											The plan is not proposed in good faith or any means not forbidden by law because the debtor has not fully disclosed all of his assets.
+										</form.text>
+									</form.para>
+								</form.unit>
+							</form.unit>
+							<form.unit ID="Idf6177b2dad811eb971de3f642f55eef">
+								<form.unit ID="Idf6177b3dad811eb971de3f642f55eef">
+									<form.head style="c">
+										<label.designator>2.</label.designator>
+										<form.headtext>[<footnote.reference refid="Idf623b00dad811eb971de3f642f55eef">*</footnote.reference>]</form.headtext>
+									</form.head>
+									<form.para>
+										<form.text>
+											The plan does not propose to distribute on account.
+										</form.text>
+									</form.para>
+								</form.unit>
+							</form.unit>
+							<form.unit ID="Idf6177b5dad811eb971de3f642f55eef">
+								<form.unit ID="Idf6177b6dad811eb971de3f642f55eef">
+									<form.head style="c">
+										<label.designator>3.</label.designator>
+										<form.headtext>[<footnote.reference refid="Idf623b01dad811eb971de3f642f55eef">**</footnote.reference>]</form.headtext>
+									</form.head>
+									<form.para>
+										<form.text>
+											The plan has not been accepted by the undersigned party, a secured creditor; the plan does not propose that the debtor surrender to the undersigned the secured collateral and the value, as of the effective date of the plan, of property to be distributed under the plan because the secured claim of this party is less than the present value of said collateral.
+										</form.text>
+									</form.para>
+								</form.unit>
+							</form.unit>
+							<form.unit ID="Idf6177b8dad811eb971de3f642f55eef">
+								<form.unit ID="Idf6177b9dad811eb971de3f642f55eef">
+									<form.head style="c">
+										<label.designator>4.</label.designator>
+									</form.head>
+									<form.para>
+										<form.text>
+											The debtor will not be able to make all payments under the plan and comply with the plan.
+											<page vol="1" no="1641"/>
+										</form.text>
+									</form.para>
+									<form.para>
+										<form.text>
+											Therefore, <leaveout>
+												<fill.in>
+													<textrule weight="0.5pt" position="baseline" length="16em "/>
+												</fill.in>
+											</leaveout>, a secured (unsecured) creditor, objects to the confirmation of this plan and prays that the plan not be confirmed.
+										</form.text>
+									</form.para>
+									<form.para>
+										<form.text>
+											This <leaveout>
+												<fill.in>
+													<textrule weight="0.5pt" position="baseline" length=" 5em "/>
+												</fill.in>
+											</leaveout> day.
+										</form.text>
+									</form.para>
+								</form.unit>
+							</form.unit>
+						</form.para>
+						<form.signature.block>
+							Form signature block.
+						</form.signature.block>
+					</form.body>
+				</form>
+			</appendix.body>
+		</appendix>
+		<footnote.block>
+			<form.footnote ID="Idf623b00dad811eb971de3f642f55eef">
+				<label.designator>*</label.designator>
+				<form.footnote.body>
+					<para>
+						<paratext>
+							<bold>Paragraph 2 is appropriate for unsecured claims.
+							</bold>
+						</paratext>
+					</para>
+				</form.footnote.body>
+			</form.footnote>
+			<form.footnote ID="Idf623b01dad811eb971de3f642f55eef">
+				<label.designator>**</label.designator>
+				<form.footnote.body>
+					<para>
+						<paratext>
+							<bold>Paragraph 3 is appropriate for secured claims.
+							</bold>
+						</paratext>
+					</para>
+				</form.footnote.body>
+			</form.footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					Westlaw. © 2021 Thomson Reuters.  
+					No Claim to Orig. U.S. Govt. 
+					Works.
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						BKRPRACGP APP C § C:60
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

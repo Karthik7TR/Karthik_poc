@@ -1,0 +1,139 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>
+						Alabama Evidence 3d § 8:97
+					</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Alabama Evidence 3d</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20210801">
+						August 2021 Update
+					</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>Joseph L. Lester</author>
+			</author.line>
+			<prop.head toc-guid="I04bd3cb01f0111daa9bbbb5743851f92">
+				<label.name>Chapter</label.name>
+				<label.designator>8.</label.designator>
+				<headtext>Hearsay</headtext>
+			</prop.head>
+			<prop.head toc-guid="I49fe41501f0811daa9bbbb5743851f92">
+				<label.designator>V.</label.designator>
+				<headtext>Unavailability of the Witness</headtext>
+			</prop.head>
+			<prop.head toc-guid="If2934ab0681611dba5ec9caeac638729">
+				<label.designator>C.</label.designator>
+				<headtext>Statements against Interests[<footnote.reference refid="Ib53fa440f53911ebbacede1916a3b784">8</footnote.reference>]</headtext>
+			</prop.head>
+			<prop.head toc-guid="If29a0170681611dba5ec9caeac638729">
+				<label.designator>1.</label.designator>
+				<headtext>Alabama Practice</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I091efab657a011da8d00c5923d2d26b4">
+					<head parent="doc.title">
+						<label.name>§ </label.name>
+						<label.designator>8:97.</label.designator>
+						<headtext>Generally</headtext>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<paratext>Alabama has long recognized an exception to the hearsay rule for a declaration made by a person who had knowledge <page vol="1" no="1088"/>of the facts of which he spoke[<footnote.reference refid="Ib53fa441f53911ebbacede1916a3b784">1</footnote.reference>] if that person is not available for trial
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Rule 804
+					</paratext>
+					<display.quote>
+						<para>
+							<paratext>
+								The following [is] … not excluded
+							</paratext>
+						</para>
+						<head style="c" parent="display.quote">
+							<headtext>* * *</headtext>
+						</head>
+						<para>
+							<paratext>
+								<ital>
+									(3) Statement against interest.
+								</ital> A statement which was at the time of its making so contrary to the declarant&apos;s pecuniary or proprietary interest that a reasonable person in the declarant&apos;s position would not have made the statement unless believing it to be true.
+								<page vol="1" no="1089"/>
+								[<footnote.reference refid="Ib53fcb52f53911ebbacede1916a3b784">5</footnote.reference>]</paratext>
+						</para>
+					</display.quote>
+				</para>
+			</section.body>
+		</section>
+		<prop.head.footnotes>
+			<footnote ID="Ib53fa440f53911ebbacede1916a3b784">
+				<label.designator>8</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Many Alabama cases
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</prop.head.footnotes>
+		<footnote.block>
+			<footnote ID="Ib53fa441f53911ebbacede1916a3b784">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							Humes
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+			<footnote ID="Ib53fcb52f53911ebbacede1916a3b784">
+				<label.designator>5</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>
+							(noting that a deposition of one codefendant in a criminal case could be admissible against another codefendant under this section).
+							<page vol="1" no="1089"/>
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>
+					Westlaw. © 2021 Thomson Reuters.  
+					No Claim to Orig. U.S. Govt. 
+					Works.
+				</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>
+						ALEVID § 8:97
+					</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>
