@@ -24,6 +24,7 @@ public class MarkupConstants {
     public static final String INDEX = "index";
     public static final String CO_INDEX = "co_index";
     public static final String INDEX_ENTRY = "index.entry";
+    public static final String INLINE_INDEX_HEADER = "inlineIndexHeader";
     public static final String DOC_TITLE = "doc.title";
     public static final String CO_TITLE = "co_title";
     public static final String HEADTEXT = "headtext";

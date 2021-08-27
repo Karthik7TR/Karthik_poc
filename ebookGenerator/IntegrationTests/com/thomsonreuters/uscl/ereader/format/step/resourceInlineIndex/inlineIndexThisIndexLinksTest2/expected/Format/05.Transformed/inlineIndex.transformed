@@ -1,5 +1,8 @@
 <div class="section">
  {pagebreak-open no="Index" close-pagebreak}
+ <div class="inlineIndexHeader">
+  Index
+ </div>
  <div style="text-align: left; margin-top: 0.1em; margin-left: 0.350em; font-size: 1.0em; padding-top: 1em; " class="co_index"> 
   <div class="co_title" style="font-weight: bold; ">
    <h3 class="co_headtext"><a name="admission_and_exclusion_of_evidence">ADMISSION AND EXCLUSION OF EVIDENCE</a></h3>

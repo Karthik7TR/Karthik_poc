@@ -434,6 +434,14 @@ table span.co_baselineTextRule, .co_form span.co_baselineTextRule {\
   margin-left: 1em;\
 }\
 /* </EB-3637> */\
+\
+/* <EB-3776 header in inline index page> */\
+.inlineIndexHeader {\
+  text-align: center;\
+  font-size: xx-large;\
+  font-weight: bold;\
+}\
+/* </EB-3776> */\
 \/* <\/updateStyleSheet.sh> *\/\
 ' document.css
 sed -i 's/<!ENTITY indentTopClass "co_indentTop">/\

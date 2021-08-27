@@ -25,6 +25,7 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.H3;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HEADTEXT;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INDEX;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INDEX_ENTRY;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.INLINE_INDEX_HEADER;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LI;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.OL;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SECTION;
@@ -42,6 +43,7 @@ public class InlineIndexService {
     private static final String UNUSED_TAGS_REGEX = "bop|bos|eos|eop";
     private static final String XML = ".xml";
     private static final String INDEX_PAGE_NAME = "Index";
+    private static final String INDEX_HEADER_NAME = "Index";
 
     @Autowired
     private JsoupService jsoup;
@@ -57,6 +59,7 @@ public class InlineIndexService {
         final InlineIndexInternalLinks internalLinks = new InlineIndexInternalLinks();
 
         addFirstPagebreak(indexSection, pages);
+        addHeader(indexSection);
         indexDocGuids.forEach(indexDocGuid -> convertIndexDoc(indexDocGuid, sourceDir, indexSection, internalLinks));
         internalLinks.addThisIndexInternalLinks();
 
@@ -67,6 +70,13 @@ public class InlineIndexService {
         if (pages) {
             indexSection.append(protectPagebreak(createProviewPagebreak(INDEX_PAGE_NAME)));
         }
+    }
+
+    private void addHeader(final Element indexSection) {
+        Element header = new Element(DIV);
+        header.addClass(INLINE_INDEX_HEADER);
+        header.text(INDEX_HEADER_NAME);
+        indexSection.appendChild(header);
     }
 
     private void convertIndexDoc(final String indexDocGuid, final File sourceDir, final Element indexSection, final InlineIndexInternalLinks internalLinks) {
