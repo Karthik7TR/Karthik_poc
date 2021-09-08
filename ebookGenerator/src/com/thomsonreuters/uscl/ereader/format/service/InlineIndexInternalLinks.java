@@ -1,8 +1,11 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Element;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -16,9 +19,12 @@ public class InlineIndexInternalLinks {
     public static final String THIS_INDEX = "this index";
     private static final String HEADER_NAME_GROUP = "headerName";
     private static final String HASH = "#";
+    private static final String UTF8 = "UTF-8";
+    private static final String WHITESPACE_REPLACEMENT = "_";
+    private static final String PERCENT_SIGN = "%";
     private static final Pattern INTERNAL_REFERENCE_PATTERN = Pattern.compile(String.format("(.+\\.)?\\s*" +
             "(generally, see |see also |for detailed treatment see |see |)(?<%s>.+)(,\\s*%2$s|\\s\\(%2$s\\))", HEADER_NAME_GROUP, THIS_INDEX));
-
+    
     private final Set<String> headerIds = new HashSet<>();
     private final Set<Element> thisIndexReferences = new HashSet<>();
 
@@ -35,7 +41,17 @@ public class InlineIndexInternalLinks {
     }
 
     public String buildHeaderId(final String text) {
-        return text.toLowerCase().replaceAll("\\s+", "_").replaceAll("'", StringUtils.EMPTY);
+        return encode(text.toLowerCase()
+                .replaceAll("\\s+", WHITESPACE_REPLACEMENT)
+                .replaceAll("'", StringUtils.EMPTY));
+    }
+
+    private String encode(final String url) {
+        try {
+            return URLEncoder.encode(url, UTF8).replaceAll(PERCENT_SIGN, WHITESPACE_REPLACEMENT);
+        } catch (final UnsupportedEncodingException e) {
+            throw new EBookException("Exception on attempt to encode string: " + url, e);
+        }
     }
 
     private String getHeaderName(final String text) {
