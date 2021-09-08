@@ -112,9 +112,18 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 
         // Add misc metadata, dynamic key/value pairs into the job parameters map
         builder.addParameter(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
-        builder.addParameter(
-            JobParameterKey.BOOK_DEFINITION_ID,
-            new JobParameter(jobRequest.getBookDefinition().getEbookDefinitionId()));
+        if (jobRequest.getCombinedBookDefinition() != null) {
+            builder.addParameter(
+                    JobParameterKey.COMBINED_BOOK_DEFINITION_ID,
+                    new JobParameter(jobRequest.getCombinedBookDefinition().getId()));
+            builder.addParameter(
+                    JobParameterKey.BOOK_DEFINITION_ID,
+                    new JobParameter(jobRequest.getCombinedBookDefinition().getPrimaryTitle().getBookDefinition().getEbookDefinitionId()));
+        } else {
+            builder.addParameter(
+                    JobParameterKey.BOOK_DEFINITION_ID,
+                    new JobParameter(jobRequest.getBookDefinition().getEbookDefinitionId()));
+        }
         builder.addParameter(JobParameterKey.BOOK_VERSION_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));
         builder.addParameter(JobParameterKey.HOST_NAME, new JobParameter(hostName));
         builder.addParameter(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));

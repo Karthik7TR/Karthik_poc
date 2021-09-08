@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader;
 
 public enum StatsUpdateTypeEnum {
+    PREPARE_SOURCES,
     GATHERTOC,
     GATHERDOC,
     GATHERIMAGE,

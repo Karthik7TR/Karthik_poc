@@ -5,11 +5,13 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 /**
  * Finds job name
  *
  * @author Ilia Bochkarev UC220946
- *
  */
 public class JobNameProviderImpl implements JobNameProvider {
     @NotNull
@@ -20,12 +22,17 @@ public class JobNameProviderImpl implements JobNameProvider {
     @Override
     @NotNull
     public String getJobName(@NotNull final JobRequest jobRequest) {
-        final BookDefinition book = jobRequest.getBookDefinition();
-        if (book == null) {
-            throw new IllegalStateException(
-                "No Book Definition found for Job Request ID=" + jobRequest.getJobRequestId());
-        }
-        return getJobName(book);
+        return Stream.of(
+                Optional.ofNullable(jobRequest.getCombinedBookDefinition())
+                        .map(item -> item.getPrimaryTitle().getBookDefinition()),
+                Optional.ofNullable(jobRequest.getBookDefinition())
+        )
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst()
+                .map(this::getJobName)
+                .orElseThrow(() -> new IllegalStateException(
+                        "No Book Definition found for Job Request ID=" + jobRequest.getJobRequestId()));
     }
 
     @Override

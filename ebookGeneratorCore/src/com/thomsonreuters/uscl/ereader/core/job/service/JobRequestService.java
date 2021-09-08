@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.job.service;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 public interface JobRequestService {
@@ -28,6 +29,8 @@ public interface JobRequestService {
     void updateJobPriority(long jobRequestId, int priority);
 
     Long saveQueuedJobRequest(BookDefinition bookDefinition, String version, int priority, String submittedBy);
+
+    Long saveQueuedJobRequest(CombinedBookDefinition combinedBookDefinition, String version, int priority, String submittedBy);
 
     /**
      * Returns true if there is any job run request that is for the specified book definition.

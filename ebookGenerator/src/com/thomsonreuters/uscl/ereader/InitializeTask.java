@@ -5,10 +5,13 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemCon
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ import javax.jms.IllegalStateException;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_CREATED_LINKS_TRANSFORM_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
@@ -55,6 +59,8 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_STATIC_IMAGE_MANIFEST_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.TOC_FILE;
+import static com.thomsonreuters.uscl.ereader.stats.PublishingStatus.COMPLETED;
+import static com.thomsonreuters.uscl.ereader.stats.PublishingStatus.FAILED;
 
 /**
  * Perform job setup for creating an ebook and place data into the JobExecutionContext for
@@ -72,6 +78,8 @@ public class InitializeTask extends AbstractSbTasklet {
     private EBookAuditService eBookAuditService;
     private BookDefinitionService bookDefnService;
     @Autowired
+    private CombinedBookDefinitionService combinedBookDefnService;
+    @Autowired
     private NasFileSystem nasFileSystem;
 
     @Override
@@ -83,11 +91,18 @@ public class InitializeTask extends AbstractSbTasklet {
         final ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
         final JobInstance jobInstance = jobExecution.getJobInstance();
         final JobParameters jobParams = jobExecution.getJobParameters();
-        String publishStatus = "Completed";
+        PublishingStatus publishStatus = COMPLETED;
         try {
             // get ebookDefinition
-            final BookDefinition bookDefinition =
-                bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));
+            Optional.ofNullable(jobParams.getLong(JobParameterKey.COMBINED_BOOK_DEFINITION_ID))
+                    .map(combinedBookDefinitionId -> combinedBookDefnService.findCombinedBookDefinitionById(combinedBookDefinitionId))
+                    .ifPresent(combinedBookDefinition -> {
+                        jobExecutionContext.put(JobExecutionKey.COMBINED_BOOK_DEFINITION, combinedBookDefinition);
+                        jobExecutionContext.put(JobExecutionKey.HAS_FILE_SOURCE_TYPE, combinedBookDefinition.hasFileSourceType());
+                    });
+            final BookDefinition bookDefinition = Optional.ofNullable((CombinedBookDefinition) jobExecutionContext.get(JobExecutionKey.COMBINED_BOOK_DEFINITION))
+                    .map(combinedBookDefinition -> combinedBookDefinition.getPrimaryTitle().getBookDefinition())
+                    .orElseGet(() -> bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID)));
             final String titleId = bookDefinition.getTitleId();
 
             // Place data on the JobExecutionContext for use in later steps
@@ -105,7 +120,10 @@ public class InitializeTask extends AbstractSbTasklet {
                     "Expected staticContent directory does not exist: " + nasFileSystem.getStaticContentDirectory().getAbsolutePath());
             }
 
-            if (bookDefinition.getSourceType().equals(SourceType.FILE)) {
+            if (bookDefinition.getSourceType().equals(SourceType.FILE) ||
+                    Optional.ofNullable(jobExecutionContext.get(JobExecutionKey.HAS_FILE_SOURCE_TYPE))
+                            .map(item -> (boolean) item)
+                            .orElse(false)) {
                 if (!rootCodesWorkbenchLandingStrip.exists()) {
                     throw new IllegalStateException(
                         "Expected Codes Workbench landing strip directory does not exist: "
@@ -248,7 +266,7 @@ public class InitializeTask extends AbstractSbTasklet {
             log.info("Image Service URL: " + System.getProperty("image.vertical.context.url"));
             log.info("Proview Domain URL: " + System.getProperty("proview.domain"));
         } catch (final Exception e) {
-            publishStatus = "Failed";
+            publishStatus = FAILED;
             throw (e);
         } finally {
             final PublishingStats pubStats = new PublishingStats();

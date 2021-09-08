@@ -71,6 +71,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Version;
@@ -96,6 +97,7 @@ public final class GenerateEbookControllerTest {
     private static final String BOOK_TITLE_ID = "title_id";
     private static final String ID_PARAM = "id";
     private static final String NEW_VERSION_PARAM = "newVersion";
+    private static final String IS_COMBINED_PARAM = "isCombined";
 
     private static Long BOOK_DEFINITION_ID = 127L;
     private MockMvc mockMvc;
@@ -149,8 +151,11 @@ public final class GenerateEbookControllerTest {
 
         mockMvc
             .perform(
-                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param(ID_PARAM, BOOK_DEFINITION_ID.toString())
-                    .param(NEW_VERSION_PARAM, GenerateBookForm.Version.OVERWRITE.toString()))
+                    get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW)
+                            .param(ID_PARAM, BOOK_DEFINITION_ID.toString())
+                            .param(NEW_VERSION_PARAM, GenerateBookForm.Version.OVERWRITE.toString())
+                            .param(IS_COMBINED_PARAM, "false")
+            )
             .andExpect(status().is(200))
             .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
             .andExpect(
@@ -189,6 +194,7 @@ public final class GenerateEbookControllerTest {
 
         mockMvc.perform(get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW)
                 .param(ID_PARAM, BOOK_DEFINITION_ID.toString())
+                .param(IS_COMBINED_PARAM, "false")
                 .param(NEW_VERSION_PARAM, GenerateBookForm.Version.OVERWRITE.toString()))
                 .andExpect(status().is(200))
                 .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
@@ -207,7 +213,7 @@ public final class GenerateEbookControllerTest {
         book.setIsDeletedFlag(true);
         given(mockBookDefinitionService.findBookDefinitionByEbookDefId(eq(BOOK_DEFINITION_ID))).willReturn(book);
 
-        mockMvc.perform(get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param("id", BOOK_DEFINITION_ID.toString()))
+        mockMvc.perform(get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param("id", BOOK_DEFINITION_ID.toString()).param(WebConstants.KEY_IS_COMBINED, "false"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrlPattern(removeExtension(MVC_ERROR_BOOK_DELETED) + ".*"));
     }
@@ -232,8 +238,10 @@ public final class GenerateEbookControllerTest {
 
         mockMvc
             .perform(
-                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param("id", BOOK_DEFINITION_ID.toString())
-                    .param("newVersion", GenerateBookForm.Version.OVERWRITE.toString()))
+                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW)
+                        .param("id", BOOK_DEFINITION_ID.toString())
+                        .param(IS_COMBINED_PARAM, "false")
+                        .param("newVersion", GenerateBookForm.Version.OVERWRITE.toString()))
             .andExpect(status().is(200))
             .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
             .andExpect(model().attribute(KEY_IS_NEW_ISBN, equalTo("Y")));
@@ -278,8 +286,11 @@ public final class GenerateEbookControllerTest {
 
         mockMvc
             .perform(
-                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW).param("id", BOOK_DEFINITION_ID.toString())
-                    .param("newVersion", GenerateBookForm.Version.OVERWRITE.toString()))
+                get("/" + MVC_BOOK_SINGLE_GENERATE_PREVIEW)
+                        .param("id", BOOK_DEFINITION_ID.toString())
+                        .param("newVersion", GenerateBookForm.Version.OVERWRITE.toString())
+                        .param(IS_COMBINED_PARAM, "false")
+            )
             .andExpect(status().is(200))
             .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
             .andExpect(model().attributeExists(KEY_SUPER_PUBLISHER_PUBLISHERPLUS));

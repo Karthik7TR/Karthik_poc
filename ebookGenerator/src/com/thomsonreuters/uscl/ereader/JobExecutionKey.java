@@ -153,6 +153,7 @@ public class JobExecutionKey {
      * Book Definition Object. Used by different steps in the batch process
      */
     public static final String EBOOK_DEFINITION = "bookDefn";
+    public static final String COMBINED_BOOK_DEFINITION = "combinedBookDefn";
 
     /**
      * Path to the directory with unpacked images.
@@ -167,5 +168,7 @@ public class JobExecutionKey {
     public static final String EXCEPTION_ON_GROUP_STEP_OCCURRED = "exceptionOnGroupStepOccurred";
 
     public static final String PAGE_VOLUMES_SET = "pageVolumesSet";
+
+    public static final String HAS_FILE_SOURCE_TYPE = "hasFileSourceType";
 
 }

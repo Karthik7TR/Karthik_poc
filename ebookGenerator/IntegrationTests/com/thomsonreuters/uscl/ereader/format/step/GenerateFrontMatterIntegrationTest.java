@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
@@ -8,6 +11,9 @@ import com.thomsonreuters.uscl.ereader.frontmatter.service.BaseFrontMatterServic
 import com.thomsonreuters.uscl.ereader.frontmatter.service.BaseFrontMatterServiceImpl;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.PdfImagesService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.PdfImagesServiceImpl;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
@@ -93,18 +99,25 @@ public class GenerateFrontMatterIntegrationTest {
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
+        @Autowired
+        private PublishingStatsService publishingStatsService;
+        @Autowired
+        private GatherFileSystem gatherFileSystem;
+        @Autowired
+        private FormatFileSystem formatFileSystem;
+        @Autowired
+        private NasFileSystem nasFileSystem;
         @Bean
         public GenerateFrontMatterHTMLPages generateFrontMatterHTMLPages() {
-            return new GenerateFrontMatterHTMLPages();
+            return new GenerateFrontMatterHTMLPages(createFrontMatterService(), publishingStatsService, pagesAnalyzeService(), gatherFileSystem, formatFileSystem);
         }
-
         @Bean
         public BaseFrontMatterService baseFrontMatterService() {
             return new BaseFrontMatterServiceImpl();
         }
         @Bean
         public CreateFrontMatterService createFrontMatterService() {
-            return new CreateFrontMatterServiceImpl(baseFrontMatterService());
+            return new CreateFrontMatterServiceImpl(baseFrontMatterService(), pdfImagesService());
         }
         @Bean
         public PdfToImgConverter pdfToImgConverter() {
@@ -113,6 +126,10 @@ public class GenerateFrontMatterIntegrationTest {
         @Bean
         public PagesAnalyzeService pagesAnalyzeService() {
             return new PagesAnalyzeService();
+        }
+        @Bean
+        public PdfImagesService pdfImagesService() {
+            return new PdfImagesServiceImpl(nasFileSystem, pdfToImgConverter());
         }
     }
 }

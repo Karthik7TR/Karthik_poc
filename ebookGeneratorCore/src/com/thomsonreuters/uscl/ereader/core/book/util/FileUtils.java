@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.util;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -72,6 +73,14 @@ public class FileUtils {
             File file = new File(parent, child);
             file.createNewFile();
             return file;
+        } catch (IOException e) {
+            throw new EBookException(e);
+        }
+    }
+
+    public static void writeLines(File file, Collection<?> lines) {
+        try {
+            org.apache.commons.io.FileUtils.writeLines(file, lines, StringUtils.LF);
         } catch (IOException e) {
             throw new EBookException(e);
         }

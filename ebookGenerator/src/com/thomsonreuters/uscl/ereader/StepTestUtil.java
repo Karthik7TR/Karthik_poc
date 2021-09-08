@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -62,6 +63,10 @@ public final class StepTestUtil {
 
     public static void givenBook(final ChunkContext chunkContext, final BookDefinition book) {
         givenExecutionContextParameter(chunkContext, "bookDefn", book);
+    }
+
+    public static void givenCombinedBook(final ChunkContext chunkContext, final CombinedBookDefinition combinedBook) {
+        givenExecutionContextParameter(chunkContext, JobExecutionKey.COMBINED_BOOK_DEFINITION, combinedBook);
     }
 
     public static void givenBookDefinitionId(final ChunkContext chunkContext, final Long value) {

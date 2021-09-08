@@ -14,14 +14,14 @@
                        defaultorder="ascending">
             <display:column title="Order">${vdo.sequenceNum + 1}</display:column>
             <display:column title="Source Type">${vdo.bookDefinition.sourceType}</display:column>
-            <display:column title="Title ID">${vdo.bookDefinition.fullyQualifiedTitleId}</display:column>
+            <display:column title="Title ID"><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinition.ebookDefinitionId}">${vdo.bookDefinition.fullyQualifiedTitleId}</a></display:column>
             <display:column title="Primary Title">${ vdo.primarySource ? "&#10004;" : "" }</display:column>
         </display:table>
     </div>
     <div class="buttons">
         <button type="button" onclick="location.href='<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_EDIT%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}';">Edit</button>
         <button type="button" onclick="alert('In development')">Copy</button>
-        <button type="button" onclick="alert('In development')">Generate</button>
+        <button type="button" onclick="location.href='<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}&<%=WebConstants.KEY_IS_COMBINED%>=true'">Generate</button>
         <button type="button" onclick="alert('In development')">Delete</button>
         <button type="button" onclick="alert('In development')">Audit Log</button>
         <button type="button" onclick="alert('In development')">Publishing Stats</button>

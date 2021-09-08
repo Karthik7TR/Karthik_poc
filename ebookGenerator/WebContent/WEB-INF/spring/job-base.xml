@@ -40,6 +40,9 @@
 	<beans:bean id="initializePublishingStatusUpdateService"
 		parent="basePublishingStatusUpdateService"
 		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.InitializePublishingStatusUpdateService" />
+	<beans:bean id="prepareSourcesPublishingStatusUpdateService"
+				parent="basePublishingStatusUpdateService"
+				class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PrepareSourcesPublishingStatusUpdateService" />
 	<beans:bean id="assemblePublishingStatusUpdateService"
 		parent="basePublishingStatusUpdateService"
 		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.AssemblePublishingStatusUpdateService" />

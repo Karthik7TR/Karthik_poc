@@ -40,6 +40,7 @@ public class WebConstants {
     public static final String KEY_KEYWORD_TYPE_VALUE = "keywordTypeValue";
     public static final String KEY_KEYWORDS = "keywords";
     public static final String KEY_ID = "id";
+    public static final String KEY_IS_COMBINED = "isCombined";
     public static final String KEY_TITLE_ID = "titleId";
     public static final String KEY_GROUP_BY_VERSION_ID = "groupIdByVersion";
     public static final String KEY_HEAD_TITLE = "headTitle";

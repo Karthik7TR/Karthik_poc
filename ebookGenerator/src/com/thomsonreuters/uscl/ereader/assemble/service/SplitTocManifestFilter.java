@@ -95,12 +95,6 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
 
     // Element names that correspond to the toc.xml to title.xml transformation
 
-    private static final String EBOOK = "EBook";
-    private static final String EBOOK_TOC = "EBookToc";
-    private static final String NAME = "Name";
-    private static final String TOC_GUID = "Guid";
-    private static final String DOCUMENT_GUID = "DocumentGuid";
-    private static final String MISSING_DOCUMENT = "MissingDocument";
     private static final String TITLE_BREAK = "titlebreak";
     private static final String TOC_ELEMENT = "toc";
 

@@ -31,7 +31,7 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
         return getTestTitleMetadata(true);
     }
 
-    private TitleMetadata getTestTitleMetadata(final boolean isPilotBook) {
+    private TitleMetadata getTestTitleMetadata(final boolean isPilotBook, final boolean isCombined) {
         final TitleMetadata titleMetadata = TitleMetadata.builder()
             .fullyQualifiedTitleId("yarr/pirates")
             .versionNumber("1")
@@ -48,9 +48,14 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
             .isbn(EXPECTED_ISBN_VALUE)
             .proviewFeatures(getTestFeatures())
             .isPilotBook(isPilotBook)
+            .isCombinedBook(isCombined)
             .build();
         titleMetadata.setTableOfContents(getTestTableOfContents());
         return titleMetadata;
+    }
+
+    private TitleMetadata getTestTitleMetadata(final boolean isPilotBook) {
+        return getTestTitleMetadata(isPilotBook, false);
     }
 
     private List<Doc> getTestDocuments() {

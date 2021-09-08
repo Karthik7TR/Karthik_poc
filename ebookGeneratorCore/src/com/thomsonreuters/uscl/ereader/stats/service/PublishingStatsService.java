@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
@@ -68,4 +69,8 @@ public interface PublishingStatsService {
     PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId);
 
     String getIsbnByTitleAndVersion(String title, String version);
+
+    void addDocsAndMetadataStats(PublishingStats docsAndMetadataStatsSum, GatherResponse docAndMetadataResponse);
+
+    void addTocStats(PublishingStats tocStatsSum, GatherResponse tocResponse);
 }

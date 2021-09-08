@@ -167,6 +167,38 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
         publishedDate = getCurrentFormattedDate();
     }
 
+    @Test
+    public void testIsCombined() throws Exception {
+        final TitleManifestFilter filter = new TitleManifestFilter(
+                titleMetadata,
+                new HashMap<>(),
+                uuidGenerator,
+                temporaryDirectory,
+                mockFileUtilsFacade,
+                mockPlaceholderDocumentService,
+                new HashMap<>());
+        InputStream toc = new ByteArrayInputStream(
+                new StringBuilder()
+                        .append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+                        .append("<EBook>\n")
+                        .append("<EBookTitle proviewName=\"title1\" titleId=\"titleId1\"/>\n")
+                        .append("<EBookToc><Name>Alabama</Name><Guid>N2B2C9BC0709611DA941ED2CF24A3A24D-0000011</Guid>\n")
+                        .append("<EBookToc><Name>United States District Court, Northern, Middle, and Southern Districts of Alabama</Name><Guid>N5AD5D760709611DA941ED2CF24A3A24D-0003562</Guid>\n")
+                        .append("<EBookToc><Name>Complaint</Name><Guid>NE9B98150DF1811DC9702ED6752F9EEB6-0005453</Guid><DocumentGuid>NE9B98150DF1811DC9702ED6752F9EEB6-000545</DocumentGuid></EBookToc>\n")
+                        .append("</EBookToc>\n")
+                        .append("</EBookToc>\n")
+                        .append("<EBookTitle proviewName=\"title2\" titleId=\"titleId2\"/>\n")
+                        .append("<EBookToc><Name>TITLE I.&#8195;APPLICABILITY OF RULES [There are no rules for this title]</Name><Guid>NC7922360B89911D8983DF34406B5929B-0000022</Guid>\n")
+                        .append("<EBookToc><Name>FRAP 1.&#8195;Scope of Rules; Definition; &#8201;Title</Name><Guid>NC7A33A60B89911D8983DF34406B5929B-0000033</Guid><DocumentGuid>N1D3471E0B97811D8983DF34406B5929B-000003</DocumentGuid></EBookToc>\n")
+                        .append("<EBookToc><Name>FRAP 2.&#8195;Suspension of Rules</Name><Guid>NC7B40340B89911D8983DF34406B5929B-0000044</Guid><DocumentGuid>N1D4A6AE0B97811D8983DF34406B5929B-000004</DocumentGuid></EBookToc>\n")
+                        .append("</EBookToc>\n")
+                        .append("<EBookPublishingInformation/>\n")
+                        .append("</EBook>").toString().getBytes());
+        filter.setParent(xmlReader);
+        filter.setContentHandler(serializer.asContentHandler());
+        filter.parse(new InputSource(toc));
+    }
+
     @Override
     @After
     public void tearDown() throws Exception {

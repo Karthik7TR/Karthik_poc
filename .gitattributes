@@ -7,5 +7,6 @@
 **/ebookGenerator/IntegrationTests/**/*.part text eol=lf
 **/ebookGenerator/IntegrationTests/**/*.html text eol=lf
 **/ebookGenerator/IntegrationTests/**/*.xml text eol=lf
+**/ebookGenerator/IntegrationTests/com/thomsonreuters/uscl/ereader/gather/step/resourcePrepareSources/**/*.xml text eol=crlf
 **/ebookGenerator/srctest/com/thomsonreuters/uscl/ereader/assemble/service/*.txt text eol=lf
 

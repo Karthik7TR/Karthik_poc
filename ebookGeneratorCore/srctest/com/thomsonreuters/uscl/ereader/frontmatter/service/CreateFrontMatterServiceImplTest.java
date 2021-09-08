@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.service;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,6 @@ import org.mockito.internal.util.collections.Sets;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,12 +34,15 @@ public final class CreateFrontMatterServiceImplTest {
     @Mock
     private BaseFrontMatterService baseFrontMatterService;
 
+    @Mock
+    private PdfImagesService pdfImagesService;
+
     @Rule
     public final TemporaryFolder folder = new TemporaryFolder();
 
     @Before
     public void setUp() {
-        createFrontMatterService = new CreateFrontMatterServiceImpl(baseFrontMatterService);
+        createFrontMatterService = new CreateFrontMatterServiceImpl(baseFrontMatterService, pdfImagesService);
     }
 
     @Test
@@ -48,7 +51,7 @@ public final class CreateFrontMatterServiceImplTest {
         final BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFullyQualifiedTitleId(USCL_TITLE_ID);
         Set<String> expected = Stream.concat(ALL_PUBLISHERS_PAGES.stream(), USCL_ONLY_PAGES.stream()).collect(Collectors.toSet());
-        createFrontMatterService.generateAllFrontMatterPages(folder.getRoot(), bookDefinition, true, Collections.emptyMap());
+        createFrontMatterService.generateAllFrontMatterPages(folder.getRoot(), CombinedBookDefinition.fromBookDefinition(bookDefinition), true);
         Assert.assertEquals(expected, Arrays.stream(folder.getRoot().list()).collect(Collectors.toSet()));
     }
 
@@ -57,7 +60,7 @@ public final class CreateFrontMatterServiceImplTest {
     public void testGenerateAllFrontMatterPagesCwBook() {
         final BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFullyQualifiedTitleId(CW_TITLE_ID);
-        createFrontMatterService.generateAllFrontMatterPages(folder.getRoot(), bookDefinition, true, Collections.emptyMap());
+        createFrontMatterService.generateAllFrontMatterPages(folder.getRoot(), CombinedBookDefinition.fromBookDefinition(bookDefinition), true);
         Assert.assertEquals(ALL_PUBLISHERS_PAGES, Arrays.stream(folder.getRoot().list()).collect(Collectors.toSet()));
     }
 
@@ -68,7 +71,7 @@ public final class CreateFrontMatterServiceImplTest {
         bookDefinition.setFullyQualifiedTitleId(CW_TITLE_ID);
         bookDefinition.setFrontMatterPages(getAdditionalFrontMatters());
         Set<String> expected = Stream.concat(ALL_PUBLISHERS_PAGES.stream(), ADDITIONAL_FRONT_MATTERS.stream()).collect(Collectors.toSet());
-        createFrontMatterService.generateAllFrontMatterPages(folder.getRoot(), bookDefinition, true, Collections.emptyMap());
+        createFrontMatterService.generateAllFrontMatterPages(folder.getRoot(), CombinedBookDefinition.fromBookDefinition(bookDefinition), true);
         Assert.assertEquals(expected, Arrays.stream(folder.getRoot().list()).collect(Collectors.toSet()));
     }
 

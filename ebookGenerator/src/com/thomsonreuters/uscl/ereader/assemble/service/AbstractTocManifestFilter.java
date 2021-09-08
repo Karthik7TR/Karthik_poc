@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
@@ -21,6 +22,16 @@ import org.xml.sax.helpers.XMLFilterImpl;
 
 @Slf4j
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
+    protected static final String EBOOK = "EBook";
+    protected static final String EBOOK_TOC = "EBookToc";
+    protected static final String NAME = "Name";
+    protected static final String TOC_GUID = "Guid";
+    protected static final String DOCUMENT_GUID = "DocumentGuid";
+    protected static final String MISSING_DOCUMENT = "MissingDocument";
+    protected static final String EBOOK_TITLE = "EBookTitle";
+    protected static final String EBOOK_INLINE_TOC = "EBookInlineToc";
+    protected static final String EBOOK_PUBLISHING_INFORMATION = "EBookPublishingInformation";
+    protected static final String HTML_EXTENSION = ".html";
     private static final String INLINE_TOC_ITEM = "Table of Contents";
     private static final String SUMMARY_TOC_ITEM = "Summary of Contents";
     private static final String INLINE_TOC_FILE = "inlineToc";
@@ -36,7 +47,6 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     public static final String ANCHOR_REFERENCE = "s";
     public static final String CDATA = "CDATA";
 
-    public static final String HTML_EXTENSION = ".html";
     protected TocNode previousNode;
     protected int currentDepth;
     protected int previousDepth;
@@ -53,7 +63,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     protected TitleMetadata titleMetadata;
     private static final String DEFAULT_PUBLISHING_INFORMATION = "PUBLISHING INFORMATION";
     // Front Matter Text
-    private static final String TITLE_PAGE = "Title Page";
+    protected static final String TITLE_PAGE = "Title Page";
     private static final String COPYRIGHT_PAGE = "Copyright Page";
     private static final String ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE =
         "Additional Information or Research Assistance";
@@ -62,7 +72,6 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     public void buildFrontMatterTOCEntries(final boolean isSplitBook) throws SAXException {
         currentDepth++;
         createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE, isSplitBook);
-
         createInlineTocNode(isSplitBook);
 
         currentNode = new TocEntry(currentDepth);
@@ -73,6 +82,11 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         }
 
         // Use ebook_definition.front_matter_toc_label
+        createPublishingInformation(isSplitBook);
+        currentDepth--;
+    }
+
+    protected void createPublishingInformation(boolean isSplitBook) throws SAXException {
         if (titleMetadata.getFrontMatterTocLabel() != null) {
             currentNode.setText(titleMetadata.getFrontMatterTocLabel());
         } else {
@@ -115,7 +129,6 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         }
 
         currentDepth--;
-        currentDepth--;
     }
 
     public void createFrontMatterNode(final String guidBase, final String nodeText, final boolean isSplitBook)
@@ -143,7 +156,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         nodesContainingDocuments.add(currentNode);
     }
 
-    private void createInlineTocNode(final boolean isSplitBook) throws SAXException {
+    protected void createInlineTocNode(final boolean isSplitBook) throws SAXException {
         if (titleMetadata.isInlineToc()) {
             if (titleMetadata.isPagesEnabled()) {
                 createFrontMatterNode(INLINE_TOC_FILE, SUMMARY_TOC_ITEM, isSplitBook, SUMMARY_TOC_ANCHOR, true);

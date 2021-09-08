@@ -57,6 +57,11 @@ public class TitleId {
         return headTitleId + _PT + partNumber;
     }
 
+    @NotNull
+    public String escapeSlashWithDash() {
+        return headTitleId.replace("/", "-");
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

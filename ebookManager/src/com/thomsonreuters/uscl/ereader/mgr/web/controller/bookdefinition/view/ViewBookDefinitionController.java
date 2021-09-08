@@ -145,7 +145,7 @@ public class ViewBookDefinitionController {
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT + queryString));
             break;
         case GENERATE:
-            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryString));
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryString + "&" + WebConstants.KEY_IS_COMBINED + "=false"));
             break;
         case AUDIT_LOG:
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC + queryString));

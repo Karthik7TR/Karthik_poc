@@ -17,6 +17,7 @@ public final class JobParameterKey {
     public static final String HOST_NAME = "hostName";
 
     public static final String BOOK_DEFINITION_ID = "bookDefinitionId";
+    public static final String COMBINED_BOOK_DEFINITION_ID = "combinedBookDefinitionId";
     public static final String BOOK_VERSION_SUBMITTED = "bookVersionSubmitted";
 
     public static final String ENVIRONMENT_NAME = "environmentName";

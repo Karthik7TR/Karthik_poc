@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.common.retry.Retry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
@@ -82,6 +83,18 @@ public class JobRequestServiceImpl implements JobRequestService {
         final int priority,
         final String submittedBy) {
         final JobRequest jobRequest = JobRequest.createQueuedJobRequest(bookDefinition, version, priority, submittedBy);
+        jobRequest.setSubmittedAt(new Date());
+        return jobRequestDao.saveJobRequest(jobRequest);
+    }
+
+    @Override
+    @Transactional
+    public Long saveQueuedJobRequest(
+            final CombinedBookDefinition combinedBookDefinition,
+            final String version,
+            final int priority,
+            final String submittedBy) {
+        final JobRequest jobRequest = JobRequest.createQueuedJobRequest(combinedBookDefinition, version, priority, submittedBy);
         jobRequest.setSubmittedAt(new Date());
         return jobRequestDao.saveJobRequest(jobRequest);
     }

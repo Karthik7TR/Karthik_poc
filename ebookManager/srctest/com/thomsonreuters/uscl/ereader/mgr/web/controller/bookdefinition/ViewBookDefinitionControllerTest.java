@@ -117,15 +117,15 @@ public final class ViewBookDefinitionControllerTest {
 
     @Test
     public void testEditPost() throws Exception {
-        testBookDefinitionViewPostCommand(Command.EDIT, WebConstants.MVC_BOOK_DEFINITION_EDIT);
+        testBookDefinitionViewPostCommand(Command.EDIT, WebConstants.MVC_BOOK_DEFINITION_EDIT, false);
     }
 
     @Test
     public void testGeneratePost() throws Exception {
-        testBookDefinitionViewPostCommand(Command.GENERATE, WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        testBookDefinitionViewPostCommand(Command.GENERATE, WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, true);
     }
 
-    private void testBookDefinitionViewPostCommand(final Command command, final String viewUri) throws Exception {
+    private void testBookDefinitionViewPostCommand(final Command command, final String viewUri, boolean shouldAddIsCombined) throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_VIEW_POST);
         request.setMethod(HttpMethod.POST.name());
@@ -138,7 +138,7 @@ public final class ViewBookDefinitionControllerTest {
         final View view = mav.getView();
         Assert.assertTrue(view instanceof RedirectView);
         final RedirectView rView = (RedirectView) view;
-        final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, BOOK_DEFINITION_ID);
+        final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, BOOK_DEFINITION_ID) + (shouldAddIsCombined ? "&isCombined=false" : "");
         Assert.assertEquals(viewUri + queryString, rView.getUrl());
     }
 }

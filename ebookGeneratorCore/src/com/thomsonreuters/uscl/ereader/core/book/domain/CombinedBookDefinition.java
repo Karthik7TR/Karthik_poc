@@ -1,7 +1,9 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -14,15 +16,23 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType.FILE;
 import static com.thomsonreuters.uscl.ereader.util.ValueConverter.getStringForBooleanValue;
 import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
 
 @Data
 @Entity
 @Table(name = "COMB_BOOK_DEFN")
+@AllArgsConstructor
+@NoArgsConstructor
 public class CombinedBookDefinition {
+    private static final long MOCK_ID_FOR_COMBINED_BOOK = -1L;
     @Column(name = "COMB_BOOK_DEFN_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)
     @Id
@@ -51,5 +61,34 @@ public class CombinedBookDefinition {
 
     public boolean isDeletedFlag() {
         return isEqualsYes(isDeletedFlag);
+    }
+
+    public List<BookDefinition> getOrderedBookDefinitionList() {
+        return sources.stream()
+                .sorted(Comparator.comparingInt(CombinedBookDefinitionSource::getSequenceNum))
+                .map(CombinedBookDefinitionSource::getBookDefinition)
+                .collect(Collectors.toList());
+    }
+
+    public boolean hasFileSourceType() {
+        return sources.stream()
+                .map(CombinedBookDefinitionSource::getBookDefinition)
+                .map(BookDefinition::getSourceType)
+                .anyMatch(item -> FILE == item);
+    }
+
+    public static CombinedBookDefinition fromBookDefinition(final BookDefinition bookDefinition) {
+        Set<CombinedBookDefinitionSource> sources = Stream.of(bookDefinition)
+                .map(book -> CombinedBookDefinitionSource.builder()
+                        .bookDefinition(bookDefinition)
+                        .sequenceNum(1)
+                        .isPrimarySource(getStringForBooleanValue(true))
+                        .build())
+                .collect(Collectors.toSet());
+        return new CombinedBookDefinition(MOCK_ID_FOR_COMBINED_BOOK, sources, getStringForBooleanValue(false));
+    }
+
+    public boolean isFromBookDefinition() {
+        return this.getId() == MOCK_ID_FOR_COMBINED_BOOK;
     }
 }

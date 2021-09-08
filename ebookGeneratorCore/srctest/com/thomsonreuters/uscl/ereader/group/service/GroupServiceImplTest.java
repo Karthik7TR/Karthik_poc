@@ -31,7 +31,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public final class GroupServiceImplTest {
     private static final String GROUP_NAME = "groupName";
     private static final String GROUP_ID = "uscl/an_book_lohisplitnodeinfo";

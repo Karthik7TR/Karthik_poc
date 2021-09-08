@@ -252,6 +252,7 @@
 				<form:hidden path="newMajorVersion"/>
 				<form:hidden path="newMinorVersion"/>
 				<form:hidden path="newOverwriteVersion"/>
+				<form:hidden path="combined"/>
 				<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			</td>
 		</tr>

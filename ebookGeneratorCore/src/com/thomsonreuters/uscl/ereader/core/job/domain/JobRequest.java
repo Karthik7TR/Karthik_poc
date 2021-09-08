@@ -12,7 +12,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Fetch;
@@ -35,6 +39,13 @@ public class JobRequest implements Serializable {
     @JoinColumn(name = "EBOOK_DEFINITION_ID")
     private BookDefinition bookDefinition;
 
+    @OneToOne
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name = "COMB_BOOK_DEFN_ID")
+    @Getter
+    @Setter
+    private CombinedBookDefinition combinedBookDefinition;
+
     @Column(name = "BOOK_VERISON_SUBMITTED", nullable = false)
     private String bookVersion;
 
@@ -54,6 +65,19 @@ public class JobRequest implements Serializable {
         @NotNull final String submittedBy) {
         final JobRequest jobRequest = new JobRequest();
         jobRequest.setBookDefinition(bookDefinition);
+        jobRequest.setBookVersion(version);
+        jobRequest.setPriority(priority);
+        jobRequest.setSubmittedBy(submittedBy);
+        return jobRequest;
+    }
+
+    public static JobRequest createQueuedJobRequest(
+            @NotNull final CombinedBookDefinition combinedBookDefinition,
+            @NotNull final String version,
+            final int priority,
+            @NotNull final String submittedBy) {
+        final JobRequest jobRequest = new JobRequest();
+        jobRequest.setCombinedBookDefinition(combinedBookDefinition);
         jobRequest.setBookVersion(version);
         jobRequest.setPriority(priority);
         jobRequest.setSubmittedBy(submittedBy);

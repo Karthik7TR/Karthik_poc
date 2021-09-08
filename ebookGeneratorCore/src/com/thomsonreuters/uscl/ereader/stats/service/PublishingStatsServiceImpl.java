@@ -10,6 +10,7 @@ import java.util.Objects;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
@@ -94,21 +95,17 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
             stats = newstats;
         } else {
             switch (updateType) {
+            case PREPARE_SOURCES:
+                copyTocStats(newstats, stats);
+                copyDocsStats(newstats, stats);
+                break;
             case GATHERTOC:
             case GENERATETOC:
-                stats.setGatherTocNodeCount(newstats.getGatherTocNodeCount());
-                stats.setGatherTocDocCount(newstats.getGatherTocDocCount());
-                stats.setGatherTocRetryCount(newstats.getGatherTocRetryCount());
-                stats.setGatherTocSkippedCount(newstats.getGatherTocSkippedCount());
+                copyTocStats(newstats, stats);
                 break;
             case GATHERDOC:
             case GENERATEDOC:
-                stats.setGatherDocExpectedCount(newstats.getGatherDocExpectedCount());
-                stats.setGatherDocRetrievedCount(newstats.getGatherDocRetrievedCount());
-                stats.setGatherDocRetryCount(newstats.getGatherDocRetryCount());
-                stats.setGatherMetaExpectedCount(newstats.getGatherMetaExpectedCount());
-                stats.setGatherMetaRetrievedCount(newstats.getGatherMetaRetrievedCount());
-                stats.setGatherMetaRetryCount(newstats.getGatherMetaRetryCount());
+                copyDocsStats(newstats, stats);
                 break;
             case GATHERIMAGE:
                 stats.setGatherImageExpectedCount(newstats.getGatherImageExpectedCount());
@@ -213,5 +210,39 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
     public String getIsbnByTitleAndVersion(final String title, final String fullVersion) {
         final String version = new Version(fullVersion).getVersionWithoutPrefix();
         return publishingStatsDAO.findSuccessfullyPublishedIsbnByTitleIdAndVersion(title, version);
+    }
+
+    @Override
+    public void addDocsAndMetadataStats(final PublishingStats docsAndMetadataStatsSum, final GatherResponse docAndMetadataResponse) {
+        docsAndMetadataStatsSum.setGatherDocRetrievedCount(docsAndMetadataStatsSum.getGatherDocRetrievedCount() + docAndMetadataResponse.getDocCount());
+        docsAndMetadataStatsSum.setGatherDocExpectedCount(docsAndMetadataStatsSum.getGatherDocExpectedCount() + docAndMetadataResponse.getNodeCount());
+        docsAndMetadataStatsSum.setGatherDocRetryCount(docsAndMetadataStatsSum.getGatherDocRetryCount() + docAndMetadataResponse.getRetryCount());
+        docsAndMetadataStatsSum.setGatherMetaRetryCount(docsAndMetadataStatsSum.getGatherMetaRetryCount() + docAndMetadataResponse.getRetryCount2());
+        docsAndMetadataStatsSum.setGatherMetaRetrievedCount(docsAndMetadataStatsSum.getGatherMetaRetrievedCount() + docAndMetadataResponse.getDocCount2());
+        docsAndMetadataStatsSum.setGatherMetaExpectedCount(docsAndMetadataStatsSum.getGatherMetaExpectedCount() + docAndMetadataResponse.getNodeCount());
+    }
+
+    @Override
+    public void addTocStats(final PublishingStats tocStatsSum, final GatherResponse tocResponse) {
+        tocStatsSum.setGatherTocDocCount(tocStatsSum.getGatherTocDocCount() + tocResponse.getDocCount());
+        tocStatsSum.setGatherTocNodeCount(tocStatsSum.getGatherTocNodeCount() + tocResponse.getNodeCount());
+        tocStatsSum.setGatherTocSkippedCount(tocStatsSum.getGatherTocSkippedCount() + tocResponse.getSkipCount());
+        tocStatsSum.setGatherTocRetryCount(tocStatsSum.getGatherTocRetryCount() + tocResponse.getRetryCount());
+    }
+
+    private void copyDocsStats(final PublishingStats newStats, final PublishingStats stats) {
+        stats.setGatherDocExpectedCount(newStats.getGatherDocExpectedCount());
+        stats.setGatherDocRetrievedCount(newStats.getGatherDocRetrievedCount());
+        stats.setGatherDocRetryCount(newStats.getGatherDocRetryCount());
+        stats.setGatherMetaExpectedCount(newStats.getGatherMetaExpectedCount());
+        stats.setGatherMetaRetrievedCount(newStats.getGatherMetaRetrievedCount());
+        stats.setGatherMetaRetryCount(newStats.getGatherMetaRetryCount());
+    }
+
+    private void copyTocStats(final PublishingStats newStats, final PublishingStats stats) {
+        stats.setGatherTocNodeCount(newStats.getGatherTocNodeCount());
+        stats.setGatherTocDocCount(newStats.getGatherTocDocCount());
+        stats.setGatherTocRetryCount(newStats.getGatherTocRetryCount());
+        stats.setGatherTocSkippedCount(newStats.getGatherTocSkippedCount());
     }
 }

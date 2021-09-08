@@ -13,7 +13,7 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 <script type="text/javascript">
-function openFullcreenWindow(url)
+function openFullScreenWindow(url)
 {
 	window.open(url, "","channelmode,scrollbars");
 }
@@ -37,7 +37,7 @@ function openFullcreenWindow(url)
  					<span class="errorMessage">This Book has been deleted</span>
  				</c:when>
  				<c:otherwise>
- 					<input value="Generate this book" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}')"/>
+ 					<input value="Generate this book" type="button" onclick="disabled=true; openFullScreenWindow('<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}&isCombined=false')"/>
  				</c:otherwise>
  			</c:choose>
  	</display:column>

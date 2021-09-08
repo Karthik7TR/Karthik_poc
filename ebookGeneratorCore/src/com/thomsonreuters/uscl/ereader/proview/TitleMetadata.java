@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -126,6 +127,8 @@ public final class TitleMetadata implements Serializable {
     private boolean isElooseleafsEnabled;
     @XmlTransient
     private boolean isPagesEnabled;
+    @XmlTransient
+    private boolean isCombinedBook;
 
     private TitleMetadata() {
         //JaxB required default constructor
@@ -152,6 +155,7 @@ public final class TitleMetadata implements Serializable {
         isCwBook = builder.isCwBook;
         isElooseleafsEnabled = builder.isElooseleafsEnabled;
         isPagesEnabled = builder.isPagesEnabled;
+        isCombinedBook = builder.isCombinedBook;
 
         authorNames = ofNullable(builder.authors)
             .filter(CollectionUtils::isNotEmpty)
@@ -176,20 +180,35 @@ public final class TitleMetadata implements Serializable {
      * @return
      */
     public static TitleMetadataBuilder builder(final BookDefinition bookDefinition) {
-        return builder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
-            .keywords(bookDefinition.getKeyWords())
-            .authors(bookDefinition.getAuthors())
-            .publishedDate(getFormattedPublishedDate(bookDefinition.getPublishedDate()))
-            .infoFields(getInfoFields(bookDefinition))
-            .isElooseleafsEnabled(bookDefinition.isELooseleafsEnabled())
-            .isCwBook(bookDefinition.isCwBook())
-            .isPilotBook(bookDefinition.getIsPilotBook())
-            .isbn(bookDefinition.getIsbnNormalized())
-            .materialId(bookDefinition.getMaterialId())
-            .copyright(bookDefinition.getCopyright())
-            .displayName(bookDefinition.getProviewDisplayName())
-            .frontMatterTocLabel(bookDefinition.getFrontMatterTocLabel())
+        return defaultBuilder(bookDefinition)
             .frontMatterPages(bookDefinition.getFrontMatterPages());
+    }
+
+    public static TitleMetadataBuilder builder(final CombinedBookDefinition combinedBookDefinition) {
+        final BookDefinition primaryBookDefinition = combinedBookDefinition.getPrimaryTitle().getBookDefinition();
+        final List<FrontMatterPage> frontMatterPages = combinedBookDefinition.getOrderedBookDefinitionList().stream()
+                .flatMap(bookDefinition -> bookDefinition.getFrontMatterPages().stream())
+                .collect(Collectors.toList());
+        return defaultBuilder(primaryBookDefinition)
+                .frontMatterPages(frontMatterPages)
+                .isCombinedBook(true);
+    }
+
+    @NotNull
+    private static TitleMetadataBuilder defaultBuilder(BookDefinition bookDefinition) {
+        return builder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
+                .keywords(bookDefinition.getKeyWords())
+                .authors(bookDefinition.getAuthors())
+                .publishedDate(getFormattedPublishedDate(bookDefinition.getPublishedDate()))
+                .infoFields(getInfoFields(bookDefinition))
+                .isElooseleafsEnabled(bookDefinition.isELooseleafsEnabled())
+                .isCwBook(bookDefinition.isCwBook())
+                .isPilotBook(bookDefinition.getIsPilotBook())
+                .isbn(bookDefinition.getIsbnNormalized())
+                .materialId(bookDefinition.getMaterialId())
+                .copyright(bookDefinition.getCopyright())
+                .displayName(bookDefinition.getProviewDisplayName())
+                .frontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
     }
 
     private static String getFormattedPublishedDate(final Date publishedDate) {
@@ -240,6 +259,7 @@ public final class TitleMetadata implements Serializable {
         private boolean isCwBook;
         private boolean isElooseleafsEnabled;
         private boolean isPagesEnabled;
+        private boolean isCombinedBook;
         private Date lastUpdated;
 
         private TitleMetadataBuilder() {
@@ -407,6 +427,11 @@ public final class TitleMetadata implements Serializable {
 
         public TitleMetadataBuilder isElooseleafsEnabled(final boolean isElooseleafsEnabled) {
             this.isElooseleafsEnabled = isElooseleafsEnabled;
+            return this;
+        }
+
+        public TitleMetadataBuilder isCombinedBook(final boolean isCombinedBook) {
+            this.isCombinedBook = isCombinedBook;
             return this;
         }
 

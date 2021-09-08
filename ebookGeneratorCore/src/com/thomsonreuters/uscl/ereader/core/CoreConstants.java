@@ -63,6 +63,9 @@ public class CoreConstants {
 
     public static final String KEY_PROVIEW_HOST = "proviewHost";
 
+    public static final String TITLE_ID = "titleId";
+    public static final String PROVIEW_NAME = "proviewName";
+
     /** Marshalling view to JiBX marshal the GenerRestServiceResponse into XML that is returned to requesting clients. */
     public static final String VIEW_SIMPLE_REST_RESPONSE = "simpleResponseView";
 

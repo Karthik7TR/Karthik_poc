@@ -16,6 +16,7 @@ import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesLis
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -80,9 +81,11 @@ public class GenerateTitleMetadata extends BookStepImpl {
     public ExitStatus executeStep() {
         final BookDefinition bookDefinition = getBookDefinition();
         final String versionNumber = getJobParameters().getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-
-        final TitleMetadataBuilder titleMetadataBuilder =
-            TitleMetadata.builder(bookDefinition)
+        final TitleMetadataBuilder builder = ofNullable(getJobExecutionContext().get(JobExecutionKey.COMBINED_BOOK_DEFINITION))
+                .map(combinedBookDefinition -> (CombinedBookDefinition) combinedBookDefinition)
+                .map(TitleMetadata::builder)
+                .orElseGet(() -> TitleMetadata.builder(bookDefinition));
+        final TitleMetadataBuilder titleMetadataBuilder = builder
                 .titleIdCaseSensitive(getTitleIdCaseSensitive(bookDefinition))
                 .versionNumber(versionNumber)
                 .lastUpdated(dateProvider.getDate())

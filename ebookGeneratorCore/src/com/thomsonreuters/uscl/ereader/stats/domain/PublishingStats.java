@@ -527,6 +527,22 @@ public class PublishingStats implements Serializable, Comparable<PublishingStats
     public void setGroupVersion(final Long groupVersion) {
         this.groupVersion = groupVersion;
     }
+    
+    public static PublishingStats initStats(final Long jobInstanceId) {
+        PublishingStats publishingStats = new PublishingStats();
+        publishingStats.setGatherTocDocCount(0);
+        publishingStats.setGatherTocNodeCount(0);
+        publishingStats.setGatherTocSkippedCount(0);
+        publishingStats.setGatherTocRetryCount(0);
+        publishingStats.setGatherDocRetrievedCount(0);
+        publishingStats.setGatherDocExpectedCount(0);
+        publishingStats.setGatherDocRetryCount(0);
+        publishingStats.setGatherMetaRetryCount(0);
+        publishingStats.setGatherMetaRetrievedCount(0);
+        publishingStats.setGatherMetaExpectedCount(0);
+        publishingStats.setJobInstanceId(jobInstanceId);
+        return publishingStats;
+    }
 
     @Override
     public int hashCode() {

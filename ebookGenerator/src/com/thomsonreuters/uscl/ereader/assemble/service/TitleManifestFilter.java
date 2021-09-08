@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.assemble.exception.PlaceholderDocumentServiceException;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleIdAndProviewName;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
@@ -22,6 +24,9 @@ import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PROVIEW_NAME;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_ID;
 
 /**
  * A SAX event handler responsible for parsing a gathered TOC (an XML document) and producing a ProView title manifest
@@ -76,6 +81,7 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
     private StringBuilder tocGuid = new StringBuilder();
     private StringBuilder docGuid = new StringBuilder();
     private StringBuilder textBuffer = new StringBuilder();
+    private TitleIdAndProviewName titleIdAndProviewName;
     private boolean bufferingTocGuid;
     private boolean bufferingDocGuid;
     private boolean bufferingText;
@@ -83,13 +89,6 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
     // Element names that correspond to the toc.xml to title.xml transformation
     private static final String URI = "";
     private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
-    public static final String EBOOK = "EBook";
-    public static final String EBOOK_TOC = "EBookToc";
-    public static final String NAME = "Name";
-    public static final String TOC_GUID = "Guid";
-    public static final String DOCUMENT_GUID = "DocumentGuid";
-    private static final String MISSING_DOCUMENT = "MissingDocument";
-    private static final String HTML_EXTENSION = ".html";
 
     // ProView element and attribute constants
     private static final String DOC_ELEMENT = "doc";
@@ -147,7 +146,12 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
             currentDepth = 0;
             previousDepth = 0;
             // Add TOC NODES for Front Matter
-            buildFrontMatterTOCEntries(false);
+            if (!titleMetadata.isCombinedBook()) {
+                buildFrontMatterTOCEntries(false);
+            }
+        } else if (EBOOK_TITLE.equals(qName)){
+            currentDepth++;
+            titleIdAndProviewName = new TitleIdAndProviewName(attributes.getValue(TITLE_ID), attributes.getValue(PROVIEW_NAME));
         } else if (EBOOK_TOC.equals(qName)) { // we've reached the next element, add a new node to the tree.
             currentDepth++;
             currentNode = new TocEntry(currentDepth);
@@ -225,6 +229,23 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
             bufferingText = Boolean.FALSE;
             currentNode.setText(textBuffer.toString());
             textBuffer = new StringBuilder();
+        } else if (EBOOK_TITLE.equals(qName)) {
+            createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE + "-" + titleIdAndProviewName.getTitleId().escapeSlashWithDash(),
+                    TITLE_PAGE + ": " + titleIdAndProviewName.getProviewName(),
+                    false,
+                    FrontMatterFileName.FRONT_MATTER_TITLE,
+                    true);
+            currentDepth--;
+        } else if (EBOOK_INLINE_TOC.equals(qName)){
+            currentDepth = 1;
+            createInlineTocNode(false);
+            currentDepth = 0;
+        }
+        else if (EBOOK_PUBLISHING_INFORMATION.equals(qName)) {
+            currentDepth = 1;
+            currentNode = new TocEntry(currentDepth);
+            createPublishingInformation(false);
+            currentDepth = 0;
         } else if (EBOOK_TOC.equals(qName)) {
             currentDepth--;
         } else if (MISSING_DOCUMENT.equals(qName)) {

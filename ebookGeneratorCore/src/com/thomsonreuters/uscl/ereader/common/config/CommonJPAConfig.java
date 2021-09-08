@@ -1,20 +1,13 @@
 package com.thomsonreuters.uscl.ereader.common.config;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -73,6 +66,14 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 public abstract class CommonJPAConfig {
     @Bean
@@ -152,6 +153,8 @@ public abstract class CommonJPAConfig {
                 PlannedOutage.class,
                 OutageType.class,
                 BookDefinition.class,
+                CombinedBookDefinition.class,
+                CombinedBookDefinitionSource.class,
                 Author.class,
                 VersionIsbn.class,
                 DocumentTypeCode.class,

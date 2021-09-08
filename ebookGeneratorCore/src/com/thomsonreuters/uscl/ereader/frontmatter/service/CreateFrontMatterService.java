@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
 
 public interface CreateFrontMatterService {
 
-    void generateAllFrontMatterPages(File outputDir, BookDefinition bookDefinition, boolean withPageNumbers, Map<String, List<String>> frontMatterPdfImageNames)
-        throws EBookFrontMatterGenerationException;
+    void generateAllFrontMatterPages(File outputDir, CombinedBookDefinition combinedBookDefinition, boolean withPageNumbers)
+            throws EBookFrontMatterGenerationException;
 }

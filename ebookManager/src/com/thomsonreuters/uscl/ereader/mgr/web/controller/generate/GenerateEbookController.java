@@ -1,19 +1,12 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
-
 import com.thomsonreuters.uscl.ereader.StringBool;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
@@ -29,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperService;
+import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -36,6 +30,8 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +39,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Controller
 public class GenerateEbookController {
@@ -53,6 +59,8 @@ public class GenerateEbookController {
 
     @Autowired
     private BookDefinitionService bookDefinitionService;
+    @Autowired
+    private CombinedBookDefinitionService combinedBookDefinitionService;
     @Autowired(required = false)
     private ProviewHandler proviewHandler;
     @Autowired
@@ -95,7 +103,6 @@ public class GenerateEbookController {
         log.debug(form);
 
         final String path;
-        final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
         final Command command = form.getCommand();
 
         switch (command) {
@@ -104,14 +111,25 @@ public class GenerateEbookController {
             final Integer priority = form.isHighPriorityJob() ? 10 : 5;
             final String submittedBy = UserUtils.getAuthenticatedUserName();
 
-            final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
+            BookDefinition book;
+            CombinedBookDefinition combinedBookDefinition = null;
+            if (!form.isCombined()) {
+                book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
+            } else {
+                combinedBookDefinition = combinedBookDefinitionService.findCombinedBookDefinitionById(form.getId());
+                book = combinedBookDefinition.getPrimaryTitle().getBookDefinition();
+            }
             final Optional<String> error = generateFormService.getError(book, form);
             if (error.isPresent()) {
                 redirectAttributes.addFlashAttribute(WebConstants.KEY_ERR_MESSAGE, error.get());
                 path = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW;
                 break;
             } else {
-                jobRequestService.saveQueuedJobRequest(book, version, priority, submittedBy);
+                if (form.isCombined()) {
+                    jobRequestService.saveQueuedJobRequest(combinedBookDefinition, version, priority, submittedBy);
+                } else {
+                    jobRequestService.saveQueuedJobRequest(book, version, priority, submittedBy);
+                }
                 if (!book.getPublishedOnceFlag()) {
                     bookDefinitionService.updatePublishedStatus(book.getEbookDefinitionId(), true);
                 }
@@ -131,7 +149,7 @@ public class GenerateEbookController {
             break;
         }
         case EDIT: {
-            path = WebConstants.MVC_BOOK_DEFINITION_EDIT;
+            path = form.isCombined() ? WebConstants.MVC_COMBINED_BOOK_DEFINITION_EDIT : WebConstants.MVC_BOOK_DEFINITION_EDIT;
             break;
         }
         case CANCEL: {
@@ -147,7 +165,11 @@ public class GenerateEbookController {
             session.setAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL, "Book generation cancelled");
             path = WebConstants.MVC_BOOK_DEFINITION_VIEW_GET;
         }
-        return new ModelAndView(new RedirectView(path + queryString));
+        MultiValueMap<String, String> params = Stream.of(
+                new Pair<>(WebConstants.KEY_ID, String.valueOf(form.getId())),
+                new Pair<>(WebConstants.KEY_IS_COMBINED, String.valueOf(form.isCombined())))
+                .collect(LinkedMultiValueMap::new, (map, pair) -> map.add(pair.getKey(), pair.getValue()), LinkedMultiValueMap::putAll);
+        return new ModelAndView(new RedirectView(UriComponentsBuilder.fromPath(path).queryParams(params).build().toString()));
     }
 
     /**
@@ -162,9 +184,16 @@ public class GenerateEbookController {
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView generateEbookPreview(
         @RequestParam("id") final Long id,
+        @RequestParam("isCombined") final boolean isCombined,
         @ModelAttribute(GenerateBookForm.FORM_NAME) final GenerateBookForm form,
         final Model model) throws Exception {
-        final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
+        BookDefinition book;
+        if (isCombined) {
+            form.setCombined(true);
+            book = combinedBookDefinitionService.findCombinedBookDefinitionById(id).getPrimaryTitle().getBookDefinition();
+        } else {
+            book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
+        }
         if (book != null) {
             // Redirect to error page if book is marked as deleted
             if (book.isDeletedFlag()) {

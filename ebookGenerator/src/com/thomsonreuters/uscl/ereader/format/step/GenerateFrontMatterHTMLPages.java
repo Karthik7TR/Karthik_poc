@@ -10,10 +10,13 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.PdfImagesService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.item.ExecutionContext;
@@ -37,35 +40,23 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 @Slf4j
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GenerateFrontMatterHTMLPages extends BookStepImpl {
-    @Autowired
-    private CreateFrontMatterService frontMatterService;
-    @Autowired
-    private PdfToImgConverter pdfToImgConverter;
-    @Autowired
-    private PublishingStatsService publishingStatsService;
-    @Autowired
-    private PagesAnalyzeService pagesAnalyzeService;
-    @Autowired
-    private GatherFileSystem gatherFileSystem;
-    @Autowired
-    private FormatFileSystem formatFileSystem;
-    @Autowired
-    private NasFileSystem nasFileSystem;
+    private final CreateFrontMatterService frontMatterService;
+    private final PublishingStatsService publishingStatsService;
+    private final PagesAnalyzeService pagesAnalyzeService;
+    private final GatherFileSystem gatherFileSystem;
+    private final FormatFileSystem formatFileSystem;
 
     @Override
     public ExitStatus executeStep() throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext();
         final File frontMatterTargetDir = formatFileSystem.getFrontMatterHtmlDir(this);
-        final BookDefinition bookDefinition = getBookDefinition();
-        Map<String, List<String>> frontMatterPdfImageNames = generatePdfImages(bookDefinition, frontMatterTargetDir);
-
+        final CombinedBookDefinition combinedBookDefinition = getCombinedBookDefinition();
         String publishStatus = "generateFrontMatterHTML : Completed";
-
-        final boolean withPageNumbers = checkForPagebreaks(jobExecutionContext, bookDefinition);
-
+        final boolean withPageNumbers = checkForPagebreaks(jobExecutionContext, combinedBookDefinition.getPrimaryTitle().getBookDefinition());
         try {
-            frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition, withPageNumbers, frontMatterPdfImageNames);
+            frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, combinedBookDefinition, withPageNumbers);
         } catch (final Exception e) {
             publishStatus = "generateFrontMatterHTML : Failed";
             throw e;
@@ -78,22 +69,6 @@ public class GenerateFrontMatterHTMLPages extends BookStepImpl {
 
         return ExitStatus.COMPLETED;
     }
-
-    private Map<String, List<String>> generatePdfImages(final BookDefinition bookDefinition, final File frontMatterTargetDir) {
-        if (bookDefinition.isCwBook()) {
-            File pdfDestDir = new File(frontMatterTargetDir, FORMAT_FRONT_MATTER_PDF_IMAGES_DIR.getName());
-            return bookDefinition.getFrontMatterPdfFileNames().stream()
-                    .collect(Collectors.toMap(Function.identity(), pdfFileName -> {
-                        File pdfFile = new File(nasFileSystem.getFrontMatterCwPdfDirectory(), pdfFileName);
-                        if (!pdfFile.exists()) {
-                            pdfFile = new File(nasFileSystem.getFrontMatterUsclPdfDirectory(), pdfFileName);
-                        }
-                        return pdfToImgConverter.convert(pdfFile, pdfDestDir);
-                    }));
-        }
-        return Collections.emptyMap();
-    }
-
     private boolean checkForPagebreaks(
         final ExecutionContext jobExecutionContext,
         final BookDefinition bookDefinition) {

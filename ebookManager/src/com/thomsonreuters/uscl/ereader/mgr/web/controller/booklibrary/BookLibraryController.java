@@ -52,8 +52,6 @@ public class BookLibraryController extends BaseBookLibraryController {
      * Handles the initial loading of the Book Definition List page
      *
      * @param httpSession
-     * @param form
-     * @param bindingResult
      * @param model
      * @return
      * @throws Exception
@@ -125,7 +123,6 @@ public class BookLibraryController extends BaseBookLibraryController {
                 parameters.append("id=" + key + "&");
             }
             parameters.deleteCharAt(parameters.length() - 1);
-
             final Command command = form.getCommand();
             switch (command) {
             case GENERATE:
@@ -133,6 +130,7 @@ public class BookLibraryController extends BaseBookLibraryController {
                     mav = new ModelAndView(
                         new RedirectView(WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW + parameters.toString()));
                 } else {
+                    parameters.append("&"+ WebConstants.KEY_IS_COMBINED + "=false");
                     mav = new ModelAndView(
                         new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + parameters.toString()));
                 }

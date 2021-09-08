@@ -44,39 +44,28 @@
 			<fail on="FAILED"/>
 		</step>
 		
-		<decision id="decision" decider="NovusOrFileDecider">
-			<next on="NAS_FILE" to="generateToc" />
-			<next on="NOVUS" to="getToc" />
+		<decision id="decision" decider="singleOrCombinedBookDefinitionDecider">
+			<next on="SINGLE" to="prepareToc" />
+			<next on="COMBINED" to="prepareSources"/>
 		</decision>
-		
-		<!-- Fetch TOC from Gather REST service -->
-		<step id="getToc">
-			<tasklet ref="getTocTask"/>
-			<next on="COMPLETED" to="getDocAndMetadata"/>
+
+		<step id="prepareToc">
+			<tasklet ref="prepareTocTask"/>
+			<next on="COMPLETED" to="prepareDocs"/>
 			<fail on="FAILED"/>
 		</step>
-		
-		<!-- Fetch document(s) and their metadata from Gather REST service using TOC info from previous step -->
-		<step id="getDocAndMetadata">
-			<tasklet ref="getDocAndMetadataTask"/>
+
+		<step id="prepareDocs">
+			<tasklet ref="prepareDocsTask"/>
 			<next on="COMPLETED" to="persistMetadata"/>
 			<fail on="FAILED"/>
 		</step>
-		
-		<!-- Generate TOC from Codes Workbench NORT file -->
-		<step id="generateToc">
-			<tasklet ref="generateTocTask"/>
-			<next on="COMPLETED" to="generateDocAndMetadata"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<!-- Generate document(s) and their metadata from Codes Workbench DOC file using TOC info from previous step -->
-		<step id="generateDocAndMetadata">
-			<tasklet ref="generateDocAndMetadataTask"/>
+
+		<step id="prepareSources">
+			<tasklet ref="prepareSourcesTask"/>
 			<next on="COMPLETED" to="persistMetadata"/>
 			<fail on="FAILED"/>
 		</step>
-		
 		<!-- Parse and Persist meta data obtained from Gather step -->
 		<step id="persistMetadata">
 			<tasklet ref="persistDocMetadataTask"/>
@@ -301,24 +290,10 @@
 				p:publishingStatsService-ref="publishingStatsService"
 				p:ebookAuditService-ref="eBookAuditService"
 				p:bookDefnService-ref="bookDefinitionService"/>
-	<beans:bean id="NovusOrFileDecider" class="com.thomsonreuters.uscl.ereader.decider.NovusOrFileDecider"/>
-	<beans:bean id="getTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="generatorParentTask"
-				p:gatherService-ref="gatherService"
-				p:publishingStatsService-ref="publishingStatsService"
-				p:bookDefinitionService-ref="bookDefinitionService"/>				
-	<beans:bean id="getDocAndMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask" parent="generatorParentTask"
-				p:gatherService-ref="gatherService"
-				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
-				p:publishingStatsService-ref="publishingStatsService"/>
-	<beans:bean id="generateTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateTocTask" parent="generatorParentTask"
-				p:novusNortFileService-ref="novusNortFileService"
-				p:publishingStatsService-ref="publishingStatsService"
-				p:bookDefinitionService-ref="bookDefinitionService"
-				p:emailService-ref="emailService"/>
-	<beans:bean id="generateDocAndMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateDocAndMetadataTask" parent="generatorParentTask"
-				p:novusDocFileService-ref="novusDocFileService"
-				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
-				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="singleOrCombinedBookDefinitionDecider" class="com.thomsonreuters.uscl.ereader.decider.SingleOrCombinedBookDefinitionDecider"/>
+	<beans:bean id="prepareSourcesTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PrepareSourcesTask" parent="bookStep"/>
+	<beans:bean id="prepareTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PrepareTocTask" parent="generatorParentTask"/>
+	<beans:bean id="prepareDocsTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PrepareDocsTask" parent="generatorParentTask"/>
 	<beans:bean id="persistDocMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="generatorParentTask"
 				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>

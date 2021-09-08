@@ -1,10 +1,13 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
 import java.util.Date;
+import java.util.Optional;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.timelogging.LogExecutionTime;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.StepContribution;
@@ -29,6 +32,14 @@ public abstract class BookStepImpl extends BaseStepImpl implements BookStep {
         final BookDefinition book = (BookDefinition) getJobExecutionContext().get(JobParameterKey.EBOOK_DEFINITON);
         Assert.notNull(book);
         return book;
+    }
+
+    @Override
+    @NotNull
+    public CombinedBookDefinition getCombinedBookDefinition() {
+        return Optional.ofNullable(getJobExecutionContext().get(JobExecutionKey.COMBINED_BOOK_DEFINITION))
+                .map(combinedBookDefinition -> (CombinedBookDefinition) combinedBookDefinition)
+                .orElseGet(() -> CombinedBookDefinition.fromBookDefinition(getBookDefinition()));
     }
 
     @Override

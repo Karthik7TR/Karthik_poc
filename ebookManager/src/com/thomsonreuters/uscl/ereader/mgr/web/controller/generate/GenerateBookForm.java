@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -28,6 +30,9 @@ public class GenerateBookForm {
     private String newMajorVersion;
     private String newMinorVersion;
     private Version newVersion;
+    @Getter
+    @Setter
+    private boolean isCombined;
 
     public String getCurrentVersion() {
         return currentVersion;
