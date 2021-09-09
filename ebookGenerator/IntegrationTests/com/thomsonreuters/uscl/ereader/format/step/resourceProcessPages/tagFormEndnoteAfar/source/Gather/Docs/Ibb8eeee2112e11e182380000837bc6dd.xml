@@ -1,0 +1,60 @@
+<n-docbody>
+	<doc bill="Y">
+		<prop.block>
+			<author.line>
+				<author>Steven N. Tomanelli[<footnote.reference refid="Iba68f761da6711eb8f37d75522c06a48">a0</footnote.reference>]</author>
+			</author.line>
+		</prop.block>
+		<section>
+			<section.body>
+				<codes.body>
+					<codes.subsection ID="If53ced40a84611eb8e989b0af6930a6c" sameline="no">
+						<codes.para>
+							<form ID="Ie84d41a0a48f11dfb757a77e05bb86c6">
+								<form.body>
+									<form.para>
+										<form.text>This increase <page no="1074"/>or decrease shall apply to 
+											<leaveout>
+												<fill.in>
+													<textrule weight="0.5pt" position="baseline" length=" 5em "/>
+												</fill.in>
+											</leaveout>.[
+											<endnote.reference refid="N1029CI822e00a06e9a11e5a81fb5a653c90199">*</endnote.reference>]
+										</form.text>
+									</form.para>
+									<form.endnote ID="N1029CI822e00a06e9a11e5a81fb5a653c90199">
+										<label.designator>*</label.designator>
+										<form.endnote.body>
+											<para>
+												<list>
+													<list.item>
+														<para>
+															<head parent="para">
+																<label.designator>(1)</label.designator>
+															</head>
+															<paratext>The total contract quantity;</paratext>
+														</para>
+													</list.item>
+												</list>
+											</para>
+										</form.endnote.body>
+									</form.endnote>
+								</form.body>
+							</form>
+						</codes.para>
+					</codes.subsection>
+				</codes.body>
+			</section.body>
+		</section>
+		<author.footnotes>
+			<footnote ID="Iba68f761da6711eb8f37d75522c06a48">
+				<label.designator>a0</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>Associates.</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</author.footnotes>
+	</doc>
+</n-docbody>

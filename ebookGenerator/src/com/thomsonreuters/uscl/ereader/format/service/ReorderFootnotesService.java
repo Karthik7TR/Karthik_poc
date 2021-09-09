@@ -24,7 +24,6 @@ import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.collections4.iterators.ReverseListIterator;
 import org.apache.commons.io.FilenameUtils;
@@ -58,9 +57,13 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CO_SMALL_CAPS
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CSC;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DIV_CO_FOOTNOTE_BODY;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ENDNOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ENDNOTE_BODY;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.END_QUOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOP;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EOS;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FORM_ENDNOTE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FORM_ENDNOTE_BODY;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FORM_FOOTNOTE;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.FORM_FOOTNOTE_BODY;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.HEADTEXT;
@@ -336,34 +339,65 @@ public class ReorderFootnotesService {
     }
 
     private Element getCombinedFootnotesTemplate(final Document doc) {
-        Elements authorFootnotes = doc.getElementsByTag(AUTHOR_FOOTNOTES);
-        Elements propHeadFootnotes = doc.getElementsByTag(PROP_HEAD_FOOTNOTES);
         Elements titleFootnotes = doc.getElementsByTag(TITLE_FOOTNOTES);
+        Elements propHeadFootnotes = doc.getElementsByTag(PROP_HEAD_FOOTNOTES);
+        Elements authorFootnotes = doc.getElementsByTag(AUTHOR_FOOTNOTES);
+        Elements endnotes = doc.getElementsByTag(ENDNOTE);
+        Elements formEndnotes = doc.getElementsByTag(FORM_ENDNOTE);
         Optional<Element> footnoteBlock = ofNullable(getElementByTag(doc, FOOTNOTE_BLOCK));
 
-        if(footnoteBlock.isPresent() || isNotEmpty(authorFootnotes) || isNotEmpty(propHeadFootnotes) || isNotEmpty(titleFootnotes)) {
+        if(footnoteBlock.isPresent()
+                || isNotEmpty(titleFootnotes)
+                || isNotEmpty(propHeadFootnotes)
+                || isNotEmpty(authorFootnotes)
+                || isNotEmpty(endnotes)
+                || isNotEmpty(formEndnotes)
+        ) {
             Element baseFootnoteBlock = footnoteBlock.orElse(new Element(FOOTNOTE_BLOCK));
 
             prepend(titleFootnotes, baseFootnoteBlock);
             prepend(propHeadFootnotes, baseFootnoteBlock);
             prepend(authorFootnotes, baseFootnoteBlock);
+            prependFootnotes(endnotes, baseFootnoteBlock);
+            prependFootnotes(formEndnotes, baseFootnoteBlock);
 
             renameFormFootnotes(baseFootnoteBlock);
+            renameFormEndnotes(baseFootnoteBlock);
+            renameEndnotes(baseFootnoteBlock);
             return baseFootnoteBlock;
         }
         return null;
     }
 
     private void prepend(final Elements prependingBlocks, final Element baseBlock) {
+        List<Element> footnotes = prependingBlocks.stream()
+                .flatMap(block -> block.children().stream())
+                .collect(Collectors.toList());
+        prependFootnotes(footnotes, baseBlock);
+    }
+
+    private void prependFootnotes(final List<Element> prependingBlocks, final Element baseBlock) {
         Collections.reverse(prependingBlocks);
-        prependingBlocks.forEach(block -> baseBlock.insertChildren(0, block.children()));
+        prependingBlocks.forEach(block -> baseBlock.insertChildren(0, block));
     }
 
     private void renameFormFootnotes(final Element footnoteBlock) {
+        renameToFootnotes(footnoteBlock, FORM_FOOTNOTE, FORM_FOOTNOTE_BODY);
+    }
+
+    private void renameFormEndnotes(final Element footnoteBlock) {
+        renameToFootnotes(footnoteBlock, FORM_ENDNOTE, FORM_ENDNOTE_BODY);
+    }
+
+    private void renameEndnotes(final Element footnoteBlock) {
+        renameToFootnotes(footnoteBlock, ENDNOTE, ENDNOTE_BODY);
+    }
+
+    private void renameToFootnotes(final Element footnoteBlock, final String itemTagName, final String itemBodyTagName) {
         footnoteBlock.children().stream()
-                .filter(footnote -> FORM_FOOTNOTE.equals(footnote.tagName()))
+                .filter(footnote -> itemTagName.equals(footnote.tagName()))
                 .peek(footnote -> footnote.tagName(FOOTNOTE))
-                .map(footnote -> footnote.getElementsByTag(FORM_FOOTNOTE_BODY).first())
+                .map(footnote -> footnote.getElementsByTag(itemBodyTagName).first())
                 .forEach(footnoteBody -> footnoteBody.tagName(FOOTNOTE_BODY_TAG));
     }
 
@@ -557,15 +591,22 @@ public class ReorderFootnotesService {
 
     private void convertFootnoteReference(final Element innerRef, final boolean addHref) {
         final Element ref = innerRef.parent();
+        final String refName = extractReferenceName(innerRef.attr(HREF));
         removePagebreaksFromFootnoteReference(innerRef, ref.parent());
 
-        ref.addClass(TR_FTN);
-        final String refName = extractReferenceName(innerRef.attr(HREF));
-        ref.attr(FTNNAME, refName);
+        if (ANCHOR.equals(ref.tagName())) {
+            ref.addClass(TR_FTN);
+            ref.attr(FTNNAME, refName);
+            cleanupHref(ref, addHref, refName);
+            innerRef.remove();
+            ref.append(innerRef.text());
+        } else {
+            cleanupHref(innerRef, addHref, refName);
+        }
+    }
 
+    private void cleanupHref(final Element ref, final boolean addHref, final String refName) {
         ref.attr(HREF, addHref ? "#" + refName : "");
-        innerRef.remove();
-        ref.append(innerRef.text());
     }
 
     private void removePagebreaksFromFootnoteReference(final Element innerReference, final Element referenceParent) {

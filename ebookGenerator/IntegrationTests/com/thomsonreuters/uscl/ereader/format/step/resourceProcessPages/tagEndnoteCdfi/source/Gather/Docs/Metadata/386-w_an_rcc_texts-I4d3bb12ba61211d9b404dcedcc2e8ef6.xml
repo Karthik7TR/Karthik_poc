@@ -1,0 +1,93 @@
+<n-metadata>
+	<metadata.block>
+		<md.identifiers>
+			<md.cites>
+				<md.first.line.cite>CDF § 4:35</md.first.line.cite>
+				<md.second.line.cite>1 Construction &amp; Development Financing § 4:35</md.second.line.cite>
+				<md.normalizedcite>CDF§4:35</md.normalizedcite>
+			</md.cites>
+			<md.westlawids>
+				<md.dmsserial>288211850</md.dmsserial>
+				<md.case.slug>CDF</md.case.slug>
+				<md.case.slug.code>10977</md.case.slug.code>
+			</md.westlawids>
+			<md.uuid>I4d3bb12ba61211d9b404dcedcc2e8ef6</md.uuid>
+		</md.identifiers>
+		<md.sortkeys>
+			<md.volsequence>CDF</md.volsequence>
+			<md.ordersequence>0535000104980</md.ordersequence>
+			<md.sequencenumber>0535000104980</md.sequencenumber>
+		</md.sortkeys>
+		<md.descriptions>
+			<md.doc.family.uuid>I1a541d53b0bc11d883d9880187073e19</md.doc.family.uuid>
+		</md.descriptions>
+		<md.dates>
+			<md.publisheddate>20210604</md.publisheddate>
+			<md.revisiondate>20210601</md.revisiondate>
+			<md.currency.default>June 2021 Update</md.currency.default>
+			<md.pubyear/>
+			<md.vol.year/>
+		</md.dates>
+		<md.references/>
+		<md.subjects>
+			<md.subject>
+				<md.keywords>
+					<md.keyword>ADDTERM</md.keyword>
+				</md.keywords>
+				<md.pubtype.name>WGR</md.pubtype.name>
+				<md.doctype.name>3A</md.doctype.name>
+				<md.doctype.rank>0022</md.doctype.rank>
+				<md.view>FE</md.view>
+				<md.view>REL</md.view>
+				<md.view>RTX</md.view>
+				<md.view>RTA</md.view>
+				<md.view>FIN</md.view>
+				<md.view>CD1</md.view>
+				<md.view>CL</md.view>
+				<md.view>LGV</md.view>
+				<md.view>CDFI</md.view>
+			</md.subject>
+		</md.subjects>
+		<md.jurisdictions>
+			<md.jurisdiction>
+				<md.jurisnum>3165</md.jurisnum>
+				<md.jurisstate>FE</md.jurisstate>
+			</md.jurisdiction>
+		</md.jurisdictions>
+		<md.publications>
+			<md.publication>
+				<md.pubid>154215</md.pubid>
+				<md.pubname>CDF</md.pubname>
+				<md.pubpage>s 4:35</md.pubpage>
+			</md.publication>
+			<md.publication>
+				<md.pubid>154215</md.pubid>
+				<md.pubname>CDF</md.pubname>
+				<md.pubvolume>1</md.pubvolume>
+				<md.pubpage>s 4:35</md.pubpage>
+			</md.publication>
+			<md.publication>
+				<md.pubid>999</md.pubid>
+				<md.pubname>WL</md.pubname>
+				<md.pubvolume>2002</md.pubvolume>
+				<md.pubpage>466238</md.pubpage>
+			</md.publication>
+			<md.sourcepubid>154215</md.sourcepubid>
+		</md.publications>
+		<md.royalty>
+			<md.royalty.code>20155</md.royalty.code>
+			<md.copyright>Westlaw. © 2021 Thomson Reuters.  No Claim to Orig. U.S. Govt. Works.</md.copyright>
+		</md.royalty>
+	</metadata.block>
+	<n-tocview>I4d3bb12aa61211d9b404dcedcc2e8ef6 I0a9c0b40153c11d9847dc3c7b202eb9d  I09500340153c11d9847dc3c7b202eb9d I9f582cb0153b11d9847dc3c7b202eb9d</n-tocview>
+	<n-view>FE</n-view>
+	<n-view>REL</n-view>
+	<n-view>RTX</n-view>
+	<n-view>RTA</n-view>
+	<n-view>FIN</n-view>
+	<n-view>CD1</n-view>
+	<n-view>CL</n-view>
+	<n-view>LGV</n-view>
+	<n-view type="default">CDFI</n-view>
+	<prism-clipdate>20210604031845</prism-clipdate>
+</n-metadata>

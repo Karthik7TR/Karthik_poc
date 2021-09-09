@@ -1,0 +1,147 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>1 Construction &amp; Development Financing § 4:35	</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Construction and Development Financing, Third Edition</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20210601">June 2021 Update	</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>The late Alvin L. Arnold and Myron Kove</author>
+			</author.line>
+			<prop.head toc-guid="I09500340153c11d9847dc3c7b202eb9d">
+				<label.name>Chapter</label.name>
+				<label.designator>4.</label.designator>
+				<headtext>The Construction Loan</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<nav.links>
+			<cite.query w-ref-type="DA" w-normalized-cite="CDF CH 4 REF" w-pub-number="154215" ID="I29742d00c50511eb94998fa57b532963">References</cite.query>
+		</nav.links>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I4d3bb12aa61211d9b404dcedcc2e8ef6">
+					<head parent="doc.title">
+						<label.name>§ </label.name>
+						<label.designator>4:35.</label.designator>
+						<headtext>Interest[<footnote.reference refid="I29742d01c50511eb94998fa57b532963">1</footnote.reference>]</headtext>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<para>
+					<paratext>Real estate <page no="817"/>terms.</paratext>
+				</para>
+				<para>
+					<paratext>If <page no="818"/>may be.</paratext>
+				</para>
+				<para>
+					<list>
+						<list.item>
+							<para>
+								<head parent="para">
+									<label.designator>3.</label.designator>
+								</head>
+								<paratext>When rates rise 200 basis points, as shown here: </paratext>
+								<tbl ID="I037a5b80ace911ebbd53e30f8f01ae2e">
+									<head parent="tbl">
+										<headtext>
+											<bold>TABLE</bold>
+										</headtext>
+									</head>
+									<table>
+										<tgroup cols="5">
+											<colspec align="right" colnum="5" colname="5" colwidth="3*"/>
+											<thead valign="bottom">
+												<row>
+													<entry colname="5">
+														<bold>Immediate Prepayment</bold>[<endnote.reference refid="N103DBI12489cf0153c11d9847dc3c7b202eb9d">a</endnote.reference>]</entry>
+												</row>
+											</thead>
+											<tbody>
+												<row>
+													<entry colname="1">Swap termination cost</entry>
+													<entry colname="2">$12.1[<endnote.reference refid="N1041DI12489cf0153c11d9847dc3c7b202eb9d">b</endnote.reference>]</entry>
+												</row>
+												<row>
+													<entry colname="1">Yield maintenance cost</entry>
+													<entry colname="2" rowsep="1">18.7[<endnote.reference refid="N1043DI12489cf0153c11d9847dc3c7b202eb9d">c</endnote.reference>]</entry>
+												</row>
+												<row>
+													<entry colname="5">18.7[<endnote.reference refid="N1043DI12489cf0153c11d9847dc3c7b202eb9d">c</endnote.reference>](11.9)<page no="819"/>
+													</entry>
+												</row>
+											</tbody>
+										</tgroup>
+									</table>
+									<endnote ID="N103DBI12489cf0153c11d9847dc3c7b202eb9d">
+										<label.designator>a</label.designator>
+										<endnote.body>
+											<para>
+												<paratext>Financing.	</paratext>
+											</para>
+										</endnote.body>
+									</endnote>
+									<endnote ID="N1041DI12489cf0153c11d9847dc3c7b202eb9d">
+										<label.designator>b</label.designator>
+										<endnote.body>
+											<para>
+												<paratext> Swap.	</paratext>
+											</para>
+										</endnote.body>
+									</endnote>
+									<endnote ID="N1043DI12489cf0153c11d9847dc3c7b202eb9d">
+										<label.designator>c</label.designator>
+										<endnote.body>
+											<para>
+												<paratext> Loan.	</paratext>
+											</para>
+										</endnote.body>
+									</endnote>
+								</tbl>
+							</para>
+						</list.item>
+					</list>
+					<paratext>Constant.</paratext>
+				</para>
+				<para>
+					<paratext>Environments.</paratext>
+				</para>
+			</section.body>
+		</section>
+		<title.footnotes>
+			<footnote ID="I29742d01c50511eb94998fa57b532963">
+				<label.designator>1</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>Adapted.<page no="817"/>
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</title.footnotes>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw. © 2021 Thomson Reuters.  	No Claim to Orig. U.S. Govt. 	Works.	</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>CDF § 4:35	</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

@@ -48,6 +48,10 @@ public class MarkupConstants {
     public static final String FOOTNOTE_BODY_TAG = "footnote.body";
     public static final String FORM_FOOTNOTE = "form.footnote";
     public static final String FORM_FOOTNOTE_BODY = "form.footnote.body";
+    public static final String ENDNOTE = "endnote";
+    public static final String ENDNOTE_BODY = "endnote.body";
+    public static final String FORM_ENDNOTE = "form.endnote";
+    public static final String FORM_ENDNOTE_BODY = "form.endnote.body";
     public static final String PAGE = "page";
     public static final String AUTHOR_FOOTNOTES = "author.footnotes";
     public static final String PROP_HEAD_FOOTNOTES = "prop.head.footnotes";

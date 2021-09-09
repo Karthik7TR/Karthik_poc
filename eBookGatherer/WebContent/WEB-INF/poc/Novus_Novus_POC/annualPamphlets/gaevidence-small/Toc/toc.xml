@@ -41,5 +41,10 @@
 			<Guid>Id71f2cdb682311ea83aee46e6decbb8546</Guid>
 			<DocumentGuid>Id71f2cdc682311ea83aee46e6decbb85</DocumentGuid>
 		</EBookToc>
+		<EBookToc>
+			<Name>Multiple footnotes containers</Name>
+			<Guid>I03014f37829b11e9b500ff79cbddef67</Guid>
+			<DocumentGuid>I03014f38829b11e9b500ff79cbddef67</DocumentGuid>
+		</EBookToc>
 	</EBookToc>
 </EBook>

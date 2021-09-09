@@ -157,6 +157,16 @@ public final class ProcessPagesIntegrationTest {
     }
 
     @Test
+    public void shouldProcessEndnoteCdfi() throws Exception {
+        runner.test(step, "tagEndnoteCdfi");
+    }
+
+    @Test
+    public void shouldProcessFormEndnoteAfar() throws Exception {
+        runner.test(step, "tagFormEndnoteAfar");
+    }
+
+    @Test
     public void shouldProcessMultipleFootnotesContainers() throws Exception {
         runner.test(step, "multipleFootnotesContainers");
     }

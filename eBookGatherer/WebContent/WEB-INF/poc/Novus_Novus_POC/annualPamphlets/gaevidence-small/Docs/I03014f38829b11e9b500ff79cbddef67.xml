@@ -55,6 +55,8 @@
 									<form.para>
 										<form.text>Form endnote reference[
 											<endnote.reference refid="N1029CI822e00a06e9a11e5a81fb5a653c90199">1</endnote.reference>]
+											Form endnote the same reference[
+											<endnote.reference refid="N1029CI822e00a06e9a11e5a81fb5a653c90199">1</endnote.reference>]
 										</form.text>
 									</form.para>
 									<form.endnote ID="N1029CI822e00a06e9a11e5a81fb5a653c90199">

@@ -1,0 +1,90 @@
+<n-metadata>
+	<metadata.block>
+		<md.identifiers>
+			<md.cites>
+				<md.first.line.cite>FAR-ANNO § 52.211-16</md.first.line.cite>
+				<md.second.line.cite>2 Ann. Fed. Acquisition Reg. Desk Ref. § 52.211-16</md.second.line.cite>
+				<md.normalizedcite>FAR-ANNO§52.211-16</md.normalizedcite>
+			</md.cites>
+			<md.westlawids>
+				<md.dmsserial>368141549</md.dmsserial>
+				<md.case.slug>FARA</md.case.slug>
+				<md.case.slug.code>18008</md.case.slug.code>
+			</md.westlawids>
+			<md.uuid>Ibb8eeee2112e11e182380000837bc6dd</md.uuid>
+		</md.identifiers>
+		<md.sortkeys>
+			<md.volsequence>FARA</md.volsequence>
+			<md.ordersequence>0111600032140</md.ordersequence>
+			<md.sequencenumber>0111600032140</md.sequencenumber>
+		</md.sortkeys>
+		<md.descriptions>
+			<md.doc.family.uuid>I92383f20116e11e18ba90000837bc6dd</md.doc.family.uuid>
+		</md.descriptions>
+		<md.dates>
+			<md.publisheddate>20210701</md.publisheddate>
+			<md.revisiondate>20210601</md.revisiondate>
+			<md.currency.default>June 2021 Update</md.currency.default>
+			<md.vol.year/>
+		</md.dates>
+		<md.references>
+			<md.form.flag/>
+		</md.references>
+		<md.subjects>
+			<md.subject>
+				<md.keywords>
+					<md.keyword>ADDTERM</md.keyword>
+				</md.keywords>
+				<md.pubtype.name>WGR</md.pubtype.name>
+				<md.doctype.name>3A</md.doctype.name>
+				<md.doctype.rank>0022</md.doctype.rank>
+				<md.view>FA3</md.view>
+				<md.view>FE</md.view>
+				<md.view>PCN</md.view>
+				<md.view>RTA</md.view>
+				<md.view>RTX</md.view>
+				<md.view>BTR</md.view>
+				<md.view>AFAR</md.view>
+			</md.subject>
+		</md.subjects>
+		<md.jurisdictions>
+			<md.jurisdiction>
+				<md.jurisnum>8317</md.jurisnum>
+				<md.jurisstate>FE</md.jurisstate>
+			</md.jurisdiction>
+		</md.jurisdictions>
+		<md.publications>
+			<md.publication>
+				<md.pubid>214713</md.pubid>
+				<md.pubname>FAR&amp;ndash;ANNO</md.pubname>
+				<md.pubpage>s 52.211&amp;ndash;16</md.pubpage>
+			</md.publication>
+			<md.publication>
+				<md.pubid>214713</md.pubid>
+				<md.pubname>FAR&amp;ndash;ANNO</md.pubname>
+				<md.pubvolume>2</md.pubvolume>
+				<md.pubpage>s 52.211&amp;ndash;16</md.pubpage>
+			</md.publication>
+			<md.publication>
+				<md.pubid>999</md.pubid>
+				<md.pubname>WL</md.pubname>
+				<md.pubvolume>2011</md.pubvolume>
+				<md.pubpage>75588062</md.pubpage>
+			</md.publication>
+			<md.sourcepubid>214713</md.sourcepubid>
+		</md.publications>
+		<md.royalty>
+			<md.royalty.code>14851</md.royalty.code>
+			<md.copyright>Westlaw. © 2021 Thomson Reuters.  No Claim to Orig. U.S. Govt. Works.</md.copyright>
+		</md.royalty>
+	</metadata.block>
+	<n-tocview>Ibb8eeee1112e11e182380000837bc6dd I7daae9806e9a11e5a81fb5a653c90199 I7ce501706e9a11e5a81fb5a653c90199 I75a711e0c8b611debaee9053e8a9fded I610e3390c8b511debaee9053e8a9fded I610d2220c8b511debaee9053e8a9fded I61088e40c8b511debaee9053e8a9fded I4dc4dc509c4011ddb0cc9f641b46d568</n-tocview>
+	<n-view>FA3</n-view>
+	<n-view>FE</n-view>
+	<n-view>PCN</n-view>
+	<n-view>RTA</n-view>
+	<n-view>RTX</n-view>
+	<n-view>BTR</n-view>
+	<n-view type="default">AFAR</n-view>
+	<prism-clipdate>20210701082514</prism-clipdate>
+</n-metadata>
