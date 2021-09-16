@@ -39,8 +39,16 @@
 	<td>${jobInstance.id}</td>
 </tr>
 <tr>
-	<td>Title ID</td>
-	<td><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${bookInfo.ebookDefinitionId}">${bookInfo.titleId}</a></td>
+	<c:choose>
+		<c:when test="${job.publishingStats.combinedBookDefinitionId != 0}">
+			<td>Title ID (Combined book)</td>
+			<td><a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${job.publishingStats.combinedBookDefinitionId}">${bookInfo.titleId}</a></td>
+		</c:when>
+		<c:otherwise>
+			<td>Title ID</td>
+			<td><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${bookInfo.ebookDefinitionId}">${bookInfo.titleId}</a></td>
+		</c:otherwise>
+	</c:choose>
 	<td>&nbsp;</td>
 	<td>Total Duration</td>
 	<td>${jobInstanceDuration}</td>

@@ -41,7 +41,7 @@ public class JobDaoImpl implements JobDao {
         final List<JobSummary> list = new ArrayList<>(jobExecutionIds.size());
         for (final long jobExecutionId : jobExecutionIds) {
             final StringBuilder sql = new StringBuilder(
-                "select auditTable.EBOOK_DEFINITION_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.SOURCE_TYPE, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
+                "select auditTable.EBOOK_DEFINITION_ID, stats.COMB_BOOK_DEFN_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.SOURCE_TYPE, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
             sql.append(
                 "execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME from \n ");
             sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
@@ -208,6 +208,7 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
     @Override
     public JobSummary mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
         final Long bookDefinitionId = resultSet.getLong("EBOOK_DEFINITION_ID");
+        final Long combinedBookDefinitionId = resultSet.getLong("COMB_BOOK_DEFN_ID");
         final String bookName = resultSet.getString("PROVIEW_DISPLAY_NAME");
         final String titleId = resultSet.getString("TITLE_ID");
         final String sourceType = resultSet.getString("SOURCE_TYPE");
@@ -219,6 +220,7 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
         final Date endTime = resultSet.getTimestamp("END_TIME");
         final JobSummary js = new JobSummary(
             bookDefinitionId,
+            combinedBookDefinitionId,
             bookName,
             titleId,
             sourceType,

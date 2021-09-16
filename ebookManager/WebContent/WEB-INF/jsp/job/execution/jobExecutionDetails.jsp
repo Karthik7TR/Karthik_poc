@@ -86,10 +86,20 @@
 		<td style="padding-right:40px;">ProView Display Name</td>
 		<td colspan="3">${job.bookInfo.proviewDisplayName}</td>
 	</tr>
-	<tr>
-		<td>Title ID</td>
-		<td colspan="3"><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookInfo.ebookDefinitionId}">${job.bookInfo.titleId}</a></td>
-	</tr>
+	<c:choose>
+		<c:when test="${job.publishingStats.combinedBookDefinitionId != 0}">
+			<tr>
+				<td>Title ID (Combined book)</td>
+				<td colspan="3"><a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${job.publishingStats.combinedBookDefinitionId}">${job.bookInfo.titleId}</a></td>
+			</tr>
+		</c:when>
+		<c:otherwise>
+			<tr>
+				<td>Title ID</td>
+				<td colspan="3"><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookInfo.ebookDefinitionId}">${job.bookInfo.titleId}</a></td>
+			</tr>
+		</c:otherwise>
+	</c:choose>
 	<tr>
 		<td style="padding-right:40px;">Source Type</td>
 		<td colspan="3">${job.bookInfo.sourceType}</td>

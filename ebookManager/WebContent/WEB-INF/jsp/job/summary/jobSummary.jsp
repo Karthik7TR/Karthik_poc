@@ -97,7 +97,14 @@ function submitJobSummaryForm(command) {
   	  <!-- The book name displayed in this column is what the name was when the job was run for this definition ID (it may be different now). -->
 	  <display:column title="ProView Display Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
 	  <display:column title="Title ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>" style="text-align: left">
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookDefinitionId}">${job.titleId}</a>
+		  <c:choose>
+			  <c:when test="${job.combinedBookDefinitionId != 0}">
+				  <a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${job.combinedBookDefinitionId}">${job.titleId}</a>
+			  </c:when>
+			  <c:otherwise>
+				  <a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookDefinitionId}">${job.titleId}</a>
+			  </c:otherwise>
+		  </c:choose>
 	  </display:column>
 	  <display:column title="Source Type" property="sourceType" sortable="true" sortProperty="<%=DisplayTagSortProperty.SOURCE_TYPE.toString()%>"/>
 	  <display:column title="Submitted By" property="submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>

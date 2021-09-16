@@ -95,6 +95,7 @@ public class InitializeTask extends AbstractSbTasklet {
         try {
             // get ebookDefinition
             Optional.ofNullable(jobParams.getLong(JobParameterKey.COMBINED_BOOK_DEFINITION_ID))
+                    .filter(id -> id != 0L)
                     .map(combinedBookDefinitionId -> combinedBookDefnService.findCombinedBookDefinitionById(combinedBookDefinitionId))
                     .ifPresent(combinedBookDefinition -> {
                         jobExecutionContext.put(JobExecutionKey.COMBINED_BOOK_DEFINITION, combinedBookDefinition);
@@ -275,6 +276,10 @@ public class InitializeTask extends AbstractSbTasklet {
             final Date rightNow = publishingStatsService.getSysDate();
             final Long ebookDefId = jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID);
             pubStats.setEbookDefId(ebookDefId);
+            final Long combinedBookDefinitionId = jobParams.getLong(JobParameterKey.COMBINED_BOOK_DEFINITION_ID);
+            if (combinedBookDefinitionId != 0L) {
+                pubStats.setCombinedBookDefinitionId(combinedBookDefinitionId);
+            }
             final Long auditId = eBookAuditService.findEbookAuditByEbookDefId(ebookDefId);
             final EbookAudit audit = new EbookAudit();
             audit.setAuditId(auditId);

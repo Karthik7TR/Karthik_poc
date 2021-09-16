@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.core.job.domain;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.Period;
@@ -10,80 +12,20 @@ import org.springframework.batch.core.BatchStatus;
 /**
  * A subset of book and job execution data used to present the Job Summary view.
  */
+@Getter
+@AllArgsConstructor
 public class JobSummary {
-    private Long bookDefinitionId;
-    private String bookName;
-    private String titleId;
-    private String sourceType;
-    private Long jobInstanceId;
-    private Long jobExecutionId;
-    private BatchStatus batchStatus;
-    private String submittedBy;
-    private Date startTime;
-    private Date endTime;
-
-    public JobSummary(
-        final Long bookDefinitionId,
-        final String bookName,
-        final String titleId,
-        final String sourceType,
-        final Long jobInstanceId,
-        final Long jobExecutionId,
-        final BatchStatus batchStatus,
-        final String submittedBy,
-        final Date startTime,
-        final Date endTime) {
-        this.bookDefinitionId = bookDefinitionId;
-        this.bookName = bookName;
-        this.titleId = titleId;
-        this.sourceType = sourceType;
-        this.jobInstanceId = jobInstanceId;
-        this.jobExecutionId = jobExecutionId;
-        this.batchStatus = batchStatus;
-        this.submittedBy = submittedBy;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    public Long getBookDefinitionId() {
-        return bookDefinitionId;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public Long getJobInstanceId() {
-        return jobInstanceId;
-    }
-
-    public Long getJobExecutionId() {
-        return jobExecutionId;
-    }
-
-    public BatchStatus getBatchStatus() {
-        return batchStatus;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public String getSourceType() {
-        return sourceType;
-    }
-
-    public void setSourceType(final String sourceType) {
-        this.sourceType = sourceType;
-    }
+    private final Long bookDefinitionId;
+    private final Long combinedBookDefinitionId;
+    private final String bookName;
+    private final String titleId;
+    private final String sourceType;
+    private final Long jobInstanceId;
+    private final Long jobExecutionId;
+    private final BatchStatus batchStatus;
+    private final String submittedBy;
+    private final Date startTime;
+    private final Date endTime;
 
     public String getDuration() {
         return JobSummary.getExecutionDuration(getExecutionDuration());
@@ -126,10 +68,6 @@ public class JobSummary {
             periodString.append(period.getMillis());
         }
         return periodString.toString();
-    }
-
-    public String getSubmittedBy() {
-        return submittedBy;
     }
 
     @Override

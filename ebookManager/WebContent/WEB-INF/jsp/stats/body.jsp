@@ -50,7 +50,14 @@
 	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${stats.jobInstanceId}">${stats.jobInstanceId}</a>
 	  </display:column>
 	  <display:column title="Title ID" sortable="true" sortProperty="<%= DisplayTagSortProperty.TITLE_ID.toString() %>">
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${stats.ebookDefId}">${ stats.audit.titleId }</a>
+		  <c:choose>
+			  <c:when test="${not empty stats.combinedBookDefinitionId}">
+				  <a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${stats.combinedBookDefinitionId}">${stats.audit.titleId}</a>
+			  </c:when>
+			  <c:otherwise>
+				  <a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${stats.ebookDefId}">${ stats.audit.titleId }</a>
+			  </c:otherwise>
+		  </c:choose>
 	  </display:column>
 	  <display:column title="Book Version" property="bookVersionSubmitted" />
 	  <display:column title="Publish Status" property="publishStatus" sortable="true" sortProperty="<%= DisplayTagSortProperty.PUBLISH_STATUS.toString() %>"/>
