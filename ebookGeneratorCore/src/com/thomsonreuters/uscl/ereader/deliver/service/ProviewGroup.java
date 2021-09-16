@@ -1,12 +1,13 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.jetbrains.annotations.NotNull;
 
 @Log4j
 @Getter @Setter
@@ -32,12 +34,22 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
     private Integer totalNumberOfVersions;
     private String headTitle;
     //subgroup information parsed from proview xml
+    @Setter(AccessLevel.NONE)
     private List<SubgroupInfo> subgroupInfoList;
     //For third screen
+    @Setter(AccessLevel.NONE)
     private List<GroupDetails> groupDetailList;
 
     private String groupStatus;
     private String latestUpdateDate;
+
+    public void setSubgroupInfoList(@NotNull final List<SubgroupInfo> list) {
+        this.subgroupInfoList = new CopyOnWriteArrayList<>(list);
+    }
+
+    public void setGroupDetailList(@NotNull final List<GroupDetails> list) {
+        this.groupDetailList = new CopyOnWriteArrayList<>(list);
+    }
 
     public Integer getVersion() {
         return Optional.of(groupVersion)
@@ -57,8 +69,13 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
     @Getter @Setter
     public static class SubgroupInfo implements Serializable {
         private static final long serialVersionUID = -4229230493652422923L;
+        @Setter(AccessLevel.NONE)
         private List<String> titleIdList;
         private String subGroupName;
+
+        public void setTitleIdList(@NotNull final List<String> list) {
+            this.titleIdList = new CopyOnWriteArrayList<>(list);
+        }
     }
 
     @EqualsAndHashCode(of = {"bookVersion", "isPilotBook", "proviewDisplayName", "titleId", "id"})
@@ -92,13 +109,13 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         public List<String> getTitleIdList() {
             return titleInfoList.stream()
                 .map(ProviewTitleInfo::getTitleId)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
         }
 
         public List<String> getTitleIdListWithVersion() {
             return titleInfoList.stream()
                 .map(title -> String.format(TITLE_WITH_VERSION_PATTERN, title.getTitleId(), title.getVersion()))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
         }
 
         public String getIdWithVersion() {
@@ -120,8 +137,8 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         }
 
         public void setTitleIdList(final List<ProviewTitleInfo> titleInfoList) {
-            this.titleInfoList = titleInfoList;
-            titleInfoList.stream()
+            this.titleInfoList = new CopyOnWriteArrayList<>(titleInfoList);
+            this.titleInfoList.stream()
                 .filter(this::updateStatus)
                 .map(ProviewTitleInfo::getStatus)
                 .forEach(status -> bookStatus = status);
@@ -132,7 +149,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
                 bookStatus = titleInfo.getStatus();
             }
             Optional.ofNullable(titleInfoList)
-                .orElseGet(() -> titleInfoList = new ArrayList<>())
+                .orElseGet(() -> titleInfoList = new CopyOnWriteArrayList<>())
                 .add(titleInfo);
         }
 
@@ -141,7 +158,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         }
 
         @Override
-        public int compareTo(final GroupDetails other) {
+        public int compareTo(@NotNull final GroupDetails other) {
             try {
                 return new Version(other.bookVersion).compareTo(new Version(bookVersion));
             } catch (final Exception e) {

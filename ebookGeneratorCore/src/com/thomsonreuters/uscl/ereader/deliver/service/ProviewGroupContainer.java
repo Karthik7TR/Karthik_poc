@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * handle a list of ProviewGroups
@@ -17,14 +18,14 @@ public class ProviewGroupContainer implements Serializable {
     private static final long serialVersionUID = -1985883914988566602L;
     private static final String PROVIEW_STATUS_FINAL = "final";
 
-    private List<ProviewGroup> proviewGroups = new ArrayList<>();
+    private List<ProviewGroup> proviewGroups = new CopyOnWriteArrayList<>();
 
     public List<ProviewGroup> getProviewGroups() {
         return proviewGroups;
     }
 
     public void setProviewGroups(final List<ProviewGroup> proviewGroups) {
-        this.proviewGroups = proviewGroups;
+        this.proviewGroups = new CopyOnWriteArrayList<>(proviewGroups);
     }
 
     public String getGroupId() {

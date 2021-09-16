@@ -33,21 +33,20 @@ public class ProviewGroupListServiceImplTest {
     private ProviewHandler proviewHandler;
     @Mock
     private ProviewAuditService proviewAuditService;
+    @Mock
+    private AllProviewGroupsProvider allProviewGroupsProvider;
 
     @Test
     public void getProviewGroups_formWithFiltersIsGiven_someProviewGroupsAreFilteredOut() throws ProviewException {
         final ProviewGroupForm form = new ProviewGroupForm();
         form.setGroupFilterName(GROUP_FILTER_NAME);
-        final Map<String, ProviewGroupContainer> allProviewGroups = Collections.emptyMap();
         final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
         final ProviewGroup proviewGroupToFilterOut = createProviewGroup("filter", "out");
         final List<ProviewGroup> allLatestProviewGroups = Arrays.asList(proviewGroup, proviewGroupToFilterOut);
         final List<ProviewGroup> filteredProviewGroups = Collections.singletonList(proviewGroup);
 
-        final AllProviewGroupsContainer container =
-            service.getProviewGroups(form, allProviewGroups, allLatestProviewGroups);
+        final ProviewGroupsContainer container = service.getProviewGroups(form, allLatestProviewGroups);
 
-        assertEquals(allProviewGroups, container.getAllProviewGroups());
         assertEquals(allLatestProviewGroups, container.getAllLatestProviewGroups());
         assertEquals(filteredProviewGroups, container.getSelectedProviewGroups());
     }
@@ -60,15 +59,13 @@ public class ProviewGroupListServiceImplTest {
         final ProviewGroup proviewGroup2 = createProviewGroup("name", "id");
         final List<ProviewGroup> allLatestProviewGroups = Arrays.asList(proviewGroup1, proviewGroup2);
         when(proviewAuditService.findMaxRequestDateByTitleIds(any())).thenReturn(null);
-        when(proviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
         when(proviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
+        when(allProviewGroupsProvider.getAllProviewGroups(false)).thenReturn(allProviewGroups);
 
-        final AllProviewGroupsContainer container = service.getProviewGroups(form, null, null);
+        final ProviewGroupsContainer container = service.getProviewGroups(form, null);
 
-        assertEquals(allProviewGroups, container.getAllProviewGroups());
         assertEquals(allLatestProviewGroups, container.getAllLatestProviewGroups());
         assertEquals(allLatestProviewGroups, container.getSelectedProviewGroups());
-        verify(proviewHandler).getAllProviewGroupInfo();
         verify(proviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
     }
 

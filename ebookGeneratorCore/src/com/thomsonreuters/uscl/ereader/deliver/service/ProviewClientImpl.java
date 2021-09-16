@@ -15,6 +15,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import com.thomsonreuters.uscl.ereader.common.retry.Retry;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
@@ -27,7 +28,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -46,6 +46,7 @@ public class ProviewClientImpl implements ProviewClient {
     private static final String TITLE_ID = "titleId";
     private static final String EBOOK_VERSION_NUMBER = "eBookVersionNumber";
     private static final String PROVIEW_HOST_PARAM = "proviewHost";
+    private static final String FINAL_TO_FINAL_MESSAGE = "Title status cannot be changed from Final to Final";
     private static final String GROUP_ID = "groupId";
     private static final String GROUP_VERSION_NUMBER = "groupVersionNumber";
     public static final String CHANGE_TITLE_TO_SUPERSEDED_REQUEST_BODY =
@@ -116,7 +117,6 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will get all versions of group definition by Id
      *
-     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -142,7 +142,6 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will get group definition by version
      *
-     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -186,7 +185,6 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * This request will update Group status to promote
      *
-     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -210,7 +208,6 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * This request will update Group status to removed
      *
-     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -234,7 +231,6 @@ public class ProviewClientImpl implements ProviewClient {
     /**
      * Request will delete group
      *
-     * @param groupDefinition
      * @return
      * @throws ProviewException
      */
@@ -414,21 +410,29 @@ public class ProviewClientImpl implements ProviewClient {
         delayProperty = "proview.retry.delay.ms"
     )
     public HttpStatus promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
-        throws ProviewException {
+        throws ProviewException, ExpectedProviewException {
         validateTitleAndVersion(fullyQualifiedTitleId, eBookVersionNumber);
 
         final Map<String, String> urlParameters = setTitleVersionUrlParams(fullyQualifiedTitleId, eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
 
-        final ClientHttpResponse proviewResponse = restTemplate.execute(
-            promoteTitleUriTemplate,
-            HttpMethod.PUT,
-            proviewRequestCallback,
-            proviewResponseExtractorFactory.getSimpleResponseExtractor(),
-            urlParameters);
-
-        return getStatusCode(proviewResponse);
+        try {
+            final ClientHttpResponse proviewResponse = restTemplate.execute(
+                    promoteTitleUriTemplate,
+                    HttpMethod.PUT,
+                    proviewRequestCallback,
+                    proviewResponseExtractorFactory.getSimpleResponseExtractor(),
+                    urlParameters);
+            return getStatusCode(proviewResponse);
+        } catch (final ProviewRuntimeException e) {
+            LOG.warn(e.getMessage(), e);
+            if (e.getMessage().contains(FINAL_TO_FINAL_MESSAGE)) {
+                throw new ExpectedProviewException(e.getMessage(), e);
+            } else {
+                throw e;
+            }
+        }
     }
 
     /*

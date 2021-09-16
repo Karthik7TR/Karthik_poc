@@ -80,11 +80,6 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/promote/body.jsp"/>
 	</definition>
 	
-	<definition name="_proviewGroupBookDelete" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/delete/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/delete/body.jsp"/>
-	</definition>
-	
 	<definition name="_proviewGroupBookRemove" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/remove/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/remove/body.jsp"/>

@@ -20,7 +20,6 @@ public class ProviewGroupListFilterForm {
 
     public enum GroupCmd {
         REMOVE,
-        DELETE,
         PROMOTE
     }
 

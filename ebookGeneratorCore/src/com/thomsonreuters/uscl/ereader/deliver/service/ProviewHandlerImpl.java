@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
@@ -329,7 +330,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
 
     @Override
     public boolean promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber)
-        throws ProviewException {
+        throws ProviewException, ExpectedProviewException {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object
         final boolean isSuccessful = proviewClient.promoteTitle(fullyQualifiedTitleId, eBookVersionNumber).is2xxSuccessful();
