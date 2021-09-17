@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
+import org.jsoup.parser.ParseSettings;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,7 @@ public class JsoupService {
     private void applyXmlSettings(final Document doc) {
         doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
         doc.outputSettings().escapeMode(EscapeMode.xhtml);
+        doc.parser().settings(ParseSettings.preserveCase);
     }
 
     public void transformCharSequencesInElements(final Elements elements, final String target, final String replacement) {

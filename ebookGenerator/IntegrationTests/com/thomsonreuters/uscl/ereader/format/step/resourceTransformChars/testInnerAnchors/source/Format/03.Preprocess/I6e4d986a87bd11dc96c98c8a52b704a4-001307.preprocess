@@ -1,0 +1,1020 @@
+<n-docbody>
+	<doc bill="Y">
+		<content.metadata.block>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.second.line.cite>Litigating Truck Accident Cases PART 387	</cmd.second.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+		<prop.block>
+			<prop.head toc-guid="">
+				<headtext>Litigating Truck Accident Cases</headtext>
+			</prop.head>
+			<content.metadata.block>
+				<cmd.dates>
+					<cmd.currency.default iso.d="20201201">December 2020 Update	</cmd.currency.default>
+				</cmd.dates>
+			</content.metadata.block>
+			<author.line>
+				<author>Michael Jay Leizerman</author>
+			</author.line>
+			<prop.head toc-guid="I507f43e01fcf11daa8039ce26f16e34b">
+				<label.designator>49 C.F.R. 387.</label.designator>
+				<headtext>—Minimum Levels of Financial Responsibility for Motor Carriers[<footnote.reference refid="I56b6f2b02e2511ebbdb1fa0dd317c2cd">*</footnote.reference>]</headtext>
+			</prop.head>
+		</prop.block>
+		<message.block>
+			<include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Copyright (c) 2021 Thomson Reuters Tax and Accounting</include.copyright>
+		</message.block>
+		<section>
+			<section.front>
+				<doc.title toc-guid="I6e4d986987bd11dc96c98c8a52b704a4">
+					<head parent="doc.title">
+						<label.name>PART</label.name>
+						<label.designator>387.</label.designator>
+						<headtext>General provisions</headtext>
+					</head>
+				</doc.title>
+			</section.front>
+			<section.body>
+				<tbl ID="If69c2d70009c11ea94bbb8c351f24db2">
+					<head parent="tbl">
+						<headtext>
+							<bold>Section Contents</bold>
+						</headtext>
+					</head>
+					<table>
+						<tgroup align="left" cols="1">
+							<colspec colname="1" colwidth="1*" colnum="1"/>
+							<tbody valign="top">
+								<row>
+									<entry colname="1" align="center">
+										<bold>Subpart C</bold>
+									</entry>
+								</row>
+								<row>
+									<entry colname="1"> </entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00022" w-normalized-cite="49CFRS387.301" ID="Iee8a34a02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301</cite.query> Surety bond, certificate of insurance, or other securities.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00023" w-normalized-cite="49CFRS387.301T" ID="Iee8ea1702e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301T</cite.query> Surety bond, certificate of insurance, or other securities.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00024" w-normalized-cite="49CFRS387.303" ID="Iee9335502e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303</cite.query> Security for the protection of the public: Minimum limits.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00025" w-normalized-cite="49CFRS387.303T" ID="Iee9817502e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T</cite.query> Security for the protection of the public: Minimum limits.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00026" w-normalized-cite="49CFRS387.305" ID="Iee9c0ef02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.305</cite.query> Combination vehicles.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00027" w-normalized-cite="49CFRS387.307" ID="Ieea0c9e02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.307</cite.query> Property broker surety bond or trust fund.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00029" w-normalized-cite="49CFRS387.311" ID="Ieea81ce02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.311</cite.query> Bonds and certificates of insurance.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00030" w-normalized-cite="49CFRS387.313" ID="Ieeac3b902e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.313</cite.query> Forms and procedures.</entry>
+								</row>
+								<row>
+									<entry colname="1">
+										<cite.query w-seq-number="00031" w-normalized-cite="49CFRS387.313T" ID="Ieeafbe002e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.313T</cite.query> Forms and procedures.</entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</tbl>
+				<codes.excerpt ID="I49e6fe70192d11eba65782e394ca0815">
+					<credit.block>
+						<head parent="credit.block">
+							<headtext>
+								<bold>CREDIT(S)</bold>
+							</headtext>
+						</head>
+						<credit>Authority: <cite.query w-seq-number="00051" w-normalized-cite="49USCAS13101" ID="Ieefd1ab02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">49 U.S.C. 13101</cite.query>, <cite.query w-seq-number="00052" w-normalized-cite="49USCAS13301" ID="Ieefd1ab12e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">387301</cite.query>, 	</credit>
+					</credit.block>
+					<codes.grade ID="I49f1acd0192d11eba65782e394ca0815">
+						<head parent="codes.grade">
+							<label.name>Subpart </label.name>
+							<label.designator>A. </label.designator>
+							<headtext>—Motor Carriers of Property</headtext>
+						</head>
+						<credit.block>
+							<head parent="credit.block">
+								<headtext>
+									<bold>CREDIT(S)</bold>
+								</headtext>
+							</head>
+							<credit>Source: <cite.query w-seq-number="00073" ID="Ieeff16812e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="52683" w-serial-number="0102137090" w-ref-type="FR">48 FR 52683</cite.query>, Nov. 21, 1983, unless otherwise noted.</credit>
+						</credit.block>
+						<codes.section ID="I49f2be40192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.1. </label.designator>
+								<headtext>Purpose and scope.</headtext>
+							</head>
+							<codes.subsection ID="I49f30c60192d11eba65782e394ca0815">
+								<codes.para>
+									<paratext>No link in table</paratext>
+								</codes.para>
+							</codes.subsection>
+						</codes.section>
+					</codes.grade>
+					<codes.grade ID="I4a2e1990192d11eba65782e394ca0815">
+						<head parent="codes.grade">
+							<label.name>Subpart </label.name>
+							<label.designator>C. </label.designator>
+							<headtext>—Brokers</headtext>
+						</head>
+						<credit.block>
+							<head parent="credit.block">
+								<headtext>
+									<bold>CREDIT(S)</bold>
+								</headtext>
+							</head>
+							<credit>Source.</credit>
+						</credit.block>
+						<codes.section ID="I4a2edce0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.301. </label.designator>
+								<headtext>Securities.</headtext>
+							</head>
+							<codes.note.block>
+								<ednote>
+									<codes.para>
+										<paratext>Text.</paratext>
+									</codes.para>
+								</ednote>
+							</codes.note.block>
+							<codes.subsection ID="I4a2f5210192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Public liability.</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00206" w-normalized-cite="49CFRS387.303" ID="Iefc17c202e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303</cite.query>, text <cite.query w-seq-number="00207" w-normalized-cite="49CFRS387.303" ID="Iefc17c212e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(2)</cite.query>, for <cite.query w-seq-number="00208" w-normalized-cite="49CFRS387.27" ID="Iefc17c222e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.27</cite.query> text.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00209" w-normalized-cite="49CFRS387.303" ID="Iefca55c02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(2)</cite.query>, text <cite.query w-seq-number="00210" w-normalized-cite="49CFRS387.303" ID="Iefca55c12e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(2)</cite.query>.	</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a301560192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<paratext>Text <cite.query w-seq-number="00211" w-normalized-cite="49CFRS387.303" ID="Iefd6b1d02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303</cite.query>, text.<cite.query w-seq-number="00212" w-normalized-cite="49CFRS375.103" ID="Iefd6b1d12e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 375.103</cite.query> text.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a306380192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Text <cite.query w-seq-number="00213" w-normalized-cite="49USCAS13906" ID="Iefd79c302e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">section 13906 of title 49 of the U.S. Code</cite.query>, text.	</paratext>
+								</codes.para>
+							</codes.subsection>
+							<credit.block>
+								<head parent="credit.block">
+									<headtext>
+										<bold>CREDIT(S)</bold>
+									</headtext>
+								</head>
+								<credit>[<cite.query w-seq-number="00214" w-normalized-cite="32FR20032" ID="Iefd85f812e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-ref-type="ER">32 FR 20032</cite.query>, Dec. 20, 1967, <case.history>as amended</case.history>, May 17, 2018]</credit>
+							</credit.block>
+						</codes.section>
+						<codes.section ID="I4a321130192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.301T. </label.designator>
+								<headtext>Surety bond, certificate of insurance, or other securities.</headtext>
+							</head>
+							<codes.subsection ID="I4a325f50192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Public liability.	</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00228" w-normalized-cite="49CFRS387.303T" ID="Iefe3d1302e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T</cite.query>, text <cite.query w-seq-number="00229" w-normalized-cite="49CFRS387.303T" ID="Iefe3d1312e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(2)</cite.query>, for environmental restoration.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00230" w-normalized-cite="49CFRS387.303T" ID="Iefecd1e02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(2)</cite.query>, text <cite.query w-seq-number="00231" w-normalized-cite="49CFRS387.303T" ID="Iefecd1e12e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(2)</cite.query>.</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a32fb90192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<paratext>Text <cite.query w-seq-number="00232" w-normalized-cite="49CFRS387.303T" ID="Ieff732202e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T</cite.query>, text. Text <cite.query w-seq-number="00233" w-normalized-cite="49CFRS375.103" ID="Ieff732212e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 375.103</cite.query> of this subchapter.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a3349b0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Continuing compliance required.<cite.query w-seq-number="00234" w-normalized-cite="49USCAS13906" ID="Ieff843902e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">section 13906 of title 49 of the U.S. Code</cite.query>.	</paratext>
+								</codes.para>
+							</codes.subsection>
+							<credit.block>
+								<head parent="credit.block">
+									<headtext>
+										<bold>CREDIT(S)</bold>
+									</headtext>
+								</head>
+								<credit>[<cite.query w-seq-number="00235" ID="Ieff86aa12e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="5307" w-serial-number="0454308677" w-ref-type="FR">82 FR 5307</cite.query>, Jan. 17, 2017; <cite.query w-seq-number="00236" ID="Ieff86aa32e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="22877" w-serial-number="0469784568" w-ref-type="FR">83 FR 22877</cite.query>, May 17, 2018]	</credit>
+							</credit.block>
+						</codes.section>
+						<codes.section ID="I4a33e5f0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.303. </label.designator>
+								<headtext>Security for the protection of the public: Minimum limits.</headtext>
+							</head>
+							<codes.note.block>
+								<ednote>
+									<codes.para>
+										<paratext>Text.</paratext>
+									</codes.para>
+								</ednote>
+							</codes.note.block>
+							<codes.subsection ID="I4a343410192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Definitions.</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Coverage.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Excess.</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a34d050192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Motor carriers subject to <cite.query w-seq-number="00237" w-normalized-cite="49CFRS387.301" ID="Ieffdc1d02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301(a)(1)</cite.query> are required.</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>Small freight vehicles:</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Passenger carriers.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(iii)</label.designator>
+											</head>
+											<paratext>Text <cite.query w-seq-number="00238" w-normalized-cite="49USCAS5307" ID="If0058a002e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">49 U.S.C. 5307</cite.query>, <cite.query w-seq-number="00239" w-normalized-cite="49USCAS5310" ID="If0058a012e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">387303T</cite.query>.	</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Motor carriers subject to <cite.query w-seq-number="00241" w-normalized-cite="49CFRS387.301" ID="If009f6d02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301(a)(2)</cite.query> are required.</paratext>
+										<tbl ID="I4a3ac3c0192d11eba65782e394ca0815">
+											<table>
+												<tgroup align="left" cols="3">
+													<colspec colname="1" colnum="1"/>
+													<colspec colname="2" colnum="2"/>
+													<colspec colname="3" colnum="3"/>
+													<thead>
+														<row>
+															<entry colname="1">Kind of equipment</entry>
+															<entry colname="2">Commodity transported</entry>
+															<entry colname="3">Minimum limits</entry>
+														</row>
+													</thead>
+													<tbody>
+														<row>
+															<entry colname="1">(i) Freight vehicles of 10,001 pounds (4,536 kilograms) or more GVWR</entry>
+															<entry colname="2">Property (non-hazardous)</entry>
+															<entry colname="3">$750,000</entry>
+														</row>
+														<row>
+															<entry colname="1">(ii) Freight vehicles of 10,001 (4,536 kilograms) pounds or more GVWR</entry>
+															<entry colname="2">Hazardous substances, as defined in <cite.query w-seq-number="00242" w-normalized-cite="49CFRS171.8" ID="If01987302e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 171.8</cite.query> of <cite.query w-seq-number="00243" w-normalized-cite="49CFRS173.403" ID="If01987312e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 173.403</cite.query>.</entry>
+															<entry colname="3">5,000,000</entry>
+														</row>
+														<row>
+															<entry colname="1">(iii) Freight vehicles of 10,001 pounds (4,536 kilograms) or more GVWR</entry>
+															<entry colname="2">Oil listed in <cite.query w-seq-number="00244" w-normalized-cite="49CFRS172.101" ID="If0256e102e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 172.101</cite.query> in <cite.query w-seq-number="00245" w-normalized-cite="49CFRS171.8" ID="If0256e112e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 171.8</cite.query> of <cite.query w-seq-number="00246" w-normalized-cite="49CFRS172.101" ID="If0256e122e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 172.101</cite.query> of</entry>
+															<entry colname="3">1,000,000</entry>
+														</row>
+														<row>
+															<entry colname="1">(iv) Freight vehicles under 10,001 pounds (4,536 kilograms) GVWR</entry>
+															<entry colname="2">defined in § 173.455 of this title</entry>
+															<entry colname="3">5,000,000</entry>
+														</row>
+													</tbody>
+												</tgroup>
+											</table>
+										</tbl>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(3)</label.designator>
+										</head>
+										<paratext>Motor <cite.query w-seq-number="00247" w-normalized-cite="49CFRPT387" ID="If02ebce02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="ES">49 CFR Part 387</cite.query> Carriers.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(4)</label.designator>
+										</head>
+										<paratext>Of <cite.query w-seq-number="00248" w-normalized-cite="49USCAS13902" ID="If0306a902e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">49 U.S.C. 13902(c)</cite.query> and <cite.query w-seq-number="00249" w-normalized-cite="49CFRPT368" ID="If0306a912e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="ES">49 CFR part 368</cite.query> of <cite.query w-seq-number="00250" w-normalized-cite="49CFRS387.315" ID="If0306a922e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">49 CFR 387.315</cite.query>. 	These:</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>The certificate of registration;</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Form MCS-90</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(iii)</label.designator>
+											</head>
+											<paratext>Coverage.</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(5)</label.designator>
+										</head>
+										<paratext>Notwithstanding the provisions of <cite.query w-seq-number="00251" w-normalized-cite="49CFRS387.301" ID="If03db1002e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301(a)(1)</cite.query>, registration. Further <cite.query w-seq-number="00252" w-normalized-cite="49CFRS387.313" ID="If03db1012e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.313(a)(6)</cite.query> at <cite.query w-seq-number="00253" w-normalized-cite="49CFRS387.313" ID="If03db1022e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.313(d)</cite.query> carriers.</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a3f3090192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Service;</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Text</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Text	</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+						</codes.section>
+						<codes.section ID="I4a41efb0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.303T. </label.designator>
+								<headtext>Minimum limits.</headtext>
+							</head>
+							<codes.subsection ID="I4a4216c0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Definitions.</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Text.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Text.</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a428bf0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00276" w-normalized-cite="49CFRS387.301T" ID="If0468aa02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301T(a)(1)</cite.query> follows:</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>Small freight vehicles.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Passenger carriers.</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00277" w-normalized-cite="49CFRS387.301T" ID="If04ea0f02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301T(a)(2)</cite.query>.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(3)</label.designator>
+										</head>
+										<paratext>Text.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(4)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00285" w-normalized-cite="49CFRS387.315" ID="If07080d22e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.315</cite.query>.</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>The certificate of registration;</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Form MCS-90</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(iii)</label.designator>
+											</head>
+											<paratext>Coverage.</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(5)</label.designator>
+										</head>
+										<paratext>Text <cite.query w-seq-number="00286" w-normalized-cite="49CFRS387.301T" ID="If07c19902e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.301T(a)(1)</cite.query>. At <cite.query w-seq-number="00287" w-normalized-cite="49CFRS387.313T" ID="If07c19912e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.313T(a)(6)</cite.query> and <cite.query w-seq-number="00288" w-normalized-cite="49CFRS387.313T" ID="If07c19922e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.313T(d)</cite.query>.	</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a4ac950192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Text.</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Text</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Text</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+						</codes.section>
+						<codes.section ID="I4a4bb3b0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.305. </label.designator>
+								<headtext>Combination vehicles.</headtext>
+							</head>
+							<codes.subsection ID="I4a4bdac0192d11eba65782e394ca0815">
+								<codes.para>
+									<paratext>Load.</paratext>
+								</codes.para>
+							</codes.subsection>
+						</codes.section>
+						<codes.section ID="I4a4c01d0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.307.</label.designator>
+								<headtext>Property.</headtext>
+							</head>
+							<codes.subsection ID="I4a4c28e0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+										<headtext>Security.</headtext>
+									</head>
+									<paratext>Broker.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a4c4ff0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<paratext>Evidence.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a4c9e10192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Financial:</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Act (<cite.query w-seq-number="00292" w-normalized-cite="12USCAS1813" ID="If0836c902e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">12 U.S.C. 1813(h)</cite.query>);</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>A commercial bank or trust company;</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(3)</label.designator>
+										</head>
+										<paratext>An agency;</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(4)</label.designator>
+										</head>
+										<paratext>Act (<cite.query w-seq-number="00293" w-normalized-cite="12USCAS1813" ID="If084f3302e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">12 U.S.C. 1813(c)(2)</cite.query>);</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(5)</label.designator>
+										</head>
+										<paratext>Text</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(6)</label.designator>
+										</head>
+										<paratext>An insurance company;</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(7)</label.designator>
+										</head>
+										<paratext>company; or</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(8)</label.designator>
+										</head>
+										<paratext>Authority.</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a4e99e0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(d)</label.designator>
+									</head>
+									<paratext>Forms and Procedures—</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>Forms.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Broker.</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>Text.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Broker.</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(3)</label.designator>
+										</head>
+										<paratext>Filing and copies.</paratext>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+						</codes.section>
+						<codes.section ID="I4a5306b0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.311. </label.designator>
+								<headtext>Bonds and certificates of insurance.</headtext>
+							</head>
+							<codes.subsection ID="I4a532dc0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Public liability.<cite.query w-seq-number="00315" w-normalized-cite="49CFRS387.303" ID="If0b8fb802e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query>. 	Form <cite.query w-seq-number="00316" w-normalized-cite="49CFRS387.303" ID="If0b8fb812e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query> or <cite.query w-seq-number="00317" w-normalized-cite="49CFRS387.303" ID="If0b8fb822e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(2)</cite.query>. 	Form <cite.query w-seq-number="00318" w-normalized-cite="49CFRS387.303" ID="If0b8fb832e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query> or <cite.query w-seq-number="00319" w-normalized-cite="49CFRS387.303" ID="If0b8fb842e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(2)</cite.query> is applicable. Any <cite.query w-seq-number="00320" w-normalized-cite="49CFRS387.303" ID="If0b8fb852e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query> or <cite.query w-seq-number="00321" w-normalized-cite="49CFRS387.303" ID="If0b8fb862e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(2)</cite.query> coverage.[<endnote.reference refid="aI4a5306b0192d11eba65782e394ca0815">a</endnote.reference>]</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a541820192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<paratext>Cargo liability.<cite.query w-seq-number="00322" w-normalized-cite="49CFRS387.303" ID="If0c494402e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(c)</cite.query>. 	Form <cite.query w-seq-number="00323" w-normalized-cite="49CFRS387.303" ID="If0c494412e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(c)</cite.query>.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a548d50192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Policy.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<credit.block>
+								<head parent="credit.block">
+									<headtext>
+										<bold>CREDIT(S)</bold>
+									</headtext>
+								</head>
+								<credit>[Sept. 30, 2003]</credit>
+							</credit.block>
+							<endnote ID="aI4a5306b0192d11eba65782e394ca0815">
+								<label.designator>a</label.designator>
+								<endnote.body>
+									<para>
+										<paratext>Note: <cite.query w-seq-number="00331" w-normalized-cite="49CFRS387.303" ID="If0cea6622e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query> will not be <cite.query w-seq-number="00332" w-normalized-cite="STBMC-5" ID="If0cea6612e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0007152" w-ref-type="OT">Ex Parte No. MC-5 (Sub-No. 2)</cite.query>, Liability.</paratext>
+									</para>
+								</endnote.body>
+							</endnote>
+						</codes.section>
+						<codes.section ID="I4a55c5d0192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.313. </label.designator>
+								<headtext>Forms and procedures.</headtext>
+							</head>
+							<codes.note.block>
+								<ednote>
+									<codes.para>
+										<paratext>Text.</paratext>
+									</codes.para>
+								</ednote>
+							</codes.note.block>
+							<codes.subsection ID="I4a5613f0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Forms</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>In form prescribed.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Aggregation of Insurance.[<endnote.reference refid="**I4a55c5d0192d11eba65782e394ca0815">**</endnote.reference>] When <cite.query w-seq-number="00333" w-normalized-cite="49CFRS387.303" ID="If0e032902e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query>, insurer.</paratext>
+									</codes.para>
+									<codes.para>
+										<paratext>For aggregation of insurance for all other carriers to cover security limits under <cite.query w-seq-number="00334" w-normalized-cite="49CFRS387.303" ID="If0f604802e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1) or (b)(2)</cite.query>, a separate Department of Transportation prescribed form endorsement and Form BMC 91X certificate is required of each insurer. When insurance is provided by more than one insurer to aggregate coverage for security limits under <cite.query w-seq-number="00335" w-normalized-cite="49CFRS387.303" ID="If0f604812e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(c)</cite.query> a separate Form BMC 32 endorsement and Form BMC 34 certificate of insurance is required for each insurer.</paratext>
+									</codes.para>
+									<codes.para>
+										<paratext>For <cite.query w-seq-number="00336" w-normalized-cite="49CFRS387.303" ID="If1060a102e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(4)</cite.query>, insurer.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(3)</label.designator>
+										</head>
+										<paratext>Form <cite.query w-seq-number="00337" w-normalized-cite="49CFRS387.303" ID="If10a9df02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1) or (b)(2)</cite.query>.</paratext>
+									</codes.para>
+									<codes.para>
+										<paratext>Form <cite.query w-seq-number="00338" w-normalized-cite="49CFRS387.303" ID="If10f58e02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1) or (b)(2)</cite.query>.</paratext>
+									</codes.para>
+									<codes.para>
+										<paratext>Form <cite.query w-seq-number="00339" w-normalized-cite="49CFRS387.303" ID="If119b9202e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(c)</cite.query>.</paratext>
+									</codes.para>
+									<codes.para>
+										<paratext>Form <cite.query w-seq-number="00340" w-normalized-cite="49CFRS387.303" ID="If11dfee02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(4)</cite.query>.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(4)</label.designator>
+										</head>
+										<paratext>Use <cite.query w-seq-number="00341" w-normalized-cite="49CFRS387.303" ID="If125a0002e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1) or (b)(2)</cite.query> required.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(5)</label.designator>
+										</head>
+										<paratext>When <cite.query w-seq-number="00342" w-normalized-cite="49CFRS387.303" ID="If12db6502e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303(b)(1)</cite.query>.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(6)</label.designator>
+										</head>
+										<paratext>Surety:</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>Text</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Text	</paratext>
+										</codes.para>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a592130192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<paratext>Certificates.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a596f50192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Certificates.	</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a599660192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(d)</label.designator>
+									</head>
+									<paratext>Cancellation notice.<cite.query w-seq-number="00343" w-normalized-cite="49USCAS13906" ID="If133a9c02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">49 U.S.C. 13906</cite.query>.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a5a0b90192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(e)</label.designator>
+									</head>
+									<paratext>Termination by replacement.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a5a32a0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(f)</label.designator>
+									</head>
+									<paratext>[Reserved by <cite.query w-seq-number="00344" ID="If134e2412e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="51434" w-serial-number="0485720480" w-ref-type="FR">84 FR 51434</cite.query>]</paratext>
+								</codes.para>
+							</codes.subsection>
+							<endnote ID="**I4a55c5d0192d11eba65782e394ca0815">
+								<label.designator>**</label.designator>
+								<endnote.body>
+									<para>
+										<paratext>Note: <cite.query w-seq-number="00359" w-normalized-cite="49CFRS387.311" ID="If13e31102e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§§ 387.311</cite.query> and <cite.query w-seq-number="00360" w-normalized-cite="49CFRS387.313" ID="If13e31112e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">387.313</cite.query> have been written.</paratext>
+									</para>
+								</endnote.body>
+							</endnote>
+						</codes.section>
+						<codes.section ID="I4a5c7c90192d11eba65782e394ca0815">
+							<head parent="codes.section">
+								<label.name>§  </label.name>
+								<label.designator>387.313T. </label.designator>
+								<headtext>Forms and procedures.</headtext>
+							</head>
+							<codes.subsection ID="I4a5ca3a0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(a)</label.designator>
+									</head>
+									<paratext>Forms—</paratext>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(1)</label.designator>
+										</head>
+										<paratext>In form prescribed.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(2)</label.designator>
+										</head>
+										<paratext>Aggregation of insurance.</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>When <cite.query w-seq-number="00361" w-normalized-cite="49CFRS387.303T" ID="If15059802e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(1)</cite.query>, a separate Form.</paratext>
+											<paratext>**Note: See Note for Rule 387.311. Also <cite.query w-seq-number="00362" w-normalized-cite="49CFRS387.311" ID="If15c40602e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§§ 387.311</cite.query> and <cite.query w-seq-number="00363" w-normalized-cite="49CFRS387.313T" ID="If15c40612e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">387.313T</cite.query> have been written.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>For <cite.query w-seq-number="00364" w-normalized-cite="49CFRS387.303T" ID="If17483502e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(1) or (2)</cite.query> insurer. When <cite.query w-seq-number="00365" w-normalized-cite="49CFRS387.303T" ID="If17483512e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(c)</cite.query> insurer.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(iii)</label.designator>
+											</head>
+											<paratext>For <cite.query w-seq-number="00366" w-normalized-cite="49CFRS387.303T" ID="If1859a502e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(4)</cite.query> insurer.</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(3)</label.designator>
+										</head>
+										<paratext>Use of certificates and endorsements in BMC Series.<cite.query w-seq-number="00367" w-normalized-cite="49CFRS387.303T" ID="If18991f02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(1) or (2)</cite.query>.		</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>Form <cite.query w-seq-number="00368" w-normalized-cite="49CFRS387.303T" ID="If18d62802e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(1) or (2)</cite.query>.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Form <cite.query w-seq-number="00369" w-normalized-cite="49CFRS387.303T" ID="If1932ee02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(c)</cite.query>.</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(iii)</label.designator>
+											</head>
+											<paratext>Form <cite.query w-seq-number="00370" w-normalized-cite="49CFRS387.303T" ID="If196ff702e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(4)</cite.query>.</paratext>
+										</codes.para>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(4)</label.designator>
+										</head>
+										<paratext>Use <cite.query w-seq-number="00371" w-normalized-cite="49CFRS387.303T" ID="If19e79802e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(1) or (b)(2)</cite.query> is required.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(5)</label.designator>
+										</head>
+										<paratext>Surety <cite.query w-seq-number="00372" w-normalized-cite="49CFRS387.303T" ID="If1a57e602e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000547" w-ref-type="LQ">§ 387.303T(b)(1)</cite.query> the Department of Transportation.</paratext>
+									</codes.para>
+									<codes.para>
+										<head parent="codes.para">
+											<label.designator>(6)</label.designator>
+										</head>
+										<paratext>Surety:</paratext>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(i)</label.designator>
+											</head>
+											<paratext>text</paratext>
+										</codes.para>
+										<codes.para>
+											<head parent="codes.para">
+												<label.designator>(ii)</label.designator>
+											</head>
+											<paratext>Text.	</paratext>
+										</codes.para>
+									</codes.para>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a5f89d0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(b)</label.designator>
+									</head>
+									<paratext>Certificates.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a5fb0e0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(c)</label.designator>
+									</head>
+									<paratext>Name.	</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a5fd7f0192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(d)</label.designator>
+									</head>
+									<paratext>Insurance under <cite.query w-seq-number="00373" w-normalized-cite="49USCAS13906" ID="If1ab71d02e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="1000546" w-ref-type="LQ">49 U.S.C. 13906</cite.query> FMCSA.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a5fff00192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(e)</label.designator>
+									</head>
+									<paratext>Termination by replacement.</paratext>
+								</codes.para>
+							</codes.subsection>
+							<codes.subsection ID="I4a604d20192d11eba65782e394ca0815">
+								<codes.para>
+									<head parent="codes.para">
+										<label.designator>(f)</label.designator>
+									</head>
+									<paratext>[Reserved by <cite.query w-seq-number="00374" ID="If1ac83412e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="51434" w-serial-number="0485720480" w-ref-type="FR">84 FR 51434</cite.query>]</paratext>
+								</codes.para>
+							</codes.subsection>
+							<credit.block>
+								<head parent="credit.block">
+									<headtext>
+										<bold>CREDIT(S)</bold>
+									</headtext>
+								</head>
+								<credit>[<cite.query w-seq-number="00375" ID="If1acd1612e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="5308" w-serial-number="0454308677" w-ref-type="FR">82 FR 5308</cite.query>, Jan. 17, 2017; <cite.query w-seq-number="00376" ID="If1acd1632e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="16226" w-serial-number="0468597797" w-ref-type="FR">83 FR 16226</cite.query>, April 16, 2018; <cite.query w-seq-number="00377" ID="If1acd1652e2311ebb7c5ec7e1328e4bc" w-src-number="0306131198" w-pub-number="0001037" w-pinpoint-page="51434" w-serial-number="0485720480" w-ref-type="FR">84 FR 51434</cite.query> Sept. 30, 2019]</credit>
+							</credit.block>
+						</codes.section>
+					</codes.grade>
+				</codes.excerpt>
+			</section.body>
+		</section>
+		<prop.head.footnotes>
+			<footnote ID="I56b6f2b02e2511ebbdb1fa0dd317c2cd">
+				<label.designator>*</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>Currency for CFR is October 17, 2019; <cite.query w-seq-number="00001" ID="Ie3b9cdb12e2311ebb7c5ec7e1328e4bc" w-pub-number="0001037" w-pinpoint-page="55509" w-serial-number="0486430722" w-ref-type="FR">84 FR 55509</cite.query>.</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+		</prop.head.footnotes>
+		<content.metadata.block>
+			<cmd.royalty>
+				<cmd.copyright>Westlaw</cmd.copyright>
+			</cmd.royalty>
+			<cmd.identifiers>
+				<cmd.cites>
+					<cmd.first.line.cite>LTAC PART 387	</cmd.first.line.cite>
+				</cmd.cites>
+			</cmd.identifiers>
+		</content.metadata.block>
+	</doc>
+</n-docbody>

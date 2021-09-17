@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.format.step;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksResolver;
+import com.thomsonreuters.uscl.ereader.format.service.InnerDocumentAnchorsMarker;
+import com.thomsonreuters.uscl.ereader.format.service.InnerDocumentAnchorsMarkerImpl;
 import com.thomsonreuters.uscl.ereader.format.service.TransformCharSequencesService;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -67,6 +69,12 @@ public class TransformCharSequencesStepIntegrationTest {
         runner.test(transformCharSequencesStep, "testMovePbsAfterFtnReferences");
     }
 
+    @Test
+    @SneakyThrows
+    public void shouldAddInnerAnchors() {
+        runner.test(transformCharSequencesStep, "testInnerAnchors");
+    }
+
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
@@ -84,6 +92,11 @@ public class TransformCharSequencesStepIntegrationTest {
         @Bean
         public DuplicatedPagebreaksResolver duplicatedPagebreaksResolver() {
             return new DuplicatedPagebreaksResolver();
+        }
+
+        @Bean
+        public InnerDocumentAnchorsMarker innerDocumentAnchorsMarker() {
+            return new InnerDocumentAnchorsMarkerImpl();
         }
     }
 }

@@ -33,6 +33,9 @@ public class TransformCharSequencesService {
     @Autowired
     private DuplicatedPagebreaksResolver duplicatedPagebreaksResolver;
 
+    @Autowired
+    private InnerDocumentAnchorsMarker innerDocumentAnchorsMarker;
+
     @SneakyThrows
     public void transformCharSequences(final File srcDir, final File destDir, final boolean isCwBook, final boolean isPrintPageNumbers, final boolean pageVolumesSet) {
         Files.list(srcDir.toPath())
@@ -48,6 +51,8 @@ public class TransformCharSequencesService {
         addContainerAttributeToCiteQuery(document, isCwBook);
         duplicatedPagebreaksResolver.fixDuplicatedPagebreaks(document);
         protectPagebreaks(document, shouldProtectPagebreaks, pageVolumesSet);
+        innerDocumentAnchorsMarker.markInnerDocumentAnchors(document);
+
         jsoup.saveDocument(destDir, file.getName(), document);
     }
 

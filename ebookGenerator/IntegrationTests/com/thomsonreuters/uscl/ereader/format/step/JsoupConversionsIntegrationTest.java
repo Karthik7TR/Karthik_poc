@@ -4,6 +4,7 @@ import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.AddHiddenFootnotesAndReferences;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.ExternalLinksTransformation;
+import com.thomsonreuters.uscl.ereader.format.service.jsoup.InnerLinksTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.JsoupTransformation;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.LegalTopicBlockGeneration;
 import com.thomsonreuters.uscl.ereader.format.service.jsoup.RemoveGapsBetweenChaptersService;
@@ -103,6 +104,11 @@ public class JsoupConversionsIntegrationTest {
         runner.test(step, "fixLinkSerialNumber");
     }
 
+    @Test
+    public void shouldTransformInnerLinks() throws Exception {
+        runner.test(step, "transformInnerLinks");
+    }
+
     private void setUpCwBookDefinition() {
         BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFullyQualifiedTitleId(CW_TITLE_ID);
@@ -141,6 +147,11 @@ public class JsoupConversionsIntegrationTest {
         @Bean
         public JsoupTransformation addHiddenFootnotesAndReferences() {
             return new AddHiddenFootnotesAndReferences();
+        }
+
+        @Bean
+        public JsoupTransformation innerLinksTransformation() {
+            return new InnerLinksTransformation();
         }
 
         @Bean

@@ -7,8 +7,10 @@ public class MarkupConstants {
     public static final String ANCHOR = "a";
     public static final String HREF = "href";
     public static final String NAME = "name";
+    public static final String HEAD = "head";
     public static final String INNER = "inner";
     public static final String STYLE = "style";
+    public static final String CLASS = "class";
     public static final String OL = "ol";
     public static final String UL = "ul";
     public static final String LI = "li";
@@ -19,6 +21,10 @@ public class MarkupConstants {
     public static final String SECTION = "section";
     public static final String LIST = "list";
     public static final String LIST_ITEM = "list.item";
+    public static final String CITE_QUERY = "cite.query";
+    public static final String CASE_HISTORY = "case.history";
+    public static final String CODES_SECTION = "codes.section";
+    public static final String SECTION_BODY = "section.body";
     public static final String SECTION_FRONT = "section.front";
     public static final String SECTION_LABEL_CLASS = "section-label";
     public static final String INDEX = "index";
@@ -83,7 +89,10 @@ public class MarkupConstants {
     public static final String BOS = "bos";
     public static final String EOP = "eop";
     public static final String EOS = "eos";
-    public static final String CASE_HISTORY = "case.history";
+    public static final String FR_REF_TYPE_ATTR = "FR";
+    public static final String EBOOK_URL_BUILDER_CONTAINER_ATTR = "ebook-url-builder-container";
+    public static final String W_REF_TYPE_ATTR = "w-ref-type";
+    public static final String COBALT = "COBALT";
     public static final String BOLD = "bold";
     public static final String STRONG = "strong";
 }
