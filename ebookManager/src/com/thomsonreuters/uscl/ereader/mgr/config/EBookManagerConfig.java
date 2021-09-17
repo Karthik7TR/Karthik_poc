@@ -39,7 +39,7 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 @ImportResource({"classpath:spring/*.xml", "/WEB-INF/spring/*.xml"})
 @ComponentScan("com.thomsonreuters.uscl.ereader")
 public class EBookManagerConfig extends WebMvcConfigurerAdapter {
-    private static final int MB_200 = 209_715_200;
+    private static final long MB_2048 = 2L * 1024 * 1024 * 1024;
 
     @Bean
     public MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter() {
@@ -97,7 +97,7 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(MB_200);
+        commonsMultipartResolver.setMaxUploadSize(MB_2048);
         return commonsMultipartResolver;
     }
 

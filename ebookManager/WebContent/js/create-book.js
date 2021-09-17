@@ -899,7 +899,10 @@ $(function() {
 			const fileNameField = pdfRow.find('.pdfFilename');
 			const rawFileName = file.name;
 			const fileName = rawFileName.replace(/\s/g, '_');
-			if (!confirmRenaming(rawFileName, fileName) || !checkFileExtension(fileName) || !checkFileSize(file) || !checkSpecialCharacters(fileName)) {
+			if (!confirmRenaming(rawFileName, fileName)
+				|| !checkFileExtension(fileName)
+				|| !checkFileSizeForCwBook(file)
+				|| !checkSpecialCharacters(fileName)) {
 				fileField.val(null);
 				return;
 			}
@@ -970,6 +973,17 @@ $(function() {
 			}
 			return true;
 		};
+
+		const checkFileSizeForCwBook = function(file) {
+			if (isCwPublisher()) {
+				return checkFileSize(file);
+			}
+			return true;
+		};
+
+		const isCwPublisher = function() {
+			return publisher === CW_PUBLISHER;
+		}
 
 		const checkSpecialCharacters = function(fileName) {
 			const fileNameWithoutExtension = fileName.replace(FILE_EXTENSION_PATTERN, '');
