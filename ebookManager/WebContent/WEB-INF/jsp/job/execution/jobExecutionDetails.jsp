@@ -87,7 +87,7 @@
 		<td colspan="3">${job.bookInfo.proviewDisplayName}</td>
 	</tr>
 	<c:choose>
-		<c:when test="${job.publishingStats.combinedBookDefinitionId != 0}">
+		<c:when test="${not empty job.publishingStats.combinedBookDefinitionId}">
 			<tr>
 				<td>Title ID (Combined book)</td>
 				<td colspan="3"><a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${job.publishingStats.combinedBookDefinitionId}">${job.bookInfo.titleId}</a></td>

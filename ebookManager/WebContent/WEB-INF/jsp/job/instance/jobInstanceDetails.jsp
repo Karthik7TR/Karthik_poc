@@ -40,7 +40,7 @@
 </tr>
 <tr>
 	<c:choose>
-		<c:when test="${job.publishingStats.combinedBookDefinitionId != 0}">
+		<c:when test="${not empty job.publishingStats.combinedBookDefinitionId}">
 			<td>Title ID (Combined book)</td>
 			<td><a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${job.publishingStats.combinedBookDefinitionId}">${bookInfo.titleId}</a></td>
 		</c:when>
