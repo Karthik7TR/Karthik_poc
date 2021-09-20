@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -68,11 +69,17 @@ public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarke
 
     private void markCiteQueryAnchors(final Document document, final Map<String, String> designatorToCodesSectionId) {
         document.getElementsByTag(CODES_SECTION).forEach(codesSection -> {
-            String codesSectionId = codesSection.attr(ID_UPPER_CASE);
-            Element anchor = document.createElement(CITE_QUERY);
-            codesSection.selectFirst(HEAD_HEADTEXT).prependChild(anchor);
-            setAnchorAttributes(INNER_ANCHOR_ID_TEMPLATE + codesSectionId, anchor);
-            designatorToCodesSectionId.put(extractAnchorNameFromHeader(codesSection), codesSectionId);
+            String anchorName = extractAnchorNameFromHeader(codesSection);
+
+            if (StringUtils.isNotEmpty(anchorName)) {
+                String codesSectionId = codesSection.attr(ID_UPPER_CASE);
+                Element anchor = document.createElement(CITE_QUERY);
+                ofNullable(codesSection.selectFirst(HEAD_HEADTEXT))
+                        .orElseGet(() -> codesSection.getElementsByTag(LABEL_DESIGNATOR).first())
+                        .prependChild(anchor);
+                setAnchorAttributes(INNER_ANCHOR_ID_TEMPLATE + codesSectionId, anchor);
+                designatorToCodesSectionId.put(anchorName, codesSectionId);
+            }
         });
     }
 
@@ -84,12 +91,13 @@ public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarke
     }
 
     private String extractAnchorNameFromHeader(final Element section) {
-        String designator = section.selectFirst(HEAD).getElementsByTag(LABEL_DESIGNATOR).first().text();
-        designator = designator.trim();
-        if (designator.endsWith(DOT)) {
-            designator = designator.substring(0, designator.length()-1);
-        }
-        return designator;
+        return ofNullable(section.selectFirst(HEAD))
+                        .map(head -> head.getElementsByTag(LABEL_DESIGNATOR))
+                        .map(Elements::first)
+                        .map(Element::text)
+                        .map(String::trim)
+                        .map(name -> StringUtils.removeEnd(name, DOT))
+                        .orElse(null);
     }
 
     private String extractAnchorNameFromLinkText(String citeQueryText) {
