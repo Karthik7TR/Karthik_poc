@@ -52,6 +52,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.thomsonreuters.uscl.ereader.FrontMatterFileName.ADDITIONAL_FRONT_MATTER;
+import static com.thomsonreuters.uscl.ereader.FrontMatterFileName.FRONT_MATTER_TITLE;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PNG;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
 
@@ -113,7 +115,6 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
 
         OutputStream titleManifest = null;
         InputStream splitTitleXMLStream = null;
-        boolean firstSplitBook;
 
         try {
             final File assembleDirectory = assembleFileSystem.getAssembleDirectory(this);
@@ -145,15 +146,17 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
             // Create title.xml and directories needed. Move content for all
             // splitBooks
             for (int i = 1; i <= parts; i++) {
-                firstSplitBook = false;
                 String splitTitle = i == 1 ? bookDefinition.getTitleId() : String.format("%s_pt%s", bookDefinition.getTitleId(), i);
                 final File ebookDirectory = new File(assembleDirectory, splitTitle);
                 ebookDirectory.mkdir();
                 final File assetsDirectory = createAssetsDirectory(ebookDirectory);
 
                 titleMetadataBuilder.displayName(String.format("%s (eBook %s of %s)", bookDefinition.getProviewDisplayName(), i, parts));
-                titleMetadataBuilder.fullyQualifiedTitleId(String.format("%s_pt%s", fullyQualifiedTitleId, i));
-
+                if (i == 1) {
+                    titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
+                } else {
+                    titleMetadataBuilder.fullyQualifiedTitleId(String.format("%s_pt%s", fullyQualifiedTitleId, i));
+                }
                 final String key = String.valueOf(i);
 
                 // Add needed images corresponding to the split Book to Assets
@@ -165,10 +168,10 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                 final List<Doc> docList = docMap.computeIfAbsent(key, k -> new ArrayList<>());
 
                 // Only for first split book
-                if (i == 1) {
+                boolean isFrontMatterPagesExist = docList.stream().anyMatch(item -> item.getSrc().contains(ADDITIONAL_FRONT_MATTER));
+                if (isFrontMatterPagesExist) {
                     bookDefinition.getFrontMatterPdfFileNames()
                         .forEach(titleMetadataBuilder::assetFileName);
-
                     if (bookDefinition.isCwBook()) {
                         Optional.of(formatFileSystem.getFrontMatterPdfImagesDir(this))
                                 .filter(File::exists)
@@ -178,15 +181,12 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                                 .map(File::getName)
                                 .forEach(titleMetadataBuilder::assetFileName);
                     }
-
-                    if (bookDefinition.isTitlePageImageIncluded()) {
-                        File titlePageImage = new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG);
-                        moveResourcesUtil.moveTitlePageImage(jobExecutionContext, titlePageImage);
-                        titleMetadataBuilder.assetFile(titlePageImage);
-                    }
-
-                    titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
-                    firstSplitBook = true;
+                }
+                boolean isTitleExist = docList.stream().anyMatch(item -> item.getSrc().contains(FRONT_MATTER_TITLE));
+                if (isTitleExist & bookDefinition.isTitlePageImageIncluded()) {
+                    File titlePageImage = new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG);
+                    moveResourcesUtil.moveTitlePageImage(jobExecutionContext, titlePageImage);
+                    titleMetadataBuilder.assetFile(titlePageImage);
                 }
 
                 featuresListBuilder.forTitleId(new BookTitleId(key,
@@ -205,7 +205,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                     splitTitleXMLStream,
                     titleManifest,
                     nasFileSystem.getPilotBookCsvDirectory().getAbsolutePath());
-                moveResources(jobExecutionContext, ebookDirectory, assetsDirectory, firstSplitBook, imgList, docList, coverArtFile);
+                moveResources(jobExecutionContext, ebookDirectory, assetsDirectory, isFrontMatterPagesExist, imgList, docList, coverArtFile);
                 //Drop assets for current split book part
                 titleMetadataBuilder.assetFileNames(null);
                 addAssetsForAllBooks(bookDefinition, titleMetadataBuilder);
@@ -233,7 +233,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
      * Move resources to appropriate splitbook
      * @param jobExecutionContext
      * @param ebookDirectory
-     * @param firstSplitBook
+     * @param isFrontMatterPagesExist
      * @param imgList
      * @param docList
      * @throws IOException
@@ -242,7 +242,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         final ExecutionContext jobExecutionContext,
         final File ebookDirectory,
         final File assetsDirectory,
-        final boolean firstSplitBook,
+        final boolean isFrontMatterPagesExist,
         final List<String> imgList,
         final List<Doc> docList,
         final File coverArtFile) {
@@ -257,7 +257,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);
         moveResourcesUtil.copyFilesToDestination(dynamicImgFiles, assetsDirectory);
         // Frontmatter pdf
-        moveResourcesUtil.moveFrontMatterImages(this, assetsDirectory, firstSplitBook);
+        moveResourcesUtil.moveFrontMatterImages(this, assetsDirectory, isFrontMatterPagesExist);
 
         final File artworkDirectory = createArtworkDirectory(ebookDirectory);
         FileUtils.copyFileToDirectory(coverArtFile, artworkDirectory);
@@ -265,20 +265,22 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
 
         // Move Documents
         final File documentsDirectory = createDocumentsDirectory(ebookDirectory);
-        if (firstSplitBook) {
-            final File frontMatter = formatFileSystem.getFrontMatterHtmlDir(this);
-            moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
-        }
-
-        final File transformedDocsDir = new File(
-                getJobExecutionPropertyString(JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+        final File transformedDocsDir = new File(getJobExecutionPropertyString(JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
 
         final List<String> srcIdList = new ArrayList<>();
         for (final Doc doc : docList) {
             srcIdList.add(doc.getSrc());
         }
-        final List<File> documentFiles = filterFiles(transformedDocsDir, srcIdList);
+
+        final List<File> documentFiles = filterFilesFromDirectories(transformedDocsDir, formatFileSystem.getFrontMatterHtmlDir(this), srcIdList);
         moveResourcesUtil.copyFilesToDestination(documentFiles, documentsDirectory);
+    }
+
+    private List<File> filterFilesFromDirectories(final File transformedDocsDir, final File frontMatterHtmlDir,  final List<String> srcIdList) {
+        return Stream.of(filterFiles(transformedDocsDir, srcIdList),
+                        filterFiles(frontMatterHtmlDir, srcIdList))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     protected List<File> filterFiles(final File directory, final List<String> fileNameList) {

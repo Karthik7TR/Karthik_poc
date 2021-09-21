@@ -27,6 +27,16 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PROVIEW_NAME;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_ID;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.DOCUMENT_GUID;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_INLINE_TOC;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_PUBLISHING_INFORMATION;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_TOC;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.HTML_FILE_EXTENSION;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.MISSING_DOCUMENT;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.NAME;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.TOC_GUID;
 
 /**
  * A SAX event handler responsible for parsing a gathered TOC (an XML document) and producing a ProView title manifest
@@ -147,7 +157,7 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
             previousDepth = 0;
             // Add TOC NODES for Front Matter
             if (!titleMetadata.isCombinedBook()) {
-                buildFrontMatterTOCEntries(false);
+                buildFrontMatterTOCEntries();
             }
         } else if (EBOOK_TITLE.equals(qName)){
             currentDepth++;
@@ -170,7 +180,7 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
             // this node is missing text, generate a new doc guid and xhtml5
             // content for the heading.
             final String missingDocumentGuid = currentNode.getTocGuid();
-            final String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
+            final String missingDocumentFilename = missingDocumentGuid + HTML_FILE_EXTENSION;
             final File missingDocument = new File(documentsDirectory, missingDocumentFilename);
             try {
                 final FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
@@ -232,19 +242,17 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
         } else if (EBOOK_TITLE.equals(qName)) {
             createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE + "-" + titleIdAndProviewName.getTitleId().escapeSlashWithDash(),
                     TITLE_PAGE + ": " + titleIdAndProviewName.getProviewName(),
-                    false,
-                    FrontMatterFileName.FRONT_MATTER_TITLE,
-                    true);
+                    FrontMatterFileName.FRONT_MATTER_TITLE, true);
             currentDepth--;
         } else if (EBOOK_INLINE_TOC.equals(qName)){
             currentDepth = 1;
-            createInlineTocNode(false);
+            createInlineTocNode();
             currentDepth = 0;
         }
         else if (EBOOK_PUBLISHING_INFORMATION.equals(qName)) {
             currentDepth = 1;
             currentNode = new TocEntry(currentDepth);
-            createPublishingInformation(false);
+            createPublishingInformation();
             currentDepth = 0;
         } else if (EBOOK_TOC.equals(qName)) {
             currentDepth--;
@@ -275,7 +283,7 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
             uniqueDocumentIds.add(uniqueGuid);
             copyHtmlDocument(documentGuid, uniqueGuid); // copy and rename the html file identified by the GUID listed
                                                         // in the gathered toc.
-            orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION, 0, null));
+            orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_FILE_EXTENSION, 0, null));
             currentNode.setDocumentUuid(uniqueGuid);
         } else {
             // Replace docGuid with the corresponding family Guid.
@@ -285,17 +293,17 @@ public class TitleManifestFilter extends AbstractTitleManifestFilter {
                 if (uniqueFamilyGuids.contains(familyGuid)) { // Have we already come across this family GUID?
                     LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
                     familyGuid = uuidGenerator.generateUuid();
-                    orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION, 0, null));
+                    orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_FILE_EXTENSION, 0, null));
                     copyHtmlDocument(documentGuid, familyGuid);
                 } else {
-                    orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION, 0, null));
+                    orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_FILE_EXTENSION, 0, null));
                 }
                 currentNode.setDocumentUuid(familyGuid);
                 docGuid.append(familyGuid); // perform the replacement
                 uniqueFamilyGuids.add(familyGuid);
             } else {
                 uniqueDocumentIds.add(docGuid.toString());
-                orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_EXTENSION, 0, null));
+                orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_FILE_EXTENSION, 0, null));
             }
         }
     }

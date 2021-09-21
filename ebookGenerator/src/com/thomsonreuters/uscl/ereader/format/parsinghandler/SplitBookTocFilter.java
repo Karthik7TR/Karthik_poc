@@ -20,19 +20,23 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.DOCUMENT_GUID;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_INLINE_TOC;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_PUBLISHING_INFORMATION;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_TOC;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.MISSING_DOCUMENT;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.NAME;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.TITLE_BREAK;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.TOC_GUID;
+
 @RequiredArgsConstructor
 public class SplitBookTocFilter extends XMLFilterImpl {
     private static final Logger LOG = LogManager.getLogger(SplitBookTocFilter.class);
 
     private static final String URI = StringUtils.EMPTY;
-    private static final String TITLE_BREAK = "titlebreak";
-    private static final String TOC_GUID = "Guid";
-    private static final String EBOOK = "EBook";
-    private static final String EBOOK_TOC = "EBookToc";
-    private static final String NAME = "Name";
     private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
-    private static final String DOCUMENT_GUID = "DocumentGuid";
-    private static final String MISSING_DOCUMENT = "MissingDocument";
 
     private final String splitTilteId;
     private final List<String> splitTocGuidList;
@@ -50,6 +54,11 @@ public class SplitBookTocFilter extends XMLFilterImpl {
             case EBOOK:
                 super.startElement(URI, EBOOK, EBOOK, EMPTY_ATTRIBUTES);
                 placeTitleBreak();
+                break;
+            case EBOOK_TITLE:
+            case EBOOK_INLINE_TOC:
+            case EBOOK_PUBLISHING_INFORMATION:
+                super.startElement(URI, localName, qName, atts);
                 break;
             case EBOOK_TOC:
                 currentNode = new EBookToc(currentNode);
@@ -79,6 +88,9 @@ public class SplitBookTocFilter extends XMLFilterImpl {
                 break;
             case EBOOK:
             case EBOOK_TOC:
+            case EBOOK_TITLE:
+            case EBOOK_INLINE_TOC:
+            case EBOOK_PUBLISHING_INFORMATION:
                 super.endElement(uri, localName, qName);
                 break;
             default:

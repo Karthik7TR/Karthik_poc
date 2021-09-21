@@ -300,6 +300,41 @@ public final class SplitBookTocFilterTest {
     }
 
     @Test
+    public void testCombinedSplitBook() throws Exception {
+        splitTocGuidList.clear();
+        splitTocGuidList.add("TABLEOFCONTENTS33CHARACTERSLONG_3");
+        final String xmlTestStr = "<EBook>"
+                + "<EBookTitle titleId=\"uscl-an-keyrules_small_test\" proviewName=\"KeyRules\"/>"
+                + "<EBookInlineToc/>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
+                + "<EBookTitle titleId=\"uscl-an-book2_small_test\" proviewName=\"Book2\"/>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID4</DocumentGuid></EBookToc>"
+                + "</EBookToc>"
+                + "</EBookToc>"
+                + "<EBookPublishingInformation/>"
+                + "</EBook>";
+        final String expectedResult = "<EBook>"
+                + "<titlebreak>eBook 1 of 2</titlebreak>"
+                + "<EBookTitle titleId=\"uscl-an-keyrules_small_test\" proviewName=\"KeyRules\"/>"
+                + "<EBookInlineToc/>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+                + "<EBookTitle titleId=\"uscl-an-book2_small_test\" proviewName=\"Book2\"/>"
+                + "<titlebreak>eBook 2 of 2</titlebreak>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+                + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID4</DocumentGuid></EBookToc>"
+                + "</EBookToc>"
+                + "</EBookToc>"
+                + "<EBookPublishingInformation/>"
+                + "</EBook>";
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
     public void testSplitTocXML() throws Exception {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"

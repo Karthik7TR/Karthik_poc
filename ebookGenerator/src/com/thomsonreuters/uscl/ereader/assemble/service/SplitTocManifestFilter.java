@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.assemble.exception.PlaceholderDocumentServiceException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleIdAndProviewName;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
@@ -25,6 +28,19 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PROVIEW_NAME;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_ID;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.DOCUMENT_GUID;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_INLINE_TOC;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_PUBLISHING_INFORMATION;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.EBOOK_TOC;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.HTML_FILE_EXTENSION;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.MISSING_DOCUMENT;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.NAME;
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.TOC_GUID;
 
 /**
  * A SAX event handler responsible for parsing a gathered TOC (an XML document) and producing a ProView title manifest
@@ -70,11 +86,14 @@ import org.xml.sax.SAXException;
  */
 public class SplitTocManifestFilter extends AbstractTocManifestFilter {
     private static final Logger LOG = LogManager.getLogger(SplitTocManifestFilter.class);
+    private static final String DASH = "-";
+    private static final String COLON_WITH_SPACE = ": ";
     private PlaceholderDocumentService placeholderDocumentService;
     private UuidGenerator uuidGenerator;
 
     private TableOfContents tableOfContents = new TableOfContents();
     private StringBuilder titleBreak = new StringBuilder();
+    private TitleIdAndProviewName titleIdAndProviewName;
 
     private int titleBreakPart;
 
@@ -173,7 +192,12 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
             currentDepth = 0;
             previousDepth = 0;
             // Add TOC NODES for Front Matter
-            buildFrontMatterTOCEntries(true);
+            if (!titleMetadata.isCombinedBook()) {
+                buildFrontMatterTOCEntries(titleMetadata.getTitleId());
+            }
+        } else if (EBOOK_TITLE.equals(qName)) {
+            currentDepth++;
+            titleIdAndProviewName = new TitleIdAndProviewName(attributes.getValue(TITLE_ID), attributes.getValue(PROVIEW_NAME));
         } else if (EBOOK_TOC.equals(qName)) { // we've reached the next element, time to add a new node to the tree.
             currentDepth++;
             currentNode = new TocEntry(currentDepth);
@@ -200,7 +224,7 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
         } else if (MISSING_DOCUMENT.equals(qName)) {
             // this node is missing text, generate a new doc guid and xhtml5 content for the heading.
             final String missingDocumentGuid = currentNode.getTocGuid();
-            final String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
+            final String missingDocumentFilename = missingDocumentGuid + HTML_FILE_EXTENSION;
             final File missingDocument = new File(documentsDirectory, missingDocumentFilename);
             try {
                 final FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
@@ -275,6 +299,26 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
             bufferingText = Boolean.FALSE;
             currentNode.setText(textBuffer.toString());
             textBuffer = new StringBuilder();
+        } else if (EBOOK_TITLE.equals(qName)) {
+            createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE + DASH + titleIdAndProviewName.getTitleId().escapeSlashWithDash(),
+                    TITLE_PAGE + COLON_WITH_SPACE + titleIdAndProviewName.getProviewName(),
+                    FrontMatterFileName.FRONT_MATTER_TITLE, true, Optional.ofNullable(currentNode)
+                            .map(TocNode::getSplitTitle)
+                            .orElse(titleMetadata.getTitleId())
+            );
+            currentDepth--;
+        } else if (EBOOK_INLINE_TOC.equals(qName)){
+            currentDepth = 1;
+            createInlineTocNode(titleMetadata.getTitleId());
+            currentDepth = 0;
+        }
+        else if (EBOOK_PUBLISHING_INFORMATION.equals(qName)) {
+            currentDepth = 1;
+            String currentSplitTitle = currentNode.getSplitTitle();
+            currentNode = new TocEntry(currentDepth);
+            currentNode.setSplitTitle(currentSplitTitle);
+            createPublishingInformation();
+            currentDepth = 0;
         } else if (EBOOK_TOC.equals(qName)) {
             currentDepth--;
         } else if (MISSING_DOCUMENT.equals(qName)) {
@@ -306,7 +350,7 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
             uniqueDocumentIds.add(uniqueGuid);
             copyHtmlDocument(documentGuid, uniqueGuid); // copy and rename the html file identified by the GUID listed
                                                         // in the gathered toc.
-            orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION, titleBreakPart, image));
+            orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_FILE_EXTENSION, titleBreakPart, image));
             currentNode.setDocumentUuid(uniqueGuid);
         } else {
             // Replace docGuid with the corresponding family Guid.
@@ -316,17 +360,17 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
                 if (uniqueFamilyGuids.contains(familyGuid)) { // Have we already come across this family GUID?
                     LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
                     familyGuid = uuidGenerator.generateUuid();
-                    orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION, titleBreakPart, image));
+                    orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_FILE_EXTENSION, titleBreakPart, image));
                     copyHtmlDocument(documentGuid, familyGuid);
                 } else {
-                    orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION, titleBreakPart, image));
+                    orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_FILE_EXTENSION, titleBreakPart, image));
                 }
                 currentNode.setDocumentUuid(familyGuid);
                 docGuid.append(familyGuid); // perform the replacement
                 uniqueFamilyGuids.add(familyGuid);
             } else {
                 uniqueDocumentIds.add(docGuid.toString());
-                orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_EXTENSION, titleBreakPart, image));
+                orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_FILE_EXTENSION, titleBreakPart, image));
             }
         }
     }

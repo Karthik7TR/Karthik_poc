@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -20,18 +21,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import static com.thomsonreuters.uscl.ereader.core.EBConstants.HTML_FILE_EXTENSION;
+
 @Slf4j
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
-    protected static final String EBOOK = "EBook";
-    protected static final String EBOOK_TOC = "EBookToc";
-    protected static final String NAME = "Name";
-    protected static final String TOC_GUID = "Guid";
-    protected static final String DOCUMENT_GUID = "DocumentGuid";
-    protected static final String MISSING_DOCUMENT = "MissingDocument";
-    protected static final String EBOOK_TITLE = "EBookTitle";
-    protected static final String EBOOK_INLINE_TOC = "EBookInlineToc";
-    protected static final String EBOOK_PUBLISHING_INFORMATION = "EBookPublishingInformation";
-    protected static final String HTML_EXTENSION = ".html";
     private static final String INLINE_TOC_ITEM = "Table of Contents";
     private static final String SUMMARY_TOC_ITEM = "Summary of Contents";
     private static final String INLINE_TOC_FILE = "inlineToc";
@@ -39,8 +32,8 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     private static final String DETAILED_TOC_ANCHOR = "detailedToc";
     private static final String INLINE_INDEX_ITEM = "Index";
     private static final String INLINE_INDEX_FILE = "inlineIndex";
-    public static final String URI = "";
     public static final String TITLE_ELEMENT = "title";
+    public static final String URI = "";
     protected List<TocNode> nodesContainingDocuments = new ArrayList<>();
     public static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
 
@@ -69,24 +62,30 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         "Additional Information or Research Assistance";
     private static final String WESTLAW = "Westlaw";
 
-    public void buildFrontMatterTOCEntries(final boolean isSplitBook) throws SAXException {
+    protected void buildFrontMatterTOCEntries(final String splitTitle) throws SAXException {
         currentDepth++;
-        createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE, isSplitBook);
-        createInlineTocNode(isSplitBook);
+        createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE, splitTitle);
+        createInlineTocNode(splitTitle);
 
         currentNode = new TocEntry(currentDepth);
 
         // FrontMatterTOCEntries should get First title Id
-        if (isSplitBook) {
+        if (StringUtils.isNotEmpty(splitTitle)) {
             currentNode.setSplitTitle(titleMetadata.getTitleId());
         }
 
         // Use ebook_definition.front_matter_toc_label
-        createPublishingInformation(isSplitBook);
+        createPublishingInformation();
         currentDepth--;
     }
 
-    protected void createPublishingInformation(boolean isSplitBook) throws SAXException {
+    protected void buildFrontMatterTOCEntries() throws SAXException {
+        buildFrontMatterTOCEntries(StringUtils.EMPTY);
+    }
+
+    protected void createPublishingInformation() throws SAXException {
+        String splitTitle = Optional.ofNullable(currentNode.getSplitTitle())
+                .orElse(StringUtils.EMPTY);
         if (titleMetadata.getFrontMatterTocLabel() != null) {
             currentNode.setText(titleMetadata.getFrontMatterTocLabel());
         } else {
@@ -101,7 +100,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 
         currentDepth++;
 
-        createFrontMatterNode(FrontMatterFileName.COPYRIGHT, COPYRIGHT_PAGE, isSplitBook);
+        createFrontMatterNode(FrontMatterFileName.COPYRIGHT, COPYRIGHT_PAGE, splitTitle);
 
         final List<FrontMatterPage> frontMatterPagesList = titleMetadata.getFrontMatterPages();
 
@@ -110,40 +109,46 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
             // in the assets.
             for (final FrontMatterPage front_matter_page : frontMatterPagesList) {
                 createFrontMatterNode(
-                    FrontMatterFileName.ADDITIONAL_FRONT_MATTER + front_matter_page.getId(),
-                    front_matter_page.getPageTocLabel(),
-                    isSplitBook);
+                        FrontMatterFileName.ADDITIONAL_FRONT_MATTER + front_matter_page.getId(),
+                        front_matter_page.getPageTocLabel(),
+                        splitTitle);
             }
         }
 
         if (!titleMetadata.isCwBook()) {
             createFrontMatterNode(
-                FrontMatterFileName.RESEARCH_ASSISTANCE,
-                ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE,
-                isSplitBook);
-            createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
+                    FrontMatterFileName.RESEARCH_ASSISTANCE,
+                    ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE,
+                    splitTitle);
+            createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, splitTitle);
         }
 
         if (titleMetadata.isIndexIncluded()) {
-            createFrontMatterNode(INLINE_INDEX_FILE, INLINE_INDEX_ITEM, isSplitBook);
+            createFrontMatterNode(INLINE_INDEX_FILE, INLINE_INDEX_ITEM, splitTitle);
         }
 
         currentDepth--;
     }
 
-    public void createFrontMatterNode(final String guidBase, final String nodeText, final boolean isSplitBook)
-        throws SAXException {
-        createFrontMatterNode(guidBase, nodeText, isSplitBook, guidBase, true);
+    protected void createFrontMatterNode(final String guidBase, final String nodeText, final String splitTitle)
+            throws SAXException {
+        createFrontMatterNode(guidBase, nodeText, guidBase, true, splitTitle);
     }
 
-    public void createFrontMatterNode(final String guidBase, final String nodeText, final boolean isSplitBook, final String anchorName, final boolean isNewDoc) throws SAXException {
+    protected void createFrontMatterNode(final String guidBase, final String nodeText)
+            throws SAXException {
+        createFrontMatterNode(guidBase, nodeText, guidBase, true, StringUtils.EMPTY);
+    }
+
+    protected void createFrontMatterNode(final String guidBase, final String nodeText, final String anchorName, final boolean isNewDoc) throws SAXException {
+        createFrontMatterNode(guidBase, nodeText, anchorName, isNewDoc, StringUtils.EMPTY);
+    }
+
+    protected void createFrontMatterNode(final String guidBase, final String nodeText, final String anchorName, final boolean isNewDoc, final String splitTitle) throws SAXException {
         currentNode = new TocEntry(currentDepth);
         currentNode.setDocumentUuid(guidBase);
         currentNode.setText(nodeText);
-        // FrontMatterTOCEntries should get First title Id
-        if (isSplitBook) {
-            currentNode.setSplitTitle(titleMetadata.getTitleId());
-        }
+        int splitTitlePart = processSplitPartTitle(splitTitle);
         currentNode.setTocNodeUuid(anchorName + FrontMatterFileName.ANCHOR);
         final TocNode parentNode = determineParent();
         currentNode.setParent(parentNode);
@@ -151,20 +156,36 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
         previousDepth = currentDepth;
         previousNode = currentNode;
         if (isNewDoc) {
-            orderedDocuments.add(new Doc(guidBase, guidBase + HTML_EXTENSION, 0, null));
+            orderedDocuments.add(new Doc(guidBase, guidBase + HTML_FILE_EXTENSION, splitTitlePart, null));
         }
         nodesContainingDocuments.add(currentNode);
     }
 
-    protected void createInlineTocNode(final boolean isSplitBook) throws SAXException {
+    protected int processSplitPartTitle(final String splitTitle) {
+        int splitTitlePart;
+        if (StringUtils.isNotEmpty(splitTitle)) {
+            currentNode.setSplitTitle(splitTitle);
+            TitleId titleId = new TitleId(splitTitle);
+            splitTitlePart = titleId.getPartNumber() == 1 ? 0 : titleId.getPartNumber();
+        } else {
+            splitTitlePart = 0;
+        }
+        return splitTitlePart;
+    }
+
+    protected void createInlineTocNode(final String splitTitle) throws SAXException {
         if (titleMetadata.isInlineToc()) {
             if (titleMetadata.isPagesEnabled()) {
-                createFrontMatterNode(INLINE_TOC_FILE, SUMMARY_TOC_ITEM, isSplitBook, SUMMARY_TOC_ANCHOR, true);
-                createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook, DETAILED_TOC_ANCHOR, false);
+                createFrontMatterNode(INLINE_TOC_FILE, SUMMARY_TOC_ITEM, SUMMARY_TOC_ANCHOR, true, splitTitle);
+                createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, DETAILED_TOC_ANCHOR, false, splitTitle);
             } else {
-                createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, isSplitBook);
+                createFrontMatterNode(INLINE_TOC_FILE, INLINE_TOC_ITEM, splitTitle);
             }
         }
+    }
+
+    protected void createInlineTocNode() throws SAXException {
+        createInlineTocNode(StringUtils.EMPTY);
     }
 
     /**
@@ -279,8 +300,8 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
      */
     public void copyHtmlDocument(final String sourceDocId, final String destDocId) throws SAXException {
         log.debug("Copying {} to {}", sourceDocId, destDocId);
-        final File sourceFile = new File(documentsDirectory, sourceDocId + HTML_EXTENSION);
-        final File destFile = new File(documentsDirectory, destDocId + HTML_EXTENSION);
+        final File sourceFile = new File(documentsDirectory, sourceDocId + HTML_FILE_EXTENSION);
+        final File destFile = new File(documentsDirectory, destDocId + HTML_FILE_EXTENSION);
         try {
             fileUtilsFacade.copyFile(sourceFile, destFile);
         } catch (final IOException e) {
