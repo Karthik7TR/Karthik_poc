@@ -968,8 +968,7 @@ $(function() {
 
 		const checkFileSize = function(file) {
 			if (file.size > 209715200) {
-				window.alert('File size should be less than 200Mb');
-				return false;
+				return window.confirm('File size should be less than 200MB. This file is ' + readableFileSize(file.size) + '.\nUpload anyway?');
 			}
 			return true;
 		};
@@ -1009,6 +1008,14 @@ $(function() {
 			uploadPdfFormData.append('publisher', $('#publisher').val());
 			return uploadPdfFormData;
 		};
+
+		const FILE_SIZE_UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+		const ONE_KB = 1024;
+		const readableFileSize = function(size) {
+			if (size === 0) return '0 Byte';
+			const unitLevel = Math.round(Math.floor(Math.log(size) / Math.log(ONE_KB)));
+			return Math.round(size / Math.pow(ONE_KB, unitLevel)) + ' ' + FILE_SIZE_UNITS[unitLevel];
+		}
 
 		// delete confirmation box
 		$(".rdelete").on("click", onClickToDeleteButton);
