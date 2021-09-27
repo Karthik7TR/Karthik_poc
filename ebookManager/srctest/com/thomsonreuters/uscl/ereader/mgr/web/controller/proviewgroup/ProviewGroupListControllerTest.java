@@ -358,6 +358,63 @@ public final class ProviewGroupListControllerTest {
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("groupIdByVersion", groupId + "/" + version);
 
+        final Map<String, ProviewGroupContainer> allProviewGroups =
+                createAllProviewGroups(groupId, version, titleId, null);
+        final ProviewTitleContainer titleContainer = createProviewTitleContainer(titleId);
+        final List<GroupDetails> groupDetails = createGroupDetails(version, titleId);
+        final BookDefinition mockBookDefinition = new BookDefinition();
+        mockBookDefinition.setPilotBookStatus(PilotBookStatus.IN_PROGRESS);
+
+        when(allProviewGroupsProvider.getAllProviewGroups(false)).thenReturn(allProviewGroups);
+        when(mockProviewHandler.getProviewTitleContainer(titleId)).thenReturn(titleContainer);
+        when(mockProviewHandler.getSingleTitleGroupDetails(titleId)).thenReturn(groupDetails);
+        when(mockBookDefinitionService.findBookDefinitionByTitle(groupId)).thenReturn(mockBookDefinition);
+
+        ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        assertNotNull(mav);
+        assertEquals(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION, mav.getViewName());
+        verify(mockProviewHandler).getSingleTitleGroupDetails(titleId);
+
+        final Map<String, ProviewGroupContainer> otherAllProviewGroups =
+                createAllProviewGroups(groupId, version, titleId, subGroupName);
+        when(allProviewGroupsProvider.getAllProviewGroups(false)).thenReturn(otherAllProviewGroups);
+
+        mav = handlerAdapter.handle(request, response, controller);
+        assertNotNull(mav);
+        assertEquals(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION, mav.getViewName());
+        final Map<String, Object> model = mav.getModel();
+        assertEquals(PilotBookStatus.IN_PROGRESS, model.get(WebConstants.KEY_PILOT_BOOK_STATUS));
+
+        verify(mockProviewHandler).getProviewTitleContainer(titleId);
+    }
+
+    @NotNull
+    private List<GroupDetails> createGroupDetails(final String version, final String titleId) {
+        final List<GroupDetails> groupDetails = new ArrayList<>();
+        final GroupDetails details = new GroupDetails();
+        details.setTitleId(titleId);
+        details.setBookVersion(version);
+        groupDetails.add(details);
+        return groupDetails;
+    }
+
+    @NotNull
+    private ProviewTitleContainer createProviewTitleContainer(final String titleId) {
+        final ProviewTitleContainer titleContainer = new ProviewTitleContainer();
+        final List<ProviewTitleInfo> proviewTitles = new ArrayList<>();
+        titleContainer.setProviewTitleInfos(proviewTitles);
+
+        final ProviewTitleInfo title = new ProviewTitleInfo();
+        title.setVersion("v1.3");
+        title.setTitle(titleId);
+        title.setLastupdate("5");
+        proviewTitles.add(title);
+        return titleContainer;
+    }
+
+    @NotNull
+    private Map<String, ProviewGroupContainer> createAllProviewGroups(final String groupId,
+            final String version, final String titleId, final String subGroupName) {
         final Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<>();
         final ProviewGroupContainer groupContainer = new ProviewGroupContainer();
         allProviewGroups.put(groupId, groupContainer);
@@ -374,49 +431,44 @@ public final class ProviewGroupListControllerTest {
         final List<String> titleIdList = new ArrayList<>();
         titleIdList.add(titleId);
         subgroup.setTitleIdList(titleIdList);
+        subgroup.setSubGroupName(subGroupName);
         subgroupInfoList.add(subgroup);
         proviewGroup.setSubgroupInfoList(subgroupInfoList);
         groupList.add(proviewGroup);
         groupContainer.setProviewGroups(groupList);
+        return allProviewGroups;
+    }
 
-        final ProviewTitleContainer titleContainer = new ProviewTitleContainer();
-        final List<ProviewTitleInfo> proviewTitles = new ArrayList<>();
-        titleContainer.setProviewTitleInfos(proviewTitles);
+    @Test
+    public void singleGroupTitleSingleVersion_groupIdByVersionParameterIsAbsent_groupIdIsTakenFromForm() throws Exception {
+        final String groupId = "a/group_testID";
+        final String version = "v1";
+        final String titleId = "a/title/testID";
+        final String subGroupName = "Test";
 
-        final ProviewTitleInfo title = new ProviewTitleInfo();
-        title.setVersion("v1.3");
-        title.setTitle(titleId);
-        title.setLastupdate("5");
-        proviewTitles.add(title);
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("groupIdByVersion", "");
+        request.setParameter(WebConstants.KEY_PROVIEW_GROUP_ID, groupId);
+        request.setParameter(WebConstants.KEY_GROUP_VERSION, version.substring(1));
 
-        final List<GroupDetails> groupDetails = new ArrayList<>();
-        final GroupDetails details = new GroupDetails();
-        details.setTitleId(titleId);
-        details.setBookVersion(version);
-        groupDetails.add(details);
-
+        final Map<String, ProviewGroupContainer> allProviewGroups =
+                createAllProviewGroups(groupId, version, titleId, subGroupName);
+        final ProviewTitleContainer titleContainer = createProviewTitleContainer(titleId);
         final BookDefinition mockBookDefinition = new BookDefinition();
         mockBookDefinition.setPilotBookStatus(PilotBookStatus.IN_PROGRESS);
 
         when(allProviewGroupsProvider.getAllProviewGroups(false)).thenReturn(allProviewGroups);
         when(mockProviewHandler.getProviewTitleContainer(titleId)).thenReturn(titleContainer);
-        when(mockProviewHandler.getSingleTitleGroupDetails(titleId)).thenReturn(groupDetails);
         when(mockBookDefinitionService.findBookDefinitionByTitle(groupId)).thenReturn(mockBookDefinition);
 
-        ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        assertNotNull(mav);
-        assertEquals(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION, mav.getViewName());
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        subgroup.setSubGroupName(subGroupName);
-
-        mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
         assertEquals(PilotBookStatus.IN_PROGRESS, model.get(WebConstants.KEY_PILOT_BOOK_STATUS));
-
         verify(mockProviewHandler).getProviewTitleContainer(titleId);
-        verify(mockProviewHandler).getSingleTitleGroupDetails(titleId);
     }
 
     @Test

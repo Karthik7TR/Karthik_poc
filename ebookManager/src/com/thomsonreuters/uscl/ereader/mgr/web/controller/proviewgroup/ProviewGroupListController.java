@@ -65,6 +65,8 @@ public class ProviewGroupListController {
     private static final String UNSUCCESSFUL = "Unsuccessful";
     private static final int MAX_NUMBER_OF_RETRIES = 3;
     private static final String BRACKETS_OR_BRACES_REGEX = "[\\[\\]{}]";
+    private static final String VERSION_SEPARATOR = "/v";
+    private static final String SEPARATOR = "/";
 
     @Autowired
     private ProviewGroupListService proviewGroupListService;
@@ -234,11 +236,17 @@ public class ProviewGroupListController {
         final Model model,
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm form) {
         try {
-            final String groupId = StringUtils.substringBeforeLast(groupIdByVersion, "/v");
-            final String version = StringUtils.substringAfterLast(groupIdByVersion, "/v");
-            form.setProviewGroupID(groupId);
-            form.setGroupVersion(version);
-
+            final String groupId;
+            final String version;
+            if (StringUtils.isNotBlank(groupIdByVersion) && groupIdByVersion.contains(VERSION_SEPARATOR)) {
+                groupId = StringUtils.substringBeforeLast(groupIdByVersion, VERSION_SEPARATOR);
+                version = StringUtils.substringAfterLast(groupIdByVersion, VERSION_SEPARATOR);
+                form.setProviewGroupID(groupId);
+                form.setGroupVersion(version);
+            } else {
+                groupId = form.getProviewGroupID();
+                version = form.getGroupVersion();
+            }
             final Map<String, ProviewGroupContainer> allProviewGroups =
                     allProviewGroupsProvider.getAllProviewGroups(false);
             final ProviewGroupContainer proviewGroupContainer = allProviewGroups.get(groupId);
@@ -524,8 +532,8 @@ public class ProviewGroupListController {
         }
 
         for (final String bookTitleWithVersion : titlesString) {
-            final String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
-            final String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/").trim();
+            final String version = StringUtils.substringAfterLast(bookTitleWithVersion, SEPARATOR).trim();
+            final String title = StringUtils.substringBeforeLast(bookTitleWithVersion, SEPARATOR).trim();
             try {
                 doTitleOperation(operation, title, version);
                 final ProviewAudit audit = new ProviewAudit();
@@ -537,7 +545,7 @@ public class ProviewGroupListController {
             } catch (final Exception e) {
                 log.error(e.getMessage(), e);
                 if (e.getMessage().contains("Title status cannot be changed from Final to Final")) {
-                    successStringBuilder.append(title + "/" + version + " unchanged. Status: Final\n");
+                    successStringBuilder.append(title + SEPARATOR + version + " unchanged. Status: Final\n");
                 } else {
                     success = false;
                     errorStringBuilder.append(
@@ -558,11 +566,11 @@ public class ProviewGroupListController {
 
         if (success && form.isGroupOperation()) {
             try {
-                doGroupOperation(operation, form.getProviewGroupID() + "/v" + form.getGroupVersion());
+                doGroupOperation(operation, form.getProviewGroupID() + VERSION_SEPARATOR + form.getGroupVersion());
                 // Group will be deleted when users removes group
                 if (operation.equalsIgnoreCase(REMOVE)) {
                     groupRequest = DELETE;
-                    doGroupOperation(groupRequest, form.getProviewGroupID() + "/v" + form.getGroupVersion());
+                    doGroupOperation(groupRequest, form.getProviewGroupID() + VERSION_SEPARATOR + form.getGroupVersion());
                 }
                 final String successMsg = "GroupID "
                     + form.getProviewGroupID()
@@ -656,18 +664,18 @@ public class ProviewGroupListController {
         switch (operation) {
             case PROMOTE:
                 proviewHandler.promoteGroup(
-                    StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
-                    StringUtils.substringAfterLast(groupIdByVersion, "/"));
+                    StringUtils.substringBeforeLast(groupIdByVersion, VERSION_SEPARATOR),
+                    StringUtils.substringAfterLast(groupIdByVersion, SEPARATOR));
                 break;
             case REMOVE:
                 proviewHandler.removeGroup(
-                    StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
-                    StringUtils.substringAfterLast(groupIdByVersion, "/"));
+                    StringUtils.substringBeforeLast(groupIdByVersion, VERSION_SEPARATOR),
+                    StringUtils.substringAfterLast(groupIdByVersion, SEPARATOR));
                 break;
             case DELETE:
                 proviewHandler.deleteGroup(
-                    StringUtils.substringBeforeLast(groupIdByVersion, "/v"),
-                    StringUtils.substringAfterLast(groupIdByVersion, "/"));
+                    StringUtils.substringBeforeLast(groupIdByVersion, VERSION_SEPARATOR),
+                    StringUtils.substringAfterLast(groupIdByVersion, SEPARATOR));
                 break;
             default:
                 throw new ProviewException(String.format("Unexpected operation on group. Name of the operation: %s",
