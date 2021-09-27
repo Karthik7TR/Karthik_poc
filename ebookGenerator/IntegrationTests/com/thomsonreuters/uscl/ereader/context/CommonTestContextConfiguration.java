@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtil;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtilImpl;
 import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupServiceTestImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.title.ProviewTitleService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -107,6 +108,6 @@ public class CommonTestContextConfiguration {
 
     @Bean
     public JsoupService jsoupService() {
-        return new JsoupService();
+        return new JsoupServiceTestImpl();
     }
 }

@@ -95,4 +95,9 @@ public class MarkupConstants {
     public static final String COBALT = "COBALT";
     public static final String BOLD = "bold";
     public static final String STRONG = "strong";
+    public static final String ITALIC = "i";
+    public static final String CITE = "cite";
+    public static final String DFN = "dfn";
+    public static final String EM = "em";
+    public static final String MARK = "mark";
 }

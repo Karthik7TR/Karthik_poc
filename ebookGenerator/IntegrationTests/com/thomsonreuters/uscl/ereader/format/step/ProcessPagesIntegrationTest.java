@@ -171,6 +171,11 @@ public final class ProcessPagesIntegrationTest {
         runner.test(step, "multipleFootnotesContainers");
     }
 
+    @Test
+    public void shouldStickFootnoteReferenceWithReferencedText() throws Exception {
+        runner.test(step, "stickFtnRefToRefText");
+    }
+
     private void setUpDocMetadata(final String resourceTestDir) {
         Set<DocMetadata> docsMetadata = parseDocsMetadata(resourceTestDir);
         DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(docsMetadata);

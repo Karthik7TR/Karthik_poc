@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupServiceTestImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,7 @@ public final class PagesAnalyzeServiceIntegrationTest {
     @InjectMocks
     private PagesAnalyzeService service;
     @Spy
-    private JsoupService jsoupService;
+    private JsoupServiceTestImpl jsoupService;
 
     private File resourceDir;
 

@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.collections4.iterators.ReverseListIterator;
 import org.apache.commons.io.FilenameUtils;
@@ -76,6 +77,11 @@ import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.SPAN;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LIST;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LIST_ITEM;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.STRONG;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.ITALIC;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.MARK;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CITE;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.DFN;
+import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.EM;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.TITLE_FOOTNOTES;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.UL;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.LI;
@@ -131,6 +137,7 @@ public class ReorderFootnotesService {
     private static final String INLINE_TOC = "inlineToc.html";
     private static final String INLINE_INDEX = "inlineIndex.html";
     private static final List<String> EXCLUDED_FROM_PROCESSING = Arrays.asList(INLINE_TOC, INLINE_INDEX);
+    private static final String FOOTNOTE_REFERENCE_PREFIX = "co_fnRef_";
 
     @Autowired
     private JsoupService jsoup;
@@ -577,8 +584,96 @@ public class ReorderFootnotesService {
     private void convertFootnoteReferencesInMainSection(final Element mainSection) {
         mainSection.getElementsByClass(CO_FOOTNOTE_REFERENCE)
             .forEach(ftnRef -> {
+                Element ref = ftnRef.parent();
                 convertFootnoteReference(ftnRef, true);
+                stickFootnoteReferenceToReferencedText(ref);
             });
+    }
+
+    private void stickFootnoteReferenceToReferencedText(final Element ref) {
+        Element reference = getSupFootnoteReferenceElement(ref);
+        Node referenced = reference.previousSibling();
+        if (!suitableAsReferenced(referenced)) {
+            referenced = findReferencedText(reference, false, false);
+            placeReferenceAfterReferenced(reference, referenced);
+        }
+        trimTrailingWhitespaces(referenced);
+    }
+
+    private Element getSupFootnoteReferenceElement(final Element ref) {
+        Element reference;
+        if (SUP.equals(ref.tagName())) {
+            reference = ref;
+        } else {
+            reference = ref.parent();
+        }
+        return reference;
+    }
+
+    private void trimTrailingWhitespaces(final Node textNode) {
+        if (isText(textNode)) {
+            String text = ((TextNode)textNode).text();
+            String trimmed = org.springframework.util.StringUtils.trimTrailingWhitespace(text);
+            if (!text.equals(trimmed)) {
+                ((TextNode) textNode).text(trimmed);
+            }
+        }
+    }
+
+    private Node findReferencedText(final Node node, final boolean checkChildren, final boolean checkCurrentNode) {
+        if (checkCurrentNode && suitableAsReferenced(node)) {
+            return node;
+        }
+
+        List<Node> children = node.childNodes();
+        if (checkChildren && CollectionUtils.isNotEmpty(children)) {
+            return findReferencedText(children.get(children.size() - 1), true, true);
+        } else if (node.previousSibling() != null) {
+            return findReferencedText(node.previousSibling(), true, true);
+        } else if (node.parent() != null) {
+            return findReferencedText(node.parent(), false, true);
+        } else {
+            return null;
+        }
+    }
+
+    private boolean suitableAsReferenced(final Node node) {
+        return isText(node) || isFootnoteReference(node) || isStylingTag(node);
+    }
+
+    private boolean isStylingTag(final Node node) {
+        return node instanceof Element &&
+                (
+                    ITALIC.equals(node.nodeName())
+                    || STRONG.equals(node.nodeName())
+                    || MARK.equals(node.nodeName())
+                    || CITE.equals(node.nodeName())
+                    || DFN.equals(node.nodeName())
+                    || EM.equals(node.nodeName())
+                );
+    }
+
+    private boolean isText(final Node node) {
+        return node instanceof TextNode
+                && StringUtils.isNotBlank(((TextNode)node).text());
+    }
+
+    private boolean isFootnoteReference(final Node node) {
+        return node instanceof Element
+                && SUP.equals(node.nodeName())
+                && hasFootnoteReferenceId((Element)node);
+    }
+
+    private boolean hasFootnoteReferenceId(final Element element) {
+        String id = element.attr(ID);
+        return StringUtils.isNotEmpty(id) && id.startsWith(FOOTNOTE_REFERENCE_PREFIX);
+    }
+
+    private void placeReferenceAfterReferenced(final Element reference, final Node referenced) {
+        if (referenced != null) {
+            reference.remove();
+            referenced.after(reference);
+        }
     }
 
     private void wrapContentToDiv(final Element element, final String className, final Document doc) {
@@ -593,7 +688,10 @@ public class ReorderFootnotesService {
         final Element ref = innerRef.parent();
         final String refName = extractReferenceName(innerRef.attr(HREF));
         removePagebreaksFromFootnoteReference(innerRef, ref.parent());
+        cleanupFootnoteReference(innerRef, addHref, ref, refName);
+    }
 
+    private void cleanupFootnoteReference(final Element innerRef, final boolean addHref, final Element ref, final String refName) {
         if (ANCHOR.equals(ref.tagName())) {
             ref.addClass(TR_FTN);
             ref.attr(FTNNAME, refName);

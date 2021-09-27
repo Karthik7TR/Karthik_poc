@@ -1,0 +1,129 @@
+<n-docbody>
+	<doc bill="Y">
+		<section>
+			<section.body>
+				<para>
+					<paratext>Page 101<page no="101"/>Page 102<page no="102"/>Referenced 1<page no="103"/><page no="104"/>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b781">1</footnote.reference>]</paratext><page no="105"/>
+				</para>
+				<para>
+					<paratext>
+						<bold>
+							<begin.quote ID="QT_0009"/>Some text<eos/>
+							<bos/>
+						</bold> Referenced 2<eos/>
+						<bos/>
+						<page vol="1" no="1145"/>
+						<end.quote refid="QT_0009"/>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b782">2</footnote.reference>]<page no="105"/>
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Some text
+						<bold>Referenced 3</bold>
+					</paratext>
+					<paratext>
+						<page no="106"/>
+						<page no="107"/>
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b783">3</footnote.reference>]
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Referenced 4
+						<page no="108"/>
+					</paratext>
+					<paratext>
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b784">4</footnote.reference>]
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Some text
+					</paratext>
+					Referenced 5
+					<page no="109"/>
+					<paratext>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b785">5</footnote.reference>]</paratext>
+				</para>
+				<para>
+					Some text
+					<paratext>
+						Referenced 6 and 7
+					</paratext>
+					<page no="110"/>
+					<paratext>
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b786">6</footnote.reference>]
+					</paratext>
+				</para>	
+				<para>
+					<paratext>
+					</paratext>
+					<paratext>
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b787">7</footnote.reference>]<page no="111"/>
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Referenced 8
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b788">8</footnote.reference>]
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						Referenced 8_2
+					</paratext>
+					<paratext>
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b788">8</footnote.reference>]
+					</paratext>
+				</para>
+			</section.body>
+		</section>
+		<footnote.block>
+			<page no="101"/><page no="102"/><page no="103"/><page no="104"/>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b781">
+				<label.designator>1</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b782">
+				<label.designator>2</label.designator>
+				<footnote.body>
+					<para>
+						<paratext>Footnote text.
+							<page vol="1" no="1145"/>
+						</paratext>
+					</para>
+				</footnote.body>
+			</footnote>
+			<page no="105"/>
+			<page no="106"/>
+			<page no="107"/>
+			<page no="108"/>
+			<page no="109"/>
+			<page no="110"/>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b783">
+				<label.designator>3</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b784">
+				<label.designator>4</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b785">
+				<label.designator>5</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b786">
+				<label.designator>6</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b787">
+				<label.designator>7</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b788">
+				<label.designator>8</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<page no="111"/>
+		</footnote.block>
+	</doc>
+</n-docbody>
