@@ -72,7 +72,7 @@ public class BookDefinition implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String Y = "Y";
     private static final String N = "N";
-    private static final String CW_EG = "cw/eg";
+    private static final String CW_PUBLISHER = "cw/";
 
     public enum PilotBookStatus {
         TRUE,
@@ -1031,6 +1031,6 @@ public class BookDefinition implements Serializable {
 
     @Transient
     public boolean isCwBook() {
-        return getFullyQualifiedTitleId().startsWith(CW_EG);
+        return getFullyQualifiedTitleId().startsWith(CW_PUBLISHER);
     }
 }
