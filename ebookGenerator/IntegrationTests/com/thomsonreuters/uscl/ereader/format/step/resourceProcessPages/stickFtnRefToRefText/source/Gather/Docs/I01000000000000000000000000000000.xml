@@ -3,7 +3,7 @@
 		<section>
 			<section.body>
 				<para>
-					<paratext>Page 101<page no="101"/>Page 102<page no="102"/>Referenced 1<page no="103"/><page no="104"/>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b781">1</footnote.reference>]</paratext><page no="105"/>
+					<paratext>Page 101<page no="101"/>Page 102<page no="102"/>Referenced 1<page no="103"/><page no="104"/>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b781">1</footnote.reference>]</paratext>
 				</para>
 				<para>
 					<paratext>
@@ -13,7 +13,7 @@
 						</bold> Referenced 2<eos/>
 						<bos/>
 						<page vol="1" no="1145"/>
-						<end.quote refid="QT_0009"/>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b782">2</footnote.reference>]<page no="105"/>
+						<end.quote refid="QT_0009"/>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b782">2</footnote.reference>]
 					</paratext>
 				</para>
 				<para>
@@ -75,6 +75,19 @@
 						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b788">8</footnote.reference>]
 					</paratext>
 				</para>
+				<para>
+					<paratext>
+						<cite.query>Referenced 9</cite.query>[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b789">9</footnote.reference>]
+					</paratext>
+				</para>
+				<para>
+					<paratext>
+						<cite.query>Referenced 10</cite.query>
+					</paratext>
+					<paratext>
+						[<footnote.reference refid="Ib677d620f53911ebbacede1916a3b790">10</footnote.reference>]
+					</paratext>
+				</para>
 			</section.body>
 		</section>
 		<footnote.block>
@@ -93,7 +106,6 @@
 					</para>
 				</footnote.body>
 			</footnote>
-			<page no="105"/>
 			<page no="106"/>
 			<page no="107"/>
 			<page no="108"/>
@@ -121,6 +133,14 @@
 			</footnote>
 			<footnote ID="Ib677d620f53911ebbacede1916a3b788">
 				<label.designator>8</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b789">
+				<label.designator>9</label.designator>
+				<footnote.body>text</footnote.body>
+			</footnote>
+			<footnote ID="Ib677d620f53911ebbacede1916a3b790">
+				<label.designator>10</label.designator>
 				<footnote.body>text</footnote.body>
 			</footnote>
 			<page no="111"/>

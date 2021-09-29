@@ -638,7 +638,7 @@ public class ReorderFootnotesService {
     }
 
     private boolean suitableAsReferenced(final Node node) {
-        return isText(node) || isFootnoteReference(node) || isStylingTag(node);
+        return isText(node) || isFootnoteReference(node) || isStylingTag(node) || isAnchorTag(node);
     }
 
     private boolean isStylingTag(final Node node) {
@@ -651,6 +651,10 @@ public class ReorderFootnotesService {
                     || DFN.equals(node.nodeName())
                     || EM.equals(node.nodeName())
                 );
+    }
+
+    private boolean isAnchorTag(final Node node) {
+        return node instanceof Element && ANCHOR.equals(node.nodeName());
     }
 
     private boolean isText(final Node node) {
