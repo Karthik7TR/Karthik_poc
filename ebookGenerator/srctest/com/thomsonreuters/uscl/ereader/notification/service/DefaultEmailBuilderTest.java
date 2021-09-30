@@ -17,10 +17,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 @RunWith(MockitoJUnitRunner.class)
 public final class DefaultEmailBuilderTest {
     private static final String PRINT_PAGE_NUMBERS_WARNING = "WARNING: printPageNumbers";
     private static final String INLINE_TOC_WARNING = "WARNING: inlineToc";
+    private static final String DOCUMENT_ID_1 = "N67F3BB609E3411E183F7C076EF385880-001306";
+    private static final String DOCUMENT_ID_2 = "I6e4d986a87bd11dc96c98c8a52b704a4-001307";
+    private static final String PAGE_5_2 = "5_2";
+    private static final String PAGE_5_3 = "5_3";
+    private static final String PAGE_7 = "7";
+    private static final String PAGE_8 = "8";
     @InjectMocks
     private DefaultEmailBuilder defaultEmailBuilder;
     @Mock
@@ -131,6 +142,28 @@ public final class DefaultEmailBuilderTest {
         assertThat(body, containsString("Book Size: 10"));
     }
 
+
+    @Test
+    public void testPagebreaksInWrongOrderWarning() {
+        //given
+        givenAll();
+        givenPages(true, true);
+        givenPagebreaksInWrongOrder();
+        //when
+        final String body = defaultEmailBuilder.getBody();
+        //then
+        assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
+        assertThat(body, containsString(
+                "WARNING: some pages are in different order in main section and in footnotes section\n" +
+                "\tDocument N67F3BB609E3411E183F7C076EF385880-001306:\n" +
+                "\t\tpage 5_2\n" +
+                "\t\tpage 5_3\n" +
+                "\n" +
+                "\tDocument I6e4d986a87bd11dc96c98c8a52b704a4-001307:\n" +
+                "\t\tpage 7\n" +
+                "\t\tpage 8\n"));
+    }
+
     private void givenAll() {
         given(step.getBookDefinition()).willReturn(book);
         given(book.getFullyQualifiedTitleId()).willReturn("id");
@@ -148,5 +181,14 @@ public final class DefaultEmailBuilderTest {
     private void givenInlineToc(final boolean inlineTocInUI, final boolean inlineTocActuallyAdded) {
         given(book.isInlineTocIncluded()).willReturn(inlineTocInUI);
         given(step.getJobExecutionPropertyBoolean(JobExecutionKey.WITH_INLINE_TOC)).willReturn(inlineTocActuallyAdded);
+    }
+
+    private void givenPagebreaksInWrongOrder() {
+        Map<String, Collection<String>> pagebreaksInWrongOrder = new HashMap<>();
+        pagebreaksInWrongOrder.put(DOCUMENT_ID_1, Arrays.asList(PAGE_5_2, PAGE_5_3));
+        pagebreaksInWrongOrder.put(DOCUMENT_ID_2, Arrays.asList(PAGE_7, PAGE_8));
+
+        given(step.hasJobExecutionPropertyPagebreaksInWrongOrder()).willReturn(Boolean.TRUE);
+        given(step.getJobExecutionPropertyPagebreaksInWrongOrder()).willReturn(pagebreaksInWrongOrder);
     }
 }

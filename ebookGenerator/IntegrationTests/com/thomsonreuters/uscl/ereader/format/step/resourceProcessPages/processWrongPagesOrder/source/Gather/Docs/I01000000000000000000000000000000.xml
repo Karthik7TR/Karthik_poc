@@ -1,0 +1,26 @@
+<n-docbody>
+	<doc bill="Y">
+		<section>
+			<section.body>
+				Main 0<footnote.reference refid="I01a2f010680911e88f4a9c1f64101001">1</footnote.reference>
+					  <page no="p0"/>
+				main 1<page no="p1"/>
+				main 2<page no="p3"/>
+				main 3<page no="p2"/>
+				main 4<page no="p4"/>
+			</section.body>
+		</section>
+		<footnote.block>
+			<footnote ID="I01a2f010680911e88f4a9c1f64101001">
+				<label.designator>1</label.designator>
+				<footnote.body>
+						Ftn p0<page no="p0"/>
+						ftn p1<page no="p1"/>
+						ftn p2<page no="p2"/>
+						ftn p3<page no="p3"/>
+						ftn p4<page no="p4"/>
+				</footnote.body>
+			</footnote>
+		</footnote.block>
+	</doc>
+</n-docbody>

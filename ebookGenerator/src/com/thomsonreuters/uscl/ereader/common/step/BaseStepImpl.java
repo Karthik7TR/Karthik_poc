@@ -1,10 +1,15 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
@@ -15,6 +20,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 
+@Slf4j
 public abstract class BaseStepImpl implements BaseStep {
     @Getter @Setter
     protected ChunkContext chunkContext;
@@ -106,6 +112,20 @@ public abstract class BaseStepImpl implements BaseStep {
     public int getJobExecutionPropertyInt(final String propertyKey) {
         assertPropertyExists(propertyKey);
         return getJobExecutionContext().getInt(propertyKey);
+    }
+
+    @Override
+    public boolean hasJobExecutionPropertyPagebreaksInWrongOrder() {
+        return getJobExecutionContext().containsKey(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Collection<String>> getJobExecutionPropertyPagebreaksInWrongOrder() {
+        if (!getJobExecutionContext().containsKey(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER)) {
+            getJobExecutionContext().put(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER, new HashMap<>());
+        }
+        return (Map<String, Collection<String>>) getJobExecutionContext().get(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER);
     }
 
     private void assertPropertyExists(final String propertyKey) {

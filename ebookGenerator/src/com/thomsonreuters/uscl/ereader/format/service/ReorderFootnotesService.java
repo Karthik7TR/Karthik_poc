@@ -3,9 +3,11 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -16,7 +18,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
@@ -133,7 +134,7 @@ public class ReorderFootnotesService {
     private static final String DOT = ".";
     private static final String TR_FOOTNOTE_CLASS_REG = ".*\\btr_footnote\\b.*";
     private static final String FOOTNOTE_IN_CLASS_REG = ".*footnote.*";
-    private static final Pattern SECTION_LABEL_REG = Pattern.compile("\\[Section \\d+(\\s*|.)(\\s*|\\d+)\\]");
+    private static final Pattern SECTION_LABEL_REG = Pattern.compile("\\[Section \\d+(\\s*|.)(\\s*|\\d+)]");
     private static final String INLINE_TOC = "inlineToc.html";
     private static final String INLINE_INDEX = "inlineIndex.html";
     private static final List<String> EXCLUDED_FROM_PROCESSING = Arrays.asList(INLINE_TOC, INLINE_INDEX);
@@ -159,7 +160,7 @@ public class ReorderFootnotesService {
     }
 
     public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir,
-                                 final BookStep step) {
+                                 final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet, final BookStep step) {
         final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
 
         List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);
@@ -173,9 +174,9 @@ public class ReorderFootnotesService {
 
         srcFilesOrdered.forEach(file ->
             processDocument(destDir, nameToXmlFile, firstFileName, lastFileName, mainPage, footnotePage,
-                    pagebreakToMoveToNextDocument, file, step)
+                    pagebreakToMoveToNextDocument, file, pagebreaksInWrongOrder, pageVolumesSet, step)
         );
-        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir, step);
+        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir, pagebreaksInWrongOrder, pageVolumesSet, step);
     }
 
     private String getFirstFileName(final List<File> srcFilesOrdered) {
@@ -196,15 +197,14 @@ public class ReorderFootnotesService {
     }
 
     private void processDocument(final File destDir, final Map<String, File> nameToXmlFile,
-        final String firstFileName, final String lastFileName, final PagePointer mainPage, final PagePointer footnotePage,
-        final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument, final File file, final BookStep step) {
+                                 final String firstFileName, final String lastFileName, final PagePointer mainPage, final PagePointer footnotePage,
+                                 final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument, final File file, final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet, final BookStep step) {
         final Document doc = jsoup.loadDocument(file);
         final String fileUuid = FilenameUtils.removeExtension(file.getName());
         final Element mainSection = doc.selectFirst(SECTION);
         final Optional<Element> footnotesBlock = ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
         boolean isFirstFile = fileNameEquals(firstFileName, file);
         boolean isLastFile = fileNameEquals(lastFileName, file);
-        boolean pageVolumesSet = step.getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_VOLUMES_SET);
         mainPage.nextDocument();
         footnotePage.nextDocument();
 
@@ -217,7 +217,7 @@ public class ReorderFootnotesService {
 
             final Element footnotesSectionToAppend = constructFootnotesSection(nameToXmlFile, footnotesBlock, doc, fileUuid, footnotePage, pageVolumesSet);
             linksResolverService.transformCiteQueries(footnotesSectionToAppend, fileUuid, step);
-            fixPagebreaks(mainSection, footnotesSectionToAppend, isLastFile);
+            fixPagebreaks(mainSection, footnotesSectionToAppend, isLastFile, pagebreaksInWrongOrder, fileUuid);
             movePagebreakOutOfFootnotes(footnotesSectionToAppend);
             addPageLabels(footnotesSectionToAppend);
             convertPageEndsToPageStarts(mainSection, mainPage, isFirstFile);
@@ -234,7 +234,8 @@ public class ReorderFootnotesService {
         jsoup.saveDocument(destDir, file.getName(), doc);
     }
 
-    private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir, final BookStep step) {
+    private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir,
+                                       final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet, final BookStep step) {
         List<File> auxiliaryFiles = getAuxiliaryFiles(srcDir, processedFiles);
         final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument = new PagebreakToMoveToNextDocument();
         auxiliaryFiles.forEach(file -> {
@@ -245,7 +246,7 @@ public class ReorderFootnotesService {
                 final PagePointer mainPage = new PagePointer(pageNumbers);
                 final PagePointer footnotePage = new PagePointer(pageNumbers);
                 processDocument(destDir, Collections.emptyMap(), null, null, mainPage, footnotePage,
-                        pagebreakToMoveToNextDocument, file, step);
+                        pagebreakToMoveToNextDocument, file, pagebreaksInWrongOrder, pageVolumesSet, step);
             }
         });
     }
@@ -537,12 +538,6 @@ public class ReorderFootnotesService {
         return element;
     }
 
-    private Node createSectionStartPointer(final Element footnotesTemplate) {
-        Node text = new TextNode(StringUtils.EMPTY);
-        footnotesTemplate.prependChild(text);
-        return text;
-    }
-
     private void convertTopToFootnotesSection(final Element footnotesTemplate) {
         footnotesTemplate.tagName(SECTION);
         footnotesTemplate.addClass(TR_FOOTNOTES);
@@ -724,10 +719,27 @@ public class ReorderFootnotesService {
         return reference.substring(reference.lastIndexOf("/") + 1);
     }
 
-    private void fixPagebreaks(final Element mainSection, final Element footnotesSectionToAppend, final boolean isLastFile) {
-        removeExtraPagebreaksFromFootnotesSection(mainSection, footnotesSectionToAppend);
-        addMissingPageLabelsToFootnotesSection(mainSection, footnotesSectionToAppend);
-        fixLastDocumentPagebreaks(mainSection, footnotesSectionToAppend, isLastFile);
+    private void fixPagebreaks(final Element mainSection, final Element footnotesSection, final boolean isLastFile,
+                               final Map<String, Collection<String>> pagebreaksInWrongOrder, final String fileUuid) {
+        removeExtraPagebreaksFromFootnotesSection(mainSection, footnotesSection);
+        addMissingPageLabelsToFootnotesSection(mainSection, footnotesSection);
+        fixLastDocumentPagebreaks(mainSection, footnotesSection, isLastFile);
+        checkPagebreaksOrder(mainSection, footnotesSection, pagebreaksInWrongOrder, fileUuid);
+    }
+
+    private void checkPagebreaksOrder(final Element mainSection, final Element footnotesSection,
+                                      final Map<String, Collection<String>> pagebreaksInWrongOrder, final String fileUuid) {
+        Iterator<XmlDeclaration> mainPbs = getProviewPagebreaks(mainSection).iterator();
+        Iterator<XmlDeclaration> ftnPbs = getProviewPagebreaks(footnotesSection).iterator();
+
+        while(mainPbs.hasNext() && ftnPbs.hasNext()) {
+            XmlDeclaration mainPagebreak = mainPbs.next();
+            XmlDeclaration ftnPagebreak = ftnPbs.next();
+            if(!getLabel(mainPagebreak).equals(getLabel(ftnPagebreak))) {
+                Collection<String> problemPagebreaks = pagebreaksInWrongOrder.computeIfAbsent(fileUuid, k -> new HashSet<>());
+                problemPagebreaks.add(getLabel(mainPagebreak));
+            }
+        }
     }
 
     private void removeExtraPagebreaksFromFootnotesSection(final Element mainSection, final Element footnotesSection) {

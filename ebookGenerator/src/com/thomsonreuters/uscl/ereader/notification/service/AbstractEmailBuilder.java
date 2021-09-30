@@ -4,11 +4,19 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder;
+import com.thomsonreuters.uscl.ereader.common.step.BaseStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStep;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.Collection;
+import java.util.Map;
 
 public abstract class AbstractEmailBuilder implements EmailBuilder {
+    private static final String PAGES_IN_WRONG_ORDER_WARNING = "\n\nWARNING: some pages are in different order in main section and in footnotes section\n";
+    private static final String DOCUMENT = "\tDocument ";
+    private static final String PAGE = "\t\tpage ";
     @Resource(name = "sendNotificationTask")
     protected SendEmailNotificationStep step;
 
@@ -49,7 +57,25 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
         sb.append(getPagesInfo(bookDefinition));
         sb.append(getInlineTocInfo(bookDefinition));
 
+        sb.append(getPagebreaksInWrongOrderWarning());
+
         return sb.toString();
+    }
+
+    private String getPagebreaksInWrongOrderWarning() {
+        if (step.hasJobExecutionPropertyPagebreaksInWrongOrder()) {
+            Map<String, Collection<String>> pagebreaksInWrongOrder = step.getJobExecutionPropertyPagebreaksInWrongOrder();
+            final StringBuilder sb = new StringBuilder(PAGES_IN_WRONG_ORDER_WARNING);
+            pagebreaksInWrongOrder.forEach((docId, pagebreaks) -> {
+                sb.append(DOCUMENT).append(docId).append(":\n");
+                pagebreaks.forEach(pagebreak -> {
+                    sb.append(PAGE).append(pagebreak).append("\n");
+                });
+                sb.append("\n");
+            });
+            return sb.toString();
+        }
+        return StringUtils.EMPTY;
     }
 
     /**

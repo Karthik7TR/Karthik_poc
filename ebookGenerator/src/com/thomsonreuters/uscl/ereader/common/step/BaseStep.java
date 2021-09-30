@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,4 +59,8 @@ public interface BaseStep extends Tasklet {
     boolean getJobExecutionPropertyBoolean(String propertyKey);
 
     int getJobExecutionPropertyInt(String propertyKey);
+
+    boolean hasJobExecutionPropertyPagebreaksInWrongOrder();
+
+    Map<String, Collection<String>> getJobExecutionPropertyPagebreaksInWrongOrder();
 }

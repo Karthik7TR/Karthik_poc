@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Map;
+
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
@@ -31,9 +34,11 @@ public class ProcessPages extends BookStepImpl {
         final File srcGatherDir = getGatherDir(NortTocCwbFileSystemConstants.GATHER_DOCS_DIR);
         final File srcDir = getDir(NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR);
         final File destDir = getDir(NortTocCwbFileSystemConstants.FORMAT_PROCESS_PAGES_DIR);
+        final Map<String, Collection<String>> pagebreaksInWrongOrder = getJobExecutionPropertyPagebreaksInWrongOrder();
+        final boolean pageVolumesSet = getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_VOLUMES_SET);
 
         if (shouldReorderFootnotes()) {
-            reorderFootnotesService.reorderFootnotes(toc, srcGatherDir, srcDir, destDir, this);
+            reorderFootnotesService.reorderFootnotes(toc, srcGatherDir, srcDir, destDir, pagebreaksInWrongOrder, pageVolumesSet, this);
         } else {
             FileUtils.copyDirectory(srcDir, destDir);
         }

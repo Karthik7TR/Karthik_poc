@@ -3,20 +3,27 @@ package com.thomsonreuters.uscl.ereader.format.step;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.CiteQueryService;
 import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksResolver;
@@ -34,6 +41,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +51,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.CollectionUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ProcessPagesIntegrationTest.Config.class, StepIntegrationTestRunner.Config.class})
@@ -54,6 +63,9 @@ public final class ProcessPagesIntegrationTest {
     private static final long JOB_INSTANCE_ID = 1L;
     private static final String COLLECTION_NAME = "collectionName";
     private static final String SOURCE = "source";
+    private static final String DOC_UUID = "I01000000000000000000000000000000";
+    private static final String PB_LABEL_2 = "p2";
+    private static final String PB_LABEL_3 = "p3";
     @Autowired
     private ProcessPages step;
     @Autowired
@@ -173,7 +185,39 @@ public final class ProcessPagesIntegrationTest {
 
     @Test
     public void shouldStickFootnoteReferenceWithReferencedText() throws Exception {
+        when(step.getJobExecutionContext()).thenReturn(createExecutionContext());
         runner.test(step, "stickFtnRefToRefText");
+        checkProcessWrongPagesOrderMapNotDetected();
+    }
+
+    @Test
+    public void shouldProcessWrongPagesOrder() throws Exception {
+        when(step.getJobExecutionContext()).thenReturn(createExecutionContext());
+        runner.test(step, "processWrongPagesOrder");
+        checkProcessWrongPagesOrderMapDetected();
+    }
+
+    private ExecutionContext createExecutionContext() {
+        BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
+        ExecutionContext executionContext = new ExecutionContext();
+        executionContext.put(JobParameterKey.EBOOK_DEFINITON, bookDefinition);
+        executionContext.put(JobExecutionKey.WITH_PAGE_NUMBERS, Boolean.TRUE);
+        return executionContext;
+    }
+
+    private void checkProcessWrongPagesOrderMapDetected() {
+        Map<String, Collection<String>> pagebreaksInWrongOrder = step.getJobExecutionPropertyPagebreaksInWrongOrder();
+        Collection<String> labels = pagebreaksInWrongOrder.get(DOC_UUID);
+        assertNotNull(labels);
+        assertEquals(labels.size(), 2);
+        assertTrue(labels.contains(PB_LABEL_2));
+        assertTrue(labels.contains(PB_LABEL_3));
+    }
+
+    private void checkProcessWrongPagesOrderMapNotDetected() {
+        Map<String, Collection<String>> pagebreaksInWrongOrder = step.getJobExecutionPropertyPagebreaksInWrongOrder();
+        assertTrue(CollectionUtils.isEmpty(pagebreaksInWrongOrder));
     }
 
     private void setUpDocMetadata(final String resourceTestDir) {
