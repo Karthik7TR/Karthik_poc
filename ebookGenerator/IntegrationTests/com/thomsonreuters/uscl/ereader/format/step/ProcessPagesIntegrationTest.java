@@ -4,6 +4,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -207,6 +208,7 @@ public final class ProcessPagesIntegrationTest {
     }
 
     private void checkProcessWrongPagesOrderMapDetected() {
+        assertTrue(step.hasJobExecutionPropertyPagebreaksInWrongOrder());
         Map<String, Collection<String>> pagebreaksInWrongOrder = step.getJobExecutionPropertyPagebreaksInWrongOrder();
         Collection<String> labels = pagebreaksInWrongOrder.get(DOC_UUID);
         assertNotNull(labels);
@@ -216,6 +218,7 @@ public final class ProcessPagesIntegrationTest {
     }
 
     private void checkProcessWrongPagesOrderMapNotDetected() {
+        assertFalse(step.hasJobExecutionPropertyPagebreaksInWrongOrder());
         Map<String, Collection<String>> pagebreaksInWrongOrder = step.getJobExecutionPropertyPagebreaksInWrongOrder();
         assertTrue(CollectionUtils.isEmpty(pagebreaksInWrongOrder));
     }

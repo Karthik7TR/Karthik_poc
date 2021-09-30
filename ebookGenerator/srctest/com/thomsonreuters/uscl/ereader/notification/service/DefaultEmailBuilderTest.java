@@ -24,6 +24,7 @@ import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class DefaultEmailBuilderTest {
+    private static final String PAGES_IN_WRONG_ORDER_WARNING = "WARNING: some pages are in different order in main section and in footnotes section\n";
     private static final String PRINT_PAGE_NUMBERS_WARNING = "WARNING: printPageNumbers";
     private static final String INLINE_TOC_WARNING = "WARNING: inlineToc";
     private static final String DOCUMENT_ID_1 = "N67F3BB609E3411E183F7C076EF385880-001306";
@@ -130,6 +131,7 @@ public final class DefaultEmailBuilderTest {
     public void previousVersionInfoIsCorrect() {
         // given
         givenAll();
+        givenNoPagebreaksInWrongOrder();
         final PublishingStats stats = mock(PublishingStats.class);
         given(step.getPreviousStats()).willReturn(stats);
         given(stats.getGatherDocRetrievedCount()).willReturn(null);
@@ -140,8 +142,9 @@ public final class DefaultEmailBuilderTest {
         assertThat(body, containsString("Previous Version:"));
         assertThat(body, containsString("Gather Doc Retrieved Count: -"));
         assertThat(body, containsString("Book Size: 10"));
-    }
 
+        assertThat(body, not(containsString(PAGES_IN_WRONG_ORDER_WARNING)));
+    }
 
     @Test
     public void testPagebreaksInWrongOrderWarning() {
@@ -154,7 +157,7 @@ public final class DefaultEmailBuilderTest {
         //then
         assertThat(body, not(containsString(PRINT_PAGE_NUMBERS_WARNING)));
         assertThat(body, containsString(
-                "WARNING: some pages are in different order in main section and in footnotes section\n" +
+                PAGES_IN_WRONG_ORDER_WARNING +
                 "\tDocument N67F3BB609E3411E183F7C076EF385880-001306:\n" +
                 "\t\tpage 5_2\n" +
                 "\t\tpage 5_3\n" +
@@ -190,5 +193,10 @@ public final class DefaultEmailBuilderTest {
 
         given(step.hasJobExecutionPropertyPagebreaksInWrongOrder()).willReturn(Boolean.TRUE);
         given(step.getJobExecutionPropertyPagebreaksInWrongOrder()).willReturn(pagebreaksInWrongOrder);
+    }
+
+    private void givenNoPagebreaksInWrongOrder() {
+        given(step.hasJobExecutionPropertyPagebreaksInWrongOrder()).willReturn(Boolean.FALSE);
+        given(step.getJobExecutionPropertyPagebreaksInWrongOrder()).willReturn(new HashMap<>());
     }
 }

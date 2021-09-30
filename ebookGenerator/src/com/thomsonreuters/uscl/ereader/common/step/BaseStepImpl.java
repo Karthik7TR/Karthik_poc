@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
@@ -116,7 +117,8 @@ public abstract class BaseStepImpl implements BaseStep {
 
     @Override
     public boolean hasJobExecutionPropertyPagebreaksInWrongOrder() {
-        return getJobExecutionContext().containsKey(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER);
+        return getJobExecutionContext().containsKey(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER)
+                && !getJobExecutionPropertyPagebreaksInWrongOrder().isEmpty();
     }
 
     @Override
