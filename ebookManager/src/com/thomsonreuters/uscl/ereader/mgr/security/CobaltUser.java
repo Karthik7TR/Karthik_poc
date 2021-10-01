@@ -106,12 +106,6 @@ public class CobaltUser extends User {
     public String toString() {
         return "username="
             + getUsername()
-            + ", firstName="
-            + getFirstName()
-            + ", lastName="
-            + getLastName()
-            + ", email="
-            + getEmail()
             + ", authorities="
             + rolesToString(getAuthorities());
     }

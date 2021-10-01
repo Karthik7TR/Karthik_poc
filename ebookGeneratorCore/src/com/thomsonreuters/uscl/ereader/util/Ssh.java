@@ -28,12 +28,7 @@ public class Ssh {
         } catch (final JSchException e) {
             LOG.error(e.getMessage(), e);
             throw new EBookServerException(
-                "Failed to connect server with given credentials serverName="
-                    + serverName
-                    + " userName ="
-                    + userName
-                    + " password ="
-                    + password);
+                "Failed to connect server " + serverName);
         }
     }
 
@@ -74,12 +69,7 @@ public class Ssh {
         } catch (final Exception e) {
             LOG.error(e.getMessage(), e);
             throw new EBookServerException(
-                "Failed to connect server with given credentials serverName="
-                    + serverName
-                    + " userName ="
-                    + username
-                    + " password ="
-                    + password);
+                "Failed to connect server " + serverName);
         }
         return s;
     }
