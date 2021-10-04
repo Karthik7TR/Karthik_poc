@@ -45,6 +45,7 @@ import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -188,11 +189,14 @@ public class GenerateEbookController {
         @ModelAttribute(GenerateBookForm.FORM_NAME) final GenerateBookForm form,
         final Model model) throws Exception {
         BookDefinition book;
+        CombinedBookDefinition combinedBookDefinition;
         if (isCombined) {
             form.setCombined(true);
-            book = combinedBookDefinitionService.findCombinedBookDefinitionById(id).getPrimaryTitle().getBookDefinition();
+            combinedBookDefinition = combinedBookDefinitionService.findCombinedBookDefinitionById(id);
+            book = combinedBookDefinition.getPrimaryTitle().getBookDefinition();
         } else {
             book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
+            combinedBookDefinition = CombinedBookDefinition.fromBookDefinition(book);
         }
         if (book != null) {
             // Redirect to error page if book is marked as deleted
@@ -223,7 +227,7 @@ public class GenerateEbookController {
             setModelVersion(model, form, book);
 
             if (StringUtils.isNotBlank(form.getNewMajorVersion())) {
-                setModelGroup(book, model, form);
+                setModelGroup(combinedBookDefinition, model, form);
             }
             setModelIsbn(book, model);
         }
@@ -364,7 +368,8 @@ public class GenerateEbookController {
         return valueDouble.intValue();
     }
 
-    private void setModelGroup(final BookDefinition book, final Model model, final GenerateBookForm form) {
+    private void setModelGroup(final CombinedBookDefinition combinedBookDefinition, final Model model, final GenerateBookForm form) {
+        BookDefinition book = combinedBookDefinition.getPrimaryTitle().getBookDefinition();
         final Integer currentVersion = getMajorVersion(form.getNewMinorVersion());
         final Integer nextVersion = getMajorVersion(form.getNewMajorVersion());
 
@@ -373,10 +378,11 @@ public class GenerateEbookController {
         try {
             // Setup next groups
             if (StringUtils.isNotBlank(book.getGroupName())) {
-                List<String> splitTitles = createSplitTitles(book);
+                final long count = calculateSplitPartsAmount(combinedBookDefinition);
+                List<String> splitTitles = createSplitTitles(book, count);
                 currentGroup = groupService
                     .createGroupDefinition(book, GroupDefinition.VERSION_NUMBER_PREFIX + currentVersion, splitTitles);
-                splitTitles = createSplitTitles(book);
+                splitTitles = createSplitTitles(book, count);
                 nextGroup = groupService
                     .createGroupDefinition(book, GroupDefinition.VERSION_NUMBER_PREFIX + nextVersion, splitTitles);
             }
@@ -430,17 +436,23 @@ public class GenerateEbookController {
         model.addAttribute(WebConstants.KEY_GROUP_NEXT_PREVIEW, nextGroup);
     }
 
-    private List<String> createSplitTitles(final BookDefinition book) {
+    private long calculateSplitPartsAmount(final CombinedBookDefinition combinedBookDefinition) {
+        return combinedBookDefinition.getOrderedBookDefinitionList().stream()
+                .map(BookDefinition::getSplitDocuments)
+                .mapToLong(Collection::size)
+                .sum();
+    }
+
+    private List<String> createSplitTitles(final BookDefinition book, final long splitPartsAmount) {
         List<String> splitTitles = null;
         if (book.isSplitBook()) {
             splitTitles = new ArrayList<>();
             if (book.isSplitTypeAuto()) {
                 splitTitles.add("Auto Split");
             } else {
-                final int count = book.getSplitDocuments().size();
                 final String titleId = book.getFullyQualifiedTitleId();
                 splitTitles.add(titleId);
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i < splitPartsAmount; i++) {
                     final int part = i + 2;
                     final String nextTitleId = titleId + "_pt" + part;
                     splitTitles.add(nextTitleId);

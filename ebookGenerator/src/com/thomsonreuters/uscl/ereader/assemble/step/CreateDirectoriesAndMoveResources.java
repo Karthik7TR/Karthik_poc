@@ -118,13 +118,6 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
 
         try {
             final File assembleDirectory = assembleFileSystem.getAssembleDirectory(this);
-            int parts;
-            if (bookDefinition.isSplitTypeAuto()) {
-                parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
-            } else {
-                parts = bookDefinition.getSplitEBookParts();
-            }
-
             final File docToSplitBook = formatFileSystem.getDocToSplitBook(this);
 
             // docMap contains SplitBook part to Doc mapping
@@ -132,7 +125,7 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
             // splitBookImgMap contains SplitBook part to Img mapping
             final Map<String, List<String>> splitBookImgMap = new HashMap<>();
             readDocImgFile(docToSplitBook, docMap, splitBookImgMap);
-
+            final int parts = docMap.keySet().size();
             // Assets that are needed for all books
             addAssetsForAllBooks(bookDefinition, titleMetadataBuilder);
 

@@ -20,7 +20,9 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSy
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DIR;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
@@ -125,6 +127,17 @@ public class FormatFileSystemImpl implements FormatFileSystem {
     @Override
     public File getSplitBookInfoFile(@NotNull final BookStep step) {
         return new File(getSplitBookDirectory(step), FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE.getName());
+    }
+
+    @NotNull
+    @Override
+    public File getSplitTocDirectory(@NotNull final BookStep step) {
+        return new File(getFormatDirectory(step), FORMAT_SPLIT_TOC_DIR.getName());
+    }
+    @NotNull
+    @Override
+    public File getSplitTocFile(@NotNull final BookStep step) {
+        return new File(getSplitTocDirectory(step), FORMAT_SPLIT_TOC_FILE.getName());
     }
 
     @NotNull

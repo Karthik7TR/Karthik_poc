@@ -112,6 +112,12 @@ public interface FormatFileSystem {
     @NotNull
     File getSplitBookInfoFile(@NotNull BookStep step);
 
+    @NotNull
+    File getSplitTocDirectory(@NotNull BookStep step);
+
+    @NotNull
+    File getSplitTocFile(@NotNull BookStep step);
+
     /**
      * Returns doc-to-image-manifest.txt file
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

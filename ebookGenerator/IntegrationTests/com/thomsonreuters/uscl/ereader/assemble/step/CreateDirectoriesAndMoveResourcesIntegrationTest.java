@@ -1,19 +1,17 @@
-package com.thomsonreuters.uscl.ereader.format.step;
+package com.thomsonreuters.uscl.ereader.assemble.step;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl;
-import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
-import com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
+import com.thomsonreuters.uscl.ereader.format.step.StepIntegrationTestRunner;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacadeImpl;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;

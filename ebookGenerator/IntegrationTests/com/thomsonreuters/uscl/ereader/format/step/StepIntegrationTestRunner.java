@@ -76,7 +76,7 @@ public class StepIntegrationTestRunner {
     }
 
     public void setUp(final BaseStep step, final String resourceDirName, final boolean isSpy) throws URISyntaxException {
-        resourceRootDir = new File(StepIntegrationTestRunner.class.getResource(resourceDirName).toURI());
+        resourceRootDir = new File(step.getClass().getResource(resourceDirName).toURI());
         setUp(step, isSpy);
     }
 

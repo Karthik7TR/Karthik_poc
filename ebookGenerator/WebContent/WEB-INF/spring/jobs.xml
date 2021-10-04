@@ -316,12 +316,7 @@
 	<beans:bean id="formatTransformXMLTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML" parent="bookStep"/>
 				
 	<beans:bean id="splitBookDecider" class="com.thomsonreuters.uscl.ereader.decider.SplitBookDecider"/>
-	<beans:bean id="generateSplitTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateSplitTocTask" scope="step" parent="generatorParentTask"
-				p:publishingStatsService-ref="publishingStatsService"
-				p:splitBookTocParseService-ref="splitBookTocParseService"
-				p:fileHandlingHelper-ref="transformedFileHandlingHelper"
-				p:docMetadataService-ref="docMetadataService"
-				p:autoSplitGuidsService-ref="autoSplitGuidsService"/>
+	<beans:bean id="generateSplitTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateSplitTocTask" scope="step" parent="bookStep"/>
 
 	<beans:bean id="formatHTMLTransformerTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform" />
 					
