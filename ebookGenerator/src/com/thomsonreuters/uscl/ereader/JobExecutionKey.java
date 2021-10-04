@@ -172,4 +172,6 @@ public class JobExecutionKey {
 
     public static final String HAS_FILE_SOURCE_TYPE = "hasFileSourceType";
 
+    public static final String IMAGE_GUID_NUM = "imageGuidNum";
+    public static final String RETRIEVED_IMAGES_COUNT = "retrievedImagesCount";
 }

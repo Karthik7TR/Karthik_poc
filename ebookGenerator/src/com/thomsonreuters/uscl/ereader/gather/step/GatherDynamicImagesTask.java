@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
@@ -24,7 +25,6 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.ExitStatus;
@@ -40,9 +40,6 @@ public class GatherDynamicImagesTask extends BookStepImpl {
     @Resource(name = "imageService")
     private ImageService imageService;
 
-    @Resource(name = "publishingStatsService")
-    private PublishingStatsService publishingStatsService;
-
     @Resource(name = "formatFileSystem")
     private FormatFileSystem formatFileSystem;
 
@@ -51,10 +48,6 @@ public class GatherDynamicImagesTask extends BookStepImpl {
 
     @Resource(name = "gatherService")
     private GatherService gatherService;
-
-    private int imageGuidNum;
-    private int retrievedCount;
-    private List<String> missedImagesList;
 
     @Override
     public ExitStatus executeStep() throws Exception {
@@ -84,32 +77,31 @@ public class GatherDynamicImagesTask extends BookStepImpl {
         final long jobInstanceId = getJobInstanceId();
         final Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
 
-        imageGuidNum = imgGuidSet.size();
-
-        if (imageGuidNum > 0) {
-            final GatherImgRequest imgRequest =
-                constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
-
-            final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
-
-            if (gatherResponse.getMissingImgCount() > 0) {
-                retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
-                missedImagesList = gatherResponse.getMissingImagesList();
-                throw new ImageException(
-                    String.format(
-                        "Download of dynamic images failed because there were %d missing image(s)" + missedImagesList,
-                        gatherResponse.getMissingImgCount()));
-            }
-            retrievedCount = imageGuidNum;
-
-            if (gatherResponse.getImageMetadataList() != null) {
-                for (final ImgMetadataInfo metadata : gatherResponse.getImageMetadataList()) {
-                    imageService
-                        .saveImageMetadata(metadata, jobInstanceId, getBookDefinition().getFullyQualifiedTitleId());
+        int imageGuidNum = imgGuidSet.size();
+        int retrievedCount = 0;
+        try {
+            if (imageGuidNum > 0) {
+                final GatherImgRequest imgRequest =
+                        constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
+                final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
+                if (gatherResponse.getMissingImgCount() > 0) {
+                    retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
+                    List<String> missedImagesList = gatherResponse.getMissingImagesList();
+                    throw new ImageException(
+                            String.format(
+                                    "Download of dynamic images failed because there were %d missing image(s)" + missedImagesList,
+                                    gatherResponse.getMissingImgCount()));
+                }
+                retrievedCount = imageGuidNum;
+                if (gatherResponse.getImageMetadataList() != null) {
+                    for (final ImgMetadataInfo metadata : gatherResponse.getImageMetadataList()) {
+                        imageService.saveImageMetadata(metadata, jobInstanceId, getBookDefinition().getFullyQualifiedTitleId());
+                    }
                 }
             }
+        } finally {
+            storeImagesInfo(imageGuidNum, retrievedCount);
         }
-
         return ExitStatus.COMPLETED;
     }
 
@@ -149,11 +141,8 @@ public class GatherDynamicImagesTask extends BookStepImpl {
         return imgGuidSet;
     }
 
-    public int getImageGuidNum() {
-        return imageGuidNum;
-    }
-
-    public int getRetrievedCount() {
-        return retrievedCount;
+    private void storeImagesInfo(final int imageGuidNum, final int retrievedCount) {
+        setJobExecutionProperty(JobExecutionKey.IMAGE_GUID_NUM, imageGuidNum);
+        setJobExecutionProperty(JobExecutionKey.RETRIEVED_IMAGES_COUNT, retrievedCount);
     }
 }

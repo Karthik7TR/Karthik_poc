@@ -4,6 +4,7 @@ import static com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTes
 import static com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTestUtil.getChunkContext;
 import static com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTestUtil.getGatherResponse;
 import static com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTestUtil.getManifestFile;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -17,13 +18,11 @@ import java.io.IOException;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,9 +54,9 @@ public class GatherDynamicImagesTaskTest {
 
     @Before
     public void setUp() throws IOException {
-        when(gatherService.getImg((GatherImgRequest) any())).thenReturn(getGatherResponse());
-        when(formatFileSystem.getImageToDocumentManifestFile((BookStep) any())).thenReturn(getManifestFile(tempFolder));
-        when(imageFileSystem.getImageDynamicDirectory((BookStep) any()))
+        when(gatherService.getImg(any())).thenReturn(getGatherResponse());
+        when(formatFileSystem.getImageToDocumentManifestFile(any())).thenReturn(getManifestFile(tempFolder));
+        when(imageFileSystem.getImageDynamicDirectory(any()))
             .thenReturn(tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
     }
 
@@ -72,15 +71,23 @@ public class GatherDynamicImagesTaskTest {
         assertNull(request.getXppSourceImageDirectory());
         assertFalse(request.isXpp());
 
-        verify(imageService).saveImageMetadata((ImgMetadataInfo) any(), anyLong(), (String) any());
+        verify(imageService).saveImageMetadata(any(), anyLong(), any());
+
+        assertEquals(1, gatherDynamicImagesTask.getJobExecutionPropertyInt(JobExecutionKey.IMAGE_GUID_NUM));
+        assertEquals(1, gatherDynamicImagesTask.getJobExecutionPropertyInt(JobExecutionKey.RETRIEVED_IMAGES_COUNT));
     }
 
     @Test(expected = ImageException.class)
     public void testHasMissingImages() throws Exception {
         final GatherResponse response = getGatherResponse();
         response.setMissingImgCount(1);
-        when(gatherService.getImg((GatherImgRequest) any())).thenReturn(response);
+        when(gatherService.getImg(any())).thenReturn(response);
 
-        gatherDynamicImagesTask.execute(null, getChunkContext());
+        try {
+            gatherDynamicImagesTask.execute(null, getChunkContext());
+        } finally {
+            assertEquals(1, gatherDynamicImagesTask.getJobExecutionPropertyInt(JobExecutionKey.IMAGE_GUID_NUM));
+            assertEquals(0, gatherDynamicImagesTask.getJobExecutionPropertyInt(JobExecutionKey.RETRIEVED_IMAGES_COUNT));
+        }
     }
 }

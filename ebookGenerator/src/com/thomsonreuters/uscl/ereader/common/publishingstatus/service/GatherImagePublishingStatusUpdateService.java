@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.common.publishingstatus.service;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask;
@@ -14,8 +15,10 @@ public class GatherImagePublishingStatusUpdateService extends BasePublishingStat
         jobstatsDoc.setJobInstanceId(step.getJobInstanceId());
 
         if (step instanceof GatherDynamicImagesTask) {
-            jobstatsDoc.setGatherImageExpectedCount(((GatherDynamicImagesTask) step).getImageGuidNum());
-            jobstatsDoc.setGatherImageRetrievedCount(((GatherDynamicImagesTask) step).getRetrievedCount());
+            int imageGuidNum = step.getJobExecutionPropertyInt(JobExecutionKey.IMAGE_GUID_NUM);
+            int retrievedCount = step.getJobExecutionPropertyInt(JobExecutionKey.RETRIEVED_IMAGES_COUNT);
+            jobstatsDoc.setGatherImageExpectedCount(imageGuidNum);
+            jobstatsDoc.setGatherImageRetrievedCount(retrievedCount);
         }
         jobstatsDoc.setPublishStatus(getPublishStatusString(step, publishStatus));
         publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);

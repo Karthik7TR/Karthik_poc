@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
@@ -21,9 +22,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GatherImagePublishingStatusUpdateServiceTest {
-    /**
-     *
-     */
     private static final int EXPECTED_COUNT = 3;
     private static final int RETRIEVED_COUNT = 2;
     @InjectMocks
@@ -40,8 +38,9 @@ public class GatherImagePublishingStatusUpdateServiceTest {
         //given
         given(step.getJobInstanceId()).willReturn(1L);
         given(step.getStepName()).willReturn("stepName");
-        given(step.getImageGuidNum()).willReturn(EXPECTED_COUNT);
-        given(step.getRetrievedCount()).willReturn(RETRIEVED_COUNT);
+        given(step.getJobExecutionPropertyInt(JobExecutionKey.IMAGE_GUID_NUM)).willReturn(EXPECTED_COUNT);
+        given(step.getJobExecutionPropertyInt(JobExecutionKey.RETRIEVED_IMAGES_COUNT)).willReturn(RETRIEVED_COUNT);
+
         //when
         service.savePublishingStats(step, PublishingStatus.FAILED);
         //then
