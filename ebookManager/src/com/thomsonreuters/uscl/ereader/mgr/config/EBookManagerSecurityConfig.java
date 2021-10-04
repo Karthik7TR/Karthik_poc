@@ -70,6 +70,7 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
             .hasAnyRole("SUPPORT", "SUPERUSER")
 
             .antMatchers("/bookDefinitionCreate.mvc",
+                         "/" + WebConstants.MVC_COMBINED_BOOK_DEFINITION_CREATE,
                          "/bookDefinitionCopy.mvc",
                          "/generateEbookPreview.mvc",
                          "/generateBulkEbookPreview.mvc")
@@ -80,7 +81,8 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/" + WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED)
             .hasAnyRole("PUBLISHER_PLUS", "SUPERUSER")
 
-            .antMatchers("/bookDefinitionEdit.mvc")
+            .antMatchers("/bookDefinitionEdit.mvc",
+                    "/" + WebConstants.MVC_COMBINED_BOOK_DEFINITION_EDIT)
             .hasAnyRole("EDITOR", "PUBLISHER", "PUBLISHER_PLUS", "SUPERUSER")
 
             .antMatchers("/**")

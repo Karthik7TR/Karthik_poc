@@ -41,6 +41,7 @@
 		</sec:authorize>
 		<c:if test="${showCreate}">
 			<li><a id="createBookTab" href="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>">CREATE BOOK</a></li>
+			<li><a id="createCombinedBookTab" href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_CREATE%>">CREATE COMBINED BOOK</a></li>
 		</c:if>
 		
 		<li><a href="<%=WebConstants.MVC_USER_PREFERENCES%>">PREFERENCES</a></li>
