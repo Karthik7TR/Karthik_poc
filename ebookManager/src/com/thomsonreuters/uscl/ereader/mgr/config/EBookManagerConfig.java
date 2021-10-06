@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import java.util.Arrays;
 
+import com.thomsonreuters.uscl.ereader.core.service.local.DevEnvironmentValidator;
+import com.thomsonreuters.uscl.ereader.core.service.local.DevEnvironmentValidatorImpl;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -138,5 +140,10 @@ public class EBookManagerConfig extends WebMvcConfigurerAdapter {
             new ClassPathResource("eBookManager.properties"));
         propertyConfigurer.setSystemPropertiesMode(PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE);
         return propertyConfigurer;
+    }
+
+    @Bean
+    public DevEnvironmentValidator devEnvironmentValidator(@Qualifier("environmentName") final String environmentName) {
+        return new DevEnvironmentValidatorImpl(environmentName);
     }
 }
