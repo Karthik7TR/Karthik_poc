@@ -118,6 +118,7 @@ public class WebConstants {
     public static final String BOOK_STATUS_IN_PROVIEW = "bookStatusInProview";
     public static final String KEY_PAGE_SIZE = "pageSize";
     public static final String DEFAULT_PAGE_SIZE = "20";
+    public static final String KEY_OBJECTS_PER_PAGE = "objectsPerPage";
     public static final String KEY_IS_SPLIT_BOOK = "isSplitBook";
     public static final String KEY_MAX_SPLIT_PARTS = "maxEbookSplitParts";
     public static final String KEY_SUBGROUP_HEADING = "subGroupHeading";
@@ -241,8 +242,6 @@ public class WebConstants {
     public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 
     public static final String MVC_PROVIEW_AUDIT_LIST = "proviewAuditList.mvc";
-    public static final String MVC_PROVIEW_AUDIT_LIST_PAGE_AND_SORT = "proviewAuditListPageAndSort.mvc";
-    public static final String MVC_PROVIEW_AUDIT_LIST_FILTER_POST = "proviewAuditListFilterPost.mvc";
 
     public static final String MVC_SUPPORT_PAGE_VIEW = "supportPageView.mvc";
 

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm.HomepageProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 public class CurrentSessionUserPreferences {
     public static final String NAME = "currentSessionUserPreferences";
 
+    private ProviewAuditFilterForm proviewAuditPreferences = new ProviewAuditFilterForm();
     private HomepageProperty startPage;
     private String auditFilterProviewName;
     private String auditFilterTitleId;

@@ -4,45 +4,43 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%--
-	The filter form in the left side tile of the Active / Recent Jobs table.
- --%>
-<script>
-$(document).ready(function() {
-	<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
-	$("form input").keyup(function(event) {
-		if (event.keyCode == 13) {
-			submitAuditFilterForm('<%=ProviewAuditFilterForm.FilterCommand.SEARCH%>');
-		}
+<script type="text/javascript" src="js/form-utils.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		<%-- Submit the filter form when ENTER key is pressed from within any input field. --%>
+		$("form input").keyup(function (event) {
+			if (event.keyCode == 13) {
+				submitLeftFormAndBodyForm();
+			}
+		});
+		<%-- Set up the timepicker TO and FROM date picker UI widget --%>
+		$("#datepickerFrom").datetimepicker({
+			showSecond: true,
+			timeFormat: 'HH:mm:ss'
+		});
+		$("#datepickerTo").datetimepicker({
+			hour: 23,
+			minute: 59,
+			second: 59,
+			showSecond: true,
+			timeFormat: 'HH:mm:ss'
+		});
+		$("#datepickerFrom, #datepickerTo").attr('autocomplete', 'off');
 	});
-	
-	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
-	$( "#datepickerFrom" ).datetimepicker({
-		showSecond: true,
-		timeFormat: 'HH:mm:ss'
+	$(window).on('pageshow', function () {
+		$('#titleId').val('${ param.titleId }');
+		$('#username').val('${ param.username }');
+		$('#datepickerFrom').val('${ param.requestFromDateString }');
+		$('#datepickerTo').val('${ param.requestToDateString }');
+		$('#action').val('${ param.action }');
 	});
-	$( "#datepickerTo" ).datetimepicker({
-		hour: 23,
-		minute: 59,
-		second: 59,
-		showSecond: true,
-		timeFormat: 'HH:mm:ss'
-	});
-	$("#datepickerFrom, #datepickerTo").attr('autocomplete','off');
-});
-
-<%-- Submit the row multi-select form with the command being used to indicate which operation initiated the submit. --%>
-function submitAuditFilterForm(command) {
-	$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
-	$("#<%=ProviewAuditFilterForm.FORM_NAME%>").submit();	// POST the HTML form
-}
 </script>
 
 <div class="header">Filters</div>
-<form:form action="<%=WebConstants.MVC_PROVIEW_AUDIT_LIST_FILTER_POST %>"
-		   commandName="<%=ProviewAuditFilterForm.FORM_NAME%>" method="post">
-	<form:hidden path="filterCommand"/>
-	
+<form:form id="leftForm"
+					 modelAttribute="<%=ProviewAuditFilterForm.FORM_NAME%>"
+					 action="<%=WebConstants.MVC_PROVIEW_AUDIT_LIST%>"
+					 method="get">
 	<%-- Validation Error Message Presentation (if any) --%>
 	<spring:hasBindErrors name="<%=ProviewAuditFilterForm.FORM_NAME%>">
 		<div class="errorBox">
@@ -83,10 +81,7 @@ function submitAuditFilterForm(command) {
 			<form:option label="<%=ProviewAuditFilterForm.Action.REMOVE.toString()%>" value="<%=ProviewAuditFilterForm.Action.REMOVE.toString() %>"/>
 		</form:select>
 	</div>
-	
 	<div class="wildCard">Wildcard: %</div>
-	
-	<input id="auditFilterSearchButton" type="button" value="Search" onclick="submitAuditFilterForm('<%=ProviewAuditFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitAuditFilterForm('<%=ProviewAuditFilterForm.FilterCommand.RESET%>')"/>
+	<input type="button" value="Search" onclick="submitLeftFormAndBodyForm()"/>
+	<input type="button" value="Reset" onclick="submitEmptyLeftFormAndBodyForm()"/>
 </form:form>
-

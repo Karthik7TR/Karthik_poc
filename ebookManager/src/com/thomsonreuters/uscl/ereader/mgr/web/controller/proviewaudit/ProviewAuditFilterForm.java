@@ -1,10 +1,16 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,28 +19,35 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * The form backing object that holds the data the user enters into the proview audit filter HTML form.
  */
+@Getter
+@Setter
 public class ProviewAuditFilterForm {
     public static final String FORM_NAME = "proviewAuditFilterForm";
-
-    public enum FilterCommand {
-        SEARCH,
-        RESET
-    };
+    public static final String ASC_SORT = "asc";
+    public static final String DESC_SORT = "desc";
 
     public enum Action {
         PROMOTE,
         DELETE,
         REMOVE
-    };
+    }
 
-    //private static final Logger log = LogManager.getLogger(ProviewAuditFilterForm.class);
+    public enum DisplayTagSortProperty {
+        TITLE_ID,
+        BOOK_VERSION,
+        BOOK_LAST_UPDATED,
+        USERNAME,
+        PROVIEW_REQUEST,
+        REQUEST_DATE
+    }
 
+    private final PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<>();
+    @Setter(AccessLevel.NONE)
     private String titleId;
     private String username;
-    private String fromRequestDateString;
-    private String toRequestDateString;
+    private String requestFromDateString;
+    private String requestToDateString;
     private Action action;
-    private FilterCommand command;
 
     public ProviewAuditFilterForm() {
         initialize();
@@ -51,50 +64,22 @@ public class ProviewAuditFilterForm {
     public void populate(
         final String titleId,
         final String submittedBy,
-        final String fromRequestDateString,
-        final String toRequestDateString,
+        final String requestFromDateString,
+        final String requestToDateString,
         final Action action) {
         this.titleId = titleId;
-        username = submittedBy;
-        this.fromRequestDateString = fromRequestDateString;
-        this.toRequestDateString = toRequestDateString;
+        this.username = submittedBy;
+        this.requestFromDateString = requestFromDateString;
+        this.requestToDateString = requestToDateString;
         this.action = action;
     }
 
-    public FilterCommand getFilterCommand() {
-        return command;
-    }
-
-    public String getTitleId() {
-        return titleId;
-    }
-
     public Date getRequestFromDate() {
-        return parseDate(fromRequestDateString);
-    }
-
-    public String getRequestFromDateString() {
-        return fromRequestDateString;
+        return parseDate(requestFromDateString);
     }
 
     public Date getRequestToDate() {
-        return parseDate(toRequestDateString);
-    }
-
-    public String getRequestToDateString() {
-        return toRequestDateString;
-    }
-
-    public Action getAction() {
-        return action;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setFilterCommand(final FilterCommand cmd) {
-        command = cmd;
+        return parseDate(requestToDateString);
     }
 
     public void setTitleId(final String titleId) {
@@ -102,27 +87,11 @@ public class ProviewAuditFilterForm {
     }
 
     public void setRequestFromDate(final Date fromDate) {
-        fromRequestDateString = parseDate(fromDate);
-    }
-
-    public void setRequestFromDateString(final String fromDate) {
-        fromRequestDateString = fromDate;
-    }
-
-    public void setRequestToDateString(final String toDate) {
-        toRequestDateString = toDate;
+        requestFromDateString = parseDate(fromDate);
     }
 
     public void setRequestToDate(final Date toDate) {
-        toRequestDateString = parseDate(toDate);
-    }
-
-    public void setAction(final Action action) {
-        this.action = action;
-    }
-
-    public void setUsername(final String username) {
-        this.username = username;
+        requestToDateString = parseDate(toDate);
     }
 
     public static String parseDate(final Date date) {
@@ -144,6 +113,47 @@ public class ProviewAuditFilterForm {
             //Intentionally left blank
         }
         return date;
+    }
+
+    public String getDir() {
+        return (pageAndSort.isAscendingSort()) ? ASC_SORT : DESC_SORT;
+    }
+
+    public void setDir(final String direction) {
+        pageAndSort.setAscendingSort(ASC_SORT.equals(direction));
+    }
+
+    public boolean isAscendingSort() {
+        return pageAndSort.isAscendingSort();
+    }
+
+    public Integer getPage() {
+        return pageAndSort.getPageNumber();
+    }
+
+    public void setPage(final Integer pageNumber) {
+        pageAndSort.setPageNumber(pageNumber);
+    }
+
+    public DisplayTagSortProperty getSort() {
+        return pageAndSort.getSortProperty();
+    }
+
+    public void setSort(final DisplayTagSortProperty sortProperty) {
+        pageAndSort.setSortProperty(sortProperty);
+    }
+
+    public Integer getObjectsPerPage() {
+        return pageAndSort.getObjectsPerPage();
+    }
+
+    public void setObjectsPerPage(final Integer objectsPerPage) {
+        pageAndSort.setObjectsPerPage(objectsPerPage);
+    }
+
+    public boolean areAllFiltersBlank() {
+        return isBlank(getTitleId()) && isBlank(getUsername()) && isBlank(getRequestFromDateString())
+                && isBlank(getRequestToDateString()) && getAction() == null;
     }
 
     @Override

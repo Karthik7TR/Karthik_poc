@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
@@ -11,14 +11,12 @@ import org.displaytag.properties.SortOrderEnum;
  * A DisplayTag PaginatedList implementation for paging through the part lists of proview audit.
  */
 public class ProviewAuditPaginatedList implements PaginatedList {
-    //private static final Logger log = LogManager.getLogger(ProviewAuditPaginatedList.class);
-
-    private List<ProviewAudit> partialList;
-    private int pageNumber; // Which page number of data is this
-    private int fullListSize; // The size of the entire population of elements that are to be displayed in a paginated fashion
-    private int itemsPerPage; // How many rows are to be shown on each page
-    private DisplayTagSortProperty sortProperty; // Indicates the property that we want to sort by
-    private boolean ascending; // True if the list is sorted in the ascending direction
+    private final List<ProviewAudit> partialList;
+    private final int pageNumber; // Which page number of data is this
+    private final int fullListSize; // The size of the entire population of elements that are to be displayed in a paginated fashion
+    private final int itemsPerPage; // How many rows are to be shown on each page
+    private final DisplayTagSortProperty sortProperty; // Indicates the property that we want to sort by
+    private final boolean ascending; // True if the list is sorted in the ascending direction
 
     /**
      * Create the PaginatedList used for paging and sorting operations by DisplayTag.
@@ -65,7 +63,6 @@ public class ProviewAuditPaginatedList implements PaginatedList {
     }
 
     @Override
-    /** Returns of of the SortProperty values */
     public String getSortCriterion() {
         return sortProperty.toString();
     }

@@ -19,7 +19,7 @@ public class ProviewAuditFilterFormValidator extends BaseFormValidator implement
     public void validate(final Object obj, final Errors errors) {
         final ProviewAuditFilterForm form = (ProviewAuditFilterForm) obj;
         // Do not validate form if we are simply resetting its values to the defaults
-        if (ProviewAuditFilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
+        if (form.areAllFiltersBlank()) {
             return;
         }
 
