@@ -1471,6 +1471,26 @@ public final class EditBookDefinitionFormValidatorTest {
         assertFormValidationErrorMessage();
     }
 
+    @Test
+    public void testTitlePageImageIncludedIsTrue() {
+        testTitlePageImage(true);
+    }
+
+    @Test
+    public void testTitlePageImageNotIncludedIsFalse() {
+        testTitlePageImage(false);
+    }
+
+    private void testTitlePageImage(final boolean isTitlePageImageIncluded) {
+        setRequiredFormFields();
+        expectReplayDocTypeCode();
+        expectReplayKeywordTypeCodes();
+        form.setValidateForm(true);
+        form.setTitlePageImageIncluded(isTitlePageImageIncluded);
+        validator.validate(form, errors);
+        Assert.assertNotEquals(isTitlePageImageIncluded, errors.hasFieldErrors("frontMatterTitle.bookNameText"));
+    }
+
     private void setRequiredFormFields() {
         form.setTitleId("uscl/an/test");
         form.setPublisher("publisher");

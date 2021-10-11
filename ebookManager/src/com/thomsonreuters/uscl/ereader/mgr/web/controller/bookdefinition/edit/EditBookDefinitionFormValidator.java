@@ -240,8 +240,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", ERROR_REQUIRED);
 
             if (form.getSourceType() != SourceType.XPP) {
+                if (!form.isTitlePageImageIncluded()) {
+                    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", ERROR_REQUIRED);
+                }
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", ERROR_REQUIRED);
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", ERROR_REQUIRED);
             }
             switch (form.getSourceType()) {
             case TOC:
