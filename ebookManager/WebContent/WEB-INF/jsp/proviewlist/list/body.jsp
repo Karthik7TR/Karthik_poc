@@ -6,21 +6,27 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm"%>
+<%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm" %>
 
+<c:set var="defaultPageSize" value="<%=WebConstants.DEFAULT_PAGE_SIZE%>"/>
+
+<script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
-		function refresh(){
-			$('#command').val('<%=ProviewTitleForm.Command.REFRESH%>');
-			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
-			return true; 
-		}
-		
-		function changePageSize(){
-			$('#command').val('<%=ProviewTitleForm.Command.PAGESIZE%>');
-			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
-			return true; 
-		}
+	$(document).ready(function () {
+		$('#command').prop('disabled', true);
+	});
+	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
+	$(window).on('pageshow', function() {
+		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);
+	});
+	function refresh() {
+		const commandSelector = $('#command');
+		commandSelector.prop('disabled', false);
+		commandSelector.val('<%=ProviewListFilterForm.Command.REFRESH%>');
+		submitLeftFormAndBodyForm();
+	}
 </script>
+
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	
 	<%-- Informational Messages area --%>
@@ -38,14 +44,17 @@
 		<br/>
 	</c:if>
 
-	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLES%>"
-			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
-			   
+<form:form
+		id="bodyForm"
+		action="<%=WebConstants.MVC_PROVIEW_TITLES%>"
+		modelAttribute="<%=ProviewListFilterForm.FORM_NAME%>"
+		method="get">
+
 	<form:hidden path="command"/>
 	<jsp:include page="../tableLegend.jsp"/>
 	Items per page:
-	<form:select path="objectsPerPage" onchange="changePageSize();">
-		<form:option label="20" value="20"/>
+	<form:select path="objectsPerPage" onchange="submitLeftFormAndBodyForm();">
+		<form:option label="${ defaultPageSize }" value="${ defaultPageSize }"/>
 		<form:option label="50" value="50"/>
 		<form:option label="100" value="100"/>
 		<form:option label="250" value="250"/>

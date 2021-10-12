@@ -7,14 +7,25 @@
 <c:set var="userFullName" value="<%=UserUtils.getAuthenticatedUserFullName()%>"/>
 
 <script type="text/javascript">
-	const groupListFilterParams = {
-		groupFilterName: '${ currentSessionUserPreferences.groupFilterName }',
-		groupFilterId: '${ currentSessionUserPreferences.groupFilterId }'
-	};
-	const groupListQueryString = $.param(groupListFilterParams);
-	$(window).on('pageshow', function() {
-		$('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + '?' + groupListQueryString);
-	});
+    const groupListFilterParams = {
+        groupFilterName: '${ currentSessionUserPreferences.groupFilterName }',
+        groupFilterId: '${ currentSessionUserPreferences.groupFilterId }'
+    };
+    const groupListQueryString = $.param(groupListFilterParams);
+
+    const proviewListFilterParams = {
+        proviewDisplayName: '${ currentSessionUserPreferences.proviewDisplayName }',
+        titleId: '${ currentSessionUserPreferences.titleId }',
+        minVersions: '${ currentSessionUserPreferences.minVersions }',
+        maxVersions: '${ currentSessionUserPreferences.maxVersions }',
+        objectsPerPage: '${ currentSessionUserPreferences.proviewListObjectsPerPage }'
+    };
+    const proviewListQueryString = $.param(proviewListFilterParams);
+
+    $(window).on('pageshow', function () {
+        $('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + '?' + groupListQueryString);
+        $('#proviewListTab').prop('href', '${ WebConstants.MVC_PROVIEW_TITLES }' + '?' + proviewListQueryString);
+    });
 </script>
 
 <div class="headerLeftSide">
@@ -32,8 +43,7 @@
 		<li><a id="jobsTab" href="<%=WebConstants.MVC_JOB_SUMMARY%>">JOBS</a></li>
 		<li><a id="queuedTab" href="<%=WebConstants.MVC_JOB_QUEUE%>">QUEUED</a></li>
 		<li><a id="groupListTab" href="<%=WebConstants.MVC_PROVIEW_GROUPS%>">GROUP LIST</a></li>
-		
-		
+
 		<%-- Check if user has role to access create book definition --%>
 		<c:set var="showCreate" value="false"/>
 		<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
@@ -43,9 +53,9 @@
 			<li><a id="createBookTab" href="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>">CREATE BOOK</a></li>
 			<li><a id="createCombinedBookTab" href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_CREATE%>">CREATE COMBINED BOOK</a></li>
 		</c:if>
-		
+
 		<li><a href="<%=WebConstants.MVC_USER_PREFERENCES%>">PREFERENCES</a></li>
-		
+
 		<%-- Check if user has role to access Admin --%>
 		<c:set var="showAdmin" value="false"/>
 		<sec:authorize access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')">

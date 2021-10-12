@@ -527,7 +527,7 @@ public final class EditBookDefinitionControllerTest {
      */
     @Test
     public void testEditBookDefinitionGet() throws Exception {
-        when(proviewTitleListService.getPreviousVersions(any(), any())).thenReturn(Collections.singletonList(VERSION_1_5));
+        when(proviewTitleListService.getPreviousVersions(any())).thenReturn(Collections.singletonList(VERSION_1_5));
 
         Map<String, Object> model = testEditBookDefinitionGet(null);
 
@@ -539,7 +539,7 @@ public final class EditBookDefinitionControllerTest {
 
     @Test
     public void testEditBookDefinitionGetNoProview() throws Exception {
-        when(proviewTitleListService.getPreviousVersions(any(), any())).thenThrow(new RuntimeException());
+        when(proviewTitleListService.getPreviousVersions(any())).thenThrow(new RuntimeException());
 
         Map<String, Object> model = testEditBookDefinitionGet(VERSION_1_0);
 
@@ -551,7 +551,7 @@ public final class EditBookDefinitionControllerTest {
 
     @Test
     public void testEditBookDefinitionGetNoProviewNoPreviousVersion() throws Exception {
-        when(proviewTitleListService.getPreviousVersions(any(), any())).thenThrow(new RuntimeException());
+        when(proviewTitleListService.getPreviousVersions(any())).thenThrow(new RuntimeException());
 
         Map<String, Object> model = testEditBookDefinitionGet(null);
 

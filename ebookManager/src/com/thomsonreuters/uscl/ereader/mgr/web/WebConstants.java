@@ -6,24 +6,17 @@ public class WebConstants {
 
     public static final String KEY_IS_OPERATION_ALLOWED = "isOperationAllowed";
     public static final String KEY_ENVIRONMENT_NAME = "environmentName";
-    public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library search criteria
     public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
-    public static final String KEY_PROVIEW_GROUP_FORM = "proviewGroupForm";
     public static final String KEY_PROVIEW_GROUP_LIST_FILTER_FORM = "proviewGroupListFilterForm";
     public static final String KEY_FORM = "form";
     public static final String KEY_PAGINATED_LIST = "paginatedList";
-    public static final String KEY_GROUP = "group";
     public static final String KEY_GROUP_DETAIL = "groupDetail";
     public static final String KEY_PUBLISHING_STATS_LIST = "publishingStatsList";
     public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
-    public static final String KEY_LATEST_UPDATE_DATES_TITLE = "titlesLatestUpdateDate";
-    public static final String KEY_LATEST_UPDATE_DATES_GROUPS = "groupsLatestUpdateDate";
     public static final String KEY_ALL_LATEST_PROVIEW_GROUPS = "allLatestProviewGroups";
-    public static final String KEY_PROVIEW_GROUPS_DETAILS_SESSIOM = "groupDetailsFromsession";
     public static final String KEY_SELECTED_PROVIEW_TITLES = "selectedProviewTitleInfo";
     public static final String KEY_SELECTED_PROVIEW_GROUPS = "selectedProviewGroups";
     public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
-    public static final String KEY_ALL_PROVIEW_GROUPS = "allProviewGroups";
     public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
     public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
     public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
@@ -159,6 +152,10 @@ public class WebConstants {
     // Filtering params
     public static final String KEY_GROUP_FILTER_NAME = "groupFilterName";
     public static final String KEY_GROUP_FILTER_ID = "groupFilterId";
+    public static final String KEY_PROVIEW_DISPLAY_NAME_FILTER = "proviewDisplayName";
+    public static final String KEY_TITLE_ID_FILTER = "titleId";
+    public static final String KEY_MIN_VERSIONS_FILTER = "minVersions";
+    public static final String KEY_MAX_VERSIONS_FILTER = "maxVersions";
 
     // Document Type Codes
     public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";
@@ -181,7 +178,6 @@ public class WebConstants {
     public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
     public static final String MVC_BOOK_LIBRARY_FILTERED = "bookLibraryListFiltered.mvc";
     public static final String MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT = "bookLibraryChangeRowCount.mvc";
-    public static final String MVC_PROVIEW_LIST_FILTERED = "proviewListFiltered.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
     public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
     public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";

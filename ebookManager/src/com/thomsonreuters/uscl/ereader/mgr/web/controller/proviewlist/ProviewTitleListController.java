@@ -9,27 +9,30 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,14 +42,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
@@ -55,10 +55,9 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STA
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProviewTitleListController {
-    private final ProviewHandler proviewHandler;
     private final BookDefinitionService bookDefinitionService;
-    private final ProviewAuditService proviewAuditService;
     private final ManagerService managerService;
     private final MessageSourceAccessor messageSourceAccessor;
     private final JobRequestService jobRequestService;
@@ -67,28 +66,9 @@ public class ProviewTitleListController {
     private final OutageService outageService;
     private final VersionIsbnService versionIsbnService;
 
-    @Autowired
-    public ProviewTitleListController(
-        final ProviewHandler proviewHandler,
-        final BookDefinitionService bookDefinitionService,
-        final ProviewAuditService proviewAuditService,
-        final ManagerService managerService,
-        final MessageSourceAccessor messageSourceAccessor,
-        final JobRequestService jobRequestService,
-        final GroupService groupService,
-        final ProviewTitleListService proviewTitleListService,
-        final VersionIsbnService versionIsbnService,
-        final OutageService outageService) {
-        this.proviewHandler = proviewHandler;
-        this.bookDefinitionService = bookDefinitionService;
-        this.proviewAuditService = proviewAuditService;
-        this.managerService = managerService;
-        this.messageSourceAccessor = messageSourceAccessor;
-        this.jobRequestService = jobRequestService;
-        this.groupService = groupService;
-        this.proviewTitleListService = proviewTitleListService;
-        this.versionIsbnService = versionIsbnService;
-        this.outageService = outageService;
+    @InitBinder(ProviewListFilterForm.FORM_NAME)
+    protected void initDataBinder(final WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
     private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(final HttpSession httpSession) {
@@ -101,90 +81,45 @@ public class ProviewTitleListController {
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewTitleInfo);
     }
 
-    private void saveAllLatestProviewTitleInfo(
-        final HttpSession httpSession,
-        final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
-        httpSession.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, allLatestProviewTitleInfo);
-    }
-
-    private List<ProviewTitleInfo> fetchAllLatestProviewTitleInfo(final HttpSession httpSession) {
-        return (List<ProviewTitleInfo>) httpSession.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES);
-    }
-
-    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession) {
-        return (Map<String, ProviewTitleContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
-    }
-
-    private void saveAllProviewTitleInfo(
-        final HttpSession httpSession,
-        final Map<String, ProviewTitleContainer> allProviewTitleInfo) {
-        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, allProviewTitleInfo);
-    }
-
-    protected ProviewListFilterForm fetchSavedProviewListFilterForm(final HttpSession httpSession) {
-        final ProviewListFilterForm form =
-            (ProviewListFilterForm) httpSession.getAttribute(ProviewListFilterForm.FORM_NAME);
-        return Optional.ofNullable(form).orElseGet(ProviewListFilterForm::new);
-    }
-
-    protected ProviewTitleForm fetchSavedProviewTitleForm(final HttpSession httpSession) {
-        return (ProviewTitleForm) httpSession.getAttribute(ProviewTitleForm.FORM_NAME);
-    }
-
-    private void saveProviewTitleForm(final HttpSession httpSession, final ProviewTitleForm form) {
-        httpSession.setAttribute(ProviewTitleForm.FORM_NAME, form);
-    }
-
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.POST)
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_TITLES)
-    public ModelAndView postSelections(
-        @ModelAttribute final ProviewTitleForm form,
-        final HttpSession httpSession,
-        final Model model) throws ProviewException {
-        model.addAttribute(ProviewTitleForm.FORM_NAME, new ProviewTitleForm());
-        model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
-        final Command command = form.getCommand();
-        switch (command) {
-        case REFRESH:
-            final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
-            final List<ProviewTitleInfo> allLatestProviewTitleInfo =
-                proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
-	        updateLatestUpdateDates(allProviewTitleInfo.keySet(), httpSession);
-            fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, httpSession);
-
-            saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
-            saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
-            saveSelectedProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
-
-            if (allLatestProviewTitleInfo != null) {
-                model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewTitleInfo);
-                model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, allLatestProviewTitleInfo.size());
-            }
-
-            ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-            if (proviewTitleForm == null) {
-                proviewTitleForm = new ProviewTitleForm();
-                proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-                saveProviewTitleForm(httpSession, proviewTitleForm);
-            }
-            model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
-            model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
-            model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-            break;
-        case PAGESIZE:
-            saveProviewTitleForm(httpSession, form);
-            final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
-            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
-            model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
-            model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
-            model.addAttribute(ProviewListFilterForm.FORM_NAME, fetchSavedProviewListFilterForm(httpSession));
-            model.addAttribute(ProviewTitleForm.FORM_NAME, form);
-            break;
-        default:
-            throw new ProviewException(String.format("Unexpected command %s in request %s.", command, WebConstants.MVC_PROVIEW_TITLES));
+    public ModelAndView getSelections(@ModelAttribute final ProviewListFilterForm form,
+            final BindingResult bindingResult, final HttpSession httpSession, final Model model)
+            throws ProviewException {
+        if (bindingResult.hasErrors()) {
+            log.error("Binding errors on Proview List page:\n" + bindingResult.getAllErrors().toString());
         }
-
+        if (form.getObjectsPerPage() == null) {
+            form.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+        }
+        updateUserPreferencesForCurrentSession(form, httpSession);
+        model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+        List<ProviewTitleInfo> selectedProviewTitleInfo = Collections.emptyList();
+        try {
+            selectedProviewTitleInfo = proviewTitleListService.getSelectedProviewTitleInfo(form);
+        } catch (final ProviewException e) {
+            log.warn(e.getMessage(), e);
+            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
+        }
+        saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo); // required for Excel Export Service
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
+        model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
+    }
+
+    private void updateUserPreferencesForCurrentSession(@NotNull final ProviewListFilterForm form,
+            @NotNull final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            sessionPreferences.setProviewDisplayName(form.getProviewDisplayName());
+            sessionPreferences.setTitleId(form.getTitleId());
+            sessionPreferences.setMinVersions(form.getMinVersions());
+            sessionPreferences.setMaxVersions(form.getMaxVersions());
+            sessionPreferences.setProviewListObjectsPerPage(form.getObjectsPerPage());
+        }
     }
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)
@@ -206,69 +141,12 @@ public class ProviewTitleListController {
         }
     }
 
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.GET)
-    @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_TITLES)
-    public ModelAndView allLatestProviewTitleInfo(final HttpSession httpSession, final Model model) {
-        List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
-
-        if (selectedProviewTitleInfo == null) {
-            List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
-            if (allLatestProviewTitleInfo == null) {
-                Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
-                try {
-                    if (allProviewTitleInfo == null) {
-                        allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
-                        updateLatestUpdateDates(allProviewTitleInfo.keySet(), httpSession);
-                        saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
-                    }
-
-                    allLatestProviewTitleInfo = proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
-                    fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, httpSession);
-                    saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
-
-                    selectedProviewTitleInfo = allLatestProviewTitleInfo;
-
-                    saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
-                } catch (final ProviewException e) {
-                    model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
-                }
-            }
-        }
-
-        if (selectedProviewTitleInfo != null) {
-            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
-            model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
-        }
-
-        model.addAttribute(ProviewListFilterForm.FORM_NAME, fetchSavedProviewListFilterForm(httpSession));
-
-        ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-        if (proviewTitleForm == null) {
-            proviewTitleForm = new ProviewTitleForm();
-            proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-            saveProviewTitleForm(httpSession, proviewTitleForm);
-        }
-
-        model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
-        model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
-        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-
-        return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
-    }
-
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS, method = RequestMethod.GET)
-    public ModelAndView singleTitleAllVersions(
-        @RequestParam("titleId") final String titleId,
-        final HttpSession httpSession,
-        final Model model) throws ProviewException {
+    public ModelAndView singleTitleAllVersions(@RequestParam("titleId") final String titleId, final Model model)
+            throws ProviewException {
         Assert.notNull(titleId);
-
-        Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
-        if (allProviewTitleInfo == null) {
-            allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
-            saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
-        }
-
+        final Map<String, ProviewTitleContainer> allProviewTitleInfo =
+                proviewTitleListService.getAllProviewTitleInfo(false);
         final BookDefinition bookDef = proviewTitleListService.getBook(new TitleId(titleId));
         final ProviewTitleContainer proviewTitleContainer = allProviewTitleInfo.get(titleId);
         if (proviewTitleContainer != null) {
@@ -320,9 +198,9 @@ public class ProviewTitleListController {
 
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_TITLE_ID_NOT_FOUND)
-    public ModelAndView proviewTitleMarkSuperseded(
-        @RequestParam("titleId") final String titleId) throws ProviewException {
-        proviewHandler.markTitleSuperseded(titleId);
+    public ModelAndView proviewTitleMarkSuperseded(@RequestParam("titleId") final String titleId)
+            throws ProviewException {
+        proviewTitleListService.markTitleSuperseded(titleId);
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_MARK_SUPERSEDED_SUCCESS);
     }
 
@@ -459,7 +337,12 @@ public class ProviewTitleListController {
             } else {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, action.getAttributeSuccess());
             }
-            updateTitleStatusesAfterAction(headTitleId, action, previousStatus, titleActionResult, version, httpSession);
+            try {
+                updateTitleStatusesAfterAction(headTitleId, action, previousStatus, titleActionResult, version, httpSession);
+            } catch (final ProviewException e) {
+                log.warn(e.getMessage(), e);
+                model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
+            }
         }
     }
 
@@ -472,7 +355,7 @@ public class ProviewTitleListController {
 
     private void updateTitleStatusesAfterAction(final String headTitleId, final TitleAction action,
         final String previousStatus, final TitleActionResult actionResult, final String titleVersion,
-        final HttpSession httpSession) {
+        final HttpSession httpSession) throws ProviewException {
         TitleActionName actionName = action.getActionName();
         OperationResult operationResult = actionResult.getOperationResult();
         if (TitleActionName.PROMOTE == actionName || TitleActionName.REMOVE == actionName) {
@@ -487,18 +370,16 @@ public class ProviewTitleListController {
         }
     }
 
-
-    private void updateProviewTitleInfo(final String title, final String version, final HttpSession httpSession) {
-        final Map<String, ProviewTitleContainer> proviewTitleContainerMap =
-            updateAllProviewTitleInfo(title, version, httpSession);
+    private void updateProviewTitleInfo(final String title, final String version, final HttpSession httpSession)
+            throws ProviewException {
+        final Map<String, ProviewTitleContainer> proviewTitleContainerMap = updateAllProviewTitleInfo(title, version);
         updateSelectedProviewTitleInfo(proviewTitleContainerMap, title, version, httpSession);
-        updateLatestProviewTitleInfo(proviewTitleContainerMap, httpSession);
-        saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
     }
 
-    private Map<String, ProviewTitleContainer> updateAllProviewTitleInfo(final String title, final String version,
-        final HttpSession httpSession) {
-        final Map<String, ProviewTitleContainer> proviewTitleContainerMap = fetchAllProviewTitleInfo(httpSession);
+    private Map<String, ProviewTitleContainer> updateAllProviewTitleInfo(final String title, final String version)
+            throws ProviewException {
+        final Map<String, ProviewTitleContainer> proviewTitleContainerMap =
+                proviewTitleListService.getAllProviewTitleInfo(false);
         proviewTitleContainerMap.computeIfPresent(title, (key, value) -> {
             value.getProviewTitleInfos().removeIf(item -> item.getVersion().equals(version));
             return value;
@@ -522,56 +403,21 @@ public class ProviewTitleListController {
     }
 
     @SneakyThrows
-    private void updateLatestProviewTitleInfo(final Map<String, ProviewTitleContainer> proviewTitleContainerMap,
-        final HttpSession httpSession) {
-        final List<ProviewTitleInfo> latestProviewTitleInfo = proviewHandler.getAllLatestProviewTitleInfo(proviewTitleContainerMap);
-        saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
-    }
-
-    @SneakyThrows
-    private void changeStatusForTitle(final String titleId, final String version, final HttpSession httpSession, final String updatedStatus) {
-        final Map<String, ProviewTitleContainer> proviewTitleContainerMap = fetchAllProviewTitleInfo(httpSession);
+    private void changeStatusForTitle(final String titleId, final String version, final HttpSession httpSession,
+            final String updatedStatus) {
+        final Map<String, ProviewTitleContainer> proviewTitleContainerMap =
+                proviewTitleListService.getAllProviewTitleInfo(false);
         proviewTitleContainerMap.computeIfPresent(titleId, (key, value) -> {
             value.getProviewTitleInfos().stream()
                 .filter(item -> item.getVersion().equals(version))
                 .forEach(item -> item.setStatus(updatedStatus));
             return value;
         });
-        final List<ProviewTitleInfo> latestProviewTitleInfo =
-            proviewHandler.getAllLatestProviewTitleInfo(proviewTitleContainerMap);
         final List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
         selectedProviewTitleInfo.stream()
             .filter(item -> item.getTitleId().equals(titleId))
             .filter(item -> item.getVersion().equals(version))
             .forEach(item -> item.setStatus(updatedStatus));
-        saveAllLatestProviewTitleInfo(httpSession, latestProviewTitleInfo);
-        saveAllProviewTitleInfo(httpSession, proviewTitleContainerMap);
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
-    }
-
-    private void fillLatestUpdateDatesForTitleInfos(final List<ProviewTitleInfo> titleInfos, final HttpSession session) {
-        final Map<String, Date> latestUpdateDates = Optional.ofNullable(session.getAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_TITLE))
-            .map(attribute -> (Map<String, Date>) attribute)
-            .orElseGet(Collections::emptyMap);
-
-        Optional.ofNullable(titleInfos)
-            .map(Collection::stream)
-            .orElseGet(Stream::empty)
-            .forEach(titleInfo -> titleInfo.setLastStatusUpdateDate(
-                mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
-    }
-
-    private String mapDateToString(final Date date) {
-        return Optional.ofNullable(date)
-            .map(nonNullDate -> DateFormatUtils.format(nonNullDate, "yyyyMMdd"))
-            .orElse(null);
-    }
-
-    private void updateLatestUpdateDates(final Collection<String> titleIds, final HttpSession session) {
-        final Map<String, Date> latestUpdateDates = Optional.ofNullable(titleIds)
-            .filter(CollectionUtils::isNotEmpty)
-            .map(proviewAuditService::findMaxRequestDateByTitleIds)
-            .orElseGet(Collections::emptyMap);
-        session.setAttribute(WebConstants.KEY_LATEST_UPDATE_DATES_TITLE, latestUpdateDates);
     }
 }

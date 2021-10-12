@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,8 @@ import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
-public class CurrentSessionUserPreferences {
+public class CurrentSessionUserPreferences implements Serializable {
+    public static final long serialVersionUID = 1750487649561019L;
     public static final String NAME = "currentSessionUserPreferences";
 
     private ProviewAuditFilterForm proviewAuditPreferences = new ProviewAuditFilterForm();
@@ -27,6 +29,12 @@ public class CurrentSessionUserPreferences {
     private String jobSummaryFilterTitleId;
     private String groupFilterName;
     private String groupFilterId;
+    // PROVIEW LIST page parameters
+    private String proviewDisplayName;
+    private String titleId;
+    private String minVersions;
+    private String maxVersions;
+    private String proviewListObjectsPerPage;
 
     public CurrentSessionUserPreferences(@NotNull final UserPreferencesForm form) {
         BeanUtils.copyProperties(form, this);
@@ -35,7 +43,13 @@ public class CurrentSessionUserPreferences {
     public String getUri() {
         switch (startPage) {
             case PROVIEW_LIST:
-                return WebConstants.MVC_PROVIEW_TITLES;
+                final Map<String, String> proviewListQueryParams = new HashMap<>();
+                proviewListQueryParams.put(WebConstants.KEY_PROVIEW_DISPLAY_NAME_FILTER, getProviewDisplayName());
+                proviewListQueryParams.put(WebConstants.KEY_TITLE_ID_FILTER, getTitleId());
+                proviewListQueryParams.put(WebConstants.KEY_MIN_VERSIONS_FILTER, getMinVersions());
+                proviewListQueryParams.put(WebConstants.KEY_MAX_VERSIONS_FILTER, getMaxVersions());
+                proviewListQueryParams.put(WebConstants.KEY_OBJECTS_PER_PAGE, getProviewListObjectsPerPage());
+                return generateUri(WebConstants.MVC_PROVIEW_TITLES, proviewListQueryParams);
             case AUDIT:
                 return WebConstants.MVC_BOOK_AUDIT_LIST;
             case JOBS:
@@ -45,10 +59,10 @@ public class CurrentSessionUserPreferences {
             case ADMINISTRATION:
                 return WebConstants.MVC_ADMIN_MAIN;
             case GROUP_LIST:
-                final Map<String, String> queryParameters = new HashMap<>();
-                queryParameters.put(WebConstants.KEY_GROUP_FILTER_NAME, getGroupFilterName());
-                queryParameters.put(WebConstants.KEY_GROUP_FILTER_ID, getGroupFilterId());
-                return generateUri(WebConstants.MVC_PROVIEW_GROUPS, queryParameters);
+                final Map<String, String> groupListQueryParameters = new HashMap<>();
+                groupListQueryParameters.put(WebConstants.KEY_GROUP_FILTER_NAME, getGroupFilterName());
+                groupListQueryParameters.put(WebConstants.KEY_GROUP_FILTER_ID, getGroupFilterId());
+                return generateUri(WebConstants.MVC_PROVIEW_GROUPS, groupListQueryParameters);
             default:
                 return WebConstants.MVC_BOOK_LIBRARY_LIST;
         }

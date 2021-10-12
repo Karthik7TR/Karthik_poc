@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -12,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -20,7 +23,13 @@ import java.util.stream.Collectors;
 public class ProviewTitleContainer implements Serializable {
     private static final long serialVersionUID = -1985883914988566602L;
     private static final String PROVIEW_STATUS_FINAL = "final";
-    private List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
+
+    @Setter(AccessLevel.NONE)
+    private List<ProviewTitleInfo> proviewTitleInfos = new CopyOnWriteArrayList<>();
+
+    public void setProviewTitleInfos(final List<ProviewTitleInfo> proviewTitleInfos) {
+        this.proviewTitleInfos = new CopyOnWriteArrayList<>(proviewTitleInfos);
+    }
 
     public ProviewTitleInfo getLatestVersion() {
         BigInteger latestIntMajorPart = BigInteger.ZERO;
@@ -92,7 +101,7 @@ public class ProviewTitleContainer implements Serializable {
         final List<ProviewTitleInfo> list = new ArrayList<>(map.values());
         Collections.sort(list);
 
-        return list;
+        return new CopyOnWriteArrayList<>(list);
     }
 
     public List<BigInteger> getFinalMajorVersions() {

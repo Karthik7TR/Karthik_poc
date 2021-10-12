@@ -12,10 +12,12 @@ import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.*;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.*;
 import static java.util.Optional.ofNullable;
@@ -47,6 +49,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     private final ProviewAuditService proviewAuditService;
     private final BookDefinitionService bookDefinitionService;
     private final ProviewHandler proviewHandler;
+    private final ProviewTitlesProvider proviewTitlesProvider;
     private final EmailUtil emailUtil;
     private final EmailService emailService;
     private final String environmentName;
@@ -56,6 +59,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         final BookDefinitionService bookDefinitionService,
         final ProviewAuditService proviewAuditService,
         final ProviewHandler proviewHandler,
+        final ProviewTitlesProvider proviewTitlesProvider,
         EmailUtil emailUtil,
         EmailService emailService,
         @Qualifier("environmentName")
@@ -63,9 +67,165 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         this.bookDefinitionService = bookDefinitionService;
         this.proviewAuditService = proviewAuditService;
         this.proviewHandler = proviewHandler;
+        this.proviewTitlesProvider = proviewTitlesProvider;
         this.emailUtil = emailUtil;
         this.emailService = emailService;
         this.environmentName = environmentName;
+    }
+
+    @Override
+    public List<ProviewTitleInfo> getSelectedProviewTitleInfo(final ProviewListFilterForm form)
+            throws ProviewException {
+        final Command command = form.getCommand();
+        final Map<String, ProviewTitleContainer> allProviewTitleInfo =
+                getAllProviewTitleInfo(Command.REFRESH.equals(command));
+        final List<ProviewTitleInfo> allLatestProviewTitleInfo = getAllLatestProviewTitleInfo();
+        fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, allProviewTitleInfo.keySet());
+        final List<ProviewTitleInfo> selectedProviewTitleInfo;
+        if (form.areAllFiltersBlank()) {
+            selectedProviewTitleInfo = allLatestProviewTitleInfo;
+        } else {
+            selectedProviewTitleInfo = getFilteredProviewTitleInfos(form, allLatestProviewTitleInfo);
+        }
+        return selectedProviewTitleInfo;
+    }
+
+    private void fillLatestUpdateDatesForTitleInfos(final List<ProviewTitleInfo> latestTitleInfos,
+            final Collection<String> titleIds) {
+        final Map<String, Date> latestUpdateDates = this.updateLatestUpdateDates(titleIds);
+        Optional.ofNullable(latestTitleInfos)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .forEach(titleInfo -> titleInfo.setLastStatusUpdateDate(
+                        this.mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
+    }
+
+    private Map<String, Date> updateLatestUpdateDates(final Collection<String> titleIds) {
+        return Optional.ofNullable(titleIds)
+                .filter(CollectionUtils::isNotEmpty)
+                .map(proviewAuditService::findMaxRequestDateByTitleIds)
+                .orElseGet(Collections::emptyMap);
+    }
+
+    private String mapDateToString(final Date date) {
+        return Optional.ofNullable(date)
+                .map(nonNullDate -> DateFormatUtils.format(nonNullDate, "yyyyMMdd"))
+                .orElse(null);
+    }
+
+    private List<ProviewTitleInfo> getFilteredProviewTitleInfos(final ProviewListFilterForm filterForm,
+            final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
+        List<ProviewTitleInfo> selectedProviewTitleInfo = new ArrayList<>();
+        boolean proviewDisplayNameBothWayWildCard = false;
+        boolean proviewDisplayNameEndsWithWildCard = false;
+        boolean proviewDisplayNameStartsWithWildCard = false;
+        boolean titleIdBothWayWildCard = false;
+        boolean titleIdEndsWithWildCard = false;
+        boolean titleIdStartsWithWildCard = false;
+        String proviewDisplayNameSearchTerm = filterForm.getProviewDisplayName();
+        String titleIdSearchTerm = filterForm.getTitleId();
+
+        if (filterForm.getProviewDisplayName() != null) {
+            if (filterForm.getProviewDisplayName().endsWith("%")
+                    && filterForm.getProviewDisplayName().startsWith("%")) {
+                proviewDisplayNameBothWayWildCard = true;
+            } else if (filterForm.getProviewDisplayName().endsWith("%")) {
+                proviewDisplayNameStartsWithWildCard = true;
+            } else if (filterForm.getProviewDisplayName().startsWith("%")) {
+                proviewDisplayNameEndsWithWildCard = true;
+            }
+
+            proviewDisplayNameSearchTerm = proviewDisplayNameSearchTerm.replaceAll("%", "");
+        }
+
+        if (filterForm.getTitleId() != null) {
+            if (filterForm.getTitleId().endsWith("%") && filterForm.getTitleId().startsWith("%")) {
+                titleIdBothWayWildCard = true;
+            } else if (filterForm.getTitleId().endsWith("%")) {
+                titleIdStartsWithWildCard = true;
+            } else if (filterForm.getTitleId().startsWith("%")) {
+                titleIdEndsWithWildCard = true;
+            }
+
+            titleIdSearchTerm = titleIdSearchTerm.toLowerCase().replaceAll("%", "");
+        }
+
+        for (final ProviewTitleInfo titleInfo : allLatestProviewTitleInfo) {
+            boolean selected = true;
+            if (proviewDisplayNameSearchTerm != null) {
+                if (titleInfo.getTitle() == null) {
+                    selected = false;
+                } else {
+                    if (proviewDisplayNameBothWayWildCard) {
+                        if (!titleInfo.getTitle().contains(proviewDisplayNameSearchTerm)) {
+                            selected = false;
+                        }
+                    } else if (proviewDisplayNameEndsWithWildCard) {
+                        if (!titleInfo.getTitle().endsWith(proviewDisplayNameSearchTerm)) {
+                            selected = false;
+                        }
+                    } else if (proviewDisplayNameStartsWithWildCard) {
+                        if (!titleInfo.getTitle().startsWith(proviewDisplayNameSearchTerm)) {
+                            selected = false;
+                        }
+                    } else if (!titleInfo.getTitle().equals(proviewDisplayNameSearchTerm)) {
+                        selected = false;
+                    }
+                }
+            }
+            if (selected) {
+                if (titleIdSearchTerm != null) {
+                    if (titleInfo.getTitleId() == null) {
+                        selected = false;
+                    } else {
+                        if (titleIdBothWayWildCard) {
+                            if (!titleInfo.getTitleId().contains(titleIdSearchTerm)) {
+                                selected = false;
+                            }
+                        } else if (titleIdEndsWithWildCard) {
+                            if (!titleInfo.getTitleId().endsWith(titleIdSearchTerm)) {
+                                selected = false;
+                            }
+                        } else if (titleIdStartsWithWildCard) {
+                            if (!titleInfo.getTitleId().startsWith(titleIdSearchTerm)) {
+                                selected = false;
+                            }
+                        } else if (!titleInfo.getTitleId().equals(titleIdSearchTerm)) {
+                            selected = false;
+                        }
+                    }
+                }
+            }
+            if (selected) {
+                if (!(titleInfo.getTotalNumberOfVersions() >= filterForm.getMinVersionsInt())) {
+                    selected = false;
+                }
+            }
+            if (selected) {
+                if (!(titleInfo.getTotalNumberOfVersions() <= filterForm.getMaxVersionsInt())) {
+                    selected = false;
+                }
+            }
+            if (selected) {
+                selectedProviewTitleInfo.add(titleInfo);
+            }
+        }
+        return selectedProviewTitleInfo;
+    }
+
+    @Override
+    public Map<String, ProviewTitleContainer> getAllProviewTitleInfo(final boolean isRefresh) throws ProviewException {
+        return proviewTitlesProvider.provideAll(isRefresh);
+    }
+
+    @Override
+    public List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException {
+        return proviewTitlesProvider.provideAllLatest();
+    }
+
+    @Override
+    public void markTitleSuperseded(final String titleId) throws ProviewException {
+        proviewHandler.markTitleSuperseded(titleId);
     }
 
     @Override
@@ -250,9 +410,9 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     }
 
     @Override
-    public List<String> getPreviousVersions(final HttpSession httpSession, final String titleId) {
+    public List<String> getPreviousVersions(final String titleId) {
         return ofNullable(titleId)
-                .map(e -> fetchAllProviewTitleInfo(httpSession))
+                .map(e -> fetchAllProviewTitleInfo())
                 .map(titles -> titles.get(titleId))
                 .map(ProviewTitleContainer::getProviewTitleInfos)
                 .orElseGet(Collections::emptyList)
@@ -262,24 +422,11 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                 .collect(Collectors.toList());
     }
 
-    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession) {
+    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo() {
         try {
-            Map<String, ProviewTitleContainer> allProviewTitleInfo;
-            if (httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES) != null) {
-                allProviewTitleInfo = (Map<String, ProviewTitleContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
-            } else {
-                allProviewTitleInfo = proviewHandler.getTitlesWithUnitedParts();
-                saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
-            }
-            return allProviewTitleInfo;
+            return this.getAllProviewTitleInfo(false);
         } catch (ProviewException e) {
             throw new EBookException(e);
         }
-    }
-
-    private void saveAllProviewTitleInfo(
-            final HttpSession httpSession,
-            final Map<String, ProviewTitleContainer> allProviewTitleInfo) {
-        httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, allProviewTitleInfo);
     }
 }

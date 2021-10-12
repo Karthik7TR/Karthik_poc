@@ -7,6 +7,7 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STA
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,13 +15,15 @@ import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEm
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.service.PublishedTitleParser;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitlesProvider;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleAction;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleActionResult;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,7 +33,6 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -38,16 +40,16 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTit
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
 import java.util.concurrent.Callable;
 import javax.mail.internet.InternetAddress;
-import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,33 +62,31 @@ public final class ProviewTitleListServiceTest {
     private static final String FAILED_TO_UPDATE = "Failed to update:";
     private static final String EMAIL = "user@thomsonreuters.com";
     private static final String _PT = "_pt";
+    private static final String TEST_TITLE_NAME = "testTitle";
+    private static final String TEST_TITLE_ID = "testId".toLowerCase();
+    private static final Integer TOTAL_NUMBER_OF_VERSIONS = 1;
+    private static final String PERCENT = "%";
+    private static final String SUFFIX = "suffix";
 
     private ProviewTitleListService proviewTitleListService;
-
     @Mock
     private BookDefinitionService bookDefinitionService;
-
     @Mock
     private ProviewAuditService proviewAuditService;
-
     @Mock
     private ProviewHandler proviewHandler;
-
+    @Mock
+    private ProviewTitlesProvider proviewTitlesProvider;
     @Mock
     private EmailUtil emailUtil;
-
     @Mock
     private EmailServiceImpl emailService;
-
     @Mock
     private ProviewTitleForm form;
-
     @Mock
     private TitleAction titleAction;
-
     @Mock
     private TitleActionResult titleActionResult;
-
     @Mock
     private Callable<TitleActionResult> callable;
 
@@ -106,7 +106,7 @@ public final class ProviewTitleListServiceTest {
     @Before
     public void setUp() {
         proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService,
-                proviewAuditService, proviewHandler, emailUtil, emailService,
+                proviewAuditService, proviewHandler, proviewTitlesProvider, emailUtil, emailService,
                 "environmentName");
 
         initiateVersions();
@@ -117,6 +117,117 @@ public final class ProviewTitleListServiceTest {
 
         when(emailUtil.getEmailRecipientsByUsername(username))
             .thenReturn(Collections.singletonList(new InternetAddress(EMAIL)));
+    }
+
+    @Test(expected = ProviewException.class)
+    public void getSelectedProviewTitleInfo_proviewIsDown_proviewExceptionIsThrown() throws ProviewException {
+        when(proviewTitlesProvider.provideAll(anyBoolean())).thenThrow(new ProviewException(""));
+
+        proviewTitleListService.getSelectedProviewTitleInfo(new ProviewListFilterForm());
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_formWithRefreshCommandIsSent_allProviewTitlesAreRefreshedFromProview() throws ProviewException {
+        final ProviewListFilterForm form = new ProviewListFilterForm();
+        form.setCommand(Command.REFRESH);
+        final ArgumentCaptor<Boolean> isRefreshCaptor = ArgumentCaptor.forClass(Boolean.class);
+        final Map<String, ProviewTitleContainer> allProviewTitleInfo =
+                Collections.singletonMap("test", new ProviewTitleContainer());
+        when(proviewTitlesProvider.provideAll(isRefreshCaptor.capture())).thenReturn(allProviewTitleInfo);
+        final List<ProviewTitleInfo> allLatestProviewTitleInfo = new ArrayList<>();
+        final ProviewTitleInfo testInfo = new ProviewTitleInfo();
+        testInfo.setTitle("test");
+        testInfo.setTitleId("test");
+        allLatestProviewTitleInfo.add(testInfo);
+        when(proviewTitlesProvider.provideAllLatest()).thenReturn(allLatestProviewTitleInfo);
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertEquals(Boolean.TRUE, isRefreshCaptor.getValue());
+        assertEquals(allLatestProviewTitleInfo, selectedProviewTitleInfo);
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_filteringParamsStartingWithWildcardAreGiven_titlesFilteredSuccessfully() throws Exception {
+        final ProviewListFilterForm form = initFilteringRequest(PERCENT + TEST_TITLE_NAME,
+                PERCENT + TEST_TITLE_ID.toUpperCase(), TOTAL_NUMBER_OF_VERSIONS, TOTAL_NUMBER_OF_VERSIONS);
+        when(proviewTitlesProvider.provideAll(anyBoolean())).thenReturn(Collections.emptyMap());
+        when(proviewTitlesProvider.provideAllLatest())
+                .thenReturn(Arrays.asList(getProviewTitleInfo(StringUtils.EMPTY), getProviewTitleInfo(SUFFIX)));
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertTrue(CollectionUtils.isNotEmpty(selectedProviewTitleInfo));
+        assertEquals(1, selectedProviewTitleInfo.size());
+        assertEquals(TEST_TITLE_ID, selectedProviewTitleInfo.get(0).getTitleId());
+    }
+
+    private ProviewListFilterForm initFilteringRequest(final String proviewDisplayName, final String titleId,
+            final Integer minVersionsFilter, final Integer maxVersionsFilter) {
+        final ProviewListFilterForm form = new ProviewListFilterForm();
+        form.setProviewDisplayName(proviewDisplayName);
+        form.setTitleId(titleId);
+        form.setMinVersions(minVersionsFilter.toString());
+        form.setMaxVersions(maxVersionsFilter.toString());
+        return form;
+    }
+
+    private ProviewTitleInfo getProviewTitleInfo(final String suffix) {
+        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+        titleInfo.setTitle(TEST_TITLE_NAME + suffix);
+        titleInfo.setTitleId(TEST_TITLE_ID + suffix);
+        titleInfo.setTotalNumberOfVersions(TOTAL_NUMBER_OF_VERSIONS);
+        return titleInfo;
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_filteringParamsEndingWithWildcardAreGiven_titlesFilteredSuccessfully() throws Exception {
+        final ProviewListFilterForm form =
+                initFilteringRequest(TEST_TITLE_NAME + PERCENT, TEST_TITLE_ID + PERCENT, 0, 2);
+        when(proviewTitlesProvider.provideAll(anyBoolean())).thenReturn(Collections.emptyMap());
+        when(proviewTitlesProvider.provideAllLatest())
+                .thenReturn(Collections.singletonList(getProviewTitleInfo(SUFFIX)));
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertTrue(CollectionUtils.isNotEmpty(selectedProviewTitleInfo));
+        assertEquals(1, selectedProviewTitleInfo.size());
+        assertEquals(TEST_TITLE_ID + SUFFIX, selectedProviewTitleInfo.get(0).getTitleId());
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_filteringParamsWithBothWildcardsAreGiven_titlesFilteredSuccessfully() throws Exception {
+        final ProviewListFilterForm form = initFilteringRequest(PERCENT + TEST_TITLE_NAME + PERCENT,
+                PERCENT + TEST_TITLE_ID + PERCENT, TOTAL_NUMBER_OF_VERSIONS, TOTAL_NUMBER_OF_VERSIONS);
+        when(proviewTitlesProvider.provideAll(anyBoolean())).thenReturn(Collections.emptyMap());
+        when(proviewTitlesProvider.provideAllLatest())
+                .thenReturn(Collections.singletonList(getProviewTitleInfo(SUFFIX)));
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertTrue(CollectionUtils.isNotEmpty(selectedProviewTitleInfo));
+        assertEquals(1, selectedProviewTitleInfo.size());
+        assertEquals(TEST_TITLE_ID + SUFFIX, selectedProviewTitleInfo.get(0).getTitleId());
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_filteringParamsWithNoWildcardsAreGiven_titlesFilteredSuccessfully() throws Exception {
+        final ProviewListFilterForm form = initFilteringRequest(TEST_TITLE_NAME, TEST_TITLE_ID,
+                TOTAL_NUMBER_OF_VERSIONS, TOTAL_NUMBER_OF_VERSIONS);
+        when(proviewTitlesProvider.provideAll(anyBoolean())).thenReturn(Collections.emptyMap());
+        when(proviewTitlesProvider.provideAllLatest())
+                .thenReturn(Arrays.asList(getProviewTitleInfo(StringUtils.EMPTY), getProviewTitleInfo(SUFFIX)));
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertTrue(CollectionUtils.isNotEmpty(selectedProviewTitleInfo));
+        assertEquals(1, selectedProviewTitleInfo.size());
+        assertEquals(TEST_TITLE_ID, selectedProviewTitleInfo.get(0).getTitleId());
     }
 
     @Test
@@ -287,11 +398,10 @@ public final class ProviewTitleListServiceTest {
     }
 
     @Test
-    public void shouldGetPreviousVersions() {
-        HttpSession httpSession = Mockito.mock(HttpSession.class);
-        when(httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES)).thenReturn(proviewTitleInfo);
+    public void shouldGetPreviousVersions() throws ProviewException {
+        when(proviewTitlesProvider.provideAll(false)).thenReturn(proviewTitleInfo);
 
-        List<String> previousVersions = proviewTitleListService.getPreviousVersions(httpSession, headTitle);
+        List<String> previousVersions = proviewTitleListService.getPreviousVersions(headTitle);
 
         assertEquals(3, previousVersions.size());
         assertEquals("v6.0", previousVersions.get(0));

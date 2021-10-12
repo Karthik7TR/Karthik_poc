@@ -3,8 +3,10 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,17 +24,23 @@ import lombok.ToString;
 @EqualsAndHashCode(of = {"lastupdate", "publisher", "status", "title", "titleId", "version"})
 public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<ProviewTitleInfo> {
     private static final long serialVersionUID = -4229230493652304110L;
+
     private String titleId;
     private String titleIdCaseSensitive;
     private String version;
-
     private String publisher;
     private String lastupdate;
     private String status;
     private String title;
     private Integer totalNumberOfVersions;
     private String lastStatusUpdateDate;
+    @Setter(AccessLevel.NONE)
     private List<String> splitParts;
+
+    public void setSplitParts(final List<String> splitParts) {
+        this.splitParts = new CopyOnWriteArrayList<>(splitParts);
+    }
+
     @Override
     public BigInteger getMajorVersion() {
         return new Version(version).getMajorNumber();

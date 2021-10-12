@@ -4,27 +4,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -33,16 +28,14 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,11 +60,19 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 @RunWith(MockitoJUnitRunner.class)
 public final class ProviewTitleListControllerTest {
     private static final String TITLE_ID = "titleId";
+    private static final String PROVIEW_DISPLAY_NAME = "proviewDisplayName";
     private static final String VERSION = "version";
     private static final String STATUS = "status";
     private static final String COMMAND = "command";
     private static final String ERROR_MESSAGE = "Message";
     private static final String ERR_MESSAGE_KEY = "errMessage";
+    private static final String OBJECTS_PER_PAGE = "objectsPerPage";
+    private static final String TEST_TITLE_NAME = "testTitle";
+    private static final String TEST_TITLE_ID = "testId".toLowerCase();
+    private static final Integer TOTAL_NUMBER_OF_VERSIONS = 1;
+    private static final String PERCENT = "%";
+    private static final String MIN_VERSIONS_FILTER = "minVersions";
+    private static final String MAX_VERSIONS_FILTER = "maxVersions";
 
     @InjectMocks
     private ProviewTitleListController controller;
@@ -79,13 +80,9 @@ public final class ProviewTitleListControllerTest {
     private MockHttpServletRequest request;
     private HandlerAdapter handlerAdapter;
     @Mock
-    private ProviewHandler mockProviewHandler;
-    @Mock
     private ManagerService mockManagerService;
     @Mock
     private BookDefinitionService mockBookDefinitionService;
-    @Mock
-    private ProviewAuditService mockProviewAuditService;
     @Mock
     private ProviewTitleListService mockProviewTitleListService;
     @Mock
@@ -100,16 +97,13 @@ public final class ProviewTitleListControllerTest {
     @SuppressWarnings("unused")
     @Mock
     private OutageService mockOutageService;
-    @Mock
+
     private BookDefinition bookDefinition;
     private String titleId;
     private String versionString;
     private String status;
     private String userName;
     private Authentication auth;
-    @Mock
-    private ProviewTitleContainer proviewTitleContainer;
-    @Mock
     private TitleActionResult titleActionResult;
     private ArgumentCaptor<ProviewTitleForm> formArgument;
     private ArgumentCaptor<TitleAction> titleActionArgument;
@@ -134,45 +128,12 @@ public final class ProviewTitleListControllerTest {
     }
 
     @Test
-    public void testSelectedLatestProviewTitleInfo() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.GET.name());
-        final HttpSession session = request.getSession();
-        session.setAttribute(ProviewListFilterForm.FORM_NAME, controller.fetchSavedProviewListFilterForm(session));
-        final ProviewTitleForm mockTitleForm = new ProviewTitleForm();
-        mockTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-        session.setAttribute(ProviewTitleForm.FORM_NAME, mockTitleForm);
-        session.setAttribute(WebConstants.KEY_PAGE_SIZE, mockTitleForm.getObjectsPerPage());
-        final Map<String, ProviewTitleContainer> testAllTitleInfo = new HashMap<>();
-        final List<ProviewTitleInfo> testAllLatestTitleInfo = new ArrayList<>();
-        when(mockProviewHandler.getTitlesWithUnitedParts()).thenReturn(testAllTitleInfo);
-        when(mockProviewHandler.getAllLatestProviewTitleInfo(testAllTitleInfo)).thenReturn(testAllLatestTitleInfo);
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        assertNotNull(mav);
-        assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-        assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(WebConstants.KEY_PAGE_SIZE));
-        assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
-        assertNotNull(model.get(ProviewListFilterForm.FORM_NAME));
-        verify(mockProviewHandler).getTitlesWithUnitedParts();
-        verify(mockProviewHandler).getAllLatestProviewTitleInfo(testAllTitleInfo);
-        verifyNoMoreInteractions(mockProviewHandler);
-    }
-
-    @Test
-    public void allLatestProviewTitleInfo_proviewIssueIsGiven_proviewExceptionIsCaught() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.GET.name());
-        final HttpSession session = request.getSession();
-
-        when(mockProviewHandler.getTitlesWithUnitedParts()).thenThrow(new ProviewException(""));
-
-        final ProviewTitleForm proviewTitleForm = new ProviewTitleForm();
+    public void getSelections_proviewIssueIsGiven_proviewExceptionIsCaught() throws Exception {
+        initProviewTitlesGetRequest();
         final String objectsPerPage = "42";
-        proviewTitleForm.setObjectsPerPage(objectsPerPage);
-        session.setAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+        request.setParameter(OBJECTS_PER_PAGE, objectsPerPage);
+        when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
+                .thenThrow(new ProviewException(""));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -180,130 +141,43 @@ public final class ProviewTitleListControllerTest {
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
         assertEquals(Boolean.TRUE, model.get(WebConstants.KEY_ERROR_OCCURRED));
-        assertNull(model.get(WebConstants.KEY_PAGINATED_LIST));
-        assertNull(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE));
-        assertEquals(proviewTitleForm, model.get(ProviewTitleForm.FORM_NAME));
         assertEquals(objectsPerPage, model.get(WebConstants.KEY_PAGE_SIZE));
-        verify(mockProviewHandler).getTitlesWithUnitedParts();
-        verifyNoMoreInteractions(mockProviewHandler);
+        verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
+        verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
-    @Test
-    public void allLatestProviewTitleInfo_selectedProviewTitleInfoIsGiven_modelAttributesAreSet() throws Exception {
+    private void initProviewTitlesGetRequest() {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.GET.name());
-        final HttpSession session = request.getSession();
-        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, Collections.emptyList());
+    }
+
+    @Test
+    public void getSelections_proviewTitlesAreGiven_proviewTitlesReturnedWithDefaultPageSize() throws Exception {
+        initProviewTitlesGetRequest();
+        final List<ProviewTitleInfo> selectedProviewTitleInfo = Collections.emptyList();
+        when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
+                .thenReturn(selectedProviewTitleInfo);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
+        assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(WebConstants.KEY_PAGE_SIZE));
         assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
-        assertEquals(Collections.emptyList(), model.get(WebConstants.KEY_PAGINATED_LIST));
-        assertEquals(0, model.get(WebConstants.KEY_TOTAL_BOOK_SIZE));
         assertNotNull(model.get(ProviewListFilterForm.FORM_NAME));
-        assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(WebConstants.KEY_PAGE_SIZE));
-        verifyNoMoreInteractions(mockProviewHandler);
+        verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
+        verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
     @Test
-    public void testPostSelectionsRefresh() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
-        final ProviewTitleForm mockTitleForm = new ProviewTitleForm();
-        mockTitleForm.setCommand(Command.REFRESH);
-
-        final Map<String, ProviewTitleContainer> mockAllProviewTitleInfo = new HashMap<>();
-        mockAllProviewTitleInfo.put("test", new ProviewTitleContainer());
-        final List<ProviewTitleInfo> mockAllLatestProviewTitleInfo = new ArrayList<>();
-        final ProviewTitleInfo testInfo = new ProviewTitleInfo();
-        testInfo.setTitle("test");
-        testInfo.setTitleId("test");
-        mockAllLatestProviewTitleInfo.add(testInfo);
-
-        when(mockProviewHandler.getTitlesWithUnitedParts()).thenReturn(mockAllProviewTitleInfo);
-        when(mockProviewHandler.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo))
-            .thenReturn(mockAllLatestProviewTitleInfo);
-        when(mockProviewAuditService.findMaxRequestDateByTitleIds(Collections.singleton("test")))
-            .thenReturn(Collections.singletonMap("test", new Date()));
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        assertNotNull(mav);
-        assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
-        assertEquals(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")),
-            ((List<ProviewTitleInfo>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST)).get(0).getLastStatusUpdateDate());
-        final Map<String, Object> model = mav.getModel();
-
-        assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
-        assertEquals("20", model.get("pageSize"));
-
-        verify(mockProviewHandler).getTitlesWithUnitedParts();
-        verify(mockProviewHandler).getAllLatestProviewTitleInfo(mockAllProviewTitleInfo);
-        verifyNoMoreInteractions(mockProviewHandler);
-    }
-
-    @Test(expected = ProviewException.class)
-    public void testPostSelectionsRefreshProviewExcepton() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
-
-        when(mockProviewHandler.getTitlesWithUnitedParts()).thenThrow(new ProviewException(""));
-
-        handlerAdapter.handle(request, response, controller);
-    }
-
-    @Test(expected = ProviewException.class)
-    public void testPostSelectionsUnhandledCommandProviewExcepton() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter(COMMAND, Command.DELETE.toString());
-
-        handlerAdapter.handle(request, response, controller);
-    }
-
-    @Test
-    public void testPostSelectionsAllProviewTitleInfoIsNull() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
-        final Map<String, ProviewTitleContainer> mockAllProviewTitleInfo = new HashMap<>();
-        mockAllProviewTitleInfo.put("test", proviewTitleContainer);
-        when(mockProviewHandler.getTitlesWithUnitedParts()).thenReturn(mockAllProviewTitleInfo);
-        when(mockProviewHandler.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo)).thenReturn(null);
-        when(mockProviewAuditService.findMaxRequestDateByTitleIds(Collections.singleton("test")))
-            .thenReturn(Collections.singletonMap("test", new Date()));
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        assertNotNull(mav);
-        final Map<String, Object> model = mav.getModel();
-        assertNull(model.get(WebConstants.KEY_PAGINATED_LIST));
-        assertNull(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE));
-        assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
-        assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(WebConstants.KEY_PAGE_SIZE));
-        assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
-    }
-
-    @Test
-    public void testPostSelectionsProviewTitleFormIsNotNull() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter(COMMAND, ProviewTitleForm.Command.REFRESH.toString());
-        final Map<String, ProviewTitleContainer> mockAllProviewTitleInfo = new HashMap<>();
-        mockAllProviewTitleInfo.put("test", proviewTitleContainer);
-        when(mockProviewHandler.getTitlesWithUnitedParts()).thenReturn(mockAllProviewTitleInfo);
-        when(mockProviewHandler.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo)).thenReturn(new ArrayList<>());
-        when(mockProviewAuditService.findMaxRequestDateByTitleIds(Collections.singleton("test")))
-            .thenReturn(Collections.singletonMap("test", new Date()));
-
-        final ProviewTitleForm proviewTitleForm = new ProviewTitleForm();
-        proviewTitleForm.setObjectsPerPage("42");
-        final HttpSession testSession = request.getSession();
-        testSession.setAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+    public void getSelections_pageSizeParameterIsGiven_proviewTitlesReturnedWithGivenPageSize() throws Exception {
+        initProviewTitlesGetRequest();
+        final String pageSize = "42";
+        request.setParameter(OBJECTS_PER_PAGE, pageSize);
+        final List<ProviewTitleInfo> selectedProviewTitleInfo = Collections.emptyList();
+        when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
+                .thenReturn(selectedProviewTitleInfo);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -312,30 +186,48 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
         assertNotNull(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE));
         assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
-        assertEquals("42", model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(pageSize, model.get(WebConstants.KEY_PAGE_SIZE));
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
     }
 
     @Test
-    public void testPostSelectionsPageSize() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter(COMMAND, ProviewTitleForm.Command.PAGESIZE.toString());
-        final HttpSession testSession = request.getSession();
-        final List<ProviewTitleInfo> testTitleInfo = new ArrayList<>();
-        final ProviewTitleInfo testInfo = new ProviewTitleInfo();
-        testTitleInfo.add(testInfo);
-        testSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, testTitleInfo);
-        testSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "5");
-        testSession.setAttribute(WebConstants.KEY_PAGE_SIZE, WebConstants.DEFAULT_PAGE_SIZE);
-        request.setSession(testSession);
+    public void getSelections_filteringParamsStartingWithWildcardAreGiven_filteringParamsArePassedToServiceLayer()
+            throws Exception {
+        initProviewTitlesGetRequest();
+        final String proviewDisplayName = TEST_TITLE_NAME + PERCENT;
+        request.setParameter(PROVIEW_DISPLAY_NAME, proviewDisplayName);
+        final String titleId = TEST_TITLE_ID + PERCENT;
+        request.setParameter(TITLE_ID, titleId);
+        request.setParameter(MIN_VERSIONS_FILTER, TOTAL_NUMBER_OF_VERSIONS.toString());
+        request.setParameter(MAX_VERSIONS_FILTER, Integer.toString(3));
+        final ArgumentCaptor<ProviewListFilterForm> formCaptor = ArgumentCaptor.forClass(ProviewListFilterForm.class);
+        when(mockProviewTitleListService.getSelectedProviewTitleInfo(formCaptor.capture()))
+                .thenReturn(Collections.singletonList(getProviewTitleInfo()));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        validateModel(mav);
+        final ProviewListFilterForm form = formCaptor.getValue();
+        assertEquals(proviewDisplayName, form.getProviewDisplayName());
+        assertEquals(titleId, form.getTitleId());
+        assertEquals(TOTAL_NUMBER_OF_VERSIONS, form.getMinVersionsInt());
+        assertEquals(Integer.valueOf(3), form.getMaxVersionsInt());
+    }
+
+    private ProviewTitleInfo getProviewTitleInfo() {
+        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+        titleInfo.setTitle(TEST_TITLE_NAME);
+        titleInfo.setTitleId(TEST_TITLE_ID);
+        titleInfo.setTotalNumberOfVersions(TOTAL_NUMBER_OF_VERSIONS);
+        return titleInfo;
+    }
+
+    private void validateModel(final ModelAndView mav) {
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
-        final Map<String, Object> model = mav.getModel();
-
-        assertEquals(1, model.get(WebConstants.KEY_TOTAL_BOOK_SIZE));
+        List<ProviewTitleInfo> list = (List<ProviewTitleInfo>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST);
+        assertTrue(CollectionUtils.isNotEmpty(list));
+        assertEquals(TEST_TITLE_ID, list.get(0).getTitleId());
     }
 
     @Test
@@ -391,7 +283,7 @@ public final class ProviewTitleListControllerTest {
     }
 
     @Test
-    public void proviewTitleMarkSuperseded_titleIdIsGiven_titleMarkedAsSuperseded() throws Exception {
+    public void proviewTitleMarkSuperseded_titleIdIsGiven_serviceReceivedTitleIdAndCorrectViewNameIsReturned() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_MARK_SUPERSEDED);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter(WebConstants.KEY_TITLE_ID, titleId);
@@ -400,7 +292,7 @@ public final class ProviewTitleListControllerTest {
 
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_TITLE_MARK_SUPERSEDED_SUCCESS, mav.getViewName());
-        verify(mockProviewHandler).markTitleSuperseded(titleId);
+        verify(mockProviewTitleListService).markTitleSuperseded(titleId);
     }
 
     @Test
@@ -449,8 +341,8 @@ public final class ProviewTitleListControllerTest {
     public void testProviewTitlePromotePost() {
         setUpProviewTitleActionMocks(false);
         setPromoteRequestParameters();
-        prepareArgumentCaptors();
         prepareTitleActionPostMocks();
+        prepareArgumentCaptors();
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
 
@@ -463,8 +355,8 @@ public final class ProviewTitleListControllerTest {
     public void testProviewTitlePromotePostWhenJobIsRunning() {
         setUpProviewTitleActionMocks(true);
         setPromoteRequestParameters();
-        prepareArgumentCaptors();
         prepareTitleActionPostMocks();
+        prepareArgumentCaptors();
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
 
@@ -478,8 +370,8 @@ public final class ProviewTitleListControllerTest {
     public void testProviewTitleRemovePost() {
         setUpProviewTitleActionMocks(false);
         setRemoveRequestParameters();
-        prepareArgumentCaptors();
         prepareTitleActionPostMocks();
+        prepareArgumentCaptors();
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
 
@@ -492,8 +384,8 @@ public final class ProviewTitleListControllerTest {
     public void testProviewTitleDeletePost() {
         setUpProviewTitleActionMocks(false);
         setDeleteRequestParameters();
-        prepareArgumentCaptors();
         prepareTitleActionPostMocks();
+        prepareArgumentCaptors();
         mockVersionIsbnService.deleteIsbn(titleId, versionString);
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
@@ -509,13 +401,12 @@ public final class ProviewTitleListControllerTest {
 
         final String version = "4.2";
         request.setParameter(VERSION, version);
-
-        when(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).thenReturn(bookDefinition);
+        bookDefinition = new BookDefinition();
         final long ebookDefinitionId = 1L;
-        when(bookDefinition.getEbookDefinitionId()).thenReturn(ebookDefinitionId);
+        bookDefinition.setEbookDefinitionId(ebookDefinitionId);
+        when(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).thenReturn(bookDefinition);
         when(mockJobRequestService.isBookInJobRequest(ebookDefinitionId)).thenReturn(Boolean.TRUE);
         when(mockMessageSourceAccessor.getMessage(eq("mesg.job.enqueued.fail"), any(Object[].class))).thenReturn(ERROR_MESSAGE);
-
         ArgumentCaptor<Boolean> isJobRunningArgument = ArgumentCaptor.forClass(Boolean.class);
         when(mockProviewTitleListService.executeTitleAction(any(), any(), isJobRunningArgument.capture())).thenReturn(null);
 
@@ -535,10 +426,12 @@ public final class ProviewTitleListControllerTest {
     public void proviewTitleDeletePost_jobIsNotRunningAndTitleActionExecutionErrorOccurs_errMessageIsSet() {
         setDeleteRequestParameters();
         setUpProviewTitleActionMocks(Boolean.FALSE);
+        titleActionResult = new TitleActionResult();
+        titleActionResult.setErrorMessage("error");
+        titleActionResult.setUpdatedTitles(Collections.emptyList());
+        titleActionResult.setTitlesToUpdate(Collections.singletonList(""));
+        assertEquals(OperationResult.UNSUCCESSFUL, titleActionResult.getOperationResult());
         prepareArgumentCaptors();
-        when(titleActionResult.hasErrorMessage()).thenReturn(Boolean.TRUE);
-        when(titleActionResult.getUpdatedTitles()).thenReturn(Collections.emptyList());
-        when(titleActionResult.getOperationResult()).thenReturn(OperationResult.UNSUCCESSFUL);
 
         final ModelAndView modelAndView = handlerAdapter.handle(request, response, controller);
 
@@ -558,9 +451,11 @@ public final class ProviewTitleListControllerTest {
     }
 
     private void prepareTitleActionPostMocks() {
-        when(titleActionResult.hasErrorMessage()).thenReturn(false);
-        when(titleActionResult.getUpdatedTitles()).thenReturn(Collections.singletonList(titleId));
-        when(titleActionResult.getOperationResult()).thenReturn(OperationResult.SUCCESSFUL);
+        titleActionResult = new TitleActionResult();
+        titleActionResult.setErrorMessage(null);
+        titleActionResult.setUpdatedTitles(Collections.singletonList(titleId));
+        titleActionResult.setTitlesToUpdate(Collections.emptyList());
+        assertEquals(OperationResult.SUCCESSFUL, titleActionResult.getOperationResult());
     }
 
     private void validateActionArguments(TitleActionName actionName) {
@@ -580,30 +475,22 @@ public final class ProviewTitleListControllerTest {
 
     private void setUpProviewTitleActionMocks(boolean isJobRunning) {
         SecurityContextHolder.getContext().setAuthentication(auth);
+        bookDefinition = new BookDefinition();
         when(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).thenReturn(bookDefinition);
         mockRunningJobCheck(isJobRunning);
-        mockChangeStatusForTitle(isJobRunning);
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, new ArrayList<>());
     }
 
     private void mockRunningJobCheck(boolean isJobRunning) {
-        when(bookDefinition.getEbookDefinitionId()).thenReturn(1L);
+        bookDefinition.setEbookDefinitionId(1L);
         when(mockJobRequestService.isBookInJobRequest(1L)).thenReturn(false);
         if (isJobRunning) {
             when(mockManagerService.findRunningJob(bookDefinition)).thenReturn(new JobExecution(1L));
-            when(bookDefinition.getFullyQualifiedTitleId()).thenReturn(TITLE_ID);
+            bookDefinition.setFullyQualifiedTitleId(TITLE_ID);
             when(mockMessageSourceAccessor.getMessage(anyString(), any(Object[].class))).thenReturn(ERROR_MESSAGE);
         } else {
             when(mockManagerService.findRunningJob(bookDefinition)).thenReturn(null);
-        }
-    }
-
-    @SneakyThrows
-    private void mockChangeStatusForTitle(boolean isJobRunning) {
-        final HttpSession session = request.getSession();
-        session.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, new HashMap<String, ProviewTitleContainer>());
-        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, new ArrayList<>());
-        if (!isJobRunning) {
-            when(mockProviewHandler.getAllLatestProviewTitleInfo(anyObject())).thenReturn(new ArrayList<>());
         }
     }
 

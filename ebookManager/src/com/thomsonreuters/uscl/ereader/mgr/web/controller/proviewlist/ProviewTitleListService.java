@@ -1,18 +1,28 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.servlet.http.HttpSession;
-
 public interface ProviewTitleListService {
+
+    List<ProviewTitleInfo> getSelectedProviewTitleInfo(final ProviewListFilterForm form) throws ProviewException;
+
+    Map<String, ProviewTitleContainer> getAllProviewTitleInfo(final boolean isRefresh) throws ProviewException;
+
+    List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException;
+
+    void markTitleSuperseded(final String fullyQualifiedTitleId) throws ProviewException;
+
     /**
      * Get list of titles to display on 'Proview list' page
      * @param titleInfos list of titles from ProView
@@ -51,5 +61,5 @@ public interface ProviewTitleListService {
 
     boolean canPromote(String status);
 
-    List<String> getPreviousVersions(HttpSession httpSession, String titleId);
+    List<String> getPreviousVersions(String titleId);
 }

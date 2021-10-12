@@ -81,7 +81,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class EditBookDefinitionController {
     private static final long CANADIAN_SUBJECT_KEYWORD_PLACEHOLDER = -1L;
     private static final String FRONT_MATTER_PAGE_ID_MISSING_ERROR = "Additional front matter page id is missing in request";
-    private static String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
+    private static final String PUBLISHER_CONTENT_TYPES_FORMAT = "%s_%s";
     @Autowired
     private BookDefinitionService bookDefinitionService;
     @Autowired
@@ -129,8 +129,9 @@ public class EditBookDefinitionController {
      * @param authentication
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.GET)
-    public ModelAndView createBookDefintionGet(final HttpSession httpSession, @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm definitionForm,
-                                               final Model model, final Authentication authentication) {
+    public ModelAndView createBookDefintionGet(
+            @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm definitionForm,
+            final Model model, final Authentication authentication) {
         final Collection<String> userAuthorities = Optional.ofNullable(authentication)
             .map(Authentication::getAuthorities)
             .map(Collection::stream)
@@ -144,7 +145,7 @@ public class EditBookDefinitionController {
             form = new EditBookDefinitionForm();
             model.addAttribute(EditBookDefinitionForm.FORM_NAME, form);
         }
-        initializeModel(httpSession, model, form);
+        initializeModel(model, form);
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
     }
 
@@ -184,7 +185,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
         }
 
-        initializeModel(httpSession, model, form);
+        initializeModel(model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
     }
@@ -193,17 +194,12 @@ public class EditBookDefinitionController {
      * Handle the in-bound GET to the Book Definition edit view page.
      * @param id
      * @param form
-     * @param bindingResult
      * @param model
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
-    public ModelAndView editBookDefintionGet(
-        final HttpSession httpSession,
-        @RequestParam("id") final Long id,
-        @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
-        final BindingResult bindingResult,
-        final Model model) throws Exception {
+    public ModelAndView editBookDefintionGet(@RequestParam("id") final Long id,
+            @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form, final Model model) {
         boolean isPublished = false;
         final String username = UserUtils.getAuthenticatedUserName();
 
@@ -242,7 +238,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
 
-        initializeModel(httpSession, model, form);
+        initializeModel(model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
     }
@@ -372,7 +368,7 @@ public class EditBookDefinitionController {
 
         model.addAttribute(WebConstants.KEY_IS_PUBLISHED, bookDef.getPublishedOnceFlag());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
-        initializeModel(httpSession, model, form);
+        initializeModel(model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
     }
@@ -400,17 +396,12 @@ public class EditBookDefinitionController {
      * Handle the in-bound GET to the Book Definition copy view page.
      * @param id
      * @param form
-     * @param bindingResult
      * @param model
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
-    public ModelAndView copyBookDefintionGet(
-        final HttpSession httpSession,
-        @RequestParam("id") final Long id,
-        @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
-        final BindingResult bindingResult,
-        final Model model) {
+    public ModelAndView copyBookDefintionGet(@RequestParam("id") final Long id,
+            @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form, final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 
@@ -418,7 +409,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
         } else {
             form.copyBookDefinition(bookDef, editBookDefinitionService.getKeywordCodes());
-            initializeModel(httpSession, model, form);
+            initializeModel(model, form);
             return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
         }
     }
@@ -458,7 +449,7 @@ public class EditBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
         }
 
-        initializeModel(httpSession, model, form);
+        initializeModel(model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
     }
@@ -527,7 +518,7 @@ public class EditBookDefinitionController {
      * @param model
      * @param form
      */
-    private void initializeModel(final HttpSession httpSession, final Model model, final EditBookDefinitionForm form) {
+    private void initializeModel(final Model model, final EditBookDefinitionForm form) {
         // Get Collection sizes to display on form
         model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS, form.getAuthorInfo().size());
         model.addAttribute(WebConstants.KEY_NUMBER_OF_PILOT_BOOKS, form.getPilotBookInfo().size());
@@ -547,7 +538,7 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
         model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
         model.addAttribute(WebConstants.KEY_FRONT_MATTER_THEMES, editBookDefinitionService.getFrontMatterThemes());
-        model.addAttribute(WebConstants.KEY_PREVIOUS_VERSIONS, getPreviousVersions(httpSession, form));
+        model.addAttribute(WebConstants.KEY_PREVIOUS_VERSIONS, getPreviousVersions(form));
         model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
         model.addAttribute(WebConstants.KEY_BUCKETS, editBookDefinitionService.getBuckets());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
@@ -565,9 +556,9 @@ public class EditBookDefinitionController {
         printComponentsCompareController.setPrintComponentHistoryAttributes(form.getBookdefinitionId(), model);
     }
 
-    private List<String> getPreviousVersions(final HttpSession httpSession, final EditBookDefinitionForm form) {
+    private List<String> getPreviousVersions(final EditBookDefinitionForm form) {
         try {
-            return proviewTitleListService.getPreviousVersions(httpSession, form.getTitleId());
+            return proviewTitleListService.getPreviousVersions(form.getTitleId());
         } catch (Exception e) {
             e.printStackTrace();
             return Stream.of(form.getVersionWithPreviousDocIds())

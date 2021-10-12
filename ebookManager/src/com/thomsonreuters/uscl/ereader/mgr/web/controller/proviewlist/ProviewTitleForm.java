@@ -6,9 +6,15 @@ import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProviewTitleForm implements Serializable {
     public static final long serialVersionUID = 3423742385720087L;
     public static final String FORM_NAME = "proviewTitleInfoForm";
@@ -16,9 +22,7 @@ public class ProviewTitleForm implements Serializable {
     public enum Command {
         REMOVE,
         DELETE,
-        PROMOTE,
-        REFRESH,
-        PAGESIZE
+        PROMOTE
     }
 
     private String titleId;
@@ -27,11 +31,6 @@ public class ProviewTitleForm implements Serializable {
     private String lastUpdate;
     private String comments;
     private Command command;
-    private String objectsPerPage;
-
-    public ProviewTitleForm() {
-        super();
-    }
 
     public ProviewAudit createAudit(final String titleId) {
         final ProviewAudit audit = new ProviewAudit();
@@ -52,62 +51,6 @@ public class ProviewTitleForm implements Serializable {
         this.version = version;
         this.status = status;
         this.lastUpdate = lastUpdate;
-    }
-
-    public String getObjectsPerPage() {
-        return objectsPerPage;
-    }
-
-    public void setObjectsPerPage(final String objectsPerPage) {
-        this.objectsPerPage = objectsPerPage;
-    }
-
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public void setTitleId(final String titleId) {
-        this.titleId = titleId;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(final String version) {
-        this.version = version;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(final String status) {
-        this.status = status;
-    }
-
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(final String lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(final String comments) {
-        this.comments = comments;
-    }
-
-    public Command getCommand() {
-        return command;
-    }
-
-    public void setCommand(final Command cmd) {
-        command = cmd;
     }
 
     private Date parseDate(final String dateString) {

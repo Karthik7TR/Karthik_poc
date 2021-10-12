@@ -1,17 +1,22 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ProviewListFilterForm {
+public class ProviewListFilterForm implements Serializable {
+    public static final long serialVersionUID = 2337345234238574L;
     public static final String FORM_NAME = "proviewListFilterForm";
+    private static final Integer MIN_VERSIONS_DEFAULT = 0;
+    private static final Integer MAX_VERSIONS_DEFAULT = 99999;
 
-    public enum FilterCommand {
-        SEARCH,
-        RESET
-    };
+    public enum Command {
+        REFRESH
+    }
 
     @Getter
     private String proviewDisplayName;
@@ -22,51 +27,47 @@ public class ProviewListFilterForm {
     @Getter
     private String maxVersions;
     @Getter @Setter
-    private Integer minVersionsInt;
+    private Integer minVersionsInt = MIN_VERSIONS_DEFAULT;
     @Getter @Setter
-    private Integer maxVersionsInt;
+    private Integer maxVersionsInt = MAX_VERSIONS_DEFAULT;
     @Getter @Setter
-    private FilterCommand filterCommand;
+    private Command command;
+    @Getter @Setter
+    private String objectsPerPage;
 
-    public void initNull() {
-        init(null, null, null, null);
+    public boolean areAllFiltersBlank() {
+        return isBlank(getProviewDisplayName()) && isBlank(getTitleId())
+                && isBlank(getMinVersions()) && isBlank(getMaxVersions());
     }
 
-    private void init(
-        final String proviewDisplayName,
-        final String titleId,
-        final String minVersions,
-        final String maxVersions) {
-        this.proviewDisplayName = proviewDisplayName;
-        this.titleId = titleId;
-        this.minVersions = minVersions;
-        this.maxVersions = maxVersions;
-    }
-
+    @SuppressWarnings("unused")
     public void setMinVersions(final String minVersions) {
         this.minVersions = minVersions == null ? null : minVersions.trim();
         try {
             minVersionsInt = Integer.parseInt(minVersions);
         } catch (final NumberFormatException e) {
             this.minVersions = null;
-            minVersionsInt = 0;
+            minVersionsInt = MIN_VERSIONS_DEFAULT;
         }
     }
 
+    @SuppressWarnings("unused")
     public void setMaxVersions(final String maxVersions) {
         this.maxVersions = maxVersions == null ? null : maxVersions.trim();
         try {
             maxVersionsInt = Integer.parseInt(maxVersions);
         } catch (final NumberFormatException e) {
             this.maxVersions = null;
-            maxVersionsInt = 99999;
+            maxVersionsInt = MAX_VERSIONS_DEFAULT;
         }
     }
 
+    @SuppressWarnings("unused")
     public void setProviewDisplayName(final String proviewDisplayName) {
         this.proviewDisplayName = proviewDisplayName == null ? null : proviewDisplayName.trim();
     }
 
+    @SuppressWarnings("unused")
     public void setTitleId(final String titleId) {
         this.titleId = titleId == null ? null : titleId.trim();
     }

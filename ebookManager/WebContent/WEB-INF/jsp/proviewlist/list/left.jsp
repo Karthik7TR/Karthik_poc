@@ -13,34 +13,33 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-  	<script>
-  	
-  		$(document).ready(function() {
-  			<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
-  			$("form input").keyup(function(event) {
-  				if (event.keyCode == 13) {
-  					submitFilterForm('<%=ProviewListFilterForm.FilterCommand.SEARCH%>');
-  				}
-  			});
-  			
-  			
-  		});
-		
-		function submitFilterForm(command) {
-			$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
-			$("#<%=ProviewListFilterForm.FORM_NAME%>").submit();	// POST the HTML form
-		}
-		
-	</script>
-	
-	
+<script type="text/javascript" src="js/form-utils.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		<%-- Submit the filter form when ENTER key is pressed from within any input field. --%>
+		$("form input").keyup(function (event) {
+			if (event.keyCode == 13) {
+				submitLeftFormAndBodyForm();
+			}
+		});
+	});
+
+	$(window).on('pageshow', function() {
+		$('#proviewDisplayName').val('${ param.proviewDisplayName }');
+		$('#titleId').val('${ param.titleId }');
+		$('#minVersions').val('${ param.minVersions }');
+		$('#maxVersions').val('${ param.maxVersions }');
+	});
+</script>
+
 <div class="header">Filters</div>
 
-	
-<form:form action="<%=WebConstants.MVC_PROVIEW_LIST_FILTERED%>"
-			   commandName="<%=ProviewListFilterForm.FORM_NAME%>" name="theForm" method="get">
-	<form:hidden path="filterCommand"/>
-	
+<form:form
+		id="leftForm"
+		modelAttribute="<%=ProviewListFilterForm.FORM_NAME%>"
+		action="<%=WebConstants.MVC_PROVIEW_TITLES%>"
+		method="get">
+
 	<%-- Validation Error Message Presentation (if any) --%>
 	<spring:hasBindErrors name="<%=ProviewListFilterForm.FORM_NAME%>">
 		<div class="errorBox">
@@ -76,9 +75,6 @@
 	
 	<div class="wildCard">Wildcard: %</div>
 	
-	<input type="button" value="Search" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.RESET%>')"/>
-	
-	
-	
+	<input type="button" value="Search" onclick="submitLeftFormAndBodyForm()"/>
+	<input type="button" value="Reset" onclick="submitEmptyLeftFormAndBodyForm()"/>
 </form:form>

@@ -94,7 +94,7 @@ public class ProviewTitleListController_SingleTitleAllVeraions {
         throws ProviewException {
         final Map<String, ProviewTitleContainer> allTitleInfos = new HashMap<>();
         allTitleInfos.put("titleId", container(titleInfos));
-        given(proviewHandler.getTitlesWithUnitedParts()).willReturn(allTitleInfos);
+        given(proviewTitleListService.getAllProviewTitleInfo(false)).willReturn(allTitleInfos);
         given(proviewTitleListService.getBook(any(TitleId.class))).willReturn(book);
         given(proviewTitleListService.getProviewTitles(titleInfos, book)).willReturn(titles);
     }
