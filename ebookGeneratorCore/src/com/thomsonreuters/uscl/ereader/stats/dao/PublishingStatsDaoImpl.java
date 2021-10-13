@@ -156,7 +156,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
         } else {
             criteria.addOrder(Order.desc(orderByColumn));
         }
-
+        criteria.addOrder(Order.desc(sort.getDefaultOrderByColumnName()));
         final int itemsPerPage = sort.getItemsPerPage();
         criteria.setFirstResult((sort.getPageNumber() - 1) * (itemsPerPage));
         criteria.setMaxResults(itemsPerPage);

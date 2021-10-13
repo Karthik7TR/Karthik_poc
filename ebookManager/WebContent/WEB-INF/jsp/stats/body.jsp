@@ -38,9 +38,9 @@
 	
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
-	<display:table id="stats" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-		requestURI="<%=WebConstants.MVC_STATS_PAGE_AND_SORT%>"
-		sort="external">
+	<display:table id="stats" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2"
+								 requestURI="<%=WebConstants.MVC_STATS_PAGE_AND_SORT%>"
+								 sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column title="ProView Display Name" property="audit.proviewDisplayName" sortable="true" sortProperty="<%= DisplayTagSortProperty.PROVIEW_DISPLAY_NAME.toString() %>" />

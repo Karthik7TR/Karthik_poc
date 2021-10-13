@@ -8,6 +8,8 @@ import org.springframework.util.Assert;
  * Holds sorting data used in Spring Batch job queries.
  */
 public class PublishingStatsSort {
+    private static final String JOB_SUBMIT_TIMESTAMP_NAME = "jobSubmitTimestamp";
+
     /**
      * The property names in the entities job execution and book audit tables that are sorted on for presentation.
      */
@@ -76,7 +78,7 @@ public class PublishingStatsSort {
         case JOB_INSTANCE_ID:
             return "jobInstanceId";
         case JOB_SUBMIT_TIMESTAMP:
-            return "jobSubmitTimestamp";
+            return JOB_SUBMIT_TIMESTAMP_NAME;
         case JOB_SUBMITTER:
             return "jobSubmitterName";
         case LARGEST_DOC_SIZE:
@@ -94,6 +96,10 @@ public class PublishingStatsSort {
         default:
             throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
         }
+    }
+
+    public String getDefaultOrderByColumnName() {
+        return JOB_SUBMIT_TIMESTAMP_NAME;
     }
 
     public boolean isAscending() {
