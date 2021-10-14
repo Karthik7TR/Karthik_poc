@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.CITE_QUERY;
 import static com.thomsonreuters.uscl.ereader.core.MarkupConstants.COBALT;
@@ -30,6 +32,11 @@ public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarke
     private static final String ID_UPPER_CASE = "ID";
     private static final String HEAD_HEADTEXT = "head>headtext";
     private static final String DOT = ".";
+    private static final String FROM_GROUP = "fromGroup";
+    private static final String TO_GROUP = "toGroup";
+    private static final String PARAGRAPH_REGEX = "[0-9a-zA-Z.]+";
+    private static final Pattern FROM_TO_PATTERN = Pattern.compile(String.format("(?<%s>%s) to (?<%s>%s)",
+            FROM_GROUP, PARAGRAPH_REGEX, TO_GROUP, PARAGRAPH_REGEX));
 
     @Override
     public void markInnerDocumentAnchors(final Document document) {
@@ -79,8 +86,19 @@ public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarke
                         .prependChild(anchor);
                 setAnchorAttributes(INNER_ANCHOR_ID_TEMPLATE + codesSectionId, anchor);
                 designatorToCodesSectionId.put(anchorName, codesSectionId);
+                markFromToAnchors(anchorName, codesSectionId, designatorToCodesSectionId);
             }
         });
+    }
+
+    private void markFromToAnchors(final String anchorName, String codesSectionId, final Map<String, String> designatorToCodesSectionId) {
+        Matcher matcher = FROM_TO_PATTERN.matcher(anchorName);
+        if (matcher.matches()) {
+            String fromParagraph = matcher.group(FROM_GROUP);
+            String toParagraph = matcher.group(TO_GROUP);
+            designatorToCodesSectionId.put(fromParagraph, codesSectionId);
+            designatorToCodesSectionId.put(toParagraph, codesSectionId);
+        }
     }
 
     private void setAnchorAttributes(final String anchorId, final Element anchor) {
