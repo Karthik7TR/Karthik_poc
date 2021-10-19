@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.SLASH;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.UNDERSCORE;
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.text.StringEscapeUtils.escapeXml10;
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
@@ -71,8 +73,6 @@ public class EditBookDefinitionForm {
     private static final int TITLE_NAME_INDEX = 2;
     private static final int TOC_SUBSTITUTION_LEVEL_ABSENT = 0;
     private static final int TOC_SUBSTITUTION_LEVEL_DEFAULT = 3;
-    private static final String SLASH = "/";
-    private static final String UNDERSCORE = "_";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final UuidGenerator UUID_GENERATOR = new UuidGenerator();
 

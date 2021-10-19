@@ -279,9 +279,9 @@ public final class FrontMatterTitlePageFilterTest {
     @Test
     public void testFrontMatterPlaceholder_image() {
         bookDefinition.setTitlePageImageIncluded(true);
-
+        bookDefinition.setFullyQualifiedTitleId("uscl/an/test");
         final String xmlTestStr = "<test><frontMatterPlaceholder_image/></test>";
-        final String expectedResult = "<test><img src=\"er:#titlePageImage\" alt=\"titlePageImage\"/></test>";
+        final String expectedResult = "<test><img src=\"er:#titlePageImage-uscl-an-test\" alt=\"titlePageImage\"/></test>";
 
         testHelper(xmlTestStr, expectedResult, true);
     }

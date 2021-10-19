@@ -9,6 +9,8 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.springframework.batch.core.ExitStatus;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
 import java.io.File;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DASH;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PNG;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
 
@@ -84,9 +87,10 @@ public class MoveResourcesToAssemblyDirectory extends BookStepImpl {
             moveResourcesUtil.moveFrontMatterImages(this, assetsDirectory, true);
             moveResourcesUtil.moveStylesheet(assetsDirectory);
             moveResourcesUtil.moveThesaurus(this, assembleFileSystem.getAssetsDirectory(this));
-            if (getBookDefinition().isTitlePageImageIncluded()) {
-                moveResourcesUtil.moveTitlePageImage(jobExecutionContext, new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG));
-            }
+            getCombinedBookDefinition().getOrderedBookDefinitionList().stream()
+                    .filter(BookDefinition::isTitlePageImageIncluded)
+                    .forEach(bookDefinition -> moveResourcesUtil.moveTitlePageImage(bookDefinition,
+                            new File(assetsDirectory, TITLE_PAGE_IMAGE + DASH + new TitleId(bookDefinition.getFullyQualifiedTitleId()).escapeSlashWithDash() + PNG)));
         } catch (final Exception e) {
             publishStatus = "Failed";
             throw e;

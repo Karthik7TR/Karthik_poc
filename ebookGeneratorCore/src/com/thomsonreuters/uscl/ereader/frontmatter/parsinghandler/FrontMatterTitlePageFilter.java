@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DASH;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
 import static com.thomsonreuters.uscl.ereader.core.FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX;
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addPageNumber;
@@ -8,6 +9,7 @@ import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -218,7 +220,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     private void createTitlePageImage() throws SAXException {
         if (bookDefinition.isTitlePageImageIncluded()) {
             AttributesImpl newAtts = new AttributesImpl();
-            newAtts.addAttribute("", HTML_TAG_SRC_ATTRIBUTE, HTML_TAG_SRC_ATTRIBUTE, CDATA, PROVIEW_ASSERT_REFERENCE_PREFIX + TITLE_PAGE_IMAGE);
+            newAtts.addAttribute("", HTML_TAG_SRC_ATTRIBUTE, HTML_TAG_SRC_ATTRIBUTE, CDATA,
+                    PROVIEW_ASSERT_REFERENCE_PREFIX + TITLE_PAGE_IMAGE + DASH + new TitleId(bookDefinition.getFullyQualifiedTitleId()).escapeSlashWithDash());
             newAtts.addAttribute("", HTML_TAG_ALT_ATTRIBUTE, HTML_TAG_ALT_ATTRIBUTE, CDATA, TITLE_PAGE_IMAGE);
             super.startElement("", HTML_IMG_TAG, HTML_IMG_TAG, newAtts);
             super.endElement("", HTML_IMG_TAG, HTML_IMG_TAG);

@@ -13,6 +13,10 @@ public class CoreConstants {
         Prod
     };
 
+    public static final String SLASH = "/";
+    public static final String UNDERSCORE = "_";
+    public static final String DASH = "-";
+
     // Data directory path related info used in the InitializeTask (generator) and the cleanup ManagerService (manager).
     public static final String DATA_DIR = "data";
     // Date/Time formatting patterns

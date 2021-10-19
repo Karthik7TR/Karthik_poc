@@ -143,8 +143,7 @@ public class MoveResourcesUtil {
         }
     }
 
-    public void moveTitlePageImage(final ExecutionContext jobExecutionContext, final File titlePageImage) {
-        final File coverArt = createCoverArt(jobExecutionContext);
-        FileUtils.copyFile(coverArt, titlePageImage);
+    public void moveTitlePageImage(final BookDefinition bookDefinition, final File titlePageImage) {
+        FileUtils.copyFile(coverArtUtil.getCoverArt(bookDefinition), titlePageImage);
     }
 }

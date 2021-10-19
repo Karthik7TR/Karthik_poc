@@ -15,7 +15,9 @@ import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesLis
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
@@ -49,17 +51,24 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.thomsonreuters.uscl.ereader.FrontMatterFileName.ADDITIONAL_FRONT_MATTER;
 import static com.thomsonreuters.uscl.ereader.FrontMatterFileName.FRONT_MATTER_TITLE;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DASH;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.PNG;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.SLASH;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.TITLE_PAGE_IMAGE;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
 public class CreateDirectoriesAndMoveResources extends BookStepImpl {
+    private static final String ESCAPED_TITLE_ID_REGEX = FRONT_MATTER_TITLE + "-(?<%s>.*).html";
+    private static final String ESCAPED_TITLE_ID = "escapedTitleId";
+    private static final Pattern ESCAPED_TITLE_ID_PATTERN = Pattern.compile(String.format(ESCAPED_TITLE_ID_REGEX, ESCAPED_TITLE_ID));
     /**
      * To update publishingStatsService table.
      */
@@ -175,13 +184,16 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
                                 .forEach(titleMetadataBuilder::assetFileName);
                     }
                 }
-                boolean isTitleExist = docList.stream().anyMatch(item -> item.getSrc().contains(FRONT_MATTER_TITLE));
-                if (isTitleExist & bookDefinition.isTitlePageImageIncluded()) {
-                    File titlePageImage = new File(assetsDirectory, TITLE_PAGE_IMAGE + PNG);
-                    moveResourcesUtil.moveTitlePageImage(jobExecutionContext, titlePageImage);
-                    titleMetadataBuilder.assetFile(titlePageImage);
-                }
-
+                docList.stream()
+                        .map(Doc::getSrc)
+                        .filter(item -> item.contains(FRONT_MATTER_TITLE))
+                        .findAny()
+                        .flatMap(this::findBookDefinitionForFrontMatterTitleWithImageIncluded)
+                        .ifPresent(book -> {
+                            File titlePageImage = new File(assetsDirectory, TITLE_PAGE_IMAGE + DASH + new TitleId(book.getFullyQualifiedTitleId()).escapeSlashWithDash() + PNG);
+                            moveResourcesUtil.moveTitlePageImage(book, titlePageImage);
+                            titleMetadataBuilder.assetFile(titlePageImage);
+                        });
                 featuresListBuilder.forTitleId(new BookTitleId(key,
                         new Version(BigInteger.ZERO, BigInteger.ZERO)));
                 titleMetadataBuilder.proviewFeatures(featuresListBuilder.getFeatures());
@@ -212,6 +224,23 @@ public class CreateDirectoriesAndMoveResources extends BookStepImpl {
         }
 
         return ExitStatus.COMPLETED;
+    }
+
+    private Optional<BookDefinition> findBookDefinitionForFrontMatterTitleWithImageIncluded(final String frontMatterSrcFilename) {
+        return getCombinedBookDefinition().getSources().stream()
+                .map(CombinedBookDefinitionSource::getBookDefinition)
+                .filter(book -> book.getFullyQualifiedTitleId().equals(extractTitleId(frontMatterSrcFilename)))
+                .filter(BookDefinition::isTitlePageImageIncluded)
+                .findAny();
+    }
+
+    private String extractTitleId(final String frontMatterSrcFilename) {
+        Matcher matcher = ESCAPED_TITLE_ID_PATTERN.matcher(frontMatterSrcFilename);
+        if (matcher.matches()) {
+            return matcher.group(ESCAPED_TITLE_ID).replace(DASH, SLASH);
+        } else {
+            return getBookDefinition().getFullyQualifiedTitleId();
+        }
     }
 
     @NotNull
