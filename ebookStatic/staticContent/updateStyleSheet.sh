@@ -317,23 +317,23 @@ sed -i -e '$a\
 \/* </Canadian legal topics> */\
 \
 \/* <EB-3113 right border of table importing in PDF> */\
-table.co_borderedTable td.cw_padding_4, table.co_borderedTable th.cw_padding_4 {\
+table.co_borderedTable td.padding_4, table.co_borderedTable th.padding_4 {\
   padding: 4px;\
 }\
 \
-table.cw_fixed_table {\
+table.fixed_table {\
   table-layout: fixed;\
 }\
 \/* </EB-3113> */\
 \
 \/* <EB-3443 truncated text in table PDF fix> */\
-table.cw_fixed_table td, table.cw_fixed_table th {\
+table.fixed_table td, table.fixed_table th {\
   word-break: break-all;\
 }\
 \/* </EB-3443> */\
 \
 \/* <EB-3284 cw table text position fix> */\
-table.co_borderedTable td.cw_text_indent_0 {\
+table.co_borderedTable td.text_indent_0 {\
   text-indent: 0;\
 }\
 \/* </EB-3284> */\
