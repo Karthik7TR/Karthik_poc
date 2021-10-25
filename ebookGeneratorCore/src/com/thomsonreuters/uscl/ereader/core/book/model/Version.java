@@ -5,22 +5,28 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
+@EqualsAndHashCode(of = {"majorVersion", "minorVersion"})
 public class Version implements Comparable<Version> {
     public static final String VERSION_PREFIX = "v";
     private static final String MAJOR = "majorV";
     private static final String MINOR = "minorV";
     private static final Pattern VERSION_PATTERN = Pattern.compile(String.format("v(?<%s>\\d+)(\\.(?<%s>\\d+))?", MAJOR, MINOR));
 
+    @Getter
+    private String version;
     private BigInteger majorVersion;
     private BigInteger minorVersion;
 
     @SneakyThrows
     public Version(@NotNull final String version) {
         Assert.notNull(version);
+        this.version = version;
         final Matcher matcher = VERSION_PATTERN.matcher(version);
         Assert.isTrue(matcher.matches(), "Version should match pattern: v<major_version>.[<minor_version>]");
         majorVersion = new BigInteger(matcher.group(MAJOR));
@@ -32,6 +38,7 @@ public class Version implements Comparable<Version> {
     public Version(final BigInteger majorVersion, final BigInteger minorVersion) {
         this.majorVersion = majorVersion;
         this.minorVersion = minorVersion;
+        this.version = getFullVersion();
     }
 
     public BigInteger getMajorNumber() {
@@ -49,52 +56,21 @@ public class Version implements Comparable<Version> {
 
     @NotNull
     public String getFullVersion() {
-        return new StringBuilder(VERSION_PREFIX).append(majorVersion).append(".").append(minorVersion).toString();
+        return VERSION_PREFIX + majorVersion + "." + minorVersion;
     }
 
     @NotNull
     public String getVersionWithoutPrefix() {
-        return new StringBuilder().append(majorVersion).append(".").append(minorVersion).toString();
+        return majorVersion + "." + minorVersion;
     }
 
     @NotNull
     public String getVersionForFilePattern() {
-        return new StringBuilder().append("_").append(majorVersion).append("_").append(minorVersion).toString();
+        return "_" + majorVersion + "_" + minorVersion;
     }
 
     public boolean isNewMajorVersion() {
         return minorVersion.equals(BigInteger.ZERO);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((majorVersion == null) ? 0 : majorVersion.hashCode());
-        result = prime * result + ((minorVersion == null) ? 0 : minorVersion.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final Version other = (Version) obj;
-        if (majorVersion == null) {
-            if (other.majorVersion != null)
-                return false;
-        } else if (!majorVersion.equals(other.majorVersion))
-            return false;
-        if (minorVersion == null) {
-            if (other.minorVersion != null)
-                return false;
-        } else if (!minorVersion.equals(other.minorVersion))
-            return false;
-        return true;
     }
 
     @Override

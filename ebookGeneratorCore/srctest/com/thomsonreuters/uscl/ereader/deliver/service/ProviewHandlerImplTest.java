@@ -19,13 +19,16 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,8 +42,6 @@ import org.springframework.http.HttpStatus;
  */
 @RunWith(MockitoJUnitRunner.class)
 public final class ProviewHandlerImplTest {
-    // private static final Logger LOG = LogManager.getLogger(ProviewHandlerImplTest.class);
-
     @InjectMocks
     private ProviewHandlerImpl proviewHandler;
 
@@ -65,6 +66,9 @@ public final class ProviewHandlerImplTest {
 
     @Mock
     private SupersededProviewHandlerHelper mockSupersededHandler;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @SneakyThrows
     @Before
@@ -347,7 +351,7 @@ public final class ProviewHandlerImplTest {
     }
 
     @Test
-    public void testGetAllLatestProviewTitleInfoByMap() throws Exception {
+    public void testGetAllLatestProviewTitleInfoByMap() {
         final Map<String, ProviewTitleContainer> map = new HashMap<>();
         final ProviewTitleContainer groupContainer = new ProviewTitleContainer();
         final ProviewTitleInfo title = new ProviewTitleInfo();
@@ -460,6 +464,15 @@ public final class ProviewHandlerImplTest {
 
         final boolean response = proviewHandler.hasTitleIdBeenPublished(titleId);
         assertFalse(response);
+    }
+
+    @Test
+    public void testHasTitleIdBeenPublishedProviewException() throws Exception {
+        thrown.expect(ProviewException.class);
+        final String titleId = TITLE_ID;
+        when(mockProviewClient.getSinglePublishedTitle(titleId)).thenThrow(new ProviewException(titleId + " does not exist"));
+
+        proviewHandler.hasTitleIdBeenPublished(titleId);
     }
 
     @Test

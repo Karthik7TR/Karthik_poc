@@ -115,8 +115,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
     }
 
     @Override
-    public List<ProviewGroup> getAllLatestProviewGroupInfo(final Map<String, ProviewGroupContainer> groupMap)
-        throws ProviewException {
+    public List<ProviewGroup> getAllLatestProviewGroupInfo(final Map<String, ProviewGroupContainer> groupMap) {
         final List<ProviewGroup> allLatestProviewGroups = new ArrayList<>();
 
         for (final String groupId : groupMap.keySet()) {
@@ -214,8 +213,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
     }
 
     @Override
-    public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(final Map<String, ProviewTitleContainer> titleMap)
-        throws ProviewException {
+    public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(final Map<String, ProviewTitleContainer> titleMap) {
         return titleMap.values().stream()
                 .map(titleContainer -> {
                     ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
@@ -265,25 +263,10 @@ public class ProviewHandlerImpl implements ProviewHandler {
             throw new EBookException(e);
         }
     }
-    /*
-    @Override
-    public ProviewTitleInfo getProviewTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException {
-    	ProviewTitleContainer proviewTitleContainer = null;
-    	String publishedTitleResponse = proviewClient.getSingleTitleInfoByVersion(fullyQualifiedTitleId, version);
-
-    	PublishedTitleParser parser = new PublishedTitleParser();
-    	Map<String, ProviewTitleContainer> titleMap = parser.process(publishedTitleResponse);
-
-    	proviewTitleContainer = titleMap.get(fullyQualifiedTitleId);
-    	// TODO: verify ProviewClient.getSingleTitleInfoByVersion() returns xml in the same
-    	// format as ProviewClient.getSinglePublishedTitle()
-    	return proviewTitleContainer.getProviewTitleInfos().get(0);
-    }
-    */
 
     @Override
     public List<GroupDetails> getSingleTitleGroupDetails(final String fullyQualifiedTitleId) throws ProviewException {
-        List<GroupDetails> proviewGroupDetails = new ArrayList<>();
+        List<GroupDetails> proviewGroupDetails;
         try {
             final String response = proviewClient.getSinglePublishedTitle(fullyQualifiedTitleId);
             final ProviewSingleTitleParser singleTitleParser = new ProviewSingleTitleParser();

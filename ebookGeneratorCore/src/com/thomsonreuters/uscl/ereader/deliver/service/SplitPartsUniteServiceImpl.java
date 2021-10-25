@@ -58,6 +58,7 @@ public class SplitPartsUniteServiceImpl implements SplitPartsUniteService {
     @NotNull
     private List<String> getSplitParts(final List<ProviewTitleInfo> list) {
         return list.stream()
+                .sorted()
                 .map(e -> new BookTitleId(e.getTitleId(), new Version(e.getVersion())).getTitleIdWithMajorVersion())
                 .collect(Collectors.toList());
     }

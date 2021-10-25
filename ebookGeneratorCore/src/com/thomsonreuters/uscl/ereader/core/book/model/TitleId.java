@@ -1,9 +1,13 @@
 package com.thomsonreuters.uscl.ereader.core.book.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
-public class TitleId {
+@ToString(of = {"headTitleId", "partNumber"})
+@EqualsAndHashCode(of = {"headTitleId", "partNumber"})
+public class TitleId implements Comparable<TitleId> {
     private static final String _PT = "_pt";
 
     @NotNull
@@ -63,35 +67,9 @@ public class TitleId {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((headTitleId == null) ? 0 : headTitleId.hashCode());
-        result = prime * result + partNumber;
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final TitleId other = (TitleId) obj;
-        if (headTitleId == null) {
-            if (other.headTitleId != null)
-                return false;
-        } else if (!headTitleId.equals(other.headTitleId))
-            return false;
-        if (partNumber != other.partNumber)
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "TitleId [headTitleId=" + headTitleId + ", partNumber=" + partNumber + "]";
+    public int compareTo(final TitleId o) {
+        int lexicographicalHeadTitleIdDiff = getHeadTitleId().compareToIgnoreCase(o.getHeadTitleId());
+        int partNumberDiff = getPartNumber() - o.getPartNumber();
+        return lexicographicalHeadTitleIdDiff == 0 ? partNumberDiff : lexicographicalHeadTitleIdDiff;
     }
 }

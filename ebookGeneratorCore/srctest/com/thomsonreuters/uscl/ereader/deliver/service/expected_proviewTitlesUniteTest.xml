@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <titles>
+    <title id="uscl/an/book3" version="v1.0" publisher="uscl" lastupdate="20190522" status="Final^">Book 3</title>
 
     <title id="uscl/an/book2" version="v1.0" publisher="uscl" lastupdate="20190726" status="Final">Book2</title>
 
@@ -15,4 +16,6 @@
     <title id="uscl/an/book" version="v2.0" publisher="uscl" lastupdate="20190521" status="Final^">Book</title>
     <title id="uscl/an/book" version="v1.3" publisher="uscl" lastupdate="20190521" status="Review*">Book</title>
     <title id="uscl/an/book" version="v1.1" publisher="uscl" lastupdate="20190522" status="Final">Book</title>
+
+    <title id="uscl/an/book4" version="v2012" publisher="uscl" lastupdate="20121222" status="Final">Book old</title>
 </titles>
