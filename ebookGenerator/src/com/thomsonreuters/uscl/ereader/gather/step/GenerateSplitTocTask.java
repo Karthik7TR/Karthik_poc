@@ -82,7 +82,7 @@ public class GenerateSplitTocTask extends BookStepImpl {
                 }
             } else {
                 splitTocGuidList = getCombinedBookDefinition().getOrderedBookDefinitionList().stream()
-                        .map(BookDefinition::getSplitDocumentsAsList)
+                        .map(BookDefinition::getSplitDocuments)
                         .flatMap(Collection::stream)
                         .map(SplitDocument::getTocGuid)
                         .collect(Collectors.toList());

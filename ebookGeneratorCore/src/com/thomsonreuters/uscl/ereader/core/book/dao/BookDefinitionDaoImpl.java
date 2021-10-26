@@ -223,13 +223,13 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
     }
 
     @Override
-    public List<SplitDocument> getSplitDocumentsforBook(final Long ebookDefinitionId) {
+    public Collection<SplitDocument> getSplitDocumentsforBook(final Long ebookDefinitionId) {
         final BookDefinition bookDef = (BookDefinition) sessionFactory.getCurrentSession()
             .createCriteria(BookDefinition.class)
             .add(Restrictions.eq("ebookDefinitionId", ebookDefinitionId))
             .uniqueResult();
 
-        return bookDef.getSplitDocumentsAsList();
+        return bookDef.getSplitDocuments();
     }
 
     @Override

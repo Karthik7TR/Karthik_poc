@@ -610,7 +610,7 @@ public class EbookAudit implements Serializable {
         setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
         setPilotBookStatus(that.getPilotBookStatus());
         setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
-        setSplitDocumentsConcat(maxString(concatString(that.getSplitDocumentsAsList()), MAX_CHARACTER_2048));
+        setSplitDocumentsConcat(maxString(concatString(that.getSplitDocuments()), MAX_CHARACTER_2048));
         setRenameTocEntryConcat(maxString(concatString(that.getRenameTocEntries()), MAX_CHARACTER_2048));
         setTableViewerConcat(maxString(concatString(that.getTableViewers()), MAX_CHARACTER_2048));
         setDocumentCopyrightConcat(maxString(concatString(that.getDocumentCopyrights()), MAX_CHARACTER_2048));

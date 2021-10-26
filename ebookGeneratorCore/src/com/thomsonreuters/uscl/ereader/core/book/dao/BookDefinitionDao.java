@@ -100,5 +100,5 @@ public interface BookDefinitionDao {
 
     void removeSplitDocuments(Long bookId);
 
-    List<SplitDocument> getSplitDocumentsforBook(Long bookId);
+    Collection<SplitDocument> getSplitDocumentsforBook(Long bookId);
 }

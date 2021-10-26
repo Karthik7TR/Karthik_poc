@@ -180,7 +180,7 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SplitDocument> findSplitDocuments(final Long bookId) {
+    public Collection<SplitDocument> findSplitDocuments(final Long bookId) {
         return bookDefinitionDao.getSplitDocumentsforBook(bookId);
     }
 

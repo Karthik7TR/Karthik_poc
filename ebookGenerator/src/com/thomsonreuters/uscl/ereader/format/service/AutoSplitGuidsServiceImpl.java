@@ -70,7 +70,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
             List<String> splitTocGuidList = new ArrayList<>();
 
             //Check split documents in database in case we might have deleted in earlier steps
-            final List<SplitDocument> persistedSplitDocuments =
+            final Collection<SplitDocument> persistedSplitDocuments =
                 bookDefinitionService.findSplitDocuments(bookDefinition.getEbookDefinitionId());
 
             if (persistedSplitDocuments != null && persistedSplitDocuments.size() > 0 && !metrics) {

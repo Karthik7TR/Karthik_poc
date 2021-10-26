@@ -23,6 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.thomsonreuters.uscl.ereader.gather.step.service.impl.CWBRetrieveService.getJobExecutionContext;
@@ -39,9 +40,9 @@ public abstract class NovusRetrieveServiceAbstract implements RetrieveService {
     public GatherResponse retrieveToc(BookDefinition bookDefinition, File tocFile, ChunkContext chunkContext) throws Exception {
         final Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
         final List<String> splitTocGuidList = new ArrayList<>();
-        List<SplitDocument> splitDocuments = null;
+        Collection<SplitDocument> splitDocuments = null;
         if (bookDefinition.isSplitBook()) {
-            splitDocuments = bookDefinition.getSplitDocumentsAsList();
+            splitDocuments = bookDefinition.getSplitDocuments();
             for (final SplitDocument splitDocument : splitDocuments) {
                 splitTocGuidList.add(splitDocument.getTocGuid());
             }

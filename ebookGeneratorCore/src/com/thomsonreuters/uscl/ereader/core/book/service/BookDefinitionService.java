@@ -93,7 +93,7 @@ public interface BookDefinitionService {
 
     void deleteSplitDocuments(Long bookId);
 
-    List<SplitDocument> findSplitDocuments(Long bookId);
+    Collection<SplitDocument> findSplitDocuments(Long bookId);
 
     void cleanUpPreviousVersionValue(BookDefinition book);
 }

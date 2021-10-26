@@ -152,10 +152,10 @@ public class CWBRetrieveService implements RetrieveService {
 
         if (bookDefinition.getSourceType().equals(BookDefinition.SourceType.FILE) && rootNodes.size() > 0) {
             final List<String> splitTocGuidList = new ArrayList<>();
-            List<SplitDocument> splitDocuments = null;
+            Collection<SplitDocument> splitDocuments = null;
 
             if (bookDefinition.isSplitBook()) {
-                splitDocuments = bookDefinition.getSplitDocumentsAsList();
+                splitDocuments = bookDefinition.getSplitDocuments();
 
                 for (final SplitDocument splitDocument : splitDocuments) {
                     splitTocGuidList.add(splitDocument.getTocGuid());
