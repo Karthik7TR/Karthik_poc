@@ -4,7 +4,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
-import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
+import com.thomsonreuters.uscl.ereader.core.service.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;

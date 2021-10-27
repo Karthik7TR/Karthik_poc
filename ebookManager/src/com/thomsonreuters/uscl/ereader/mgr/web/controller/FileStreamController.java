@@ -16,7 +16,6 @@ import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.NasFileSystem;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -49,7 +48,7 @@ public class FileStreamController {
     @Autowired
     private NasFileSystem nasFileSystem;
 
-    @RequestMapping(value = WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
+    @RequestMapping(value = CoreConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
     public void getCoverImage(
         @RequestParam("imageName") final String imageName,
         final HttpServletRequest request,

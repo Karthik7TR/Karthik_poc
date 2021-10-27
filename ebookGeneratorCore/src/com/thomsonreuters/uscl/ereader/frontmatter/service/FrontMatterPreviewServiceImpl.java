@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.frontmatter.service;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.service.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
+
+import static java.util.Optional.of;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 @Setter
@@ -34,43 +38,43 @@ public class FrontMatterPreviewServiceImpl implements FrontMatterPreviewService{
 
     @Override
     public String getTitlePagePreview(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
-        String output = baseFrontMatterService.generateTitlePage(bookDefinition, false)
-                .replace(CSS_PLACEHOLDER, CSS_REPLACEMENT);
-        output = replaceImages(output);
-        return output;
+        return of(baseFrontMatterService.generateTitlePage(bookDefinition, false))
+                .map(this::replaceCss)
+                .map(this::replaceFrontMatterImages)
+                .map(out -> replaceCoverImage(bookDefinition, out))
+                .orElse(EMPTY);
     }
 
     @Override
     public String getCopyrightPagePreview(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
-        String output = baseFrontMatterService.generateCopyrightPage(bookDefinition, false)
-                .replace(CSS_PLACEHOLDER, CSS_REPLACEMENT);
-        output = replaceImages(output);
-        return output;
+        return of(baseFrontMatterService.generateCopyrightPage(bookDefinition, false))
+                .map(this::replaceCss)
+                .map(this::replaceFrontMatterImages)
+                .orElse(EMPTY);
     }
 
     @Override
     public String getAdditionalFrontPagePreview(final BookDefinition bookDefinition, final Long frontMatterPageId) throws EBookFrontMatterGenerationException {
-        String output = baseFrontMatterService.generateAdditionalFrontMatterPage(bookDefinition, frontMatterPageId, Collections.emptyMap())
-                .replace(CSS_PLACEHOLDER, CSS_REPLACEMENT);
-        output = replacePdfs(bookDefinition, output);
-        return output;
+        return of(baseFrontMatterService.generateAdditionalFrontMatterPage(bookDefinition, frontMatterPageId, Collections.emptyMap()))
+                .map(this::replaceCss)
+                .map(out -> replacePdfs(bookDefinition, out))
+                .orElse(EMPTY);
     }
 
     @Override
     public String getResearchAssistancePagePreview(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
-        return baseFrontMatterService.generateResearchAssistancePage(bookDefinition, false)
-                .replace(CSS_PLACEHOLDER, CSS_REPLACEMENT);
+        return replaceCss(baseFrontMatterService.generateResearchAssistancePage(bookDefinition, false));
     }
 
     @Override
     public String getWestlawNextPagePreview(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
-        return baseFrontMatterService.generateWestlawNextPage(false)
-                .replace(CSS_PLACEHOLDER, CSS_REPLACEMENT)
-                .replace(WLN_LOGO_PLACEHOLDER, String.format(IMAGE_REPLACEMENT_TEMPLATE, frontMatterLogoPlaceHolder.get(WLN_LOGO_PLACEHOLDER))
-                );
+        return of(baseFrontMatterService.generateWestlawNextPage(false))
+                .map(this::replaceCss)
+                .map(this::replaceWestlawLogo)
+                .orElse(EMPTY);
     }
 
-    private String replaceImages(String output) {
+    private String replaceFrontMatterImages(String output) {
         for (final Map.Entry<String, String> entry : frontMatterLogoPlaceHolder.entrySet()) {
             output = output.replace(entry.getKey(), String.format(IMAGE_REPLACEMENT_TEMPLATE, entry.getValue()));
         }
@@ -83,5 +87,17 @@ public class FrontMatterPreviewServiceImpl implements FrontMatterPreviewService{
                     String.format(PDF_PREVIEW_LINK_TEMPLATE, pdfFile, bookDefinition.getPublisherCodes().getName()));
         }
         return output;
+    }
+
+    private String replaceCss(final String output) {
+        return output.replace(CSS_PLACEHOLDER, CSS_REPLACEMENT);
+    }
+
+    private String replaceCoverImage(final BookDefinition bookDefinition, final String output) {
+        return output.replace(CoverArtUtil.getCoverArtOnProView(bookDefinition), CoverArtUtil.getCoverArtOnEbookManager(bookDefinition));
+    }
+
+    private String replaceWestlawLogo(final String output) {
+        return output.replace(WLN_LOGO_PLACEHOLDER, String.format(IMAGE_REPLACEMENT_TEMPLATE, frontMatterLogoPlaceHolder.get(WLN_LOGO_PLACEHOLDER)));
     }
 }

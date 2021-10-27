@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
+import com.thomsonreuters.uscl.ereader.core.service.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;

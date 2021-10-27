@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <div class="pageTitle">Create/Edit Group Definition</div>
 <c:choose>
@@ -14,7 +14,7 @@
 <c:otherwise>	<%-- found the book --%>
 <div id="bookData">
 	<div class="bookImage">
-		<img alt="${fn:escapeXml(book.proviewDisplayName)}" src="<%= WebConstants.MVC_COVER_IMAGE %>?imageName=${ book.coverImage }">
+		<img alt="${fn:escapeXml(book.proviewDisplayName)}" src="<%= CoreConstants.MVC_COVER_IMAGE %>?imageName=${ book.coverImage }">
 	</div>
 	<div class="titleData">
 		<div><label>Title ID:</label> ${book.fullyQualifiedTitleId}</div>

@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.service.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.core.service.PdfToImgConverter;
 import com.thomsonreuters.uscl.ereader.format.step.StepIntegrationTestRunner;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;

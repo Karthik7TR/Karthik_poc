@@ -29,7 +29,7 @@ public interface ResourcesFileSystem {
     File getAssetsDirectory(@NotNull BookStep step);
 
     /**
-     * {@link com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil#getCoverArt}
+     * {@link com.thomsonreuters.uscl.ereader.core.service.CoverArtUtil#getCoverArt}
      */
     @NotNull
     File getArtwork(@NotNull BookStep step);

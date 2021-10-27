@@ -57,6 +57,7 @@ public class CoreConstants {
     public static final String MVC_FRONT_MATTER_IMAGE_PREVIEW = "frontMatterImagePreview.mvc";
     public static final String MVC_FRONT_MATTER_CSS_PREVIEW = "frontMatterCssPreview.mvc";
     public static final String MVC_FRONT_MATTER_PDF_PREVIEW = "frontMatterPdfPreview.mvc";
+    public static final String MVC_COVER_IMAGE = "coverImage.mvc";
     public static final String EBOOK_GENERATOR_CSS = "ebook_generator.css";
 
     public static final String PUBLISHED_DATE_DATEFIELD_NAME = "Published title";

@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
-import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
+import com.thomsonreuters.uscl.ereader.core.service.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.filesystem.exception.StylesheetsNotFoundException;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;

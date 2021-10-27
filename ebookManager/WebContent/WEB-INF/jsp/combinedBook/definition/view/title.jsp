@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <div class="pageTitle">View Combined Book Definition</div>
 <c:choose>
@@ -11,7 +11,7 @@
         <c:set var="primaryTitle" value="${combinedBookDefinition.primaryTitle.bookDefinition}"/>
         <div id="bookData">
             <div class="bookImage">
-                <img alt="${fn:escapeXml(primaryTitle.proviewDisplayName)}" src="<%= WebConstants.MVC_COVER_IMAGE %>?imageName=${ primaryTitle.coverImage }">
+                <img alt="${fn:escapeXml(primaryTitle.proviewDisplayName)}" src="<%= CoreConstants.MVC_COVER_IMAGE %>?imageName=${ primaryTitle.coverImage }">
             </div>
             <div class="titleData">
                 <div><label>Title ID:</label> ${primaryTitle.fullyQualifiedTitleId}</div>
