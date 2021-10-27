@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -16,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -287,10 +289,43 @@ public final class FrontMatterTitlePageFilterTest {
     }
 
     @Test
+    public void testFrontMatterPlaceholder_only_image() {
+        initFieldsForOnlyImage();
+        bookDefinition.setFullyQualifiedTitleId("uscl/an/test");
+        final String xmlTestStr = "<test><frontMatterPlaceholder_image/></test>";
+        final String expectedResult = "<test><img src=\"er:#titlePageImage-uscl-an-test\" alt=\"titlePageImage\"/></test>";
+
+        testHelper(xmlTestStr, expectedResult, true);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_title_page_container_only_image() {
+        initFieldsForOnlyImage();
+        final String xmlTestSrt = "<test><frontMatterPlaceholder_TitlePageContainerTag/></test>";
+        final String expectedResult = "<test><div class=\"title_page only_image\"/></test>";
+
+        testHelper(xmlTestSrt, expectedResult, true);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_title_page_container() {
+        final String xmlTestSrt = "<test><frontMatterPlaceholder_TitlePageContainerTag/></test>";
+        final String expectedResult = "<test><div class=\"title_page\"/></test>";
+
+        testHelper(xmlTestSrt, expectedResult, true);
+    }
+
+    @Test
     public void testFrontMatterPlaceholder_image_absence() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_image/></test>";
         final String expectedResult = "<test/>";
 
         testHelper(xmlTestStr, expectedResult, true);
+    }
+
+    private void initFieldsForOnlyImage() {
+        bookDefinition.setTitlePageImageIncluded(true);
+        bookDefinition.setCurrency(StringUtils.EMPTY);
+        bookDefinition.setEbookNames(Collections.emptyList());
     }
 }

@@ -24,6 +24,7 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     private static final String PAGE_NUMBER = "i";
     /** Names of all the placeholder tags this filter handles */
     private static final String TITLE_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_TitlePageAnchor";
+    private static final String TITLE_PAGE_CONTAINER_TAG = "frontMatterPlaceholder_TitlePageContainerTag";
     private static final String BOOK_NAME_TAG = "frontMatterPlaceholder_bookname";
     private static final String BOOK_NAME2_TAG = "frontMatterPlaceholder_bookname2";
     private static final String BOOK_NAME3_TAG = "frontMatterPlaceholder_bookname3";
@@ -49,13 +50,17 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     private static final boolean MULTI_LINE_FIELD = true;
     private static final boolean SINGLE_LINE_FIELD = false;
     public static final String AAJ_PRESS_THEME = "AAJ Press";
+    public static final String TITLE_PAGE_CSS_CLASS = "title_page";
+    public static final String ONLY_IMAGE_CLASS = " only_image";
 
-    private BookDefinition bookDefinition;
-    private boolean withPageNumber;
+    private final BookDefinition bookDefinition;
+    private final boolean withPageNumber;
+    private final boolean isOnlyImageMode;
 
     public FrontMatterTitlePageFilter(final BookDefinition bookDefinition, final boolean withPageNumber) {
         this.bookDefinition = bookDefinition;
         this.withPageNumber = withPageNumber;
+        this.isOnlyImageMode = isOnlyImageModeApplicable(bookDefinition);
     }
 
     @Override
@@ -71,6 +76,15 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
                 CDATA,
                 FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
+        } else if (qName.equalsIgnoreCase(TITLE_PAGE_CONTAINER_TAG)){
+            final AttributesImpl newAtts = new AttributesImpl();
+            newAtts.addAttribute(
+                    uri,
+                    HTML_TAG_CLASS_ATTRIBUTE,
+                    HTML_TAG_CLASS_ATTRIBUTE,
+                    CDATA,
+                    classForTitlePageContainer());
+            super.startElement(uri, HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
         } else if (qName.equalsIgnoreCase(BOOK_NAME_TAG)) {
             for (final EbookName name : bookDefinition.getEbookNames()) {
                 if (name.getSequenceNum() == 1) {
@@ -114,6 +128,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG)) {
             super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
+        } else if (qName.equalsIgnoreCase(TITLE_PAGE_CONTAINER_TAG)) {
+            super.endElement(uri, HTML_DIV_TAG, HTML_DIV_TAG);
         } else if (qName.equalsIgnoreCase(BOOK_NAME_TAG)
             || qName.equalsIgnoreCase(BOOK_NAME2_TAG)
             || qName.equalsIgnoreCase(BOOK_NAME3_TAG)
@@ -224,5 +240,16 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
             super.startElement("", HTML_IMG_TAG, HTML_IMG_TAG, newAtts);
             super.endElement("", HTML_IMG_TAG, HTML_IMG_TAG);
         }
+    }
+
+    private boolean isOnlyImageModeApplicable(final BookDefinition bookDefinition) {
+        return bookDefinition.getEbookNames().stream()
+                .allMatch(item -> StringUtils.isEmpty(item.getBookNameText()))
+                & StringUtils.isEmpty(bookDefinition.getCurrency())
+                & bookDefinition.isTitlePageImageIncluded();
+    }
+
+    private String classForTitlePageContainer() {
+        return TITLE_PAGE_CSS_CLASS + (isOnlyImageMode ? ONLY_IMAGE_CLASS : StringUtils.EMPTY);
     }
 }

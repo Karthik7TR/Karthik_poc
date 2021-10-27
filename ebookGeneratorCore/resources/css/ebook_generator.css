@@ -10,6 +10,23 @@
 	text-align:center;
 }
 
+.title_page.only_image
+{
+	margin-top: 0;
+}
+
+.only_image .bookname3,
+.only_image .bookname,
+.only_image .bookname2,
+.only_image .currency
+{
+	display: none;
+}
+
+.only_image .image_container_center img
+{
+	height: 80vh;
+}
 
 .copyright_page
 {
@@ -205,9 +222,9 @@
 	margin-top:1em;
 }
 
-.section_text p 
-{ 
-	text-indent : 1em; 
+.section_text p
+{
+	text-indent : 1em;
 	margin-top:1em;
 	min-height: 1em;
 }
