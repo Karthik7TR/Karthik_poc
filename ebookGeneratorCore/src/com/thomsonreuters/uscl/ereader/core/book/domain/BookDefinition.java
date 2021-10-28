@@ -318,7 +318,7 @@ public class BookDefinition implements Serializable {
 
     @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Cascade(CascadeType.ALL)
-    private List<SplitDocument> splitDocuments;
+    private Set<SplitDocument> splitDocuments;
 
     @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Cascade(CascadeType.ALL)
@@ -752,12 +752,12 @@ public class BookDefinition implements Serializable {
     }
 
     public Set<SplitDocument> getSplitDocuments() {
-        splitDocuments = Optional.ofNullable(splitDocuments).orElseGet(ArrayList::new);
-        return new LinkedHashSet<>(splitDocuments);
+        splitDocuments = Optional.ofNullable(splitDocuments).orElseGet(HashSet::new);
+        return splitDocuments;
     }
 
     public void setSplitDocuments(final Collection<SplitDocument> splitDocuments) {
-        this.splitDocuments = new ArrayList<>(splitDocuments);
+        this.splitDocuments = new HashSet<>(splitDocuments);
     }
 
     public Set<PrintComponent> getPrintComponents() {
@@ -952,7 +952,7 @@ public class BookDefinition implements Serializable {
         setEbookNames(new java.util.LinkedHashSet<>(that.getEbookNames()));
         setFrontMatterPages(new java.util.LinkedHashSet<>(that.getFrontMatterPages()));
         setExcludeDocuments(new HashSet<>(that.getExcludeDocuments()));
-        setSplitDocuments(that.getSplitDocuments());
+        setSplitDocuments(new HashSet<>(that.getSplitDocuments()));
         setPrintComponents(new HashSet<>(that.getPrintComponents()));
         setRenameTocEntries(new HashSet<>(that.getRenameTocEntries()));
         setTableViewers(new HashSet<>(that.getTableViewers()));
