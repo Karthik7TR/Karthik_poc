@@ -33,6 +33,10 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+    tasks.withType(Test) {
+        systemProperty("file.encoding", "UTF-8")
+    }
+
     checkstyle {
         configFile file("/../checkStyleConfig.xml")
         toolVersion '5.1'

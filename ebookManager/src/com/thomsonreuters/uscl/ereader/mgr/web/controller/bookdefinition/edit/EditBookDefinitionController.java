@@ -41,6 +41,7 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
+import com.thomsonreuters.uscl.ereader.util.EbookHtmlUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -346,6 +347,7 @@ public class EditBookDefinitionController {
         }
 
         if (!bindingResult.hasErrors()) {
+            updateFormWithUnescapedStylingTags(form);
             form.loadBookDefinition(bookDef);
             bookDef = bookDefinitionService.saveBookDefinition(bookDef);
 
@@ -371,6 +373,11 @@ public class EditBookDefinitionController {
         initializeModel(model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+    }
+
+    private void updateFormWithUnescapedStylingTags(final EditBookDefinitionForm form) {
+        form.setCopyright(EbookHtmlUtils.unescapeHtmlStylingTagsAndRemoveOthers(form.getCopyright()));
+        form.setCopyrightPageText(EbookHtmlUtils.unescapeHtmlStylingTagsAndRemoveOthers(form.getCopyrightPageText()));
     }
 
     /**

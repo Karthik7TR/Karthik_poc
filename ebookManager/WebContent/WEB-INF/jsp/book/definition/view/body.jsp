@@ -569,11 +569,11 @@ $(document).ready(function() {
 					</c:forEach>
 					<div class="row">
 						<label class="labelCol">Copyright</label>
-						<div class="field wordwrap">${ fn:escapeXml(book.copyright) }</div>
+						<div class="field wordwrap">${ book.copyright }</div>
 					</div>
 					<div class="row" ${xppHide}>
 						<label class="labelCol">Copyright Page Text</label>
-						<div class="field wordwrap">${ fn:escapeXml(book.copyrightPageText) }</div>
+						<div class="field wordwrap">${ book.copyrightPageText }</div>
 					</div>
 					<c:if test="${ book.titlePageImageIncluded }">
 						<div class="row" ${xppHide}>

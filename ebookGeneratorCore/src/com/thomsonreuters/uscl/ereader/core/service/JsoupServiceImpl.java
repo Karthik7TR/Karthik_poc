@@ -5,8 +5,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Document.OutputSettings.Syntax;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities;
+import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.XmlDeclaration;
 import org.jsoup.parser.ParseSettings;
@@ -57,6 +59,23 @@ public class JsoupServiceImpl implements JsoupService {
 
     protected void applyPrintSettings(final Document doc) {
         doc.outputSettings().indentAmount(0).prettyPrint(false);
+    }
+
+    @Override
+    public Document parseHtml(final String htmlText) {
+        final Document document = Jsoup.parse(htmlText);
+        applyHtmlSettings(document);
+        return document;
+    }
+
+    private void applyHtmlSettings(final Document doc) {
+        doc.outputSettings()
+                .syntax(Syntax.html)
+                .escapeMode(EscapeMode.xhtml)
+                .charset(StandardCharsets.UTF_8)
+                .indentAmount(0)
+                .prettyPrint(false);
+        doc.parser().settings(ParseSettings.preserveCase);
     }
 
     @Override

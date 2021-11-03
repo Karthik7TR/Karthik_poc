@@ -96,7 +96,7 @@ public class BaseFrontMatterServiceImplTest {
         bookDefinition = new BookDefinition();
         bookDefinition.setFullyQualifiedTitleId("uscl/an/test");
         bookDefinition.setCurrency("Currency Test");
-        bookDefinition.setCopyright("&#169; 2012 Thomson Reuters \r\n Test Copyright");
+        bookDefinition.setCopyright("© 2012 Thomson Reuters \r\n Test Copyright");
         bookDefinition.setCopyrightPageText(
                 "Copyright is not claimed as to any part of the original work prepared "
                         + "by a United States Government officer or employee as part of that person's official duties."

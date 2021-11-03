@@ -54,7 +54,7 @@ public final class FrontMatterCopyrightPageFilterTest {
         ebookNames.add(edition);
         bookDefinition.setEbookNames(ebookNames);
         bookDefinition.setCurrency("Currency Test");
-        bookDefinition.setCopyright("&#169; 2012 Thomson Reuters \r\n Test Copyright");
+        bookDefinition.setCopyright("© 2012 Thomson Reuters \r\n Test Copyright");
         bookDefinition.setCopyrightPageText(
             "Copyright is not claimed as to any part of the original work prepared "
                 + "by a United States Government officer or employee as part of that person's official duties."
@@ -183,7 +183,16 @@ public final class FrontMatterCopyrightPageFilterTest {
     @Test
     public void testFrontMatterPlaceholder_copyright() {
         final String xmlTestStr = "<test><p><frontMatterPlaceholder_copyright/></p></test>";
-        final String expectedResult = "<test><p>&amp;#169; 2012 Thomson Reuters </p><p> Test Copyright</p></test>";
+        final String expectedResult = "<test><p>© 2012 Thomson Reuters </p><p> Test Copyright</p></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_copyrightWithStylingTags() {
+        final String xmlTestStr = "<test><p><frontMatterPlaceholder_copyright/></p></test>";
+        bookDefinition.setCopyright("&#169; 2012 <i>Thomson Reuters</i> \r\n Test Copyright");
+        final String expectedResult = "<test><p>© 2012 <i>Thomson Reuters</i> </p><p> Test Copyright</p></test>";
 
         testHelper(xmlTestStr, expectedResult);
     }
@@ -194,6 +203,24 @@ public final class FrontMatterCopyrightPageFilterTest {
         final String expectedResult = "<test><p>Copyright is not claimed as to any part of the original work prepared "
             + "by a United States Government officer or employee as part of that person's official duties."
             + "</p><p>Test paragraph 2.</p></test>";
+
+        testHelper(xmlTestStr, expectedResult, true);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_copyrightPageTextWithStylingTags() {
+        final String xmlTestStr = "<test><p><frontMatterPlaceholder_copyrightPageText/></p></test>";
+        bookDefinition.setCopyrightPageText("<i>text</i>&lt;div&gt;to escape&lt;/div&gt;&lt;div&gt;&lt;/div&gt;");
+        final String expectedResult = "<test><p><i>text</i>&lt;div&gt;to escape&lt;/div&gt;&lt;div&gt;&lt;/div&gt;</p></test>";
+
+        testHelper(xmlTestStr, expectedResult, true);
+    }
+
+    @Test
+    public void testFrontMatterPlaceholder_copyrightPageTextIsNull() {
+        final String xmlTestStr = "<test><p><frontMatterPlaceholder_copyrightPageText/></p></test>";
+        bookDefinition.setCopyrightPageText(null);
+        final String expectedResult = "<test><p/></test>";
 
         testHelper(xmlTestStr, expectedResult, true);
     }

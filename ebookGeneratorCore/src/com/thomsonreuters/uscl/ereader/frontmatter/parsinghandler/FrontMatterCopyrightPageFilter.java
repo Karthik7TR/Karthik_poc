@@ -2,9 +2,19 @@ package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
 import static com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil.addPageNumber;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -16,6 +26,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
     private static final String PAGE_NUMBER = "ii";
     /** Names of all the placeholder tags this filter handles */
@@ -40,12 +51,14 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
     private static final boolean MULTI_LINE_FIELD = true;
     private static final boolean SINGLE_LINE_FIELD = false;
 
-    private BookDefinition bookDefinition;
-    private boolean withPageNumber;
+    private final BookDefinition bookDefinition;
+    private final boolean withPageNumber;
+    private final JsoupService jsoupService;
 
     public FrontMatterCopyrightPageFilter(final BookDefinition bookDefinition, final boolean withPageNumber) {
         this.bookDefinition = bookDefinition;
         this.withPageNumber = withPageNumber;
+        this.jsoupService = new JsoupServiceImpl();
     }
 
     @Override
@@ -71,9 +84,9 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
                 FrontMatterFileName.COPYRIGHT + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
         } else if (qName.equalsIgnoreCase(COPYRIGHT_TAG)) {
-            printText(bookDefinition.getCopyright(), MULTI_LINE_FIELD);
+            printHtmlStyledText(uri, bookDefinition.getCopyright());
         } else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_TEXT_TAG)) {
-            printText(bookDefinition.getCopyrightPageText(), MULTI_LINE_FIELD);
+            printHtmlStyledText(uri, bookDefinition.getCopyrightPageText());
         } else if (qName.equalsIgnoreCase(ISBN_TAG)) {
             printText(bookDefinition.getIsbn(), SINGLE_LINE_FIELD);
         } else if (qName.equalsIgnoreCase(ISSN_TAG)) {
@@ -85,6 +98,32 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
         } else {
             super.startElement(uri, localName, qName, atts);
         }
+    }
+
+    private void printHtmlStyledText(final String uri, final String htmlStyledText) {
+        Optional.ofNullable(htmlStyledText)
+                .ifPresent(text -> {
+                    final Document document = jsoupService.parseHtml(text);
+                    final List<Node> nodes = document.body().childNodes();
+                    printNodes(uri, nodes);
+                });
+    }
+
+    private void printNodes(final String uri, final List<Node> nodes) {
+        nodes.forEach(node -> {
+            try {
+                if (node instanceof Element) {
+                    final String tagName = ((Element) node).tagName();
+                    super.startElement(uri, tagName, tagName, new AttributesImpl());
+                    printNodes(uri, node.childNodes());
+                    super.endElement(uri, tagName, tagName);
+                } else if (node instanceof TextNode) {
+                    printText(((TextNode) node).getWholeText(), MULTI_LINE_FIELD);
+                }
+            } catch (final SAXException e) {
+                log.error("Error occurred during text printing: ", e);
+            }
+        });
     }
 
     @Override

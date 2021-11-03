@@ -16,6 +16,8 @@ public interface JsoupService {
 
     Document parseXml(final String rootTag);
 
+    Document parseHtml(final String htmlText);
+
     void transformCharSequencesInElements(final Elements elements, final String target, final String replacement);
 
     void saveDocument(final File destDir, final String fileName, final Element doc);
