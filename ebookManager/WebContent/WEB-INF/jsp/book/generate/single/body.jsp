@@ -220,6 +220,10 @@
 			jQueryJobPriority.val("${ isHighPriorityJob ? true : false }");
 		}
 	});
+
+	$(window).on('pageshow', function() {
+		changeNewVersion($('#jsVersionTypeSelect'));
+	});
 </script>
 
  <c:choose>
