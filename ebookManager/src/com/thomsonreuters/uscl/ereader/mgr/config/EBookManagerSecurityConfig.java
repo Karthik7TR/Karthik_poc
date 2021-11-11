@@ -47,6 +47,8 @@ public class EBookManagerSecurityConfig extends WebSecurityConfigurerAdapter {
 
             .antMatchers("/bookDefinitionDelete.mvc",
                          "/bookDefinitionRestore.mvc",
+                         "/" + WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE,
+                         "/" + WebConstants.MVC_COMBINED_BOOK_DEFINITION_RESTORE,
                          "/adminJuris*",
                          "/adminPublish*",
                          "/adminState*",

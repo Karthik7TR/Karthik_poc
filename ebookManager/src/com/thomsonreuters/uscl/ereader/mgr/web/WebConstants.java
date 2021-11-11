@@ -195,6 +195,8 @@ public class WebConstants {
     public static final String MVC_COMBINED_BOOK_DEFINITION_VIEW = "combinedBookDefinitionView.mvc";
     public static final String MVC_COMBINED_BOOK_DEFINITION_EDIT = "combinedBookDefinitionEdit.mvc";
     public static final String MVC_COMBINED_BOOK_DEFINITION_CREATE = "combinedBookDefinitionCreate.mvc";
+    public static final String MVC_COMBINED_BOOK_DEFINITION_DELETE = "combinedBookDefinitionDelete.mvc";
+    public static final String MVC_COMBINED_BOOK_DEFINITION_RESTORE = "combinedBookDefinitionRestore.mvc";
     public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
     public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
     public static final String MVC_CODES_WORKBENCH_FOLDERS = "codesWorkbenchFolders.mvc";
@@ -393,6 +395,8 @@ public class WebConstants {
     public static final String VIEW_COMBINED_BOOK_DEFINITION_VIEW = "_combinedBookDefinitionView";
     public static final String VIEW_COMBINED_BOOK_DEFINITION_EDIT = "_combinedBookDefinitionEdit";
     public static final String VIEW_COMBINED_BOOK_DEFINITION_CREATE = "_combinedBookDefinitionCreate";
+    public static final String VIEW_COMBINED_BOOK_DEFINITION_DELETE = "_combinedBookDefinitionDelete";
+    public static final String VIEW_COMBINED_BOOK_DEFINITION_RESTORE = "_combinedBookDefinitionRestore";
     public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
     public static final String VIEW_BOOK_LIBRARY_LIST = "_bookLibraryList";
     public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";

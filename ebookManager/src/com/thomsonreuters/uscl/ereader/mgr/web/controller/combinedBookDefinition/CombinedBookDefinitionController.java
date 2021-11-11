@@ -5,6 +5,8 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionS
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -92,6 +95,42 @@ public class CombinedBookDefinitionController {
             return new ModelAndView(new RedirectView(WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW + appendIdParam(combinedBookDefinition.getId())));
         }
         return new ModelAndView(WebConstants.VIEW_COMBINED_BOOK_DEFINITION_CREATE);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_COMBINED_BOOK_DEFINITION_NOT_FOUND)
+    public ModelAndView deleteCombinedBookDefinition(
+            @RequestParam("id") final Long id,
+            final Model model) {
+        CombinedBookDefinition combinedBookDefinition = combinedBookDefinitionService.findCombinedBookDefinitionById(id);
+        model.addAttribute(WebConstants.KEY_COMBINED_BOOK_DEFINITION, combinedBookDefinition);
+        return new ModelAndView(WebConstants.VIEW_COMBINED_BOOK_DEFINITION_DELETE);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE, method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<Object> deleteCombinedBookDefinitionDelete(
+            @RequestParam("id") final Long id) {
+        combinedBookDefinitionService.updateDeletedStatus(id, true);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_COMBINED_BOOK_DEFINITION_RESTORE, method = RequestMethod.GET)
+    @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_COMBINED_BOOK_DEFINITION_NOT_FOUND)
+    public ModelAndView restoreCombinedBookDefinition(
+            @RequestParam("id") final Long id,
+            final Model model) {
+        CombinedBookDefinition combinedBookDefinition = combinedBookDefinitionService.findCombinedBookDefinitionById(id);
+        model.addAttribute(WebConstants.KEY_COMBINED_BOOK_DEFINITION, combinedBookDefinition);
+        return new ModelAndView(WebConstants.VIEW_COMBINED_BOOK_DEFINITION_RESTORE);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_COMBINED_BOOK_DEFINITION_RESTORE, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Object> restoreCombinedBookDefinitionPost(
+            @RequestParam("id") final Long id) {
+        combinedBookDefinitionService.updateDeletedStatus(id, false);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private String appendIdParam(final Long id) {

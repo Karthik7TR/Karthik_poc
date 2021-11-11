@@ -508,4 +508,14 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/create/body.jsp"/>
 	</definition>
 
+	<definition name="_combinedBookDefinitionDelete" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/delete/title.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/delete/body.jsp"/>
+	</definition>
+
+	<definition name="_combinedBookDefinitionRestore" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/restore/title.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/restore/body.jsp"/>
+	</definition>
+
 </tiles-definitions>
