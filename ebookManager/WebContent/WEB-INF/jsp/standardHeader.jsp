@@ -6,12 +6,13 @@
 
 <c:set var="userFullName" value="<%=UserUtils.getAuthenticatedUserFullName()%>"/>
 
+<script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
     const groupListFilterParams = {
         groupFilterName: '${ currentSessionUserPreferences.groupFilterName }',
         groupFilterId: '${ currentSessionUserPreferences.groupFilterId }'
     };
-    const groupListQueryString = $.param(groupListFilterParams);
+    const groupListQueryString = getFilteredQueryString(groupListFilterParams);
 
     const proviewListFilterParams = {
         proviewDisplayName: '${ currentSessionUserPreferences.proviewDisplayName }',
@@ -20,11 +21,11 @@
         maxVersions: '${ currentSessionUserPreferences.maxVersions }',
         objectsPerPage: '${ currentSessionUserPreferences.proviewListObjectsPerPage }'
     };
-    const proviewListQueryString = $.param(proviewListFilterParams);
+    const proviewListQueryString = getFilteredQueryString(proviewListFilterParams);
 
     $(window).on('pageshow', function () {
-        $('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + '?' + groupListQueryString);
-        $('#proviewListTab').prop('href', '${ WebConstants.MVC_PROVIEW_TITLES }' + '?' + proviewListQueryString);
+        $('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + groupListQueryString);
+        $('#proviewListTab').prop('href', '${ WebConstants.MVC_PROVIEW_TITLES }' + proviewListQueryString);
     });
 </script>
 

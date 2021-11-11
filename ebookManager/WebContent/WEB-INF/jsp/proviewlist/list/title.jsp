@@ -5,6 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 
+<script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
     const proviewAuditFilterParams = {
         titleId: '${ currentSessionUserPreferences.proviewAuditPreferences.titleId }',
@@ -17,9 +18,9 @@
         sort: '${ currentSessionUserPreferences.proviewAuditPreferences.sort }',
         dir: '${ currentSessionUserPreferences.proviewAuditPreferences.dir }'
     };
-    const proviewAuditQueryString = $.param(proviewAuditFilterParams);
+    const proviewAuditQueryString = getFilteredQueryString(proviewAuditFilterParams);
     $(window).on('pageshow', function () {
-        $('#proviewAuditLink').prop('href', '${ WebConstants.MVC_PROVIEW_AUDIT_LIST }' + '?' + proviewAuditQueryString);
+        $('#proviewAuditLink').prop('href', '${ WebConstants.MVC_PROVIEW_AUDIT_LIST }' + proviewAuditQueryString);
     });
 </script>
 

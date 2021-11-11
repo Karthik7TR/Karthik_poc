@@ -4,8 +4,24 @@ function submitFormAndDisableButton(formId, button) {
 }
 
 function submitLeftFormAndBodyForm() {
-    let query = $('#bodyForm, #leftForm').serialize();
-    window.location.href = window.location.href.split('?')[0] + '?' + query;
+    let query = $('#bodyForm, #leftForm').serializeArray().filter(function(param) {
+        return param.value;
+    });
+    window.location.href = window.location.href.split('?')[0] + (query ? '?' + $.param(query) : '');
+}
+
+function isEmpty(value) {
+    return value === null || value === '';
+}
+
+function getFilteredQueryString(json) {
+    for (let key in json) {
+        if (isEmpty(json[key])) {
+            delete json[key];
+        }
+    }
+    let query = $.param(json);
+    return query ? '?' + query : '';
 }
 
 function submitEmptyLeftFormAndBodyForm() {
