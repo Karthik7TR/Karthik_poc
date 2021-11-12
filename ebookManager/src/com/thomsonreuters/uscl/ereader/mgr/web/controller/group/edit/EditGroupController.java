@@ -6,6 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 @Controller
 public class EditGroupController {
     private final BookDefinitionService bookDefinitionService;
+    private final CombinedBookDefinitionService combinedBookDefinitionService;
     private final GroupService groupService;
     private final ProviewHandler proviewHandler;
     private final EBookAuditService auditService;
@@ -45,11 +47,13 @@ public class EditGroupController {
     @Autowired
     public EditGroupController(
         final BookDefinitionService bookDefinitionService,
+        final CombinedBookDefinitionService combinedBookDefinitionService,
         final GroupService groupService,
         final ProviewHandler proviewHandler,
         final EBookAuditService auditService,
         @Qualifier("editGroupDefinitionFormValidator") final Validator validator) {
         this.bookDefinitionService = bookDefinitionService;
+        this.combinedBookDefinitionService = combinedBookDefinitionService;
         this.groupService = groupService;
         this.proviewHandler = proviewHandler;
         this.auditService = auditService;
@@ -72,12 +76,12 @@ public class EditGroupController {
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
     public ModelAndView editGroupDefinitionGet(
         @RequestParam("id") final Long id,
+        @RequestParam("isCombined") final boolean isCombined,
         @ModelAttribute(EditGroupDefinitionForm.FORM_NAME) final EditGroupDefinitionForm form,
         final BindingResult bindingResult,
         final Model model) {
         // Lookup the book by its primary key
-        final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-
+        BookDefinition bookDef = findBookDefinition(id, isCombined);
         // Check if user needs to be shown an error
         if (bookDef != null) {
             // Check if book is soft deleted
@@ -86,8 +90,9 @@ public class EditGroupController {
             }
 
             try {
+                form.setCombined(isCombined);
                 final String groupId = groupService.getGroupId(bookDef);
-                form.setBookDefinitionId(bookDef.getEbookDefinitionId());
+                form.setBookDefinitionId(id);
                 form.setFullyQualifiedTitleId(bookDef.getFullyQualifiedTitleId());
                 form.setGroupId(groupId);
 
@@ -168,7 +173,7 @@ public class EditGroupController {
         BookDefinition bookDef = null;
         try {
             // Lookup the book by its primary key
-            bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookDefinitionId());
+            bookDef = findBookDefinition(form.getBookDefinitionId(), form.isCombined());
         } catch (final Exception e) {
             // Error happens when POST of form is over Tomcat post limit. // Default is set at 2 mb.
             // The processed form is empty.
@@ -219,7 +224,10 @@ public class EditGroupController {
 
                 // Redirect user
                 final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getBookDefinitionId());
-                return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
+                final String path = form.isCombined()
+                        ? WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW
+                        : WebConstants.MVC_BOOK_DEFINITION_VIEW_GET;
+                return new ModelAndView(new RedirectView(path + queryString));
             } catch (final Exception e) {
                 model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, e.getMessage());
             }
@@ -242,5 +250,14 @@ public class EditGroupController {
     private void setupModel(final Model model, final BookDefinition bookDef, final Integer numOfProviewTitles) {
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, numOfProviewTitles);
+    }
+
+    private BookDefinition findBookDefinition(final long id, final boolean isCombined) {
+        if (isCombined) {
+            return combinedBookDefinitionService.findCombinedBookDefinitionById(id)
+                    .getPrimaryTitle().getBookDefinition();
+        } else {
+            return bookDefinitionService.findBookDefinitionByEbookDefId(id);
+        }
     }
 }

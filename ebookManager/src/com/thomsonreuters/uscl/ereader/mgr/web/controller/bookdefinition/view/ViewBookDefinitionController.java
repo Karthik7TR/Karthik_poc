@@ -133,6 +133,7 @@ public class ViewBookDefinitionController {
         ModelAndView mav = null;
         log.debug(form);
         final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
+        final String queryStringWithCombined = String.format("%s&%s=%s", queryString, WebConstants.KEY_IS_COMBINED, Boolean.FALSE);
         final Command command = form.getCommand();
         switch (command) {
         case DELETE:
@@ -142,10 +143,10 @@ public class ViewBookDefinitionController {
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_EDIT + queryString));
             break;
         case GROUP:
-            mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT + queryString));
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT + queryStringWithCombined));
             break;
         case GENERATE:
-            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryString + "&" + WebConstants.KEY_IS_COMBINED + "=false"));
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryStringWithCombined));
             break;
         case AUDIT_LOG:
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC + queryString));

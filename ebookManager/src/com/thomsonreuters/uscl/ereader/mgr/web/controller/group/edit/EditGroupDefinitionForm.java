@@ -39,6 +39,7 @@ public class EditGroupDefinitionForm {
     private List<Subgroup> subgroups;
     private Subgroup pilotBooks;
     private String comment;
+    private boolean isCombined;
 
     public EditGroupDefinitionForm() {
         super();

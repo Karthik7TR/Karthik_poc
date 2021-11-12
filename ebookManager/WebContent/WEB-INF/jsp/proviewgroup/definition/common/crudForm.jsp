@@ -15,6 +15,7 @@
 <form:hidden path="bookDefinitionId" />
 <form:hidden path="fullyQualifiedTitleId" />
 <form:hidden path="hasSplitTitles" />
+<form:hidden path="combined"/>
 
 <%-- Error Messages area from Proview --%>
 <c:if test="${warningMessage != null}">

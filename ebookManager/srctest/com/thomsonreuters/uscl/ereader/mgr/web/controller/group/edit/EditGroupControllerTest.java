@@ -1,15 +1,19 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_ID;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_IS_COMBINED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -36,6 +40,7 @@ public final class EditGroupControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + EditGroupDefinitionForm.FORM_NAME;
     private static final Long BOOK_DEFINITION_ID = 1L;
+    private static final Long COMBINED_BOOK_DEFINITION_ID = 100L;
     private static final String GROUP_ID = "uscl/an_abcd";
     public static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/abcd";
     public static final String GROUP_NAME = "Group Name";
@@ -49,6 +54,7 @@ public final class EditGroupControllerTest {
     private ProviewHandler mockProviewHandler;
     private EBookAuditService mockAuditService;
     private BookDefinitionService mockBookDefinitionService;
+    private CombinedBookDefinitionService mockCombinedBookDefinitionService;
     private GroupService mockGroupService;
 
     private DocumentTypeCode documentTypeCode;
@@ -63,12 +69,13 @@ public final class EditGroupControllerTest {
         // Mock up the services
         mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
+        mockCombinedBookDefinitionService = EasyMock.createMock(CombinedBookDefinitionService.class);
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
         mockGroupService = EasyMock.createMock(GroupService.class);
         validator = new EditGroupDefinitionFormValidator();
 
         // Set up the controller
-        controller = new EditGroupController(mockBookDefinitionService, mockGroupService, mockProviewHandler, mockAuditService, validator);
+        controller = new EditGroupController(mockBookDefinitionService, mockCombinedBookDefinitionService, mockGroupService, mockProviewHandler, mockAuditService, validator);
 
         documentTypeCode = new DocumentTypeCode();
         documentTypeCode.setId(Long.parseLong("1"));
@@ -86,48 +93,22 @@ public final class EditGroupControllerTest {
      */
     @Test
     public void testEditGroupDefinitionGet() throws Exception {
-        final String fullyQualifiedTitleId = "uscl/an/abcd";
-        final String groupId = "uscl/an_abcd";
-        request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
-        request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
-        request.setMethod(HttpMethod.GET.name());
-
-        final BookDefinition book = createBookDef(fullyQualifiedTitleId);
+        final BookDefinition book = createBookDef(FULLY_QUALIFIED_TITLE_ID);
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
-
-        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(FULLY_QUALIFIED_TITLE_ID);
-        initProviewHandler(fullyQualifiedTitleId, proviewTitleList);
-        EasyMock.expect(mockGroupService.getGroupId(book)).andReturn(groupId);
-        EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
-        EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
-            .andReturn(new LinkedHashMap<String, ProviewTitleInfo>());
-        EasyMock.expect(mockGroupService.getPilotBooksNotFound()).andReturn(new ArrayList<String>());
-
-        EasyMock.replay(mockGroupService);
-
-        final ModelAndView mav;
-        try {
-            mav = handlerAdapter.handle(request, response, controller);
-
-            assertNotNull(mav);
-            // Verify the returned view name
-            assertEquals(WebConstants.VIEW_GROUP_DEFINITION_EDIT, mav.getViewName());
-
-            // Check the state of the model
-            final Map<String, Object> model = mav.getModel();
-            Assert.assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
-            final BookDefinition actualBook = (BookDefinition) model.get(WebConstants.KEY_BOOK_DEFINITION);
-            Assert.assertEquals(book, actualBook);
-            final int actualProviewTitles = Integer.valueOf(model.get(WebConstants.KEY_ALL_PROVIEW_TITLES).toString());
-            Assert.assertEquals(proviewTitleList.size(), actualProviewTitles);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            Assert.fail(e.getMessage());
-        }
-
+        testEditGroupDefinitionGetHelper(book, false, BOOK_DEFINITION_ID);
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockGroupService);
+    }
+
+    @Test
+    public void testEditGroupDefinitionCombinedBookGet() throws Exception {
+        final BookDefinition book = createBookDef(FULLY_QUALIFIED_TITLE_ID);
+        final CombinedBookDefinition combinedBookDefinition = CombinedBookDefinition.fromBookDefinition(book);
+        EasyMock.expect(mockCombinedBookDefinitionService.findCombinedBookDefinitionById(COMBINED_BOOK_DEFINITION_ID))
+                .andReturn(combinedBookDefinition);
+        EasyMock.replay(mockCombinedBookDefinitionService);
+        testEditGroupDefinitionGetHelper(book, true, COMBINED_BOOK_DEFINITION_ID);
+        EasyMock.verify(mockCombinedBookDefinitionService);
     }
 
     /**
@@ -138,7 +119,8 @@ public final class EditGroupControllerTest {
     public void testEditGroupDefinitionGetDeletedBook() throws Exception {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
-        request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter(KEY_ID, Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter(KEY_IS_COMBINED, Boolean.toString(false));
         request.setMethod(HttpMethod.GET.name());
 
         final BookDefinition book = createBookDef(fullyQualifiedTitleId);
@@ -239,6 +221,46 @@ public final class EditGroupControllerTest {
 
         EasyMock.verify(mockGroupService);
         EasyMock.verify(mockBookDefinitionService);
+    }
+
+    private void testEditGroupDefinitionGetHelper(BookDefinition book, boolean isCombined, long id) throws Exception {
+        final String groupId = "uscl/an_abcd";
+        request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
+        request.setParameter(KEY_ID, Long.toString(id));
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(KEY_IS_COMBINED, Boolean.toString(isCombined));
+
+        final List<ProviewTitleInfo> proviewTitleList = createProviewTitleList(FULLY_QUALIFIED_TITLE_ID);
+        initProviewHandler(FULLY_QUALIFIED_TITLE_ID, proviewTitleList);
+        EasyMock.expect(mockGroupService.getGroupId(book)).andReturn(groupId);
+        EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
+        EasyMock.expect(mockGroupService.getPilotBooksForGroup(book))
+                .andReturn(new LinkedHashMap<>());
+        EasyMock.expect(mockGroupService.getPilotBooksNotFound()).andReturn(new ArrayList<>());
+
+        EasyMock.replay(mockGroupService);
+
+        final ModelAndView mav;
+        try {
+            mav = handlerAdapter.handle(request, response, controller);
+
+            assertNotNull(mav);
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_GROUP_DEFINITION_EDIT, mav.getViewName());
+
+            // Check the state of the model
+            final Map<String, Object> model = mav.getModel();
+            Assert.assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
+            final BookDefinition actualBook = (BookDefinition) model.get(WebConstants.KEY_BOOK_DEFINITION);
+            Assert.assertEquals(book, actualBook);
+            final int actualProviewTitles = Integer.parseInt(model.get(WebConstants.KEY_ALL_PROVIEW_TITLES).toString());
+            Assert.assertEquals(proviewTitleList.size(), actualProviewTitles);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+        EasyMock.verify(mockGroupService);
     }
 
     private List<ProviewTitleInfo> createProviewTitleList(final String fullyQualifiedTitleId) {

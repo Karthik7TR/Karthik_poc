@@ -45,7 +45,8 @@
 					<jsp:include page="../common/crudForm.jsp" />
 					<div class="buttons">
 						<form:button id="confirm">Save Group</form:button>
-						<button type="button" onclick="location.href ='<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}';">Cancel</button>
+						<c:set var="cancelUrl" value="${editGroupDefinitionForm.combined ? WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW : WebConstants.MVC_BOOK_DEFINITION_VIEW_GET}"/>
+						<button type="button" onclick="location.href ='${cancelUrl}?<%=WebConstants.KEY_ID%>=${editGroupDefinitionForm.bookDefinitionId}';">Cancel</button>
 					</div>
 				</form:form>
 			</div>

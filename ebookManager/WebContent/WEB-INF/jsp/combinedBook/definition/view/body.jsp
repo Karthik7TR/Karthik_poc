@@ -43,6 +43,7 @@
                 <button type="button" ${editBook} onclick="location.href='<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_EDIT%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}'">Edit</button>
                 <button type="button" onclick="alert('In development')">Copy</button>
                 <button type="button" ${copyGenerateBook} onclick="location.href='<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}&<%=WebConstants.KEY_IS_COMBINED%>=true'">Generate</button>
+                <button type="button" ${editGroup} onclick="location.href='<%=WebConstants.MVC_GROUP_DEFINITION_EDIT%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}&<%=WebConstants.KEY_IS_COMBINED%>=true'">Create/Edit Group</button>
                 <button type="button" ${superUser} onclick="location.href='<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}'">Delete</button>
             </c:otherwise>
         </c:choose>
