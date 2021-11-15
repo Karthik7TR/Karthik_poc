@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,31 +28,32 @@ import static java.util.Optional.ofNullable;
 public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarker {
     private static final String INNER_ANCHOR_ID_TEMPLATE = "codessectionanchor_";
     private static final String INNER_LINK_ID_TEMPLATE = "codessectioncontents_%s_id_%s";
-    private static final String TBL_HEAD_HEADTEXT = "tbl>head>headtext";
-    private static final String SECTION_CONTENTS = "Section Contents";
+    private static final String TBL = "tbl";
     private static final String ID_UPPER_CASE = "ID";
-    private static final String HEAD_HEADTEXT = "head>headtext";
     private static final String DOT = ".";
+    private static final String COMMA = ",";
     private static final String FROM_GROUP = "fromGroup";
     private static final String TO_GROUP = "toGroup";
     private static final String PARAGRAPH_REGEX = "[0-9a-zA-Z.]+";
     private static final Pattern FROM_TO_PATTERN = Pattern.compile(String.format("(?<%s>%s) to (?<%s>%s)",
             FROM_GROUP, PARAGRAPH_REGEX, TO_GROUP, PARAGRAPH_REGEX));
+    private static final Pattern COMMA_SEPARATED_PATTERN = Pattern.compile(String.format("(%s(\\s)*,(\\s)*)+%s", PARAGRAPH_REGEX, PARAGRAPH_REGEX));
 
     @Override
     public void markInnerDocumentAnchors(final Document document) {
-        if (hasSectionContentsBlock(document)) {
+        if (hasContentsTableAndCodesSection(document)) {
             Map<String, String> anchorNameToAnchorId = new HashMap<>();
             markCiteQueryAnchors(document, anchorNameToAnchorId);
             markCiteQueryLinks(document, anchorNameToAnchorId);
         }
     }
 
-    private boolean hasSectionContentsBlock(final Document document) {
-        return SECTION_CONTENTS.equals(ofNullable(document.getElementsByTag(SECTION_BODY).first())
-                .map(section -> section.selectFirst(TBL_HEAD_HEADTEXT))
-                .map(Element::text)
-                .orElse(null));
+    private boolean hasContentsTableAndCodesSection(final Document document) {
+        return ofNullable(document.getElementsByTag(SECTION_BODY).first())
+                .map(section -> section.selectFirst(TBL))
+                .isPresent()
+                && !document.getElementsByTag(CODES_SECTION)
+                .isEmpty();
     }
 
     private void markCiteQueryLinks(final Document document, final Map<String, String> anchorNameToAnchorId) {
@@ -81,23 +83,31 @@ public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarke
             if (StringUtils.isNotEmpty(anchorName)) {
                 String codesSectionId = codesSection.attr(ID_UPPER_CASE);
                 Element anchor = document.createElement(CITE_QUERY);
-                ofNullable(codesSection.selectFirst(HEAD_HEADTEXT))
-                        .orElseGet(() -> codesSection.getElementsByTag(LABEL_DESIGNATOR).first())
-                        .prependChild(anchor);
+                codesSection.getElementsByTag(LABEL_DESIGNATOR).first().prependChild(anchor);
                 setAnchorAttributes(INNER_ANCHOR_ID_TEMPLATE + codesSectionId, anchor);
                 designatorToCodesSectionId.put(anchorName, codesSectionId);
                 markFromToAnchors(anchorName, codesSectionId, designatorToCodesSectionId);
+                markMultipleCommaSeparatedAnchors(anchorName, codesSectionId, designatorToCodesSectionId);
             }
         });
     }
 
-    private void markFromToAnchors(final String anchorName, String codesSectionId, final Map<String, String> designatorToCodesSectionId) {
+    private void markFromToAnchors(final String anchorName, final String codesSectionId, final Map<String, String> designatorToCodesSectionId) {
         Matcher matcher = FROM_TO_PATTERN.matcher(anchorName);
         if (matcher.matches()) {
             String fromParagraph = matcher.group(FROM_GROUP);
             String toParagraph = matcher.group(TO_GROUP);
             designatorToCodesSectionId.put(fromParagraph, codesSectionId);
             designatorToCodesSectionId.put(toParagraph, codesSectionId);
+        }
+    }
+
+    private void markMultipleCommaSeparatedAnchors(final String anchorName, final String codesSectionId, final Map<String, String> designatorToCodesSectionId) {
+        Matcher matcher = COMMA_SEPARATED_PATTERN.matcher(anchorName);
+        if (matcher.matches()) {
+            Arrays.stream(anchorName.split(COMMA))
+                    .map(this::cleanUpAnchorName)
+                    .forEach(paragraph -> designatorToCodesSectionId.put(paragraph, codesSectionId));
         }
     }
 
@@ -113,14 +123,17 @@ public class InnerDocumentAnchorsMarkerImpl implements InnerDocumentAnchorsMarke
                         .map(head -> head.getElementsByTag(LABEL_DESIGNATOR))
                         .map(Elements::first)
                         .map(Element::text)
-                        .map(String::trim)
-                        .map(name -> StringUtils.removeEnd(name, DOT))
+                        .map(this::cleanUpAnchorName)
                         .orElse(null);
     }
 
-    private String extractAnchorNameFromLinkText(String citeQueryText) {
+    private String extractAnchorNameFromLinkText(final String citeQueryText) {
         return citeQueryText
                 .replaceAll("\\(.*\\)", StringUtils.EMPTY)
-                .replaceAll("[^0-9a-zA-Z.]", StringUtils.EMPTY).trim();
+                .replaceAll("[^0-9a-zA-Z-.]", StringUtils.EMPTY).trim();
+    }
+
+    private String cleanUpAnchorName(final String name) {
+        return StringUtils.removeEnd(name.trim(), DOT);
     }
 }
