@@ -460,7 +460,7 @@ public final class TocServiceTest {
         replay();
 
         try {
-            tocService.findTableOfContents(
+            GatherResponse gatherResponse = tocService.findTableOfContents(
                 TOC_GUID,
                 COLLECTION_NAME,
                 tocFile,
@@ -469,15 +469,14 @@ public final class TocServiceTest {
                 IS_FINAL_STAGE,
                 splitTocGuidList,
                 0);
-            System.out.println("tocService " + tocService.getDuplicateTocGuids());
+            System.out.println("tocService " + gatherResponse.getDuplicateTocGuids());
+            Assert.assertEquals(1, gatherResponse.getDuplicateTocGuids().size());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         } finally {
             // Temporary file will clean up after itself.
         }
-
-        Assert.assertEquals(1, tocService.getDuplicateTocGuids().size());
 
         final String tocFileContents = FileUtils.readFileToString(tocFile);
         LOG.debug("tocFileContents =" + tocFileContents);

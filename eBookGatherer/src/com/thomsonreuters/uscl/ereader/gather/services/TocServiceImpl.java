@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -19,6 +20,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,37 +54,19 @@ public class TocServiceImpl implements TocService {
     @Autowired
     private NovusUtility novusUtility;
 
-    private Integer tocRetryCount;
-
-    private List<String> splitTocGuidList;
-    private static int splitTocCount;
-    private int thresholdValue;
-    private boolean findSplitsAgain;
-    private List<String> tocGuidList;
-    private List<String> duplicateTocGuids;
-
-    public List<String> getDuplicateTocGuids() {
-        return duplicateTocGuids;
-    }
-
-    public void setDuplicateTocGuids(final List<String> duplicateTocGuids) {
-        this.duplicateTocGuids = duplicateTocGuids;
-    }
-
-    public boolean isFindSplitsAgain() {
-        return findSplitsAgain;
-    }
-
-    public List<String> getSplitTocGuidList() {
-        return splitTocGuidList;
-    }
-
-    public int getThresholdValue() {
-        return thresholdValue;
-    }
-
-    public void setThresholdValue(final int thresholdValue) {
-        this.thresholdValue = thresholdValue;
+    @Getter
+    @Setter
+    @Builder
+    private static class TocServiceState {
+        @Builder.Default
+        private AtomicInteger splitTocCount = new AtomicInteger();
+        private List<String> splitTocGuidList;
+        private int thresholdValue;
+        private boolean findSplitsAgain;
+        @Builder.Default
+        private List<String> tocGuidList = new ArrayList<>();
+        @Builder.Default
+        private List<String> duplicateTocGuids = new ArrayList<>();
     }
 
     public void retrieveNodes(
@@ -94,7 +80,8 @@ public class TocServiceImpl implements TocService {
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
+        final List<RenameTocEntry> copyRenameTocEntries,
+        final TocServiceState state) throws GatherException {
         TOCNode[] tocNodes = null;
         TOCNode tocNode = null;
 
@@ -102,7 +89,7 @@ public class TocServiceImpl implements TocService {
             // This is the counter for checking how many Novus retries we
             // are making
             Integer novusTocRetryCounter = 0;
-            tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
+            Integer tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
             while (novusTocRetryCounter < tocRetryCount) {
                 try {
                     tocNode = _tocManager.getNode(guid);
@@ -139,7 +126,8 @@ public class TocServiceImpl implements TocService {
                 excludeDocuments,
                 copyExcludeDocuments,
                 renameTocEntries,
-                copyRenameTocEntries);
+                copyRenameTocEntries,
+                state);
         } catch (final GatherException e) {
             log.error("Failed with GatherException in TOC");
             throw e;
@@ -159,7 +147,8 @@ public class TocServiceImpl implements TocService {
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
+        final List<RenameTocEntry> copyRenameTocEntries,
+        final TocServiceState state) throws GatherException {
         boolean docFound = true;
 
         if (nodes != null) {
@@ -177,7 +166,8 @@ public class TocServiceImpl implements TocService {
                             excludeDocuments,
                             copyExcludeDocuments,
                             renameTocEntries,
-                            copyRenameTocEntries));
+                            copyRenameTocEntries,
+                            state));
                 }
 
                 // Only add MissingDocuments if all nodes return false
@@ -211,7 +201,8 @@ public class TocServiceImpl implements TocService {
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
+        final List<RenameTocEntry> copyRenameTocEntries,
+        final TocServiceState state) throws GatherException {
         boolean docFound = true;
         boolean excludeDocumentFound = false;
         String documentGuid = null;
@@ -295,18 +286,18 @@ public class TocServiceImpl implements TocService {
                 // <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
 
                 // To verify if the provided split Toc/Nort Node exists in the file
-                verifyProvidedSplitNodeExistsInFile(guid);
+                verifyProvidedSplitNodeExistsInFile(guid, state);
 
                 //843012:Update Generator for CWB Reorder Changes. For both TOC and Doc guids a six digit suffix has been added
                 //Add only first 33 characters to find the duplicate TOC
                 if (guid.toString().length() >= 33) {
                     final String guidForDupCheck = StringUtils.substring(guid.toString(), 0, 33);
 
-                    if (tocGuidList.contains(guidForDupCheck) && !duplicateTocGuids.contains(guidForDupCheck)) {
-                        duplicateTocGuids.add(guidForDupCheck);
+                    if (state.getTocGuidList().contains(guidForDupCheck) && !state.getDuplicateTocGuids().contains(guidForDupCheck)) {
+                        state.getDuplicateTocGuids().add(guidForDupCheck);
                     }
 
-                    tocGuidList.add(guidForDupCheck);
+                    state.getTocGuidList().add(guidForDupCheck);
                 }
 
                 final String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid.toString());
@@ -339,7 +330,8 @@ public class TocServiceImpl implements TocService {
                     excludeDocuments,
                     copyExcludeDocuments,
                     renameTocEntries,
-                    copyRenameTocEntries);
+                    copyRenameTocEntries,
+                    state);
                 docFound = true;
             }
         }
@@ -353,7 +345,7 @@ public class TocServiceImpl implements TocService {
             // This is the counter for checking how many Novus retries we
             // are making
             Integer novusTocRetryCounter = 0;
-            tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
+            Integer tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
             while (novusTocRetryCounter < tocRetryCount) {
                 try {
                     tocNodes = node.getChildren();
@@ -385,15 +377,16 @@ public class TocServiceImpl implements TocService {
         return tocNodes;
     }
 
-    private void verifyProvidedSplitNodeExistsInFile(final String guid) {
+    private void verifyProvidedSplitNodeExistsInFile(final String guid, final TocServiceState state) {
+        List<String> splitTocGuidList = state.getSplitTocGuidList();
         if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33) {
-            splitTocCount++;
+            state.getSplitTocCount().getAndIncrement();
             final String splitNode = StringUtils.substring(guid.toString(), 0, 33);
             if (splitTocGuidList.contains(splitNode)) {
-                if (splitTocCount >= thresholdValue) {
-                    findSplitsAgain = true;
+                if (state.getSplitTocCount().get() >= state.getThresholdValue()) {
+                    state.setFindSplitsAgain(true);
                 }
-                splitTocCount = 0;
+                state.getSplitTocCount().set(0);
                 splitTocGuidList.remove(splitNode);
             }
         }
@@ -440,12 +433,11 @@ public class TocServiceImpl implements TocService {
 
         List<ExcludeDocument> copyExcludDocs = null;
 
-        this.splitTocGuidList = splitTocGuidList;
+        TocServiceState state = TocServiceState.builder()
+                .splitTocGuidList(splitTocGuidList)
+                .thresholdValue(thresholdValue)
+                .build();
 
-        tocGuidList = new ArrayList<>();
-        duplicateTocGuids = new ArrayList<>();
-
-        this.thresholdValue = thresholdValue;
 
         // Make a copy of the original excluded documents to check that all have been accounted for
         if (excludeDocuments != null) {
@@ -482,7 +474,8 @@ public class TocServiceImpl implements TocService {
                 excludeDocuments,
                 copyExcludDocs,
                 renameTocEntries,
-                copyRenameTocs);
+                copyRenameTocs,
+                state);
 
             log.info(
                 docCounter[0]
@@ -540,9 +533,9 @@ public class TocServiceImpl implements TocService {
                 gatherResponse.setNodeCount(counter[0]);
                 gatherResponse.setRetryCount(retryCounter[0]);
                 gatherResponse.setPublishStatus(publishStatus);
-                gatherResponse.setFindSplitsAgain(findSplitsAgain);
-                gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
-                gatherResponse.setDuplicateTocGuids(duplicateTocGuids);
+                gatherResponse.setFindSplitsAgain(state.isFindSplitsAgain());
+                gatherResponse.setSplitTocGuidList(splitTocGuidList);
+                gatherResponse.setDuplicateTocGuids(state.getDuplicateTocGuids());
             }
             novusObject.shutdownMQ();
         }
