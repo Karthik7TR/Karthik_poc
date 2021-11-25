@@ -7,6 +7,7 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STA
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleActio
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.TitleActionResult;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -146,6 +148,31 @@ public final class ProviewTitleListServiceTest {
 
         assertEquals(Boolean.TRUE, isRefreshCaptor.getValue());
         assertEquals(allLatestProviewTitleInfo, selectedProviewTitleInfo);
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_formWithRefreshCommandIsSent_latestUpdateDateIsSet() throws ProviewException {
+        final String lastStatusUpdateDate = "20081001";
+        final ProviewListFilterForm form = new ProviewListFilterForm();
+        form.setCommand(Command.REFRESH);
+        final Map<String, ProviewTitleContainer> allProviewTitleInfo =
+                Collections.singletonMap(TEST_TITLE_ID, new ProviewTitleContainer());
+        when(proviewTitlesProvider.provideAll(Boolean.TRUE)).thenReturn(allProviewTitleInfo);
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(2008, Calendar.OCTOBER, 1);
+        when(proviewAuditService.findMaxRequestDateByTitleIds(any()))
+                .thenReturn(Collections.singletonMap(TEST_TITLE_ID, calendar.getTime()));
+        final List<ProviewTitleInfo> allLatestProviewTitleInfo = new ArrayList<>();
+        final ProviewTitleInfo testInfo = new ProviewTitleInfo();
+        testInfo.setTitle("test");
+        testInfo.setTitleId(TEST_TITLE_ID);
+        allLatestProviewTitleInfo.add(testInfo);
+        when(proviewTitlesProvider.provideAllLatest()).thenReturn(allLatestProviewTitleInfo);
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertEquals(lastStatusUpdateDate, selectedProviewTitleInfo.get(0).getLastStatusUpdateDate());
     }
 
     @Test

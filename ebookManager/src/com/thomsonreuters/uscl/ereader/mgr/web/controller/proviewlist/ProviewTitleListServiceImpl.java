@@ -77,10 +77,12 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     public List<ProviewTitleInfo> getSelectedProviewTitleInfo(final ProviewListFilterForm form)
             throws ProviewException {
         final Command command = form.getCommand();
-        final Map<String, ProviewTitleContainer> allProviewTitleInfo =
-                getAllProviewTitleInfo(Command.REFRESH.equals(command));
+        final boolean isRefresh = Command.REFRESH.equals(command);
+        final Map<String, ProviewTitleContainer> allProviewTitleInfo = getAllProviewTitleInfo(isRefresh);
         final List<ProviewTitleInfo> allLatestProviewTitleInfo = getAllLatestProviewTitleInfo();
-        fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, allProviewTitleInfo.keySet());
+        if (isRefresh || !hasAnyLastStatusUpdateDates(allLatestProviewTitleInfo)) {
+            fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, allProviewTitleInfo.keySet());
+        }
         final List<ProviewTitleInfo> selectedProviewTitleInfo;
         if (form.areAllFiltersBlank()) {
             selectedProviewTitleInfo = allLatestProviewTitleInfo;
@@ -90,14 +92,21 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         return selectedProviewTitleInfo;
     }
 
+    private boolean hasAnyLastStatusUpdateDates(final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
+        return Optional.ofNullable(allLatestProviewTitleInfo)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .anyMatch(titleInfo -> titleInfo.getLastStatusUpdateDate() != null);
+    }
+
     private void fillLatestUpdateDatesForTitleInfos(final List<ProviewTitleInfo> latestTitleInfos,
             final Collection<String> titleIds) {
-        final Map<String, Date> latestUpdateDates = this.updateLatestUpdateDates(titleIds);
+        final Map<String, Date> latestUpdateDates = updateLatestUpdateDates(titleIds);
         Optional.ofNullable(latestTitleInfos)
                 .map(Collection::stream)
                 .orElseGet(Stream::empty)
                 .forEach(titleInfo -> titleInfo.setLastStatusUpdateDate(
-                        this.mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
+                        mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
     }
 
     private Map<String, Date> updateLatestUpdateDates(final Collection<String> titleIds) {
