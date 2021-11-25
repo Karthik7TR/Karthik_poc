@@ -4,6 +4,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.service.TocValidationService;
 import com.thomsonreuters.uscl.ereader.gather.step.service.RetrieveServiceLookup;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
@@ -29,6 +30,7 @@ import static com.thomsonreuters.uscl.ereader.stats.PublishingStatus.FAILED;
 public class PrepareTocTask extends AbstractSbTasklet {
     private final PublishingStatsService publishingStatsService;
     private final RetrieveServiceLookup retrieveServiceLookup;
+    private final TocValidationService validator;
 
     @Override
     public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
@@ -42,6 +44,7 @@ public class PrepareTocTask extends AbstractSbTasklet {
         try {
             final GatherResponse gatherResponse = retrieveServiceLookup.getRetrieveService(bookDefinition.getSourceType())
                     .retrieveToc(bookDefinition, tocFile, chunkContext);
+            validator.validateToc(tocFile);
             publishingStatsService.addTocStats(publishingStats, gatherResponse);
         } catch (final Exception e) {
             publishStatus = FAILED;

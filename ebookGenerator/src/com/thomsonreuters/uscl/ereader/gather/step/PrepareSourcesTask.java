@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.gather.step;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -10,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.service.TocValidationService;
 import com.thomsonreuters.uscl.ereader.gather.step.service.container.SourceContainer;
 import com.thomsonreuters.uscl.ereader.gather.step.service.container.DocsGuidsContainer;
 import com.thomsonreuters.uscl.ereader.gather.step.service.container.TocContainer;
@@ -41,6 +43,7 @@ public class PrepareSourcesTask extends BookStepImpl {
     private final RetrieveServiceLookup retrieveServiceLookup;
     private final PublishingStatsService publishingStatsService;
     private final PrepareSourcesService prepareSourcesService;
+    private final TocValidationService validator;
 
     @Override
     public ExitStatus executeStep() throws Exception {
@@ -58,6 +61,7 @@ public class PrepareSourcesTask extends BookStepImpl {
                 final RetrieveService retrieveService = retrieveServiceLookup.getRetrieveService(book.getSourceType());
                 final File sourceTocFile = prepareSourcesService.getTocFile(tocFile, book.getFullyQualifiedTitleId());
                 final GatherResponse tocGatherResponse = retrieveService.retrieveToc(book, sourceTocFile, chunkContext);
+                validateToc(sourceTocFile, book);
                 publishingStatsService.addTocStats(publishingStatsSum, tocGatherResponse);
                 tocContainer.addSource(sourceTocFile, book);
                 final File sourceDocsGuidsFile = prepareSourcesService.getDocsGuidsFile(docsGuidsFile, book.getFullyQualifiedTitleId());
@@ -77,6 +81,15 @@ public class PrepareSourcesTask extends BookStepImpl {
         saveToFile(tocFile, tocContainer);
         saveToFile(docsGuidsFile, docsGuidContainer);
         return ExitStatus.COMPLETED;
+    }
+
+    private void validateToc(final File sourceTocFile, final BookDefinition book) {
+        try {
+            validator.validateToc(sourceTocFile);
+        } catch (EBookException e) {
+            throw new EBookException(String.format(
+                    "Exception while validating Toc of titleId = %s; %s", book.getFullyQualifiedTitleId(), e.getMessage()));
+        }
     }
 
     private void saveToFile(final File file, final SourceContainer builder) {

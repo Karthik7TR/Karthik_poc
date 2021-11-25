@@ -7,8 +7,10 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleIdAndProviewName;
+import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.format.step.StepIntegrationTestRunner;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.service.TocValidationService;
 import com.thomsonreuters.uscl.ereader.gather.step.service.PrepareSourcesService;
 import com.thomsonreuters.uscl.ereader.gather.step.service.RetrieveService;
 import com.thomsonreuters.uscl.ereader.gather.step.service.RetrieveServiceLookup;
@@ -121,13 +123,15 @@ public class PrepareSourcesTaskTest {
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
     public static class Config {
+        @Autowired
+        private JsoupService jsoupService;
 
         @Autowired
         private PublishingStatsService publishingStatsService;
 
         @Bean
         public PrepareSourcesTask prepareSourcesTask() {
-            return new PrepareSourcesTask(retrieveServiceLookup(), publishingStatsService, prepareSourcesService());
+            return new PrepareSourcesTask(retrieveServiceLookup(), publishingStatsService, prepareSourcesService(), tocValidationService());
         }
 
         @Bean
@@ -156,6 +160,11 @@ public class PrepareSourcesTaskTest {
         @Bean
         public PrepareSourcesService prepareSourcesService() {
             return new PrepareSourcesServiceImpl();
+        }
+
+        @Bean
+        public TocValidationService tocValidationService() {
+            return new TocValidationService(jsoupService);
         }
 
         @NotNull
