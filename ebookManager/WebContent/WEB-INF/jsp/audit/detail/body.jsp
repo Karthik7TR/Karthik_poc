@@ -37,6 +37,10 @@
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ bookAuditDetail.materialId }</span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Entitlement</label>
+						<span class="field">${ bookAuditDetail.entitlement }</span>
+					</div>
 				</div>
 				
 				<div class="rightDefinitionForm">

@@ -221,6 +221,22 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
+    public void testEntitlementSize() {
+        form.setEntitlement("12345678");
+        expectReplayKeywordTypeCodes();
+        validator.validate(form, errors);
+        Assert.assertNull(errors.getFieldError("entitlement"));
+    }
+    
+    @Test
+    public void testEntitlementOversize() {
+        form.setEntitlement("123456781234567812345678123456781234567812345678123456781234567800000000");
+        expectReplayKeywordTypeCodes();
+        validator.validate(form, errors);
+        Assert.assertEquals("error.max.length", errors.getFieldError("entitlement").getCode());
+    }
+
+    @Test
     public void testFileExist() throws Exception {
         form.setIsComplete(true);
         form.setSourceType(SourceType.FILE);
@@ -382,7 +398,7 @@ public final class EditBookDefinitionFormValidatorTest {
      * Test unique Title Id when creating new Book Definition
      */
     @Test
-    public void testUniquTitleIdWhenCreating() {
+    public void testUniqueTitleIdWhenCreating() {
         expectReplayDocTypeCode();
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
             .andReturn(null);
@@ -401,7 +417,7 @@ public final class EditBookDefinitionFormValidatorTest {
      * and title changed
      */
     @Test
-    public void testUniquTitleIdWhenEditing() {
+    public void testUniqueTitleIdWhenEditing() {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyObject(Long.class)))
             .andReturn(initializeBookDef("asd/asd", analyticalCode));
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))

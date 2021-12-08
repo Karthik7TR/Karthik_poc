@@ -229,6 +229,13 @@
 					<form:errors path="materialId" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div class="row">
+				<form:label path="entitlement" class="labelCol">Entitlement</form:label>
+				<form:input path="entitlement" maxlength="18" />
+				<div class="errorDiv">
+					<form:errors path="entitlement" cssClass="errorMessage" />
+				</div>
+			</div>
 			<div class="displayELooseleafs">
 				<div id="publishedDateRow" class="row xppHideClass cwbHideClass">
 					<form:label path="publishedDate" class="labelCol">Published Date</form:label>

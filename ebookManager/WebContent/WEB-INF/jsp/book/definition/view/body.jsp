@@ -84,6 +84,12 @@ $(document).ready(function() {
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ book.materialId }</span>
 					</div>
+					<c:if test="${not empty book.entitlement}">
+						<div class="row">
+							<label class="labelCol">Entitlement</label>
+							<span class="field">${ book.entitlement }</span>
+						</div>
+					</c:if>
 					<c:if test="${ book.isCwBook() && not empty book.publishedDate }">
 						<div class="row xppHideClass cwbHideClass">
 							<label class="labelCol">Published Date</label>

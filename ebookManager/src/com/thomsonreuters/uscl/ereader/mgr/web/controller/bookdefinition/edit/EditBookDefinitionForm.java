@@ -89,6 +89,8 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String materialId;
     @Getter @Setter
+    private String entitlement;
+    @Getter @Setter
     private List<PilotBook> pilotBookInfo = new AutoPopulatingList<>(PilotBook.class);
     @Getter @Setter
     private List<Author> authorInfo = new AutoPopulatingList<>(Author.class);
@@ -294,6 +296,7 @@ public class EditBookDefinitionForm {
         bookDef.setIsbn(null);
         bookDef.setIssn(null);
         bookDef.setMaterialId(null);
+        bookDef.setEntitlement(null);
         bookDef.setRootTocGuid(null);
         bookDef.setNortFilterView(null);
         bookDef.setEbookDefinitionCompleteFlag(false);
@@ -338,6 +341,7 @@ public class EditBookDefinitionForm {
             copyright = book.getCopyright();
             copyrightPageText = book.getCopyrightPageText();
             materialId = book.getMaterialId();
+            entitlement = book.getEntitlement();
             rootTocGuid = book.getRootTocGuid();
             tocCollectionName = book.getTocCollectionName();
             docCollectionName = book.getDocCollectionName();
@@ -583,6 +587,7 @@ public class EditBookDefinitionForm {
         book.setKeywordTypeValues(getKeywordValues(keywords));
 
         book.setMaterialId(materialId);
+        book.setEntitlement(entitlement);
         book.setNortDomain(nortDomain);
         book.setNortFilterView(nortFilterView);
         book.setPrintSetNumber(printSetNumber);

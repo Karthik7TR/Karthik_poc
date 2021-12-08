@@ -57,7 +57,7 @@ import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "BookDefinition")
 @EqualsAndHashCode(of = "ebookDefinitionId")
 @ToString(includeFieldNames = true, of = {"ebookDefinitionId", "fullyQualifiedTitleId", "proviewDisplayName", "copyright", "copyrightPageText",
-                                          "materialId", "isTocFlag", "rootTocGuid", "docCollectionName", "tocCollectionName",
+                                          "materialId", "entitlement", "isTocFlag", "rootTocGuid", "docCollectionName", "tocCollectionName",
                                           "nortDomain", "nortFilterView", "coverImage", "isbn", "issn", "publishDateText",
                                           "currency", "isProviewTableViewFlag", "eLooseleafsEnabled", "publishedDate", "releaseNotes", "keyciteToplineFlag",
                                           "autoUpdateSupportFlag", "searchIndexFlag", "onePassSsoLinkFlag", "publishCutoffDate",
@@ -119,6 +119,11 @@ public class BookDefinition implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     @Getter @Setter
     private String materialId;
+
+    @Column(name = "ENTITLEMENT")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String entitlement;
 
     @Column(name = "IS_TOC_FLAG", nullable = false)
     @Basic(fetch = FetchType.EAGER)
@@ -916,6 +921,7 @@ public class BookDefinition implements Serializable {
         setCopyright(that.getCopyright());
         setCopyrightPageText(that.getCopyrightPageText());
         setMaterialId(that.getMaterialId());
+        setEntitlement(that.getEntitlement());
         setIsTocFlag(that.isTocFlag());
         setRootTocGuid(that.getRootTocGuid());
         setDocCollectionName(that.getDocCollectionName());

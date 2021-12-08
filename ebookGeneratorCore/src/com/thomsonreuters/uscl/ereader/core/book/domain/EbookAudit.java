@@ -89,6 +89,11 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private String materialId;
 
+    @Column(name = "ENTITLEMENT")
+    @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
+    private String entitlement;
+
     @Column(name = "IS_TOC_FLAG", length = 1, nullable = false)
     @Basic(fetch = FetchType.EAGER)
     private String isTocFlag;
@@ -484,6 +489,7 @@ public class EbookAudit implements Serializable {
         setCopyright(that.getCopyright());
         setCopyrightPageText(that.getCopyrightPageText());
         setMaterialId(that.getMaterialId());
+        setEntitlement(that.getEntitlement());
         setIsTocFlag(that.getIsTocFlag());
         setRootTocGuid(that.getRootTocGuid());
         setDocCollectionName(that.getDocCollectionName());
@@ -570,6 +576,7 @@ public class EbookAudit implements Serializable {
         setCopyright(that.getCopyright());
         setCopyrightPageText(that.getCopyrightPageText());
         setMaterialId(that.getMaterialId());
+        setEntitlement(that.getEntitlement());
         // TODO: remove setIsTocFlag once column is removed from table
         setIsTocFlag(true);
         setRootTocGuid(that.getRootTocGuid());
@@ -674,6 +681,7 @@ public class EbookAudit implements Serializable {
         buffer.append("copyright=[").append(copyright).append("] ");
         buffer.append("copyrightPageText=[").append(copyrightPageText).append("] ");
         buffer.append("materialId=[").append(materialId).append("] ");
+        buffer.append("entitlement=[").append(entitlement).append("] ");
         buffer.append("rootTocGuid=[").append(rootTocGuid).append("] ");
         buffer.append("docCollectionName=[").append(docCollectionName).append("] ");
         buffer.append("tocCollectionName=[").append(tocCollectionName).append("] ");

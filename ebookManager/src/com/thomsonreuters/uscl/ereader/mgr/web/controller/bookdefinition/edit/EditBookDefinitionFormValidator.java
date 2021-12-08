@@ -132,6 +132,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "materialId",
             new Object[] {"Material ID", MAXIMUM_CHARACTER_64});
         checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_64,
+                form.getEntitlement(),
+                "entitlement",
+                new Object[] {"Entitlement", MAXIMUM_CHARACTER_64});
+        checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_64,
             form.getRootTocGuid(),
