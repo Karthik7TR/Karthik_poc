@@ -112,6 +112,8 @@
 	<div class="buttons">
 		<input type="button" value="Generate" ${generateBook} onclick="submitBookLibraryFormWithCommand('<%= BookLibraryFilterForm.Command.GENERATE %>')" />
 	</div>
+	<form:hidden path="sort" value="${ param.sort }"/>
+	<form:hidden path="dir" value="${ param.dir }"/>
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<%-- Table of book library --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>"
