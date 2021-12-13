@@ -13,40 +13,46 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
+<script type="text/javascript" src="js/form-utils.js"></script>
+<script>
+	$(document).ready(function () {
+		<%-- Submit the filter form when ENTER key is pressed from within any input field. --%>
+		$("form input").keyup(function (event) {
+			if (event.keyCode == 13) {
+				submitBookLibraryForm();
+			}
+		});
 
-  	<script>
-  	
-  		$(document).ready(function() {
-  			<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
-  			$("form input").keyup(function(event) {
-  				if (event.keyCode == 13) {
-  					submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.SEARCH%>');
-  				}
-  			});
-  			
-  			<%-- Set up the timepicker TO and FROM date picker UI widget --%>
-  			$( "#datepickerFrom" ).datetimepicker({
-  				showSecond: true,
-  				timeFormat: 'HH:mm:ss'
-  			});
-			$( "#datepickerTo" ).datetimepicker({
-				hour: 23,
-				minute: 59,
-				second: 59,
-				showSecond: true,
-  				timeFormat: 'HH:mm:ss'
-  			});
-			$("#datepickerFrom, #datepickerTo").attr('autocomplete','off');
-  		});
-		
-		function submitFilterForm(command) {
-			$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
-			$("#<%=BookLibraryFilterForm.FORM_NAME%>").submit();	// POST the HTML form
-		}
-		
-	</script>
-	<!--[if lt IE 9]>
-	<script>
+		<%-- Set up the timepicker TO and FROM date picker UI widget --%>
+		$("#datepickerFrom").datetimepicker({
+			showSecond: true,
+			timeFormat: 'HH:mm:ss'
+		});
+		$("#datepickerTo").datetimepicker({
+			hour: 23,
+			minute: 59,
+			second: 59,
+			showSecond: true,
+			timeFormat: 'HH:mm:ss'
+		});
+		$("#datepickerFrom, #datepickerTo").attr('autocomplete', 'off');
+	});
+
+	$(window).on('pageshow', function () {
+		$('#proviewDisplayName').val('${ param.proviewDisplayName }');
+		$('#sourceType').val('${ param.sourceType }');
+		$('#titleId').val('${ param.titleId }');
+		$('#isbn').val('${ param.isbn }');
+		$('#materialId').val('${ param.materialId }');
+		$('#datepickerFrom').val('${ param.fromString }');
+		$('#datepickerTo').val('${ param.toString }');
+		$('#action').val('${ param.action }');
+		$('#proviewKeyword').val('${ param.proviewKeyword }');
+	});
+</script>
+
+<!--[if lt IE 9]>
+<script>
 	$(function() {
 		var selectElement;
 		
@@ -63,30 +69,15 @@
 		    selectElement.css("width", selectElement.data("origWidth"));
 		 });
 	});
-	</script>
-	<![endif]-->
+</script>
+<![endif]-->
+
 <div class="header">Filters</div>
- 	
-<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED%>"
-			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" method="get">
-	<form:hidden path="filterCommand"/>
-	
-	<%-- Validation Error Message Presentation (if any) --%>
-	<spring:hasBindErrors name="<%=BookLibraryFilterForm.FORM_NAME%>">
-		<div class="errorBox">
-	      <b><spring:message code="please.fix.errors"/>:</b><br/>
-	      <form:errors path="*">
-	      	<ul>
-			<c:forEach items="${messages}" var="message">
-				<li style="color: black">${message}</li>
-			</c:forEach>
-	      	</ul>
-		  </form:errors>
-		  <br/>
-	    </div>
-    </spring:hasBindErrors>
-	
-	
+
+<form:form id="leftForm"
+					 action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
+					 modelAttribute="<%=BookLibraryFilterForm.FORM_NAME%>"
+					 method="get">
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
 		<form:input path="proviewDisplayName" maxlength="4000"/>
@@ -145,9 +136,6 @@
 	
 	<div class="wildCard">Wildcard: %</div>
 
-	<input type="button" value="Search" onclick="submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.RESET%>')"/>
-	
-	
-	
+	<input type="button" value="Search" onclick="submitBookLibraryForm()"/>
+	<input type="button" value="Reset" onclick="submitBookLibraryFormWithEmptyLeftForm()"/>
 </form:form>

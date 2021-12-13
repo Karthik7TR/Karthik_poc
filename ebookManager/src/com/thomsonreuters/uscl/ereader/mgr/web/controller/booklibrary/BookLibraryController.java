@@ -1,20 +1,26 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
-import javax.servlet.http.HttpServletRequest;
+import static java.util.Optional.ofNullable;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
+import lombok.extern.slf4j.Slf4j;
+import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,10 +33,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+@Slf4j
 @Controller
-public class BookLibraryController extends BaseBookLibraryController {
-    private static final Logger log = LogManager.getLogger(BookLibraryController.class);
-
+public class BookLibraryController {
+    private final LibraryListService libraryService;
+    private final KeywordTypeCodeSevice keywordTypeCodeSevice;
+    private final OutageService outageService;
     private final Validator validator;
 
     @Autowired
@@ -38,139 +46,108 @@ public class BookLibraryController extends BaseBookLibraryController {
         final LibraryListService libraryService,
         final KeywordTypeCodeSevice keywordTypeCodeSevice,
         final OutageService outageService,
-        @Qualifier("bookLibrarySelectionFormValidator") final Validator validator) {
-        super(libraryService, keywordTypeCodeSevice, outageService);
+        @Qualifier("bookLibraryFilterFormValidator") final Validator validator) {
+        this.libraryService = libraryService;
+        this.keywordTypeCodeSevice = keywordTypeCodeSevice;
+        this.outageService = outageService;
         this.validator = validator;
     }
 
-    @InitBinder(BookLibrarySelectionForm.FORM_NAME)
+    @InitBinder(BookLibraryFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
 
-    /**
-     * Handles the initial loading of the Book Definition List page
-     *
-     * @param httpSession
-     * @param model
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
-    public ModelAndView inboundGet(final HttpSession httpSession, final Model model) {
+    public ModelAndView inboundGet(final HttpSession httpSession, final Model model,
+            @ModelAttribute(BookLibraryFilterForm.FORM_NAME) @Valid BookLibraryFilterForm form,
+            final BindingResult bindingResult) {
         log.debug(">>>");
-        final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession); // from session
-        final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession); // from session
-
-        final BookLibrarySelectionForm librarySelectionForm = new BookLibrarySelectionForm();
-        librarySelectionForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
-
-        setUpModel(filterForm, savedPageAndSort, httpSession, model);
-        model.addAttribute(BookLibrarySelectionForm.FORM_NAME, librarySelectionForm);
-
-        return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
-    }
-
-    // ====================================================================================
-    /**
-     * Handles the DisplayTag table external paging and sorting operations.
-     * Assumes a current list of execution ID's on the session that is reused
-     * with each paging/sorting operation. To get a completely up-to-date result
-     * set, the page must be refreshed (a new GET) or a new filtered search form
-     * must again be submitted (a POST).
-     */
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING, method = RequestMethod.GET)
-    public ModelAndView pagingAndSorting(
-        final HttpSession httpSession,
-        @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) final BookLibrarySelectionForm form,
-        final Model model) {
-        final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
-        final Integer nextPageNumber = form.getPage();
-
-        // If there was a page=n query string parameter, then we assume we are paging since this
-        // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null) { // PAGING
-            pageAndSort.setPageNumber(nextPageNumber);
-        } else { // SORTING
-            pageAndSort.setPageNumber(1);
-            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+        if (bindingResult.hasErrors()) {
+            log.debug("Incorrect parameters passed to BookLibraryFilterForm");
+            form = getUserPreferencesForCurrentSession(httpSession);
+        } else if (Command.GENERATE.equals(form.getCommand())) {
+            return redirectToGeneratePage(form);
         }
-        setUpModel(filterForm, pageAndSort, httpSession, model);
+        updateUserPreferencesForCurrentSession(form, httpSession);
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, createPaginatedList(form));
+        model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, keywordTypeCodeSevice.getAllKeywordTypeCodes());
+        model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
 
         return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
     }
 
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST, method = RequestMethod.GET)
-    public ModelAndView getBookDefinitionSelections() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
-    }
-
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST, method = RequestMethod.POST)
-    public ModelAndView postBookDefinitionSelections(
-        final HttpSession httpSession,
-        final HttpServletRequest request,
-        @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid final BookLibrarySelectionForm form,
-        final BindingResult bindingResult,
-        final Model model) throws Exception {
-        if (!bindingResult.hasErrors()) {
-            ModelAndView mav = null;
-            final String[] bookKeys = form.getSelectedEbookKeys();
-            final StringBuilder parameters = new StringBuilder();
-            parameters.append("?");
-            for (final String key : bookKeys) {
-                parameters.append("id=" + key + "&");
-            }
-            parameters.deleteCharAt(parameters.length() - 1);
-            final Command command = form.getCommand();
-            switch (command) {
-            case GENERATE:
-                if (bookKeys.length > 1) {
-                    mav = new ModelAndView(
-                        new RedirectView(WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW + parameters.toString()));
-                } else {
-                    parameters.append("&"+ WebConstants.KEY_IS_COMBINED + "=false");
-                    mav = new ModelAndView(
-                        new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + parameters.toString()));
-                }
-                break;
-            default:
-                throw new RuntimeException("Unexpected form command: " + command);
-            }
-
-            return mav;
+    private ModelAndView redirectToGeneratePage(final BookLibraryFilterForm form) {
+        final String[] bookKeys = form.getSelectedEbookKeys();
+        final StringBuilder parameters = new StringBuilder();
+        parameters.append("?");
+        for (final String key : bookKeys) {
+            parameters.append("id=" + key + "&");
         }
-
-        final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
-
-        setUpModel(filterForm, pageAndSort, httpSession, model);
-
-        return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
+        parameters.deleteCharAt(parameters.length() - 1);
+        if (bookKeys.length > 1) {
+            return new ModelAndView(
+                    new RedirectView(WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW + parameters.toString()));
+        } else {
+            parameters.append("&"+ WebConstants.KEY_IS_COMBINED + "=false");
+            return new ModelAndView(
+                    new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + parameters.toString()));
+        }
     }
 
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT, method = RequestMethod.GET)
-    public ModelAndView handleChangeInItemsToDisplayGet() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+    private void updateUserPreferencesForCurrentSession(final BookLibraryFilterForm form, final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            sessionPreferences.setBookLibraryPreferences(form);
+        }
     }
 
-    /**
-     * Handle URL request that the number of rows displayed in table be changed.
-     */
-    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT, method = RequestMethod.POST)
-    public ModelAndView handleChangeInItemsToDisplay(
-        final HttpSession httpSession,
-        @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid final BookLibrarySelectionForm form,
-        final Model model) {
-        log.debug(form);
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
-        pageAndSort.setObjectsPerPage(form.getObjectsPerPage()); // Update the new number of items to be shown at one time
-        // Restore the state of the search filter
-        final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        setUpModel(filterForm, pageAndSort, httpSession, model);
-        return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
+    private BookLibraryFilterForm getUserPreferencesForCurrentSession(final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            return sessionPreferences.getBookLibraryPreferences();
+        }
+        return new BookLibraryFilterForm();
+    }
+
+    private PaginatedList createPaginatedList(final BookLibraryFilterForm filterForm) {
+        final String action = ofNullable(filterForm.getAction()).map(BookLibraryFilterForm.Action::toString).orElse(null);
+        final LibraryListFilter libraryListFilter = new LibraryListFilter(
+                filterForm.getFrom(),
+                filterForm.getTo(),
+                action,
+                filterForm.getTitleId(),
+                filterForm.getProviewDisplayName(),
+                filterForm.getSourceType(),
+                filterForm.getIsbn(),
+                filterForm.getMaterialId(),
+                filterForm.getProviewKeyword());
+        final LibraryListSort libraryListSort = createLibraryListSort(filterForm);
+        // Lookup all the EbookAudit objects by their primary key
+        final List<LibraryList> bookDefinitions =
+                libraryService.findBookDefinitions(libraryListFilter, libraryListSort);
+        final Integer numberOfBooks = libraryService.numberOfBookDefinitions(libraryListFilter);
+
+        return new BookLibraryPaginatedList(
+                bookDefinitions,
+                numberOfBooks,
+                filterForm.getPage(),
+                filterForm.getObjectsPerPage(),
+                filterForm.getSort(),
+                filterForm.isAscendingSort());
+    }
+
+    protected LibraryListSort createLibraryListSort(final BookLibraryFilterForm filterForm) {
+        return new LibraryListSort(
+                SortProperty.valueOf(filterForm.getSort().toString()),
+                filterForm.isAscendingSort(),
+                filterForm.getPage(),
+                filterForm.getObjectsPerPage());
     }
 }

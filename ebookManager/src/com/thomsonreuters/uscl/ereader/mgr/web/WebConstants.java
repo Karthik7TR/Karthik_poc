@@ -172,22 +172,13 @@ public class WebConstants {
     // Page paths
     public static final String MVC_APP_EXCEPTION = "appException.mvc";
     public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
-    public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
-    public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
-    public static final String MVC_BOOK_LIBRARY_FILTERED = "bookLibraryListFiltered.mvc";
-    public static final String MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT = "bookLibraryChangeRowCount.mvc";
-    public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
-    public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
-    public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
     public static final String MVC_BOOK_DEFINITION_CREATE = "bookDefinitionCreate.mvc";
     public static final String MVC_BOOK_DEFINITION_EDIT = "bookDefinitionEdit.mvc";
     public static final String MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW = "bookDefinitionFrontMatterPreview.mvc";
     public static final String MVC_BOOK_DEFINITION_LOCK_EXTEND = "bookDefinitionLockExtend.mvc";
     public static final String MVC_BOOK_DEFINITION_COPY = "bookDefinitionCopy.mvc";
-    public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
     public static final String MVC_BOOK_DEFINITION_UNLOCK = "bookDefinitionUnlock.mvc";
-    public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
     public static final String MVC_BOOK_DEFINITION_DELETE = "bookDefinitionDelete.mvc";
     public static final String MVC_BOOK_DEFINITION_RESTORE = "bookDefinitionRestore.mvc";
     public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
@@ -198,9 +189,7 @@ public class WebConstants {
     public static final String MVC_COMBINED_BOOK_DEFINITION_DELETE = "combinedBookDefinitionDelete.mvc";
     public static final String MVC_COMBINED_BOOK_DEFINITION_RESTORE = "combinedBookDefinitionRestore.mvc";
     public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
-    public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
     public static final String MVC_CODES_WORKBENCH_FOLDERS = "codesWorkbenchFolders.mvc";
-    public static final String MVC_GET_CONTENT_TYPE = "getContentType.mvc";
     public static final String MVC_FRONT_MATTER_PREVIEW = "frontMatterPreview.mvc";
     public static final String MVC_FRONT_MATTER_PREVIEW_EDIT = "frontMatterPreviewEdit.mvc";
     public static final String MVC_IS_PDF_EXISTS = "isPdfExists.mvc";

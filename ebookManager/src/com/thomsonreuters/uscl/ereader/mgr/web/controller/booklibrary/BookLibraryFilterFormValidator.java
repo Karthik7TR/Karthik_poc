@@ -17,12 +17,21 @@ public class BookLibraryFilterFormValidator extends BaseFormValidator implements
 
     @Override
     public void validate(final Object obj, final Errors errors) {
-        final BookLibraryFilterForm form = (BookLibraryFilterForm) obj;
-        // Do not validate form if we are simply resetting its values to the defaults
-        if (BookLibraryFilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
+        // Do not validate inputs if there were binding errors since you cannot validate garbage (like "abc" entered instead of a valid integer).
+        if (errors.hasErrors()) {
             return;
         }
-
+        final BookLibraryFilterForm form = (BookLibraryFilterForm) obj;
+        if (form.getCommand() == BookLibraryFilterForm.Command.GENERATE) {
+            final String[] keys = form.getSelectedEbookKeys();
+            if (keys == null || keys.length == 0) {
+                errors.reject("error.required.bookselection");
+            }
+        }
+        // Do not validate form if we are simply resetting its values to the defaults
+        if (form.areAllFiltersBlank()) {
+            return;
+        }
         final Date fromDate = form.getFrom();
         final Date toDate = form.getTo();
 

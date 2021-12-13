@@ -3,9 +3,13 @@ function submitFormAndDisableButton(formId, button) {
     $('#' + formId).submit();
 }
 
+function isNotSpringGeneratedUncheckedCheckboxParameter(param) {
+    return param.name.charAt(0) !== "_";
+}
+
 function submitLeftFormAndBodyForm() {
     let query = $('#bodyForm, #leftForm').serializeArray().filter(function(param) {
-        return param.value;
+        return param.value && isNotSpringGeneratedUncheckedCheckboxParameter(param);
     });
     window.location.href = window.location.href.split('?')[0] + (query ? '?' + $.param(query) : '');
 }

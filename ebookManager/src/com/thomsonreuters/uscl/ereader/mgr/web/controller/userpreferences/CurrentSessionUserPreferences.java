@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm.HomepageProperty;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class CurrentSessionUserPreferences implements Serializable {
     public static final String NAME = "currentSessionUserPreferences";
 
     private ProviewAuditFilterForm proviewAuditPreferences = new ProviewAuditFilterForm();
+    private BookLibraryFilterForm bookLibraryPreferences = new BookLibraryFilterForm();
     private HomepageProperty startPage;
     private String auditFilterProviewName;
     private String auditFilterTitleId;
@@ -38,6 +40,8 @@ public class CurrentSessionUserPreferences implements Serializable {
 
     public CurrentSessionUserPreferences(@NotNull final UserPreferencesForm form) {
         BeanUtils.copyProperties(form, this);
+        bookLibraryPreferences.setProviewDisplayName(getLibraryFilterProviewName());
+        bookLibraryPreferences.setTitleId(getLibraryFilterTitleId());
     }
 
     public String getUri() {
@@ -64,7 +68,10 @@ public class CurrentSessionUserPreferences implements Serializable {
                 groupListQueryParameters.put(WebConstants.KEY_GROUP_FILTER_ID, getGroupFilterId());
                 return generateUri(WebConstants.MVC_PROVIEW_GROUPS, groupListQueryParameters);
             default:
-                return WebConstants.MVC_BOOK_LIBRARY_LIST;
+                final Map<String, String> bookLibraryListQueryParameters = new HashMap<>();
+                bookLibraryListQueryParameters.put(WebConstants.KEY_PROVIEW_DISPLAY_NAME_FILTER, getLibraryFilterProviewName());
+                bookLibraryListQueryParameters.put(WebConstants.KEY_TITLE_ID_FILTER, getLibraryFilterTitleId());
+                return generateUri(WebConstants.MVC_BOOK_LIBRARY_LIST, bookLibraryListQueryParameters);
         }
     }
 

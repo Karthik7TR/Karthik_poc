@@ -1,10 +1,14 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -12,123 +16,94 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DateUtils;
 
+@Getter
+@Setter
 public class BookLibraryFilterForm {
     public static final String FORM_NAME = "bookLibraryFilterForm";
-
-    public enum FilterCommand {
-        SEARCH,
-        RESET
-    };
+    private static final String ASC_SORT = "asc";
+    private static final String DESC_SORT = "desc";
 
     public enum Action {
         READY,
         INCOMPLETE,
         DELETED
-    };
+    }
 
+    public enum Command {
+        GENERATE
+    }
+
+    public enum DisplayTagSortProperty {
+        PROVIEW_DISPLAY_NAME,
+        SOURCE_TYPE,
+        TITLE_ID,
+        LAST_GENERATED_DATE,
+        DEFINITION_STATUS,
+        LAST_EDIT_DATE
+    }
+
+    private String[] selectedEbookKeys;
+    private Command command;
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private final PageAndSort<DisplayTagSortProperty> pageAndSort =
+            new PageAndSort<>(1, DisplayTagSortProperty.PROVIEW_DISPLAY_NAME, true); // sort, page, dir, objectsPerPage
+    @Setter(AccessLevel.NONE)
     private String proviewDisplayName;
-    @Getter @Setter
     private String sourceType;
     private String toString;
     private String fromString;
+    @Setter(AccessLevel.NONE)
     private String titleId;
+    @Setter(AccessLevel.NONE)
     private String isbn;
+    @Setter(AccessLevel.NONE)
     private String materialId;
     private Long proviewKeyword;
-    private FilterCommand filterCommand;
     private Action action;
 
-    public BookLibraryFilterForm() {
-        initialize();
+    public String getDir() {
+        return (pageAndSort.isAscendingSort()) ? ASC_SORT : DESC_SORT;
     }
 
-    /**
-     * Set all values back to defaults.
-     * Used in resetting the form.
-     */
-    public void initialize() {
-        populate(null, null,null, null, null, null, null, null, null);
+    public void setDir(final String direction) {
+        pageAndSort.setAscendingSort(ASC_SORT.equals(direction));
     }
 
-    public void populate(
-        final String proviewDisplayName,
-        final String sourceType,
-        final String toString,
-        final String fromString,
-        final String titleId,
-        final String isbn,
-        final String materialId,
-        final Action action,
-        final Long proviewKeyword) {
-        this.proviewDisplayName = proviewDisplayName;
-        this.sourceType = sourceType;
-        this.toString = toString;
-        this.fromString = fromString;
-        this.titleId = titleId;
-        this.isbn = isbn;
-        this.materialId = materialId;
-        this.action = action;
-        this.proviewKeyword = proviewKeyword;
+    public Integer getObjectsPerPage() {
+        return pageAndSort.getObjectsPerPage();
     }
 
-    public Action getAction() {
-        return action;
+    public void setObjectsPerPage(final Integer objectsPerPage) {
+        pageAndSort.setObjectsPerPage(objectsPerPage);
     }
 
-    public void setAction(final Action action) {
-        this.action = action;
+    public Integer getPage() {
+        return pageAndSort.getPageNumber();
     }
 
-    public String getToString() {
-        return toString;
+    public void setPage(final Integer pageNumber) {
+        pageAndSort.setPageNumber(pageNumber);
     }
 
-    public void setToString(final String toString) {
-        this.toString = toString;
+    public DisplayTagSortProperty getSort() {
+        return pageAndSort.getSortProperty();
     }
 
-    public String getFromString() {
-        return fromString;
+    public void setSort(final DisplayTagSortProperty sortProperty) {
+        pageAndSort.setSortProperty(sortProperty);
     }
 
-    public void setFromString(final String fromString) {
-        this.fromString = fromString;
-    }
-
-    public FilterCommand getFilterCommand() {
-        return filterCommand;
-    }
-
-    public void setFilterCommand(final FilterCommand filterCommand) {
-        this.filterCommand = filterCommand;
-    }
-
-    public String getMaterialId() {
-        return materialId;
+    public boolean isAscendingSort() {
+        return pageAndSort.isAscendingSort();
     }
 
     public void setMaterialId(final String materialId) {
         this.materialId = materialId == null ? null : materialId.trim();
     }
 
-    public Long getProviewKeyword() {
-        return proviewKeyword;
-    }
-
-    public void setProviewKeyword(final Long proviewKeyword) {
-        this.proviewKeyword = proviewKeyword;
-    }
-
-    public String getProviewDisplayName() {
-        return proviewDisplayName;
-    }
-
     public void setProviewDisplayName(final String proviewDisplayName) {
         this.proviewDisplayName = proviewDisplayName == null ? null : proviewDisplayName.trim();
-    }
-
-    public static String getFormName() {
-        return FORM_NAME;
     }
 
     public Date getFrom() {
@@ -147,16 +122,8 @@ public class BookLibraryFilterForm {
         toString = parseDate(to);
     }
 
-    public String getTitleId() {
-        return titleId;
-    }
-
     public void setTitleId(final String titleId) {
         this.titleId = titleId == null ? null : titleId.trim();
-    }
-
-    public String getIsbn() {
-        return isbn;
     }
 
     public void setIsbn(final String isbn) {
@@ -187,5 +154,17 @@ public class BookLibraryFilterForm {
             // Intentionally left blank
         }
         return date;
+    }
+
+    public boolean areAllFiltersBlank() {
+        return isBlank(getProviewDisplayName())
+                && isBlank(getSourceType())
+                && isBlank(getFromString())
+                && isBlank(getToString())
+                && isBlank(getTitleId())
+                && isBlank(getIsbn())
+                && isBlank(getMaterialId())
+                && getProviewKeyword() == null
+                && getAction() == null;
     }
 }
