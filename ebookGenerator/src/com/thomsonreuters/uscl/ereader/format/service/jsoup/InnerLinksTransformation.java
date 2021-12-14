@@ -48,11 +48,13 @@ public class InnerLinksTransformation implements JsoupTransformation {
     private void cleanUpLinks(final Document document) {
         document.select(LINK_ID_SELECTOR).forEach(linkMark -> {
             Element mainLink = linkMark.nextElementSibling();
-            String id = linkMark.attr(ID);
-            String href = mainLink.attr(HREF);
-            Matcher matcher = LINK_ID_PATTERN.matcher(id);
-            if (isWestlawLink(href) && matcher.matches()) {
-                mainLink.attr(HREF, SHARP_SIGN + ANCHOR_TEMPLATE + matcher.group(CODES_SECTION_ID_GROUP));
+            if (mainLink != null) {
+                String id = linkMark.attr(ID);
+                String href = mainLink.attr(HREF);
+                Matcher matcher = LINK_ID_PATTERN.matcher(id);
+                if (isWestlawLink(href) && matcher.matches()) {
+                    mainLink.attr(HREF, SHARP_SIGN + ANCHOR_TEMPLATE + matcher.group(CODES_SECTION_ID_GROUP));
+                }
             }
             linkMark.remove();
         });

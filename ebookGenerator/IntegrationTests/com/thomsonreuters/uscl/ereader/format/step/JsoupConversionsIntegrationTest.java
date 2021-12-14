@@ -109,6 +109,11 @@ public class JsoupConversionsIntegrationTest {
         runner.test(step, "transformInnerLinks");
     }
 
+    @Test
+    public void shouldTransformInnerLinksMissingLink() throws Exception {
+        runner.test(step, "transformInnerLinksMissingLink");
+    }
+
     private void setUpCwBookDefinition() {
         BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFullyQualifiedTitleId(CW_TITLE_ID);
