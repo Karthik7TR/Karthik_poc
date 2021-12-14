@@ -21,6 +21,7 @@ public class WebConstants {
     public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
     public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
     public static final String KEY_BOOK_DEFINITION = "book";
+    public static final String KEY_BOOK_DEFINITIONS_LIST = "bookDefinitionsList";
     public static final String KEY_COMBINED_BOOK_DEFINITION = "combinedBookDefinition";
     public static final String KEY_BOOK_AUDIT_DETAIL = "bookAuditDetail";
     public static final String KEY_BOOK_GENERATE_CANCEL = "bookGenerateCancel";
@@ -173,6 +174,7 @@ public class WebConstants {
     public static final String MVC_APP_EXCEPTION = "appException.mvc";
     public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
     public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
+    public static final String MVC_BOOK_LIBRARY_DOWNLOAD = "bookLibraryDownload.mvc";
     public static final String MVC_BOOK_DEFINITION_CREATE = "bookDefinitionCreate.mvc";
     public static final String MVC_BOOK_DEFINITION_EDIT = "bookDefinitionEdit.mvc";
     public static final String MVC_BOOK_DEFINITION_FRONT_MATTER_PREVIEW = "bookDefinitionFrontMatterPreview.mvc";

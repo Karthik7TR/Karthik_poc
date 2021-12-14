@@ -57,6 +57,9 @@
 			showNoAnyCheckboxSelectedError();
 		}
 	};
+	const submitBookLibraryFormDownloadExcel = function() {
+		submitLeftFormAndBodyFormDownloadExcel("<%=WebConstants.MVC_BOOK_LIBRARY_DOWNLOAD%>");
+	};
 </script>
 
 <form:form id="bodyForm"
@@ -143,9 +146,9 @@
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
 	</display:table>
-	
+
+	<a id="excelExport" href="#" onclick="submitBookLibraryFormDownloadExcel()">Download Excel</a>
 	<div class="buttons">
 		<input type="button" value="Generate" ${generateBook} onclick="submitBookLibraryFormWithCommand('<%= BookLibraryFilterForm.Command.GENERATE %>')" />
 	</div>
-
 </form:form>

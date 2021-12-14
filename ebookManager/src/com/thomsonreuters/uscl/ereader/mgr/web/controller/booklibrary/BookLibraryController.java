@@ -1,13 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
-import static java.util.Optional.ofNullable;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.List;
-
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.ioutil.BaseExcelExportService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -17,7 +14,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import lombok.extern.slf4j.Slf4j;
-import org.displaytag.pagination.PaginatedList;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -33,12 +30,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
+
 @Slf4j
 @Controller
 public class BookLibraryController {
+    private static final int FIRST_PAGE = 1;
     private final LibraryListService libraryService;
     private final KeywordTypeCodeSevice keywordTypeCodeSevice;
     private final OutageService outageService;
+    private final BookDefinitionService bookDefinitionService;
     private final Validator validator;
 
     @Autowired
@@ -46,10 +58,12 @@ public class BookLibraryController {
         final LibraryListService libraryService,
         final KeywordTypeCodeSevice keywordTypeCodeSevice,
         final OutageService outageService,
+        final BookDefinitionService bookDefinitionService,
         @Qualifier("bookLibraryFilterFormValidator") final Validator validator) {
         this.libraryService = libraryService;
         this.keywordTypeCodeSevice = keywordTypeCodeSevice;
         this.outageService = outageService;
+        this.bookDefinitionService = bookDefinitionService;
         this.validator = validator;
     }
 
@@ -116,7 +130,7 @@ public class BookLibraryController {
         return new BookLibraryFilterForm();
     }
 
-    private PaginatedList createPaginatedList(final BookLibraryFilterForm filterForm) {
+    private BookLibraryPaginatedList createPaginatedList(final BookLibraryFilterForm filterForm) {
         final String action = ofNullable(filterForm.getAction()).map(BookLibraryFilterForm.Action::toString).orElse(null);
         final LibraryListFilter libraryListFilter = new LibraryListFilter(
                 filterForm.getFrom(),
@@ -149,5 +163,46 @@ public class BookLibraryController {
                 filterForm.isAscendingSort(),
                 filterForm.getPage(),
                 filterForm.getObjectsPerPage());
+    }
+
+    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_DOWNLOAD, method = RequestMethod.GET)
+    public void downloadBookDefinitionsExcel(
+            final HttpSession httpSession,
+            @ModelAttribute(BookLibraryFilterForm.FORM_NAME) @Valid final BookLibraryFilterForm form,
+            final HttpServletResponse response) {
+        final BookLibraryExcelExportService excelExportService = new BookLibraryExcelExportService();
+        form.setPage(FIRST_PAGE);
+        form.setObjectsPerPage(BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM);
+
+        BookLibraryPaginatedList paginatedList = createPaginatedList(form);
+        List<Long> bookDefinitionIds = getBookDefinitionIds(paginatedList);
+        List<BookDefinition> bookDefinitions = bookDefinitionService.findBookDefinitionsByEbookDefIds(bookDefinitionIds);
+        createExcelDocument(httpSession, response, excelExportService, bookDefinitions);
+    }
+
+    private void createExcelDocument(final HttpSession httpSession, final HttpServletResponse response,
+                                     final BookLibraryExcelExportService excelExportService,
+                                     final List<BookDefinition> bookDefinitions) {
+        httpSession.setAttribute(WebConstants.KEY_BOOK_DEFINITIONS_LIST, bookDefinitions);
+        try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
+            final Date date = new Date();
+            final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
+            final String stringDate = s.format(date);
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment; filename=bookDefinitions_" + stringDate + ".xls");
+            final ServletOutputStream out = response.getOutputStream();
+            wb.write(out);
+            out.flush();
+        } catch (final IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private List<Long> getBookDefinitionIds(final BookLibraryPaginatedList paginatedList) {
+        return ofNullable(paginatedList)
+                .map(BookLibraryPaginatedList::getList)
+                .orElse(Collections.emptyList()).stream()
+                .map(LibraryList::getBookDefinitionId)
+                .collect(Collectors.toList());
     }
 }

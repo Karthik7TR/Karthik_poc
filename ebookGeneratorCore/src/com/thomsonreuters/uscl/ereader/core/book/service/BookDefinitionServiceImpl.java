@@ -42,6 +42,12 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
         return bookDefinitionDao.findBookDefinitionByEbookDefId(ebookDefId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<BookDefinition> findBookDefinitionsByEbookDefIds(final Collection<Long> bookDefIds) {
+        return bookDefinitionDao.findBookDefinitionsByEbookDefIds(bookDefIds);
+    }
+
     /**
      * Returns all the book definitions based on Keyword Type Code
      * @return a list of BookDefinition

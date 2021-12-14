@@ -227,7 +227,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
         Assert.assertNull(errors.getFieldError("entitlement"));
     }
-    
+
     @Test
     public void testEntitlementOversize() {
         form.setEntitlement("123456781234567812345678123456781234567812345678123456781234567800000000");

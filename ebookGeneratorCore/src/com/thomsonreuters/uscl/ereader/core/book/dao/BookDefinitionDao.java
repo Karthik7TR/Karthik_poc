@@ -33,6 +33,13 @@ public interface BookDefinitionDao {
     BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId);
 
     /**
+     * Get all book definitions by list of primary keys.
+     * @param bookDefIds the list of primary keys of the definitions
+     * @return the found entity, or null if not found.
+     */
+    List<BookDefinition> findBookDefinitionsByEbookDefIds(Collection<Long> bookDefIds);
+
+    /**
      * Returns all the current book definitions based on the search criterion
      *
      * @return a list of BookDefinition

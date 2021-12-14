@@ -27,6 +27,8 @@ public interface BookDefinitionService {
 
     BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId);
 
+    List<BookDefinition> findBookDefinitionsByEbookDefIds(Collection<Long> bookDefIds);
+
     /**
      * Returns all the book definitions based on Keyword Type Code
      * @return a list of BookDefinition

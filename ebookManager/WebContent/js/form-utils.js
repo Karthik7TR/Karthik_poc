@@ -8,10 +8,19 @@ function isNotSpringGeneratedUncheckedCheckboxParameter(param) {
 }
 
 function submitLeftFormAndBodyForm() {
-    let query = $('#bodyForm, #leftForm').serializeArray().filter(function(param) {
+    let query = getLeftFormBodyFormQuery();
+    window.location.href = window.location.href.split('?')[0] + (query ? '?' + $.param(query) : '');
+}
+
+function submitLeftFormAndBodyFormDownloadExcel(endpoint) {
+    let query = getLeftFormBodyFormQuery();
+    window.location.href = endpoint + (query ? '?' + $.param(query) : '');
+}
+
+function getLeftFormBodyFormQuery () {
+    return $('#bodyForm, #leftForm').serializeArray().filter(function(param) {
         return param.value && isNotSpringGeneratedUncheckedCheckboxParameter(param);
     });
-    window.location.href = window.location.href.split('?')[0] + (query ? '?' + $.param(query) : '');
 }
 
 function isEmpty(value) {

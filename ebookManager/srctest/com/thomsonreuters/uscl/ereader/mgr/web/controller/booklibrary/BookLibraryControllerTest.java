@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
@@ -55,6 +60,8 @@ public final class BookLibraryControllerTest {
     private OutageService mockOutageService;
     @Mock
     private LibraryListService mockLibraryListService;
+    @Mock
+    private BookDefinitionService mockBookDefinitionService;
     @Spy
     @SuppressWarnings("unused")
     private final Validator validator = new BookLibraryFilterFormValidator();
@@ -292,6 +299,26 @@ public final class BookLibraryControllerTest {
         assertEquals(titleId, filterForm.getTitleId());
         assertEquals(fromDate, filterForm.getFromString());
         assertEquals(toDate, filterForm.getToString());
+    }
+
+    @Test
+    public void testDownloadBookDefinitionsExcel() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_DOWNLOAD);
+        request.setMethod(HttpMethod.GET.name());
+
+        when(mockLibraryListService.findBookDefinitions(any(LibraryListFilter.class), any(LibraryListSort.class)))
+                .thenReturn(new ArrayList<>());
+        when(mockLibraryListService.numberOfBookDefinitions(any(LibraryListFilter.class)))
+                .thenReturn(1);
+
+        List<BookDefinition> bookDefinitions = new ArrayList<>();
+        bookDefinitions.add(new BookDefinition());
+        when(mockBookDefinitionService.findBookDefinitionsByEbookDefIds(any()))
+                .thenReturn(bookDefinitions);
+
+        handlerAdapter.handle(request, response, controller);
+        final ServletOutputStream outStream = response.getOutputStream();
+        assertFalse(outStream.toString().isEmpty());
     }
 
     /**

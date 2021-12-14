@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -10,16 +11,20 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 
 public class BookDefinitionDaoImpl implements BookDefinitionDao {
+    private static final String BOOK_DEFINITION_ID = "ebookDefinitionId";
     private SessionFactory sessionFactory;
 
     public BookDefinitionDaoImpl(final SessionFactory sessFactory) {
@@ -39,6 +44,26 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
     @Override
     public BookDefinition findBookDefinitionByEbookDefId(final Long ebookDefId) {
         return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, ebookDefId);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<BookDefinition> findBookDefinitionsByEbookDefIds(final Collection<Long> bookDefinitionIds) {
+        if (CollectionUtils.isNotEmpty(bookDefinitionIds)) {
+            return sessionFactory.getCurrentSession()
+                    .createCriteria(BookDefinition.class)
+                    .add(getRestrictionsIn(bookDefinitionIds))
+                    .setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)
+                    .list();
+        }
+        return Collections.emptyList();
+    }
+
+    private Disjunction getRestrictionsIn(final Collection<Long> bookDefinitionIds) {
+        SimpleExpression[] restrictionsIn = bookDefinitionIds.stream()
+                .map(bookDefinitionId -> Restrictions.eq(BOOK_DEFINITION_ID, bookDefinitionId))
+                .toArray(SimpleExpression[]::new);
+        return Restrictions.or(restrictionsIn);
     }
 
     @Override
