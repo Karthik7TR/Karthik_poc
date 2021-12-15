@@ -83,6 +83,7 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String ERROR_POSITIVE_INTEGER = "error.positive.integer";
     private static final String WRONG_PDF_FILE_EXTENSION_ERROR = "error.pdf.wrong.extension";
     private static final String FORBIDDEN_CHARACTERS_IN_PDF_NAME_ERROR = "error.pdf.forbidden.characters";
+    private static final String ERROR_PROVIEW_FORBIDDEN_CHARACTERS = "error.proview.forbidden.characters";
     private static final Map<String, String> TITLE_ID_BY_PUBLISHER = new HashMap<>();
     private static final String SUBSTITUTE_TOC_HEADERS_LEVEL = "substituteTocHeadersLevel";
 
@@ -127,6 +128,32 @@ public final class EditBookDefinitionFormValidatorTest {
         KEYWORD_CODES.add(getKeywordTypeCode(SUBJECT_KEYWORD + " " + CW, false, SUBJECT_KEYWORD_ID_CW, "Aboriginal", "Constitutional", "Criminal", "Immigration"));
 
         EasyMock.reset(mockBookDefinitionService, mockDocumentTypeCodeService, keywordTypeCodeSevice);
+    }
+
+    @Test
+    public void testNoSymbolsForbiddenByProview() {
+        form.setProviewDisplayName("\u0002proview");
+        form.setReleaseNotes("release\u0002notes");
+        form.setCopyright("copyright\u0002");
+
+        validator.validate(form, errors);
+
+        Assert.assertEquals(ERROR_PROVIEW_FORBIDDEN_CHARACTERS, errors.getFieldError("proviewDisplayName").getCode());
+        Assert.assertEquals(ERROR_PROVIEW_FORBIDDEN_CHARACTERS, errors.getFieldError("releaseNotes").getCode());
+        Assert.assertEquals(ERROR_PROVIEW_FORBIDDEN_CHARACTERS, errors.getFieldError("copyright").getCode());
+        Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+    }
+
+    @Test
+    public void testNoSymbolsForbiddenByProviewInAuthors() {
+        final Author author = new Author();
+        author.setAuthorLastName("My\u0002Name");
+        form.getAuthorInfo().add(author);
+
+        validator.validate(form, errors);
+
+        Assert.assertEquals(ERROR_PROVIEW_FORBIDDEN_CHARACTERS, errors.getFieldError("authorInfo[0].authorLastName").getCode());
+        Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
     }
 
     /**

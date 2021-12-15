@@ -27,7 +27,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.jetbrains.annotations.NotNull;
 import org.mockito.internal.util.collections.Sets;
@@ -61,6 +60,18 @@ import static org.apache.commons.lang3.StringUtils.LF;
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
     private static final String PRINT_COMPONENT = "printComponents";
     private static final String PUB_CUTOFF_DATE = "publicationCutoffDate";
+    private static final String PROVIEW_DISPLAY_NAME = "proviewDisplayName";
+    private static final String RELEASE_NOTES = "releaseNotes";
+    private static final String COPYRIGHT = "copyright";
+    private static final String AUTHOR_FIRST_NAME = "authorFirstName";
+    private static final String AUTHOR_MIDDLE_NAME = "authorMiddleName";
+    private static final String AUTHOR_LAST_NAME = "authorLastName";
+    private static final String AUTHOR_ADDL_TEXT = "authorAddlText";
+    private static final String AUTHOR_ADDL_PRE_TEXT = "authorAddlPreText";
+    private static final String AUTHOR_NAME_PREFIX = "authorNamePrefix";
+    private static final String AUTHOR_NAME_SUFFIX = "authorNameSuffix";
+    private static final String AUTHOR_INFO_BRACKET = "authorInfo[";
+    private static final String BRACKET_DOT = "].";
     private static final int MAXIMUM_CHARACTER_40 = 40;
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_512 = 512;
@@ -233,6 +244,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         validateDocumentCurrencies(form, errors);
         validateDocumentCopyrights(form, errors);
 
+        validateNoSymbolsForbiddenByProview(form, errors);
+
         if (form.getPublishedDate() != null) {
             checkDateFormat(errors, form.getPublishedDate(), "publishedDate");
         }
@@ -321,6 +334,28 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         // Adding validation message if Validation button was pressed.
         if (validateForm) {
             errors.rejectValue("validateForm", "mesg.validate.form");
+        }
+    }
+
+    private void validateNoSymbolsForbiddenByProview(final EditBookDefinitionForm form, final Errors errors) {
+        checkForbiddenProviewSymbolsFor(PROVIEW_DISPLAY_NAME, form.getProviewDisplayName(), errors);
+        checkForbiddenProviewSymbolsFor(RELEASE_NOTES, form.getReleaseNotes(), errors);
+        checkForbiddenProviewSymbolsFor(COPYRIGHT, form.getCopyright(), errors);
+        checkForbiddenProviewSymbolsForAuthors(form, errors);
+    }
+
+    private void checkForbiddenProviewSymbolsForAuthors(final EditBookDefinitionForm form, final Errors errors) {
+        final List<Author> authorInfos = form.getAuthorInfo();
+        for (int i = 0; i < authorInfos.size(); i++) {
+            final Author author = authorInfos.get(i);
+            final String authorInfoPrefixWithId = AUTHOR_INFO_BRACKET + i + BRACKET_DOT;
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_FIRST_NAME, author.getAuthorFirstName(), errors);
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_MIDDLE_NAME, author.getAuthorMiddleName(), errors);
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_LAST_NAME, author.getAuthorLastName(), errors);
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_ADDL_TEXT, author.getAuthorAddlText(), errors);
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_ADDL_PRE_TEXT, author.getAuthorAddlPreText(), errors);
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_NAME_PREFIX, author.getAuthorNamePrefix(), errors);
+            checkForbiddenProviewSymbolsFor(authorInfoPrefixWithId + AUTHOR_NAME_SUFFIX, author.getAuthorNameSuffix(), errors);
         }
     }
 

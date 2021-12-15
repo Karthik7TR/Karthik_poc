@@ -13,6 +13,7 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.DATE_FORMATTER;
 public abstract class BaseFormValidator {
     private static final int PROVIEW_YEAR_RANGE_MIN = 1000;
     private static final int PROVIEW_YEAR_RANGE_MAX = 3000;
+    private static final Pattern PATTERN_PROVIEW_FORBIDDEN = Pattern.compile("[\u0002]");
 
     protected void checkMaxLength(
         final Errors errors,
@@ -84,6 +85,15 @@ public abstract class BaseFormValidator {
                 } else {
                     errors.rejectValue(fieldName, "error.alphanumeric");
                 }
+            }
+        }
+    }
+
+    protected void checkForbiddenProviewSymbolsFor(final String fieldName, final String text, final Errors errors) {
+        if (StringUtils.isNotBlank(text)) {
+            final Matcher matcher = PATTERN_PROVIEW_FORBIDDEN.matcher(text);
+            if (matcher.find()) {
+                errors.rejectValue(fieldName, "error.proview.forbidden.characters");
             }
         }
     }
