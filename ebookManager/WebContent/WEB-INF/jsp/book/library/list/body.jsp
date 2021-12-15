@@ -147,7 +147,7 @@
 	  </display:column>
 	</display:table>
 
-	<a id="excelExport" href="#" onclick="submitBookLibraryFormDownloadExcel()">Download Excel</a>
+	<a id="excelExport" class="pointer" onclick="submitBookLibraryFormDownloadExcel()">Download Excel</a>
 	<div class="buttons">
 		<input type="button" value="Generate" ${generateBook} onclick="submitBookLibraryFormWithCommand('<%= BookLibraryFilterForm.Command.GENERATE %>')" />
 	</div>

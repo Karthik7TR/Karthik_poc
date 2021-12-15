@@ -43,14 +43,13 @@ public class BookLibraryExcelExportService extends BaseExcelExportService {
     private static final String NO_BOOK_DEFINITIONS_FOUND_MSG = "No Book Definitions Found";
 
     public enum Header {
-        TITLE_ID,
         PROVIEW_DISPLAY_NAME,
+        SOURCE_TYPE,
+        TITLE_ID,
         COPYRIGHT,
         MATERIAL_ID,
         ENTITLEMENT,
         ISBN,
-        LAST_UPDATED,
-        SOURCE_TYPE,
         IS_SPLIT_BOOK,
         GROUP_NAME,
         SUBGROUP_HEADING,
@@ -59,6 +58,7 @@ public class BookLibraryExcelExportService extends BaseExcelExportService {
         PRINT_PAGE_NUMBERS,
         INLINE_TOC_INCLUDED,
         INDEX_INCLUDED,
+        LAST_UPDATED,
         PUBLISHED_DATE,
     }
 
@@ -84,14 +84,13 @@ public class BookLibraryExcelExportService extends BaseExcelExportService {
 
     private void fillRow(final Sheet sheet, final BookDefinition item) {
         final Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-        createCell(row, TITLE_ID, item.getFullyQualifiedTitleId());
         createCell(row, PROVIEW_DISPLAY_NAME, item.getProviewDisplayName());
+        createCell(row, SOURCE_TYPE, item.getSourceType().name());
+        createCell(row, TITLE_ID, item.getFullyQualifiedTitleId());
         createCell(row, COPYRIGHT, item.getCopyright());
         createCell(row, MATERIAL_ID, item.getMaterialId());
         createCell(row, ENTITLEMENT, item.getEntitlement());
         createCell(row, ISBN, item.getIsbn());
-        createCell(row, LAST_UPDATED, item.getLastUpdated());
-        createCell(row, SOURCE_TYPE, item.getSourceType().name());
         createCell(row, IS_SPLIT_BOOK, item.isSplitBook());
         createCell(row, GROUP_NAME, item.getGroupName());
         createCell(row, SUBGROUP_HEADING, item.getSubGroupHeading());
@@ -100,6 +99,7 @@ public class BookLibraryExcelExportService extends BaseExcelExportService {
         createCell(row, PRINT_PAGE_NUMBERS, item.isPrintPageNumbers());
         createCell(row, INLINE_TOC_INCLUDED, item.isInlineTocIncluded());
         createCell(row, INDEX_INCLUDED, item.isIndexIncluded());
+        createCell(row, LAST_UPDATED, item.getLastUpdated());
         createCell(row, PUBLISHED_DATE, item.getPublishedDate());
     }
 

@@ -1084,3 +1084,7 @@ width: initial;
 .combined-book-definition-container table tbody tr:nth-child(even) {
 	background-color: #BFDFFF;
 }
+
+.pointer {
+	cursor: pointer;
+}
