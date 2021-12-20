@@ -163,12 +163,12 @@ $(function() {
 		$("#displayFILE").hide();
 		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
-		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry, #bucketDiv, #displayPubCutoffDateOptions")
+		$(".xppHideClass").not("#displayExcludeDocument, #displayRenameTocEntry, #bucketDiv")
 			.css("display","block");
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
         showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
         showSelectOptions($("#publisher").val() !== "uscl", "#bucketDiv");
-		showSelectOptions($("#publisher").val() !== "cw" && sourceType !== "XPP", "#displayPubCutoffDateOptions");
+		updatePubCutoffDateBox(sourceType);
 		splitChanged();
 		splitSizeChanged();
 		previousVersionIdsEnabledChanged();

@@ -29,6 +29,7 @@
 
 </c:otherwise>
 </c:choose>
+<script type="text/javascript" src="js/book/book-fields.js"></script>
 <script type="text/javascript" src="js/create-book.js"></script>
 <script type="text/javascript" src="js/common-form.js"></script>
 <script type="text/javascript" src="js/sourceType.js"></script>

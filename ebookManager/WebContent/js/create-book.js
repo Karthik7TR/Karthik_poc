@@ -262,7 +262,6 @@ $(function() {
 					$('#contentTypeDiv').show();
 					$('#bookLanguageDiv').show();
 					$('#publishDetailDiv').show();
-					$('#displayPubCutoffDateOptions').hide();
 					if (CW_SOURCE_TYPES.indexOf($('input:radio[name=sourceType]:checked').val()) !== -1) {
 						$('#bucketDiv').show();
 					}
@@ -284,7 +283,6 @@ $(function() {
 					} else {
 						$('#publishDetailDiv').hide();
 					}
-					$('#displayPubCutoffDateOptions').show();
 					$('#bucketDiv').hide();
 					$('.cw_show').hide();
 					$('.uscl_show').show();
@@ -293,7 +291,6 @@ $(function() {
 					showKeywordsForPublisher(USCL_PUBLISHER);
 					$('#productCodeDiv').show();
 					$('#publishDetailDiv').show();
-					$('#displayPubCutoffDateOptions').show();
 					$('#bucketDiv').show();
 					$('.cw_show').hide();
 				}
@@ -660,18 +657,6 @@ $(function() {
 			determineOptions();
 		};
 		
-		var showPubCutoffDateBox = function() {
-			showPubCutoffDate = getContentTypeIdElement().attr("usecutoffdate");
-			if(showPubCutoffDate == "true") {
-				$("#displayPubCutoffDateOptions").show();
-				updatePubCutoffDate($('input:radio[name=publicationCutoffDateUsed]:checked').val());
-			} else {
-				$("#displayPubCutoffDateOptions").hide();
-				$('input:radio[name=publicationCutoffDateUsed]:nth(1)').attr('checked',true);
-				updatePubCutoffDate(showPubCutoffDate);
-			}
-		};
-		
 		var showSelectOptions = function(choice, elementName) {
 			if(choice == "true" || choice == true) {
 				$(elementName).show();
@@ -679,26 +664,6 @@ $(function() {
 				$(elementName).hide();
 				$(elementName +" .expandingBox").remove();
 			};
-		};
-		
-		var getContentTypeIdElement = function() {
-			var element = $('#contentTypeId :selected');
-			
-			// Check selected element exists, if not look for just the element
-			if(element.length == 0) {
-				element = $('#contentTypeId');
-			};
-			
-			return element;
-		};
-		
-		var updatePubCutoffDate = function(showPubCutoffDate) {
-			$("#displayCutoffDate").hide();
-			if(showPubCutoffDate == "true") {
-				$("#displayCutoffDate").show();
-			} else {
-				$("#publicationCutoffDate").val("");
-			}
 		};
 		
 		var submitFormForValidation = function() {
@@ -727,7 +692,7 @@ $(function() {
 			$('.generateTitleID .errorDiv').hide();
 			clearTitleInformation();
 			getContentTypeAbbr();
-			showPubCutoffDateBox();
+			updatePubCutoffDateBox();
 		});
 
 		var clearKeywordsValues = function () {
@@ -748,6 +713,7 @@ $(function() {
 			clearTitleAndContentInformation();
 			updateTitleId();
 			toggleGroups(publisher);
+			updatePubCutoffDateBox();
 		});
 
 		$('input:radio[name=splitBook]').change(function () {splitChanged()});
@@ -1080,7 +1046,7 @@ $(function() {
 		// Setup view
 		determineOptions();
 		$('#titleIdBox').val($('#titleId').val());
-		showPubCutoffDateBox();
+		updatePubCutoffDateBox();
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
 		showSelectOptions($("#publisher").val() === CW_PUBLISHER, ".displayELooseleafs");
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");

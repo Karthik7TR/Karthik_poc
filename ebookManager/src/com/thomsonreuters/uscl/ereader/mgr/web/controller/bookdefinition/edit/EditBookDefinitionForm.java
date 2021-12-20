@@ -598,7 +598,7 @@ public class EditBookDefinitionForm {
         final DateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
         final Date parsedPublishedDate = publishedDate != null ? formatter.parse(publishedDate) : null;
         book.setPublishedDate(parsedPublishedDate);
-        final Date parsedPublicationCutoffDate = publicationCutoffDate != null
+        final Date parsedPublicationCutoffDate = publicationCutoffDate != null && isPublicationCutoffDateUsed
                 ? formatter.parse(publicationCutoffDate) : null;
         book.setPublishCutoffDate(parsedPublicationCutoffDate);
 

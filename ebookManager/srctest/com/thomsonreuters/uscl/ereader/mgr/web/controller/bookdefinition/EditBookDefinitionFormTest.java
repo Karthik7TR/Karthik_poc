@@ -50,6 +50,7 @@ public final class EditBookDefinitionFormTest {
     private static final Integer TOC_SUBSTITUTION_LEVEL_ABSENT = 0;
     private static final Integer TOC_SUBSTITUTION_LEVEL = 2;
     private static final Integer TOC_SUBSTITUTION_LEVEL_DEFAULT = 3;
+    private static final String PUBLICATION_CUTOFF_DATE = "12/20/2021";
 
     private EditBookDefinitionForm form;
 
@@ -139,6 +140,8 @@ public final class EditBookDefinitionFormTest {
         nortFileLocations.add(location);
         form.setPrintComponents(printComponentsJson);
         form.setTitlePageImageIncluded(true);
+        form.setPublicationCutoffDateUsed(true);
+        form.setPublicationCutoffDate(PUBLICATION_CUTOFF_DATE);
 
         try {
             form.loadBookDefinition(book);
@@ -157,6 +160,7 @@ public final class EditBookDefinitionFormTest {
         Assert.assertEquals(1, book.getNortFileLocations().size());
         Assert.assertEquals(3, book.getPrintComponents().size());
         Assert.assertTrue(book.isTitlePageImageIncluded());
+        Assert.assertNotNull(book.getPublishCutoffDate());
 
         validateEscapingPrintComponentName(book.getPrintComponents());
     }
@@ -291,6 +295,18 @@ public final class EditBookDefinitionFormTest {
         form.loadBookDefinition(book);
 
         Assert.assertEquals(substituteTocHeadersLevelInBookDefinition, book.getSubstituteTocHeadersLevel());
+    }
+
+    @Test
+    public void testPublicationCurOffDateNotUsed() throws ParseException {
+        final BookDefinition book = createBookDefinition(USCL_TITLE_ID);
+        form.setTitleId(USCL_TITLE_ID);
+        form.setPublicationCutoffDateUsed(false);
+        form.setPublicationCutoffDate(PUBLICATION_CUTOFF_DATE);
+
+        form.loadBookDefinition(book);
+
+        Assert.assertNull(book.getPublishCutoffDate());
     }
 
     private BookDefinition createBookDefinition(final String titleId) {

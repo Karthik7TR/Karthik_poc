@@ -281,10 +281,12 @@ $(document).ready(function() {
 						<label class="labelCol">KeyCite Topline Flag</label>
 						<span class="field">${ book.keyciteToplineFlag }</span>
 					</div>
-					<div class="row" ${xppHide}>
-						<label class="labelCol">Publication Cut-off Date</label>
-						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
-					</div>
+					<c:if test="${book.documentTypeCodes.usePublishCutoffDateFlag}">
+						<div class="row" ${xppHide}>
+							<label class="labelCol">Publication Cut-off Date</label>
+							<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
+						</div>
+					</c:if>
 					<div class="row xppHideClass cwbHideClass">
 						<label class="labelCol">Novus Stage</label>
 						<span class="field">
