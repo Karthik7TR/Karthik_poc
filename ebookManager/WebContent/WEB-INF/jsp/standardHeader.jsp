@@ -19,7 +19,8 @@
         titleId: '${ currentSessionUserPreferences.titleId }',
         minVersions: '${ currentSessionUserPreferences.minVersions }',
         maxVersions: '${ currentSessionUserPreferences.maxVersions }',
-        objectsPerPage: '${ currentSessionUserPreferences.proviewListObjectsPerPage }'
+        objectsPerPage: '${ currentSessionUserPreferences.proviewListObjectsPerPage }',
+        status: '${ currentSessionUserPreferences.status }'
     };
     const proviewListQueryString = getFilteredQueryString(proviewListFilterParams);
 

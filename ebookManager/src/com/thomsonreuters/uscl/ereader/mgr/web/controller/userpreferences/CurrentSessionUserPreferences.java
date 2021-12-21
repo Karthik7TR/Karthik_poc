@@ -37,6 +37,7 @@ public class CurrentSessionUserPreferences implements Serializable {
     private String minVersions;
     private String maxVersions;
     private String proviewListObjectsPerPage;
+    private String status;
 
     public CurrentSessionUserPreferences(@NotNull final UserPreferencesForm form) {
         BeanUtils.copyProperties(form, this);
@@ -53,6 +54,7 @@ public class CurrentSessionUserPreferences implements Serializable {
                 proviewListQueryParams.put(WebConstants.KEY_MIN_VERSIONS_FILTER, getMinVersions());
                 proviewListQueryParams.put(WebConstants.KEY_MAX_VERSIONS_FILTER, getMaxVersions());
                 proviewListQueryParams.put(WebConstants.KEY_OBJECTS_PER_PAGE, getProviewListObjectsPerPage());
+                proviewListQueryParams.put(WebConstants.KEY_STATUS, getStatus());
                 return generateUri(WebConstants.MVC_PROVIEW_TITLES, proviewListQueryParams);
             case AUDIT:
                 return WebConstants.MVC_BOOK_AUDIT_LIST;

@@ -119,6 +119,7 @@ public class ProviewTitleListController {
             sessionPreferences.setMinVersions(form.getMinVersions());
             sessionPreferences.setMaxVersions(form.getMaxVersions());
             sessionPreferences.setProviewListObjectsPerPage(form.getObjectsPerPage());
+            sessionPreferences.setStatus(form.getStatus());
         }
     }
 

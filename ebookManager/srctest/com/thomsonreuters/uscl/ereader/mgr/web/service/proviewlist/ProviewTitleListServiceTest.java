@@ -16,6 +16,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEm
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewStatus;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command;
@@ -66,9 +67,13 @@ public final class ProviewTitleListServiceTest {
     private static final String _PT = "_pt";
     private static final String TEST_TITLE_NAME = "testTitle";
     private static final String TEST_TITLE_ID = "testId".toLowerCase();
+    private static final String TEST_TITLE_SUFFIX_ID = "testIdSuffix".toLowerCase();
     private static final Integer TOTAL_NUMBER_OF_VERSIONS = 1;
     private static final String PERCENT = "%";
     private static final String SUFFIX = "suffix";
+    private static final String SUFFIX_2 = "suffix2";
+    private static final String SUFFIX_3 = "suffix3";
+    private static final String ANY_STATUS = "";
 
     private ProviewTitleListService proviewTitleListService;
     @Mock
@@ -193,19 +198,30 @@ public final class ProviewTitleListServiceTest {
 
     private ProviewListFilterForm initFilteringRequest(final String proviewDisplayName, final String titleId,
             final Integer minVersionsFilter, final Integer maxVersionsFilter) {
+        return initFilteringRequest(proviewDisplayName, titleId, minVersionsFilter, maxVersionsFilter, ANY_STATUS);
+    }
+
+    private ProviewListFilterForm initFilteringRequest(final String proviewDisplayName, final String titleId,
+            final Integer minVersionsFilter, final Integer maxVersionsFilter, final String status) {
         final ProviewListFilterForm form = new ProviewListFilterForm();
         form.setProviewDisplayName(proviewDisplayName);
         form.setTitleId(titleId);
         form.setMinVersions(minVersionsFilter.toString());
         form.setMaxVersions(maxVersionsFilter.toString());
+        form.setStatus(status);
         return form;
     }
 
     private ProviewTitleInfo getProviewTitleInfo(final String suffix) {
+        return getProviewTitleInfo(suffix, FINAL_BOOK_STATUS);
+    }
+
+    private ProviewTitleInfo getProviewTitleInfo(final String suffix, final String status) {
         final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
         titleInfo.setTitle(TEST_TITLE_NAME + suffix);
         titleInfo.setTitleId(TEST_TITLE_ID + suffix);
         titleInfo.setTotalNumberOfVersions(TOTAL_NUMBER_OF_VERSIONS);
+        titleInfo.setStatus(status);
         return titleInfo;
     }
 
@@ -255,6 +271,28 @@ public final class ProviewTitleListServiceTest {
         assertTrue(CollectionUtils.isNotEmpty(selectedProviewTitleInfo));
         assertEquals(1, selectedProviewTitleInfo.size());
         assertEquals(TEST_TITLE_ID, selectedProviewTitleInfo.get(0).getTitleId());
+    }
+
+    @Test
+    public void getSelectedProviewTitleInfo_filteringParamsWithReviewStatus_titlesFilteredSuccessfully() throws Exception {
+        final ProviewListFilterForm form = initFilteringRequest(null, null,
+                TOTAL_NUMBER_OF_VERSIONS, TOTAL_NUMBER_OF_VERSIONS, ProviewStatus.Review.name());
+        when(proviewTitlesProvider.provideAll(anyBoolean())).thenReturn(Collections.emptyMap());
+        when(proviewTitlesProvider.provideAllLatest())
+                .thenReturn(Arrays.asList(
+                        getProviewTitleInfo(StringUtils.EMPTY, REVIEW_BOOK_STATUS),
+                        getProviewTitleInfo(SUFFIX, REVIEW_BOOK_STATUS),
+                        getProviewTitleInfo(SUFFIX_2, FINAL_BOOK_STATUS),
+                        getProviewTitleInfo(SUFFIX_3, REMOVED_BOOK_STATUS)
+                        ));
+
+        final List<ProviewTitleInfo> selectedProviewTitleInfo =
+                proviewTitleListService.getSelectedProviewTitleInfo(form);
+
+        assertTrue(CollectionUtils.isNotEmpty(selectedProviewTitleInfo));
+        assertEquals(2, selectedProviewTitleInfo.size());
+        assertEquals(TEST_TITLE_ID, selectedProviewTitleInfo.get(0).getTitleId());
+        assertEquals(TEST_TITLE_SUFFIX_ID, selectedProviewTitleInfo.get(1).getTitleId());
     }
 
     @Test

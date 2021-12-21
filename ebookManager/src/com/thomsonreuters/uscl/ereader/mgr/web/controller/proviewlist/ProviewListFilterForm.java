@@ -34,10 +34,13 @@ public class ProviewListFilterForm implements Serializable {
     private Command command;
     @Getter @Setter
     private String objectsPerPage;
+    @Getter @Setter
+    private String status;
 
     public boolean areAllFiltersBlank() {
         return isBlank(getProviewDisplayName()) && isBlank(getTitleId())
-                && isBlank(getMinVersions()) && isBlank(getMaxVersions());
+                && isBlank(getMinVersions()) && isBlank(getMaxVersions())
+                && isBlank(getStatus());
     }
 
     @SuppressWarnings("unused")

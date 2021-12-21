@@ -73,6 +73,8 @@ public final class ProviewTitleListControllerTest {
     private static final String PERCENT = "%";
     private static final String MIN_VERSIONS_FILTER = "minVersions";
     private static final String MAX_VERSIONS_FILTER = "maxVersions";
+    private static final String STATUS_REVIEW = "Review";
+    private static final String STATUS_KEY = "status";
 
     @InjectMocks
     private ProviewTitleListController controller;
@@ -200,6 +202,7 @@ public final class ProviewTitleListControllerTest {
         request.setParameter(TITLE_ID, titleId);
         request.setParameter(MIN_VERSIONS_FILTER, TOTAL_NUMBER_OF_VERSIONS.toString());
         request.setParameter(MAX_VERSIONS_FILTER, Integer.toString(3));
+        request.setParameter(STATUS_KEY, STATUS_REVIEW);
         final ArgumentCaptor<ProviewListFilterForm> formCaptor = ArgumentCaptor.forClass(ProviewListFilterForm.class);
         when(mockProviewTitleListService.getSelectedProviewTitleInfo(formCaptor.capture()))
                 .thenReturn(Collections.singletonList(getProviewTitleInfo()));
@@ -212,6 +215,7 @@ public final class ProviewTitleListControllerTest {
         assertEquals(titleId, form.getTitleId());
         assertEquals(TOTAL_NUMBER_OF_VERSIONS, form.getMinVersionsInt());
         assertEquals(Integer.valueOf(3), form.getMaxVersionsInt());
+        assertEquals(STATUS_REVIEW, form.getStatus());
     }
 
     private ProviewTitleInfo getProviewTitleInfo() {

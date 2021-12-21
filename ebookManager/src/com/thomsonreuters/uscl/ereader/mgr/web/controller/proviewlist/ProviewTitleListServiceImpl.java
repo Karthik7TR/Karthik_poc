@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -133,6 +134,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         boolean titleIdStartsWithWildCard = false;
         String proviewDisplayNameSearchTerm = filterForm.getProviewDisplayName();
         String titleIdSearchTerm = filterForm.getTitleId();
+        String statusSearchTerm = filterForm.getStatus();
 
         if (filterForm.getProviewDisplayName() != null) {
             if (filterForm.getProviewDisplayName().endsWith("%")
@@ -213,6 +215,13 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             if (selected) {
                 if (!(titleInfo.getTotalNumberOfVersions() <= filterForm.getMaxVersionsInt())) {
                     selected = false;
+                }
+            }
+            if (selected) {
+                if (statusSearchTerm != null) {
+                    if (!StringUtils.containsIgnoreCase(titleInfo.getStatus(), statusSearchTerm)) {
+                        selected = false;
+                    }
                 }
             }
             if (selected) {

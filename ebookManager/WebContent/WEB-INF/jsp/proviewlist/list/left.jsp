@@ -6,6 +6,7 @@
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm"%>
+<%@ page import="com.thomsonreuters.uscl.ereader.deliver.service.ProviewStatus" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -71,6 +72,15 @@
 	<div class="filterRow">
 		<label>Max Total versions:</label>
 		<form:input path="maxVersions"/>
+	</div>
+	<div class="filterRow">
+		<label>Status:</label>
+		<form:select path="status">
+			<form:option label="ALL" value=""/>
+			<form:option label="<%=ProviewStatus.Review.name()%>" value="<%=ProviewStatus.Review.name() %>"/>
+			<form:option label="<%=ProviewStatus.Final.name()%>" value="<%=ProviewStatus.Final.name() %>"/>
+			<form:option label="<%=ProviewStatus.Removed.name()%>" value="<%=ProviewStatus.Removed.name() %>"/>
+		</form:select>
 	</div>
 	
 	<div class="wildCard">Wildcard: %</div>
