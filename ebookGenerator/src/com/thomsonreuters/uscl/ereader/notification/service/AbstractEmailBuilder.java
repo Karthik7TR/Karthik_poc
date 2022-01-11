@@ -4,10 +4,10 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder;
-import com.thomsonreuters.uscl.ereader.common.step.BaseStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStep;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Collection;
@@ -15,6 +15,8 @@ import java.util.Map;
 
 public abstract class AbstractEmailBuilder implements EmailBuilder {
     private static final String PAGES_IN_WRONG_ORDER_WARNING = "\n\nWARNING: some pages are in different order in main section and in footnotes section\n";
+    private static final String CANADIAN_DIGEST_MISSING_WARNING = "\n\nWARNING: some documents metadata have Canadian Digest section with missing elements:\n";
+    private static final String CANADIAN_TOPIC_CODE_MISSING_WARNING = "\n\nWARNING: some documents metadata have Canadian Topic Code section with missing elements:\n";
     private static final String DOCUMENT = "\tDocument ";
     private static final String PAGE = "\t\tpage ";
     @Resource(name = "sendNotificationTask")
@@ -58,6 +60,8 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
         sb.append(getInlineTocInfo(bookDefinition));
 
         sb.append(getPagebreaksInWrongOrderWarning());
+        sb.append(getCanadianDigestMissingWarning());
+        sb.append(getCanadianTopicCodeMissingWarning());
 
         return sb.toString();
     }
@@ -74,6 +78,20 @@ public abstract class AbstractEmailBuilder implements EmailBuilder {
                 sb.append("\n");
             });
             return sb.toString();
+        }
+        return StringUtils.EMPTY;
+    }
+
+    private String getCanadianDigestMissingWarning() {
+        if (CollectionUtils.isNotEmpty(step.getJobExecutionPropertyCanadianDigestMissing())) {
+            return CANADIAN_DIGEST_MISSING_WARNING + String.join("\n", step.getJobExecutionPropertyCanadianDigestMissing());
+        }
+        return StringUtils.EMPTY;
+    }
+
+    private String getCanadianTopicCodeMissingWarning() {
+        if (CollectionUtils.isNotEmpty(step.getJobExecutionPropertyCanadianTopicCodeMissing())) {
+            return CANADIAN_TOPIC_CODE_MISSING_WARNING + String.join("\n", step.getJobExecutionPropertyCanadianTopicCodeMissing());
         }
         return StringUtils.EMPTY;
     }

@@ -118,7 +118,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
      */
     @Override
     @Transactional
-    public void parseAndStoreDocMetadata(
+    public DocMetadata parseAndStoreDocMetadata(
         final String titleId,
         final Long jobInstanceId,
         final File metaDataFile) throws Exception {
@@ -129,6 +129,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
         final DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
         final DocMetadata docMetaData = xmlParser.parseDocument(titleId, jobInstanceId, collectionName, metaDataFile);
         saveDocMetadata(docMetaData);
+        return docMetaData;
     }
 
     /**

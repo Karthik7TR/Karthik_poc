@@ -72,7 +72,8 @@ public class AddThesaurusToDocumentsStepIntegrationTest {
             return Arrays.asList(
                     getTopicCode("IPY.V.1", DOC_1),
                     getTopicCode("IPY.V", DOC_1),
-                    getTopicCode("IPY", DOC_1)
+                    getTopicCode("IPY", DOC_1),
+                    getTopicCode(" ", DOC_1)
             );
         }
 
@@ -80,7 +81,8 @@ public class AddThesaurusToDocumentsStepIntegrationTest {
             return Arrays.asList(
                     getTopicCode("IPY.V.2", DOC_2),
                     getTopicCode("IPY.V", DOC_2),
-                    getTopicCode("IPY", DOC_2)
+                    getTopicCode("IPY", DOC_2),
+                    getTopicCode(null, DOC_2)
             );
         }
 

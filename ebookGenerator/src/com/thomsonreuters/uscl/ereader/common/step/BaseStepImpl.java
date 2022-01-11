@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -128,6 +129,24 @@ public abstract class BaseStepImpl implements BaseStep {
             getJobExecutionContext().put(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER, new HashMap<>());
         }
         return (Map<String, Collection<String>>) getJobExecutionContext().get(JobExecutionKey.PAGEBREAKS_IN_WRONG_ORDER);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Collection<String> getJobExecutionPropertyCanadianDigestMissing() {
+        if (!getJobExecutionContext().containsKey(JobExecutionKey.CANADIAN_DIGEST_MISSING)) {
+            getJobExecutionContext().put(JobExecutionKey.CANADIAN_DIGEST_MISSING, new ArrayList<>());
+        }
+        return (Collection<String>) getJobExecutionContext().get(JobExecutionKey.CANADIAN_DIGEST_MISSING);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Collection<String> getJobExecutionPropertyCanadianTopicCodeMissing() {
+        if (!getJobExecutionContext().containsKey(JobExecutionKey.CANADIAN_TOPIC_CODE_MISSING)) {
+            getJobExecutionContext().put(JobExecutionKey.CANADIAN_TOPIC_CODE_MISSING, new ArrayList<>());
+        }
+        return (Collection<String>) getJobExecutionContext().get(JobExecutionKey.CANADIAN_TOPIC_CODE_MISSING);
     }
 
     private void assertPropertyExists(final String propertyKey) {

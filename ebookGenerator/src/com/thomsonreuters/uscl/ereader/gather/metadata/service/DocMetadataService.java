@@ -38,7 +38,7 @@ public interface DocMetadataService {
 
     /**
      */
-    void parseAndStoreDocMetadata(String titleId, Long jobInstanceId, File metadataFile)
+    DocMetadata parseAndStoreDocMetadata(String titleId, Long jobInstanceId, File metadataFile)
         throws Exception;
 
     /**

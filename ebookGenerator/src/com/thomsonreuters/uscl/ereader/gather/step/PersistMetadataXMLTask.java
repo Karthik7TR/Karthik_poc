@@ -4,19 +4,19 @@ import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This step persists the Novus Metadata xml to DB.
@@ -24,26 +24,29 @@ import org.springframework.beans.factory.annotation.Required;
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam
  *         Chatterjee</a> u0072938
  */
-public class PersistMetadataXMLTask extends AbstractSbTasklet {
-    // TODO: Use logger API to get Logger instance to job-specific appender.
-    private static final Logger LOG = LogManager.getLogger(PersistMetadataXMLTask.class);
+@Slf4j
+@SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
+@SavePublishingStatusPolicy(StatsUpdateTypeEnum.GENERAL)
+public class PersistMetadataXMLTask extends BookStepImpl {
+    @Autowired
     private DocMetadataService docMetadataService;
+
+    @Autowired
     private PublishingStatsService publishingStatsService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+    public ExitStatus executeStep()
         throws Exception {
-        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-        final JobInstance jobInstance = getJobInstance(chunkContext);
+        final ExecutionContext jobExecutionContext = getJobExecutionContext();
 
         final BookDefinition bookDefinition =
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 
         final String titleId = bookDefinition.getTitleId();
-        final Long jobInstanceId = jobInstance.getId();
+        final Long jobInstanceId = getJobInstanceId();
 
         final File metaDataDirectory =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
+            new File(getJobExecutionPropertyString(JobExecutionKey.GATHER_DOCS_METADATA_DIR));
 
         // TODO: Set value below based on execution context value
 
@@ -55,8 +58,9 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
             if (metaDataDirectory.isDirectory()) {
                 final File[] allFiles = metaDataDirectory.listFiles();
                 for (final File metadataFile : allFiles) {
-                    docMetadataService
+                    DocMetadata docMetadata = docMetadataService
                         .parseAndStoreDocMetadata(titleId, jobInstanceId, metadataFile);
+                    processCanadianDigestIssues(docMetadata);
                     numDocsMetaDataRun++;
                 }
             }
@@ -67,10 +71,19 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
             final int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
             updateTitleDocCountStats(jobInstanceId, dupDocCount, publishStatus);
         }
-        LOG.debug(
-            "Persisted " + numDocsMetaDataRun + " Metadata XML files from " + metaDataDirectory.getAbsolutePath());
+        log.debug("Persisted {} Metadata XML files from {}", numDocsMetaDataRun, metaDataDirectory.getAbsolutePath());
 
         return ExitStatus.COMPLETED;
+    }
+
+    private void processCanadianDigestIssues(final DocMetadata docMetadata) {
+        if (docMetadata.isCanadianDigestMissing()) {
+            getJobExecutionPropertyCanadianDigestMissing().add(docMetadata.getDocUuid());
+        }
+
+        if (docMetadata.isCanadianTopicCodeMissing()) {
+            getJobExecutionPropertyCanadianTopicCodeMissing().add(docMetadata.getDocUuid());
+        }
     }
 
     private void updateTitleDocCountStats(final Long jobId, final int titleDupDocCount, final String status) {
@@ -79,18 +92,8 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
         jobstatsFormat.setTitleDupDocCount(titleDupDocCount);
         jobstatsFormat.setPublishStatus("persistMetadata : " + status);
 
-        LOG.debug("titleDupDocCount =" + titleDupDocCount);
+        log.debug("titleDupDocCount = {}", titleDupDocCount);
 
         publishingStatsService.updatePublishingStats(jobstatsFormat, StatsUpdateTypeEnum.TITLEDUPDOCCOUNT);
-    }
-
-    @Required
-    public void setDocMetadataService(final DocMetadataService docMetadataSvc) {
-        docMetadataService = docMetadataSvc;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
-        this.publishingStatsService = publishingStatsService;
     }
 }

@@ -26,6 +26,8 @@ import java.util.Map;
 public final class DefaultEmailBuilderTest {
     private static final String PAGES_IN_WRONG_ORDER_WARNING = "WARNING: some pages are in different order in main section and in footnotes section\n";
     private static final String PRINT_PAGE_NUMBERS_WARNING = "WARNING: printPageNumbers";
+    private static final String CANADIAN_DIGEST_MISSING_WARNING = "\n\nWARNING: some documents metadata have Canadian Digest section with missing elements:\n";
+    private static final String CANADIAN_TOPIC_CODE_MISSING_WARNING = "\n\nWARNING: some documents metadata have Canadian Topic Code section with missing elements:\n";
     private static final String INLINE_TOC_WARNING = "WARNING: inlineToc";
     private static final String DOCUMENT_ID_1 = "N67F3BB609E3411E183F7C076EF385880-001306";
     private static final String DOCUMENT_ID_2 = "I6e4d986a87bd11dc96c98c8a52b704a4-001307";
@@ -165,6 +167,32 @@ public final class DefaultEmailBuilderTest {
                 "\tDocument I6e4d986a87bd11dc96c98c8a52b704a4-001307:\n" +
                 "\t\tpage 7\n" +
                 "\t\tpage 8\n"));
+    }
+
+    @Test
+    public void testCanadianMetadataWarning() {
+        //given
+        givenAll();
+        givenCanadianDigest();
+        //when
+        final String body = defaultEmailBuilder.getBody();
+        //then
+        assertThat(body, containsString(
+                CANADIAN_DIGEST_MISSING_WARNING +
+                        "doc1\n" +
+                        "doc2"
+                        ));
+
+        assertThat(body, containsString(
+                CANADIAN_TOPIC_CODE_MISSING_WARNING +
+                        "doc2\n" +
+                        "doc3"
+        ));
+    }
+
+    private void givenCanadianDigest() {
+        given(step.getJobExecutionPropertyCanadianDigestMissing()).willReturn(Arrays.asList("doc1", "doc2"));
+        given(step.getJobExecutionPropertyCanadianTopicCodeMissing()).willReturn(Arrays.asList("doc2", "doc3"));
     }
 
     private void givenAll() {

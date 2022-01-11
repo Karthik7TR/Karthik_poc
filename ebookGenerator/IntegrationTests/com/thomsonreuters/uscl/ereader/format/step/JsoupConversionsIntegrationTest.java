@@ -49,6 +49,8 @@ public class JsoupConversionsIntegrationTest {
     private static final String CLASSIFICATION_1 = "classification1";
     private static final String CLASSIFNUM_2 = "classifnum2";
     private static final String CLASSIFICATION_2 = "classification2";
+    private static final String CLASSIFNUM_3 = "classifnum3";
+    private static final String CLASSIFICATION_4 = "classification4";
     private static final long CD_ID = 1L;
     private static final long CD_ID_2 = 2L;
 
@@ -172,7 +174,10 @@ public class JsoupConversionsIntegrationTest {
             CanadianDigestDao canadianDigestDaoMock = Mockito.mock(CanadianDigestDao.class);
             CanadianDigest canadianDigest1 = getCanadianDigest(DOC_1, CLASSIFNUM_1, CLASSIFICATION_1, CD_ID);
             CanadianDigest canadianDigest2 = getCanadianDigest(DOC_2, CLASSIFNUM_2, CLASSIFICATION_2, CD_ID_2);
-            Mockito.when(canadianDigestDaoMock.findAllByJobInstanceId(JOB_1)).thenReturn(Arrays.asList(canadianDigest1, canadianDigest2));
+            CanadianDigest canadianDigest3 = getCanadianDigest(DOC_2, CLASSIFNUM_3, null, CD_ID_2);
+            CanadianDigest canadianDigest4 = getCanadianDigest(DOC_2, " ", CLASSIFICATION_4, CD_ID_2);
+            Mockito.when(canadianDigestDaoMock.findAllByJobInstanceId(JOB_1))
+                    .thenReturn(Arrays.asList(canadianDigest1, canadianDigest2, canadianDigest3, canadianDigest4));
             return new CanadianDigestServiceImpl(canadianDigestDaoMock);
         }
 

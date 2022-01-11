@@ -67,6 +67,9 @@ public final class ProcessPagesIntegrationTest {
     private static final String DOC_UUID = "I01000000000000000000000000000000";
     private static final String PB_LABEL_2 = "p2";
     private static final String PB_LABEL_3 = "p3";
+    private static final long METADATA_SERIAL_NUMBER = 443605793L;
+    private static final int CANADIAN_DIGESTS_SIZE = 2;
+    private static final int CANADIAN_TOPIC_CODES_SIZE = 9;
     @Autowired
     private ProcessPages step;
     @Autowired
@@ -91,6 +94,7 @@ public final class ProcessPagesIntegrationTest {
         final String resourceTestDir = "transformWithSectionbreaksTest";
         setUpDocMetadata(resourceTestDir);
         runner.test(step, resourceTestDir);
+        validateDocMetadataXmlParser();
     }
 
     @Test
@@ -251,6 +255,15 @@ public final class ProcessPagesIntegrationTest {
                 .resolve(GATHER_DIR.getName())
                 .resolve(GATHER_DOCS_DIR.getName())
                 .resolve(GATHER_DOCS_METADATA_DIR.getName()).toFile();
+    }
+
+    private void validateDocMetadataXmlParser() {
+        DocumentMetadataAuthority authority = docMetadataService.findAllDocMetadataForTitleByJobId(0L);
+        DocMetadata metadata = authority.getDocMetadataKeyedBySerialNumber().get(METADATA_SERIAL_NUMBER);
+        assertTrue(metadata.isCanadianDigestMissing());
+        assertTrue(metadata.isCanadianTopicCodeMissing());
+        assertEquals(CANADIAN_DIGESTS_SIZE, metadata.getCanadianDigests().size());
+        assertEquals(CANADIAN_TOPIC_CODES_SIZE, metadata.getCanadianTopicCodes().size());
     }
 
     @Configuration

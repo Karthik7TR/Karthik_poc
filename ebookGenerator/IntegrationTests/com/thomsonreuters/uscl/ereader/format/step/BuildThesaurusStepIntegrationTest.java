@@ -82,7 +82,9 @@ public final class BuildThesaurusStepIntegrationTest {
                     getTopicCode("IPY", DOC_1),
                     getTopicCode("IPY.V.2", DOC_2),
                     getTopicCode("IPY.V", DOC_2),
-                    getTopicCode("IPY", DOC_2)
+                    getTopicCode("IPY", DOC_2),
+                    getTopicCode(null, DOC_2),
+                    getTopicCode("", DOC_2)
                     );
         }
 

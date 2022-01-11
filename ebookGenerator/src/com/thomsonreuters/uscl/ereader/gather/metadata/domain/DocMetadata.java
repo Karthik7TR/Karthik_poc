@@ -163,6 +163,16 @@ public class DocMetadata implements Serializable {
     @XmlElement
     private List<CanadianTopicCode> canadianTopicCodes = new ArrayList<>();
 
+    @Getter
+    @Setter
+    @Transient
+    private boolean canadianDigestMissing;
+
+    @Getter
+    @Setter
+    @Transient
+    private boolean canadianTopicCodeMissing;
+
     public DocMetadata() {
     }
 

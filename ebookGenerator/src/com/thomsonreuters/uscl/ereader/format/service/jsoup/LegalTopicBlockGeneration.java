@@ -5,6 +5,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianDigestService;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,15 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
 
     @Override
     public void transform(final File file, final Document document, final BookStep bookStep) {
+        try {
+            createLegalTopicBlocks(file, document, bookStep);
+        } catch (Exception e) {
+            clear(bookStep);
+            throw e;
+        }
+    }
+
+    private void createLegalTopicBlocks(final File file, final Document document, final BookStep bookStep) {
         final String docGuid = FilenameUtils.removeExtension(file.getName());
         final Map<String, List<CanadianDigest>> docGuidToTopicMap = getGuidToTopicMapFromStep(bookStep);
         if (docGuidToTopicMap.containsKey(docGuid)) {
@@ -102,9 +112,12 @@ public class LegalTopicBlockGeneration implements JsoupTransformation {
 
     private Map<String, List<CanadianDigest>> createDocGuidToTopicMap(final Long jobInstanceId) {
         return canadianDigestService.findAllByJobInstanceId(jobInstanceId).stream()
+                .filter(digest -> StringUtils.isNotBlank(digest.getClassifnum()))
+                .filter(digest -> StringUtils.isNotBlank(digest.getClassification()))
                 .collect(Collectors.groupingBy(CanadianDigest::getDocUuid));
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, List<CanadianDigest>> getGuidToTopicMapFromStep(final BookStep bookStep) {
         return (Map<String, List<CanadianDigest>>) bookStep.getJobExecutionProperty(KEY_DOC_GUID_TO_TOPIC_MAP);
     }

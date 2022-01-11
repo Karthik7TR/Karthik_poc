@@ -63,4 +63,8 @@ public interface BaseStep extends Tasklet {
     boolean hasJobExecutionPropertyPagebreaksInWrongOrder();
 
     Map<String, Collection<String>> getJobExecutionPropertyPagebreaksInWrongOrder();
+
+    Collection<String> getJobExecutionPropertyCanadianDigestMissing();
+
+    Collection<String> getJobExecutionPropertyCanadianTopicCodeMissing();
 }

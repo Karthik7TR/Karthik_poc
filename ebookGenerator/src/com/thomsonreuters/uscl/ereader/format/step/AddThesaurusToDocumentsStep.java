@@ -15,7 +15,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianTopicCode
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.batch.core.ExitStatus;
@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
@@ -76,7 +77,9 @@ public class AddThesaurusToDocumentsStep extends BookStepImpl {
     }
 
     private List<CanadianTopicCode> getTopicCodes(String docUuid) {
-        return canadianTopicCodeService.findCanadianTopicCodesForDocument(getJobInstanceId(), docUuid);
+        return canadianTopicCodeService.findCanadianTopicCodesForDocument(getJobInstanceId(), docUuid).stream()
+                .filter(topicCode -> StringUtils.isNotBlank(topicCode.getTopicKey()))
+                .collect(Collectors.toList());
     }
 
     private void addThesaurusToDocument(final List<CanadianTopicCode> topicCodes, final Document document) {

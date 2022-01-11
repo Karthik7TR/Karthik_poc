@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -178,11 +179,9 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
         } else if (CAN_MD_DIGEST_CLASSIFNUM.equalsIgnoreCase(qName)) {
             canadianDigest.setClassifnum(tempVal);
         } else if (CAN_MD_DIGEST.equalsIgnoreCase(qName)) {
-            docMetadata.addDigest(canadianDigest);
+            addCanadianDigest();
         } else if (CAN_MD_TOPIC_KEY.equalsIgnoreCase(qName)) {
-            CanadianTopicCode canadianTopicCode = new CanadianTopicCode();
-            canadianTopicCode.setTopicKey(tempVal);
-            docMetadata.addTopicCode(canadianTopicCode);
+            addCanadianTopicCode(tempVal);
         } else if (MD_DISPLAY_PRIMARYCITE.equals(qName)) {
             if (docMetadata.getFindOrig() == null) {
                 docMetadata.setFindOrig(tempVal);
@@ -192,8 +191,34 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
         }
     }
 
+    private void addCanadianDigest() {
+        if (validateCanadianDigest(canadianDigest)) {
+            docMetadata.addDigest(canadianDigest);
+        } else {
+            docMetadata.setCanadianDigestMissing(true);
+        }
+    }
+
+    private void addCanadianTopicCode(final String tempVal) {
+        if (validateCanadianTopicCode(tempVal)) {
+            CanadianTopicCode canadianTopicCode = new CanadianTopicCode();
+            canadianTopicCode.setTopicKey(tempVal);
+            docMetadata.addTopicCode(canadianTopicCode);
+        } else {
+            docMetadata.setCanadianTopicCodeMissing(true);
+        }
+    }
+
+    private boolean validateCanadianDigest(final CanadianDigest canadianDigest) {
+        return StringUtils.isNotBlank(canadianDigest.getClassifnum()) && StringUtils.isNotBlank(canadianDigest.getClassification());
+    }
+
+    private boolean validateCanadianTopicCode(final String topicKey) {
+        return StringUtils.isNotBlank(topicKey);
+    }
+
     @Override
-    public void endDocument() throws SAXException {
+    public void endDocument() {
         docMetadata.setLastUpdated(new Date());
     }
 }

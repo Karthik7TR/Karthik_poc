@@ -1,12 +1,14 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service.job;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service("jobService")
 public class JobServiceImpl implements JobService {
     private final JobDao dao;
@@ -34,7 +37,12 @@ public class JobServiceImpl implements JobService {
     @Override
     @Transactional(readOnly = true)
     public JobExecution findJobExecution(final long jobExecutionId) {
-        return jobExplorer.getJobExecution(jobExecutionId);
+        try {
+            return jobExplorer.getJobExecution(jobExecutionId);
+        } catch (Exception e) {
+            log.warn("unable to get JobExecution {}", jobExecutionId, e);
+            return null;
+        }
     }
 
     @Override
@@ -52,8 +60,12 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobExecution> findJobExecutions(final JobInstance jobInstance) {
-        final List<JobExecution> jobExecutions = jobExplorer.getJobExecutions(jobInstance);
-        return jobExecutions;
+        try {
+            return jobExplorer.getJobExecutions(jobInstance);
+        } catch (Exception e) {
+            log.warn("unable to get JobInstance {}", jobInstance, e);
+            return Collections.emptyList();
+        }
     }
 
     @Override

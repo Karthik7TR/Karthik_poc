@@ -294,9 +294,7 @@
 	<beans:bean id="prepareSourcesTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PrepareSourcesTask" parent="bookStep"/>
 	<beans:bean id="prepareTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PrepareTocTask" parent="generatorParentTask"/>
 	<beans:bean id="prepareDocsTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PrepareDocsTask" parent="generatorParentTask"/>
-	<beans:bean id="persistDocMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="generatorParentTask"
-				p:docMetadataService-ref="docMetadataService"		
-				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="persistDocMetadataTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask"/>
 	<beans:bean id="buildThesaurusTask" scope="step" parent="bookStep" class="com.thomsonreuters.uscl.ereader.format.step.BuildThesaurusStep" />
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask"
                 scope="step" parent="bookStep"/>

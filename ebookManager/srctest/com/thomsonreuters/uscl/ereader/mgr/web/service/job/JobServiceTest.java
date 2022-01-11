@@ -7,7 +7,6 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobServiceImpl;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;

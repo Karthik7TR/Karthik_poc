@@ -10,7 +10,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.CanadianTopicCodeService;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.batch.core.ExitStatus;
@@ -69,7 +69,9 @@ public class BuildThesaurusStep extends BookStepImpl {
     }
 
     private Map<String, List<CanadianTopicCode>> buildTopicKeysMap(final List<CanadianTopicCode> canadianTopicCodes) {
-        return canadianTopicCodes.stream().collect(groupingBy(CanadianTopicCode::getTopicKey, TreeMap::new, toList()));
+        return canadianTopicCodes.stream()
+                .filter(topicCode -> StringUtils.isNotBlank(topicCode.getTopicKey()))
+                .collect(groupingBy(CanadianTopicCode::getTopicKey, TreeMap::new, toList()));
     }
 
     private void fillThesaurusEntries(final Map<String, List<CanadianTopicCode>> topicKeys, final Document document) {

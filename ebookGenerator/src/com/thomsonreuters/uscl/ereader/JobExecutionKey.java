@@ -169,6 +169,8 @@ public class JobExecutionKey {
 
     public static final String PAGE_VOLUMES_SET = "pageVolumesSet";
     public static final String PAGEBREAKS_IN_WRONG_ORDER = "pagebreaksInWrongOrder";
+    public static final String CANADIAN_DIGEST_MISSING = "canadianDigestMissing";
+    public static final String CANADIAN_TOPIC_CODE_MISSING = "canadianTopicCodeMissing";
 
     public static final String HAS_FILE_SOURCE_TYPE = "hasFileSourceType";
 
