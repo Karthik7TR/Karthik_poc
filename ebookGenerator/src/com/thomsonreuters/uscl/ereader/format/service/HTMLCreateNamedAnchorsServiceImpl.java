@@ -30,8 +30,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -45,8 +44,8 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
+@Slf4j
 public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchorsService {
-    private static final Logger LOG = LogManager.getLogger(HTMLCreateNamedAnchorsServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
     private DocMetadataService docMetadataService;
@@ -95,7 +94,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         } catch (final FileNotFoundException e) {
             final String errMessage = "No html files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -103,7 +102,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
             targetDir.mkdirs();
         }
 
-        LOG.info("Fixing named anchors on post transformed files...");
+        log.info("Fixing named anchors on post transformed files...");
 
         final DocumentMetadataAuthority documentMetadataAuthority =
             docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
@@ -153,7 +152,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final File anchorDupFile = new File(targetDir.getAbsolutePath(), "anchorDupFile");
         createAnchorTargetList(anchorDupFile, dupTargetAnchors);
 
-        LOG.info("Creating Anchor transformations successfully applied to " + numDocs + " files.");
+        log.info("Creating Anchor transformations successfully applied to " + numDocs + " files.");
         return numDocs;
     }
 
@@ -217,19 +216,19 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 
                 anchorIdFilter.parse(new InputSource(inStream));
 
-                LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
+                log.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
             }
         } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }
@@ -256,16 +255,16 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                         final String message = "Please verify that each document GUID in the following file has "
                             + "at least one anchor associated with it: "
                             + anchorTargetListFile.getAbsolutePath();
-                        LOG.error(message);
+                        log.error(message);
                         throw new EBookFormatException(message);
                     }
                     input = reader.readLine();
                 }
-                LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
+                log.info("Generated a map for " + anchors.size() + " guids that have anchors.");
             } catch (final IOException e) {
                 final String message =
                     "Could not read the DOC guid to anchors file: " + anchorTargetListFile.getAbsolutePath();
-                LOG.error(message);
+                log.error(message);
                 throw new EBookFormatException(message, e);
             }
         }
@@ -293,14 +292,14 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                     writer.newLine();
                 }
             }
-            LOG.info(
+            log.info(
                 targetAnchors.size()
                     + " doc guid anchor references written successfuly to file: "
                     + anchorTargetListFile.getAbsolutePath());
         } catch (final IOException e) {
             final String message =
                 "Could not write to the doc guid anchor references file: " + anchorTargetListFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }
@@ -375,7 +374,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                         + "Please verify that each document GUID in the following file has "
                         + "at least one TOC guid associated with it: "
                         + docGuidsFile.getAbsolutePath();
-                    LOG.error(message);
+                    log.error(message);
                     throw new EBookFormatException(message);
                 }
                 input = reader.readLine();
@@ -383,7 +382,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         } catch (final IOException e) {
             final String message =
                 "Could not read the DOC guid to TOC guid map file: " + docGuidsFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }

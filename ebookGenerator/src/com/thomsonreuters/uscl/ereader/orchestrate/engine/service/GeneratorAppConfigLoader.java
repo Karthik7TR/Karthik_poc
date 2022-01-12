@@ -13,15 +13,14 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.AppConfigLoader;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Perform initial load of dynamic application configurations.
  */
+@Slf4j
 public class GeneratorAppConfigLoader implements AppConfigLoader {
-    private static Logger log = LogManager.getLogger(GeneratorAppConfigLoader.class);
     private AppConfigService appConfigService;
     private MiscConfigSyncService miscConfigSyncService;
     private JobThrottleConfigSyncService jobThrottleConfigSyncService;

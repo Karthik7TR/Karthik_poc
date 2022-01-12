@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -23,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
  * The configurations are POST'ed as the body of the HTTP request.
  */
 @Controller
+@Slf4j
 public class MiscConfigRestController {
-    private static final Logger log = LogManager.getLogger(MiscConfigRestController.class);
     private MiscConfigSyncService miscConfigSyncService;
 
     /**

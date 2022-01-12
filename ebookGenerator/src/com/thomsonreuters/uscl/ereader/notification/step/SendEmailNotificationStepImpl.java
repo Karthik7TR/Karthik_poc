@@ -16,8 +16,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ import org.springframework.util.Assert;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy
+@Slf4j
 public class SendEmailNotificationStepImpl extends BookStepImpl implements SendEmailNotificationStep {
-    private static final Logger LOG = LogManager.getLogger(SendEmailNotificationStepImpl.class);
 
     @Resource(name = "emailService")
     private EmailService emailService;
@@ -43,7 +42,7 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
     @Override
     public ExitStatus executeStep() throws Exception {
         final Collection<InternetAddress> recipients = emailUtil.getEmailRecipientsByUsername(getUserName());
-        LOG.debug("Sending job completion notification to: " + recipients);
+        log.debug("Sending job completion notification to: " + recipients);
 
         initializePublishingStats();
         final EmailBuilder emailBuilder = emailBuilderFactory.create();

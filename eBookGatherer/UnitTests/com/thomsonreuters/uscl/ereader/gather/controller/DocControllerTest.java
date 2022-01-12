@@ -23,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 public final class DocControllerTest {
-    //private static Logger log = LogManager.getLogger(DocControllerTest.class);
     private DocService mockDocService;
     private DocController controller;
 

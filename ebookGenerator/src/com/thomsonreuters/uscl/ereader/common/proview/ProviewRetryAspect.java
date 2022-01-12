@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import lombok.Setter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,8 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Aspect
 @Setter
+@Slf4j
 public class ProviewRetryAspect {
-    private static final Logger LOG = LogManager.getLogger(ProviewRetryAspect.class);
 
     @Value("6")
     private Integer maxNumberOfRetries;
@@ -38,7 +37,7 @@ public class ProviewRetryAspect {
                 if (e.getMessage().equalsIgnoreCase(CoreConstants.TTILE_IN_QUEUE)
                         || (e.getCause() != null && e.getCause().getMessage().contains(CoreConstants.GROUP_METADATA_EXCEPTION))) {
                     currentSleepTime = Math.round(baseSleepTimeInSeconds * Math.pow(2, i + 1));
-                    LOG.warn(
+                    log.warn(
                         String.format(
                             "Retriable status received: waiting %d seconds (retryCount: %d)",
                             currentSleepTime,
@@ -62,7 +61,7 @@ public class ProviewRetryAspect {
         try {
             TimeUnit.SECONDS.sleep(timeInSeconds);
         } catch (final InterruptedException e) {
-            LOG.error("InterruptedException during HTTP retry", e);
+            log.error("InterruptedException during HTTP retry", e);
             Thread.currentThread().interrupt();
         }
     }

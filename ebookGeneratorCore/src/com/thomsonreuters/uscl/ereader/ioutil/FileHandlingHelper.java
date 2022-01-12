@@ -5,16 +5,15 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Static helper that contains generic file handling helper methods.
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class FileHandlingHelper {
-    private static final Logger LOG = LogManager.getLogger(FileHandlingHelper.class);
 
     private FileExtensionFilter filter;
 
@@ -32,7 +31,7 @@ public class FileHandlingHelper {
     public void getFileList(final File directory, final List<File> fileList) throws FileNotFoundException {
         if (filter == null) {
             final String errMessage = "No filter specified for the file lookup.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new IllegalStateException(errMessage);
         }
 
@@ -49,7 +48,7 @@ public class FileHandlingHelper {
                 + "' files were found in "
                 + directory.getAbsolutePath()
                 + " directory. Please verify the source path or make sure previous step succeeded.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new FileNotFoundException(errMessage);
         }
     }

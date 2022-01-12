@@ -4,7 +4,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,7 +49,7 @@ public class CombinedBookDefinitionFormValidator implements Validator {
                 .forEach(item -> {
                     BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(item.getBookDefinition().getFullyQualifiedTitleId());
                     if (book == null) {
-                        errors.reject(ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_NOT_EXIST, new Object[]{item.getBookDefinition().getFullyQualifiedTitleId()}, Strings.EMPTY);
+                        errors.reject(ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_NOT_EXIST, new Object[]{item.getBookDefinition().getFullyQualifiedTitleId()}, StringUtils.EMPTY);
                     } else {
                         item.getBookDefinition().setEbookDefinitionId(book.getEbookDefinitionId());
                     }
@@ -71,7 +70,7 @@ public class CombinedBookDefinitionFormValidator implements Validator {
                 .collect(Collectors.collectingAndThen(Collectors.groupingBy(Function.identity(), Collectors.counting()),
                         filterDuplicates()));
         if (StringUtils.isNotEmpty(duplicatedTitleIds)) {
-            errors.reject(ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_DUPLICATED, new Object[]{duplicatedTitleIds}, Strings.EMPTY);
+            errors.reject(ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_DUPLICATED, new Object[]{duplicatedTitleIds}, StringUtils.EMPTY);
         }
     }
 

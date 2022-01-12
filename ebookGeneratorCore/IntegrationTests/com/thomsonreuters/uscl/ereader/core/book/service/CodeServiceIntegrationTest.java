@@ -11,10 +11,8 @@ import javax.sql.DataSource;
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
-import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = CodeServiceIntegrationTestConf.class)
 @ActiveProfiles("IntegrationTests")
+@Slf4j
 public class CodeServiceIntegrationTest {
-    private static final Logger log = LogManager.getLogger(CodeServiceIntegrationTest.class);
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -51,7 +50,7 @@ public class CodeServiceIntegrationTest {
         dbSetup.launch();
 
         final List<PubTypeCode> codes = service.getAllPubTypeCodes();
-        log.debug(codes);
+        log.debug(StringUtils.collectionToDelimitedString(codes, ";"));
         Assert.assertEquals(6, codes.size());
     }
 

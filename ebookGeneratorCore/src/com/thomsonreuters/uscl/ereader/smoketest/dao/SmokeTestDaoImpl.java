@@ -3,8 +3,7 @@ package com.thomsonreuters.uscl.ereader.smoketest.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
@@ -13,11 +12,9 @@ import org.hibernate.jdbc.ReturningWork;
  * DAO to test DB connection
  *
  */
-
+@Slf4j
 public class SmokeTestDaoImpl implements SmokeTestDao {
     private SessionFactory sessionFactory;
-
-    private static Logger LOG = LogManager.getLogger(SmokeTestDaoImpl.class);
 
     public SmokeTestDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
@@ -35,7 +32,7 @@ public class SmokeTestDaoImpl implements SmokeTestDao {
             });
         } catch (final HibernateException e) {
             status = false;
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return status;
     }

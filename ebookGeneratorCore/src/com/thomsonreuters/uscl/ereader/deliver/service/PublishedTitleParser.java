@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,6 +24,7 @@ import static java.util.Optional.ofNullable;
  * @author U0057241
  *
  */
+@Slf4j
 public class PublishedTitleParser {
     private Map<String, ProviewTitleContainer> titleMap = new HashMap<>();
 
@@ -37,8 +36,6 @@ public class PublishedTitleParser {
      *         is the title id.
      */
     public Map<String, ProviewTitleContainer> process(final String xml) {
-        final Logger LOG = LogManager.getLogger(PublishedTitleParser.class);
-
         try {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             parserFactory.setNamespaceAware(true);
@@ -103,7 +100,7 @@ public class PublishedTitleParser {
                         final String message =
                             "PublishedTitleParser: Exception occured during PublishedTitleParser parsing endElement. The error message is: "
                                 + e.getMessage();
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new RuntimeException(message, e);
                     }
                 }
@@ -144,7 +141,7 @@ public class PublishedTitleParser {
                         final String message =
                             "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "
                                 + e.getMessage();
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new RuntimeException(message, e);
                     }
                 }

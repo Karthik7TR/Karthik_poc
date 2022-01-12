@@ -1,13 +1,12 @@
 package com.thomsonreuters.uscl.ereader.format.text;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 /// <summary>
 /// The citation link extension class will extend the xslt process to support generating a url or flag color text for a given citation/entity.
 /// </summary>
+@Slf4j
 public class CitationLinkExtensionAdapter {
-    private static final Logger LOG = LogManager.getLogger(CitationLinkExtensionAdapter.class);
 
     public CitationLinkExtensionAdapter() {
     }
@@ -18,7 +17,7 @@ public class CitationLinkExtensionAdapter {
     /// <param name="citation">A citation within the document</param>
     /// <returns>true if flag urls exist, false otherwise</returns>
     public boolean HasFlagUrls(final String citation, final String host, final Boolean createPersistentUrls) {
-        LOG.error("Inside HasFlagUrls");
+        log.error("Inside HasFlagUrls");
         return false;
     }
 

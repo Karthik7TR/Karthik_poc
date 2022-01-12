@@ -12,8 +12,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeValueService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -31,8 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
+@Slf4j
 public class KeywordValueController {
-    private static final Logger log = LogManager.getLogger(KeywordValueController.class);
 
     private final KeywordTypeCodeSevice keywordTypeCodeService;
     private final KeywordTypeValueService keywordTypeValueService;
@@ -130,7 +129,7 @@ public class KeywordValueController {
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
         final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
         if (value != null) {
             final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
@@ -146,7 +145,7 @@ public class KeywordValueController {
     public ModelAndView deleteKeywordValuePost(
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form) {
         final KeywordTypeValue value = form.makeKeywordTypeValue();
-        log.debug(form);
+        log.debug(form.toString());
         keywordTypeValueService.deleteKeywordTypeValue(value.getId());
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
     }

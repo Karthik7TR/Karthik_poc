@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,8 +17,8 @@ import org.springframework.core.annotation.Order;
 
 @Aspect
 @Order(1)
+@Slf4j
 public class OutageStepAspect {
-    private static final Logger LOG = LogManager.getLogger(OutageStepAspect.class);
 
     @Resource(name = "outageProcessor")
     private OutageProcessor outageProcessor;
@@ -28,7 +27,7 @@ public class OutageStepAspect {
     public void around(final ProceedingJoinPoint jp) throws Throwable {
         final PlannedOutage plannedOutage = outageProcessor.processPlannedOutages();
         if (plannedOutage != null) {
-            LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
+            log.debug("Failing job step at start due to planned outage: " + plannedOutage);
             final DateFormat logDf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
             throw new PlannedOutageException(
                 String.format(

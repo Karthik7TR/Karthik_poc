@@ -10,13 +10,13 @@ import javax.annotation.PreDestroy;
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.jms.service.ConnectionFactory;
 import com.thomsonreuters.uscl.ereader.jms.service.JavaMessageService;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.StringUtils;
 
+@Slf4j
 public class JavaMessageServiceImpl implements JavaMessageService {
-    private static final Logger log = Logger.getLogger(JavaMessageServiceImpl.class);
     private static final int MAX_QUEUES_PER_TYPE = 5;
 
     private Map<QueueType, QueueManager> queueDescriptorMap = new EnumMap<QueueType, QueueManager>(QueueType.class);

@@ -11,9 +11,8 @@ import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 import com.thomsonreuters.uscl.ereader.util.Ssh;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 @Service("serverAccessService")
+@Slf4j
 public class ServerAccessServiceImpl implements ServerAccessService {
-    private static final Logger log = LogManager.getLogger(ServerAccessServiceImpl.class);
 
     private enum Operation {
         START,

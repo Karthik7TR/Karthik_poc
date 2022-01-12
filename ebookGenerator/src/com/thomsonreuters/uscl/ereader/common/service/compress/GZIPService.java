@@ -12,10 +12,9 @@ import java.util.zip.GZIPOutputStream;
 
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.XppMessageException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarInputStream;
 import org.apache.tools.tar.TarOutputStream;
@@ -23,9 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service("gzipService")
+@Slf4j
 public class GZIPService implements CompressService {
     private static final int BUFF_SIZE = 2048;
-    private static final Logger LOG = LogManager.getLogger(GZIPService.class);
 
     @Override
     public void decompress(final File tarball, final File destDir, final String pathToSkip) throws Exception {
@@ -34,7 +33,7 @@ public class GZIPService implements CompressService {
             TarEntry entry = null;
             // Read the tar entries using the getNextEntry method
             while ((entry = tarIn.getNextEntry()) != null) {
-                LOG.debug("Extracting: " + entry.getName());
+                log.debug("Extracting: " + entry.getName());
                 final File tarEntryFile = new File(destDir, entry.getName());
                 if (entry.isDirectory()) {
                     // create directory
@@ -52,15 +51,15 @@ public class GZIPService implements CompressService {
                     } catch (final IOException e) {
                         final String message =
                             String.format(XPPConstants.ERROR_EXTRACT_FILES, tarEntryFile.getAbsolutePath());
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new XppMessageException(message, e);
                     }
                 }
             }
-            LOG.debug("Completed unzip of " + tarball.getPath());
+            log.debug("Completed unzip of " + tarball.getPath());
         } catch (final IOException e) {
             final String message = String.format(XPPConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
-            LOG.error(message, e);
+            log.error(message, e);
             throw new XppMessageException(message, e);
         }
     }
@@ -75,10 +74,10 @@ public class GZIPService implements CompressService {
         try (TarOutputStream tarout = new TarOutputStream(
             new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(dest), BUFF_SIZE)))) {
             recursivelyTarZip(tarout, srcDir.getAbsolutePath(), StringUtils.EMPTY);
-            LOG.debug("unzip complete");
+            log.debug("unzip complete");
         } catch (final IOException e) {
             final String message = "Unable to create tarball at indicated location  " + dest.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new IOException(message, e);
         }
     }
@@ -110,7 +109,7 @@ public class GZIPService implements CompressService {
                 tarOutputStream.closeEntry();
             } catch (final IOException e) {
                 final String message = "error while attempting to flush TarOutputStream";
-                LOG.error(message, e);
+                log.error(message, e);
 
                 throw new IOException(message, e);
             }
@@ -144,11 +143,11 @@ public class GZIPService implements CompressService {
                     + "Are read permissions enabled on the file: "
                     + targetFile.getName()
                     + "?";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new IOException(message, e);
         } catch (final IOException e) {
             final String message = "Could not close entry in tar file.";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new IOException(message, e);
         }
     }
@@ -168,11 +167,11 @@ public class GZIPService implements CompressService {
         tarEntry.setName(entryName);
 
         try {
-            LOG.debug("Adding TAREntry: " + tarEntry.getName());
+            log.debug("Adding TAREntry: " + tarEntry.getName());
             tarOutputStream.putNextEntry(tarEntry);
         } catch (final IOException e) {
             final String message = "An exception occurred while preparing file header to write.";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new IOException(message, e);
         }
     }

@@ -21,9 +21,8 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.poi.util.ReplacingInputStream;
 
 /**
@@ -32,8 +31,8 @@ import org.apache.poi.util.ReplacingInputStream;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class HTMLWrapperServiceImpl implements HTMLWrapperService {
-    private static final Logger LOG = LogManager.getLogger(TransformerServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
     private KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService;
@@ -96,7 +95,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
         } catch (final FileNotFoundException e) {
             final String errMessage = "No transformed files were found in specified directory. "
                 + "Please verify that the correct transformed path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -107,7 +106,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
         final Map<String, String[]> anchorMap = new HashMap<>();
         readTOCGuidList(docToTocMap, anchorMap);
 
-        LOG.info("Adding HTML containers around transformed files...");
+        log.info("Adding HTML containers around transformed files...");
 
         int numDocs = 0;
         for (final File transFile : transformedFiles) {
@@ -115,7 +114,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
             numDocs++;
         }
 
-        LOG.info("HTML containers successfully added to transformed files");
+        log.info("HTML containers successfully added to transformed files");
         return numDocs;
     }
 
@@ -141,7 +140,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
         final boolean keyciteToplineFlag) throws EBookFormatException {
         final String fileName = transformedFile.getName();
 
-        LOG.debug("Adding wrapper around: " + fileName);
+        log.debug("Adding wrapper around: " + fileName);
         final String guid = fileName.substring(0, fileName.indexOf("."));
 
         final StringBuffer anchors = new StringBuffer();
@@ -182,7 +181,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
         } catch (final IOException ioe) {
             final String errMessage =
                 "Failed to add HTML contrainers around the following transformed file: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, ioe);
         }
     }
@@ -216,7 +215,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
     protected void readTOCGuidList(final File docGuidsFile, final Map<String, String[]> docToTocGuidMap)
         throws EBookFormatException {
         try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));) {
-            LOG.info("Reading in TOC anchor map file...");
+            log.info("Reading in TOC anchor map file...");
             int numDocs = 0;
             int numTocs = 0;
 
@@ -235,16 +234,16 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
                         + "Please verify that each document GUID in the following file has "
                         + "at least one TOC guid associated with it: "
                         + docGuidsFile.getAbsolutePath();
-                    LOG.error(message);
+                    log.error(message);
                     throw new EBookFormatException(message);
                 }
                 input = reader.readLine();
             }
-            LOG.info("Generated a map for " + numDocs + " DOCs with " + numTocs + " TOC references.");
+            log.info("Generated a map for " + numDocs + " DOCs with " + numTocs + " TOC references.");
         } catch (final IOException e) {
             final String message =
                 "Could not read the DOC guid to TOC guid map file: " + docGuidsFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }
@@ -264,7 +263,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService {
         final String[] anchors = anchorMap.get(guid);
         if (anchors == null || anchors.length < 1) {
             final String errMessage = "No TOC anchor references were found for the following GUID: " + guid;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 

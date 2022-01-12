@@ -23,9 +23,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperService;
 import javafx.util.Pair;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,8 +51,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Controller
+@Slf4j
 public class GenerateEbookController {
-    private static final Logger log = LogManager.getLogger(GenerateEbookController.class);
     private static final String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
     private static final String REVIEW_STATUS = "Review";
     private static final String NOT_PUBLISHED = "Not published";
@@ -101,7 +100,7 @@ public class GenerateEbookController {
         @ModelAttribute(GenerateBookForm.FORM_NAME) final GenerateBookForm form,
         final HttpSession session,
         final RedirectAttributes redirectAttributes) {
-        log.debug(form);
+        log.debug(form.toString());
 
         final String path;
         final Command command = form.getCommand();
@@ -325,7 +324,7 @@ public class GenerateEbookController {
         } catch (final ProviewException e) {
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
                 "Proview Exception occured. Please contact your administrator.");
-            log.debug(e);
+            log.debug(e.getMessage());
         }
     }
 
@@ -426,10 +425,10 @@ public class GenerateEbookController {
                     model.addAttribute(WebConstants.KEY_ERR_MESSAGE, e.getMessage());
                 }
             }
-            log.debug(e);
+            log.debug(e.getMessage());
         } catch (final Exception e) {
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, e.getMessage());
-            log.debug(e);
+            log.debug(e.getMessage());
         }
 
         model.addAttribute(WebConstants.KEY_GROUP_CURRENT_PREVIEW, currentGroup);

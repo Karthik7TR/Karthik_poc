@@ -18,8 +18,7 @@ import javax.xml.parsers.SAXParserFactory;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XMLImageTagHandler;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
 
 /**
@@ -27,8 +26,8 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class XMLImageParserServiceImpl implements XMLImageParserService {
-    private static final Logger LOG = LogManager.getLogger(XMLImageParserServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
 
@@ -55,7 +54,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
             throw new IllegalArgumentException("xmlDir must be a directory, not null or a regular file.");
         }
 
-        LOG.info(
+        log.info(
             "Parsing out image references from XML files out of the following XML directory: "
                 + xmlDir.getAbsolutePath());
 
@@ -66,7 +65,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
         } catch (final FileNotFoundException e) {
             final String errMessage = "No XML files were found in specified directory. "
                 + "Please verify that the correct XML path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -81,7 +80,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
         //  createImageList(imgRef, guids);
         createDocToImgMap(docImageMap, docImgMap);
 
-        LOG.info("Parsed out " + guids.size() + " image references from the XML files in the provided directory.");
+        log.info("Parsed out " + guids.size() + " image references from the XML files in the provided directory.");
 
         return numDocsParsed;
     }
@@ -115,21 +114,21 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
             docImgMap.put(docGuid, imgGuids);
             guidList.addAll(imgGuids);
 
-            LOG.debug("Parsed out " + guidList.size() + " image guids from " + xmlFile + ".");
+            log.debug("Parsed out " + guidList.size() + " image guids from " + xmlFile + ".");
         } catch (final IOException e) {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookFormatException(message, e);
         } catch (final SAXException e) {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookFormatException(message, e);
         } catch (final ParserConfigurationException e) {
             final String message =
                 "ParserConfigurationException thrown while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookFormatException(message, e);
         }
     }
@@ -145,7 +144,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
             for (final String guid : imgList) {
                 if (guid == null || guid.length() < 30 || guid.length() > 36) {
                     final String message = "Invalid GUID encountered in the Image GUID list: " + guid;
-                    LOG.error(message);
+                    log.error(message);
                     throw new EBookFormatException(message);
                 }
 
@@ -154,7 +153,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
             }
         } catch (final IOException e) {
             final String message = "Could not write to the Image list file: " + imgListFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookFormatException(message, e);
         }
     }
@@ -172,7 +171,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
                 if (doc == null || doc.length() < 32 || doc.length() > 42) {
                     final String message =
                         "Invalid document GUID encountered in the Document to Image GUID map: " + doc;
-                    LOG.error(message);
+                    log.error(message);
                     throw new EBookFormatException(message);
                 }
 
@@ -185,7 +184,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
                             + imgGuid
                             + " for the docuemnt guid "
                             + doc;
-                        LOG.error(message);
+                        log.error(message);
                         throw new EBookFormatException(message);
                     }
 
@@ -196,7 +195,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService {
         } catch (final IOException e) {
             final String message =
                 "Could not write to the Document to Image GUID map file: " + docToImgMapFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookFormatException(message, e);
         }
     }

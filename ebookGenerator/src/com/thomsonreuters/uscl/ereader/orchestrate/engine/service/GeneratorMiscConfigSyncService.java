@@ -7,13 +7,12 @@ import com.thomsonreuters.uscl.ereader.core.service.AbstractMiscConfigSyncServic
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpClientFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 public class GeneratorMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
-    private static Logger log = LogManager.getLogger(GeneratorMiscConfigSyncService.class);
 
     private CloseableAuthenticationHttpClientFactory httpClientFactory;
     private ProviewClient proviewClient;
@@ -25,7 +24,7 @@ public class GeneratorMiscConfigSyncService extends AbstractMiscConfigSyncServic
 
     @Override
     public void syncSpecific(final MiscConfig config) throws Exception {
-        log.info(config);
+        log.info(config.toString());
         syncProviewHost(config);
     }
 

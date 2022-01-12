@@ -15,8 +15,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.DisplayTagSortProperty;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,8 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
  * at some point in the future.
  */
 @Controller
+@Slf4j
 public class QueueController {
-    private static final Logger log = LogManager.getLogger(QueueController.class);
 
     private final JobRequestService jobRequestService;
     private final OutageService outageService;
@@ -90,7 +89,7 @@ public class QueueController {
         final HttpSession httpSession,
         @ModelAttribute(QueueForm.FORM_NAME) final QueueForm form,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedQueuedPageAndSort(httpSession);
         final List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
         Integer nextPageNumber = form.getPage();

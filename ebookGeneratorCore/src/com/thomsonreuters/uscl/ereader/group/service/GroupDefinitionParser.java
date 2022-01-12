@@ -16,10 +16,10 @@ import javax.xml.stream.events.XMLEvent;
 
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
+@Slf4j
 public class GroupDefinitionParser {
     private static final String GROUP = "group";
     private static final String GROUP_NAME = "name";
@@ -35,7 +35,6 @@ public class GroupDefinitionParser {
 
     private XMLInputFactory factory;
 
-    private static Logger LOG = LogManager.getLogger(GroupDefinitionParser.class);
 
     public GroupDefinitionParser() {
         factory = XMLInputFactory.newInstance();
@@ -112,7 +111,7 @@ public class GroupDefinitionParser {
                 }
             }
         } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
 
         return groupDefinitions;

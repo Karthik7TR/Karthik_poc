@@ -5,17 +5,15 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.jetbrains.annotations.NotNull;
 
+@Slf4j
 public final class DirectoryContentMatcher extends BaseMatcher<Object> {
-
-    private static final Logger LOG = LogManager.getLogger(DirectoryContentMatcher.class);
     @NotNull
     private File actual;
     private boolean recursive;
@@ -49,7 +47,7 @@ public final class DirectoryContentMatcher extends BaseMatcher<Object> {
                     return false;
                 }
             } catch (final IOException e) {
-                LOG.error("Exception while comparing contents", e);
+                log.error("Exception while comparing contents", e);
                 return false;
             }
         }

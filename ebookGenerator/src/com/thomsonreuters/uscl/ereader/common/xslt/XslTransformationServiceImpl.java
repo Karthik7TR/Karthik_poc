@@ -25,14 +25,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service("xslTransformationService")
+@Slf4j
 public class XslTransformationServiceImpl implements XslTransformationService {
-    private static final Logger LOG = LogManager.getLogger(XslTransformationServiceImpl.class);
     private static final String START_WRAPPER_TAG = "<Document>";
     private static final String END_WRAPPER_TAG = "</Document>";
     private static final String DOCTYPE = "<!DOCTYPE root SYSTEM \"%s\">%n";
@@ -47,7 +46,7 @@ public class XslTransformationServiceImpl implements XslTransformationService {
                 "Transformation error. Cannot transform %s to %s",
                 command.getInputPath(),
                 command.getOutputFile().getAbsolutePath());
-            LOG.error(message, e);
+            log.error(message, e);
             throw new XslTransformationException(message, e);
         }
     }
@@ -62,7 +61,7 @@ public class XslTransformationServiceImpl implements XslTransformationService {
             final File out = output.isDirectory() ? tempOutputFile : output;
             command.getTransformer().transform(new StreamSource(inputStream), new StreamResult(out));
             final long duration = System.currentTimeMillis() - start;
-            LOG.debug(String.format("Transformed to %s. Total time: %dms", output.getAbsolutePath(), duration));
+            log.debug(String.format("Transformed to %s. Total time: %dms", output.getAbsolutePath(), duration));
         } finally {
             if (tempInputFile.exists())
                 forceDelete(tempInputFile);

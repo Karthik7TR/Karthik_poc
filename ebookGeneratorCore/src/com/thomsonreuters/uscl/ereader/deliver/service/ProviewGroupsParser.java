@@ -11,9 +11,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.SubgroupInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -25,6 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author uc209819
  *
  */
+@Slf4j
 public class ProviewGroupsParser {
     private Map<String, ProviewGroupContainer> groupMap = new HashMap<String, ProviewGroupContainer>();
 
@@ -36,8 +36,6 @@ public class ProviewGroupsParser {
      *         is the group id.
      */
     public Map<String, ProviewGroupContainer> process(final String xml) {
-        final Logger LOG = LogManager.getLogger(ProviewGroupsParser.class);
-
         try {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             parserFactory.setNamespaceAware(true);
@@ -104,7 +102,7 @@ public class ProviewGroupsParser {
                         final String message =
                             "PublishedTitleParser: Exception occured during PublishedTitleParser parsing endElement. The error message is: "
                                 + e.getMessage();
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new RuntimeException(message, e);
                     }
                 }
@@ -144,7 +142,7 @@ public class ProviewGroupsParser {
                         final String message =
                             "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "
                                 + e.getMessage();
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new RuntimeException(message, e);
                     }
                 }

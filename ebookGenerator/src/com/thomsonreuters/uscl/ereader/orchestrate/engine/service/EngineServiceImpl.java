@@ -12,8 +12,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
@@ -26,8 +25,8 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.CannotSerializeTransactionException;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+@Slf4j
 public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
-    private static Logger log = LogManager.getLogger(EngineServiceImpl.class);
     private String environmentName; // like "ci" or "test"
     private JobRegistry jobRegistry;
     private JobOperator jobOperator;

@@ -24,9 +24,8 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFact
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
@@ -40,8 +39,8 @@ import org.springframework.web.client.RestTemplate;
  * @author u0081674
  *
  */
+@Slf4j
 public class ProviewClientImpl implements ProviewClient {
-    private static final Logger LOG = LogManager.getLogger(ProviewClientImpl.class);
     private static final String ALL = "/all";
     private static final String TITLE_ID = "titleId";
     private static final String EBOOK_VERSION_NUMBER = "eBookVersionNumber";
@@ -107,7 +106,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final Exception e) {
-            LOG.debug(e);
+            log.debug(e.getMessage());
             throw new ProviewException(e.getMessage());
         }
 
@@ -256,7 +255,7 @@ public class ProviewClientImpl implements ProviewClient {
     @Override
     public String getTitleInfo(@NotNull final String titleId, @NotNull final String version) throws ProviewException {
         try {
-            LOG.debug("Proview host: " + proviewHost.getHostName());
+            log.debug("Proview host: " + proviewHost.getHostName());
             final Map<String, String> urlParameters = setTitleVersionUrlParams(titleId, version);
             return restTemplate.execute(
                 getTitleInfoUriTemplate,
@@ -265,7 +264,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final Exception e) {
-            LOG.error("getTitleInfo fails (titleId=" + titleId + "; version=" + version + ")", e);
+            log.error("getTitleInfo fails (titleId=" + titleId + "; version=" + version + ")", e);
             throw new ProviewException(e.getMessage(), e);
         }
     }
@@ -277,7 +276,7 @@ public class ProviewClientImpl implements ProviewClient {
         String response = null;
         try {
             final Map<String, String> urlParameters = new HashMap<>();
-            LOG.debug("Proview host: " + proviewHost.getHostName());
+            log.debug("Proview host: " + proviewHost.getHostName());
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
             response = restTemplate.execute(
                 getTitlesUriTemplate + publisher + ALL,
@@ -286,7 +285,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final Exception e) {
-            LOG.debug(e);
+            log.debug(e.getMessage());
             throw new ProviewException(e.getMessage());
         }
 
@@ -298,7 +297,7 @@ public class ProviewClientImpl implements ProviewClient {
         String response = null;
         try {
             final Map<String, String> urlParameters = new HashMap<>();
-            LOG.debug("Proview host: " + proviewHost.getHostName());
+            log.debug("Proview host: " + proviewHost.getHostName());
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
             urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
             response = restTemplate.execute(
@@ -308,7 +307,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final Exception e) {
-            LOG.debug(e);
+            log.debug(e.getMessage());
             throw new ProviewException(e.getMessage());
         }
 
@@ -330,7 +329,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final Exception e) {
-            LOG.debug(e);
+            log.debug(e.getMessage());
             throw new ProviewException(e.getMessage());
         }
         return response;
@@ -361,7 +360,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final Exception e) {
-            LOG.debug(e);
+            log.debug(e.getMessage());
             throw new ProviewException(e.getMessage());
         }
         return response;
@@ -394,7 +393,7 @@ public class ProviewClientImpl implements ProviewClient {
                 proviewResponseExtractorFactory.getResponseExtractor(),
                 urlParameters);
         } catch (final IOException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return proviewResponse;
     }
@@ -426,7 +425,7 @@ public class ProviewClientImpl implements ProviewClient {
                     urlParameters);
             return getStatusCode(proviewResponse);
         } catch (final ProviewRuntimeException e) {
-            LOG.warn(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
             if (e.getMessage().contains(FINAL_TO_FINAL_MESSAGE)) {
                 throw new ExpectedProviewException(e.getMessage(), e);
             } else {
@@ -495,7 +494,7 @@ public class ProviewClientImpl implements ProviewClient {
         try {
             proviewXMLRequestCallback.setRequestInputStream(new ByteArrayInputStream(CHANGE_TITLE_TO_SUPERSEDED_REQUEST_BODY.getBytes("UTF-8")));
         } catch (final UnsupportedEncodingException e) {
-            LOG.warn(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
         }
 
         restTemplate.execute(

@@ -8,14 +8,13 @@ import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppMessageValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 public class RetrieveBundleServiceImpl implements RetrieveBundleService {
-    private static final Logger LOG = LogManager.getLogger(RetrieveBundleServiceImpl.class);
 
     private final XppBundleArchiveDao xppBundleArchiveDao;
     private final XppMessageValidator xppMessageValidator;
@@ -45,7 +44,7 @@ public class RetrieveBundleServiceImpl implements RetrieveBundleService {
             if (e.getMessage().contains("Failed to delete original file")) {
                 // bundle copied, but not deleted (likely permissions issue)
                 // TODO handle this type of error
-                LOG.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             } else {
                 throw new RuntimeException(e);
             }
@@ -54,10 +53,10 @@ public class RetrieveBundleServiceImpl implements RetrieveBundleService {
         try {
             xppMessageValidator.validate(request);
         } catch (final XppMessageException e) {
-            LOG.error("Bundle invalidated during move to archive location " + request.getEBookSrcPath(), e);
+            log.error("Bundle invalidated during move to archive location " + request.getEBookSrcPath(), e);
             throw e;
         }
-        LOG.debug("Bundle moved successfully: integrity verified");
+        log.debug("Bundle moved successfully: integrity verified");
     }
 
     private void invalidateDuplicateRequest(@NotNull final XppBundleArchive request) throws XppMessageException {

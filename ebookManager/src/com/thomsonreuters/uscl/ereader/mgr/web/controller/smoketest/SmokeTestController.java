@@ -9,8 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,9 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@Slf4j
 public class SmokeTestController {
-    private static final Logger log = LogManager.getLogger(SmokeTestController.class);
-
     private final MiscConfigSyncService miscConfigSyncService;
     private final SmokeTestService smokeTestService;
     private final String environmentName;
@@ -46,7 +44,7 @@ public class SmokeTestController {
         try {
             model.addAttribute("localHost", InetAddress.getLocalHost().getHostName());
         } catch (final UnknownHostException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
 
         model.addAttribute("date", new Date());

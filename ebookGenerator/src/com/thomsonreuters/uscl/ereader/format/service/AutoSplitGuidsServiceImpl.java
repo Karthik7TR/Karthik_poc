@@ -17,19 +17,18 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.AutoSplitNodesHandler;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.SAXException;
 
+@Slf4j
 public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
     private BookDefinitionService bookDefinitionService;
     private PublishingStatsService publishingStatsService;
     private EBookAuditService eBookAuditService;
 
-    private static final Logger LOG = LogManager.getLogger(AutoSplitGuidsServiceImpl.class);
     private Map<String, String> splitGuidTextMap = new HashMap<String, String>();
 
     @Override
@@ -141,7 +140,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
         int partSize = 0;
         final int parts = (tocNodeCount / thresholdValue) + 1;
         partSize = tocNodeCount / parts;
-        LOG.debug("Total parts based on the node Size " + parts + ". Approximate split size " + partSize);
+        log.debug("Total parts based on the node Size " + parts + ". Approximate split size " + partSize);
         return partSize;
     }
 

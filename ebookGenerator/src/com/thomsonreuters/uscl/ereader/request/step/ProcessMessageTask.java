@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppMessageValidator;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
@@ -20,8 +19,8 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
+@Slf4j
 public class ProcessMessageTask extends AbstractSbTasklet {
-    private static final Logger log = LogManager.getLogger(ProcessMessageTask.class);
     private XppMessageValidator xppMessageValidator;
 
     @Override

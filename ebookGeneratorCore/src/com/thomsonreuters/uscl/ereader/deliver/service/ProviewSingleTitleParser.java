@@ -9,9 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -24,6 +23,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author uc209819
  *
  */
+@Slf4j
 public class ProviewSingleTitleParser {
     private List<GroupDetails> GroupDetailsList = new ArrayList<>();
 
@@ -33,8 +33,6 @@ public class ProviewSingleTitleParser {
      * @return Generate a list of the GroupDetails objects containing all subgroups for the title in ProView.
      */
     public List<GroupDetails> process(final String xml) {
-        final Logger LOG = LogManager.getLogger(ProviewSingleTitleParser.class);
-
         try {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             parserFactory.setNamespaceAware(true);
@@ -79,7 +77,7 @@ public class ProviewSingleTitleParser {
                         final String message =
                             "ProviewSingleTitleParser: Exception occured during parsing endElement. The error message is: "
                                 + e.getMessage();
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new RuntimeException(message, e);
                     }
                 }
@@ -108,7 +106,7 @@ public class ProviewSingleTitleParser {
                         final String message =
                             "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "
                                 + e.getMessage();
-                        LOG.error(message, e);
+                        log.error(message, e);
                         throw new RuntimeException(message, e);
                     }
                 }

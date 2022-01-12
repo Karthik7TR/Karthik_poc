@@ -1,8 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.links;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.trgr.cobalt.util.urlbuilder.CiteQuery;
@@ -28,8 +27,8 @@ import static com.thomsonreuters.uscl.ereader.format.links.UrlBuilderConstants.U
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
+@Slf4j
 public class CiteQueryAdapter {
-    private static final Logger LOG = LogManager.getLogger(CiteQueryAdapter.class);
     private static final String CONTAINER_GROUP = "containerGroup";
     private static final String CONTAINER_REGEX = String.format("%s=\"(?<%s>.*?)\"", URL_BUILDER_CONTAINER_ATTRIBUTE, CONTAINER_GROUP);
     private static final Pattern CONTAINER_PATTERN = Pattern.compile(CONTAINER_REGEX);
@@ -269,7 +268,7 @@ public class CiteQueryAdapter {
             } catch (final UrlBuilderException e) {
                 response = "";
 
-                LOG.debug("UrlBuilderException is " + e.getMessage());
+                log.debug("UrlBuilderException is " + e.getMessage());
             }
 
             return response;
@@ -310,7 +309,7 @@ public class CiteQueryAdapter {
             } catch (final UrlBuilderException e) {
                 response = "";
 
-                LOG.debug("UrlBuilderException is " + e.getMessage());
+                log.debug("UrlBuilderException is " + e.getMessage());
             }
 
             return response;

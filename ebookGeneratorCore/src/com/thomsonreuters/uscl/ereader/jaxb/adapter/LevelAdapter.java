@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.jaxb.adapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.apache.log4j.Level;
+import ch.qos.logback.classic.Level;
 
 public class LevelAdapter extends XmlAdapter<String, Level> {
     @Override

@@ -1,5 +1,5 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment"%>
-<%@page import="org.apache.log4j.Level" %>
+<%@page import="ch.qos.logback.classic.Level" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig"%>
@@ -53,7 +53,6 @@
 		<form:option label="Info" value="<%=Level.INFO.toString()%>"/>
 		<form:option label="Warn" value="<%=Level.WARN.toString()%>"/>
 		<form:option label="Error" value="<%=Level.ERROR.toString()%>"/>
-		<form:option label="Fatal" value="<%=Level.FATAL.toString()%>"/>
 		<form:option label="Off" value="<%=Level.OFF.toString()%>"/>
 	</form:select>
 	</td>
@@ -66,7 +65,6 @@
 		<form:option label="Info" value="<%=Level.INFO.toString()%>"/>
 		<form:option label="Warn" value="<%=Level.WARN.toString()%>"/>
 		<form:option label="Error" value="<%=Level.ERROR.toString()%>"/>
-		<form:option label="Fatal" value="<%=Level.FATAL.toString()%>"/>
 		<form:option label="Off" value="<%=Level.OFF.toString()%>"/>
 	</form:select>
 	</td>

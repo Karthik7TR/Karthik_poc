@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 
-@Log4j
+@Slf4j
 @Getter @Setter
 @ToString(of = {"groupId", "groupStatus", "groupName", "groupVersion", "proviewName"})
 @EqualsAndHashCode(of = {"groupName", "proviewName", "groupVersion", "groupId", "groupStatus"})

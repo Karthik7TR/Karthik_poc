@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -24,8 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
+@Slf4j
 public final class GatherRestServiceIntegrationTest {
-    private static Logger log = LogManager.getLogger(GatherRestServiceIntegrationTest.class);
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -54,7 +53,7 @@ public final class GatherRestServiceIntegrationTest {
             0);
 
         final GatherResponse gatherResponse = gatherService.getToc(gatherTocRequest);
-        log.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
         Assert.assertNotNull(gatherResponse);
         Assert.assertEquals(0, gatherResponse.getErrorCode());
         Assert.assertEquals(10, gatherResponse.getDocCount());
@@ -86,7 +85,7 @@ public final class GatherRestServiceIntegrationTest {
             0);
 
         final GatherResponse gatherResponse = gatherService.getNort(gatherNortRequest);
-        log.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
         Assert.assertNotNull(gatherResponse);
         Assert.assertEquals(3, gatherResponse.getErrorCode());
         Assert.assertTrue(tocFile.exists());
@@ -128,7 +127,7 @@ public final class GatherRestServiceIntegrationTest {
 
         final GatherResponse gatherResponse = gatherService.getDoc(docRequest);
 
-        log.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
         Assert.assertNotNull(gatherResponse);
         Assert.assertEquals(0, gatherResponse.getErrorCode());
         Assert.assertTrue(contentFile.exists());

@@ -4,17 +4,16 @@ import javax.jms.JMSException;
 import javax.jms.QueueConnectionFactory;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
-import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import com.thomsonreuters.uscl.ereader.jms.service.ConnectionFactory;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 @Component("mqConnectionFactory")
 @Lazy
+@Slf4j
 public class MQConnectionFactory implements ConnectionFactory {
-    private static final Logger log = Logger.getLogger(JmsClientImpl.class);
 
     @Override
     public QueueConnectionFactory getNewQueueConnectionFactory(

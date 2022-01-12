@@ -14,8 +14,6 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFact
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -29,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 public final class ProviewClientImplIntegrationTest {
-    private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "trp0002-14:9008";
     private static final String USCL = "uscl";

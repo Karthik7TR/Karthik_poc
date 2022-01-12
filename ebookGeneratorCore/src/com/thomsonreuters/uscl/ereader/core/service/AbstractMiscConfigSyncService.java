@@ -8,19 +8,18 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpClientFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import org.apache.http.client.HttpClient;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * Perform the work to apply a "on-the-fly" configuration change to the API sub-system that it is applicable.
- * Currently this means changing the log4j logger levels and storing the Novus Environment (Client|Prod).
+ * Currently this means changing the logback logger levels and storing the Novus Environment (Client|Prod).
  *
  */
 public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncService {
-    //private static Logger log = LogManager.getLogger(AbstractMiscConfigSyncService.class);
 
     private MiscConfig miscConfig;
 
@@ -60,12 +59,12 @@ public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncSer
     }
 
     private void setAppLogLevel(final Level level) {
-        final Logger logger = LogManager.getLogger("com.thomsonreuters.uscl.ereader");
+        final Logger logger = (Logger) LoggerFactory.getLogger("com.thomsonreuters.uscl.ereader");
         logger.setLevel(level);
     }
 
     private void setRootLogLevel(final Level level) {
-        final Logger logger = LogManager.getRootLogger();
+        final Logger logger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
         logger.setLevel(level);
     }
 

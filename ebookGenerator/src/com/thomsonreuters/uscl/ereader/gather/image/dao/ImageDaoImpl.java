@@ -4,16 +4,15 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
+@Slf4j
 public class ImageDaoImpl implements ImageDao {
-    private static final Logger log = LogManager.getLogger(ImageDaoImpl.class);
     private SessionFactory sessionFactory;
 
     public ImageDaoImpl(final SessionFactory hibernateSessionFactory) {
@@ -38,7 +37,7 @@ public class ImageDaoImpl implements ImageDao {
     @Override
     public ImageMetadataEntityKey saveImageMetadata(final ImageMetadataEntity metadata) {
         final Session session = sessionFactory.getCurrentSession();
-        log.debug(metadata);
+        log.debug(metadata.toString());
         return (ImageMetadataEntityKey) session.save(metadata);
     }
 }

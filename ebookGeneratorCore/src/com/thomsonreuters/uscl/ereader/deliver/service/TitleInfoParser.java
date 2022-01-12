@@ -20,16 +20,15 @@ import javax.xml.parsers.SAXParserFactory;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import lombok.Getter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+@Slf4j
 public class TitleInfoParser {
-    private static final Logger LOG = LogManager.getLogger(TitleInfoParser.class);
 
     @Getter
     @NotNull
@@ -45,7 +44,7 @@ public class TitleInfoParser {
             final SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
             parser.parse(new InputSource(new StringReader(xml)), new TitleInfoHandler());
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            LOG.error("TitleInfoParser failed to parse response", e);
+            log.error("TitleInfoParser failed to parse response", e);
             throw new EBookException("TitleInfoParser failed to parse response", e);
         }
     }

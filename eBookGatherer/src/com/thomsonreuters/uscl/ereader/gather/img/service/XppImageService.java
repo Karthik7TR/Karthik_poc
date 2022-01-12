@@ -24,17 +24,16 @@ import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
 import com.thomsonreuters.uscl.ereader.gather.img.util.ImageTypeResolver;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Copies images from unpacked XPP archive to work folder.
  */
+@Slf4j
 public class XppImageService implements ImageService {
-    private static final Logger Log = LogManager.getLogger(XppImageService.class);
 
     private static final String PNG = "PNG";
     private final MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
@@ -84,7 +83,7 @@ public class XppImageService implements ImageService {
                     imageMetadata.setDocGuid(docId);
                     imagesMetadata.add(imageMetadata);
                 } catch (final Exception e1) {
-                    Log.error(e1);
+                    log.error(e1.getMessage());
                     missingImagesList.add(imageId);
                 }
             }
@@ -141,7 +140,7 @@ public class XppImageService implements ImageService {
                     metadata = writeImage(imageId, srcImage, destDir);
                     imageFiles.put(imageId, metadata);
                 } catch (final IOException e) {
-                    Log.error(e);
+                    log.error(e.getMessage());
                     imageFiles.put(imageId, metadata);
                 }
             }
@@ -161,7 +160,7 @@ public class XppImageService implements ImageService {
                 imgBytes = Files.readAllBytes(srcImage.toPath());
                 image = imageConverter.convertByteImg(imgBytes, destImage.getAbsolutePath(), PNG);
             } catch (final ImageConverterException exeption) {
-                Log.error(exeption);
+                log.error(exeption.getMessage());
                 image = null;
             }
         } else {

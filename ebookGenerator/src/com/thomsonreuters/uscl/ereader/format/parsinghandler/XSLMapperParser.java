@@ -12,9 +12,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -25,8 +24,8 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
+@Slf4j
 public class XSLMapperParser extends DefaultHandler {
-    private static final Logger LOG = LogManager.getLogger(XSLMapperParser.class);
 
     private static final String CONTENT_TYPE = "ContentType";
     private static final String COLLECTION_GROUP = "CollectionGroup";

@@ -23,9 +23,8 @@ import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -84,8 +83,8 @@ import static com.thomsonreuters.uscl.ereader.core.EBConstants.TOC_GUID;
  *
  * @author <a href="mailto:lohitha.talatam@thomsonreuters.com">Lohitha Talatam</a> u0105666
  */
+@Slf4j
 public class SplitTocManifestFilter extends AbstractTocManifestFilter {
-    private static final Logger LOG = LogManager.getLogger(SplitTocManifestFilter.class);
     private static final String DASH = "-";
     private static final String COLON_WITH_SPACE = ": ";
     private PlaceholderDocumentService placeholderDocumentService;
@@ -341,7 +340,7 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
             // We've already seen this document, it's a duplicate.
             // Generate a new guid for it and add that to the list.
             final String uniqueGuid = uuidGenerator.generateUuid();
-            LOG.debug(
+            log.debug(
                 "encountered a duplicate uuid ["
                     + docGuid.toString()
                     + "]. Generating a new uuid ["
@@ -358,7 +357,7 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter {
                 docGuid = new StringBuilder();
                 String familyGuid = familyGuidMap.get(documentGuid);
                 if (uniqueFamilyGuids.contains(familyGuid)) { // Have we already come across this family GUID?
-                    LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
+                    log.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
                     familyGuid = uuidGenerator.generateUuid();
                     orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_FILE_EXTENSION, titleBreakPart, image));
                     copyHtmlDocument(documentGuid, familyGuid);

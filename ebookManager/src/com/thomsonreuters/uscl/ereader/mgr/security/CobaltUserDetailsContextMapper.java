@@ -5,9 +5,8 @@ import java.util.Collection;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextAdapter;
@@ -22,8 +21,8 @@ import org.springframework.stereotype.Component;
  * Delegates to a standard LDAP AttributesMapper to accomplish this.
  */
 @Component("userDetailsContextMapper")
+@Slf4j
 public class CobaltUserDetailsContextMapper implements UserDetailsContextMapper {
-    private static final Logger log = LogManager.getLogger(CobaltUserDetailsContextMapper.class);
     private final AttributesMapper userEntryAttributesMapper;
 
     @Autowired

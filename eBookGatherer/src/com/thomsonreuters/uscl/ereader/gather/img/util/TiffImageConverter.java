@@ -9,16 +9,15 @@ import java.io.OutputStream;
 import javax.imageio.ImageIO;
 
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service("tiffImageConverter")
+@Slf4j
 public class TiffImageConverter implements ImageConverter {
-    private static Logger LOG = LogManager.getLogger(TiffImageConverter.class);
 
     private TiffReader tiffReader;
     private File substituteImagesDir;
@@ -60,7 +59,7 @@ public class TiffImageConverter implements ImageConverter {
             ImageIO.write(image, formatName, os);
             return image;
         } catch (final Exception e) {
-            LOG.debug("", e);
+            log.debug("", e);
             return null;
         }
     }

@@ -8,9 +8,8 @@ import com.thomsonreuters.uscl.ereader.core.FormatConstants;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -21,8 +20,8 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class HTMLAnchorFilter extends XMLFilterImpl {
-    private static final Logger LOG = LogManager.getLogger(HTMLAnchorFilter.class);
     private static final String IMAGE_PNG = "image/png";
     private static final String IMAGE_GIF = "image/gif";
     private static final String IMAGE_X_PNG = "image/x-png";
@@ -193,7 +192,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                             && attsHrefValue.startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT)) {
                             if (!attsHrefValue.contains("/")) {
                                 //TODO: throw error for this scenario
-                                LOG.error(
+                                log.error(
                                     "Internal link was badly formed. "
                                         + attsHrefValue
                                         + " was changed to er:#"

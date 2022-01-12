@@ -31,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
-import org.apache.log4j.Level;
+import ch.qos.logback.classic.Level;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

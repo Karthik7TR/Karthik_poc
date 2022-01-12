@@ -10,9 +10,8 @@ import java.util.zip.GZIPOutputStream;
 
 import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarOutputStream;
 
@@ -24,8 +23,8 @@ import org.apache.tools.tar.TarOutputStream;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
+@Slf4j
 public class EBookAssemblyServiceImpl implements EBookAssemblyService {
-    private static final Logger LOG = LogManager.getLogger(EBookAssemblyServiceImpl.class);
 
     /**
      * Assembles an eBook given an eBookDirectory where the files reside and a file to stream the output to.
@@ -43,7 +42,7 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService {
             throw new IllegalArgumentException("eBook must be a regular file, not null or a directory.");
         }
 
-        LOG.debug("Assembling eBook using the input directory: " + eBookDirectory.getAbsolutePath());
+        log.debug("Assembling eBook using the input directory: " + eBookDirectory.getAbsolutePath());
 
         try (TarOutputStream tarOutputStream =
             new TarOutputStream(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(eBook))));) {
@@ -55,11 +54,11 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService {
             final String message = "Destination file is inaccesable or does not exist. Is write permission set on "
                 + eBook.getName()
                 + "?";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookAssemblyException(message, e);
         } catch (final IOException e) {
             final String message = "Failed to flush the TarOutputStream to disk.  Is the disk full?";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookAssemblyException(message, e);
         }
     }
@@ -127,7 +126,7 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService {
                 tarOutputStream.closeEntry();
             } catch (final IOException e) {
                 final String message = "error while attempting to flush TarOutputStream";
-                LOG.error(message, e);
+                log.error(message, e);
 
                 throw new EBookAssemblyException(message, e);
             }
@@ -172,11 +171,11 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService {
                     + "Are read permissions enabled on the file: "
                     + targetFile.getName()
                     + "?";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookAssemblyException(message, e);
         } catch (final IOException e) {
             final String message = "Could not close entry in tar file.";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookAssemblyException(message, e);
         }
     }
@@ -196,11 +195,11 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService {
         tarEntry.setName(entryName);
 
         try {
-            LOG.debug("Adding TAREntry: " + tarEntry.getName());
+            log.debug("Adding TAREntry: " + tarEntry.getName());
             tarOutputStream.putNextEntry(tarEntry);
         } catch (final IOException e) {
             final String message = "An exception occurred while preparing file header to write.";
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookAssemblyException(message, e);
         }
     }

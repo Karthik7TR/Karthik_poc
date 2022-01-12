@@ -28,9 +28,8 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -39,8 +38,8 @@ import org.springframework.http.HttpStatus;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_EREFERENCE;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_STANDARD;
 
+@Slf4j
 public class GroupServiceImpl implements GroupService {
-    private static final Logger LOG = LogManager.getLogger(GroupServiceImpl.class);
     private BookDefinitionService bookDefinitionService;
     private ProviewHandler proviewHandler;
     private List<String> pilotBooksNotFound;
@@ -82,9 +81,9 @@ public class GroupServiceImpl implements GroupService {
             return groups;
         } catch (final ProviewRuntimeException ex) {
             final String errorMsg = ex.getMessage();
-            LOG.debug(errorMsg);
+            log.debug(errorMsg);
             if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")) {
-                LOG.debug("Group does not exist. Exception can be ignored");
+                log.debug("Group does not exist. Exception can be ignored");
             } else {
                 throw new Exception(ex);
             }

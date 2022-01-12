@@ -18,8 +18,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,9 +40,8 @@ import org.springframework.web.servlet.ModelAndView;
  * Controller for the Job Execution Details page.
  */
 @Controller
+@Slf4j
 public class JobExecutionController {
-    private static final Logger log = LogManager.getLogger(JobExecutionController.class);
-
     private static final String CODE_JOB_OPERATION_PRIVILEGE = "job.operation.privilege";
     private static final String CODE_JOB_RESTART_SUCCESS = "job.restart.success";
     private static final String CODE_JOB_RESTART_FAIL = "job.restart.fail";

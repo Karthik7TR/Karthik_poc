@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewSer
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
  * the book front matter pages prior to publishing.
  */
 @Controller
+@Slf4j
 public class FmPreviewController {
-    private static final Logger log = LogManager.getLogger(FmPreviewController.class);
     private static final String BOOK_FIND_FAIL_MESG = "Could not find book definition with ID %d";
 
     private final BookDefinitionService bookDefinitionService;

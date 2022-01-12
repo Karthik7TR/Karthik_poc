@@ -25,9 +25,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.XpathStack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -38,8 +37,8 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
+@Slf4j
 public class NovusNortFileParser extends DefaultHandler {
-    private static final Logger LOG = LogManager.getLogger(NovusNortFileParser.class);
 
     private static final String N_LOAD = "/n-load";
     private static final String RELATIONSHIP = "/n-relationship" + N_LOAD;
@@ -97,7 +96,7 @@ public class NovusNortFileParser extends DefaultHandler {
         if (roots.size() > 0) {
             createParentChildRelationships();
         } else {
-            LOG.error("No root node(s) found in file " + nortFile.getAbsolutePath());
+            log.error("No root node(s) found in file " + nortFile.getAbsolutePath());
             throw new SAXException("No root node(s) found in file " + nortFile.getAbsolutePath());
         }
 
@@ -178,7 +177,7 @@ public class NovusNortFileParser extends DefaultHandler {
         if (inExtractXpath(currentXpath)) {
             final String value = tempVal.toString();
             if (currentXpath.equalsIgnoreCase(RELBASE)) {
-                LOG.debug("Parsing Novus NORT GUID " + value);
+                log.debug("Parsing Novus NORT GUID " + value);
                 currentNode.setNortGuid(value);
             } else if (currentXpath.equalsIgnoreCase(RELTARGET)) {
                 currentNode.setParentNortGuid(value);
@@ -251,11 +250,11 @@ public class NovusNortFileParser extends DefaultHandler {
         try {
             endDate = formatter.parse(endDateStr);
         } catch (final ParseException e) {
-            LOG.debug("End date format error: " + endDateStr + " Expect end date format in yyyyMMddHHmmss.");
+            log.debug("End date format error: " + endDateStr + " Expect end date format in yyyyMMddHHmmss.");
             throw new SAXException(
                 "End date format error: " + endDateStr + " Expect end date format in yyyyMMddHHmmss.");
         } catch (final NullPointerException e) {
-            LOG.debug("No end date was found for NORT GUID " + currentNode.getNortGuid());
+            log.debug("No end date was found for NORT GUID " + currentNode.getNortGuid());
             throw new SAXException("No end date was found for NORT GUID " + currentNode.getNortGuid());
         }
 
@@ -268,7 +267,7 @@ public class NovusNortFileParser extends DefaultHandler {
                     roots.add(currentNode);
                 }
             } else {
-                LOG.debug(
+                log.debug(
                     "Novus NORT GUID " + currentNode.getNortGuid() + " not included because it has been deleted.");
             }
         }

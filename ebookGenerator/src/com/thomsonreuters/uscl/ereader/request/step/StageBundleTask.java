@@ -12,17 +12,16 @@ import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Required;
 
+@Slf4j
 public class StageBundleTask extends AbstractSbTasklet {
-    private static final Logger log = LogManager.getLogger(StageBundleTask.class);
     private GZIPService gzipService;
     private XppBundleValidator bundleValidator;
 

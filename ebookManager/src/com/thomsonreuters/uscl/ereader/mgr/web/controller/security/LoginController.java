@@ -18,8 +18,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -41,9 +40,8 @@ import org.springframework.web.servlet.view.RedirectView;
  * itself to the login j_security_check URL.
  */
 @Controller
+@Slf4j
 public class LoginController {
-    private static final Logger log = LogManager.getLogger(LoginController.class);
-
     private final UserPreferenceService preferenceService;
     private final OutageService outageService;
     private final MiscConfigSyncService miscConfigSyncService;
@@ -111,7 +109,7 @@ public class LoginController {
         @ModelAttribute(LoginForm.FORM_NAME) @Valid final LoginForm form,
         final BindingResult errors,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
         final String viewName = (!errors.hasErrors()) ? WebConstants.VIEW_SEC_LOGIN_AUTO : WebConstants.VIEW_SEC_LOGIN;
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(viewName);

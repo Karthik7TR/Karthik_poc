@@ -14,8 +14,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.TitleXMLTOCFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -28,8 +27,8 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchorUpdateService {
-    private static final Logger LOG = LogManager.getLogger(TitleMetadataAnchorUpdateServiceImpl.class);
 
     /**
      * Update all the anchor references to match the the format docFamGuid/anchorName.
@@ -47,7 +46,7 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
 
         try (FileInputStream inStream = new FileInputStream(srcTitleXML)) {
             try (FileOutputStream outStream = new FileOutputStream(trgTitleXML)) {
-                LOG.debug("Transforming anchor references from Title.xml file: " + srcTitleXML.getAbsolutePath());
+                log.debug("Transforming anchor references from Title.xml file: " + srcTitleXML.getAbsolutePath());
 
                 final SAXParserFactory factory = SAXParserFactory.newInstance();
                 factory.setNamespaceAware(true);
@@ -71,19 +70,19 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
                 + srcTitleXML.getAbsolutePath()
                 + " or "
                 + trgTitleXML.getAbsolutePath();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + srcTitleXML.getAbsolutePath();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final ParserConfigurationException e) {
             final String errMessage =
                 "Encountered a SAX Parser Configuration Exception while processing: " + srcTitleXML.getAbsolutePath();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        LOG.debug("Anchors in " + trgTitleXML.getAbsolutePath() + " were successfully transformed.");
+        log.debug("Anchors in " + trgTitleXML.getAbsolutePath() + " were successfully transformed.");
     }
 }

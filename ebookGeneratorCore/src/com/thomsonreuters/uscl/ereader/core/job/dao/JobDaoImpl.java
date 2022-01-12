@@ -11,17 +11,16 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 public class JobDaoImpl implements JobDao {
-    private static final Logger log = LogManager.getLogger(JobDaoImpl.class);
     private static final JobSummaryRowMapper JOB_SUMMARY_ROW_MAPPER = new JobSummaryRowMapper();
     private static final JobExecutionIdRowMapper JOB_EXECUTION_ID_ROW_MAPPER = new JobExecutionIdRowMapper();
     private JdbcTemplate jdbcTemplate;

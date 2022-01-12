@@ -5,8 +5,7 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 @Service("jobCleanupService")
+@Slf4j
 public class JobCleanupServiceImpl implements JobCleanupService {
-    private static final Logger LOG = LogManager.getLogger(JobCleanupServiceImpl.class);
 
     private final JobCleanupDao jobCleanupDao;
 
@@ -37,7 +36,7 @@ public class JobCleanupServiceImpl implements JobCleanupService {
     public void cleanUpDeadJobs() throws EBookServerException {
         final int stepCleanup = jobCleanupDao.updateBatchStepExecution();
         final int jobCleanup = jobCleanupDao.updateBatchJobExecution();
-        LOG.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
+        log.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
     }
 
     /**
@@ -60,7 +59,7 @@ public class JobCleanupServiceImpl implements JobCleanupService {
     public void cleanUpDeadJobsForGivenServer(final String serverName) throws EBookServerException {
         final int stepCleanup = jobCleanupDao.updateBatchStepExecutionForGivenServer(serverName);
         final int jobCleanup = jobCleanupDao.updateBatchJobExecutionForGivenServer(serverName);
-        LOG.debug(String.format("Updated %d steps and %d jobs for host %s.", stepCleanup, jobCleanup, serverName));
+        log.debug(String.format("Updated %d steps and %d jobs for host %s.", stepCleanup, jobCleanup, serverName));
     }
 
     @Override

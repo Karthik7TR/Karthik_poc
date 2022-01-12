@@ -24,19 +24,18 @@ import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
+@Slf4j
 public class SendEmailNotification extends BookStepImpl {
-    private static final Logger LOG = LogManager.getLogger(SendEmailNotification.class);
     private static final String LONG_DASH = "—";
     private static final boolean IS_HTML_BODY_CONTENT = true;
     public static final String PRINT_COMPONENTS_SPLITTER = "<tr><td colspan=\"3\" style=\"text-align: center;\">- - - - - - - - - - - - - -</td></tr>";
@@ -51,7 +50,7 @@ public class SendEmailNotification extends BookStepImpl {
     @Override
     public ExitStatus executeStep() throws Exception {
         final Collection<InternetAddress> recipients = getRecipients();
-        LOG.debug("recipients: " + recipients);
+        log.debug("recipients: " + recipients);
 
         emailService.send(new NotificationEmail(recipients, getEmailSubject(), getEmailBody(), IS_HTML_BODY_CONTENT));
 
@@ -172,7 +171,7 @@ public class SendEmailNotification extends BookStepImpl {
             final String componentNameUnescapedHtml = StringEscapeUtils.unescapeHtml4(componentName);
             return URLEncoder.encode(componentNameUnescapedHtml.replaceAll("[^a-zA-Z0-9 ]", StringUtils.EMPTY), "UTF-8");
         } catch (final UnsupportedEncodingException e) {
-            LOG.error("Unexpected exception.", e);
+            log.error("Unexpected exception.", e);
             return StringUtils.EMPTY;
         }
     }

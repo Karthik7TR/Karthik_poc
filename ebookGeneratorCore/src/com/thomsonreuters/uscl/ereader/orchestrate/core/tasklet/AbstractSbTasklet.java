@@ -11,9 +11,8 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -31,8 +30,8 @@ import org.springframework.batch.repeat.RepeatStatus;
  * This is a specific requirement for eReader.
  */
 @Setter
+@Slf4j
 public abstract class AbstractSbTasklet implements Tasklet {
-    private static final Logger LOG = LogManager.getLogger(AbstractSbTasklet.class);
 
     protected EmailUtil emailUtil;
     protected NotificationService notificationService;
@@ -54,7 +53,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
     public final RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
         throws Exception {
         final StepContext stepContext = chunkContext.getStepContext();
-        LOG.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
+        log.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
         final StepExecution stepExecution = stepContext.getStepExecution();
         final JobExecution jobExecution = stepExecution.getJobExecution();
         final long jobInstanceId = jobExecution.getJobInstance().getId();
@@ -65,7 +64,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
             // with an exit message indicating the interval of the outage.
             final PlannedOutage plannedOutage = outageProcessor.processPlannedOutages();
             if (plannedOutage != null) {
-                LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
+                log.debug("Failing job step at start due to planned outage: " + plannedOutage);
                 final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
                 final Exception e = new PlannedOutageException(
                     String.format(

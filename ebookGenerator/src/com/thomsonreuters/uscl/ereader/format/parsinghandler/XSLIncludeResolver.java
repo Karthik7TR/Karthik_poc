@@ -17,11 +17,10 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 /**
@@ -31,8 +30,8 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
+@Slf4j
 public class XSLIncludeResolver implements URIResolver {
-    private static final Logger LOG = LogManager.getLogger(XSLIncludeResolver.class);
     private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
     private static final String NOTES_OF_DECISIONS = "NotesOfDecisions.xsl";
     private List<String> includedXSLTs = new ArrayList<>();
@@ -102,7 +101,7 @@ public class XSLIncludeResolver implements URIResolver {
                 if (includedXSLTs.contains(includeXSLT.getCanonicalPath())) {
                     source = new StreamSource(emptyXSL);
                 } else {
-                    LOG.debug("includedXSLT: " + includeXSLT.getCanonicalPath());
+                    log.debug("includedXSLT: " + includeXSLT.getCanonicalPath());
                     includedXSLTs.add(includeXSLT.getCanonicalPath());
                     source = new StreamSource(includeXSLT);
                 }
@@ -164,15 +163,15 @@ public class XSLIncludeResolver implements URIResolver {
             return forcePlatformFilter.isForcePlatform();
         } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + base;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + base;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + base;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }

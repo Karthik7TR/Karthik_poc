@@ -17,19 +17,17 @@ import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.DocFilenameF
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.NovusDocFileParser;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
 /**
  * Codes Workbench Novus document and metadata split.
  * @author Dong Kim
  */
+@Slf4j
 public class NovusDocFileServiceImpl implements NovusDocFileService {
     private static String CHARSET = "UTF-8"; // explicitly set the character set
-
-    private static final Logger Log = LogManager.getLogger(NovusDocFileServiceImpl.class);
 
     @Override
     public GatherResponse fetchDocuments(
@@ -137,7 +135,7 @@ public class NovusDocFileServiceImpl implements NovusDocFileService {
             final String docGuid = entry.getKey();
             final int count = entry.getValue();
             if (count > 0) {
-                Log.debug("Document is not found for the guid " + docGuid);
+                log.debug("Document is not found for the guid " + docGuid);
                 writer.write(docGuid);
                 writer.write("\n");
                 missingGuidsCount++;

@@ -20,9 +20,8 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 
 /**
@@ -32,8 +31,8 @@ import org.springframework.batch.core.ExitStatus;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.INITIALIZE)
+@Slf4j
 public class InitializeTask extends BookStepImpl {
-    private static final Logger LOG = LogManager.getLogger(InitializeTask.class);
 
     @Resource(name = "bookDefinitionService")
     private BookDefinitionService bookService;
@@ -45,8 +44,8 @@ public class InitializeTask extends BookStepImpl {
         setBookDefinition();
         createWorkDir();
 
-        LOG.debug("Proview Domain URL: " + System.getProperty("proview.domain"));
-        LOG.debug("hostname: " + getHostName());
+        log.debug("Proview Domain URL: " + System.getProperty("proview.domain"));
+        log.debug("hostname: " + getHostName());
         return ExitStatus.COMPLETED;
     }
 
@@ -56,7 +55,7 @@ public class InitializeTask extends BookStepImpl {
         //TODO: remove this later - for dummy book only. Ignore Split books
         bookDefinition.setIsSplitBook(false);
 
-        LOG.debug("titleId (Fully Qualified): " + bookDefinition.getFullyQualifiedTitleId());
+        log.debug("titleId (Fully Qualified): " + bookDefinition.getFullyQualifiedTitleId());
     }
 
     /**
@@ -67,6 +66,6 @@ public class InitializeTask extends BookStepImpl {
         final File workDirectory = fileSystem.getWorkDirectory(this);
         FileUtils.forceMkdir(workDirectory);
         setJobExecutionPropertyString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
-        LOG.debug("workDirectory: " + workDirectory.getAbsolutePath());
+        log.debug("workDirectory: " + workDirectory.getAbsolutePath());
     }
 }

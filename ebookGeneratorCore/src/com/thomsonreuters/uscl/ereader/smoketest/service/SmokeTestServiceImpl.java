@@ -26,10 +26,9 @@ import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 import com.thomsonreuters.uscl.ereader.util.Ssh;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +41,8 @@ import static org.apache.commons.lang3.StringUtils.LF;
  * Service that returns Server statuses
  *
  */
+@Slf4j
 public class SmokeTestServiceImpl implements SmokeTestService {
-    private static Logger LOG = LogManager.getLogger(SmokeTestServiceImpl.class);
 
     private static final String NOVUS_CLIENT_TEST_DOC_ID = "I41077696b67411d9947c9ea867b7826a";
     private static final int TIME_OUT = 3000; // In milliseconds
@@ -163,7 +162,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
             connection.setReadTimeout(TIME_OUT);
             serverStatus.setIsRunning(connection.getResponseCode() == HttpURLConnection.HTTP_OK);
         } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
         }
 
@@ -178,7 +177,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
         try (Connection connection = factory.createConnection()) {
             status.setIsRunning(true);
         } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return status;
     }
@@ -215,7 +214,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
                 .getMetaData();
             smokeTest.setIsRunning(true);
         } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return smokeTest;
     }
@@ -261,10 +260,10 @@ public class SmokeTestServiceImpl implements SmokeTestService {
             serverStatus.setAddress(address.getHostAddress());
             serverStatus.setIsRunning(address.isReachable(timeOut));
         } catch (final UnknownHostException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
         } catch (final IOException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
         }
 
@@ -287,7 +286,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
                     try {
                         return Ssh.executeCommand(item, ftpLogin, ftpPassword, APPLICATION_LIST_COMMAND);
                     } catch (EBookServerException e) {
-                        LOG.error(e.getMessage(), e);
+                        log.error(e.getMessage(), e);
                     }
                     return StringUtils.EMPTY;
                 })

@@ -14,8 +14,7 @@ import com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLi
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -29,9 +28,8 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
+@Slf4j
 public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet {
-    //TODO: Use logger API to get Logger instance to job-specific appender.
-    private static final Logger LOG = LogManager.getLogger(HTMLRemoveBrokenInternalLinks.class);
     private HTMLRemoveBrokenInternalLinksService transformerUnlinkService;
     private PublishingStatsService publishingStatsService;
 
@@ -75,7 +73,7 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet {
                     + " documents while the eBook TOC had "
                     + numDocsInTOC
                     + " documents.";
-                LOG.error(message);
+                log.error(message);
                 throw new EBookFormatException(message);
             }
         } catch (final Exception e) {

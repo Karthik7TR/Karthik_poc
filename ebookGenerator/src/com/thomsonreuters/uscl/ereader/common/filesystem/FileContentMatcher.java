@@ -3,15 +3,14 @@ package com.thomsonreuters.uscl.ereader.common.filesystem;
 import java.io.File;
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.jetbrains.annotations.NotNull;
 
+@Slf4j
 public class FileContentMatcher extends BaseMatcher<Object> {
-    private static final Logger LOG = LogManager.getLogger(FileContentMatcher.class);
 
     @NotNull
     private File expected;
@@ -30,7 +29,7 @@ public class FileContentMatcher extends BaseMatcher<Object> {
         try {
             return FileUtils.contentEqualsIgnoreEOL(expected, file, null);
         } catch (final IOException e) {
-            LOG.error("", e);
+            log.error("", e);
             return false;
         }
     }
@@ -49,7 +48,7 @@ public class FileContentMatcher extends BaseMatcher<Object> {
                 .appendText("\n but expected \n")
                 .appendValue(FileUtils.readFileToString(expected));
         } catch (final IOException e) {
-            LOG.error("", e);
+            log.error("", e);
         }
     }
 }

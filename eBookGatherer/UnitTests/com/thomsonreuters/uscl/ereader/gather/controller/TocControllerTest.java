@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 public final class TocControllerTest {
-    //private static Logger log = LogManager.getLogger(TocControllerTest.class);
     private TocService mockTocService;
     private TocController controller;
 

@@ -24,8 +24,7 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 @Service("managerService")
+@Slf4j
 public class ManagerServiceImpl implements ManagerService {
-    private static final Logger LOG = LogManager.getLogger(ManagerServiceImpl.class);
     private static final FileVisitor<Path> DELETE_VISITOR = new DeleteFilesFileVisitor();
 
     private static final String HTTP_TEMPLATE = "http://%s:%d/%s/";
@@ -75,13 +74,13 @@ public class ManagerServiceImpl implements ManagerService {
         // Check for running jobs (in the generator web app)
         final int startedJobs = jobService.getStartedJobCount();
         if (startedJobs > 0) {
-            LOG.debug(String.format("There are %d started job executions", startedJobs));
+            log.debug(String.format("There are %d started job executions", startedJobs));
             return true;
         }
         // Check for queued jobs
         final List<JobRequest> jobRequests = jobRequestService.findAllJobRequests();
         if (!jobRequests.isEmpty()) {
-            LOG.debug(String.format("There are %d queued jobs", jobRequests.size()));
+            log.debug(String.format("There are %d queued jobs", jobRequests.size()));
             return true;
         }
         return false;
@@ -103,7 +102,7 @@ public class ManagerServiceImpl implements ManagerService {
             socketAddr.getHostName(),
             socketAddr.getPort(),
             contextName);
-        LOG.debug(TO_URL + url);
+        log.debug(TO_URL + url);
         return restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
     }
 
@@ -116,7 +115,7 @@ public class ManagerServiceImpl implements ManagerService {
             socketAddr.getHostName(),
             socketAddr.getPort(),
             generatorContextName);
-        LOG.debug(TO_URL + url);
+        log.debug(TO_URL + url);
         return restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
     }
 
@@ -127,7 +126,7 @@ public class ManagerServiceImpl implements ManagerService {
             socketAddr.getHostName(),
             socketAddr.getPort(),
             generatorContextName);
-        LOG.debug(TO_URL + url);
+        log.debug(TO_URL + url);
         return restTemplate.postForObject(url, outage, SimpleRestServiceResponse.class);
     }
 
@@ -138,14 +137,14 @@ public class ManagerServiceImpl implements ManagerService {
         final Date deleteJobsBefore = calculateDaysBackDate(daysBack);
 
         // Archive and then delete old BATCH_* database table records
-        LOG.info(
+        log.info(
             String.format(
                 "Starting to archive/delete Spring Batch job records older than %d days old.  These are jobs run before: %s",
                 daysBack,
                 deleteJobsBefore.toString()));
         final int oldJobStepExecutionsRemoved =
             managerDao.archiveAndDeleteSpringBatchJobRecordsBefore(deleteJobsBefore);
-        LOG.info(
+        log.info(
             String.format(
                 "Finished archiving/deleting %d old step executions that were older than %d days old.",
                 oldJobStepExecutionsRemoved,
@@ -157,30 +156,30 @@ public class ManagerServiceImpl implements ManagerService {
         // Calculate the prior point in time before which data is to be removed
         final Date deleteFilesBefore = calculateDaysBackDate(daysBack);
         // Remove old filesystem files that were used to create the book in the first place
-        LOG.info(
+        log.info(
             String.format(
                 "Starting to remove job filesystem files older than %d days old.  These are files created before: %s",
                 daysBack,
                 deleteFilesBefore.toString()));
         removeOldJobFiles(deleteFilesBefore);
-        LOG.info(String.format("Finished removing job files older than %d days old.", daysBack));
+        log.info(String.format("Finished removing job files older than %d days old.", daysBack));
 
         // Remove old codes workbench files
         final Date cwbDeleteFilesBefore = calculateDaysBackDate(cwbFilesDaysBack);
-        LOG.info(
+        log.info(
             String.format(
                 "Starting to remove codes workbench files older than %d days old.  These are files created before: %s",
                 cwbFilesDaysBack,
                 deleteFilesBefore.toString()));
         removeOldCwbFiles(cwbDeleteFilesBefore);
-        LOG.info(String.format("Finished removing codes workbench files older than %d days old.", cwbFilesDaysBack));
+        log.info(String.format("Finished removing codes workbench files older than %d days old.", cwbFilesDaysBack));
     }
 
     @Override
     @Transactional
     public void cleanupOldPlannedOutages(final int daysBack) {
         final Date deleteOutagesBefore = calculateDaysBackDate(daysBack);
-        LOG.debug(
+        log.debug(
             String.format(
                 "Deleting expired planned outages older than %d days old.  These are outages that ended before: %s",
                 daysBack,
@@ -199,7 +198,7 @@ public class ManagerServiceImpl implements ManagerService {
     public void cleanupOldTransientMetadata(
         final int numberLastMajorVersionKept,
         final int daysBeforeDocMetadataDelete) {
-        LOG.debug(
+        log.debug(
             String.format(
                 "Deleting Metadata and keeping only %d good major version prior to %d days ago",
                 numberLastMajorVersionKept,
@@ -243,11 +242,11 @@ public class ManagerServiceImpl implements ManagerService {
         if (dir.isDirectory()) {
             try {
                 Files.walkFileTree(dir.toPath(), DELETE_VISITOR);
-                LOG.debug(message + dir.getAbsolutePath());
+                log.debug(message + dir.getAbsolutePath());
             } catch (final IOException e) {
                 final String msg = String
                     .format("Failed to recursively delete directory %s - %s", dir.getAbsolutePath(), e.getMessage());
-                LOG.error(msg, e);
+                log.error(msg, e);
             }
         }
     }

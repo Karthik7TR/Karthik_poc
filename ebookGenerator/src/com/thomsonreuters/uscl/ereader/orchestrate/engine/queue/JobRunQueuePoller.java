@@ -9,9 +9,8 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.beans.factory.annotation.Required;
@@ -24,8 +23,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * because less than the maximum number of concurrent batch jobs is running (not
  * throttled) then the specified job will be run.
  */
+@Slf4j
 public class JobRunQueuePoller {
-    private static final Logger LOG = LogManager.getLogger(JobRunQueuePoller.class);
 
     private EngineService engineService;
     private JobStartupThrottleService jobStartupThrottleService;
@@ -65,17 +64,17 @@ public class JobRunQueuePoller {
                             // Put the dynamic job parameters in the map.
                             final JobParameters allJobParameters = builder.toJobParameters();
                             // Start the job that builds the ebook
-                            LOG.debug("Starting Job: " + jobRequest);
+                            log.debug("Starting Job: " + jobRequest);
                             engineService.runJob(jobNameProvider.getJobName(jobRequest), allJobParameters);
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(
+                            if (log.isDebugEnabled()) {
+                                log.debug(
                                     String.format(
                                         "THREAD POOL: activeCount=%d,poolSize=%d,corePoolSize=%d,maxPoolSize=%d",
                                         springBatchTaskExecutor.getActiveCount(),
                                         springBatchTaskExecutor.getPoolSize(),
                                         springBatchTaskExecutor.getCorePoolSize(),
                                         springBatchTaskExecutor.getMaxPoolSize()));
-                                LOG.debug(
+                                log.debug(
                                     String.format(
                                         "DB CONN POOL: numActive=%d,numIdle=%d,maxActive=%d,maxWait=%d",
                                         basicDataSource.getNumActive(),
@@ -85,20 +84,20 @@ public class JobRunQueuePoller {
                             }
                         }
                     } else {
-                        LOG.debug("Application step throttling is not allowing any new jobs to run.");
+                        log.debug("Application step throttling is not allowing any new jobs to run.");
                     }
                 } else {
-                    LOG.debug(
+                    log.debug(
                         String.format(
                             "There are %d active job threads running, the maximum allowed is %d.  No new jobs will be started until the active is less than the maximum.",
                             activeThreads,
                             coreThreadPoolSize));
                 }
             } else {
-                LOG.debug(String.format("A planned outage is in effect until %s", outage.getEndTime().toString()));
+                log.debug(String.format("A planned outage is in effect until %s", outage.getEndTime().toString()));
             }
         } catch (final Exception e) {
-            LOG.error("Failed run job request: " + jobRequest, e);
+            log.error("Failed run job request: " + jobRequest, e);
         }
     }
 

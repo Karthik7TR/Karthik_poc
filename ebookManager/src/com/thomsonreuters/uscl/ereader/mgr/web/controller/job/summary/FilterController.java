@@ -14,8 +14,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -31,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@Slf4j
 public class FilterController extends BaseJobSummaryController {
-    private static final Logger log = LogManager.getLogger(FilterController.class);
     private final Validator validator;
 
     @Autowired
@@ -59,7 +58,7 @@ public class FilterController extends BaseJobSummaryController {
         @ModelAttribute(FilterForm.FORM_NAME) @Valid final FilterForm filterForm,
         final BindingResult errors,
         final Model model) {
-        log.debug(filterForm);
+        log.debug(filterForm.toString());
         List<Long> jobExecutionIds;
 
         // Restore state of paging and sorting

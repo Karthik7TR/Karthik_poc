@@ -24,7 +24,7 @@
 		  p:novusFactory-ref="novusFactory"
 		  p:novusUtility-ref="novusUtility"/>
 		  
-	<!-- Below is used to fetch the initial misc config (log4j logging levels) from a generator REST service that serves up the MiscConfig object
+	<!-- Below is used to fetch the initial misc config (logback logging levels) from a generator REST service that serves up the MiscConfig object
 		 as read from the database. --> 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.gather.services.GathererMiscConfigSyncService"
 		  p:novusFactory-ref="novusFactory"/>

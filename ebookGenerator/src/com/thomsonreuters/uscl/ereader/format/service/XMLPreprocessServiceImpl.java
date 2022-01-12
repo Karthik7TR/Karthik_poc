@@ -21,8 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XMLContentChangerFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -36,8 +35,8 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
+@Slf4j
 public class XMLPreprocessServiceImpl implements XMLPreprocessService {
-    private static final Logger LOG = LogManager.getLogger(XMLPreprocessServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
 
@@ -93,7 +92,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         } catch (final FileNotFoundException e) {
             final String errMessage = "No xml files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -101,7 +100,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
             targetDir.mkdirs();
         }
 
-        LOG.info("Applying preprocess on xml files...");
+        log.info("Applying preprocess on xml files...");
 
         int numDocs = 0;
         for (final File xmlFile : xmlFiles) {
@@ -132,11 +131,11 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
         }
 
         if (errMessage.length() > 0) {
-            LOG.error(errMessage.toString());
+            log.error(errMessage.toString());
             throw new EBookFormatException(errMessage.toString());
         }
 
-        LOG.info("Preprocess successfully applied to " + numDocs + " files.");
+        log.info("Preprocess successfully applied to " + numDocs + " files.");
         return numDocs;
     }
 
@@ -184,19 +183,19 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService {
                 contentChangerFilter.setContentHandler(serializer.asContentHandler());
                 contentChangerFilter.parse(new InputSource(inStream));
 
-                LOG.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
+                log.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
             }
         } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }

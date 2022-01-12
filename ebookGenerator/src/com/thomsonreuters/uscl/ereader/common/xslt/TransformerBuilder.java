@@ -10,15 +10,14 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.SimpleSAXErrorListener;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Builder to create transformers
  */
+@Slf4j
 public class TransformerBuilder {
-    private static final Logger LOG = LogManager.getLogger(TransformerBuilder.class);
 
     @NotNull
     private TransformerFactory factory;
@@ -41,7 +40,7 @@ public class TransformerBuilder {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         } catch (final Exception e) {
             final String message = String.format("Cannot create transformer for xslt file %s", xsl.getAbsolutePath());
-            LOG.error(message, e);
+            log.error(message, e);
             throw new XslTransformationException(message, e);
         }
         return this;

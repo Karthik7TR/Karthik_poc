@@ -9,7 +9,7 @@ import javax.jms.QueueConnectionFactory;
 
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.jms.service.ConnectionFactory;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -17,8 +17,8 @@ import org.springframework.jms.core.JmsTemplate;
  * @author C089278 - Robert Hannah
  *
  */
+@Slf4j
 public class QueueManager {
-    private static final Logger log = Logger.getLogger(JavaMessageServiceImpl.class);
 
     private QueueType queueType;
     private ConnectionFactory factory;

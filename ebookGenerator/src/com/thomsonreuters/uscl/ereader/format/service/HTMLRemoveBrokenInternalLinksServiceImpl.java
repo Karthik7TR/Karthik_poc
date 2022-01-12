@@ -30,8 +30,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -45,8 +44,8 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
+@Slf4j
 public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBrokenInternalLinksService {
-    private static final Logger LOG = LogManager.getLogger(HTMLRemoveBrokenInternalLinksServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
     private DocMetadataService docMetadataService;
@@ -97,7 +96,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         } catch (final FileNotFoundException e) {
             final String errMessage = "No html files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -105,7 +104,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             targetDir.mkdirs();
         }
 
-        LOG.info("Unlinking (removing links) on transformed files...");
+        log.info("Unlinking (removing links) on transformed files...");
 
         final File anchorTargetListFile = new File(srcDir.getAbsolutePath(), "anchorTargetUnlinkFile");
 
@@ -140,7 +139,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             writeUnlinkAnchorReport(unlinkDocMetadataList, anchorUnlinkTargetListFile);
         }
 
-        LOG.info("Unlinking transformation successfully applied to " + numDocs + " files.");
+        log.info("Unlinking transformation successfully applied to " + numDocs + " files.");
         return numDocs;
     }
 
@@ -206,15 +205,15 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             }
         } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }
@@ -249,16 +248,16 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                         final String message = "Please verify that each document GUID in the following file has "
                             + "at least one anchor associated with it: "
                             + anchorTargetListFile.getAbsolutePath();
-                        LOG.error(message);
+                        log.error(message);
                         throw new EBookFormatException(message);
                     }
                     input = reader.readLine();
                 }
-                LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
+                log.info("Generated a map for " + anchors.size() + " guids that have anchors.");
             } catch (final IOException e) {
                 final String message =
                     "Could not read the DOC guid to anchors file: " + anchorTargetListFile.getAbsolutePath();
-                LOG.error(message);
+                log.error(message);
                 throw new EBookFormatException(message, e);
             }
         }
@@ -290,16 +289,16 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                         final String message = "Please verify that each document GUID in the following file has "
                             + "at least one anchor associated with it: "
                             + anchorTargetListFile.getAbsolutePath();
-                        LOG.error(message);
+                        log.error(message);
                         throw new EBookFormatException(message);
                     }
                     input = reader.readLine();
                 }
-                LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
+                log.info("Generated a map for " + anchors.size() + " guids that have anchors.");
             } catch (final IOException e) {
                 final String message =
                     "Could not read the DOC guid to anchors file: " + anchorTargetListFile.getAbsolutePath();
-                LOG.error(message);
+                log.error(message);
                 throw new EBookFormatException(message, e);
             }
         }
@@ -326,7 +325,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         } catch (final IOException e) {
             final String errMessage =
                 "Encountered an IO Exception while processing: " + anchorUnlinkTargetListFile.getAbsolutePath();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }

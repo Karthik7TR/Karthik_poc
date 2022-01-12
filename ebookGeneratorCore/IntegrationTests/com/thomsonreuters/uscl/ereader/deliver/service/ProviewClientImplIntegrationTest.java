@@ -15,8 +15,7 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,8 +32,8 @@ import org.springframework.web.client.RestTemplate;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris
  *         Schwartz</a> u0081674
  */
+@Slf4j
 public final class ProviewClientImplIntegrationTest {
-    private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
     private String getTitlesUriTemplate = "/v1/titles/";

@@ -3,11 +3,9 @@ package com.thomsonreuters.uscl.ereader.img;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public abstract class ImageGathererRequest implements Callable<Boolean> {
-    private static Logger LOG = LogManager.getLogger(ImageGathererRequest.class);
 
     private CountDownLatch countDownLatch;
 
@@ -22,7 +20,7 @@ public abstract class ImageGathererRequest implements Callable<Boolean> {
             doRequest();
             return true;
         } catch (Exception e) {
-            LOG.error("", e);
+            log.error("", e);
             return false;
         }
     }

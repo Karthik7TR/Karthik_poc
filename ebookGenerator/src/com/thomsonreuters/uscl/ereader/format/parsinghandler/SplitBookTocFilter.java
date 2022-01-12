@@ -12,9 +12,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -32,8 +31,8 @@ import static com.thomsonreuters.uscl.ereader.core.EBConstants.TITLE_BREAK;
 import static com.thomsonreuters.uscl.ereader.core.EBConstants.TOC_GUID;
 
 @RequiredArgsConstructor
+@Slf4j
 public class SplitBookTocFilter extends XMLFilterImpl {
-    private static final Logger LOG = LogManager.getLogger(SplitBookTocFilter.class);
 
     private static final String URI = StringUtils.EMPTY;
     private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
@@ -131,7 +130,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 
             final String nodeGuid = StringUtils.substring(node.getGuid(), 0, 33);
             if (!currentNodeGuid.equals(nodeGuid)) {
-                LOG.debug(String.format("Guid %s is non leaf, split point moved to %s", currentNodeGuid, nodeGuid));
+                log.debug(String.format("Guid %s is non leaf, split point moved to %s", currentNodeGuid, nodeGuid));
             }
         }
     }
@@ -225,7 +224,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 
             if (isSplit) {
                 placeTitleBreak();
-                LOG.debug(String.format("TitleBreak has been added at %s", tocGuid));
+                log.debug(String.format("TitleBreak has been added at %s", tocGuid));
             }
 
             SplitBookTocFilter.super.startElement(URI, EBOOK_TOC, EBOOK_TOC, EMPTY_ATTRIBUTES);

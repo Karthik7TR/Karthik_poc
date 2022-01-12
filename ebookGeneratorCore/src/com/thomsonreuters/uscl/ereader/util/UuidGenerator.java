@@ -2,8 +2,6 @@ package com.thomsonreuters.uscl.ereader.util;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import com.westgroup.publishingservices.uuidgenerator.UUID;
 import com.westgroup.publishingservices.uuidgenerator.UUIDFactory;

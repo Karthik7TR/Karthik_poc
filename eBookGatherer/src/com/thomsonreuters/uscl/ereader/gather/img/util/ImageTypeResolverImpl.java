@@ -1,16 +1,16 @@
 package com.thomsonreuters.uscl.ereader.gather.img.util;
 
-import java.io.File;
-
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 @Service
+@Slf4j
 public class ImageTypeResolverImpl implements ImageTypeResolver {
-    private static final Logger LOG = Logger.getLogger(ImageTypeResolverImpl.class);
 
     private static final String TIF = "tif";
     private static final String TIFF = "tiff";
@@ -34,7 +34,7 @@ public class ImageTypeResolverImpl implements ImageTypeResolver {
             tiffReader.readTiff(image);
             return true;
         } catch (final ImageConverterException e) {
-            LOG.info(String.format("Failed to read as TIFF: %s", image.getAbsolutePath()), e);
+            log.info(String.format("Failed to read as TIFF: %s", image.getAbsolutePath()), e);
             return false;
         }
     }

@@ -4,8 +4,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.service.AbstractMiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -13,8 +12,8 @@ import org.springframework.beans.factory.annotation.Required;
  * This is currently the Novus Environment name Client|Prod that is set from the Misc Config section
  * of the Manager Administration pages.
  */
+@Slf4j
 public class GathererMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
-    private static Logger log = LogManager.getLogger(GathererMiscConfigSyncService.class);
 
     private NovusFactory novusFactory;
 
@@ -24,7 +23,7 @@ public class GathererMiscConfigSyncService extends AbstractMiscConfigSyncService
 
     @Override
     public void syncSpecific(final MiscConfig config) throws Exception {
-        log.info(config);
+        log.info(config.toString());
         final NovusEnvironment newNovusEnvironment = config.getNovusEnvironment();
         novusFactory.setNovusEnvironment(newNovusEnvironment);
     }

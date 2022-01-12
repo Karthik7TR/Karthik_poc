@@ -12,9 +12,8 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class XppBundleQueuePoller {
-    private static final Logger LOG = LogManager.getLogger(XppBundleQueuePoller.class);
     private static final String FAIL_MESSAGE = "Failed start bundle process request: ";
     private static final String OUTAGE_MESSAGE_TEMPLATE = "A planned outage is in effect until %s";
     private static final String THREAD_POOL_MESSAGE = "There are %d active bundle processing threads running, the maximum allowed is %d.  "
@@ -68,7 +67,7 @@ public class XppBundleQueuePoller {
                     .ifPresent(this::performJobExecution);
             }
         } catch (final Exception e) {
-            LOG.error(FAIL_MESSAGE, e);
+            log.error(FAIL_MESSAGE, e);
         }
     }
 
@@ -81,9 +80,9 @@ public class XppBundleQueuePoller {
         if (outage == null && activeThreads < coreThreadPoolSize && jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
             result = true;
         } else if (outage != null) {
-            LOG.debug(String.format(OUTAGE_MESSAGE_TEMPLATE, outage.getEndTime().toString()));
+            log.debug(String.format(OUTAGE_MESSAGE_TEMPLATE, outage.getEndTime().toString()));
         } else {
-            LOG.debug(String.format(THREAD_POOL_MESSAGE, activeThreads, coreThreadPoolSize));
+            log.debug(String.format(THREAD_POOL_MESSAGE, activeThreads, coreThreadPoolSize));
         }
         return result;
     }

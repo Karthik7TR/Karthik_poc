@@ -3,18 +3,18 @@ package com.thomsonreuters.uscl.ereader.jms.service.impl;
 import java.util.Properties;
 
 // formerly org.apache.commons.lang3. . .
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  * Hold onto information describing a queue
  */
+@Slf4j
 public class QueueDescriptor {
     private QueueType queueType;
     private String host;
@@ -26,7 +26,6 @@ public class QueueDescriptor {
     private boolean enabled = true;
     private boolean valid;
 
-    private static final Logger LOG = LogManager.getLogger(QueueDescriptor.class);
 
     public QueueDescriptor() {
     }
@@ -65,7 +64,7 @@ public class QueueDescriptor {
         } catch (final Exception e) {
             // IndexOutOfBoundsException, NullPointerException,
             // NumberFormatException
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             valid = false;
         }
     }

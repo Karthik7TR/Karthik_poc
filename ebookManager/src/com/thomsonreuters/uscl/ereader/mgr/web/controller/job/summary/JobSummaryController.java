@@ -19,8 +19,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecuti
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -37,8 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
+@Slf4j
 public class JobSummaryController extends BaseJobSummaryController {
-    private static final Logger log = LogManager.getLogger(JobSummaryController.class);
 
     @Autowired
     private GeneratorRestClient generatorRestClient;
@@ -98,7 +97,7 @@ public class JobSummaryController extends BaseJobSummaryController {
         final HttpSession httpSession,
         @ModelAttribute(JobSummaryForm.FORM_NAME) final JobSummaryForm form,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
         List<Long> jobExecutionIds = null;
         final FilterForm filterForm = fetchSavedFilterForm(httpSession);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
@@ -146,7 +145,7 @@ public class JobSummaryController extends BaseJobSummaryController {
         @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid final JobSummaryForm form,
         final BindingResult errors,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
         final List<InfoMessage> messages = new ArrayList<>();
 
         if (!errors.hasErrors()) {
@@ -222,7 +221,7 @@ public class JobSummaryController extends BaseJobSummaryController {
         final HttpSession httpSession,
         @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid final JobSummaryForm form,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
         pageAndSort.setObjectsPerPage(form.getObjectsPerPage()); // Update the new number of items to be shown at one time

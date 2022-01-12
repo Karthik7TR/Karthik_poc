@@ -25,8 +25,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.group.service.GroupDefinitionParser;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -36,10 +35,10 @@ import org.springframework.beans.factory.annotation.Required;
  * @author uc209819
  *
  */
+@Slf4j
 public class ProviewHandlerImpl implements ProviewHandler {
     public static final String ROOT_ELEMENT = "group";
 
-    private static final Logger LOG = LogManager.getLogger(ProviewHandlerImpl.class);
     private ProviewClient proviewClient;
     @Autowired
     private SupersededProviewHandlerHelper supersededHandler;
@@ -373,7 +372,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
             throw new RuntimeException(e.toString(), e);
         }
 
-        LOG.debug("Proview[ Request: " + output.toString() + "]");
+        log.debug("Proview[ Request: " + output.toString() + "]");
         return output.toString(StandardCharsets.UTF_8.displayName());
     }
 

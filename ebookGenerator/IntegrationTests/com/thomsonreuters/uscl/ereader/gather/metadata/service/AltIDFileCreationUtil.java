@@ -18,8 +18,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
 @Ignore
+@Slf4j
 public class AltIDFileCreationUtil {
-    private static final Logger LOG = LogManager.getLogger(AltIDFileCreationUtil.class);
 
     @Autowired
     protected DocMetadataService documentMetadataService;
@@ -76,7 +75,7 @@ public class AltIDFileCreationUtil {
 
         final String altIdFileName = book.getFullyQualifiedTitleId().replace("/", "_") + ".csv";
 
-        LOG.info("Generating CVS file for BookId " + BOOK_DEF_ID + " and title " + book.getFullyQualifiedTitleId());
+        log.info("Generating CVS file for BookId " + BOOK_DEF_ID + " and title " + book.getFullyQualifiedTitleId());
 
         final List<PublishingStats> pubStatsList = publishingStatsService.findPublishingStatsByEbookDef(BOOK_DEF_ID);
         Collections.sort(pubStatsList, Collections.reverseOrder());
@@ -138,7 +137,7 @@ public class AltIDFileCreationUtil {
             }
         }
 
-        LOG.info(" newJobInstanceId " + newJobInstanceId);
+        log.info(" newJobInstanceId " + newJobInstanceId);
 
         final Set<DocMetadata> newDocSet = getDocAuthorityforJobInstance(newJobInstanceId);
         final Map<String, String> olDDocInfo = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -157,10 +156,10 @@ public class AltIDFileCreationUtil {
 
                     if (olDDocInfo.containsKey(firslineCite)
                         && !olDDocInfo.get(firslineCite).equalsIgnoreCase(doc.getDocFamilyUuid())) {
-                        LOG.debug(
+                        log.debug(
                             "Document family uuid changed between old versions for firstLineCite " + firslineCite);
-                        LOG.debug("JobInstanceId " + job + " : " + doc.getJobInstanceId());
-                        LOG.debug("Documents " + olDDocInfo.get(firslineCite) + " : " + doc.getDocFamilyUuid());
+                        log.debug("JobInstanceId " + job + " : " + doc.getJobInstanceId());
+                        log.debug("Documents " + olDDocInfo.get(firslineCite) + " : " + doc.getDocFamilyUuid());
                         removeKey.add(firslineCite);
                     }
                 }
@@ -194,7 +193,7 @@ public class AltIDFileCreationUtil {
             if (!removeKey.contains(firslineCite)) {
                 docInfo.put(firslineCite, doc.getDocFamilyUuid());
             } else {
-                LOG.debug("did not add to the list " + firslineCite);
+                log.debug("did not add to the list " + firslineCite);
             }
         }
         return docInfo;
@@ -210,10 +209,10 @@ public class AltIDFileCreationUtil {
         final Map<String, String> oldDocInfo,
         final String altIdFileName) {
         final File file = new File(altIdFileName);
-        LOG.debug(file.getAbsolutePath());
+        log.debug(file.getAbsolutePath());
 
         final File notFoundfile = new File(altIdFileName + "_NotFound");
-        LOG.debug(notFoundfile.getAbsolutePath());
+        log.debug(notFoundfile.getAbsolutePath());
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
             try (BufferedWriter out1 = new BufferedWriter(new FileWriter(file))) {
@@ -222,7 +221,7 @@ public class AltIDFileCreationUtil {
                     final String cite = normalizeFirsLineSite(newDoc.getFirstlineCite());
                     if (oldDocInfo.containsKey(cite)) {
                         if (oldDocInfo.get(cite).equalsIgnoreCase(newDoc.getDocFamilyUuid())) {
-                            LOG.info(
+                            log.info(
                                 newDoc.getDocFamilyUuid()
                                     + " DocFamilys are same for Cite "
                                     + newDoc.getFirstlineCite());
@@ -238,7 +237,7 @@ public class AltIDFileCreationUtil {
                         }
                     } else {
                         i++;
-                        LOG.error(
+                        log.error(
                             "could not find matching family "
                                 + newDoc.getDocFamilyUuid()
                                 + " "
@@ -246,7 +245,7 @@ public class AltIDFileCreationUtil {
                         out1.write(newDoc.toString() + "\n");
                     }
                 }
-                LOG.debug(i + " documents Could not find match");
+                log.debug(i + " documents Could not find match");
             }
         } catch (final Exception ex) {
             ex.printStackTrace();

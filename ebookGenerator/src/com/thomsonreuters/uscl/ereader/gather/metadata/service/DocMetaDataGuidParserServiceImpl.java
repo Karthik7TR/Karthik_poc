@@ -21,8 +21,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.gather.exception.EBookGatherException;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.TOCXmlHandler;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -32,8 +31,8 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam
  *         Chatterjee</a> u0072938
  */
+@Slf4j
 public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserService {
-    private static final Logger LOG = LogManager.getLogger(DocMetaDataGuidParserServiceImpl.class);
 
     /**
      * Reads through all the XML files found in the provided directory and
@@ -50,7 +49,7 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
     public void generateDocGuidList(final File tocFile, final File docGuidsFile) throws EBookGatherException {
         Map<String, List<String>> docGuidList = new HashMap<>();
 
-        LOG.info(
+        log.info(
             "Parsing out the document guids from TOC xml file of the following XML directory: "
                 + tocFile.getAbsolutePath());
 
@@ -59,11 +58,11 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
             createDocGuidListFile(docGuidsFile, docGuidList);
         } catch (final Exception e) {
             final String errMessage = "Exception occured while parsing tocFile. Please fix and try again.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookGatherException(errMessage, e);
         }
 
-        LOG.info("Parsed out " + docGuidList.size() + " doc guids from the XML files in the provided directory.");
+        log.info("Parsed out " + docGuidList.size() + " doc guids from the XML files in the provided directory.");
 
         return;
     }
@@ -83,7 +82,7 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
     protected Map<String, List<String>> parseXMLFile(final File xmlFile) throws EBookGatherException {
         final TOCXmlHandler handler = new TOCXmlHandler();
         try {
-            LOG.debug("Parsing following toc for doc guids: " + xmlFile);
+            log.debug("Parsing following toc for doc guids: " + xmlFile);
 
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             final SAXParser saxParser = factory.newSAXParser();
@@ -95,22 +94,22 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
         } catch (final FileNotFoundException e) {
             final String errMessage = "No XML file was found in specified directory. "
                 + "Please verify that the correct XML path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookGatherException(errMessage, e);
         } catch (final IOException e) {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookGatherException(message, e);
         } catch (final SAXException e) {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookGatherException(message, e);
         } catch (final ParserConfigurationException e) {
             final String message =
                 "ParserConfigurationException thrown while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookGatherException(message, e);
         } catch (final Exception e) {
             e.printStackTrace();
@@ -141,7 +140,7 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
                 if (docGuid != null) {
                     if (docGuid.length() < 32 || docGuid.length() > 42) {
                         final String message = "Invalid GUID encountered in the Doc GUID list: " + docGuid;
-                        LOG.error(message);
+                        log.error(message);
                         throw new EBookGatherException(message);
                     }
                     writer.write(docGuid + ",");
@@ -153,7 +152,7 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
                             // 6digit suffix being added to the TOC after '-'
                             if (tocGuid.length() < 32 || (tocGuid.length() >= 44 && !tocGuid.contains("-"))) {
                                 final String message = "Invalid Toc GUID encountered in the Doc GUID list: " + tocGuid;
-                                LOG.error(message);
+                                log.error(message);
                                 throw new EBookGatherException(message);
                             }
                         }
@@ -165,7 +164,7 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
             }
         } catch (final IOException e) {
             final String message = "Could not write to the docGuid list file: " + docGuidFile.getAbsolutePath();
-            LOG.error(message, e);
+            log.error(message, e);
             throw new EBookGatherException(message, e);
         }
     }

@@ -9,7 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Level;
+import ch.qos.logback.classic.Level;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 

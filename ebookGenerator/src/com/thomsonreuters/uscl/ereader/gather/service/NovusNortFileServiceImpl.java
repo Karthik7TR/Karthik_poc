@@ -27,12 +27,11 @@ import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.Relationship
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.NumericEntityEscaper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  * Creates toc.xml from the Novus NORT XML from Codes Workbench
@@ -40,8 +39,8 @@ import org.apache.log4j.Logger;
  * @author Dong Kim
  *
  */
+@Slf4j
 public class NovusNortFileServiceImpl implements NovusNortFileService {
-    private static final Logger LOG = LogManager.getLogger(NovusNortFileServiceImpl.class);
     private static final int DOCCOUNT = 0;
     private static final int NODECOUNT = 1;
     private static final int SKIPCOUNT = 2;
@@ -96,7 +95,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
         try {
             if (rootNodes == null || rootNodes.size() == 0) {
                 final String emptyErr = "Failed with no root nodes";
-                LOG.error(emptyErr);
+                log.error(emptyErr);
                 final GatherException ge = new GatherException(emptyErr, GatherResponse.CODE_UNHANDLED_ERROR);
                 throw ge;
             }
@@ -113,10 +112,10 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                 renameTocEntries,
                 copyRenameTocEntries);
         } catch (final GatherException e) {
-            LOG.error("Failed with Exception in NORT file");
+            log.error("Failed with Exception in NORT file");
             throw e;
         } catch (final Exception e) {
-            LOG.error("Failed with Exception in NORT file");
+            log.error("Failed with Exception in NORT file");
             final GatherException ge = new GatherException("NORT Exception ", e, GatherResponse.CODE_DATA_ERROR);
             throw ge;
         }
@@ -167,12 +166,12 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                     iParent[0]--;
                 }
             } catch (final IOException e) {
-                LOG.error("Failed writing TOC from NORT file");
+                log.error("Failed writing TOC from NORT file");
                 final GatherException ge =
                     new GatherException("Failed writing TOC in NORT ", e, GatherResponse.CODE_DATA_ERROR);
                 throw ge;
             } catch (final ParseException e) {
-                LOG.error(e.getMessage());
+                log.error(e.getMessage());
                 final GatherException ge = new GatherException(
                     "NORT ParseException for start/end node date ",
                     e,
@@ -237,7 +236,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                 if (node.getLabel() == null) // Fail with empty Name
                 {
                     final String err = "Failed with empty node Label for guid " + node.getNortGuid();
-                    LOG.error(err);
+                    log.error(err);
                     final GatherException ge = new GatherException(err, GatherResponse.CODE_DATA_ERROR);
                     throw ge;
                 }
@@ -355,7 +354,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                     out.write("\r\n");
                     out.flush();
                 } catch (final IOException e) {
-                    LOG.debug(e.getMessage());
+                    log.debug(e.getMessage());
                     final GatherException ge =
                         new GatherException("Failed writing to NORT TOC ", e, GatherResponse.CODE_FILE_ERROR);
                     throw ge;
@@ -486,7 +485,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                 renameTocEntries,
                 copyRenameTocs);
 
-            LOG.info(
+            log.info(
                 counters[DOCCOUNT]
                     + " documents "
                     + counters[SKIPCOUNT]
@@ -496,18 +495,18 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
-            LOG.debug("Done with Nort.");
+            log.debug("Done with Nort.");
         } catch (final UnsupportedEncodingException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("CWB TOC Step Failed. NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final FileNotFoundException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("CWB TOC Step Failed. NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final IOException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("CWB TOC Step Failed. NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final GatherException e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("CWB TOC Step Failed. NORT GatherException ", e);
         }
         return counters;
@@ -526,7 +525,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                 throw new GatherException("CWB TOC Step Failed. Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs);
             }
         } catch (final Exception e) {
-            LOG.error(e.getMessage());
+            log.error(e.getMessage());
             throw new GatherException("Failure in createToc() ", e, GatherResponse.CODE_DATA_ERROR);
         }
     }

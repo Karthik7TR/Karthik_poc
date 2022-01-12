@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.BundlePdfsService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Returns all PDFs related to selected bundle.
  */
 @Controller
+@Slf4j
 public class BundlePdfsController {
-    private static final Logger LOG = LogManager.getLogger(BundlePdfsController.class);
 
     @Resource(name = "bundlePdfsService")
     private BundlePdfsService bundlePdfsService;
@@ -41,7 +40,7 @@ public class BundlePdfsController {
             bundlePdfsService.addFilesToZip(materialNumberDir, zout);
             response.setStatus(200);
         } catch (final Exception e) {
-            LOG.error("Cannot write message to http response", e);
+            log.error("Cannot write message to http response", e);
             response.setStatus(500);
         }
     }

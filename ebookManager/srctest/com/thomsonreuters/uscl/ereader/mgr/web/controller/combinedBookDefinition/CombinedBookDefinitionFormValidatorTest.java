@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinitio
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -95,7 +95,7 @@ public class CombinedBookDefinitionFormValidatorTest {
 
     @Test
     public void shouldSmthEmpty() {
-        form.setSourcesSet(Stream.of(combinedBookDefinitionSource(Strings.EMPTY, N, 0),
+        form.setSourcesSet(Stream.of(combinedBookDefinitionSource(StringUtils.EMPTY, N, 0),
                 combinedBookDefinitionSource(TITLE_ID_1, Y, 1)
         ).collect(Collectors.toSet()));
         combinedBookDefinitionFormValidator.validate(form, errors);

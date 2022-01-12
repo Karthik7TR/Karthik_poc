@@ -10,11 +10,10 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.text.WordUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  * This class serves as an adapter to ensure that any calls to DocumentExtension, during the
@@ -22,8 +21,8 @@ import org.apache.log4j.Logger;
  * .NET DocumentXslExtension.cs object and performs the same logical operations.
  *
  */
+@Slf4j
 public class DocumentExtensionAdapter {
-    private static final Logger LOG = LogManager.getLogger(DocumentExtensionAdapter.class);
 
     public DocumentExtensionAdapter() {
     }
@@ -77,11 +76,11 @@ public class DocumentExtensionAdapter {
             final byte[] hmac = hmacSha256.doFinal(documentGuid.getBytes("UTF-8"));
             str = DatatypeConverter.printHexBinary(hmac);
         } catch (final NoSuchAlgorithmException e) {
-            LOG.debug(e.getMessage());
+            log.debug(e.getMessage());
         } catch (final UnsupportedEncodingException e) {
-            LOG.debug(e.getMessage());
+            log.debug(e.getMessage());
         } catch (final InvalidKeyException e) {
-            LOG.debug(e.getMessage());
+            log.debug(e.getMessage());
         }
 
         return str;

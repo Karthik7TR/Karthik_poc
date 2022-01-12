@@ -10,21 +10,20 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.jaxb.adapter.LevelAdapter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import ch.qos.logback.classic.Level;
 import org.springframework.util.Assert;
 
 /**
- * Application and root log4j loggers log level configuration.
+ * Application and root logback loggers log level configuration.
  */
 @XmlRootElement(name = "miscConfig", namespace = "com.thomsonreuters.uscl.ereader.core.job.domain")
+@Slf4j
 public class MiscConfig {
-    private static final Logger LOG = LogManager.getLogger(MiscConfig.class);
 
     /**
      * Typesafe representation of the keys used to represent the throttling
@@ -42,9 +41,9 @@ public class MiscConfig {
     public static final Level DEFAULT_ROOT_LOG_LEVEL = Level.ERROR;
     public static final int MAX_EBOOK_SPLIT_SIZE = 5;
 
-    /** Current application log4j logging level, String in order to serialize */
+    /** Current application logback logging level, String in order to serialize */
     private String appLogLevel = DEFAULT_APP_LOG_LEVEL.toString();
-    /** Current root log4j logging level, String in order to serialize */
+    /** Current root logback logging level, String in order to serialize */
     private String rootLogLevel = DEFAULT_ROOT_LOG_LEVEL.toString();
     /** Novus environment */
     private NovusEnvironment novusEnvironment;
@@ -66,7 +65,7 @@ public class MiscConfig {
         try {
             setProviewHost(InetAddress.getLocalHost());
         } catch (final UnknownHostException e) {
-            LOG.error("Failed to set proview host", e);
+            log.error("Failed to set proview host", e);
         }
     }
 
@@ -135,7 +134,7 @@ public class MiscConfig {
         try {
             return InetAddress.getByName(proviewHostname);
         } catch (final UnknownHostException e) {
-            LOG.info("Unable to resolve ProView host name: " + e.getMessage());
+            log.info("Unable to resolve ProView host name: " + e.getMessage());
             return null;
         }
     }

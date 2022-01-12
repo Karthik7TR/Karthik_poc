@@ -8,9 +8,8 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -27,8 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
+@Slf4j
 public class OutageTypeController {
-    private static final Logger log = LogManager.getLogger(OutageTypeController.class);
 
     private final OutageService outageService;
     private final Validator validator;
@@ -66,7 +65,7 @@ public class OutageTypeController {
         @ModelAttribute(OutageTypeForm.FORM_NAME) @Valid final OutageTypeForm form,
         final BindingResult bindingResult,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
 
         if (!bindingResult.hasErrors()) {
             final OutageType outageType = form.createOutageType();
@@ -97,7 +96,7 @@ public class OutageTypeController {
         @ModelAttribute(OutageTypeForm.FORM_NAME) @Valid final OutageTypeForm form,
         final BindingResult bindingResult,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
 
         final OutageType outageType = form.createOutageType();
 
@@ -134,7 +133,7 @@ public class OutageTypeController {
         @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
         final BindingResult bindingResult,
         final Model model) {
-        log.debug(form);
+        log.debug(form.toString());
 
         final OutageType outageType = form.createOutageType();
         if (!bindingResult.hasErrors()) {

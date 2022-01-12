@@ -1,14 +1,13 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("jobExecutionFormValidator")
+@Slf4j
 public class JobExecutionFormValidator implements Validator {
-    private static final Logger log = LogManager.getLogger(JobExecutionFormValidator.class);
 
     @Override
     public boolean supports(final Class<?> clazz) {

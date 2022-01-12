@@ -1,8 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,8 +10,8 @@ import org.springframework.validation.Validator;
  * Validates the data entered on the login form page.
  */
 @Component("loginFormValidator")
+@Slf4j
 public class LoginFormValidator implements Validator {
-    private static final Logger log = LogManager.getLogger(LoginFormValidator.class);
     private static final String CODE_REQUIRED_FIELD = "error.required.field";
 
     @Override

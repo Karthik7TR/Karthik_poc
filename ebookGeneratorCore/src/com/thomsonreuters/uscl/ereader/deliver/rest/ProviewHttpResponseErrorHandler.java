@@ -3,9 +3,8 @@ package com.thomsonreuters.uscl.ereader.deliver.rest;
 import java.io.IOException;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
@@ -16,8 +15,8 @@ import org.springframework.web.client.ResponseErrorHandler;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
+@Slf4j
 public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler {
-    private static final Logger LOG = LogManager.getLogger(ProviewHttpResponseErrorHandler.class);
 
     /* (non-Javadoc)
      * @see org.springframework.web.client.ResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
@@ -27,9 +26,9 @@ public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler {
         final String statusCode = clientHttpResponse.getStatusCode().toString();
         final String statusPhrase = clientHttpResponse.getStatusCode().getReasonPhrase();
         final String responseBody = IOUtils.toString(clientHttpResponse.getBody());
-        LOG.error("HTTP HEADERS: " + clientHttpResponse.getHeaders().toString());
-        LOG.error("HTTP STATUS: " + statusCode);
-        LOG.error("HTTP BODY: " + responseBody);
+        log.error("HTTP HEADERS: " + clientHttpResponse.getHeaders().toString());
+        log.error("HTTP STATUS: " + statusCode);
+        log.error("HTTP BODY: " + responseBody);
         throw new ProviewRuntimeException(statusCode, responseBody);
     }
 

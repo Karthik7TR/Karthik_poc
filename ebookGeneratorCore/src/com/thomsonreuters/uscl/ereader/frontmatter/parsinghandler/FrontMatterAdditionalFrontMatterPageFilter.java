@@ -7,9 +7,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -26,8 +25,8 @@ import java.util.Optional;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
-    private static final Logger LOG = LogManager.getLogger(FrontMatterAdditionalFrontMatterPageFilter.class);
 
     /** Names of all the placeholder tags this filter handles */
     private static final String ADDITIONAL_HEADING_ANCHOR_TAG = "frontMatterPlaceholder_AdditionalPageAnchor";
@@ -75,7 +74,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
 
         if (frontMatterPage == null) {
             final String message = "Could not retrieve additional front matter page with id: " + FRONT_MATTER_PAGE_ID;
-            LOG.error(message);
+            log.error(message);
             throw new EBookFrontMatterGenerationException(message);
         }
         isCwBook = bookDefinition.isCwBook();

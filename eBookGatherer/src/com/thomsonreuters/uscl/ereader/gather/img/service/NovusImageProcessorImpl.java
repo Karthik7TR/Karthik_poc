@@ -19,9 +19,8 @@ import javax.annotation.PostConstruct;
 import com.thomsonreuters.uscl.ereader.gather.img.model.NovusImage;
 import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -31,8 +30,8 @@ import org.springframework.beans.factory.annotation.Required;
  * @author Ilia Bochkarev UC220946
  *
  */
+@Slf4j
 public class NovusImageProcessorImpl implements NovusImageProcessor {
-    private static final Logger Log = LogManager.getLogger(NovusImageProcessorImpl.class);
 
     private static final String PNG = "png";
     private static final String PNG_FORMAT = "PNG";
@@ -68,7 +67,7 @@ public class NovusImageProcessorImpl implements NovusImageProcessor {
         try {
             processSuccess(image, imageId, docId);
         } catch (final Exception e) {
-            Log.error("Failed while writing the image for imageGuid " + imageId, e);
+            log.error("Failed while writing the image for imageGuid " + imageId, e);
             processFail(imageId, docId);
         }
     }
@@ -86,7 +85,7 @@ public class NovusImageProcessorImpl implements NovusImageProcessor {
 
         writeImage(image, imageFile);
         if (image.isUnknownFormat()) {
-            Log.debug("Unfamiliar Image format " + image.getMediaSubTypeString() + " found for imageGuid " + imageId);
+            log.debug("Unfamiliar Image format " + image.getMediaSubTypeString() + " found for imageGuid " + imageId);
         }
 
         final ImgMetadataInfo metadata = image.getMetadata();

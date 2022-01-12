@@ -14,16 +14,15 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianDigest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.CanadianTopicCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+@Slf4j
 public final class DocMetaDataXMLParser extends DefaultHandler {
-    private static final Logger LOG = LogManager.getLogger(DocMetaDataXMLParser.class);
 
     private static final String MD_ROOT_ID = "n-metadata";
     private static final String MD_UUID = "md.uuid";
@@ -168,7 +167,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
                 }
             } catch (final NumberFormatException e) {
                 //not a valid serial number
-                LOG.debug("Encountered a publicationCode: " + tempVal + " which is not a valid number.", e);
+                log.debug("Encountered a publicationCode: " + tempVal + " which is not a valid number.", e);
             }
         } else if (MD_START_EFFECTIVE.equalsIgnoreCase(qName)) {
             docMetadata.setStartEffectiveDate(tempVal);

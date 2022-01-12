@@ -24,8 +24,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintCo
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.util.PrintComponentUtil;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
+@Slf4j
 public class ViewBookDefinitionController {
-    private static final Logger log = LogManager.getLogger(ViewBookDefinitionController.class);
 
     private final BookDefinitionService bookDefinitionService;
     private final JobRequestService jobRequestService;
@@ -131,7 +130,7 @@ public class ViewBookDefinitionController {
         @ModelAttribute(ViewBookDefinitionForm.FORM_NAME) final ViewBookDefinitionForm form,
         final Model model) {
         ModelAndView mav = null;
-        log.debug(form);
+        log.debug(form.toString());
         final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
         final String queryStringWithCombined = String.format("%s&%s=%s", queryString, WebConstants.KEY_IS_COMBINED, Boolean.FALSE);
         final Command command = form.getCommand();

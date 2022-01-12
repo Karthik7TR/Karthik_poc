@@ -12,9 +12,8 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,6 +27,7 @@ import com.westgroup.novus.productapi.NovusException;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 
+@Slf4j
 public final class TocServiceTest {
     private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
     private static final String TOC_GUID = "I7b3ec600675a11da90ebf04471783734";
@@ -39,7 +39,6 @@ public final class TocServiceTest {
     private TOCNode mockTocNode;
     private TocServiceImpl tocService;
     private File tocDir;
-    private static Logger LOG = LogManager.getLogger(TocServiceTest.class);
     private NovusUtility mockNovusUtility;
     private ExcludeDocument mockExcludeDocument;
     private GatherResponse gatherResponse;
@@ -97,7 +96,7 @@ public final class TocServiceTest {
         }
 
         final String tocFileContents = FileUtils.readFileToString(tocFile);
-        LOG.debug("tocFileContents =" + tocFileContents);
+        log.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -121,7 +120,7 @@ public final class TocServiceTest {
             "<EBookToc><Name>Child 4a</Name><Guid>TOC_UUID_4a</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent =" + expectedTocContent.toString());
+        log.debug("expectedTocContent =" + expectedTocContent.toString());
 
         Assert.assertEquals(expectedTocContent.toString(), tocFileContents);
         EasyMock.verify(mockNovusFactory);
@@ -154,7 +153,7 @@ public final class TocServiceTest {
         try {
             tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
         } catch (final Exception e) {
-            LOG.debug(e.getMessage());
+            log.debug(e.getMessage());
             Assert.assertEquals("Failed with empty node Name for guid tocGuid", e.getMessage());
         } finally {
             // Temporary file will clean up after itself.
@@ -204,12 +203,12 @@ public final class TocServiceTest {
         } finally {
             // Temporary file will clean up after itself.
         }
-        LOG.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
         assertTrue(gatherResponse.getDocCount() == 4);
         assertTrue(gatherResponse.getNodeCount() == 7);
 
         final String tocFileContents = FileUtils.readFileToString(tocFile);
-        LOG.debug("tocFileContents =" + tocFileContents);
+        log.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -233,7 +232,7 @@ public final class TocServiceTest {
             "<EBookToc><Name>Child 4a</Name><Guid>TOC_UUID_4a</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent =" + expectedTocContent.toString());
+        log.debug("expectedTocContent =" + expectedTocContent.toString());
 
         Assert.assertEquals(expectedTocContent.toString(), tocFileContents);
         EasyMock.verify(mockNovusFactory);
@@ -361,12 +360,12 @@ public final class TocServiceTest {
         } finally {
             // Temporary file will clean up after itself.
         }
-        LOG.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
         assertTrue(gatherResponse.getDocCount() == 3);
         assertTrue(gatherResponse.getNodeCount() == 7);
 
         final String tocFileContents = FileUtils.readFileToString(tocFile);
-        LOG.debug("tocFileContents =" + tocFileContents);
+        log.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -388,7 +387,7 @@ public final class TocServiceTest {
             "<EBookToc><Name>Child 4a</Name><Guid>TOC_UUID_4a</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent =" + expectedTocContent.toString());
+        log.debug("expectedTocContent =" + expectedTocContent.toString());
 
         Assert.assertEquals(expectedTocContent.toString(), tocFileContents);
         EasyMock.verify(mockNovusFactory);
@@ -479,7 +478,7 @@ public final class TocServiceTest {
         }
 
         final String tocFileContents = FileUtils.readFileToString(tocFile);
-        LOG.debug("tocFileContents =" + tocFileContents);
+        log.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
         EasyMock.verify(mockNovusFactory);

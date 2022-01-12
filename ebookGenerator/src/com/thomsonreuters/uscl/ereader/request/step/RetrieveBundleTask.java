@@ -8,14 +8,13 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.step.service.RetrieveBundleService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
+@Slf4j
 public class RetrieveBundleTask extends AbstractSbTasklet {
-    private static final Logger log = LogManager.getLogger(RetrieveBundleTask.class);
 
     public static final SimpleDateFormat DATE_DIRECTORY_FORMATER =
         new SimpleDateFormat(XPPConstants.PATTERN_BUDNLE_ARCHIVE_DATE_DIRECTORY);

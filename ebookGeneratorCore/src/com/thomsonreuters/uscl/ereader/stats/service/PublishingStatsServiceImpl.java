@@ -16,16 +16,15 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("publishingStatsService")
+@Slf4j
 public class PublishingStatsServiceImpl implements PublishingStatsService {
-    private static final Logger LOG = LogManager.getLogger(PublishingStatsServiceImpl.class);
 
     private final PublishingStatsDao publishingStatsDAO;
     private final PublishingStatsUtil publishingStatsUtil;
@@ -137,7 +136,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
                 stats.setGroupVersion(newstats.getGroupVersion());
                 break;
             default:
-                LOG.error("Unknown StatsUpdateTypeEnum");
+                log.error("Unknown StatsUpdateTypeEnum");
                 // TODO: failure logic
             }
             stats.setPublishStatus(newstats.getPublishStatus());

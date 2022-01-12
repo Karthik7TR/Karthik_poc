@@ -15,9 +15,8 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.output.FileWriterWithEncoding;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 
 /**
@@ -27,8 +26,8 @@ import org.springframework.http.MediaType;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetadataBlockService {
-    private static final Logger LOG = LogManager.getLogger(GenerateImageMetadataBlockServiceImpl.class);
 
     private ImageService imgService;
 
@@ -50,7 +49,7 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
     @Override
     public int generateImageMetadata(final File docToImgManifest, final File targetDirectory, final long jobInstanceId)
         throws EBookFormatException {
-        LOG.info("Generating ImageMetadata block files for each document...");
+        log.info("Generating ImageMetadata block files for each document...");
 
         final Map<String, List<String>> docImgMap = new HashMap<>();
         readDocToImgMap(docToImgManifest, docImgMap);
@@ -71,7 +70,7 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
             createImageMetadataFile(imgMetadataFile, imageMetadataBlocks);
         }
 
-        LOG.info("Generated ImageMetadata block files for " + numDocsGenerated + " documents.");
+        log.info("Generated ImageMetadata block files for " + numDocsGenerated + " documents.");
 
         return numDocsGenerated;
     }
@@ -89,7 +88,7 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
             writer.append(xmlText.toString());
         } catch (final IOException e) {
             final String message = "Could not write out ImageMetadata to following file: " + output.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }
@@ -112,7 +111,7 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
         final ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
         if (imgMetadata == null) {
             final String message = "Could not find the image metadata for the following image guid: " + imgGuid;
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message);
         }
 
@@ -154,7 +153,7 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
                 + " media type associated with "
                 + imgGuid
                 + " image.";
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message);
         }
         imgBlocks.append("</md.image.renderType>");
@@ -173,7 +172,7 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
     protected void readDocToImgMap(final File docToImg, final Map<String, List<String>> docToImgMap)
         throws EBookFormatException {
         try (BufferedReader reader = new BufferedReader(new FileReader(docToImg));) {
-            LOG.info("Reading in Doc to Image map file...");
+            log.info("Reading in Doc to Image map file...");
             int numDocs = 0;
             int numImgs = 0;
             String input = reader.readLine();
@@ -190,10 +189,10 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
                 }
                 input = reader.readLine();
             }
-            LOG.info("Generated a map for " + numDocs + " DOCs with " + numImgs + " image references.");
+            log.info("Generated a map for " + numDocs + " DOCs with " + numImgs + " image references.");
         } catch (final IOException e) {
             final String message = "Could not read the DOC to Image map file: " + docToImg.getAbsolutePath();
-            LOG.error(message);
+            log.error(message);
             throw new EBookFormatException(message, e);
         }
     }

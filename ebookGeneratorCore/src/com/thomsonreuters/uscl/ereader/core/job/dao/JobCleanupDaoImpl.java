@@ -5,8 +5,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
+@Slf4j
 public class JobCleanupDaoImpl implements JobCleanupDao {
     private static final String DEAD_JOB_MESSAGE = "Dead Job detected - updated status and exit codes";
     private static final String BATCH_STATUS_FAILED = BatchStatus.FAILED.toString();
@@ -27,7 +27,6 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
     private static final String EXIT_STATUS_UNKNOWN = ExitStatus.UNKNOWN.getExitCode();
     private static final String EXIT_STATUS_EXECUTING = ExitStatus.EXECUTING.getExitCode();
 
-    private static final Logger log = LogManager.getLogger(JobCleanupDaoImpl.class);
     private SessionFactory sessionFactory;
 
     public JobCleanupDaoImpl(final SessionFactory sessionFactory) {
@@ -64,7 +63,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
             }
             return arrayList;
         } catch (final Exception e) {
-            log.error(e);
+            log.error(e.getMessage());
             throw new EBookServerException("Failed to get list of dead job(s).");
         }
     }
@@ -90,7 +89,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
             result = query.executeUpdate();
             session.flush();
         } catch (final HibernateException e) {
-            log.error(e);
+            log.error(e.getMessage());
             throw new EBookServerException("Failed to update dead batch job(s).");
         }
         return result;
@@ -122,7 +121,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
             result = query.executeUpdate();
             session.flush();
         } catch (final HibernateException e) {
-            log.error(e);
+            log.error(e.getMessage());
             throw new EBookServerException("Failed to update job steps in batch_step_execution table.");
         }
         return result;
@@ -156,7 +155,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
             result = query.executeUpdate();
             session.flush();
         } catch (final HibernateException e) {
-            log.error(e);
+            log.error(e.getMessage());
             throw new EBookServerException(
                 "Failed to update job(s) in batch_job_execution table. For given serverName =" + serverName);
         }
@@ -189,7 +188,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
             result = query.executeUpdate();
             session.flush();
         } catch (final HibernateException e) {
-            log.error(e);
+            log.error(e.getMessage());
             throw new EBookServerException(
                 "Failed to update job step(s) in batch_step_execution table. For given serverName =" + serverName);
         }
@@ -226,7 +225,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
             }
             return arrayList;
         } catch (final Exception e) {
-            log.error(e);
+            log.error(e.getMessage());
             throw new EBookServerException("Failed to get list of dead job(s) for given serverName =" + serverName);
         }
     }

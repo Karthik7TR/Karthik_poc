@@ -8,8 +8,7 @@ import java.util.Calendar;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
+@Slf4j
 public class DocMetadataServiceTest {
-    private static Logger LOG = LogManager.getLogger(DocMetadataServiceTest.class);
     private Timestamp UPDATE_DATE = getCurrentTimeStamp();
     /**
      * The service being tested, injected by Spring.
@@ -206,10 +205,10 @@ public class DocMetadataServiceTest {
         expected.setLastUpdated(UPDATE_DATE);
         expected.setProviewFamilyUUIDDedup(Integer.valueOf(1));
 
-        LOG.debug(" expected " + expected);
+        log.debug(" expected " + expected);
 
         response = documentMetadataService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
-        LOG.debug(" response " + response);
+        log.debug(" response " + response);
 
         Assert.assertEquals(response.toString(), expected.toString());
     }

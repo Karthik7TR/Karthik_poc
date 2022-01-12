@@ -35,9 +35,8 @@ import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import com.thomsonreuters.uscl.ereader.sap.component.MediaLowLevelRule;
 import com.thomsonreuters.uscl.ereader.sap.service.SapService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -49,8 +48,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 
 @Service("editBookDefinitionService")
+@Slf4j
 public class EditBookDefinitionServiceImpl implements EditBookDefinitionService {
-    private static final Logger LOG = LogManager.getLogger(EditBookDefinitionServiceImpl.class);
     private static final String SUB_NUMBER_MESSAGE = "Print Set/Sub Number: %s";
     private static final String SAP_COMPONENTS_NOT_FOUND_MESSAGE =
         "Material components not found, for " + SUB_NUMBER_MESSAGE;
@@ -192,7 +191,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
             responseMessage = components.isEmpty() ? SAP_COMPONENTS_NOT_FOUND_MESSAGE : HttpStatus.OK.name();
         } catch (final HttpStatusCodeException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             responseMessage = getMessageByError(e.getResponseBodyAsString());
             components = Collections.emptyList();
         }

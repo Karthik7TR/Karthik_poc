@@ -7,13 +7,11 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Ssh {
     private static JSch jsch = new JSch();
-
-    private static Logger LOG = LogManager.getLogger(Ssh.class);
 
     private static Session openConnection(final String serverName, final String userName, final String password)
         throws EBookServerException {
@@ -26,7 +24,7 @@ public class Ssh {
             session.connect();
             return session;
         } catch (final JSchException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new EBookServerException(
                 "Failed to connect server " + serverName);
         }
@@ -59,7 +57,7 @@ public class Ssh {
                 try {
                     Thread.sleep(1000);
                 } catch (final Exception e) {
-                    LOG.debug(e.getMessage(), e);
+                    log.debug(e.getMessage(), e);
                     //Intentionally left blank
                 }
             }
@@ -67,7 +65,7 @@ public class Ssh {
             channel.disconnect();
             session.disconnect();
         } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new EBookServerException(
                 "Failed to connect server " + serverName);
         }

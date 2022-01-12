@@ -14,9 +14,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -32,8 +31,8 @@ import org.xml.sax.SAXException;
  *
  * Note that the entity resolver is disabled during parsing
  */
+@Slf4j
 public class XMLXpathEvaluator {
-    private static final Logger logger = LogManager.getLogger(XMLXpathEvaluator.class);
     private XPath xpath;
     private Document domDocument;
 
@@ -95,7 +94,7 @@ public class XMLXpathEvaluator {
                 data = null;
             }
         } catch (final XPathExpressionException e) {
-            logger.warn(xpathExpression + " not processed properly, returning null.", e);
+            log.warn(xpathExpression + " not processed properly, returning null.", e);
         }
         return data;
     }
@@ -120,7 +119,7 @@ public class XMLXpathEvaluator {
                 }
             }
         } catch (final XPathExpressionException e) {
-            logger.warn(xpathExpression + " not processed properly, returning nothing.", e);
+            log.warn(xpathExpression + " not processed properly, returning nothing.", e);
         }
         return data;
     }
@@ -136,7 +135,7 @@ public class XMLXpathEvaluator {
         try {
             node = (Node) xpath.evaluate(xpathExpression, domDocument, XPathConstants.NODE);
         } catch (final XPathExpressionException e) {
-            logger.warn(xpathExpression + " not processed properly, returning null.", e);
+            log.warn(xpathExpression + " not processed properly, returning null.", e);
         }
         return node;
     }
@@ -152,7 +151,7 @@ public class XMLXpathEvaluator {
         try {
             nodeList = (NodeList) xpath.evaluate(xpathExpression, domDocument, XPathConstants.NODESET);
         } catch (final XPathExpressionException e) {
-            logger.warn(xpathExpression + " not processed properly, returning null.", e);
+            log.warn(xpathExpression + " not processed properly, returning null.", e);
         }
         return nodeList;
     }

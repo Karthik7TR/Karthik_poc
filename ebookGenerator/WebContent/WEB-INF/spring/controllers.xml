@@ -18,7 +18,7 @@
 		  p:jobThrottleConfigSyncService-ref="engineService"
 		  p:outageProcessor-ref="outageProcessor"/>
 		  	
-	<!-- Handles push of new log4j logging levels from manager -->
+	<!-- Handles push of new logback logging levels from manager -->
 	<bean id="miscConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.MiscConfigRestController"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
 		  

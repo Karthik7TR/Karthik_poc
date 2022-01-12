@@ -18,8 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,8 +26,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.sonar.runner.commonsio.FileUtils;
 
+@Slf4j
 public final class NovusNortFileServiceTest {
-    private static Logger LOG = LogManager.getLogger(NovusNortFileServiceTest.class);
 
     private static final String LT_ROOT_AMP_QUOT_NODE_APOS_S_GT = " &lt; Root &amp;  �  &quot; Node&apos;s &gt; ";
 
@@ -70,7 +69,7 @@ public final class NovusNortFileServiceTest {
 
         final GatherResponse gatherResponse =
             novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
-        LOG.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
 
         // Verify created files and directories
         assertTrue(nortFile.exists());
@@ -78,7 +77,7 @@ public final class NovusNortFileServiceTest {
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
-        LOG.debug("tocFromNORT =" + tocFromNORT);
+        log.debug("tocFromNORT =" + tocFromNORT);
         assertTrue(tocFromNORT != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -111,7 +110,7 @@ public final class NovusNortFileServiceTest {
             .append(") </Name><Guid>NORT_UUID_46</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent =" + expectedTocContent.toString());
+        log.debug("expectedTocContent =" + expectedTocContent.toString());
 
         assertEquals(expectedTocContent.toString(), tocFromNORT);
     }
@@ -149,7 +148,7 @@ public final class NovusNortFileServiceTest {
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
-        LOG.debug("tocFromNORT2roots =" + tocFromNORT);
+        log.debug("tocFromNORT2roots =" + tocFromNORT);
         assertTrue(tocFromNORT != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -194,7 +193,7 @@ public final class NovusNortFileServiceTest {
             .append(") </Name><Guid>NORT_UUID_1b9</Guid><DocumentGuid>UUID_1b</DocumentGuid></EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
+        log.debug("expectedTocContent2roots =" + expectedTocContent.toString());
 
         assertEquals(expectedTocContent.toString(), tocFromNORT);
     }
@@ -231,7 +230,7 @@ public final class NovusNortFileServiceTest {
 
         // compare file contents
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
-        LOG.debug("tocFromNORT2roots =" + tocFromNORT);
+        log.debug("tocFromNORT2roots =" + tocFromNORT);
         assertTrue(tocFromNORT != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -268,7 +267,7 @@ public final class NovusNortFileServiceTest {
         expectedTocContent.append(") </Name><Guid>nortGuid b7</Guid>");
         expectedTocContent.append("<MissingDocument></MissingDocument></EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
+        log.debug("expectedTocContent2roots =" + expectedTocContent.toString());
 
         Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
     }
@@ -306,7 +305,7 @@ public final class NovusNortFileServiceTest {
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
-        LOG.debug("tocFromNORT2roots =" + tocFromNORT);
+        log.debug("tocFromNORT2roots =" + tocFromNORT);
         assertTrue(tocFromNORT != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -347,7 +346,7 @@ public final class NovusNortFileServiceTest {
             .append(") </Name><Guid>NORT_UUID_0b8</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
+        log.debug("expectedTocContent2roots =" + expectedTocContent.toString());
 
         Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
     }
@@ -383,7 +382,7 @@ public final class NovusNortFileServiceTest {
 
         final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList, 0);
 
-        LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
+        log.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
 
         Assert.assertEquals(1, novusNortFileService.getSplitTocGuidList().size());
         validateGatherResponse(gatherResponse, 4, 8);
@@ -420,7 +419,7 @@ public final class NovusNortFileServiceTest {
 
         final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList, 0);
 
-        LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
+        log.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
 
         Assert.assertEquals(0, novusNortFileService.getSplitTocGuidList().size());
         validateGatherResponse(gatherResponse, 4, 8);
@@ -447,7 +446,7 @@ public final class NovusNortFileServiceTest {
 
         final GatherResponse gatherResponse =
             novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
-        LOG.debug(gatherResponse);
+        log.debug(gatherResponse.toString());
 
         // Verify created files and directories
         Assert.assertTrue(nortFile.exists());
@@ -455,7 +454,7 @@ public final class NovusNortFileServiceTest {
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
-        LOG.debug("tocFromNORT =" + tocFromNORT);
+        log.debug("tocFromNORT =" + tocFromNORT);
         assertTrue(tocFromNORT != null);
 
         final StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -476,7 +475,7 @@ public final class NovusNortFileServiceTest {
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBookToc>\r\n");
         expectedTocContent.append("</EBook>\r\n");
-        LOG.debug("expectedTocContent =" + expectedTocContent.toString());
+        log.debug("expectedTocContent =" + expectedTocContent.toString());
 
         Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
     }
@@ -499,7 +498,7 @@ public final class NovusNortFileServiceTest {
             novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
         } catch (final Exception e) {
             e.printStackTrace();
-            LOG.debug(e.getMessage());
+            log.debug(e.getMessage());
             Assert.assertEquals("Failed with empty node Label for guid nortGuid", e.getCause().getMessage());
         }
     }

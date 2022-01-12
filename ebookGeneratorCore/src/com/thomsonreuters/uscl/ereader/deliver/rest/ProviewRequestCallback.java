@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.http.client.ClientHttpRequest;
@@ -17,8 +16,8 @@ import org.springframework.web.client.RequestCallback;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  *
  */
+@Slf4j
 public class ProviewRequestCallback implements RequestCallback {
-    private static final Logger LOG = LogManager.getLogger(ProviewRequestCallback.class);
     private static final String ACCEPT_HEADER = "Accept";
     private static final String APPLICATION_XML_MIMETYPE = "application/xml";
     private static final String AUTHORIZATION_HEADER = "Authorization";
@@ -52,8 +51,8 @@ public class ProviewRequestCallback implements RequestCallback {
             });
 
             final long duration = System.currentTimeMillis() - startTime;
-            LOG.debug("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
+            log.debug("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
         }
-        LOG.debug("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
+        log.debug("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
     }
 }

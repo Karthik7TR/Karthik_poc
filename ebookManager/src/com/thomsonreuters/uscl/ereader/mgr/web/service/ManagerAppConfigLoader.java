@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.core.service.AppConfigLoader;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component("managerAppConfigLoader")
+@Slf4j
 public class ManagerAppConfigLoader implements AppConfigLoader {
-    private static Logger LOG = LogManager.getLogger(ManagerAppConfigLoader.class);
 
     private final AppConfigService appConfigService;
     private final MiscConfigSyncService miscConfigSyncService;
@@ -33,12 +32,12 @@ public class ManagerAppConfigLoader implements AppConfigLoader {
     @PostConstruct
     @Override
     public void loadApplicationConfiguration() throws Exception {
-        LOG.debug(">>>");
+        log.debug(">>>");
         try {
             final MiscConfig miscConfig = appConfigService.loadMiscConfig();
             miscConfigSyncService.sync(miscConfig);
         } catch (final Exception e) {
-            LOG.error(e);
+            log.error(e.getMessage());
         }
     }
 }

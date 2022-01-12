@@ -15,13 +15,12 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import lombok.Setter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 @Setter
+@Slf4j
 public class OutageProcessorImpl implements OutageProcessor {
-    private static Logger log = LogManager.getLogger(OutageProcessorImpl.class);
 
     private OutageService outageService;
     private EmailUtil emailUtil;

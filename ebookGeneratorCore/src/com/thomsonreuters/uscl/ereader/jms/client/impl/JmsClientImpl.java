@@ -13,7 +13,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 
 @Component("jmsClient")
 @Lazy
+@Slf4j
 public class JmsClientImpl implements JMSClient {
-    private static final Logger logger = Logger.getLogger(JmsClientImpl.class);
 
     @Override
     public void sendMessageToQueue(
@@ -31,7 +31,7 @@ public class JmsClientImpl implements JMSClient {
         final String messageText,
         final Map<String, String> properties) {
         if (jmsTemplate == null) {
-            logger.info("Message queue has not been initialized");
+            log.info("Message queue has not been initialized");
             return;
         }
         try {
@@ -44,17 +44,17 @@ public class JmsClientImpl implements JMSClient {
                         addPropertiesToMessage(properties, message);
                         return message;
                     } catch (final JMSException e) {
-                        logger.error("Error creating message", e);
+                        log.error("Error creating message", e);
                         throw e;
                     }
                 }
             });
         } catch (final JmsException e) {
-            logger.error("Issues sending the message", e);
+            log.error("Issues sending the message", e);
             throw e;
         }
 
-        logger.debug("Message has been sent");
+        log.debug("Message has been sent");
     }
 
     private void addPropertiesToMessage(final Map<String, String> properties, final Message message)

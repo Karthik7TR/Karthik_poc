@@ -36,9 +36,8 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServic
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -48,8 +47,8 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Slf4j
 public class TransformerServiceImpl implements TransformerService {
-    private static final Logger LOG = LogManager.getLogger(TransformerServiceImpl.class);
 
     private static final String START_WRAPPER_TAG = "<Document>";
     private static final String END_WRAPPER_TAG = "</Document>";
@@ -111,7 +110,7 @@ public class TransformerServiceImpl implements TransformerService {
             transDir.mkdirs();
         }
 
-        LOG.info("Transforming XML files from the following XML directory: " + transformCharSequencesDir.getAbsolutePath());
+        log.info("Transforming XML files from the following XML directory: " + transformCharSequencesDir.getAbsolutePath());
 
         final List<File> xmlFiles = new ArrayList<>();
 
@@ -120,7 +119,7 @@ public class TransformerServiceImpl implements TransformerService {
         } catch (final FileNotFoundException e) {
             final String errMessage = "No XML files were found in specified directory. "
                 + "Please verify that the correct XML path was specified.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -131,7 +130,7 @@ public class TransformerServiceImpl implements TransformerService {
             xsltFileNameByCollectionName = xslMapperParser.parseDocument(mapperFile);
         } catch (final Exception e) {
             final String errMessage = "Error processing XSLT Mapper file. " + e.getMessage();
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
@@ -142,7 +141,7 @@ public class TransformerServiceImpl implements TransformerService {
             transformFile(xmlFile, metaDir, imgMetaDir, transDir, jobID, xsltCache, bookDefinition);
             docCount++;
         }
-        LOG.info("Transformed all XML files");
+        log.info("Transformed all XML files");
 
         return docCount;
     }
@@ -215,16 +214,16 @@ public class TransformerServiceImpl implements TransformerService {
                 + " xml file using "
                 + xslt.getName()
                 + " xslt file.";
-            LOG.error(errMessage, te);
+            log.error(errMessage, te);
             throw new EBookFormatException(errMessage, te);
         } catch (final FileNotFoundException e) {
             final String errMessage = "Could not find the following xml file: " + xmlFile.getName();
-            LOG.error(errMessage, e);
+            log.error(errMessage, e);
             throw new EBookFormatException(errMessage, e);
         } catch (final IOException e) {
             final String errMessage =
                 "Unable to close files related to the " + xmlFile.getAbsolutePath() + " file transformation.";
-            LOG.error(errMessage, e);
+            log.error(errMessage, e);
             throw new EBookFormatException(errMessage, e);
         }
     }
@@ -254,7 +253,7 @@ public class TransformerServiceImpl implements TransformerService {
                 + " GUID in the "
                 + imgMetaDir.getAbsolutePath()
                 + " directory.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 
@@ -284,7 +283,7 @@ public class TransformerServiceImpl implements TransformerService {
                 + " GUID in the "
                 + metaDir
                 + " metadata directory.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 
@@ -379,7 +378,7 @@ public class TransformerServiceImpl implements TransformerService {
         } catch (final TransformerConfigurationException e) {
             final String errMessage =
                 "Encountered transformer configuration issues with " + xslt.getAbsolutePath() + " xslt file.";
-            LOG.error(errMessage, e);
+            log.error(errMessage, e);
             throw new EBookFormatException(errMessage, e);
         }
     }
@@ -426,7 +425,7 @@ public class TransformerServiceImpl implements TransformerService {
             if (!xslt.exists()) {
                 final String errMessage =
                     "Could not find the following XSLT file on the file system: " + xslt.getAbsolutePath();
-                LOG.error(errMessage);
+                log.error(errMessage);
                 throw new EBookFormatException(errMessage);
             }
         } else {
@@ -437,11 +436,11 @@ public class TransformerServiceImpl implements TransformerService {
                 + docType
                 + " doc type exist in the "
                 + "XSLT_MAPPER table on the EBook database.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 
-        LOG.debug("Using " + xsltName + " to transform document.");
+        log.debug("Using " + xsltName + " to transform document.");
 
         return xslt;
     }
@@ -476,7 +475,7 @@ public class TransformerServiceImpl implements TransformerService {
                 + " title with "
                 + jobInstanceId
                 + " job id.";
-            LOG.error(errMessage);
+            log.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 
