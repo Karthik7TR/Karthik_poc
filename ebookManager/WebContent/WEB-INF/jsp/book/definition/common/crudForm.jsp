@@ -1102,14 +1102,30 @@
 				</div>
 			</div>
 			<div class="row" >
-				<form:label path="copyright" class="labelCol">Copyright</form:label>
+				<form:label path="copyright" class="labelCol">
+					Copyright
+					<div class="stylingAvailableTooltip">
+						<em class="tooltipIcon">i</em>
+						<p class="tooltipInfo">
+							<span class="info">HTML tags available: b, em, i, strong, u, mark, cite, dfn.</span>
+						</p>
+					</div>
+				</form:label>
 				<form:textarea path="copyright" />
 				<div class="errorDiv">
 					<form:errors path="copyright" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row xppHideClass" >
-				<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
+				<form:label path="copyrightPageText" class="labelCol">
+					Copyright Page Text
+					<div class="stylingAvailableTooltip">
+						<em class="tooltipIcon">i</em>
+						<p class="tooltipInfo">
+							<span class="info">HTML tags available: b, em, i, strong, u, mark, cite, dfn.</span>
+						</p>
+					</div>
+				</form:label>
 				<form:textarea path="copyrightPageText" maxlength="2048" />
 				<div class="errorDiv">
 					<form:errors path="copyrightPageText" cssClass="errorMessage" />

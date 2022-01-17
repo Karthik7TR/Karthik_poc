@@ -206,6 +206,48 @@ html, body {
 	font-weight: bold;
 }
 
+.stylingAvailableTooltip {
+	display: inline-block;
+	position: relative;
+}
+
+.stylingAvailableTooltip .tooltipIcon {
+	background: #27b1f0;
+	border-radius: 10px;
+	cursor: pointer;
+	display: inline-block;
+	font-style: italic;
+	font-family: times new roman, serif;
+	height: 20px;
+	line-height: 1.3em;
+	text-align: center;
+	width: 20px;
+}
+
+.stylingAvailableTooltip .tooltipInfo {
+	display: none;
+	background: #262626;
+	border: 1px solid #262626;
+	border-radius: 3px;
+	font-size: 1em;
+	padding: 0.2em;
+	position: absolute;
+	z-index: 2;
+	top: 3px;
+	right: 105%;
+	width: 150px;
+}
+
+.stylingAvailableTooltip .tooltipInfo .info {
+	display: block;
+	color: #E0E0E0;
+	font-style: normal;
+}
+
+.stylingAvailableTooltip:hover .tooltipInfo, .stylingAvailableTooltip:focus .tooltipInfo {
+	display: inline-block;
+}
+
 .buttons a span,
 .modalButtons a span {
 	color:#555555;
