@@ -302,6 +302,7 @@ public class EditBookDefinitionController {
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid final EditBookDefinitionForm form,
         final BindingResult bindingResult,
         final Model model) throws Exception {
+        updateFormWithUnescapedStylingTags(form);
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
         final Long bookDefinitionId = form.getBookdefinitionId();
@@ -347,7 +348,6 @@ public class EditBookDefinitionController {
         }
 
         if (!bindingResult.hasErrors()) {
-            updateFormWithUnescapedStylingTags(form);
             form.loadBookDefinition(bookDef);
             bookDef = bookDefinitionService.saveBookDefinition(bookDef);
 

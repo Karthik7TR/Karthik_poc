@@ -828,55 +828,8 @@ public final class EditBookDefinitionControllerTest {
     @Test
     public void testEditBookDefintionPOSTFailed() {
         final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
-        request.setParameter("contentTypeId", "1");
-        request.setParameter("pubAbbr", "abcd");
-        request.setParameter("publisher", "uscl");
-        request.setParameter("titleId", fullyQualifiedTitleId);
-        request.setParameter("copyright", "Somethings");
-        request.setParameter("materialId", "123456789012345678");
-        request.setParameter("sourceType", "TOC");
-        request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
-        request.setParameter("tocCollectionName", "sdfdsfdsf");
-        request.setParameter("isbn", "978-193-5-18235-1");
-        request.setParameter("isComplete", "true");
-        request.setParameter("validateForm", "false");
-        request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
-        request.setParameter("bucket", Bucket.BOOKS.toString());
-        request.setMethod(HttpMethod.POST.name());
-
-        final BookDefinition book = createBookDef(fullyQualifiedTitleId);
-        book.setPublishedOnceFlag(true);
-
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID))
-            .andReturn(book)
-            .times(2);
-        EasyMock.replay(mockBookDefinitionService);
-        final DocumentTypeCode code = new DocumentTypeCode();
-        code.setId(Long.parseLong("1"));
-        code.setAbbreviation("an");
-        code.setName("Analytical");
-        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
-        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-        EasyMock.expect(keywordTypeCodeSevice
-            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
-            .andReturn(subject);
-        EasyMock.expect(keywordTypeCodeSevice
-                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
-                .andReturn(subject);
-        EasyMock.replay(keywordTypeCodeSevice);
-        EasyMock.replay(mockDocumentTypeCodeService);
-
-        EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
-        EasyMock.replay(mockJobRequestService);
-
-        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(null);
-        EasyMock.replay(mockLockService);
-
-        final MiscConfig miscConfig = new MiscConfig();
-        EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-        EasyMock.expectLastCall().times(3);
-        EasyMock.replay(mockMiscConfigService);
+        setUpFailingRequest(fullyQualifiedTitleId);
+        setUpFailingMocks(fullyQualifiedTitleId);
 
         setupDropdownMenuAndKeywords(1);
 
@@ -901,12 +854,102 @@ public final class EditBookDefinitionControllerTest {
             Assert.fail(e.getMessage());
         }
 
+        verifyServicesCalls();
+    }
+
+    private void setUpFailingMocks(final String fullyQualifiedTitleId) {
+        final BookDefinition book = createBookDef(fullyQualifiedTitleId);
+        book.setPublishedOnceFlag(true);
+
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID))
+                .andReturn(book)
+                .times(2);
+        EasyMock.replay(mockBookDefinitionService);
+        final DocumentTypeCode code = new DocumentTypeCode();
+        code.setId(Long.parseLong("1"));
+        code.setAbbreviation("an");
+        code.setName("Analytical");
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_US))
+                .andReturn(subject);
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER_CANADA))
+                .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
+        EasyMock.replay(mockDocumentTypeCodeService);
+
+        EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
+        EasyMock.replay(mockJobRequestService);
+
+        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(null);
+        EasyMock.replay(mockLockService);
+
+        final MiscConfig miscConfig = new MiscConfig();
+        EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+        EasyMock.expectLastCall().times(3);
+        EasyMock.replay(mockMiscConfigService);
+    }
+
+    private void setUpFailingRequest(final String fullyQualifiedTitleId) {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
+        request.setParameter("contentTypeId", "1");
+        request.setParameter("pubAbbr", "abcd");
+        request.setParameter("publisher", "uscl");
+        request.setParameter("titleId", fullyQualifiedTitleId);
+        request.setParameter("copyright", "Somethings");
+        request.setParameter("materialId", "123456789012345678");
+        request.setParameter("sourceType", "TOC");
+        request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
+        request.setParameter("tocCollectionName", "sdfdsfdsf");
+        request.setParameter("isbn", "978-193-5-18235-1");
+        request.setParameter("isComplete", "true");
+        request.setParameter("validateForm", "false");
+        request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
+        request.setParameter("bucket", Bucket.BOOKS.toString());
+        request.setMethod(HttpMethod.POST.name());
+    }
+
+    private void verifyServicesCalls() {
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockJobRequestService);
         EasyMock.verify(mockEditBookDefinitionService);
         EasyMock.verify(mockLockService);
         EasyMock.verify(mockMiscConfigService);
+    }
+
+    @Test
+    public void editBookDefintionPost_copyrightWithEscapedTagsIsGivenForFailingRequest_tagIsUnescaped() {
+        final String fullyQualifiedTitleId = FULLY_QUALIFIED_TITLE_ID;
+        setUpFailingRequest(fullyQualifiedTitleId);
+        request.setParameter("copyright", "© &lt;i&gt;tag&lt;/i&gt;");
+        setUpFailingMocks(fullyQualifiedTitleId);
+        setupDropdownMenuAndKeywords(1);
+
+        final ModelAndView mav;
+        try {
+            mav = handlerAdapter.handle(request, response, controller);
+
+            assertNotNull(mav);
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_BOOK_DEFINITION_EDIT, mav.getViewName());
+
+            // Check the state of the model
+            final Map<String, Object> model = mav.getModel();
+
+            // Check binding state
+            final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+            assertNotNull(bindingResult);
+            assertTrue(bindingResult.hasErrors());
+            assertEquals("© <i>tag</i>", ((EditBookDefinitionForm) model.get(WebConstants.KEY_FORM)).getCopyright());
+        } catch (final Exception e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+
+        verifyServicesCalls();
     }
 
     /**
