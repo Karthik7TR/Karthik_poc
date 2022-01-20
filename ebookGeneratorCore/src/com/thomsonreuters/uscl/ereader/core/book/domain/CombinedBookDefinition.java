@@ -77,6 +77,10 @@ public class CombinedBookDefinition {
                 .anyMatch(item -> FILE == item);
     }
 
+    public boolean allBookDefinitionsExist() {
+        return sources.stream()
+                .allMatch(source -> source.getBookDefinition() != null);
+    }
     public static CombinedBookDefinition fromBookDefinition(final BookDefinition bookDefinition) {
         Set<CombinedBookDefinitionSource> sources = Stream.of(bookDefinition)
                 .map(book -> CombinedBookDefinitionSource.builder()

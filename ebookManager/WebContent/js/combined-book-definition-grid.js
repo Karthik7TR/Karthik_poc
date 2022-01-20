@@ -73,14 +73,16 @@ $(function () {
         controller: {
             loadData: function () {
                 const data = $.parseJSON($('#combined-book-definition-sources').val());
-                return data.map(item => {
-                    return {
-                        ebookDefinitionId: item.bookDefinition.ebookDefinitionId,
-                        fullyQualifiedTitleId: item.bookDefinition.fullyQualifiedTitleId,
-                        sourceId: item.id,
-                        isPrimary: item.primarySource ? CHECK_HTML_SYMBOL : '',
-                        order: item.sequenceNum
-                    }
+                return data
+                    .filter(item => item.bookDefinition != null)
+                    .map(item => {
+                        return {
+                            ebookDefinitionId: item.bookDefinition.ebookDefinitionId,
+                            fullyQualifiedTitleId: item.bookDefinition.fullyQualifiedTitleId,
+                            sourceId: item.id,
+                            isPrimary: item.primarySource ? CHECK_HTML_SYMBOL : '',
+                            order: item.sequenceNum
+                        }
                 }).sort(function (a, b) {
                     return a.order - b.order;
                 })

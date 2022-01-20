@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinition;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +56,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void shouldSmthSuccess() {
+    public void shouldValidateFormSuccess() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, Y, 0),
                 combinedBookDefinitionSource(TITLE_ID_2, N, 1)
         ).collect(Collectors.toSet()));
@@ -63,7 +65,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void shouldSmthDuplicate() {
+    public void shouldValidateFormDuplicate() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, Y, 0),
                 combinedBookDefinitionSource(TITLE_ID_1, N, 1)
         ).collect(Collectors.toSet()));
@@ -74,7 +76,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void shouldSmthPrimary() {
+    public void shouldValidateFormPrimary() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, Y, 0),
                 combinedBookDefinitionSource(TITLE_ID_1, Y, 1)
         ).collect(Collectors.toSet()));
@@ -84,7 +86,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void shouldSmthPrimary2() {
+    public void shouldValidateFormPrimary2() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, N, 0),
                 combinedBookDefinitionSource(TITLE_ID_1, N, 1)
         ).collect(Collectors.toSet()));
@@ -94,7 +96,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void shouldSmthEmpty() {
+    public void shouldValidateFormEmpty() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(StringUtils.EMPTY, N, 0),
                 combinedBookDefinitionSource(TITLE_ID_1, Y, 1)
         ).collect(Collectors.toSet()));
@@ -104,7 +106,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void shouldSmthNotExist() {
+    public void shouldValidateFormNotExist() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_NOT_EXIST, N, 0),
                 combinedBookDefinitionSource(TITLE_ID_1, Y, 1)
         ).collect(Collectors.toSet()));
@@ -114,11 +116,30 @@ public class CombinedBookDefinitionFormValidatorTest {
         assertEquals(ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_NOT_EXIST, errors.getAllErrors().get(0).getCode());
     }
 
+    @Test
+    public void shouldInitializeForm() {
+        CombinedBookDefinition combinedBookDefinition = new CombinedBookDefinition();
+        combinedBookDefinition.setSources(Stream.of(
+                        combinedBookDefinitionSource(TITLE_ID_1, N, 1),
+                        combinedBookDefinitionSource(Y, 2))
+                .collect(Collectors.toSet()));
+        form.initialize(combinedBookDefinition);
+        Assert.assertTrue(form.getSourcesSet().stream().anyMatch(source -> source.getBookDefinition() == null));
+    }
+
     private CombinedBookDefinitionSource combinedBookDefinitionSource(final String fullyQualifiedTitleId, final String isPrimarySource, final Integer sequenceNum) {
         return CombinedBookDefinitionSource.builder()
                 .isPrimarySource(isPrimarySource)
                 .sequenceNum(sequenceNum)
                 .bookDefinition(bookDefinition(fullyQualifiedTitleId))
+                .build();
+    }
+
+    private CombinedBookDefinitionSource combinedBookDefinitionSource( final String isPrimarySource, final Integer sequenceNum) {
+        return CombinedBookDefinitionSource.builder()
+                .isPrimarySource(isPrimarySource)
+                .sequenceNum(sequenceNum)
+                .bookDefinition(null)
                 .build();
     }
 

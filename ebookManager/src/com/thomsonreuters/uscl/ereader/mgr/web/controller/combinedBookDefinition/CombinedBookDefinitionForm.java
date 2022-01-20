@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,15 +55,21 @@ public class CombinedBookDefinitionForm {
         book.setIsDeletedFlag(this.isDeletedFlag);
         book.setId(this.id);
     }
+
     public void initialize(final CombinedBookDefinition combinedBookDefinition) {
         this.id = combinedBookDefinition.getId();
         this.isDeletedFlag = combinedBookDefinition.isDeletedFlag();
-        this.sources = combinedBookDefinition.getSources().stream().peek(item -> {
-            BookDefinition bookDefinition = new BookDefinition();
-            bookDefinition.setFullyQualifiedTitleId(item.getBookDefinition().getFullyQualifiedTitleId());
-            bookDefinition.setSourceType(item.getBookDefinition().getSourceType());
-            bookDefinition.setEbookDefinitionId(item.getBookDefinition().getEbookDefinitionId());
-            item.setBookDefinition(bookDefinition);
-        }).collect(Collectors.toSet());
+        this.sources = combinedBookDefinition.getSources().stream()
+                .map(source -> {
+                    Optional.ofNullable(source.getBookDefinition())
+                            .ifPresent(book -> {
+                                BookDefinition bookDefinition = new BookDefinition();
+                                bookDefinition.setFullyQualifiedTitleId(source.getBookDefinition().getFullyQualifiedTitleId());
+                                bookDefinition.setSourceType(source.getBookDefinition().getSourceType());
+                                bookDefinition.setEbookDefinitionId(source.getBookDefinition().getEbookDefinitionId());
+                                source.setBookDefinition(bookDefinition);
+                            });
+                    return source;
+                }).collect(Collectors.toSet());
     }
 }

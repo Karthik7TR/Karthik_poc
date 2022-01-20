@@ -6,24 +6,30 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants" %>
 
-<c:set var="editBook" value="disabled"/>
-<sec:authorize access="hasAnyRole('ROLE_EDITOR, ROLE_PUBLISHER, ROLE_PUBLISHER_PLUS, ROLE_SUPERUSER')">
-    <c:set var="editBook" value=""/>
-</sec:authorize>
-<c:set var="copyGenerateBook" value="disabled"/>
-<sec:authorize access="hasAnyRole('ROLE_PUBLISHER, ROLE_PUBLISHER_PLUS, ROLE_SUPERUSER')">
-    <c:set var="copyGenerateBook" value=""/>
-</sec:authorize>
-<c:set var="superUser" value="disabled"/>
-<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-    <c:set var="superUser" value=""/>
-</sec:authorize>
-<c:set var="editGroup" value="disabled"/>
-<sec:authorize access="hasAnyRole('ROLE_SUPERUSER, ROLE_PUBLISHER_PLUS')">
-    <c:set var="editGroup" value=""/>
-</sec:authorize>
-
 <c:if test="${combinedBookDefinition != null}">
+    <c:set var="readyToGenerate" value="${combinedBookDefinition.allBookDefinitionsExist()}"/>
+    <c:set var="primaryBookExist" value="${combinedBookDefinition.primaryTitle.bookDefinition != null}"/>
+    <c:set var="editBook" value="disabled"/>
+    <sec:authorize access="hasAnyRole('ROLE_EDITOR, ROLE_PUBLISHER, ROLE_PUBLISHER_PLUS, ROLE_SUPERUSER')">
+        <c:set var="editBook" value=""/>
+    </sec:authorize>
+    <c:set var="copyGenerateBook" value="disabled"/>
+    <sec:authorize access="hasAnyRole('ROLE_PUBLISHER, ROLE_PUBLISHER_PLUS, ROLE_SUPERUSER')">
+        <c:if test="${readyToGenerate}">
+            <c:set var="copyGenerateBook" value=""/>
+        </c:if>
+    </sec:authorize>
+    <c:set var="superUser" value="disabled"/>
+    <sec:authorize access="hasRole('ROLE_SUPERUSER')">
+        <c:set var="superUser" value=""/>
+    </sec:authorize>
+    <c:set var="editGroup" value="disabled"/>
+    <sec:authorize access="hasAnyRole('ROLE_SUPERUSER, ROLE_PUBLISHER_PLUS')">
+        <c:if test="${primaryBookExist}">
+            <c:set var="editGroup" value=""/>
+        </c:if>
+    </sec:authorize>
+
     <div class="combined-book-definition-container">
         <display:table id="<%= WebConstants.KEY_VDO %>" name="combinedBookDefinition.sources" class="displayTagTable" cellpadding="2"
                        defaultsort="1"

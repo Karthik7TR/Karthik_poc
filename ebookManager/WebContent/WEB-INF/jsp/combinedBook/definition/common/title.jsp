@@ -6,6 +6,9 @@
     <c:when test="${combinedBookDefinition == null}">
         <div class="errorMessage"><b>Combined book definition was not found.</b></div><br/>
     </c:when>
+    <c:when test="${combinedBookDefinition.primaryTitle.bookDefinition == null}">
+        <div class="errorMessage">Primary book definition was deleted.</div>
+    </c:when>
     <c:otherwise>
         <c:set var="primaryTitle" value="${combinedBookDefinition.primaryTitle.bookDefinition}"/>
         <div id="bookData">

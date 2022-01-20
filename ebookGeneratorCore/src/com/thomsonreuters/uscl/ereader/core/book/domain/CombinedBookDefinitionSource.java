@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -47,6 +49,7 @@ public class CombinedBookDefinitionSource {
     private CombinedBookDefinition combinedBookDefinition;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "EBOOK_DEFINITION_ID")
     private BookDefinition bookDefinition;
 
