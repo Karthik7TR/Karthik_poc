@@ -165,6 +165,7 @@ public class EditBookDefinitionController {
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid final EditBookDefinitionForm form,
         final BindingResult bindingResult,
         final Model model) throws Exception {
+        updateFormWithUnescapedStylingTags(form);
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
         if (!bindingResult.hasErrors()) {
@@ -435,6 +436,7 @@ public class EditBookDefinitionController {
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid final EditBookDefinitionForm form,
         final BindingResult bindingResult,
         final Model model) throws Exception {
+        updateFormWithUnescapedStylingTags(form);
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
         if (!bindingResult.hasErrors()) {

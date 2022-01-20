@@ -1126,6 +1126,7 @@ public final class EditBookDefinitionControllerTest {
     public void testCopyBookDefintionPostFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
+        request.setParameter("copyright", "© &lt;i&gt;tag&lt;/i&gt;");
 
         setupDropdownMenuAndKeywords(1);
 
@@ -1157,6 +1158,7 @@ public final class EditBookDefinitionControllerTest {
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
+            assertEquals("© <i>tag</i>", ((EditBookDefinitionForm) model.get(EditBookDefinitionForm.FORM_NAME)).getCopyright());
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
