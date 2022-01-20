@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
-import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -20,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
+import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
@@ -34,10 +34,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -86,6 +87,11 @@ public final class EditBookDefinitionFormValidatorTest {
     private static final String ERROR_PROVIEW_FORBIDDEN_CHARACTERS = "error.proview.forbidden.characters";
     private static final Map<String, String> TITLE_ID_BY_PUBLISHER = new HashMap<>();
     private static final String SUBSTITUTE_TOC_HEADERS_LEVEL = "substituteTocHeadersLevel";
+    private static final String SERVER_DATE = "2022-01-19T12:34:55";
+    private static final String SERVER_DATE_FORMATTED = "01/19/2022 12:34:55";
+    private static final String PUBLICATION_CUTOFF_DATE_EQUAL_WITH_SERVER_DATE = "01/19/2022";
+    private static final String PUBLICATION_CUTOFF_DATE_GREATER_THEN_SERVER_DATE = "01/20/2022";
+    private static final String CUT_OFF_DATE_ERROR_MESSAGE = "Publication cut-off date should be greater than today. Server date: " + SERVER_DATE_FORMATTED;
 
     private List<KeywordTypeCode> KEYWORD_CODES;
 
@@ -101,6 +107,8 @@ public final class EditBookDefinitionFormValidatorTest {
     private Errors errors;
 
     private DocumentTypeCode analyticalCode;
+    @Autowired
+    private DateProvider dateProvider;
 
     @BeforeClass
     public static void setUpClass() {
@@ -127,7 +135,7 @@ public final class EditBookDefinitionFormValidatorTest {
         KEYWORD_CODES.add(getKeywordTypeCode(SUBJECT_KEYWORD + " " + USCL, false, SUBJECT_KEYWORD_ID_USCL, "Banking and Finance Law", "Civil Procedure", "Motor Vehicles", "Aboriginal"));
         KEYWORD_CODES.add(getKeywordTypeCode(SUBJECT_KEYWORD + " " + CW, false, SUBJECT_KEYWORD_ID_CW, "Aboriginal", "Constitutional", "Criminal", "Immigration"));
 
-        EasyMock.reset(mockBookDefinitionService, mockDocumentTypeCodeService, keywordTypeCodeSevice);
+        EasyMock.reset(mockBookDefinitionService, mockDocumentTypeCodeService, keywordTypeCodeSevice, dateProvider);
     }
 
     @Test
@@ -315,8 +323,12 @@ public final class EditBookDefinitionFormValidatorTest {
         courtRulesCode.setId(Long.parseLong("1"));
         courtRulesCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR);
         courtRulesCode.setName(WebConstants.DOCUMENT_TYPE_COURT_RULES);
+        form.setPublicationCutoffDateUsed(true);
+        form.setPublicationCutoffDate(PUBLICATION_CUTOFF_DATE_GREATER_THEN_SERVER_DATE);
 
         setupPublisherAndTitleId("uscl/cr/tx_state", courtRulesCode, 4, 2);
+
+        expectReplayLocalDate(4);
 
         // Check Valid Analytical Title
         validator.validate(form, errors);
@@ -747,19 +759,22 @@ public final class EditBookDefinitionFormValidatorTest {
 
     @Test
     public void testCutoffDateToday() {
+        expectReplayLocalDate(2);
         expectReplayDocTypeCode();
         expectReplayKeywordTypeCodes();
         populateFormDataAnalyticalToc();
         form.setPublicationCutoffDateUsed(true);
-        String today = CoreConstants.DATE_FORMATTER.format(LocalDate.now());
-        form.setPublicationCutoffDate(today);
+        form.setPublicationCutoffDate(PUBLICATION_CUTOFF_DATE_EQUAL_WITH_SERVER_DATE);
         form.setIsComplete(true);
 
         validator.validate(form, errors);
 
         Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.publication.cutoff.date.value",
-                errors.getFieldError("publicationCutoffDate").getCode());
+
+        FieldError error = errors.getFieldError("publicationCutoffDate");
+        Assert.assertEquals("error.publication.cutoff.date.value", error.getCode());
+        Assert.assertEquals(SERVER_DATE_FORMATTED, error.getArguments()[0]);
+        Assert.assertEquals(CUT_OFF_DATE_ERROR_MESSAGE, error.getDefaultMessage());
     }
 
     /**
@@ -1776,5 +1791,10 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertTrue(errors.hasErrors());
         Assert.assertEquals(WRONG_DATE_FORMAT_ERROR,
                 errors.getFieldError(PUBLISHED_DATE).getCode());
+    }
+
+    private void expectReplayLocalDate(final int runTimes) {
+        EasyMock.expect(dateProvider.getLocalDateTime()).andReturn(LocalDateTime.parse(SERVER_DATE)).times(runTimes);
+        EasyMock.replay(dateProvider);
     }
 }

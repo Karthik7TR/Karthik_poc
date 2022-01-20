@@ -87,6 +87,7 @@ public class WebConstants {
     public static final String KEY_IS_BOOK_GENERATION_ENQUEUED = "isBookGenerationEnqueued";
     public static final String KEY_IS_HIGH_PRIORITY_JOB = "isHighPriorityJob";
     public static final String KEY_NEW_VERSION_TYPE = "newVersionType";
+    public static final String KEY_SERVER_DATE_TIME = "serverDateTime";
     public static final String KEY_PUBLISHING_CUT_OFF_DATE = "publishingCutOffDate";
     public static final String KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY =
         "publishingCutOffDateGreaterThanToday";

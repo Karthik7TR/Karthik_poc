@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionS
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.service.DateService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -25,7 +26,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperServic
 import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +45,6 @@ import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -73,6 +72,8 @@ public class GenerateEbookController {
     private GenerateHelperService generateFormService;
     @Autowired
     private VersionIsbnService versionIsbnService;
+    @Autowired
+    private DateService dateService;
 
     @RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
     public ModelAndView generateBulkEbookPreview(@RequestParam("id") final List<Long> id, final Model model) {
@@ -211,13 +212,14 @@ public class GenerateEbookController {
             model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
             model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
+            model.addAttribute(WebConstants.KEY_SERVER_DATE_TIME, dateService.getFormattedServerDateTime());
             model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE, cutOffDate);
             model.addAttribute(
                 WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
                 StringBool.toString(book.getDocumentTypeCodes().getUsePublishCutoffDateFlag()));
             model.addAttribute(
                 WebConstants.KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY,
-                StringBool.toString(isCutOffDateGreaterThanToday(book.getPublishCutoffDate())));
+                StringBool.toString(dateService.isDateGreaterThanToday(book.getPublishCutoffDate())));
 
             model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.getEbookDefinitionCompleteFlag());
             model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, book.getPilotBookStatus());
@@ -462,24 +464,9 @@ public class GenerateEbookController {
         return splitTitles;
     }
 
-    /**
-     *
-     * @param book
-     * @param model
-     */
     private void setModelIsbn(final BookDefinition book, final Model model) {
         final boolean isPublished = versionIsbnService.isIsbnExists(book.getIsbn());
         // If published, ISBN is not new
         model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, StringBool.toString(!isPublished));
-    }
-
-    /**
-     *
-     * @param cutOffDate
-     * @return
-     */
-    private boolean isCutOffDateGreaterThanToday(final Date cutOffDate) {
-        final Date today = new DateTime().toDateMidnight().toDate();
-        return cutOffDate != null && cutOffDate.after(today);
     }
 }

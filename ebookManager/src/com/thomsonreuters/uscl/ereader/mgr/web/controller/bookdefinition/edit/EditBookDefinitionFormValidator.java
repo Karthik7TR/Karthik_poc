@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
+import com.thomsonreuters.uscl.ereader.core.service.DateService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
@@ -88,6 +89,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final String SUBSTITUTE_TOC_HEADERS_LEVEL = "substituteTocHeadersLevel";
     private static final String ERROR_REQUIRED = "error.required";
     private static final String ERROR_POSITIVE_INTEGER = "error.positive.integer";
+    private static final String ERROR_PUBLICATION_CUT_OFF_DATE = "Publication cut-off date should be greater than today. Server date: ";
 
     @Autowired
     private BookDefinitionService bookDefinitionService;
@@ -105,6 +107,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private IssnValidator issnValidator;
     @Autowired
     private PdfFileNameValidator pdfFileNameValidator;
+    @Autowired
+    private DateService dateService;
 
     @Override
     public boolean supports(final Class clazz) {
@@ -1281,8 +1285,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void validatePublicationCutOffDateValue(final Errors errors, final LocalDate publicationCutOffDate) {
-        if (!publicationCutOffDate.isAfter(LocalDate.now())) {
-            errors.rejectValue(PUB_CUTOFF_DATE, "error.publication.cutoff.date.value");
+        if (!dateService.isDateGreaterThanToday(publicationCutOffDate)) {
+            String formattedDate = dateService.getFormattedServerDateTime();
+            final Object[] args = {formattedDate};
+            errors.rejectValue(PUB_CUTOFF_DATE, "error.publication.cutoff.date.value", args, ERROR_PUBLICATION_CUT_OFF_DATE + formattedDate);
         }
     }
 

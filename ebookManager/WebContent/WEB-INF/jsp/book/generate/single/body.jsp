@@ -85,7 +85,11 @@
 	if (publishingCutOffDate !== '') {
 		const publishingCutOffDateGreaterThanToday = document.getElementById('publishingCutOffDateGreaterThanToday').innerHTML;
 		if (publishingCutOffDateGreaterThanToday === 'N') {
-			alert('Cannot generate book: Publishing cut off date must be greater than today.');
+			let serverDateTime = $("#serverDateTime").html();
+			alert('Cannot generate book: Publishing cut off date must be greater than today. Cut off date: '
+			    + publishingCutOffDate
+			    + ', server date: '
+			    + serverDateTime);
 			confirmed = false;
 		} else {
 			confirmed = confirm('Generate with Publishing cutoff date: ' + publishingCutOffDate);
@@ -171,7 +175,6 @@
   }
 
 	function checkPilotBookStatus(){
-
 		var confirmed = true;
 		var pilotBookStatus = document.getElementById('pilotBookStatus').innerHTML;
 
@@ -459,6 +462,7 @@
 	    </c:if>
 
 		<div style="visibility: hidden">
+			<p id="serverDateTime">${serverDateTime}</p>
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
 		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>

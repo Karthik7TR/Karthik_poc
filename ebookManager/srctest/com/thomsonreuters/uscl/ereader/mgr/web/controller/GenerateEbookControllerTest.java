@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SERVER_DATE_TIME;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
@@ -44,6 +45,7 @@ import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
@@ -52,10 +54,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -66,6 +72,9 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
+import com.thomsonreuters.uscl.ereader.core.service.DateService;
+import com.thomsonreuters.uscl.ereader.core.service.DateServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -80,12 +89,13 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.form.GenerateHelperService;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
 import lombok.SneakyThrows;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.MediaType;
@@ -98,6 +108,10 @@ public final class GenerateEbookControllerTest {
     private static final String ID_PARAM = "id";
     private static final String NEW_VERSION_PARAM = "newVersion";
     private static final String IS_COMBINED_PARAM = "isCombined";
+    private static final String SERVER_DATE = "2022-01-19T12:34:55";
+    private static final String SERVER_DATE_FORMATTED = "01/19/2022 12:34:55";
+    private static final String PUBLICATION_CUTOFF_DATE_EQUAL_WITH_SERVER_DATE = "01/19/2022";
+    private static final String PUBLICATION_CUTOFF_DATE_GREATER_THEN_SERVER_DATE = "01/20/2022";
 
     private static Long BOOK_DEFINITION_ID = 127L;
     private MockMvc mockMvc;
@@ -132,9 +146,14 @@ public final class GenerateEbookControllerTest {
     @Mock
     private ProviewTitleInfo latestPublishedProviewTitleInfo;
 
+    private DateProvider dateProvider = Mockito.mock(DateProvider.class);
+    @Spy
+    private DateService dateService = new DateServiceImpl(dateProvider);
+
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        when(dateProvider.getLocalDateTime()).thenReturn(LocalDateTime.parse(SERVER_DATE));
     }
 
     /**
@@ -203,6 +222,8 @@ public final class GenerateEbookControllerTest {
                 .andExpect(model().attribute(KEY_NEW_MAJOR_VERSION_NUMBER, "3.0"))
                 .andExpect(model().attribute(KEY_NEW_MINOR_VERSION_NUMBER, "2.1"))
                 .andExpect(model().attribute(KEY_NEW_OVERWRITE_VERSION_NUMBER, "2.0"))
+                .andExpect(model().attribute(KEY_SERVER_DATE_TIME, SERVER_DATE_FORMATTED))
+                .andExpect(model().attribute(KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY, equalTo("Y")))
                 .andExpect(model().attributeDoesNotExist(KEY_ERR_MESSAGE));
     }
 
@@ -221,7 +242,7 @@ public final class GenerateEbookControllerTest {
     @Test
     @SneakyThrows
     public void shouldGenerateEbookPreviewSplitBookGET() {
-        final BookDefinition book = givenBook();
+        final BookDefinition book = givenBook(PUBLICATION_CUTOFF_DATE_EQUAL_WITH_SERVER_DATE);
         book.setIsSplitBook(true);
         book.setIsSplitTypeAuto(false);
         final SplitDocument doc = new SplitDocument();
@@ -244,6 +265,7 @@ public final class GenerateEbookControllerTest {
                         .param("newVersion", GenerateBookForm.Version.OVERWRITE.toString()))
             .andExpect(status().is(200))
             .andExpect(forwardedUrl(VIEW_BOOK_GENERATE_PREVIEW))
+            .andExpect(model().attribute(KEY_PUBLISHING_CUTOFF_DATE_GREATER_THAN_TODAY, equalTo("N")))
             .andExpect(model().attribute(KEY_IS_NEW_ISBN, equalTo("Y")));
         verify(mockGroupService, times(2)).createGroupDefinition(any(), any(), any());
     }
@@ -367,7 +389,11 @@ public final class GenerateEbookControllerTest {
         given(latestPublishedProviewTitleInfo.getVersion()).willReturn(latestPublishedVersion);
     }
 
-    private BookDefinition givenBook() {
+    private BookDefinition givenBook() throws ParseException {
+        return givenBook(PUBLICATION_CUTOFF_DATE_GREATER_THEN_SERVER_DATE);
+    }
+
+    private BookDefinition givenBook(final String cutoffDate) throws ParseException {
         final DocumentTypeCode docType = new DocumentTypeCode();
         docType.setUsePublishCutoffDateFlag(true);
         final BookDefinition book = new BookDefinition();
@@ -377,7 +403,7 @@ public final class GenerateEbookControllerTest {
         book.setFullyQualifiedTitleId(BOOK_TITLE_ID);
         book.setProviewDisplayName("");
         book.setIsbn("isbn");
-        book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());
+        book.setPublishCutoffDate(new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN).parse(cutoffDate));
         book.setDocumentTypeCodes(docType);
         book.setGroupName("test group");
         book.setEbookDefinitionCompleteFlag(true);

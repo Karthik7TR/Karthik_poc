@@ -8,6 +8,9 @@ import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.service.DateProvider;
+import com.thomsonreuters.uscl.ereader.core.service.DateService;
+import com.thomsonreuters.uscl.ereader.core.service.DateServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.FrontMatterPreviewService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
@@ -108,6 +111,16 @@ public class TestConfig {
     @Bean
     public ProviewTitleListService proviewTitleListService() {
         return Mockito.mock(ProviewTitleListService.class);
+    }
+
+    @Bean
+    public DateProvider easyMockDateProvider() {
+        return EasyMock.createMock(DateProvider.class);
+    }
+
+    @Bean
+    public DateService easyMockDateService() {
+        return new DateServiceImpl(easyMockDateProvider());
     }
 
     @Bean
