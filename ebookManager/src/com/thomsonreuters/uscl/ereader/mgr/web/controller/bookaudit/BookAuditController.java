@@ -2,131 +2,126 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
+import lombok.extern.slf4j.Slf4j;
+import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
+@Slf4j
 @Controller
-public class BookAuditController extends BaseBookAuditController {
+public class BookAuditController {
+    private final EBookAuditService auditService;
+    private final OutageService outageService;
+    private final Validator validator;
+
     @Autowired
-    public BookAuditController(final EBookAuditService auditService,
-     final OutageService outageService) {
-        super(auditService, outageService);
+    public BookAuditController(final EBookAuditService auditService, final OutageService outageService,
+            @Qualifier("bookAuditFilterFormValidator") final Validator validator) {
+        this.auditService = auditService;
+        this.outageService = outageService;
+        this.validator = validator;
     }
 
-    /**
-     * Handle initial in-bound HTTP get request to the page.
-     * No query string parameters are expected.
-     */
+    @InitBinder(BookAuditFilterForm.FORM_NAME)
+    protected void initDataBinder(final WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.setValidator(validator);
+    }
+
     @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_LIST, method = RequestMethod.GET)
-    public ModelAndView auditList(final HttpSession httpSession, final Model model) {
-        final BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
-
-        return setupInitialView(model, filterForm, httpSession);
-    }
-
-    /**
-     * Handle initial in-bound HTTP get request for specific book definition audit list.
-     * Used from the View Book Definition page.
-     */
-    @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_SPECIFIC, method = RequestMethod.GET)
-    public ModelAndView specificBookAuditList(
-        final HttpSession httpSession,
-        @RequestParam("id") final Long id,
-        final Model model) {
-        final BookAuditFilterForm filterForm = new BookAuditFilterForm(id); // from session
-
-        return setupInitialView(model, filterForm, httpSession);
-    }
-
-    /**
-     * Setup of Form and sorting shared by two different incoming HTTP get request
-     */
-    private ModelAndView setupInitialView(
-        final Model model,
-        final BookAuditFilterForm filterForm,
-        final HttpSession httpSession) {
-        final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);
-
-        final BookAuditForm ebookAuditForm = new BookAuditForm();
-        ebookAuditForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
-
-        setUpModel(filterForm, savedPageAndSort, httpSession, model);
-        model.addAttribute(BookAuditForm.FORM_NAME, ebookAuditForm);
-
-        return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
-    }
-
-    /**
-     * Handle paging and sorting of audit list.
-     * Handles clicking of column headers to sort, or use of page number navigation links, like prev/next.
-     */
-    @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT, method = RequestMethod.GET)
-    public ModelAndView auditListPagingAndSorting(
-        final HttpSession httpSession,
-        @ModelAttribute(BookAuditForm.FORM_NAME) final BookAuditForm form,
-        final Model model) {
-        final BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
-        final Integer nextPageNumber = form.getPage();
-
-        // If there was a page=n query string parameter, then we assume we are paging since this
-        // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null) { // PAGING
-            pageAndSort.setPageNumber(nextPageNumber);
-        } else { // SORTING
-            pageAndSort.setPageNumber(1);
-            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
+    public ModelAndView auditList(final HttpSession httpSession,
+            @ModelAttribute(BookAuditFilterForm.FORM_NAME) @Valid BookAuditFilterForm filterForm,
+            final BindingResult errors, final Model model) {
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+        if (errors.hasErrors()) {
+            log.debug("Incorrect parameters passed to BookAuditFilterForm:\n" + errors.toString());
+            filterForm = getUserPreferencesForCurrentSession(httpSession);
         }
-        setUpModel(filterForm, pageAndSort, httpSession, model);
+        updateUserPreferencesForCurrentSession(filterForm, httpSession);
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, createPaginatedList(filterForm));
+        model.addAttribute(WebConstants.KEY_PAGE_SIZE, filterForm.getObjectsPerPage());
 
         return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
     }
 
-    @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT, method = RequestMethod.GET)
-    public ModelAndView handleChangeInItemsToDisplayGet() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_LIST));
+    private PaginatedList createPaginatedList(final BookAuditFilterForm filterForm) {
+        final String action = filterForm.getAction() != null ? filterForm.getAction().toString() : null;
+        final EbookAuditFilter bookAuditFilter = new EbookAuditFilter(
+                filterForm.getFromDate(),
+                filterForm.getToDate(),
+                action,
+                filterForm.getTitleId(),
+                filterForm.getProviewDisplayName(),
+                filterForm.getSubmittedBy(),
+                filterForm.getBookDefinitionId());
+        final EbookAuditSort bookAuditSort = createBookAuditSort(filterForm);
+        // Lookup all the EbookAudit objects by their primary key
+        final List<EbookAudit> audits = auditService.findEbookAudits(bookAuditFilter, bookAuditSort);
+        final int numberOfAudits = auditService.numberEbookAudits(bookAuditFilter);
+        // Instantiate the object used by DisplayTag to render a partial list
+        return new BookAuditPaginatedList(
+                audits,
+                numberOfAudits,
+                filterForm.getPage(),
+                filterForm.getObjectsPerPage(),
+                filterForm.getSort(),
+                filterForm.isAscendingSort());
     }
 
-    /**
-     * Handle URL request that the number of rows displayed in table be changed.
-     */
-    @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT, method = RequestMethod.POST)
-    public ModelAndView handleChangeInItemsToDisplay(
-        final HttpSession httpSession,
-        @ModelAttribute(BookAuditForm.FORM_NAME) @Valid final BookAuditForm form,
-        final Model model) {
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
-        pageAndSort.setObjectsPerPage(form.getObjectsPerPage()); // Update the new number of items to be shown at one time
-        // Restore the state of the search filter
-        final BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        setUpModel(filterForm, pageAndSort, httpSession, model);
-        return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
+    private EbookAuditSort createBookAuditSort(final BookAuditFilterForm filterForm) {
+        return new EbookAuditSort(
+                SortProperty.valueOf(filterForm.getSort().toString()),
+                filterForm.isAscendingSort(),
+                filterForm.getPage(),
+                filterForm.getObjectsPerPage());
+    }
+
+    private void updateUserPreferencesForCurrentSession(final BookAuditFilterForm form, final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            sessionPreferences.setBookAuditPreferences(form);
+        }
+    }
+
+    private BookAuditFilterForm getUserPreferencesForCurrentSession(final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            return sessionPreferences.getBookAuditPreferences();
+        }
+        return new BookAuditFilterForm();
     }
 
     /**
      * Handle initial in-bound HTTP get request for specific book audit detail.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_DETAIL, method = RequestMethod.GET)
-    public ModelAndView auditDetail(
-        final HttpSession httpSession,
-        @RequestParam("id") final Long id,
-        final Model model) {
+    public ModelAndView auditDetail(@RequestParam("id") final Long id, final Model model) {
         final EbookAudit audit = auditService.findEBookAuditByPrimaryKey(id);
         model.addAttribute(WebConstants.KEY_BOOK_AUDIT_DETAIL, audit);
 

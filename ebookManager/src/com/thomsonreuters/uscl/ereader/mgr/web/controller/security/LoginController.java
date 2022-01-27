@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm;
@@ -133,11 +132,6 @@ public class LoginController {
         preferenceForm.load(preferenceService.findByUsername(username));
 
         // Save filters in session
-        final BookAuditFilterForm auditFilterForm = new BookAuditFilterForm();
-        auditFilterForm.setProviewDisplayName(preferenceForm.getAuditFilterProviewName());
-        auditFilterForm.setTitleId(preferenceForm.getAuditFilterTitleId());
-        httpSession.setAttribute(BookAuditFilterForm.FORM_NAME, auditFilterForm);
-
         final FilterForm jobSummaryFilterForm = new FilterForm();
         jobSummaryFilterForm.setProviewDisplayName(preferenceForm.getJobSummaryFilterProviewName());
         jobSummaryFilterForm.setTitleId(preferenceForm.getJobSummaryFilterTitleId());

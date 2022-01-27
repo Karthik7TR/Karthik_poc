@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;

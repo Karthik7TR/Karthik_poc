@@ -6,24 +6,34 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm.DisplayTagSortProperty"%>
+<%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%-- Select for how may items (rows) per page to show --%>
+<c:set var="defaultPageSize" value="<%=WebConstants.DEFAULT_PAGE_SIZE%>"/>
+
+<script type="text/javascript" src="js/form-utils.js"></script>
+<script type="text/javascript">
+	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
+	$(window).on('pageshow', function () {
+		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);
+	});
+</script>
+
 <c:if test="${fn:length(paginatedList.list) != 0}">
-  <form:form id="itemCountForm" action="<%=WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT%>"
-		     commandName="<%=BookAuditForm.FORM_NAME%>" method="post">
+	<form:form id="bodyForm"
+						 action="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>"
+						 modelAttribute="<%=BookAuditFilterForm.FORM_NAME%>"
+						 method="get">
 	Items to display: 
-	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-	<form:select path="objectsPerPage" onchange="submit()">
-		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+	<form:select path="objectsPerPage" onchange="submitLeftFormAndBodyForm()">
+		<form:option label="${defaultPageSize}" value="${defaultPageSize}"/>
 		<form:option label="50" value="50"/>
 		<form:option label="100" value="100"/>
 		<form:option label="150" value="150"/>
@@ -36,7 +46,7 @@
 
 <%-- Table of job executions --%>
 <display:table id="audit" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-			   requestURI="<%=WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT%>"
+			   requestURI="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>"
 			   sort="external">
   <display:setProperty name="basic.msg.empty_list">No book definition audits were found.</display:setProperty>
   <display:setProperty name="paging.banner.onepage" value=" " />

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm.HomepageProperty;
@@ -22,6 +23,7 @@ public class CurrentSessionUserPreferences implements Serializable {
 
     private ProviewAuditFilterForm proviewAuditPreferences = new ProviewAuditFilterForm();
     private BookLibraryFilterForm bookLibraryPreferences = new BookLibraryFilterForm();
+    private BookAuditFilterForm bookAuditPreferences = new BookAuditFilterForm();
     private HomepageProperty startPage;
     private String auditFilterProviewName;
     private String auditFilterTitleId;
@@ -43,6 +45,8 @@ public class CurrentSessionUserPreferences implements Serializable {
         BeanUtils.copyProperties(form, this);
         bookLibraryPreferences.setProviewDisplayName(getLibraryFilterProviewName());
         bookLibraryPreferences.setTitleId(getLibraryFilterTitleId());
+        bookAuditPreferences.setProviewDisplayName(getAuditFilterProviewName());
+        bookAuditPreferences.setTitleId(getAuditFilterTitleId());
     }
 
     public String getUri() {
@@ -57,7 +61,10 @@ public class CurrentSessionUserPreferences implements Serializable {
                 proviewListQueryParams.put(WebConstants.KEY_STATUS, getStatus());
                 return generateUri(WebConstants.MVC_PROVIEW_TITLES, proviewListQueryParams);
             case AUDIT:
-                return WebConstants.MVC_BOOK_AUDIT_LIST;
+                final Map<String, String> bookAuditListQueryParameters = new HashMap<>();
+                bookAuditListQueryParameters.put(WebConstants.KEY_PROVIEW_DISPLAY_NAME_FILTER, getAuditFilterProviewName());
+                bookAuditListQueryParameters.put(WebConstants.KEY_TITLE_ID_FILTER, getAuditFilterTitleId());
+                return generateUri(WebConstants.MVC_BOOK_AUDIT_LIST, bookAuditListQueryParameters);
             case JOBS:
                 return WebConstants.MVC_JOB_SUMMARY;
             case QUEUED:

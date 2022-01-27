@@ -41,10 +41,26 @@
     };
     const bookLibraryQueryString = getFilteredQueryString(bookLibraryFilterParams);
 
+    const bookAuditFilterParams = {
+        proviewDisplayName: '${ currentSessionUserPreferences.bookAuditPreferences.proviewDisplayName }',
+        titleId: '${ currentSessionUserPreferences.bookAuditPreferences.titleId }',
+        bookDefinitionId: '${ currentSessionUserPreferences.bookAuditPreferences.bookDefinitionId }',
+        submittedBy: '${ currentSessionUserPreferences.bookAuditPreferences.submittedBy }',
+        fromDateString: '${ currentSessionUserPreferences.bookAuditPreferences.fromDateString }',
+        toDateString: '${ currentSessionUserPreferences.bookAuditPreferences.toDateString }',
+        action: '${ currentSessionUserPreferences.bookAuditPreferences.action }',
+        objectsPerPage: '${ currentSessionUserPreferences.bookAuditPreferences.objectsPerPage }',
+        page: '${ currentSessionUserPreferences.bookAuditPreferences.page }',
+        sort: '${ currentSessionUserPreferences.bookAuditPreferences.sort }',
+        dir: '${ currentSessionUserPreferences.bookAuditPreferences.dir }'
+    };
+    const bookAuditQueryString = getFilteredQueryString(bookAuditFilterParams);
+
     $(window).on('pageshow', function () {
         $('#libraryTab').prop('href', '${ WebConstants.MVC_BOOK_LIBRARY_LIST }' + bookLibraryQueryString);
         $('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + groupListQueryString);
         $('#proviewListTab').prop('href', '${ WebConstants.MVC_PROVIEW_TITLES }' + proviewListQueryString);
+        $('#AuditTab').prop('href', '${ WebConstants.MVC_BOOK_AUDIT_LIST }' + bookAuditQueryString);
     });
 </script>
 

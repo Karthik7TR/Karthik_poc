@@ -17,7 +17,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.DeleteBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.EditBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.EditBookDefinitionFormValidatorTest;
@@ -60,7 +59,6 @@ import org.junit.runners.Suite.SuiteClasses;
     StateCodeControllerTest.class,
     StateCodeFormValidatorTest.class,
     BookAuditControllerTest.class,
-    BookAuditFilterControllerTest.class,
     DeleteBookDefinitionControllerTest.class,
     ErrorControllerTest.class,
     SmokeTestControllerTest.class,

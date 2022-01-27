@@ -1,11 +1,16 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
@@ -13,184 +18,148 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
-import org.easymock.EasyMock;
-import org.junit.Assert;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm.DisplayTagSortProperty;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.validation.Validator;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import org.springframework.web.servlet.view.RedirectView;
 
+@RunWith(MockitoJUnitRunner.class)
 public final class BookAuditControllerTest {
-    //private static final Logger log = LogManager.getLogger(BookAuditControllerTest.class);
-    private BookAuditController controller;
+    private static final String SLASH = "/";
+
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-    private EBookAuditService mockAuditService;
-    private OutageService outageService;
     private HandlerAdapter handlerAdapter;
+    @InjectMocks
+    private BookAuditController controller;
+    @Mock
+    private EBookAuditService mockAuditService;
+    @Mock
+    private OutageService outageService;
+    @Spy
+    @SuppressWarnings("unused")
+    private final Validator validator = new BookAuditFilterFormValidator();
 
     @Before
     public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
-        mockAuditService = EasyMock.createMock(EBookAuditService.class);
-        outageService = EasyMock.createMock(OutageService.class);
         handlerAdapter = new AnnotationMethodHandlerAdapter();
-
-        controller = new BookAuditController(mockAuditService, outageService);
     }
 
     @Test
-    public void testAuditListInboundGet() throws Exception {
-        // Set up the request URL
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_LIST);
+    public void auditList_noParametersAreGiven_requiredServicesAreCalledAndListReturned() throws Exception {
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
-        final HttpSession session = request.getSession();
+        when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
+                .thenReturn(new ArrayList<>());
+        when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(0);
+        when(outageService.getAllPlannedOutagesToDisplay()).thenReturn(Collections.emptyList());
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findEbookAudits(
-                    EasyMock.anyObject(EbookAuditFilter.class),
-                    EasyMock.anyObject(EbookAuditSort.class)))
-            .andReturn(new ArrayList<EbookAudit>());
-        EasyMock.expect(mockAuditService.numberEbookAudits(EasyMock.anyObject(EbookAuditFilter.class))).andReturn(0);
-        EasyMock.replay(mockAuditService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
+        assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
+        validateModel(model);
+        verifyMocksInteractions();
+    }
 
-        final PageAndSort<DisplayTagSortProperty> pageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME);
-        Assert.assertEquals(false, pageAndSort.isAscendingSort());
-        Assert.assertEquals(DisplayTagSortProperty.SUBMITTED_DATE, pageAndSort.getSortProperty());
+    public static void validateModel(final Map<String, Object> model) {
+        assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
+        assertNotNull(model.get(BookAuditFilterForm.FORM_NAME));
+        assertNotNull(model.get(WebConstants.KEY_PAGE_SIZE));
+        assertTrue(model.get("org.springframework.validation.BindingResult.ebookAuditFilterForm").toString().contains("0 errors"));
+    }
 
-        EasyMock.verify(mockAuditService);
+    private void verifyMocksInteractions() {
+        verify(mockAuditService).findEbookAudits(any(), any());
+        verify(mockAuditService).numberEbookAudits(any());
+        verify(outageService).getAllPlannedOutagesToDisplay();
     }
 
     @Test
-    public void testSpecificAuditListInboundGet() throws Exception {
+    public void auditList_bookDefinitionIdIsGiven_listReturned() throws Exception {
         final Long bookDefinitionId = 1L;
-        // Set up the request URL
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_SPECIFIC);
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter("id", bookDefinitionId.toString());
-        final HttpSession session = request.getSession();
+        request.setParameter("bookDefinitionId", bookDefinitionId.toString());
+        final EbookAudit audit = new EbookAudit();
+        audit.setEbookDefinitionId(bookDefinitionId);
+        when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
+                .thenReturn(Collections.singletonList(audit));
+        when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(0);
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findEbookAudits(
-                    EasyMock.anyObject(EbookAuditFilter.class),
-                    EasyMock.anyObject(EbookAuditSort.class)))
-            .andReturn(new ArrayList<EbookAudit>());
-        EasyMock.expect(mockAuditService.numberEbookAudits(EasyMock.anyObject(EbookAuditFilter.class))).andReturn(0);
-        EasyMock.replay(mockAuditService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
+        assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
+        validateModel(model);
+        final BookAuditPaginatedList paginatedList = getPaginatedList(model);
+        final List<EbookAudit> audits = paginatedList.getList();
+        assertEquals(bookDefinitionId, audits.get(0).getEbookDefinitionId());
+        verifyMocksInteractions();
+    }
 
-        final PageAndSort<DisplayTagSortProperty> pageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME);
-        Assert.assertEquals(false, pageAndSort.isAscendingSort());
-        Assert.assertEquals(DisplayTagSortProperty.SUBMITTED_DATE, pageAndSort.getSortProperty());
-
-        final BookAuditFilterForm form = (BookAuditFilterForm) session.getAttribute(BookAuditFilterForm.FORM_NAME);
-        Assert.assertEquals(bookDefinitionId, form.getBookDefinitionId());
-
-        EasyMock.verify(mockAuditService);
+    private BookAuditPaginatedList getPaginatedList(final Map<String, Object> model) {
+        final BookAuditPaginatedList paginatedList = (BookAuditPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+        assertNotNull(paginatedList);
+        return paginatedList;
     }
 
     @Test
-    public void testAuditListPaging() throws Exception {
-        // Set up the request URL
+    public void auditList_pageIsGiven_listWithGivenPageIsReturned() throws Exception {
         final int newPageNumber = 2;
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT);
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("page", String.valueOf(newPageNumber));
-        final HttpSession session = request.getSession();
+        when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
+                .thenReturn(Collections.emptyList());
+        when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(0);
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findEbookAudits(
-                    EasyMock.anyObject(EbookAuditFilter.class),
-                    EasyMock.anyObject(EbookAuditSort.class)))
-            .andReturn(new ArrayList<EbookAudit>());
-        EasyMock.expect(mockAuditService.numberEbookAudits(EasyMock.anyObject(EbookAuditFilter.class))).andReturn(0);
-        EasyMock.replay(mockAuditService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
+        assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
-
-        final PageAndSort<DisplayTagSortProperty> pageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME);
-        Assert.assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
-
-        EasyMock.verify(mockAuditService);
+        validateModel(model);
+        assertEquals(newPageNumber, getPaginatedList(model).getPageNumber());
+        verifyMocksInteractions();
     }
 
     @Test
-    public void testAuditListSorting() throws Exception {
+    public void auditList_ascendingSortingIsGiven_sortedListReturned() throws Exception {
         final String direction = "asc";
         final String sort = DisplayTagSortProperty.ACTION.toString();
-        // Set up the request URL
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT);
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("sort", sort);
         request.setParameter("dir", direction);
-        final HttpSession session = request.getSession();
+        when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
+                .thenReturn(Collections.emptyList());
+        when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(0);
 
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findEbookAudits(
-                    EasyMock.anyObject(EbookAuditFilter.class),
-                    EasyMock.anyObject(EbookAuditSort.class)))
-            .andReturn(new ArrayList<EbookAudit>());
-        EasyMock.expect(mockAuditService.numberEbookAudits(EasyMock.anyObject(EbookAuditFilter.class))).andReturn(0);
-        EasyMock.replay(mockAuditService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
+        assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
-
-        final PageAndSort<DisplayTagSortProperty> pageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME);
-        Assert.assertEquals(sort, pageAndSort.getSortProperty().toString());
-        Assert.assertEquals(true, pageAndSort.isAscendingSort());
-
-        EasyMock.verify(mockAuditService);
+        validateModel(model);
+        assertEquals(Boolean.TRUE, getPaginatedList(model).isAscendingSort());
+        assertEquals(sort, getPaginatedList(model).getSortCriterion());
+        verifyMocksInteractions();
     }
 
     @Test
@@ -198,86 +167,76 @@ public final class BookAuditControllerTest {
         final Long auditId = 1L;
         final EbookAudit audit = new EbookAudit();
         audit.setAuditId(auditId);
-        // Set up the request URL
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_DETAIL);
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_DETAIL);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", auditId.toString());
+        when(mockAuditService.findEBookAuditByPrimaryKey(auditId)).thenReturn(audit);
 
-        // Record expected service calls
-        EasyMock.expect(mockAuditService.findEBookAuditByPrimaryKey(auditId)).andReturn(audit);
-        EasyMock.replay(mockAuditService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_DETAIL, mav.getViewName());
+        assertEquals(WebConstants.VIEW_BOOK_AUDIT_DETAIL, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-
         final EbookAudit actualAudit = (EbookAudit) model.get(WebConstants.KEY_BOOK_AUDIT_DETAIL);
-        Assert.assertEquals(audit, actualAudit);
-
-        EasyMock.verify(mockAuditService);
+        assertEquals(audit, actualAudit);
+        verify(mockAuditService).findEBookAuditByPrimaryKey(auditId);
     }
 
     @Test
-    public void testChangeDisplayedRowsPerPageGet() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT);
+    public void auditList_objectsPerPageParamIsGiven_paginatedListWithGivenOppIsReturned() throws Exception {
+        final int expectedObjectsPerPage = 33;
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-        Assert.assertNotNull(mav);
-        Assert.assertEquals(((RedirectView) mav.getView()).getUrl(), WebConstants.MVC_BOOK_AUDIT_LIST);
-    }
+        request.setParameter("objectsPerPage", String.valueOf(expectedObjectsPerPage));
+        when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
+                .thenReturn(Collections.emptyList());
+        when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(77);
 
-    /**
-     * Test the submission of the multi-selected rows, or changing the number of objects displayed per page.
-     * @throws Exception
-     */
-    @Test
-    public void testChangeDisplayedRowsPerPage() throws Exception {
-        final int EXPECTED_OBJECTS_PER_PAGE = 33;
-        // Set up the request URL
-        request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT);
-        request.setMethod(HttpMethod.POST.name());
-        request.setParameter("objectsPerPage", String.valueOf(EXPECTED_OBJECTS_PER_PAGE));
-        final HttpSession session = request.getSession();
-
-        // Record expected service calls
-        EasyMock
-            .expect(
-                mockAuditService.findEbookAudits(
-                    EasyMock.anyObject(EbookAuditFilter.class),
-                    EasyMock.anyObject(EbookAuditSort.class)))
-            .andReturn(new ArrayList<EbookAudit>());
-        EasyMock.expect(mockAuditService.numberEbookAudits(EasyMock.anyObject(EbookAuditFilter.class))).andReturn(33);
-        EasyMock.replay(mockAuditService);
-
-        // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
-        // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
+        assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        validateModel(session, model);
-        // Ensure the number of rows was changed
-        final PageAndSort<DisplayTagSortProperty> pageAndSort =
-            (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME);
-        Assert.assertEquals(EXPECTED_OBJECTS_PER_PAGE, pageAndSort.getObjectsPerPage().intValue());
-
-        EasyMock.verify(mockAuditService);
+        validateModel(model);
+        assertEquals(expectedObjectsPerPage, getPaginatedList(model).getObjectsPerPage());
+        verifyMocksInteractions();
     }
 
-    /**
-     * Verify the state of the session and request (model) as expected before the
-     * rendering of the Audit List page.
-     */
-    public static void validateModel(final HttpSession session, final Map<String, Object> model) {
-        Assert.assertNotNull(session.getAttribute(BookAuditFilterForm.FORM_NAME));
-        Assert.assertNotNull(session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME));
-        Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
-        Assert.assertNotNull(model.get(BookAuditFilterForm.FORM_NAME));
-        Assert.assertNotNull(model.get(BookAuditForm.FORM_NAME));
+    @Test
+    public void auditList_noParamsAreGiven_paginatedListIsReturned() throws Exception {
+        testAuditListFilterGet();
+    }
+
+    @Test
+    public void auditList_filteringParamsAreGiven_paginatedListIsReturned() throws Exception {
+        final String titleId = "uscl/junit/test/abc";
+        final String fromDate = "01/01/2022 00:00:00";
+        final String toDate = "03/01/2022 00:00:00";
+        request.setParameter(WebConstants.KEY_TITLE_ID, titleId);
+        request.setParameter("fromDateString", fromDate);
+        request.setParameter("toDateString", toDate);
+
+        final Map<String, Object> model = testAuditListFilterGet();
+
+        final BookAuditFilterForm filterForm = (BookAuditFilterForm) model.get(BookAuditFilterForm.FORM_NAME);
+        assertEquals(titleId, filterForm.getTitleId());
+        assertEquals(fromDate, filterForm.getFromDateString());
+        assertEquals(toDate, filterForm.getToDateString());
+    }
+
+    private Map<String, Object> testAuditListFilterGet() throws Exception {
+        request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
+        request.setMethod(HttpMethod.GET.name());
+        when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
+                .thenReturn(Collections.emptyList());
+        when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(0);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        assertNotNull(mav);
+        final Map<String, Object> model = mav.getModel();
+        validateModel(model);
+        verifyMocksInteractions();
+        return model;
     }
 }

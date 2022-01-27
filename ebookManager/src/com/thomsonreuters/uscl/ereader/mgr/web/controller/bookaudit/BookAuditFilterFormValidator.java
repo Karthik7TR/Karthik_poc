@@ -17,22 +17,24 @@ public class BookAuditFilterFormValidator extends BaseFormValidator implements V
 
     @Override
     public void validate(final Object obj, final Errors errors) {
+        // Do not validate inputs if there were binding errors since you cannot validate garbage (like "abc" entered instead of a valid integer).
+        if (errors.hasErrors()) {
+            return;
+        }
         final BookAuditFilterForm form = (BookAuditFilterForm) obj;
         // Do not validate form if we are simply resetting its values to the defaults
-        if (BookAuditFilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
+        if (form.areAllFiltersBlank()) {
             return;
         }
 
         final Date fromDate = form.getFromDate();
         final Date toDate = form.getToDate();
-
         if (StringUtils.isNotBlank(form.getFromDateString())) {
             validateDate(form.getFromDateString(), fromDate, "FROM", errors);
         }
         if (StringUtils.isNotBlank(form.getToDateString())) {
             validateDate(form.getToDateString(), toDate, "TO", errors);
         }
-
         validateDateRange(fromDate, toDate, errors);
     }
 }

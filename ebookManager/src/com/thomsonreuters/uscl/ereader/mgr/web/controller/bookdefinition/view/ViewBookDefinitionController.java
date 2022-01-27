@@ -57,7 +57,7 @@ public class ViewBookDefinitionController {
 
     /**
      * Handle the in-bound GET to the Book Definition read-only view page.
-     * @param titleId the primary key of the book to be viewed as a required query string parameter.
+     * @param id the primary key of the book to be viewed as a required query string parameter.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_ERROR_BOOK_DEFINITION_NOT_FOUND)
@@ -148,7 +148,8 @@ public class ViewBookDefinitionController {
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryStringWithCombined));
             break;
         case AUDIT_LOG:
-            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC + queryString));
+            final String bookDefinitionIdQueryString = queryString.replace(WebConstants.KEY_ID, WebConstants.KEY_BOOK_ID);
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_LIST + bookDefinitionIdQueryString));
             break;
         case BOOK_PUBLISH_STATS:
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_STATS_SPECIFIC_BOOK + queryString));
