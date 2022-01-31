@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinitio
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionSourceService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +12,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component("combinedBookDefinitionFormValidator")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CombinedBookDefinitionFormValidator implements Validator {
     static final String ERROR_COMBINED_BOOK_DEFINITION_PRIMARY = "error.combinedbookdefinition.primary";
+    static final String ERROR_COMBINED_BOOK_DEFINITION_PRIMARY_EXIST = "error.combinedbookdefinition.primary.exist";
     static final String ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_DUPLICATED = "error.combinedbookdefinition.titleid.duplicated";
     static final String ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_EMPTY = "error.combinedbookdefinition.titleid.empty";
     static final String ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_NOT_EXIST = "error.combinedbookdefinition.titleid.not.exist";
     private final BookDefinitionService bookDefinitionService;
-
-    @Autowired
-    public CombinedBookDefinitionFormValidator(final BookDefinitionService bookDefinitionService) {
-        this.bookDefinitionService = bookDefinitionService;
-    }
+    private final CombinedBookDefinitionSourceService combinedBookDefinitionSourceService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -37,10 +38,10 @@ public class CombinedBookDefinitionFormValidator implements Validator {
     public void validate(final Object obj, final Errors errors) {
         final CombinedBookDefinitionForm form = (CombinedBookDefinitionForm) obj;
         Set<CombinedBookDefinitionSource> sources = form.getSourcesSet();
-        validatePrimaryFlag(errors, sources);
         validateDuplicates(errors, sources);
         validateEmptyTitleId(errors, sources);
         validateTitleIdExist(errors, sources);
+        validatePrimaryFlag(errors, sources);
     }
 
     private void validateTitleIdExist(Errors errors, final Set<CombinedBookDefinitionSource> sources) {
@@ -75,11 +76,16 @@ public class CombinedBookDefinitionFormValidator implements Validator {
     }
 
     private void validatePrimaryFlag(final Errors errors, final Set<CombinedBookDefinitionSource> sources) {
-        if (sources.stream()
-                .map(CombinedBookDefinitionSource::isPrimarySource)
-                .filter(i -> i)
-                .count() != 1) {
+        List<CombinedBookDefinitionSource> primaries = sources.stream()
+                .filter(CombinedBookDefinitionSource::isPrimarySource)
+                .collect(Collectors.toList());
+        if (primaries.size() != 1) {
             errors.reject(ERROR_COMBINED_BOOK_DEFINITION_PRIMARY);
+        } else {
+            primaries.stream()
+                    .findAny()
+                    .map(source -> combinedBookDefinitionSourceService.findPrimarySourceWithBookDefinition(source.getBookDefinition().getEbookDefinitionId()))
+                    .ifPresent(source -> errors.reject(ERROR_COMBINED_BOOK_DEFINITION_PRIMARY_EXIST));
         }
     }
 

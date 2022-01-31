@@ -4,6 +4,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.CombinedBookDefinitionSource;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CombinedBookDefinitionSourceService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,10 +16,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinition.CombinedBookDefinitionFormValidator.ERROR_COMBINED_BOOK_DEFINITION_PRIMARY;
+import static com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinition.CombinedBookDefinitionFormValidator.ERROR_COMBINED_BOOK_DEFINITION_PRIMARY_EXIST;
 import static com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinition.CombinedBookDefinitionFormValidator.ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_DUPLICATED;
 import static com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinition.CombinedBookDefinitionFormValidator.ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_EMPTY;
 import static com.thomsonreuters.uscl.ereader.mgr.web.controller.combinedBookDefinition.CombinedBookDefinitionFormValidator.ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_NOT_EXIST;
@@ -41,6 +44,8 @@ public class CombinedBookDefinitionFormValidatorTest {
     private CombinedBookDefinitionFormValidator combinedBookDefinitionFormValidator;
     @Mock
     private BookDefinitionService bookDefinitionService;
+    @Mock
+    private CombinedBookDefinitionSourceService combinedBookDefinitionSourceService;
 
     private CombinedBookDefinitionForm form;
 
@@ -78,7 +83,7 @@ public class CombinedBookDefinitionFormValidatorTest {
     @Test
     public void shouldValidateFormPrimary() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, Y, 0),
-                combinedBookDefinitionSource(TITLE_ID_1, Y, 1)
+                combinedBookDefinitionSource(TITLE_ID_2, Y, 1)
         ).collect(Collectors.toSet()));
         combinedBookDefinitionFormValidator.validate(form, errors);
         assertTrue(errors.hasErrors());
@@ -88,11 +93,23 @@ public class CombinedBookDefinitionFormValidatorTest {
     @Test
     public void shouldValidateFormPrimary2() {
         form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, N, 0),
-                combinedBookDefinitionSource(TITLE_ID_1, N, 1)
+                combinedBookDefinitionSource(TITLE_ID_2, N, 1)
         ).collect(Collectors.toSet()));
         combinedBookDefinitionFormValidator.validate(form, errors);
         assertTrue(errors.hasErrors());
         assertEquals(ERROR_COMBINED_BOOK_DEFINITION_PRIMARY, errors.getAllErrors().get(0).getCode());
+    }
+
+    @Test
+    public void shouldValidateFormPrimaryBookDefinitionAlreadyExist() {
+        when(combinedBookDefinitionSourceService.findPrimarySourceWithBookDefinition(EBOOK_DEFINITION_ID_1))
+                .thenReturn(Optional.of(combinedBookDefinitionSource(Y,3)));
+        form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_1, Y, 0),
+                combinedBookDefinitionSource(TITLE_ID_2, N, 1)
+        ).collect(Collectors.toSet()));
+        combinedBookDefinitionFormValidator.validate(form, errors);
+        assertTrue(errors.hasErrors());
+        assertEquals(ERROR_COMBINED_BOOK_DEFINITION_PRIMARY_EXIST, errors.getAllErrors().get(0).getCode());
     }
 
     @Test
