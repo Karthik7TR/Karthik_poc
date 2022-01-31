@@ -32,8 +32,6 @@ public class UserPreferencesForm {
     private String auditFilterTitleId;
     private String libraryFilterProviewName;
     private String libraryFilterTitleId;
-    private String proviewListFilterProviewName;
-    private String proviewListFilterTitleId;
     private String jobSummaryFilterProviewName;
     private String jobSummaryFilterTitleId;
     private String groupFilterName;
@@ -61,8 +59,6 @@ public class UserPreferencesForm {
             auditFilterTitleId = preference.getAuditTitleId();
             libraryFilterProviewName = preference.getLibraryProviewName();
             libraryFilterTitleId = preference.getLibraryTitleId();
-            proviewListFilterProviewName = preference.getProviewListProviewName();
-            proviewListFilterTitleId = preference.getProviewListTitleId();
             jobSummaryFilterProviewName = preference.getJobSummaryProviewName();
             jobSummaryFilterTitleId = preference.getJobSummaryTitleId();
             groupFilterName = preference.getGroupListGroupName();
@@ -79,8 +75,6 @@ public class UserPreferencesForm {
         preference.setJobSummaryTitleId(jobSummaryFilterTitleId);
         preference.setLibraryProviewName(libraryFilterProviewName);
         preference.setLibraryTitleId(libraryFilterTitleId);
-        preference.setProviewListProviewName(proviewListFilterProviewName);
-        preference.setProviewListTitleId(proviewListFilterTitleId);
         preference.setGroupListGroupName(groupFilterName);
         preference.setGroupListGroupId(groupFilterId);
         preference.setStartPage(startPage.toString());

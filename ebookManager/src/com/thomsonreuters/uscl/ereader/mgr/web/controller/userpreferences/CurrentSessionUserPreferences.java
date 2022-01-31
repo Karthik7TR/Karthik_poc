@@ -45,8 +45,6 @@ public class CurrentSessionUserPreferences implements Serializable {
         BeanUtils.copyProperties(form, this);
         bookLibraryPreferences.setProviewDisplayName(getLibraryFilterProviewName());
         bookLibraryPreferences.setTitleId(getLibraryFilterTitleId());
-        proviewDisplayName = form.getProviewListFilterProviewName();
-        titleId = form.getProviewListFilterTitleId();
         bookAuditPreferences.setProviewDisplayName(getAuditFilterProviewName());
         bookAuditPreferences.setTitleId(getAuditFilterTitleId());
     }
