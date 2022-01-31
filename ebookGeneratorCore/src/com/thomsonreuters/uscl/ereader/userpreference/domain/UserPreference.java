@@ -17,7 +17,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "userName")
-
 @Entity
 @Table(name = "USER_PREFERENCE")
 public class UserPreference implements Serializable {
@@ -35,6 +34,12 @@ public class UserPreference implements Serializable {
 
     @Column(name = "LIBRARY_TITLE_ID_FILTER", length = 1024)
     private String libraryTitleId;
+
+    @Column(name = "TITLES_PROVIEW_NAME_FILTER", length = 1024)
+    private String proviewListProviewName;
+
+    @Column(name = "TITLES_TITLE_ID_FILTER", length = 1024)
+    private String proviewListTitleId;
 
     @Column(name = "AUDIT_PROVIEW_NAME_FILTER", length = 1024)
     private String auditProviewName;

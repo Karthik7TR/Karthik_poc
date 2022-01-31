@@ -7,9 +7,6 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm" %>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm" %>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm"%>
-<%@page import="org.springframework.batch.core.BatchStatus"%>
 
 <script type="text/javascript">
 		// Declare Global Variables
@@ -73,10 +70,6 @@
 			// delete confirmation box
 			$(".rdelete").on("click", onClickToDeleteButton);
 		});
-		
-		
-		
-		
 </script>
 
 <form:form id="preferencesForm" commandName="<%= UserPreferencesForm.FORM_NAME %>" action="<%=WebConstants.MVC_USER_PREFERENCES%>" >
@@ -97,7 +90,25 @@
 			</div>
 		</div>
 	</div>
-	
+
+	<div class="filterBox">
+		<label class="labelCol">ProView List Filters</label>
+		<div class="row">
+			<label>ProView Display Name</label>
+			<form:input path="proviewListFilterProviewName"/>
+			<div class="errorDiv">
+				<form:errors path="proviewListFilterProviewName" cssClass="errorMessage" />
+			</div>
+		</div>
+		<div class="row">
+			<label>Title ID</label>
+			<form:input path="proviewListFilterTitleId"/>
+			<div class="errorDiv">
+				<form:errors path="proviewListFilterTitleId" cssClass="errorMessage" />
+			</div>
+		</div>
+	</div>
+
 	<div class="filterBox">
 		<label class="labelCol">Audit List Filters</label>
 		<div class="row">
