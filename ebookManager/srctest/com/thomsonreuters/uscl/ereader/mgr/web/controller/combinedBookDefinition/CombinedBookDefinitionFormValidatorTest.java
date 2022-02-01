@@ -55,6 +55,8 @@ public class CombinedBookDefinitionFormValidatorTest {
     public void setUp() {
         form = new CombinedBookDefinitionForm();
         errors = new BindException(form, "form");
+        when(combinedBookDefinitionSourceService.findPrimarySourceWithBookDefinition(EBOOK_DEFINITION_ID_1))
+                .thenReturn(Optional.empty());
         when(bookDefinitionService.findBookDefinitionByTitle(TITLE_ID_1)).thenReturn(bookDefinition(TITLE_ID_1, EBOOK_DEFINITION_ID_1));
         when(bookDefinitionService.findBookDefinitionByTitle(TITLE_ID_2)).thenReturn(bookDefinition(TITLE_ID_2, EBOOK_DEFINITION_ID_2));
         when(bookDefinitionService.findBookDefinitionByTitle(TITLE_ID_NOT_EXIST)).thenReturn(null);

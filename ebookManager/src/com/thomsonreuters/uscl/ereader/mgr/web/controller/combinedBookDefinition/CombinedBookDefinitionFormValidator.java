@@ -84,7 +84,7 @@ public class CombinedBookDefinitionFormValidator implements Validator {
         } else {
             primaries.stream()
                     .findAny()
-                    .map(source -> combinedBookDefinitionSourceService.findPrimarySourceWithBookDefinition(source.getBookDefinition().getEbookDefinitionId()))
+                    .flatMap(source -> combinedBookDefinitionSourceService.findPrimarySourceWithBookDefinition(source.getBookDefinition().getEbookDefinitionId()))
                     .ifPresent(source -> errors.reject(ERROR_COMBINED_BOOK_DEFINITION_PRIMARY_EXIST));
         }
     }
