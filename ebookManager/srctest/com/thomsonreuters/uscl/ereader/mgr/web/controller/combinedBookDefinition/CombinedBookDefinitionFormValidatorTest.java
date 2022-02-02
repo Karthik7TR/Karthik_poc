@@ -136,6 +136,17 @@ public class CombinedBookDefinitionFormValidatorTest {
     }
 
     @Test
+    public void shouldValidateFormPrimaryNotExist() {
+        form.setSourcesSet(Stream.of(combinedBookDefinitionSource(TITLE_ID_NOT_EXIST, Y, 0),
+                combinedBookDefinitionSource(TITLE_ID_1, N, 1)
+        ).collect(Collectors.toSet()));
+        combinedBookDefinitionFormValidator.validate(form, errors);
+        assertTrue(errors.hasErrors());
+        assertEquals(TITLE_ID_NOT_EXIST, errors.getAllErrors().get(0).getArguments()[0]);
+        assertEquals(ERROR_COMBINED_BOOK_DEFINITION_TITLE_ID_NOT_EXIST, errors.getAllErrors().get(0).getCode());
+    }
+
+    @Test
     public void shouldInitializeForm() {
         CombinedBookDefinition combinedBookDefinition = new CombinedBookDefinition();
         combinedBookDefinition.setSources(Stream.of(
