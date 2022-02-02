@@ -49,12 +49,16 @@ public final class UserPreferencesFormValidatorTest {
         form.setJobSummaryFilterTitleId(length);
         form.setLibraryFilterProviewName(length);
         form.setLibraryFilterTitleId(length);
+        form.setProviewListFilterProviewName(length);
+        form.setProviewListFilterTitleId(length);
 
         validator.validate(form, errors);
         Assert.assertEquals("error.max.length", errors.getFieldError("auditFilterProviewName").getCode());
         Assert.assertEquals("error.max.length", errors.getFieldError("auditFilterTitleId").getCode());
         Assert.assertEquals("error.max.length", errors.getFieldError("libraryFilterProviewName").getCode());
         Assert.assertEquals("error.max.length", errors.getFieldError("libraryFilterTitleId").getCode());
+        Assert.assertEquals("error.max.length", errors.getFieldError("proviewListFilterProviewName").getCode());
+        Assert.assertEquals("error.max.length", errors.getFieldError("proviewListFilterTitleId").getCode());
         Assert.assertEquals("error.max.length", errors.getFieldError("jobSummaryFilterProviewName").getCode());
         Assert.assertEquals("error.max.length", errors.getFieldError("jobSummaryFilterTitleId").getCode());
     }

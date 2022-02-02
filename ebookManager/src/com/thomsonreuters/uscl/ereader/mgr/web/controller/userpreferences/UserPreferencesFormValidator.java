@@ -18,6 +18,8 @@ public class UserPreferencesFormValidator extends BaseFormValidator implements V
     private static final int MAXIMUM_CHARACTER_256 = 256;
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
+    private static final String PROVIEW_DISPLAY_NAME = "ProView Display Name";
+    private static final String TITLE_ID = "Title ID";
 
     @Override
     public boolean supports(final Class clazz) {
@@ -34,43 +36,55 @@ public class UserPreferencesFormValidator extends BaseFormValidator implements V
             MAXIMUM_CHARACTER_1024,
             form.getAuditFilterProviewName(),
             "auditFilterProviewName",
-            new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+            new Object[] {PROVIEW_DISPLAY_NAME, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
             form.getAuditFilterTitleId(),
             "auditFilterTitleId",
-            new Object[] {"Title ID", MAXIMUM_CHARACTER_1024});
+            new Object[] {TITLE_ID, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
             form.getJobSummaryFilterProviewName(),
             "jobSummaryFilterProviewName",
-            new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+            new Object[] {PROVIEW_DISPLAY_NAME, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
             form.getJobSummaryFilterTitleId(),
             "jobSummaryFilterTitleId",
-            new Object[] {"Title ID", MAXIMUM_CHARACTER_1024});
+            new Object[] {TITLE_ID, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
             form.getLibraryFilterProviewName(),
             "libraryFilterProviewName",
-            new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+            new Object[] {PROVIEW_DISPLAY_NAME, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
             form.getLibraryFilterTitleId(),
             "libraryFilterTitleId",
-            new Object[] {"Title ID", MAXIMUM_CHARACTER_1024});
+            new Object[] {TITLE_ID, MAXIMUM_CHARACTER_1024});
+        checkMaxLength(
+            errors,
+            MAXIMUM_CHARACTER_1024,
+            form.getProviewListFilterProviewName(),
+            "proviewListFilterProviewName",
+            new Object[]{PROVIEW_DISPLAY_NAME, MAXIMUM_CHARACTER_1024});
+        checkMaxLength(
+            errors,
+            MAXIMUM_CHARACTER_1024,
+            form.getProviewListFilterTitleId(),
+            "proviewListFilterTitleId",
+            new Object[]{TITLE_ID, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
             form.getGroupFilterName(),
             "groupFilterName",
-            new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+            new Object[] {PROVIEW_DISPLAY_NAME, MAXIMUM_CHARACTER_1024});
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_1024,
