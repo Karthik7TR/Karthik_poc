@@ -76,6 +76,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
         final String titleId,
         final Long jobInstanceId,
         final String collectionName,
+        final String docUuid,
         final File metadataFile) throws Exception {
         // get a factory
         final SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -86,6 +87,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
             this.titleId = titleId;
             this.jobInstanceId = jobInstanceId;
             this.collectionName = collectionName;
+            this.docUuid = docUuid;
 
             final Reader reader = new InputStreamReader(inputStream, "UTF-8");
             final InputSource is = new InputSource(reader);

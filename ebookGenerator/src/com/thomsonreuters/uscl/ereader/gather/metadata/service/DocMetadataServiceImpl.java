@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,8 +127,9 @@ public class DocMetadataServiceImpl implements DocMetadataService {
            Note that this cannot be a Spring context singleton due to the state maintained within the
            class instance and we need thread safety because this is ultimately used in a Spring Batch job step. */
         final String collectionName = extractDocCollectionName(metaDataFile);
+        final String defaultDocUuid = extractDocUuid(metaDataFile, collectionName);
         final DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
-        final DocMetadata docMetaData = xmlParser.parseDocument(titleId, jobInstanceId, collectionName, metaDataFile);
+        final DocMetadata docMetaData = xmlParser.parseDocument(titleId, jobInstanceId, collectionName, defaultDocUuid, metaDataFile);
         saveDocMetadata(docMetaData);
         return docMetaData;
     }
@@ -197,6 +199,15 @@ public class DocMetadataServiceImpl implements DocMetadataService {
         if (fileName.lastIndexOf("-") > -1) {
             final int startIndex = fileName.indexOf("-") + 1;
             return fileName.substring(startIndex, fileName.indexOf("-", startIndex));
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public static String extractDocUuid(final File metadataFile, final String collectionName) {
+        final String fileName = FilenameUtils.removeExtension(metadataFile.getName());
+        int afterCollectionIndex = fileName.indexOf(collectionName) + collectionName.length();
+        if (afterCollectionIndex > -1 && fileName.length() > afterCollectionIndex) {
+            return fileName.substring(afterCollectionIndex + 1);
         }
         return StringUtils.EMPTY;
     }

@@ -192,8 +192,9 @@ public class StepIntegrationTestRunner {
     private DocMetadata parseDocMetadata(final String titleId, final Long jobInstanceId, final File metaDataFile) {
         try {
             final String collectionName = DocMetadataServiceImpl.extractDocCollectionName(metaDataFile);
+            final String defaultDocUuid = DocMetadataServiceImpl.extractDocUuid(metaDataFile, collectionName);
             final DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
-            return xmlParser.parseDocument(titleId, jobInstanceId, collectionName, metaDataFile);
+            return xmlParser.parseDocument(titleId, jobInstanceId, collectionName, defaultDocUuid, metaDataFile);
         } catch (Exception e) {
             throw new EBookException(e);
         }

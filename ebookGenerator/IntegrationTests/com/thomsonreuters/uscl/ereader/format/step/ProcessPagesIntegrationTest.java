@@ -242,7 +242,7 @@ public final class ProcessPagesIntegrationTest {
     private DocMetadata parseMetadataFile(final File metadataFile) {
         final DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
         try {
-            return xmlParser.parseDocument(TITLE_ID, JOB_INSTANCE_ID, COLLECTION_NAME, metadataFile);
+            return xmlParser.parseDocument(TITLE_ID, JOB_INSTANCE_ID, COLLECTION_NAME, DOC_UUID, metadataFile);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

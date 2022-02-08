@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -9,10 +12,10 @@ import java.util.Calendar;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Slf4j
 public class DocMetadataServiceTest {
+    private static final String METADATA_FILE_NAME_FULL = "4-w_codesstaaznvdp-N5D8487409E3411E183F7C076EF385880-001305.xml";
+    private static final String METADATA_FILE_NAME_EMPTY = "6-w_codesstaaznvdp-Ic27dc047746611ec91e2c71719220aed.xml";
+    private static final String COLLECTION_NAME = "w_codesstaaznvdp";
+    private static final String DOC_UUID_SHORT = "Ic27dc047746611ec91e2c71719220aed";
+    private static final String DOC_UUID_LONG_304 = "N5D8487409E3411E183F7C076EF385880-001304";
+    private static final String DOC_UUID_LONG_305 = "N5D8487409E3411E183F7C076EF385880-001305";
+    private static final String TITLE_ID = "TEST_TILE";
+    private static final long JOB_INSTANCE_ID = 12345L;
+    private static final String DOC_NAME = "Ic27dc047746611ec91e2c71719220aed.xml";
+    private static final String DOC_UUID = "c27dc047746611ec91e2c71719220aed";
+    private static final String DOC_FAMILY_UUID = "I4CAEB9903CD611DDBCABAE0BF8C270BB";
     private Timestamp UPDATE_DATE = getCurrentTimeStamp();
     /**
      * The service being tested, injected by Spring.
@@ -54,7 +68,6 @@ public class DocMetadataServiceTest {
     @Before
     public void setUp() throws Exception {
         // mock up the document metadata
-
         saveDocMetadata(Integer.valueOf(1));
     }
 
@@ -107,7 +120,7 @@ public class DocMetadataServiceTest {
      */
     @Test
     public void findDocMetadataByPrimaryKeyNegativeTitleId() {
-        final String titleId = "TEST_TILE";
+        final String titleId = TITLE_ID;
         final Long jobInstanceId = Long.valueOf(-12345);
         final String docUuid = "123456";
 
@@ -155,7 +168,7 @@ public class DocMetadataServiceTest {
      */
     @Test
     public void findDocMetadataByPrimaryNullJobInstanceId() {
-        final String titleId = "TEST_TILE";
+        final String titleId = TITLE_ID;
         final Long jobInstanceId = null;
         final String docUuid = "123456";
 
@@ -171,7 +184,7 @@ public class DocMetadataServiceTest {
      */
     @Test
     public void findDocMetadataByPrimaryNullDocUuid() {
-        final String titleId = "TEST_TILE";
+        final String titleId = TITLE_ID;
         final Long jobInstanceId = Long.valueOf(12345);
         final String docUuid = null;
 
@@ -210,19 +223,28 @@ public class DocMetadataServiceTest {
         response = documentMetadataService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
         log.debug(" response " + response);
 
-        Assert.assertEquals(response.toString(), expected.toString());
+        assertEquals(response.toString(), expected.toString());
     }
 
     /**
      * Operation Unit Test Parse DocMetadata xml and persist it
      *
      */
-    @Ignore
+    @Test
     public void parseAndStoreDocMetadata() throws Exception {
-        final String titleId = "TEST_TILE";
-        final Long jobInstanceId = Long.valueOf(12345);
-        final String docUuid = "123456";
-        documentMetadataService.parseAndStoreDocMetadata(titleId, jobInstanceId, new File(docUuid));
+        testParseAndStoreDocMetadata(METADATA_FILE_NAME_FULL, DOC_UUID_LONG_304, DOC_FAMILY_UUID);
+    }
+
+    @Test
+    public void parseAndStoreDocMetadataEmpty() throws Exception {
+        testParseAndStoreDocMetadata(METADATA_FILE_NAME_EMPTY, DOC_UUID_SHORT, null);
+    }
+
+    private void testParseAndStoreDocMetadata(final String fileName, final String expectedDocUuid, final String expectedDocFamilyUuid) throws Exception {
+        File metadataFile = new File(this.getClass().getResource(fileName).toURI());
+        DocMetadata docMetadata = documentMetadataService.parseAndStoreDocMetadata(TITLE_ID, JOB_INSTANCE_ID, metadataFile);
+        assertEquals(expectedDocUuid, docMetadata.getDocUuid());
+        assertEquals(expectedDocFamilyUuid, docMetadata.getDocFamilyUuid());
     }
 
     @Test
@@ -254,6 +276,31 @@ public class DocMetadataServiceTest {
             documentMetadataService.findAllDocMetadataForTitleByJobId(1804L);
         Assert.assertTrue(documentMetadataAuthority != null);
         Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 0);
+    }
+
+    @Test
+    public void extractDocCollectionNameAndDocUuidLong() {
+        testCollectionAndDocUuidExtraction(METADATA_FILE_NAME_FULL, COLLECTION_NAME, DOC_UUID_LONG_305);
+    }
+
+    @Test
+    public void extractDocCollectionNameAndDocUuidShort() {
+        testCollectionAndDocUuidExtraction(METADATA_FILE_NAME_EMPTY, COLLECTION_NAME, DOC_UUID_SHORT);
+    }
+
+    @Test
+    public void extractDocUuidNoCollectionName() {
+        testCollectionAndDocUuidExtraction(DOC_NAME, StringUtils.EMPTY, DOC_UUID);
+    }
+
+    private void testCollectionAndDocUuidExtraction(final String fileName, final String expectedCollectionName, final String expectedDocUuid) {
+        File metaDataFile = mock(File.class);
+        when(metaDataFile.getName()).thenReturn(fileName);
+        final String collectionName = DocMetadataServiceImpl.extractDocCollectionName(metaDataFile);
+        final String docUuid = DocMetadataServiceImpl.extractDocUuid(metaDataFile, collectionName);
+
+        assertEquals(expectedCollectionName, collectionName);
+        assertEquals(expectedDocUuid, docUuid);
     }
 
     /**

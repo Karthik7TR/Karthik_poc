@@ -52,7 +52,7 @@ public class DocMetadata implements Serializable {
     @XmlElement
     private String docUuid;
 
-    @Column(name = "DOC_FAMILY_UUID", length = 36, nullable = false)
+    @Column(name = "DOC_FAMILY_UUID", length = 36)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
     private String docFamilyUuid;
