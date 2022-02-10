@@ -12,7 +12,8 @@ import org.jsoup.safety.Whitelist;
 public final class EbookHtmlUtils {
     private static final OutputSettings PRETTY_PRINT_FALSE = new OutputSettings().prettyPrint(false);
     private static final Whitelist SIMPLE_STYLING_HTML_WHITELIST = Whitelist.simpleText()
-            .addTags("mark", "cite", "dfn");
+            .addTags("mark", "cite", "dfn")
+            .removeTags("u");
 
     private EbookHtmlUtils() {}
 

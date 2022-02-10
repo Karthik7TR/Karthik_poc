@@ -1107,7 +1107,7 @@
 					<div class="stylingAvailableTooltip">
 						<em class="tooltipIcon">i</em>
 						<p class="tooltipInfo">
-							<span class="info">HTML tags available: b, em, i, strong, u, mark, cite, dfn.</span>
+							<span class="info">HTML tags available: b, em, i, strong, mark, cite, dfn.</span>
 						</p>
 					</div>
 				</form:label>
@@ -1122,7 +1122,7 @@
 					<div class="stylingAvailableTooltip">
 						<em class="tooltipIcon">i</em>
 						<p class="tooltipInfo">
-							<span class="info">HTML tags available: b, em, i, strong, u, mark, cite, dfn.</span>
+							<span class="info">HTML tags available: b, em, i, strong, mark, cite, dfn.</span>
 						</p>
 					</div>
 				</form:label>
