@@ -148,11 +148,12 @@ public class ViewBookDefinitionController {
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryStringWithCombined));
             break;
         case AUDIT_LOG:
-            final String bookDefinitionIdQueryString = queryString.replace(WebConstants.KEY_ID, WebConstants.KEY_BOOK_ID);
-            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_LIST + bookDefinitionIdQueryString));
+            final String auditQueryString = queryString.replace(WebConstants.KEY_ID, WebConstants.KEY_BOOK_ID);
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_LIST + auditQueryString));
             break;
         case BOOK_PUBLISH_STATS:
-            mav = new ModelAndView(new RedirectView(WebConstants.MVC_STATS_SPECIFIC_BOOK + queryString));
+            final String statsQueryString = queryString.replace(WebConstants.KEY_ID, WebConstants.KEY_BOOK_ID);
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_STATS + statsQueryString));
             break;
         case COPY:
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_COPY + queryString));

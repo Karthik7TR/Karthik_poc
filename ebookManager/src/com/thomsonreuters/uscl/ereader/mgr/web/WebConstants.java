@@ -114,6 +114,9 @@ public class WebConstants {
     public static final String KEY_PAGE_SIZE = "pageSize";
     public static final String DEFAULT_PAGE_SIZE = "20";
     public static final String KEY_OBJECTS_PER_PAGE = "objectsPerPage";
+    public static final String KEY_SORT = "sort";
+    public static final String KEY_DIR = "dir";
+    public static final String KEY_PAGE = "page";
     public static final String KEY_IS_SPLIT_BOOK = "isSplitBook";
     public static final String KEY_MAX_SPLIT_PARTS = "maxEbookSplitParts";
     public static final String KEY_SUBGROUP_HEADING = "subGroupHeading";
@@ -232,10 +235,6 @@ public class WebConstants {
     public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
     public static final String MVC_ADMIN_MISC = "adminMisc.mvc";
     public static final String MVC_STATS = "stats.mvc";
-    public static final String MVC_STATS_SPECIFIC_BOOK = "statsSpecificBook.mvc";
-    public static final String MVC_STATS_FILTER = "statsFilter.mvc";
-    public static final String MVC_STATS_PAGE_AND_SORT = "statsPageAndSort.mvc";
-    public static final String MVC_STATS_CHANGE_ROW_COUNT = "statsChangeRowCount.mvc";
     public static final String MVC_STATS_DOWNLOAD = "statsDownload.mvc";
     public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
     public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";

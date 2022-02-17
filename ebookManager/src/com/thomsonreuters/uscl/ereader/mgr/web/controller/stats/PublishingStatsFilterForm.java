@@ -1,10 +1,16 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,90 +19,87 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * The form backing object that holds the data the user enters into the Publishing Stats filter HTML form.
  */
+@Getter
+@Setter
 public class PublishingStatsFilterForm {
     public static final String FORM_NAME = "publishingStatsFilterForm";
+    private static final String ASC_SORT = "asc";
+    private static final String DESC_SORT = "desc";
 
-    public enum FilterCommand {
-        SEARCH,
-        RESET
-    };
+    public enum DisplayTagSortProperty {
+        JOB_INSTANCE_ID,
+        AUDIT_ID,
+        EBOOK_DEFINITION_ID,
+        JOB_SUBMITTER,
+        JOB_SUBMIT_TIMESTAMP,
+        BOOK_VERSION,
+        PUBLISH_STATUS,
+        BOOK_SIZE,
+        LARGEST_DOC_SIZE,
+        LARGEST_IMAGE_SIZE,
+        LARGEST_PDF_SIZE,
+        PROVIEW_DISPLAY_NAME,
+        TITLE_ID
+    }
 
-    //private static final Logger log = LogManager.getLogger(PublishingStatsFilterForm.class);
-
-    private String titleId;
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private final PageAndSort<DisplayTagSortProperty> pageAndSort =
+            new PageAndSort<>(1, DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP, false);
+    @Setter(AccessLevel.NONE)
     private String proviewDisplayName;
+    @Setter(AccessLevel.NONE)
+    private String titleId;
+    private Long bookDefinitionId;
     private String fromDateString;
     private String toDateString;
-    private Long bookDefinitionId;
-    private FilterCommand command;
 
-    public PublishingStatsFilterForm() {
-        initialize();
+    public String getDir() {
+        return (pageAndSort.isAscendingSort()) ? ASC_SORT : DESC_SORT;
     }
 
-    public PublishingStatsFilterForm(final Long bookDefinitionId) {
-        populate(null, null, null, null, bookDefinitionId);
+    public void setDir(final String direction) {
+        pageAndSort.setAscendingSort(ASC_SORT.equals(direction));
     }
 
-    /**
-     * Set all values back to defaults.
-     * Used in resetting the form.
-     */
-    public void initialize() {
-        populate(null, null, null, null, null);
+    public Integer getPage() {
+        return pageAndSort.getPageNumber();
     }
 
-    public void populate(
-        final String titleId,
-        final String proviewDisplayName,
-        final String fromDateString,
-        final String toDateString,
-        final Long bookId) {
-        this.titleId = titleId;
-        this.proviewDisplayName = proviewDisplayName;
-        this.fromDateString = fromDateString;
-        this.toDateString = toDateString;
-        bookDefinitionId = bookId;
+    public void setPage(final Integer pageNumber) {
+        pageAndSort.setPageNumber(pageNumber);
     }
 
-    public String getProviewDisplayName() {
-        return proviewDisplayName;
+    public DisplayTagSortProperty getSort() {
+        return pageAndSort.getSortProperty();
     }
 
-    public FilterCommand getFilterCommand() {
-        return command;
+    public void setSort(final DisplayTagSortProperty sortProperty) {
+        pageAndSort.setSortProperty(sortProperty);
     }
 
-    public String getTitleId() {
-        return titleId;
+    public boolean isAscendingSort() {
+        return pageAndSort.isAscendingSort();
+    }
+
+    public Integer getObjectsPerPage() {
+        return pageAndSort.getObjectsPerPage();
+    }
+
+    public void setObjectsPerPage(final Integer objectsPerPage) {
+        pageAndSort.setObjectsPerPage(objectsPerPage);
     }
 
     public Date getFromDate() {
         return parseDate(fromDateString);
     }
 
-    public String getFromDateString() {
-        return fromDateString;
-    }
-
     public Date getToDate() {
         return parseDate(toDateString);
     }
 
-    public String getToDateString() {
-        return toDateString;
-    }
-
-    public Long getBookDefinitionId() {
-        return bookDefinitionId;
-    }
-
     public void setProviewDisplayName(final String name) {
         proviewDisplayName = (name != null) ? name.trim() : null;
-    }
-
-    public void setFilterCommand(final FilterCommand cmd) {
-        command = cmd;
     }
 
     public void setTitleId(final String titleId) {
@@ -107,20 +110,8 @@ public class PublishingStatsFilterForm {
         fromDateString = parseDate(fromDate);
     }
 
-    public void setFromDateString(final String fromDate) {
-        fromDateString = fromDate;
-    }
-
-    public void setToDateString(final String toDate) {
-        toDateString = toDate;
-    }
-
     public void setToDate(final Date toDate) {
         toDateString = parseDate(toDate);
-    }
-
-    public void setBookDefinitionId(final Long bookDefinitionId) {
-        this.bookDefinitionId = bookDefinitionId;
     }
 
     public static String parseDate(final Date date) {
@@ -142,6 +133,14 @@ public class PublishingStatsFilterForm {
             //Intentionally left blank
         }
         return date;
+    }
+
+    public boolean areAllFiltersBlank() {
+        return isBlank(getProviewDisplayName())
+                && isBlank(getTitleId())
+                && getBookDefinitionId() == null
+                && isBlank(getFromDateString())
+                && isBlank(getToDateString());
     }
 
     @Override

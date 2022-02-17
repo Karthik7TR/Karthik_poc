@@ -1,143 +1,151 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @Slf4j
-public class PublishingStatsController extends BasePublishingStatsController {
+public class PublishingStatsController {
+    private final PublishingStatsService publishingStatsService;
+    private final OutageService outageService;
+    private final Validator validator;
+
     @Autowired
     public PublishingStatsController(final PublishingStatsService publishingStatsService,
-        final OutageService outageService) {
-        super(publishingStatsService, outageService);
+            final OutageService outageService, @Qualifier("publishingStatsFormValidator") final Validator validator) {
+        this.publishingStatsService = publishingStatsService;
+        this.outageService = outageService;
+        this.validator = validator;
     }
 
-    /**
-     * Handle initial in-bound HTTP get request to the page.
-     * No query string parameters are expected.
-     */
+    @InitBinder(PublishingStatsFilterForm.FORM_NAME)
+    protected void initDataBinder(final WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.setValidator(validator);
+    }
+
     @RequestMapping(value = WebConstants.MVC_STATS, method = RequestMethod.GET)
-    public ModelAndView stats(final HttpSession httpSession, final Model model) {
-        final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
-
-        return setupInitialView(model, filterForm, httpSession);
-    }
-
-    /**
-     * Handle initial in-bound HTTP get request for specific book definition publishing stats.
-     * Used from the View Book Definition page.
-     */
-    @RequestMapping(value = WebConstants.MVC_STATS_SPECIFIC_BOOK, method = RequestMethod.GET)
-    public ModelAndView specificBookStat(
-        final HttpSession httpSession,
-        @RequestParam("id") final Long id,
-        final Model model) {
-        final PublishingStatsFilterForm filterForm = new PublishingStatsFilterForm(id); // from session
-
-        return setupInitialView(model, filterForm, httpSession);
-    }
-
-    /**
-     * Setup of Form and sorting shared by two different incoming HTTP get request
-     */
-    private ModelAndView setupInitialView(
-        final Model model,
-        final PublishingStatsFilterForm filterForm,
-        final HttpSession httpSession) {
-        final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);
-
-        final PublishingStatsForm publishingStatsForm = new PublishingStatsForm();
-        publishingStatsForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
-
-        setUpModel(filterForm, savedPageAndSort, httpSession, model);
-        model.addAttribute(PublishingStatsForm.FORM_NAME, publishingStatsForm);
-
-        return new ModelAndView(WebConstants.VIEW_STATS);
-    }
-
-    /**
-     * Handle paging and sorting of audit list.
-     * Handles clicking of column headers to sort, or use of page number navigation links, like prev/next.
-     */
-    @RequestMapping(value = WebConstants.MVC_STATS_PAGE_AND_SORT, method = RequestMethod.GET)
-    public ModelAndView publishingStatsPagingAndSorting(
-        final HttpSession httpSession,
-        @ModelAttribute(PublishingStatsForm.FORM_NAME) final PublishingStatsForm form,
-        final Model model) {
-        final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
-        final Integer nextPageNumber = form.getPage();
-
-        // If there was a page=n query string parameter, then we assume we are paging since this
-        // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null) { // PAGING
-            pageAndSort.setPageNumber(nextPageNumber);
-        } else { // SORTING
-            pageAndSort.setPageNumber(1);
-            pageAndSort.setSortAndAscendingProperties(form.getSort(), form.isAscendingSort());
+    public ModelAndView stats(final HttpSession httpSession,
+            @ModelAttribute(PublishingStatsFilterForm.FORM_NAME) @Valid PublishingStatsFilterForm filterForm,
+            final BindingResult errors, final Model model) {
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+        if (errors.hasErrors()) {
+            log.debug("Incorrect parameters passed to StatsFilterForm:\n" + errors.toString());
+            filterForm = getUserPreferencesForCurrentSession(httpSession);
         }
-        setUpModel(filterForm, pageAndSort, httpSession, model);
+        updateUserPreferencesForCurrentSession(filterForm, httpSession);
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, createPaginatedList(filterForm));
+        model.addAttribute(WebConstants.KEY_PAGE_SIZE, filterForm.getObjectsPerPage());
 
         return new ModelAndView(WebConstants.VIEW_STATS);
     }
 
-    @RequestMapping(value = WebConstants.MVC_STATS_CHANGE_ROW_COUNT, method = RequestMethod.GET)
-    public ModelAndView handleChangeInItemsToDisplayGet() {
-        return new ModelAndView(new RedirectView(WebConstants.MVC_STATS));
+    private PublishingStatsFilterForm getUserPreferencesForCurrentSession(final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            return sessionPreferences.getStatsPreferences();
+        }
+        return new PublishingStatsFilterForm();
+    }
+
+    private void updateUserPreferencesForCurrentSession(final PublishingStatsFilterForm form,
+            final HttpSession httpSession) {
+        final Object preferencesSessionAttribute = httpSession.getAttribute(CurrentSessionUserPreferences.NAME);
+        if (preferencesSessionAttribute instanceof CurrentSessionUserPreferences) {
+            final CurrentSessionUserPreferences sessionPreferences =
+                    (CurrentSessionUserPreferences) preferencesSessionAttribute;
+            sessionPreferences.setStatsPreferences(form);
+        }
     }
 
     /**
-     * Handle URL request that the number of rows displayed in table be changed.
+     * Create the partial paginated list used by DisplayTag to render to current page number of
+     * list list of objects.
+     * @param filterForm contains current page number, sort column, and sort direction (asc/desc).
+     * @return an implemented DisplayTag paginated list interface
      */
-    @RequestMapping(value = WebConstants.MVC_STATS_CHANGE_ROW_COUNT, method = RequestMethod.POST)
-    public ModelAndView handleChangeInItemsToDisplay(
-        final HttpSession httpSession,
-        @ModelAttribute(PublishingStatsForm.FORM_NAME) @Valid final PublishingStatsForm form,
-        final Model model) {
-        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-        pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
-        pageAndSort.setObjectsPerPage(form.getObjectsPerPage()); // Update the new number of items to be shown at one time
-        // Restore the state of the search filter
-        final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        setUpModel(filterForm, pageAndSort, httpSession, model);
-        return new ModelAndView(WebConstants.VIEW_STATS);
+    private PaginatedList createPaginatedList(final PublishingStatsFilterForm filterForm) {
+        final PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
+        final PublishingStatsSort publishingStatsSort = createStatsSort(filterForm);
+
+        // Lookup all the Stats objects by their primary key
+        final List<PublishingStats> stats =
+                publishingStatsService.findPublishingStats(publishingStatsFilter, publishingStatsSort);
+        final int numberOfStats = publishingStatsService.numberOfPublishingStats(publishingStatsFilter);
+
+        // Instantiate the object used by DisplayTag to render a partial list
+        return new PublishingStatsPaginatedList(
+                stats,
+                numberOfStats,
+                filterForm.getPage(),
+                filterForm.getObjectsPerPage(),
+                filterForm.getSort(),
+                filterForm.isAscendingSort());
+    }
+
+    private PublishingStatsFilter createStatsFilter(final PublishingStatsFilterForm filterForm) {
+        return new PublishingStatsFilter(
+                filterForm.getFromDate(),
+                filterForm.getToDate(),
+                filterForm.getTitleId(),
+                filterForm.getProviewDisplayName(),
+                filterForm.getBookDefinitionId());
+    }
+
+    /**
+     * Map the sort property name returned by display tag to the business object property name
+     * for sort used in the service.
+     * I.e. map a PageAndSortForm.DisplayTagSortProperty to a PublishingStatsSort.SortProperty
+     * @param filterForm contains current page number, sort column, and sort direction (asc/desc).
+     * @return a ebookAudit sort business object used by the service to fetch the audit entities.
+     */
+    private PublishingStatsSort createStatsSort(final PublishingStatsFilterForm filterForm) {
+        return new PublishingStatsSort(
+                SortProperty.valueOf(filterForm.getSort().toString()),
+                filterForm.isAscendingSort(),
+                filterForm.getPage(),
+                filterForm.getObjectsPerPage());
     }
 
     @RequestMapping(value = WebConstants.MVC_STATS_DOWNLOAD, method = RequestMethod.GET)
-    public void downloadPublishingStatsExcel(
-        final HttpSession httpSession,
-        final HttpServletRequest request,
-        final HttpServletResponse response) {
+    public void downloadPublishingStatsExcel(final HttpSession httpSession, final HttpServletResponse response) {
         final PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
-        final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
-        final List<PublishingStats> stats = fetch(filterForm);
+        final PublishingStatsFilterForm filterForm = getUserPreferencesForCurrentSession(httpSession);
+        final PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
+        final List<PublishingStats> stats = publishingStatsService.findPublishingStats(publishingStatsFilter);
         httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
 
         try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {

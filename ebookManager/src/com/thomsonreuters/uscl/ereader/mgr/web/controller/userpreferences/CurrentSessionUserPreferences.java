@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm.HomepageProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class CurrentSessionUserPreferences implements Serializable {
     private ProviewAuditFilterForm proviewAuditPreferences = new ProviewAuditFilterForm();
     private BookLibraryFilterForm bookLibraryPreferences = new BookLibraryFilterForm();
     private BookAuditFilterForm bookAuditPreferences = new BookAuditFilterForm();
+    private PublishingStatsFilterForm statsPreferences = new PublishingStatsFilterForm();
     private HomepageProperty startPage;
     private String auditFilterProviewName;
     private String auditFilterTitleId;

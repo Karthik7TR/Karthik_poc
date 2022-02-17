@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
@@ -11,8 +11,6 @@ import org.displaytag.properties.SortOrderEnum;
  * A DisplayTag PaginatedList implementation for paging through the part lists of publishing stats.
  */
 public class PublishingStatsPaginatedList implements PaginatedList {
-    //private static final Logger log = LogManager.getLogger(PublishingStatsPaginatedList.class);
-
     private List<PublishingStats> partialList;
     private int pageNumber; // Which page number of data is this
     private int fullListSize; // The size of the entire population of elements that are to be displayed in a paginated fashion

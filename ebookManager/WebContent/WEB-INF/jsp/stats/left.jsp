@@ -8,15 +8,15 @@
 	The filter form in the left side tile of the Active / Recent Jobs table.
  --%>
 <script type="text/javascript" src="js/common-form.js"></script>
+<script type="text/javascript" src="js/form-utils.js"></script>
 <script>
 $(document).ready(function() {
 	<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
 	$("form input").keyup(function(event) {
 		if (event.keyCode == 13) {
-			submitFilterForm('<%=PublishingStatsFilterForm.FilterCommand.SEARCH%>');
+			submitLeftFormAndBodyForm();
 		}
 	});
-	
 	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
 	$( "#datepickerFrom" ).datetimepicker({
 		showSecond: true,
@@ -32,32 +32,34 @@ $(document).ready(function() {
 	$("#datepickerFrom, #datepickerTo").attr('autocomplete','off');
 });
 
-<%-- Submit the row multi-select form with the command being used to indicate which operation initiated the submit. --%>
-function submitFilterForm(command) {
-	$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
-	$("#<%=PublishingStatsFilterForm.FORM_NAME%>").submit();	// POST the HTML form
-}
+$(window).on('pageshow', function () {
+	$('#proviewDisplayName').val('${ param.proviewDisplayName }');
+	$('#titleId').val('${ param.titleId }');
+	$('#bookDefinitionId').val('${ param.bookDefinitionId }');
+	$('#datepickerFrom').val('${ param.fromDateString }');
+	$('#datepickerTo').val('${ param.toDateString }');
+});
 </script>
 
 <div class="header">Filters</div>
-<form:form action="<%=WebConstants.MVC_STATS_FILTER %>"
-		   commandName="<%=PublishingStatsFilterForm.FORM_NAME%>" method="post">
-	<form:hidden path="filterCommand"/>
-	
+<form:form id="leftForm"
+					 action="<%=WebConstants.MVC_STATS %>"
+					 modelAttribute="<%=PublishingStatsFilterForm.FORM_NAME%>"
+					 method="get">
 	<%-- Validation Error Message Presentation (if any) --%>
 	<spring:hasBindErrors name="<%=PublishingStatsFilterForm.FORM_NAME%>">
 		<div class="errorBox">
-	      <b><spring:message code="please.fix.errors"/>:</b><br/>
-	      <form:errors path="*">
-	      	<ul>
-			<c:forEach items="${messages}" var="message">
-				<li style="color: black">${message}</li>
-			</c:forEach>
-	      	</ul>
-		  </form:errors>
-		  <br/>
-	    </div>
-    </spring:hasBindErrors>
+			<b><spring:message code="please.fix.errors"/>:</b><br/>
+			<form:errors path="*">
+				<ul>
+					<c:forEach items="${messages}" var="message">
+						<li style="color: black">${message}</li>
+					</c:forEach>
+				</ul>
+			</form:errors>
+			<br/>
+		</div>
+	</spring:hasBindErrors>
 	
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
@@ -82,7 +84,7 @@ function submitFilterForm(command) {
 	
 	<div class="wildCard">Wildcard: %</div>
 	
-	<input id="filterSearchButton" type="button" value="Search" onclick="submitFilterForm('<%=PublishingStatsFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitFilterForm('<%=PublishingStatsFilterForm.FilterCommand.RESET%>')"/>
+	<input type="button" value="Search" onclick="submitLeftFormAndBodyForm()"/>
+	<input type="button" value="Reset" onclick="submitEmptyLeftFormAndBodyForm()"/>
 </form:form>
 

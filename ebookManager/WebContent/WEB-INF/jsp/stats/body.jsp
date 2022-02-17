@@ -11,19 +11,29 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterForm.DisplayTagSortProperty"%>
+
+<c:set var="defaultPageSize" value="<%=WebConstants.DEFAULT_PAGE_SIZE%>"/>
+
+<script type="text/javascript" src="js/form-utils.js"></script>
+<script type="text/javascript">
+	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
+	$(window).on('pageshow', function () {
+		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);
+	});
+</script>
 
 <%-- Select for how may items (rows) per page to show --%>
+<form:form id="bodyForm"
+					 action="<%=WebConstants.MVC_STATS%>"
+					 modelAttribute="<%=PublishingStatsFilterForm.FORM_NAME%>"
+					 method="get">
 	<c:if test="${fn:length(paginatedList.list) != 0}">
-	  <form:form id="itemCountForm" action="<%=WebConstants.MVC_STATS_CHANGE_ROW_COUNT%>"
-			     commandName="<%=PublishingStatsForm.FORM_NAME%>" method="post">
-		Items to display: 
-		<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-		<form:select path="objectsPerPage" onchange="submit()">
-			<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		Items to display:
+		<form:select path="objectsPerPage" onchange="submitLeftFormAndBodyForm()">
+			<form:option label="${defaultPageSize}" value="${defaultPageSize}"/>
 			<form:option label="50" value="50"/>
 			<form:option label="100" value="100"/>
 			<form:option label="150" value="150"/>
@@ -31,15 +41,16 @@
 			<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
 			<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
 		</form:select>
-	  </form:form>
-	</c:if>  <%-- if (table row count > 0) --%>	
-	
+	</c:if>  <%-- if (table row count > 0) --%>
+	<form:hidden path="sort" value="${ param.sort }"/>
+	<form:hidden path="dir" value="${ param.dir }"/>
+</form:form>
+
 	<%-- Table of publishing stats for a specific book --%>
-	
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
 	<display:table id="stats" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2"
-								 requestURI="<%=WebConstants.MVC_STATS_PAGE_AND_SORT%>"
+								 requestURI="<%=WebConstants.MVC_STATS%>"
 								 sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
