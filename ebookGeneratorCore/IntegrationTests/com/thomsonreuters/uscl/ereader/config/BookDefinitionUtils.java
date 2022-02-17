@@ -80,4 +80,24 @@ public final class BookDefinitionUtils {
 
         return eBook;
     }
+
+    public static BookDefinition minimalBookDefinition() {
+        BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setFullyQualifiedTitleId("uscl/an/test");
+        bookDefinition.setMaterialId("materialId");
+        bookDefinition.setCopyright("copyright");
+        bookDefinition.setSourceType(BookDefinition.SourceType.NORT);
+        bookDefinition.setIsDeletedFlag(false);
+        bookDefinition.setEbookDefinitionCompleteFlag(false);
+        bookDefinition.setAutoUpdateSupportFlag(true);
+        bookDefinition.setSearchIndexFlag(true);
+        bookDefinition.setPublishedOnceFlag(false);
+        bookDefinition.setOnePassSsoLinkFlag(true);
+        bookDefinition.setKeyciteToplineFlag(true);
+        bookDefinition.setEnableCopyFeatureFlag(false);
+        bookDefinition.setIsSplitBook(false);
+        bookDefinition.setIsSplitTypeAuto(true);
+        bookDefinition.setLastUpdated(new Date());
+        return bookDefinition;
+    }
 }

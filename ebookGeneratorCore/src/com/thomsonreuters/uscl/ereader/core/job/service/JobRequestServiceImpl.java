@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class JobRequestServiceImpl implements JobRequestService {
-    //private static final Logger log = LogManager.getLogger(JobRequestServiceImpl.class);
     private static final Comparator<JobRequest> RUN_ORDER_COMPARATOR = new JobRequestRunOrderComparator();
 
     private JobRequestDao jobRequestDao;
@@ -102,5 +101,11 @@ public class JobRequestServiceImpl implements JobRequestService {
     @Required
     public void setJobRequestDao(final JobRequestDao jobRequestDao) {
         this.jobRequestDao = jobRequestDao;
+    }
+
+    @Override
+    @Transactional
+    public void cleanupQueue() {
+        jobRequestDao.deleteAllJobRequests();
     }
 }

@@ -26,4 +26,6 @@ public interface JobRequestDao {
     void updateJobPriority(long jobRequestId, int jobPriority);
 
     List<JobRequest> findAllJobRequestsOrderByPriorityAndSubmitedtime();
+
+    void deleteAllJobRequests();
 }

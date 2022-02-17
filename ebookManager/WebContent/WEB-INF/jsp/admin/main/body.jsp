@@ -67,7 +67,23 @@
 			<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop All Book Generation</a>
 		</div>
 	</div>
-	
+
+	<div>
+		<h3>Job Queue</h3>
+		<div class="buttons">
+			<a class="queue_clean">Clean</a>
+			<jsp:include page="../../common/dialog.jsp">
+				<jsp:param name="title" value="Cleanup queue?"/>
+				<jsp:param name="description" value="Are you sure you want to cleanup queue?"/>
+				<jsp:param name="btnLabel" value="Clean"/>
+				<jsp:param name="btnSelector" value=".queue_clean"/>
+				<jsp:param name="httpMethod" value="POST"/>
+				<jsp:param name="url" value="${WebConstants.MVC_JOB_QUEUE_CLEANUP}"/>
+				<jsp:param name="redirectUrl" value=""/>
+			</jsp:include>
+		</div>
+	</div>
+
 	<div >
 	<h3>Planned Outages</h3>
 	<div class="buttons">

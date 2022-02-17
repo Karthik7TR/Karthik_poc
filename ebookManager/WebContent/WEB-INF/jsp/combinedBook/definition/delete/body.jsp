@@ -21,11 +21,11 @@
         No Combined Book Definition found
     </c:otherwise>
 </c:choose>
-<jsp:include page="../common/dialog.jsp">
+<jsp:include page="../../../common/dialog.jsp">
     <jsp:param name="title" value="Delete Combined Book Definition?"/>
     <jsp:param name="description" value="Are you sure you want to delete this combined book definition?"/>
     <jsp:param name="btnLabel" value="Delete"/>
-    <jsp:param name="btnId" value="#delete"/>
+    <jsp:param name="btnSelector" value="#delete"/>
     <jsp:param name="httpMethod" value="DELETE"/>
     <jsp:param name="url" value="${WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE}?${WebConstants.KEY_ID}=${combinedBookDefinition.id}"/>
     <jsp:param name="redirectUrl" value="${WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW}?${WebConstants.KEY_ID}=${combinedBookDefinition.id}"/>

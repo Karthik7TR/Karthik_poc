@@ -77,4 +77,11 @@ public class JobRequestDaoImpl implements JobRequestDao {
 
         return query.list();
     }
+
+    @Override
+    public void deleteAllJobRequests() {
+        sessionFactory.getCurrentSession()
+                .createQuery("DELETE FROM JobRequest")
+                .executeUpdate();
+    }
 }

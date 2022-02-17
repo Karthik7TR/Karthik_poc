@@ -40,4 +40,6 @@ public interface JobRequestService {
     boolean isBookInJobRequest(long bookDefinitionId);
 
     JobRequest findJobRequestByBookDefinitionId(long ebookDefinitionId);
+
+    void cleanupQueue();
 }

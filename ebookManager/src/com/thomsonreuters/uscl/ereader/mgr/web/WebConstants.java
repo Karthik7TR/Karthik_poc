@@ -211,6 +211,7 @@ public class WebConstants {
     public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
     public static final String MVC_JOB_QUEUE = "jobQueue.mvc";
     public static final String MVC_JOB_QUEUE_PAGE_AND_SORT = "jobQueuePageAndSort.mvc";
+    public static final String MVC_JOB_QUEUE_CLEANUP = "jobQueueCleanup.mvc";
     public static final String MVC_JOB_SUMMARY = "jobSummary.mvc";
     public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
     public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc";
