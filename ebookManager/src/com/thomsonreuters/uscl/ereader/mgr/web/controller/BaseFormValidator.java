@@ -47,7 +47,7 @@ public abstract class BaseFormValidator {
         if (StringUtils.isNotEmpty(text)) {
             //Pattern pattern = Pattern.compile("^\\w[0-9a-fA-F]{32}$");
             // Just checking for 33 characters.  Some publications has custom Root Guids like IFEDCIVDISC9999999999999999999999
-            final Pattern pattern = Pattern.compile("^[a-zA-Z0-9]{33}$");
+            final Pattern pattern = Pattern.compile("^[a-zA-Z0-9]{1,33}$");
             final Matcher matcher = pattern.matcher(text);
 
             if (!matcher.find()) {

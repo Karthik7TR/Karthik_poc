@@ -639,24 +639,40 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     /**
-     * Test Root TOC GUID format
+     * Test Root TOC GUID format for KeyRules publications
      */
     @Test
-    public void testGuidFormat() {
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
-            .andReturn(null);
-        EasyMock.replay(mockBookDefinitionService);
+    public void testGuidFormatKeyRules() {
+        testGuid("NYFE", true);
+    }
 
+    /**
+     * Test Root TOC GUID format for ordinary publications
+     */
+    @Test
+    public void testGuidFormat33Symbols() {
+        testGuid("I620fb9a2103e11e18b05fdf15589d8e8", true);
+    }
+
+    /**
+     * Test Root TOC GUID format for incorrect input
+     */
+    @Test
+    public void testGuidFormatIncorrectInput() {
+        testGuid("I620fb9a2103e11e18b05fdf15589d8e8123", false);
+    }
+
+    private void testGuid(final String guid, final boolean isValid) {
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
+                .andReturn(null);
+        EasyMock.replay(mockBookDefinitionService);
         expectReplayDocTypeCode();
         expectReplayKeywordTypeCodes();
-
         populateFormDataAnalyticalToc();
         form.setIsComplete(true);
-        form.setRootTocGuid("asdwwqwe");
+        form.setRootTocGuid(guid);
         validator.validate(form, errors);
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.guid.format", errors.getFieldError("rootTocGuid").getCode());
-
+        Assert.assertNotEquals(isValid, errors.hasFieldErrors("rootTocGuid"));
         EasyMock.verify(mockBookDefinitionService);
     }
 

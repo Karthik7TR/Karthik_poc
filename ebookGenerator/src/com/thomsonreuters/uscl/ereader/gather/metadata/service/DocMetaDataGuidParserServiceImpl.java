@@ -150,7 +150,7 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
                         if (tocGuid != null) {
                             // TOC guild can be more than 44 characters due to
                             // 6digit suffix being added to the TOC after '-'
-                            if (tocGuid.length() < 32 || (tocGuid.length() >= 44 && !tocGuid.contains("-"))) {
+                            if (tocGuid.length() >= 44 && !tocGuid.contains("-")) {
                                 final String message = "Invalid Toc GUID encountered in the Doc GUID list: " + tocGuid;
                                 log.error(message);
                                 throw new EBookGatherException(message);
