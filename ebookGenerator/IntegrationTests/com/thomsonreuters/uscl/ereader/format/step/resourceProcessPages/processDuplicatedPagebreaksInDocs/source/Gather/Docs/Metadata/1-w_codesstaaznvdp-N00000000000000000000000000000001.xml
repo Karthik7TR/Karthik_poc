@@ -1,0 +1,136 @@
+<n-metadata>
+			<metadata.block>
+				<md.identifiers>
+					<md.cites>
+						<md.first.line.cite>AZ ST §§ 15-601 to 15-610 Repealed</md.first.line.cite>
+						<md.second.line.cite>A.R.S. §§ 15-601 to 15-610 Repealed</md.second.line.cite>
+						<md.normalizedcite>AZSTS15-601TO15-610REPEALED</md.normalizedcite>
+						<md.original.first.line.cite>AZ ST §§ 15-601 to 15-610 Repealed</md.original.first.line.cite>
+						<md.current.normalizedcite>AZSTS15-601TO15-610REPEALED</md.current.normalizedcite>
+						<md.expandedcite>A. R. S. §§ 15-601 to 15-610 Repealed, AZ ST §§ 15-601 to 15-610 Repealed</md.expandedcite>
+					</md.cites>
+					<md.uuid>N00000000000000000000000000000001</md.uuid>
+					<md.legacy.id>AZSTS15-601TO15-610REPEALED</md.legacy.id>
+					<md.wip.version.num>5</md.wip.version.num>
+					<md.legacy.heading.id>000503573</md.legacy.heading.id>
+					<md.hyphenated.uuid>N74775E3071-6011DAA16E8-D4AC7636430</md.hyphenated.uuid>
+				</md.identifiers>
+				<md.infotype subtype="doctype">Statute</md.infotype>
+				<md.sortkeys>
+					<md.rankvalue>00641769</md.rankvalue>
+					<md.browse>ARIZONA</md.browse>
+					<md.sequencenumber>02430</md.sequencenumber>
+					<md.volsnumber>0100</md.volsnumber>
+					<md.insertnumber>000000</md.insertnumber>
+					<md.rankingsequencenumber>03412713603c000000000000000000000000000000000000</md.rankingsequencenumber>
+				</md.sortkeys>
+				<md.hierarchies>
+					<md.outline.block>
+						<md.entry refid="I6A6A3AD01DF211EB9A34A8D11AD20C3D">
+							<md.head>Historical Notes</md.head>
+						</md.entry>
+					</md.outline.block>
+				</md.hierarchies>
+				<md.descriptions>
+					<md.title>§§ 15-601 to 15-610. Repealed by Laws 1981, Ch. 314, § 11</md.title>
+					<md.westlawdescrip>
+						<md.wl.message.num>1VER</md.wl.message.num>
+						<md.wl.message.num>3VER</md.wl.message.num>
+						<md.pubseries>Chapter 6. Teachers Retirement System [Repealed] (Refs &amp; Annos)</md.pubseries>
+					</md.westlawdescrip>
+					<md.doc.family.uuid>I0DFDE6B07F5511E69094FE4F195C6503</md.doc.family.uuid>
+					<md.codes.category.id>1518</md.codes.category.id>
+					<md.parent.hid>000503369</md.parent.hid>
+					<md.parent.hid>000503571</md.parent.hid>
+					<md.parent.toc>N2B2C9BC0709611DA941ED2CF24A3A24D</md.parent.toc>
+					<md.parent.toc>N5AD5D760709611DA941ED2CF24A3A24D</md.parent.toc>
+					<md.parent.versions.toc>NC98C9D706CE411DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>NC98C9D706C-E411DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>NC9FD60A06CE411DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>NC9FD60A06C-E411DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N2B2C9BC0709611DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N2B2C9BC070-9611DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N5AD5D760709611DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N5AD5D76070-9611DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N5B023E90709611DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N5B023E9070-9611DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.publishing.style.format>2</md.publishing.style.format>
+					<md.doc.status>Repealed</md.doc.status>
+				</md.descriptions>
+				<md.dates>
+					<md.starteffective>20051231000000</md.starteffective>
+					<md.endeffective>20970101235959</md.endeffective>
+					<md.publisheddate>20201103094537</md.publisheddate>
+					<md.loaddate>20201103094537</md.loaddate>
+					<md.extractdate>20201103094537</md.extractdate>
+				</md.dates>
+				<md.references>
+					<md.legacy.references>
+						<md.historical.link.record>0031lk(AZSTS15-601TO15-610REPEALED)</md.historical.link.record>
+						<md.statute.legis.update>lk(AZSTS15-601TO15-610REPEALED) &amp; sec("§§ 15-601 to 15-610 Repealed")</md.statute.legis.update>
+						<md.gm.link.record>0040lk(AZSTT15R) lk(AZSTT15D) lk(AZSTT15C6R)</md.gm.link.record>
+						<md.gm.link.record level="1">0025lk(AZSTT15R) lk(AZSTT15D)</md.gm.link.record>
+						<md.link.separator></md.link.separator>
+						<md.gm.link.record level="2">0014lk(AZSTT15C6R)</md.gm.link.record>
+					</md.legacy.references>
+				</md.references>
+				<md.subjects>
+					<md.subject>
+						<md.keywords>
+							<md.keyword>ADDTERM</md.keyword>
+						</md.keywords>
+						<md.pubtype.name>WGR</md.pubtype.name>
+						<md.doctype.name>6A</md.doctype.name>
+						<md.doctype.rank>0002</md.doctype.rank>
+						<md.view>AZ</md.view>
+					</md.subject>
+				</md.subjects>
+				<md.jurisdictions>
+					<md.jurisdiction>
+						<md.jurisstate>AZ</md.jurisstate>
+					</md.jurisdiction>
+				</md.jurisdictions>
+				<md.publications>
+					<md.publication>
+						<md.pubid>1000251</md.pubid>
+						<md.pubname>Arizona Statutes</md.pubname>
+						<md.pubvolume>0100</md.pubvolume>
+					</md.publication>
+					<md.sourcepubid>1000251</md.sourcepubid>
+					<md.pub.environment>PROD</md.pub.environment>
+				</md.publications>
+			</metadata.block>
+			<version.tree.metadata.block>
+				<v.t.md.effective>Effective:</v.t.md.effective>
+				<v.t.md.display.starteffective></v.t.md.display.starteffective>
+				<v.t.md.display.endeffective></v.t.md.display.endeffective>
+				<v.t.md.amendment.ref>1VER</v.t.md.amendment.ref>
+				<v.t.md.display.cite>
+					<cite.query w-normalized-cite="N74775E3071-6011DAA16E8-D4AC7636430" ID="I3f7d79001df611eb8b8585dc6e26fdb2" w-pub-number="1000251" w-ref-type="VQ">AZ ST §§ 15-601 to 15-610 Repealed</cite.query>
+				</v.t.md.display.cite>
+			</version.tree.metadata.block>
+			<tndx.metadata.block>
+				<tndx.md.ranking.jurisstate>AN</tndx.md.ranking.jurisstate>
+				<tndx.md.legacy.heading.id>000503573</tndx.md.legacy.heading.id>
+				<tndx.md.uuid>N00000000000000000000000000000001</tndx.md.uuid>
+				<tndx.md.normalizedcite>AZSTS15-601TO15-610REPEALED</tndx.md.normalizedcite>
+				<tndx.md.current.normalizedcite>AZSTS15-601TO15-610REPEALED</tndx.md.current.normalizedcite>
+			</tndx.metadata.block>
+			<minor.link.metadata.block>
+				<mlmd.annotations>N</mlmd.annotations>
+				<mlmd.law.rev>N</mlmd.law.rev>
+				<mlmd.alr.ref>N</mlmd.alr.ref>
+				<mlmd.txt.tre.frm.ref>N</mlmd.txt.tre.frm.ref>
+				<mlmd.credit>N</mlmd.credit>
+				<mlmd.hist.note>Y</mlmd.hist.note>
+				<mlmd.cross.ref>N</mlmd.cross.ref>
+				<mlmd.adc.ref>N</mlmd.adc.ref>
+				<mlmd.topic.key.ref>N</mlmd.topic.key.ref>
+				<mlmd.authority>N</mlmd.authority>
+			</minor.link.metadata.block>
+			<n-tocview>N5AD5D760709611DA941ED2CF24A3A24D N00000000000000000000000000000001</n-tocview>
+			<n-view>AZ</n-view>
+			<n-view>TAX</n-view>
+			<n-view>WlStaAz</n-view>
+			<prism-clipdate>20131104000000</prism-clipdate>
+		</n-metadata>

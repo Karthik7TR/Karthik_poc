@@ -1,0 +1,123 @@
+<n-docbody>
+			<section legacy.identifier="000503573" ID="I6A2A99C01DF211EB9A34A8D11AD20C3D">
+				<content.metadata.block>
+					<cmd.identifiers>
+						<cmd.cites>
+							<cmd.first.line.cite>
+								<bop></bop>
+								<bos></bos>AZ ST §§ 15-601 to 15-610 Repealed<eos></eos>
+								<eop></eop>
+							</cmd.first.line.cite>
+							<cmd.second.line.cite>
+								<bop></bop>
+								<bos></bos>A.R.S. §§ 15-601 to 15-610 Repealed<eos></eos>
+								<eop></eop>
+							</cmd.second.line.cite>
+						</cmd.cites>
+					</cmd.identifiers>
+				</content.metadata.block>
+				<prelim.block>
+					<bop></bop>
+					<prelim.head>
+						<head ID="I6A5BE2F01DF211EB9A34A8D11AD20C3D" ampexmnem="0.sb1">
+							<bos></bos>
+							<head.info>
+								<headtext>Title 15. Education <hide.historical.version>
+										<cite.query w-normalized-cite="lk(AZSTT15R) lk(AZSTT15D)" ID="I3f7da0101df611eb8b8585dc6e26fdb2" w-ref-type="CM">(Refs &amp; Annos)</cite.query>
+										<internal.reference refid="I6A5D69901DF211EB9A34A8D11AD20C3D">Currentness</internal.reference>
+									</hide.historical.version>
+								</headtext>
+							</head.info>
+							<eos></eos>
+						</head>
+						<prelim.head>
+							<head ID="I6A5E53F01DF211EB9A34A8D11AD20C3D" ampexmnem="1.sb2">
+								<bos></bos>
+								<head.info>
+									<headtext>Chapter 6. Teachers Retirement System [Repealed] <hide.historical.version>
+											<cite.query w-normalized-cite="lk(AZSTT15C6R)" ID="I3f7dc7211df611eb8b8585dc6e26fdb2" w-ref-type="CM">(Refs &amp; Annos)</cite.query>
+										</hide.historical.version>
+									</headtext>
+								</head.info>
+								<eos></eos>
+							</head>
+						</prelim.head>
+					</prelim.head>
+					<eop></eop>
+				</prelim.block>
+				<include.sb.currency.block>
+					<include.sb.currency n-include_collection="w_codes_stamsgp" n-include_guid="IA5272E0128CC11DC83489682D0794E4E"></include.sb.currency>
+					<message.code>0AZB</message.code>
+				</include.sb.currency.block>
+				<doc.title>
+					<head ID="I30E3A5B068F311DDB1DFA69783368F3B" ampexmnem="2.srnl">
+						<bop></bop>
+						<bos></bos>
+						<head.info>
+							<headtext>
+								<cite.query w-normalized-cite="AZ000503571" ID="I3f7dee301df611eb8b8585dc6e26fdb2" w-pinpoint-page="S15-601TO15-610" w-ref-type="LK">
+									<bold>§§ 15-601 to 15-610. Repealed by Laws 1981, Ch. 314, § 11</bold>
+								</cite.query>
+							</headtext>
+						</head.info>
+						<eos></eos>
+						<eop></eop>
+					</head>
+				</doc.title>
+				<propagated.block></propagated.block>
+				<annotations>
+					<hist.note.block ID="I6A6A3AD01DF211EB9A34A8D11AD20C3D">
+						<head ID="I30E4690068F311DDB1DFA69783368F3B" ampexmnem="xhs">
+							<bop></bop>
+							<bos></bos>
+							<head.info>
+								<headtext>HISTORICAL AND STATUTORY NOTES</headtext>
+							</head.info>
+							<eos></eos>
+							<eop></eop>
+						</head>
+						<hist.note.body>
+							<hist.note type="Repealed.Law">
+								<para ID="I30E4901068F311DDB1DFA69783368F3B" ampexmnem="xhs.gnp">
+									<paratext>
+										<bop></bop>
+										<bos></bos>The repealed 
+										
+										(end of page 1)<page no="1" vol="1"></page>
+										(end of page 2)<page no="2" vol="1"></page>
+										sections[<footnote.reference refid="I1a1095e2768311eb991ebe5242b9d9de">1</footnote.reference>], added 
+										(end of page 3)<page no="3" vol="1"></page>
+										(end of page 4)<page no="4" vol="1"></page> 
+										
+										by Laws 1981, Ch. 1, § 2, effective January 23, 1981, and relating to the membership of teachers in state employees retirement system, were derived from:<eos></eos>
+										<eop></eop>
+									</paratext>
+								</para>
+							</hist.note>
+						</hist.note.body>
+					</hist.note.block>
+				</annotations>
+			</section>
+			<footnote.block>
+				<footnote ID="I1a1095e2768311eb991ebe5242b9d9de">
+					<label.designator>1</label.designator>
+					<footnote.body>
+						<para>
+							<bop></bop>
+							<bos></bos>
+							<paratext>
+								on page 1
+								<page no="1" vol="1"></page>
+								on page 2
+								<page no="2" vol="1"></page>
+								on page 3
+								<page no="3" vol="1"></page>
+								on page 4
+								<page no="4" vol="1"></page>
+							</paratext>
+							<eop></eop>
+						</para>
+					</footnote.body>
+				</footnote>
+			</footnote.block>
+		</n-docbody>

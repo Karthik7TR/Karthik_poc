@@ -171,6 +171,8 @@ public class JobExecutionKey {
     public static final String PAGEBREAKS_IN_WRONG_ORDER = "pagebreaksInWrongOrder";
     public static final String CANADIAN_DIGEST_MISSING = "canadianDigestMissing";
     public static final String CANADIAN_TOPIC_CODE_MISSING = "canadianTopicCodeMissing";
+    public static final String DOC_UUID_TO_PAGE_NUMBERS_FILE = "docUuidToPageNumbers";
+    public static final String PAGE_NUMBER_TO_DOC_UUIDS_FILE = "pageNumberToDocUuids";
 
     public static final String HAS_FILE_SOURCE_TYPE = "hasFileSourceType";
 

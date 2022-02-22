@@ -1,0 +1,59 @@
+<n-docbody>
+			<section legacy.identifier="974181074" ID="I7D914150493311E69EAEF3D13ED4C222">
+				<doc.title>
+					<head ID="I60890947279611E68FF6D8B76561B3C6" ampexmnem="3.snl">
+						<bop></bop>
+						<bos></bos>
+						<head.info>
+							<headtext>
+								<cite.query w-normalized-cite="AZ000503816" ID="Ib07a73201df511eb8b8585dc6e26fdb2" w-pinpoint-page="S15-1102" w-ref-type="LK">
+									<bold>§ 15-1102. Disposition of proceeds from sale or lease of school property;  school plant monies;  payment of bonded indebtedness;  definition</bold>
+								</cite.query>
+							</headtext>
+						</head.info>
+						<eos></eos>
+						<eop></eop>
+					</head>
+				</doc.title>
+				<body ID="I74A842421DF111EB9A34A8D11AD20C3D">
+					<subsection ID="I60939080279611E68FF6D8B76561B3C6">
+						<para ID="I6089F390279611E68FF6D8B76561B3C6" ampexmnem="smp">
+							<paratext>
+								<bop></bop>
+								<bos></bos>
+								<pinpoint.anchor hashcode="12f40000b0d36"></pinpoint.anchor>
+								<bold>A.</bold> The governing board, or the superintendent 
+								
+								(end of page 5 (with error 1))<page no="1" vol="1"></page>
+								(end of page 6 (with error 2))<page no="2" vol="1"></page> 
+								(end of page 7)<page no="7" vol="1"></page>
+								lease of school property [<footnote.reference refid="I1a1095e2768311eb991ebe5242b9d9df">2</footnote.reference>]
+								
+								for the payment of any outstanding bonded indebtedness of the school district or for the reduction of school district taxes.<eos></eos>
+								<eop></eop>
+							</paratext>
+						</para>
+					</subsection>
+				</body>
+			</section>
+			<footnote.block>
+				<footnote ID="I1a1095e2768311eb991ebe5242b9d9df">
+					<label.designator>2</label.designator>
+					<footnote.body>
+						<para>
+							<bop></bop>
+							<bos></bos>
+							<paratext>
+								on page 5
+								<page no="5" vol="1"></page>
+								on page 6
+								<page no="6" vol="1"></page>
+								on page 7
+								<page no="7" vol="1"></page>
+							</paratext>
+							<eop></eop>
+						</para>
+					</footnote.body>
+				</footnote>
+			</footnote.block>
+		</n-docbody>

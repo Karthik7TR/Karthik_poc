@@ -1,0 +1,158 @@
+<n-metadata>
+			<metadata.block>
+				<md.identifiers>
+					<md.cites>
+						<md.first.line.cite>AZ ST § 34-501</md.first.line.cite>
+						<md.second.line.cite>A.R.S. § 34-501</md.second.line.cite>
+						<md.normalizedcite>AZSTS34-501</md.normalizedcite>
+						<md.original.first.line.cite>AZ ST § 34-501</md.original.first.line.cite>
+						<md.current.normalizedcite>AZSTS34-501</md.current.normalizedcite>
+						<md.expandedcite>A. R. S. § 34-501, AZ ST § 34-501</md.expandedcite>
+					</md.cites>
+					<md.uuid>N00000000000000000000000000000004</md.uuid>
+					<md.legacy.id>AZSTS34-501</md.legacy.id>
+					<md.wip.version.num>1</md.wip.version.num>
+					<md.legacy.heading.id>009725991</md.legacy.heading.id>
+					<md.hyphenated.uuid>N5D8487409E-3411E183F7C-076EF385880</md.hyphenated.uuid>
+				</md.identifiers>
+				<md.infotype subtype="doctype">Statute</md.infotype>
+				<md.sortkeys>
+					<md.rankvalue>00725627</md.rankvalue>
+					<md.browse>ARIZONA</md.browse>
+					<md.sequencenumber>00000</md.sequencenumber>
+					<md.volsnumber>0195</md.volsnumber>
+					<md.insertnumber>000000</md.insertnumber>
+					<md.rankingsequencenumber>03424410403c04c000000000000000000000000000000000</md.rankingsequencenumber>
+				</md.sortkeys>
+				<md.hierarchies>
+					<md.outline.block>
+						<md.entry refid="I3B6ABEA11DF011EB9A34A8D11AD20C3D">
+							<md.head>Text</md.head>
+						</md.entry>
+						<md.entry refid="I2F93EE707FF311E1AA1180BFDF0EBA34">
+							<md.head>1. “Child pornography” means the visual depiction of sexual</md.head>
+						</md.entry>
+						<md.entry refid="I2F93EE717FF311E1AA1180BFDF0EBA34">
+							<md.head>2. “Harmful to minors” has the same meaning prescribed in §</md.head>
+						</md.entry>
+						<md.entry refid="I2F93EE727FF311E1AA1180BFDF0EBA34">
+							<md.head>3. “Obscene” has the same meaning prescribed in 20 United</md.head>
+						</md.entry>
+						<md.entry refid="I2F9415807FF311E1AA1180BFDF0EBA34">
+							<md.head>4. “Public access computer” means a computer that is all of</md.head>
+						</md.entry>
+						<md.entry refid="I2F94D8D07FF311E1AA1180BFDF0EBA34">
+							<md.head>5. “Technology protection measure” means a technology that</md.head>
+						</md.entry>
+						<md.entry refid="I3B860ED01DF011EB9A34A8D11AD20C3D">
+							<md.head>Credit(s)</md.head>
+						</md.entry>
+					</md.outline.block>
+				</md.hierarchies>
+				<md.descriptions>
+					<md.title>§ 34-501. Definitions</md.title>
+					<md.westlawdescrip>
+						<md.wl.message.num></md.wl.message.num>
+						<md.pubseries>Chapter 5. Computer Access (Refs &amp; Annos)</md.pubseries>
+					</md.westlawdescrip>
+					<md.doc.family.uuid>I4CAEB9903CD611DDBCABAE0BF8C270BB</md.doc.family.uuid>
+					<md.codes.category.id>1537</md.codes.category.id>
+					<md.parent.hid>000511478</md.parent.hid>
+					<md.parent.hid>009725989</md.parent.hid>
+					<md.parent.hid>009725990</md.parent.hid>
+					<md.parent.toc>N25507E2070B311DAA16E8D4AC7636430</md.parent.toc>
+					<md.parent.toc>N3EA21F0070B311DAA16E8D4AC7636430</md.parent.toc>
+					<md.parent.toc>N3ECD4DB070B311DAA16E8D4AC7636430</md.parent.toc>
+					<md.parent.versions.toc>NC98C9D706CE411DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>NC98C9D706C-E411DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>NC9FD60A06CE411DA941ED2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>NC9FD60A06C-E411DA941ED-2CF24A3A24D</md.parent.versions.toc>
+					<md.parent.versions.toc>N25507E2070B311DAA16E8D4AC7636430</md.parent.versions.toc>
+					<md.parent.versions.toc>N25507E2070-B311DAA16E8-D4AC7636430</md.parent.versions.toc>
+					<md.parent.versions.toc>N3EA21F0070B311DAA16E8D4AC7636430</md.parent.versions.toc>
+					<md.parent.versions.toc>N3EA21F0070-B311DAA16E8-D4AC7636430</md.parent.versions.toc>
+					<md.parent.versions.toc>N3ECD4DB070B311DAA16E8D4AC7636430</md.parent.versions.toc>
+					<md.parent.versions.toc>N3ECD4DB070-B311DAA16E8-D4AC7636430</md.parent.versions.toc>
+					<md.parent.versions.toc>N5D5DEC709E3411E183F7C076EF385880</md.parent.versions.toc>
+					<md.parent.versions.toc>N5D5DEC709E-3411E183F7C-076EF385880</md.parent.versions.toc>
+					<md.publishing.style.format>2</md.publishing.style.format>
+					<md.doc.status>Live</md.doc.status>
+				</md.descriptions>
+				<md.dates>
+					<md.starteffective>20120802000000</md.starteffective>
+					<md.endeffective>20970101235959</md.endeffective>
+					<md.publisheddate>20201103094537</md.publisheddate>
+					<md.loaddate>20201103094537</md.loaddate>
+					<md.extractdate>20201103094537</md.extractdate>
+				</md.dates>
+				<md.references>
+					<md.legacy.references>
+						<md.historical.link.record>0015lk(AZSTS34-501)</md.historical.link.record>
+						<md.statute.legis.update>lk(AZSTS34-501) &amp; sec("34-501")</md.statute.legis.update>
+						<md.gm.link.record>0014lk(AZSTT34C5R)</md.gm.link.record>
+						<md.gm.link.record level="2">0014lk(AZSTT34C5R)</md.gm.link.record>
+						<md.wordphrase>Child pornography</md.wordphrase>
+						<md.wordphrase>Public access computer</md.wordphrase>
+						<md.wordphrase>Technology protection measure</md.wordphrase>
+					</md.legacy.references>
+				</md.references>
+				<md.subjects>
+					<md.subject>
+						<md.keywords>
+							<md.keyword>ADDTERM</md.keyword>
+						</md.keywords>
+						<md.pubtype.name>WGR</md.pubtype.name>
+						<md.doctype.name>6A</md.doctype.name>
+						<md.doctype.rank>0002</md.doctype.rank>
+						<md.view>AZ</md.view>
+					</md.subject>
+				</md.subjects>
+				<md.jurisdictions>
+					<md.jurisdiction>
+						<md.jurisstate>AZ</md.jurisstate>
+					</md.jurisdiction>
+				</md.jurisdictions>
+				<md.publications>
+					<md.publication>
+						<md.pubid>1000251</md.pubid>
+						<md.pubname>Arizona Statutes</md.pubname>
+						<md.pubvolume>0195</md.pubvolume>
+					</md.publication>
+					<md.sourcepubid>1000251</md.sourcepubid>
+					<md.pub.environment>PROD</md.pub.environment>
+				</md.publications>
+			</metadata.block>
+			<version.tree.metadata.block>
+				<v.t.md.effective>Effective:</v.t.md.effective>
+				<v.t.md.display.starteffective>August 2, 2012</v.t.md.display.starteffective>
+				<v.t.md.display.endeffective></v.t.md.display.endeffective>
+				<v.t.md.display.cite>
+					<cite.query w-normalized-cite="N5D8487409E-3411E183F7C-076EF385880" ID="Ic5a1c0b01df411eb8b8585dc6e26fdb2" w-pub-number="1000251" w-ref-type="VQ">AZ ST § 34-501</cite.query>
+				</v.t.md.display.cite>
+				<v.t.md.credit>Amended by Laws 2012, Ch. 166, § 1</v.t.md.credit>
+			</version.tree.metadata.block>
+			<tndx.metadata.block>
+				<tndx.md.ranking.jurisstate>AN</tndx.md.ranking.jurisstate>
+				<tndx.md.legacy.heading.id>009725991</tndx.md.legacy.heading.id>
+				<tndx.md.uuid>N00000000000000000000000000000004</tndx.md.uuid>
+				<tndx.md.normalizedcite>AZSTS34-501</tndx.md.normalizedcite>
+				<tndx.md.current.normalizedcite>AZSTS34-501</tndx.md.current.normalizedcite>
+			</tndx.metadata.block>
+			<minor.link.metadata.block>
+				<mlmd.annotations>N</mlmd.annotations>
+				<mlmd.law.rev>N</mlmd.law.rev>
+				<mlmd.alr.ref>N</mlmd.alr.ref>
+				<mlmd.txt.tre.frm.ref>N</mlmd.txt.tre.frm.ref>
+				<mlmd.credit>Y</mlmd.credit>
+				<mlmd.hist.note>N</mlmd.hist.note>
+				<mlmd.cross.ref>N</mlmd.cross.ref>
+				<mlmd.adc.ref>N</mlmd.adc.ref>
+				<mlmd.topic.key.ref>N</mlmd.topic.key.ref>
+				<mlmd.authority>N</mlmd.authority>
+			</minor.link.metadata.block>
+			<n-tocview>N3EA21F0070B311DAA16E8D4AC7636430 N3ECD4DB070B311DAA16E8D4AC7636430 N00000000000000000000000000000004</n-tocview>
+			<n-view>AZ</n-view>
+			<n-view>TAX</n-view>
+			<n-view>WlStaAz</n-view>
+			<prism-clipdate>20200507130022</prism-clipdate>
+		</n-metadata>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -58,6 +59,7 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
 
         getImageMissingGuidsFileFromContextPath(jobExecutionContext, fileList);
         getImageMissingGuidsFileFromGatherDocsDir(jobExecutionContext, fileList);
+        getDuplicatedPageNumbersInDifferentDocs(jobExecutionContext, fileList);
 
         if (!fileList.isEmpty()) {
             emailService.sendWithAttachment(emailRecipients, subject, body, fileList);
@@ -69,15 +71,7 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
     private void getImageMissingGuidsFileFromContextPath(
         final ExecutionContext jobExecutionContext,
         final List<String> fileList) {
-        try {
-            final String imgGuidsFile = jobExecutionContext.getString(JobParameterKey.IMAGE_MISSING_GUIDS_FILE);
-
-            if (getFileSize(imgGuidsFile) > 0) {
-                fileList.add(imgGuidsFile);
-            }
-        } catch (final Exception e) {
-            log.error(e.getMessage(), e);
-        }
+        putFileFromContextToList(jobExecutionContext, fileList, JobParameterKey.IMAGE_MISSING_GUIDS_FILE);
     }
 
     private void getImageMissingGuidsFileFromGatherDocsDir(
@@ -92,6 +86,22 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
 
             if (getFileSize(missingGuidsFile) > 0) {
                 fileList.add(missingGuidsFile);
+            }
+        } catch (final Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    private void getDuplicatedPageNumbersInDifferentDocs(final ExecutionContext jobExecutionContext, final List<String> fileList) {
+        putFileFromContextToList(jobExecutionContext, fileList, JobExecutionKey.PAGE_NUMBER_TO_DOC_UUIDS_FILE);
+        putFileFromContextToList(jobExecutionContext, fileList, JobExecutionKey.DOC_UUID_TO_PAGE_NUMBERS_FILE);
+    }
+
+    private void putFileFromContextToList(final ExecutionContext jobExecutionContext, final List<String> fileList, final String filePathKey) {
+        try {
+            final String imgGuidsFile = jobExecutionContext.getString(filePathKey);
+            if (getFileSize(imgGuidsFile) > 0) {
+                fileList.add(imgGuidsFile);
             }
         } catch (final Exception e) {
             log.error(e.getMessage(), e);

@@ -32,9 +32,9 @@ import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
+import com.thomsonreuters.uscl.ereader.gather.metadata.FileNameMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import lombok.Getter;
 import org.mockito.Answers;
@@ -119,18 +119,20 @@ public class StepIntegrationTestRunner {
     }
 
     private void test(final BookStep step, final String testDirName, boolean withSourceDir, boolean withExpectedDir) throws Exception {
+        File resource = getTestDir(testDirName);
         try {
-            File resource = getTestDir(testDirName);
             initWorkDir();
             copyNasDir();
             copySourceDir(resource, withSourceDir);
             loadDocMetadata(step);
 
             step.executeStep();
-
-            validateResult(resource, withExpectedDir);
         } finally {
-            tearDown();
+            try {
+                validateResult(resource, withExpectedDir);
+            } finally {
+                tearDown();
+            }
         }
     }
 
@@ -191,10 +193,9 @@ public class StepIntegrationTestRunner {
 
     private DocMetadata parseDocMetadata(final String titleId, final Long jobInstanceId, final File metaDataFile) {
         try {
-            final String collectionName = DocMetadataServiceImpl.extractDocCollectionName(metaDataFile);
-            final String defaultDocUuid = DocMetadataServiceImpl.extractDocUuid(metaDataFile, collectionName);
+            final FileNameMetadata fileNameMetadata = new FileNameMetadata(metaDataFile);
             final DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
-            return xmlParser.parseDocument(titleId, jobInstanceId, collectionName, defaultDocUuid, metaDataFile);
+            return xmlParser.parseDocument(titleId, jobInstanceId, fileNameMetadata.getCollectionName(), fileNameMetadata.getDocUuid(), metaDataFile);
         } catch (Exception e) {
             throw new EBookException(e);
         }

@@ -23,10 +23,13 @@ import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter;
 import com.thomsonreuters.uscl.ereader.format.service.CiteQueryService;
+import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksDifferentDocsService;
+import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksDifferentDocsServiceImpl;
 import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksResolver;
 import com.thomsonreuters.uscl.ereader.format.service.InternalLinkResolverService;
 import com.thomsonreuters.uscl.ereader.format.service.LinksResolverService;
@@ -39,7 +42,9 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServi
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 import lombok.SneakyThrows;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.batch.item.ExecutionContext;
@@ -70,12 +75,15 @@ public final class ProcessPagesIntegrationTest {
     private static final long METADATA_SERIAL_NUMBER = 443605793L;
     private static final int CANADIAN_DIGESTS_SIZE = 2;
     private static final int CANADIAN_TOPIC_CODES_SIZE = 9;
+    private static final String DUPLICATED_PAGE_NUMBERS_ERROR_MESSAGE = "Duplicated page numbers in different documents.";
     @Autowired
     private ProcessPages step;
     @Autowired
     private StepIntegrationTestRunner runner;
     @Autowired
     private DocMetadataService docMetadataService;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws URISyntaxException {
@@ -200,6 +208,22 @@ public final class ProcessPagesIntegrationTest {
         when(step.getJobExecutionContext()).thenReturn(createExecutionContext());
         runner.test(step, "processWrongPagesOrder");
         checkProcessWrongPagesOrderMapDetected();
+    }
+
+    @Test
+    public void shouldProcessDuplicatedPagebreaksInDocs() throws Exception {
+        thrown.expect(EBookException.class);
+        thrown.expectMessage(DUPLICATED_PAGE_NUMBERS_ERROR_MESSAGE);
+
+        when(step.getJobExecutionContext()).thenReturn(createExecutionContext());
+
+        try {
+            runner.test(step, "processDuplicatedPagebreaksInDocs");
+        } catch (EBookException e) {
+            assertTrue(step.getJobExecutionContext().containsKey(JobExecutionKey.DOC_UUID_TO_PAGE_NUMBERS_FILE));
+            assertTrue(step.getJobExecutionContext().containsKey(JobExecutionKey.PAGE_NUMBER_TO_DOC_UUIDS_FILE));
+            throw e;
+        }
     }
 
     private ExecutionContext createExecutionContext() {
@@ -336,6 +360,11 @@ public final class ProcessPagesIntegrationTest {
         @Bean
         public DuplicatedPagebreaksResolver duplicatedPagebreaksResolver() {
             return new DuplicatedPagebreaksResolver();
+        }
+
+        @Bean
+        public DuplicatedPagebreaksDifferentDocsService duplicatedPagebreaksDifferentDocsService() {
+            return new DuplicatedPagebreaksDifferentDocsServiceImpl();
         }
     }
 }

@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.util.FileUtils;
 import com.thomsonreuters.uscl.ereader.core.book.util.PageNumberUtil;
 import com.thomsonreuters.uscl.ereader.core.service.JsoupService;
+import com.thomsonreuters.uscl.ereader.format.domain.PagesToDocsMap;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.BidiMap;
@@ -160,13 +161,15 @@ public class ReorderFootnotesService {
     }
 
     public void reorderFootnotes(final File gatherToc, final File srcGatherDir, final File srcDir, final File destDir,
-                                 final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet, final BookStep step) {
+                                 final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet,
+                                 final PagesToDocsMap pagesToDocs,
+                                 final BookStep step) {
         final Map<String, File> nameToXmlFile = getNameFileMap(srcGatherDir);
 
         List<File> srcFilesOrdered = orderedDocuments(gatherToc, srcDir);
         String firstFileName = getFirstFileName(srcFilesOrdered);
         String lastFileName = getLastFileName(srcFilesOrdered);
-        BidiMap<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered);
+        BidiMap<String, String> pageNumbers = extractPageNumbers(srcFilesOrdered, pagesToDocs);
 
         final PagePointer mainPage = new PagePointer(pageNumbers);
         final PagePointer footnotePage = new PagePointer(pageNumbers);
@@ -176,7 +179,7 @@ public class ReorderFootnotesService {
             processDocument(destDir, nameToXmlFile, firstFileName, lastFileName, mainPage, footnotePage,
                     pagebreakToMoveToNextDocument, file, pagebreaksInWrongOrder, pageVolumesSet, step)
         );
-        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir, pagebreaksInWrongOrder, pageVolumesSet, step);
+        processAuxiliaryFiles(srcDir, srcFilesOrdered, destDir, pagebreaksInWrongOrder, pageVolumesSet, pagesToDocs, step);
     }
 
     private String getFirstFileName(final List<File> srcFilesOrdered) {
@@ -235,14 +238,14 @@ public class ReorderFootnotesService {
     }
 
     private void processAuxiliaryFiles(final File srcDir, final List<File> processedFiles, final File destDir,
-                                       final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet, final BookStep step) {
+                                       final Map<String, Collection<String>> pagebreaksInWrongOrder, final boolean pageVolumesSet, final PagesToDocsMap pagesToDocs, final BookStep step) {
         List<File> auxiliaryFiles = getAuxiliaryFiles(srcDir, processedFiles);
         final PagebreakToMoveToNextDocument pagebreakToMoveToNextDocument = new PagebreakToMoveToNextDocument();
         auxiliaryFiles.forEach(file -> {
             if (EXCLUDED_FROM_PROCESSING.contains(file.getName())) {
                 FileUtils.copyFileToDirectory(file, destDir);
             } else {
-                Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file));
+                Map<String, String> pageNumbers = extractPageNumbers(Collections.singletonList(file), pagesToDocs);
                 final PagePointer mainPage = new PagePointer(pageNumbers);
                 final PagePointer footnotePage = new PagePointer(pageNumbers);
                 processDocument(destDir, Collections.emptyMap(), null, null, mainPage, footnotePage,
@@ -258,22 +261,33 @@ public class ReorderFootnotesService {
                 .collect(Collectors.toList());
     }
 
-    private BidiMap<String, String> extractPageNumbers(final List<File> srcFilesOrdered) {
+    private BidiMap<String, String> extractPageNumbers(final List<File> srcFilesOrdered, final PagesToDocsMap pagesToDocs) {
         BidiMap<String, String> pageNumbers = new DualHashBidiMap<>();
         String pagebreakPrevious = INITIAL_PAGE_LABEL;
         for (File file : srcFilesOrdered) {
             final Document doc = jsoup.loadDocument(file);
             final Element mainSection = doc.selectFirst(SECTION);
-            ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID)).ifPresent(Element::remove);
+            final String docUuid = FilenameUtils.removeExtension(file.getName());
+
+            final Optional<Element> footnotesBlock = ofNullable(mainSection.selectFirst(CO_FOOTNOTE_SECTION_ID));
+            footnotesBlock.ifPresent(Element::remove);
             final List<XmlDeclaration> pagebreakEnds = getProviewPagebreaks(mainSection);
+            final List<XmlDeclaration> pagebreakEndsFootnotes = footnotesBlock
+                    .map(this::getProviewPagebreaks)
+                    .orElse(Collections.emptyList());
+
             for (XmlDeclaration pagebreak : pagebreakEnds) {
+                String label = getLabel(pagebreak);
+                pagesToDocs.addMainPageDocUuid(label, docUuid);
                 if (pagebreakPrevious == null) {
-                    pagebreakPrevious = getLabel(pagebreak);
+                    pagebreakPrevious = label;
                     continue;
                 }
-                pageNumbers.put(pagebreakPrevious, getLabel(pagebreak));
-                pagebreakPrevious = getLabel(pagebreak);
+                pageNumbers.put(pagebreakPrevious, label);
+                pagebreakPrevious = label;
             }
+
+            pagebreakEndsFootnotes.forEach(pagebreak -> pagesToDocs.addFootnotePageDocUuid(getLabel(pagebreak), docUuid));
         }
         return pageNumbers;
     }

@@ -13,6 +13,8 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.format.domain.PagesToDocsMap;
+import com.thomsonreuters.uscl.ereader.format.service.DuplicatedPagebreaksDifferentDocsService;
 import com.thomsonreuters.uscl.ereader.format.service.ReorderFootnotesService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.ExitStatus;
@@ -27,6 +29,8 @@ public class ProcessPages extends BookStepImpl {
     private FormatFileSystem formatFileSystem;
     @Autowired
     private ReorderFootnotesService reorderFootnotesService;
+    @Autowired
+    private DuplicatedPagebreaksDifferentDocsService duplicatedPagebreaksDifferentDocsService;
 
     @Override
     public ExitStatus executeStep() throws Exception {
@@ -35,14 +39,16 @@ public class ProcessPages extends BookStepImpl {
         final File srcDir = getDir(NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR);
         final File destDir = getDir(NortTocCwbFileSystemConstants.FORMAT_PROCESS_PAGES_DIR);
         final Map<String, Collection<String>> pagebreaksInWrongOrder = getJobExecutionPropertyPagebreaksInWrongOrder();
+        final PagesToDocsMap pagesToDocs = new PagesToDocsMap();
         final boolean pageVolumesSet = getJobExecutionPropertyBoolean(JobExecutionKey.PAGE_VOLUMES_SET);
 
         if (shouldReorderFootnotes()) {
-            reorderFootnotesService.reorderFootnotes(toc, srcGatherDir, srcDir, destDir, pagebreaksInWrongOrder, pageVolumesSet, this);
+            reorderFootnotesService.reorderFootnotes(toc, srcGatherDir, srcDir, destDir, pagebreaksInWrongOrder, pageVolumesSet, pagesToDocs, this);
         } else {
             FileUtils.copyDirectory(srcDir, destDir);
         }
 
+        duplicatedPagebreaksDifferentDocsService.checkSamePageNumbersInDocs(pagesToDocs, formatFileSystem.getFormatDirectory(this), this);
         markDirectoryAsReady(destDir);
 
         return ExitStatus.COMPLETED;

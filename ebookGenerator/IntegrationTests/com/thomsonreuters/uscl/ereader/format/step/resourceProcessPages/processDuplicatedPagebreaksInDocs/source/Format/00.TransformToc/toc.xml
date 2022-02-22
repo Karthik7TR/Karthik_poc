@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+	<EBookToc>
+		<Name>Title</Name>
+		<Guid>N2B2C9BC0709611DA941ED2CF24A3A24D-0000011</Guid>
+		<EBookToc>
+			<Name>Chapter</Name>
+			<Guid>N5AD5D760709611DA941ED2CF24A3A24D-0003562</Guid>
+			<EBookToc>
+				<Name>Paragraph 1</Name>
+				<Guid>N5B023E90709611DA941ED2CF24A3A24D-0003573</Guid>
+				<DocumentGuid>N00000000000000000000000000000001</DocumentGuid>
+			</EBookToc>
+			<EBookToc>
+				<Name>Paragraph 2</Name>
+				<Guid>N72D2DBC0493311E6A173BEDB7F8E53AC-0007824</Guid>
+				<DocumentGuid>N00000000000000000000000000000002</DocumentGuid>
+			</EBookToc>
+			<EBookToc>
+				<Name>Paragraph 3</Name>
+				<Guid>N395FCFF04E6611E6BFD296E5777A4078-0007835</Guid>
+				<DocumentGuid>N00000000000000000000000000000003</DocumentGuid>
+			</EBookToc>
+			<EBookToc>
+				<Name>Paragraph 4</Name>
+				<Guid>N5D5DEC709E3411E183F7C076EF385880-0013056</Guid>
+				<DocumentGuid>N00000000000000000000000000000004</DocumentGuid>
+			</EBookToc>
+		</EBookToc>
+	</EBookToc>
+</EBook>

@@ -1,0 +1,58 @@
+<n-docbody>
+			<section legacy.identifier="000503819" ID="I5F19A040690911DD821BC63804377DF2">
+				<doc.title>
+					<head ID="IF79953B12DFF11E682FCF7EFE5F3F973" ampexmnem="3.snl">
+						<bop></bop>
+						<bos></bos>
+						<head.info>
+							<headtext>
+								<cite.query w-normalized-cite="AZ000503816" ID="I886dfca01df311eb8b8585dc6e26fdb2" w-pinpoint-page="S15-1103" w-ref-type="LK">
+									<bold>§ 15-1103. Insurance proceeds fund;  disposition of proceeds</bold>
+								</cite.query>
+							</headtext>
+						</head.info>
+						<eos></eos>
+						<eop></eop>
+					</head>
+				</doc.title>
+				<body ID="IFE8ABFE11DEE11EB9A34A8D11AD20C3D">
+					<subsection ID="IF79B76902DFF11E682FCF7EFE5F3F973">
+						<para ID="IF799C8E02DFF11E682FCF7EFE5F3F973" ampexmnem="smp">
+							<paratext>
+								<bop></bop>
+								<bos></bos>
+								<pinpoint.anchor hashcode="12f40000b0d36"></pinpoint.anchor>
+								<bold>A.</bold> Monies received for and derived 
+								
+								(end of page 8)<page no="8" vol="1"></page> 
+								(end of page 9)<page no="9" vol="1"></page>
+								(end of page 10)<page no="10" vol="1"></page> 
+								proceeds fund[<footnote.reference refid="I1a1095e2768311eb991ebe5242b9d9ff">3</footnote.reference>] 
+								school district is a continuing fund that is not subject to reversion.
+								<eop></eop>
+							</paratext>
+						</para>
+					</subsection>
+				</body>
+			</section>
+			<footnote.block>
+				<footnote ID="I1a1095e2768311eb991ebe5242b9d9ff">
+					<label.designator>3</label.designator>
+					<footnote.body>
+						<para>
+							<bop></bop>
+							<bos></bos>
+							<paratext>
+								on page 8
+								<page no="8" vol="1"></page>
+								on page 9 (with error 3)
+								<page no="3" vol="1"></page>
+								on page 10 (with error 4)
+								<page no="4" vol="1"></page>
+							</paratext>
+							<eop></eop>
+						</para>
+					</footnote.body>
+				</footnote>
+			</footnote.block>
+		</n-docbody>
