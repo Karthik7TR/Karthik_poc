@@ -41,6 +41,8 @@
 		<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
 		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
 	</form:select>
+	<form:hidden path="sort" value="${ param.sort }"/>
+	<form:hidden path="dir" value="${ param.dir }"/>
   </form:form>
 </c:if>  <%-- if (table row count > 0) --%>	
 
