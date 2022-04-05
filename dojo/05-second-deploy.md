@@ -28,13 +28,6 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
 1. Approve the release of your new version.  
     > :pushpin: **NOTE:** If you do not receive the email, see the [Appendix](#approving-deployments) at the bottom of this page.
 
-1. Reestablish the tunnel:
-    ```sh
-    ALB_DNS_NAME="Your alb DNS name"
-    AWS_PROFILE="tr-ihn-sandbox"
-    REGION="eu-west-1"
-    cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
-    ```
 1. Go back into the browser tab with your app and hit refresh.  
 1. While your application is undergoing linear deployment, you can keep hitting refresh to switch between the old version and the new version.  
     - The new version will be rare at first, and gradually become more common until it becomes the only version available.  
@@ -65,12 +58,12 @@ To access different versions of your applications using different headers, you c
     You can import [the same configuration file](./extra/headers_plugin_export.json) as the one above to make sure everything is set up correctly.
 - For the command line, you can use the `-H` option in `curl` to add a header. For example:
     ```sh
-    curl -H "X-BlueGreen-Routing: blue" localhost:8080/
-    curl -H "X-BlueGreen-Routing: green" localhost:8080/
+    curl -H "X-BlueGreen-Routing: blue" https://lab01.cumulus.0491.aws-int.thomsonreuters.com/
+    curl -H "X-BlueGreen-Routing: green" https://lab01.cumulus.0491.aws-int.thomsonreuters.com/
     ```
 
     - If you want to limit the output of `curl` to the line with the version, you can do:
         ```sh
-        curl -H "X-BlueGreen-Routing: blue" localhost:8080/ 2>&1 | grep -i version
-        curl -H "X-BlueGreen-Routing: green" localhost:8080/ 2>&1 | grep -i version
+        curl -H "X-BlueGreen-Routing: blue" https://lab01.cumulus.0491.aws-int.thomsonreuters.com/ 2>&1 | grep -i version
+        curl -H "X-BlueGreen-Routing: green" https://lab01.cumulus.0491.aws-int.thomsonreuters.com/ 2>&1 | grep -i version
         ```

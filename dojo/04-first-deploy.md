@@ -32,14 +32,7 @@ Deploy the first version of your application.  See how the pipeline progresses t
 1. Find the DNS name for your ALB.  For example, mine is `internal-a206296-dojo-u6065223-dev-23278987.eu-west-1.elb.amazonaws.com`.
     You can get your DNS name from the `DNSName` value in the `a206296-TEN-Acct-Id-ems-dojo-dev-alb-ecs-allconfig` stack that was deployed with Cloud IaC.
     Keep in mind that there are two DNS names - one for `dev` and one for `qa`. Make sure you pick the one from the `dev` stack.
-1. Modify the variables below and run the following command using cloud-tool:
-    ```sh
-    ALB_DNS_NAME="Your alb DNS name"
-    AWS_PROFILE="tr-ihn-sandbox"
-    REGION="eu-west-1"
-    cloud-tool --profile ${AWS_PROFILE} --region ${REGION} generic-ssh-tunnel -c ${ALB_DNS_NAME} -q 80 -r 8080
-    ```
-1. Open your browser and navigate to `http://localhost:8080`
+1. Open your browser and navigate to `https://<ALB_DNS_NAME>` (where you've replaced `<ALB_DNS_NAME>` with the value you just retrieved from your stack outputs)
 1. Notice the version in the top right.  To simulate a deploy, we will change this value in the source code and redeploy later.
 
 # Appendix
