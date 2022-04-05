@@ -5,11 +5,11 @@ Provision the infrastructure used by Cumulus pipelines.  This includes the Blue/
 # Steps
 1. Run the following command in your virtual environment to install the Cumulus CLI:  
 `pip install cumulus-cli`  
-> :pushpin: If you get an error along the lines of `unable to find cumulus-cli`, this likely means you don't have Artifactory setup as a pip repo.  See [Prerequisites](https://thehub.thomsonreuters.com/docs/DOC-2914661#jive_content_id_Artifactory_Credentials_and_Usage).
+> :pushpin: If you get an error along the lines of `unable to find cumulus-cli`, this likely means you don't have Artifactory setup as a pip repo.  See [Prerequisites](jive_content_id_Artifactory_Credentials_and_Usage).
 
 2. Inspect the file [cumulus-installspec.yaml](../cicd/cumulus-installspec.yaml).  This file does exactly what it says it does.  It provides the installer with the information necessary to install all the Cumulus infrastructure.  
 In the installspec, Ensure those lines with `# FIXME` in them are accurate.  The others can remain the same.  
-More information about this file can be found in the [configuration guide](https://thehub.thomsonreuters.com/docs/DOC-2914507).
+More information about this file can be found in the [configuration guide](https://trten.sharepoint.com/sites/intr-cumulus/SitePages/Configuration.aspx#cumulus-installspec.yaml).
 1. We will now run the installation.  In the script below, change the ARTIFACTORY_USERNAME variable to what you use to login to Artifactory.  This is your Enterprise Single Sign-On username (i.e. 0123456, x0123456, c0123456) and is listed in the upper right of the page when you log into Artifactory.  Also change the ARTIFACTORY_API_TOKEN to your current API token for Artifactory. You can find your current token by clicking on your username in the upper right of the page when you log into Artifactory, then click edit profile. Your key can be copied from there.
 ```sh
 ARTIFACTORY_USERNAME="0123456"

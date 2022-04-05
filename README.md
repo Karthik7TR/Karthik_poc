@@ -5,7 +5,7 @@ This is a Sample application created by the CCNG TechOps team's interns that can
 > :star: ***HINT:***
 >
 > You can follow along with a Cumulus engineer as they describe Cumulus and walk you through these steps.  
-> [The videos are here.](https://thehub.thomsonreuters.com/docs/DOC-2945792)
+> [The videos are here.](https://trten.sharepoint.com/sites/intr-cumulus/SitePages/Cumulus-Training---Cumulus-Videos.aspx)
 
 
 # Infrastructure
@@ -23,7 +23,7 @@ If you have questions during this process, **PLEASE** reach out to the Cumulus t
 There are **no** dumb questions!
 
 ## Prerequisites
-* [General prerequisites](https://thehub.thomsonreuters.com/docs/DOC-2914661)
+* [General prerequisites](https://trten.sharepoint.com/sites/intr-cumulus/SitePages/Cumulus-Prerequisites.aspx)
 
 ## Steps
 Perform the steps below in order.  Do not forget to clean up all of the resources you have created after you've completed the training.
