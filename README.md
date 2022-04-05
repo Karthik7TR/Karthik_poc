@@ -26,7 +26,7 @@ There are **no** dumb questions!
 * [General prerequisites](https://thehub.thomsonreuters.com/docs/DOC-2914661)
 
 ## Steps
-Perform the steps below in order.  However, if this is an onsite hands-on training, please do not progress to the next step until we are all there together.
+Perform the steps below in order.  Do not forget to clean up all of the resources you have created after you've completed the training.
 
 1. [01-clone-and-modify](dojo/01-clone-and-modify.md)
 1. [02-cumulus-installer](dojo/02-cumulus-installer.md)
@@ -34,9 +34,13 @@ Perform the steps below in order.  However, if this is an onsite hands-on traini
 1. [04-first-deploy](dojo/04-first-deploy.md)
 1. [05-second-deploy](dojo/05-second-deploy.md)
 
-## Cleanup
+## Cleanup Required
+**Cleaning up the resources you have created is a very important step in any public cloud training.**
+
 When you are finished, you can run this to cleanup all of the stuff the cumulus installer created.  
 `cumulus installer uninstall --profile ${AWS_PROFILE} --installer-file cicd/cumulus-installspec.yaml --artifactory-username ${ARTIFACTORY_USERNAME} --artifactory-password ${ARTIFACTORY_API_TOKEN} -d`
+
+**Remember to delete all of the individual CloudFormation stacks that you have created!**
 
 To delete the services, you'll have to delete the CloudFormation stacks from the non-CI/CD account manually.  The
  stack names will follow the syntax `a206296-[TEN-Acct-Id]-[dev/qa]-xxxxxxxxxxxxxxxxx` where xxxxxxxxxxxxxxxxx
