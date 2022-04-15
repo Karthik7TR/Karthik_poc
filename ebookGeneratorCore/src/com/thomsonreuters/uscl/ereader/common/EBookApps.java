@@ -13,6 +13,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
 public enum EBookApps {
+    //Comment to test CICD process as KT session
     MANAGER("Manager", "ebookManager",
             new AppEnv(new String[]{"c708pfmctasdf.int.thomsonreuters.com"}, "9007", "http://ebookmanager-ci.int.thomsonreuters.com"),
             new AppEnv(new String[]{"c281ffzctastf.int.thomsonreuters.com"}, "9003", "http://ebookmanager-demo.int.thomsonreuters.com"),
