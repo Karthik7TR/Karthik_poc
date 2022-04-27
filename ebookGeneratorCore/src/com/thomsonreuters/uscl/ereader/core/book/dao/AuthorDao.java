@@ -11,6 +11,8 @@ import org.springframework.data.repository.query.Param;
  * DAO to manage Author entities.
  *
  */
+//commenting to complete user story
+    //KT purpose
 public interface AuthorDao extends JpaRepository<Author, Long> {
     @Query("from Author a where a.ebookDefinition.ebookDefinitionId = :eBookDefnId")
     List<Author> findAuthorsByEBookDefnId(@Param("eBookDefnId") Long eBookDefnId);
