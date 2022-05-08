@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -42,10 +43,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_STATUS;
@@ -81,6 +79,17 @@ public class ProviewTitleListController {
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewTitleInfo);
     }
 
+
+    private List<ProviewTitleReportInfo> fetchSelectedProviewTitleReportInfo(final HttpSession httpSession) {
+        return (List<ProviewTitleReportInfo>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES_REPORT);
+    }
+
+    private void saveSelectedProviewTitleReportInfo(
+        final HttpSession httpSession,
+        final List<ProviewTitleReportInfo> selectedProviewTitleInfo) {
+        httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES_REPORT, selectedProviewTitleInfo);
+    }
+
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_TITLES)
     public ModelAndView getSelections(@ModelAttribute final ProviewListFilterForm form,
@@ -103,6 +112,15 @@ public class ProviewTitleListController {
             model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
         }
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo); // required for Excel Export Service
+
+		//Hardcoded for now
+    	List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
+        selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
+    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId1","V1.0", "Complete", "BookName1","key1","Isbn1","1234"));
+    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId2","V2.0", "Pending", "BookName2","key2","Isbn2","567"));
+    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId3","V3.0", "Review", "BookName3","key3","Isbn3","890"));
+		saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
+
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
         model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
@@ -421,4 +439,24 @@ public class ProviewTitleListController {
             .forEach(item -> item.setStatus(updatedStatus));
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
     }
+
+    @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REPORT_DOWNLOAD, method = RequestMethod.GET)
+    public void downloadPublishingTitleReportExcel(final HttpSession httpSession, final HttpServletResponse response) {
+        final ProviewListExcelTitleReportExportService excelExportService = new ProviewListExcelTitleReportExportService();
+        try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
+            final Date date = new Date();
+            final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
+            final String stringDate = s.format(date);
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader(
+                    "Content-Disposition",
+                    "attachment; filename=" + ProviewListExcelTitleReportExportService.TITLES_NAME + stringDate + ".xls");
+            final ServletOutputStream out = response.getOutputStream();
+            wb.write(out);
+            out.flush();
+        } catch (final Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
 }

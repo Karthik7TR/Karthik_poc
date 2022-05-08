@@ -94,7 +94,8 @@
 		
 	</display:table>
 	<a id="excelExport" href="<%= WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD %>">Download Excel</a>
-	
+	<a id="excelExport" href="<%= WebConstants.MVC_PROVIEW_TITLE_REPORT_DOWNLOAD %>">Download Title Report Excel</a>
+
 	<div class="buttons">
 			<input id="refreshButton" type="button" value="Refresh from ProView" onclick="refresh();"/>
 	</div>

@@ -9,6 +9,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,5 +36,9 @@ public class ProviewTitlesProvider {
 
     public List<ProviewTitleInfo> provideAllLatest() throws ProviewException {
         return new CopyOnWriteArrayList<>(proviewHandler.getAllLatestProviewTitleInfo(this.provideAll(false)));
+    }
+
+    public List<ProviewTitleReportInfo> provideAllLatestProviewTitleReport() throws ProviewException {
+        return proviewHandler.getAllProviewTitles();
     }
 }

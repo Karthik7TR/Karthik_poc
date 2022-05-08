@@ -10,12 +10,15 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface ProviewTitleListService {
 
     List<ProviewTitleInfo> getSelectedProviewTitleInfo(final ProviewListFilterForm form) throws ProviewException;
+    List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewListFilterForm form) throws ProviewException;
+    List<ProviewTitleReportInfo> getAllLatestProviewTitleReportInfo() throws ProviewException;
 
     Map<String, ProviewTitleContainer> getAllProviewTitleInfo(final boolean isRefresh) throws ProviewException;
 

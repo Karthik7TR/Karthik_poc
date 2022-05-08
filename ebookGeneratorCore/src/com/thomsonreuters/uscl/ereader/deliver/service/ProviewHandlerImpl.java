@@ -4,11 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -174,6 +170,27 @@ public class ProviewHandlerImpl implements ProviewHandler {
             allTitles.putAll(parser.process(publishedTitleResponse));
         }
         return allTitles;
+    }
+
+    @Override
+    public List<ProviewTitleReportInfo> getAllProviewTitles() throws ProviewException {
+        List<ProviewTitleReportInfo> lstProviewTitleReportInfo = new ArrayList<ProviewTitleReportInfo>();
+        List<PublisherCode> publishers = publisherCodeService.getAllPublisherCodes();
+        for (PublisherCode publisher : publishers) {
+            lstProviewTitleReportInfo.addAll(proviewClient.getAllPublishedTitlesJson(publisher.getName()));
+        }
+        return lstProviewTitleReportInfo;
+    }
+
+    @Override
+    public List<ProviewTitleReportInfo> getAllProviewTitleReportInfo() throws ProviewException {
+        List<ProviewTitleReportInfo> lstProviewTitles = Collections.emptyList();
+        List<PublisherCode> publishers = publisherCodeService.getAllPublisherCodes();
+        for (PublisherCode publisher : publishers) {
+            List<ProviewTitleReportInfo>  lstPublisherTitle = proviewClient.getAllPublishedTitlesJson(publisher.getName());
+            lstProviewTitles.addAll(lstPublisherTitle);
+        }
+        return lstProviewTitles;
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -47,6 +48,7 @@ public interface ProviewClient {
 
     /* proview list */
     String getAllPublishedTitles(String publisher) throws ProviewException;
+    List<ProviewTitleReportInfo> getAllPublishedTitlesJson(String publisher) throws ProviewException;
 
     String getSinglePublishedTitle(String fullyQualifiedTitleId) throws ProviewException;
 

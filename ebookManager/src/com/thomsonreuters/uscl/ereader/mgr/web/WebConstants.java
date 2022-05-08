@@ -15,6 +15,7 @@ public class WebConstants {
     public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
     public static final String KEY_ALL_LATEST_PROVIEW_GROUPS = "allLatestProviewGroups";
     public static final String KEY_SELECTED_PROVIEW_TITLES = "selectedProviewTitleInfo";
+    public static final String KEY_SELECTED_PROVIEW_TITLES_REPORT = "selectedProviewTitleReport";
     public static final String KEY_SELECTED_PROVIEW_GROUPS = "selectedProviewGroups";
     public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
     public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
@@ -286,6 +287,7 @@ public class WebConstants {
     public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
     public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
     public static final String MVC_PROVIEW_TITLE_DOWNLOAD = "proviewTitleDownload.mvc";
+    public static final String MVC_PROVIEW_TITLE_REPORT_DOWNLOAD = "proviewTitleReportDownload.mvc";
     public static final String MVC_PROVIEW_GROUPS = "proviewGroups.mvc";
     public static final String MVC_PROVIEW_GROUP_ALL_VERSIONS = "proviewGroupAllVersions.mvc";
     public static final String MVC_PROVIEW_GROUP_SINGLE_VERSION = "proviewGroupSingleVersion.mvc";
