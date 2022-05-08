@@ -8,12 +8,17 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.thomsonreuters.uscl.ereader.common.retry.Retry;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ExpectedProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -290,6 +295,37 @@ public class ProviewClientImpl implements ProviewClient {
         }
 
         return response;
+    }
+
+    public List<ProviewTitleReportInfo> getAllPublishedTitlesJson(String publisher)
+            throws ProviewException {
+
+        String jsonResponseListString = null;
+        List<ProviewTitleReportInfo> lstProviewTitleReportInfo = new ArrayList<ProviewTitleReportInfo>();
+        try {
+            final Map<String, String> urlParameters = new HashMap<>();
+            log.debug("Proview host: " + proviewHost.getHostName());
+            urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+            jsonResponseListString = restTemplate.execute(
+                    "http://{proviewHost}/v2/titles/" + publisher + ALL,
+                    HttpMethod.GET,
+                    proviewRequestCallbackFactory.getStreamRequestCallback(),
+                    proviewResponseExtractorFactory.getResponseExtractor(),
+                    urlParameters);
+            ObjectMapper mapper = new ObjectMapper();
+            final DateFormat df = new SimpleDateFormat("yyyyMMdd");
+            mapper.setDateFormat(df);
+            mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+            mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
+            lstProviewTitleReportInfo = mapper.readValue(jsonResponseListString, new TypeReference<List<ProviewTitleReportInfo>>() {});
+
+        } catch (final Exception e) {
+            log.debug(e.getMessage());
+            throw new ProviewException(e.getMessage());
+        }
+
+        return lstProviewTitleReportInfo;
+
     }
 
     @Override

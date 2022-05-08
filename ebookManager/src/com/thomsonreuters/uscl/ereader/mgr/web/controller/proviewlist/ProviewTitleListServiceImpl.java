@@ -92,6 +92,12 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         }
         return selectedProviewTitleInfo;
     }
+    public List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewListFilterForm form)
+            throws ProviewException
+    {
+        final List<ProviewTitleReportInfo> allLatestProviewTitleReportInfo = getAllLatestProviewTitleReportInfo();
+        return allLatestProviewTitleReportInfo;
+    }
 
     private boolean hasAnyLastStatusUpdateDates(final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
         return Optional.ofNullable(allLatestProviewTitleInfo)
@@ -239,6 +245,11 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     @Override
     public List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException {
         return proviewTitlesProvider.provideAllLatest();
+    }
+
+    @Override
+    public List<ProviewTitleReportInfo> getAllLatestProviewTitleReportInfo() throws ProviewException {
+        return proviewTitlesProvider.provideAllLatestProviewTitleReport();
     }
 
     @Override
