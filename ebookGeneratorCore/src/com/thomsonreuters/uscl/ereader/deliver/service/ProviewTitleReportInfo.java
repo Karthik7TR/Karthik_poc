@@ -12,8 +12,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(of = {"titleId", "version", "status", "bookName", "keywords", "isbn", "materialNo"})
-@EqualsAndHashCode(of = {"titleId", "version", "status", "bookName", "keywords", "isbn", "materialNo"})
+@ToString(of = {"id", "version", "name"})
+@EqualsAndHashCode(of = {"id", "version", "name"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProviewTitleReportInfo {
