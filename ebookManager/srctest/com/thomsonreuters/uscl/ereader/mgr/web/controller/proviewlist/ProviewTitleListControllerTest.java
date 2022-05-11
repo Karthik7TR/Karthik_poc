@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -137,6 +138,10 @@ public final class ProviewTitleListControllerTest {
         when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
                 .thenThrow(new ProviewException(""));
 
+        final List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
+        when(mockProviewTitleListService.getSelectedProviewTitleReportInfo(any(ProviewListFilterForm.class)))
+                .thenReturn(selectedProviewTitleReportInfoList);
+
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
@@ -145,7 +150,8 @@ public final class ProviewTitleListControllerTest {
         assertEquals(Boolean.TRUE, model.get(WebConstants.KEY_ERROR_OCCURRED));
         assertEquals(objectsPerPage, model.get(WebConstants.KEY_PAGE_SIZE));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
-        verifyNoMoreInteractions(mockProviewTitleListService);
+        verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
+        //verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
     private void initProviewTitlesGetRequest() {
@@ -160,6 +166,10 @@ public final class ProviewTitleListControllerTest {
         when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
                 .thenReturn(selectedProviewTitleInfo);
 
+        final List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
+        when(mockProviewTitleListService.getSelectedProviewTitleReportInfo(any(ProviewListFilterForm.class)))
+                .thenReturn(selectedProviewTitleReportInfoList);
+
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
@@ -169,7 +179,8 @@ public final class ProviewTitleListControllerTest {
         assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
         assertNotNull(model.get(ProviewListFilterForm.FORM_NAME));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
-        verifyNoMoreInteractions(mockProviewTitleListService);
+        verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
+        //verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
     @Test
