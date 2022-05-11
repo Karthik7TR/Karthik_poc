@@ -1,6 +1,9 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
+
+import java.util.List;
 
 public interface VersionIsbnService {
 
@@ -19,4 +22,10 @@ public interface VersionIsbnService {
     void modifyIsbn(String titleId, String isbn);
 
     void resetIsbn(String titleId, String isbn);
+
+    String getMaterialIdOfTitleVersion(final String titleId, final String version);
+
+    void saveMaterialId(String titleId, String version, String materialId);
+
+    List<VersionIsbn> getAllVersionIsbnEbookDefinition();
 }

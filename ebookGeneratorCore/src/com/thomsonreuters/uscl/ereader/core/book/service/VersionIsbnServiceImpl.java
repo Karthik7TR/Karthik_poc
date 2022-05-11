@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
@@ -123,4 +124,31 @@ public class VersionIsbnServiceImpl implements VersionIsbnService {
     private String getDigitalIsbn(final String isbn) {
         return isbn.replace("-", "");
     }
+
+    @Override
+    public String getMaterialIdOfTitleVersion(final String titleId, final String version) {
+        return Optional.ofNullable(bookDefinitionService.findBookDefinitionByTitle(titleId))
+                .map(bookDefinition -> versionIsbnDao.findDistinctByEbookDefinitionAndVersion(bookDefinition, version))
+                .map(VersionIsbn::getMaterialId)
+                .orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public void saveMaterialId(String titleId, String version, String materialId) {
+        BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(titleId);
+        if (bookDefinition != null) {
+            VersionIsbn versionIsbn = versionIsbnDao.findDistinctByEbookDefinitionAndVersion(bookDefinition, version);
+            if (versionIsbn != null) {
+                versionIsbn.setMaterialId(materialId);
+                versionIsbnDao.save(versionIsbn);
+            }
+        }
+    }
+
+    @Override
+    public List<VersionIsbn> getAllVersionIsbnEbookDefinition() {
+        return versionIsbnDao.findAllVersionIsbnBookDefinition();
+    }
+
 }

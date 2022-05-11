@@ -28,5 +28,6 @@ public class ProviewTitleReportInfo {
     private String isbn;
     private Date lastupdate;
     private List<ProviewTitleReportKeyword> keyword;
+    private String materialId;
 
 }

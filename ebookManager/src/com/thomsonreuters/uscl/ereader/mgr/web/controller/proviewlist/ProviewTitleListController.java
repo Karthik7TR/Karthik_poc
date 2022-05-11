@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
@@ -113,12 +114,17 @@ public class ProviewTitleListController {
         }
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo); // required for Excel Export Service
 
-		//Hardcoded for now
     	List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
         selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
-    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId1","V1.0", "Complete", "BookName1","key1","Isbn1","1234"));
-    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId2","V2.0", "Pending", "BookName2","key2","Isbn2","567"));
-    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId3","V3.0", "Review", "BookName3","key3","Isbn3","890"));
+        //update Material Id from VERSION_ISBN
+        List<VersionIsbn> lstVersionIsbn = versionIsbnService.getAllVersionIsbnEbookDefinition();
+        selectedProviewTitleReportInfoList.forEach((report) -> {
+                VersionIsbn currIsbn =  lstVersionIsbn.stream().filter(vi -> vi.getEbookDefinition().getFullyQualifiedTitleId().equals(report.getId()) &&
+                        vi.getVersion().equals(report.getVersion().substring(1))).findFirst().orElse(null);
+                if (currIsbn != null && currIsbn.getMaterialId() != null) {
+                    report.setMaterialId(currIsbn.getMaterialId());
+                }
+        });
 		saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
 
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
