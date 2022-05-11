@@ -113,12 +113,13 @@ public class ProviewTitleListController {
         }
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo); // required for Excel Export Service
 
-		//Hardcoded for now
     	List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
-        selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
-    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId1","V1.0", "Complete", "BookName1","key1","Isbn1","1234"));
-    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId2","V2.0", "Pending", "BookName2","key2","Isbn2","567"));
-    	//proviewTitleReportInfoList.add(new ProvviewTitleReportInfo("TitleId3","V3.0", "Review", "BookName3","key3","Isbn3","890"));
+        try {
+             selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
+        } catch (final ProviewException e) {
+            log.warn(e.getMessage(), e);
+            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
+        }
 		saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
 
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
