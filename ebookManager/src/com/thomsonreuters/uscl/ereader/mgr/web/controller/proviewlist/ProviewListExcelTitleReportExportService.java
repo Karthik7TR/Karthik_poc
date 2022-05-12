@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class ProviewListExcelTitleReportExportService extends BaseExcelExportService {
     public static final String TITLES_NAME = "ProviewTitleReport";
     public static final String[] TITLES_HEADER =
-        {"Title ID", "Version", "Status", "Book Name", "ISBN", "Material#"};
+        {"Title ID", "Version", "Status", "Book Name", "ISBN", "MaterialNo"};
 
     public ProviewListExcelTitleReportExportService() {
         super();
@@ -39,7 +39,7 @@ public class ProviewListExcelTitleReportExportService extends BaseExcelExportSer
             //row.createCell(4).setCellValue(title.getKeyword());
             row.createCell(4).setCellValue(title.getIsbn());
             //derive material no
-            row.createCell(5).setCellValue("123");
+            row.createCell(5).setCellValue(title.getMaterialId());
             if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(

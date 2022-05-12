@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
@@ -120,6 +121,15 @@ public class ProviewTitleListController {
             log.warn(e.getMessage(), e);
             model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
         }
+        //update Material Id from VERSION_ISBN
+        List<VersionIsbn> lstVersionIsbn = versionIsbnService.getAllVersionIsbnEbookDefinition();
+        selectedProviewTitleReportInfoList.forEach((report) -> {
+                VersionIsbn currIsbn =  lstVersionIsbn.stream().filter(vi -> vi.getEbookDefinition().getFullyQualifiedTitleId().equals(report.getId()) &&
+                        vi.getVersion().equals(report.getVersion().substring(1))).findFirst().orElse(null);
+                if (currIsbn != null && currIsbn.getMaterialId() != null) {
+                    report.setMaterialId(currIsbn.getMaterialId());
+                }
+        });
 		saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
 
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);

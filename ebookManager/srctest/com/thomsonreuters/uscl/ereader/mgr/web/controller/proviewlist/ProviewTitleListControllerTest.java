@@ -151,7 +151,7 @@ public final class ProviewTitleListControllerTest {
         assertEquals(objectsPerPage, model.get(WebConstants.KEY_PAGE_SIZE));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
         verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
-        //verifyNoMoreInteractions(mockProviewTitleListService);
+        verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
     private void initProviewTitlesGetRequest() {
@@ -180,7 +180,7 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(model.get(ProviewListFilterForm.FORM_NAME));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
         verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
-        //verifyNoMoreInteractions(mockProviewTitleListService);
+        verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
     @Test

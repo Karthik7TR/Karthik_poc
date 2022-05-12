@@ -2,18 +2,9 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -52,6 +43,15 @@ public class VersionIsbn implements Serializable, EbookDefinitionAware {
     @Column(name = "ISBN")
     @NotNull
     private String isbn;
+
+    @Column(name = "MATERIAL_ID")
+    @Null
+    private String materialId;
+
+    @Transient
+    public String getBookTitleId() {
+        return ebookDefinition.getFullyQualifiedTitleId();
+    }
 
     public VersionIsbn(final BookDefinition ebookDefinition, final String version, final String isbn) {
         this.ebookDefinition = ebookDefinition;
