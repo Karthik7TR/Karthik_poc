@@ -116,12 +116,11 @@ public class ProviewTitleListController {
 
     	List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
         try {
-            selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
+             selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
         } catch (final ProviewException e) {
             log.warn(e.getMessage(), e);
             model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
         }
-
         //update Material Id from VERSION_ISBN
         List<VersionIsbn> lstVersionIsbn = versionIsbnService.getAllVersionIsbnEbookDefinition();
         selectedProviewTitleReportInfoList.forEach((report) -> {
