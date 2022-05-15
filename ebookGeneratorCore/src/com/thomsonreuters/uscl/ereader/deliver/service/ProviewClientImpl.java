@@ -73,6 +73,7 @@ public class ProviewClientImpl implements ProviewClient {
     private String deleteGroupUriTemplate;
 
     private String getTitlesUriTemplate;
+    private String getTitlesJsonUriTemplate;
     private String getTitleInfoUriTemplate;
     private String singleTitleTemplate;
     private String singleTitleByVersionUriTemplate;
@@ -307,7 +308,7 @@ public class ProviewClientImpl implements ProviewClient {
             log.debug("Proview host: " + proviewHost.getHostName());
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
             jsonResponseListString = restTemplate.execute(
-                    "http://{proviewHost}/v2/titles/" + publisher + ALL,
+                    getTitlesJsonUriTemplate + publisher + ALL,
                     HttpMethod.GET,
                     proviewRequestCallbackFactory.getStreamRequestCallback(),
                     proviewResponseExtractorFactory.getResponseExtractor(),
@@ -614,6 +615,11 @@ public class ProviewClientImpl implements ProviewClient {
     @Required
     public void setGetTitlesUriTemplate(final String getTitlesUriTemplate) {
         this.getTitlesUriTemplate = getTitlesUriTemplate;
+    }
+
+    @Required
+    public void setGetTitlesJsonUriTemplate(final String getTitlesJsonUriTemplate) {
+        this.getTitlesJsonUriTemplate = getTitlesJsonUriTemplate;
     }
 
     @Required

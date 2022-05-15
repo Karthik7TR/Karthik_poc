@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportKeyword;
 import com.thomsonreuters.uscl.ereader.ioutil.BaseExcelExportService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -14,8 +15,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class ProviewListExcelTitleReportExportService extends BaseExcelExportService {
     public static final String TITLES_NAME = "ProviewTitleReport";
     public static final String[] TITLES_HEADER =
-        {"Title ID", "Version", "Status", "Book Name", "ISBN", "MaterialNo"};
+        {"Title Id", "Version", "Status", "Material No", "Book Name", "Keywords", "ISBN"};
 
+    private static final String KEYWORD_TYPE_JURISDICTION = "jurisdiction";
+    private static final String KEYWORD_TYPE_SUBJECT = "subject";
     public ProviewListExcelTitleReportExportService() {
         super();
         SHEET_NAME = TITLES_NAME;
@@ -35,11 +38,22 @@ public class ProviewListExcelTitleReportExportService extends BaseExcelExportSer
             row.createCell(0).setCellValue(title.getId());
             row.createCell(1).setCellValue(title.getVersion());
             row.createCell(2).setCellValue(title.getStatus());
-            row.createCell(3).setCellValue(title.getName());
-            //row.createCell(4).setCellValue(title.getKeyword());
-            row.createCell(4).setCellValue(title.getIsbn());
-            //derive material no
-            row.createCell(5).setCellValue(title.getMaterialId());
+            row.createCell(3).setCellValue(title.getMaterialId());
+            row.createCell(4).setCellValue(title.getName());
+
+            String keyword = "";
+            if (title.getKeyword() != null && title.getKeyword().size()>=1) {
+                for (final ProviewTitleReportKeyword keywords : title.getKeyword()) {
+                    if (KEYWORD_TYPE_JURISDICTION.equalsIgnoreCase(keywords.getType())) {
+                        keyword += keywords.getValue() + ",";
+                    } else if (KEYWORD_TYPE_SUBJECT.equalsIgnoreCase(keywords.getType())) {
+                        keyword += keywords.getValue() + ",";
+                    }
+                }
+                keyword = keyword.substring(0, keyword.length() - 1);
+            }
+            row.createCell(5).setCellValue(keyword);
+            row.createCell(6).setCellValue(title.getIsbn());
             if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(

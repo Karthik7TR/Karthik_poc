@@ -10,11 +10,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -346,6 +342,35 @@ public final class ProviewHandlerImplTest {
         when(mockProviewClient.getAllPublishedTitles(CW)).thenReturn(cwResponse);
 
         final List<ProviewTitleInfo> titleInfo = proviewHandler.getAllLatestProviewTitleInfo();
+
+        assertEquals(2, titleInfo.size());
+    }
+
+    @Test
+    public void testGetAllProviewTitleReportInfo() throws Exception {
+        ProviewTitleReportInfo titleInfoUscl = new ProviewTitleReportInfo();
+        titleInfoUscl.setId("uscl/an/aaal");
+        titleInfoUscl.setVersion("v1.1");
+        titleInfoUscl.setStatus("Final");
+        titleInfoUscl.setName("Art, Artifact, Architecture and Museum Law, 2014 ed.");
+        titleInfoUscl.setIsbn("9780314860002");
+        titleInfoUscl.setTotalNumberOfVersions(2);
+
+        ProviewTitleReportInfo titleInfoCw = new ProviewTitleReportInfo();
+        titleInfoCw.setId("cw/eg/book_en");
+        titleInfoCw.setVersion("v1.0");
+        titleInfoCw.setStatus("Review");
+        titleInfoCw.setName("Test cw book");
+        titleInfoCw.setIsbn("1230314860002");
+        titleInfoCw.setTotalNumberOfVersions(1);
+
+        List<ProviewTitleReportInfo>  lstPublisherTitleUscl = Collections.singletonList(titleInfoUscl);
+        List<ProviewTitleReportInfo>  lstPublisherTitleCw = Collections.singletonList(titleInfoCw);
+
+        when(mockProviewClient.getAllPublishedTitlesJson(USCL)).thenReturn(lstPublisherTitleUscl);
+        when(mockProviewClient.getAllPublishedTitlesJson(CW)).thenReturn(lstPublisherTitleCw);
+
+        final List<ProviewTitleReportInfo> titleInfo = proviewHandler.getAllProviewTitleReportInfo();
 
         assertEquals(2, titleInfo.size());
     }
