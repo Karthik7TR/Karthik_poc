@@ -96,7 +96,14 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             throws ProviewException
     {
         final List<ProviewTitleReportInfo> allLatestProviewTitleReportInfo = getAllLatestProviewTitleReportInfo();
-        return allLatestProviewTitleReportInfo;
+        final List<ProviewTitleReportInfo> selectedProviewTitleReportInfo;
+        if (form.areAllFiltersBlank()) {
+            selectedProviewTitleReportInfo = allLatestProviewTitleReportInfo;
+        } else {
+            selectedProviewTitleReportInfo = getFilteredProviewTitleReportInfos(form, allLatestProviewTitleReportInfo);
+        }
+
+        return selectedProviewTitleReportInfo;
     }
 
     private boolean hasAnyLastStatusUpdateDates(final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
@@ -235,6 +242,114 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             }
         }
         return selectedProviewTitleInfo;
+    }
+
+    private List<ProviewTitleReportInfo> getFilteredProviewTitleReportInfos(final ProviewListFilterForm filterForm,
+                                                                final List<ProviewTitleReportInfo> allLatestProviewTitleReportInfo) {
+        List<ProviewTitleReportInfo> selectedProviewTitleReportInfo = new ArrayList<ProviewTitleReportInfo>();
+        boolean proviewDisplayNameBothWayWildCard = false;
+        boolean proviewDisplayNameEndsWithWildCard = false;
+        boolean proviewDisplayNameStartsWithWildCard = false;
+        boolean titleIdBothWayWildCard = false;
+        boolean titleIdEndsWithWildCard = false;
+        boolean titleIdStartsWithWildCard = false;
+        String proviewDisplayNameSearchTerm = filterForm.getProviewDisplayName();
+        String titleIdSearchTerm = filterForm.getTitleId();
+        String statusSearchTerm = filterForm.getStatus();
+
+        if (filterForm.getProviewDisplayName() != null) {
+            if (filterForm.getProviewDisplayName().endsWith("%")
+                    && filterForm.getProviewDisplayName().startsWith("%")) {
+                proviewDisplayNameBothWayWildCard = true;
+            } else if (filterForm.getProviewDisplayName().endsWith("%")) {
+                proviewDisplayNameStartsWithWildCard = true;
+            } else if (filterForm.getProviewDisplayName().startsWith("%")) {
+                proviewDisplayNameEndsWithWildCard = true;
+            }
+
+            proviewDisplayNameSearchTerm = proviewDisplayNameSearchTerm.replaceAll("%", "");
+        }
+
+        if (filterForm.getTitleId() != null) {
+            if (filterForm.getTitleId().endsWith("%") && filterForm.getTitleId().startsWith("%")) {
+                titleIdBothWayWildCard = true;
+            } else if (filterForm.getTitleId().endsWith("%")) {
+                titleIdStartsWithWildCard = true;
+            } else if (filterForm.getTitleId().startsWith("%")) {
+                titleIdEndsWithWildCard = true;
+            }
+
+            titleIdSearchTerm = titleIdSearchTerm.toLowerCase().replaceAll("%", "");
+        }
+
+        for (final ProviewTitleReportInfo titleInfo : allLatestProviewTitleReportInfo) {
+            boolean selected = true;
+            if (proviewDisplayNameSearchTerm != null) {
+                if (titleInfo.getId() == null) {
+                    selected = false;
+                } else {
+                    if (proviewDisplayNameBothWayWildCard) {
+                        if (!titleInfo.getId().contains(proviewDisplayNameSearchTerm)) {
+                            selected = false;
+                        }
+                    } else if (proviewDisplayNameEndsWithWildCard) {
+                        if (!titleInfo.getId().endsWith(proviewDisplayNameSearchTerm)) {
+                            selected = false;
+                        }
+                    } else if (proviewDisplayNameStartsWithWildCard) {
+                        if (!titleInfo.getId().startsWith(proviewDisplayNameSearchTerm)) {
+                            selected = false;
+                        }
+                    } else if (!titleInfo.getId().equals(proviewDisplayNameSearchTerm)) {
+                        selected = false;
+                    }
+                }
+            }
+            if (selected) {
+                if (titleIdSearchTerm != null) {
+                    if (titleInfo.getId() == null) {
+                        selected = false;
+                    } else {
+                        if (titleIdBothWayWildCard) {
+                            if (!titleInfo.getId().contains(titleIdSearchTerm)) {
+                                selected = false;
+                            }
+                        } else if (titleIdEndsWithWildCard) {
+                            if (!titleInfo.getId().endsWith(titleIdSearchTerm)) {
+                                selected = false;
+                            }
+                        } else if (titleIdStartsWithWildCard) {
+                            if (!titleInfo.getId().startsWith(titleIdSearchTerm)) {
+                                selected = false;
+                            }
+                        } else if (!titleInfo.getId().equals(titleIdSearchTerm)) {
+                            selected = false;
+                        }
+                    }
+                }
+            }
+            if (selected) {
+                if (!(titleInfo.getTotalNumberOfVersions() >= filterForm.getMinVersionsInt())) {
+                    selected = false;
+                }
+            }
+            if (selected) {
+                if (!(titleInfo.getTotalNumberOfVersions() <= filterForm.getMaxVersionsInt())) {
+                    selected = false;
+                }
+            }
+            if (selected) {
+                if (statusSearchTerm != null) {
+                    if (!StringUtils.containsIgnoreCase(titleInfo.getStatus(), statusSearchTerm)) {
+                        selected = false;
+                    }
+                }
+            }
+            if (selected) {
+                selectedProviewTitleReportInfo.add(titleInfo);
+            }
+        }
+        return selectedProviewTitleReportInfo;
     }
 
     @Override

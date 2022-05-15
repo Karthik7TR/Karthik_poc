@@ -39,6 +39,6 @@ public class ProviewTitlesProvider {
     }
 
     public List<ProviewTitleReportInfo> provideAllLatestProviewTitleReport() throws ProviewException {
-        return proviewHandler.getAllProviewTitles();
+        return proviewHandler.getAllProviewTitleReportInfo();
     }
 }

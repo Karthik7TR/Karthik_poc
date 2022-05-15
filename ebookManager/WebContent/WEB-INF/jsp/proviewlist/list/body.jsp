@@ -94,6 +94,7 @@
 		
 	</display:table>
 	<a id="excelExport" href="<%= WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD %>">Download Excel</a>
+	</br>
 	<a id="excelExport" href="<%= WebConstants.MVC_PROVIEW_TITLE_REPORT_DOWNLOAD %>">Download Title Report Excel</a>
 
 	<div class="buttons">

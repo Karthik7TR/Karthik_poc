@@ -3,8 +3,7 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.InetAddress;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
@@ -44,6 +43,7 @@ public final class ProviewClientImplTest {
     private Map<String, String> urlParameters = new HashMap<>();
     private String allGroupsUriTemplate = "http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/";
     private String getTitlesUriTemplate = "/v1/titles/";
+    private String getTitlesJsonUriTemplate = "/v2/titles/";
     private ProviewClientImpl proviewClient;
     private RestTemplate mockRestTemplate;
     private ResponseEntity<?> mockResponseEntity;
@@ -361,6 +361,46 @@ public final class ProviewClientImplTest {
         verifyAll();
 
         Assert.assertEquals(response, titleInfo);
+    }
+
+    @Test
+    public void testGetAllPublishedTitlesJson() throws Exception {
+        proviewClient.setGetTitlesJsonUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesJsonUriTemplate);
+
+        final String responseJsonString =
+                "[{\"id\":\"uscl/an/aaal\",\"version\":\"v1.1\",\"status\":\"Final\",\"name\":\"Art, Artifact, Architecture and Museum Law, 2014 ed.\",\"authors\":[\"Alexandra Darraby\"],\"isbn\":\"97-807-653-875-23\",\"lastupdate\":\"20160204\",\"keyword\":[{\"value\":\"Federal\",\"text\":\"Federal\",\"type\":\"jurisdiction\"}]}]";
+        List <ProviewTitleReportInfo> expectedTitleReportLst = new ArrayList<ProviewTitleReportInfo>();
+        ProviewTitleReportInfo title = new ProviewTitleReportInfo();
+        title.setId("uscl/an/aaal");
+        title.setName("Art, Artifact, Architecture and Museum Law, 2014 ed.");
+        title.setVersion("v1.1");
+        title.setStatus("Final");
+        title.setIsbn("97-807-653-875-23");
+        title.setMaterialId("MaterialNo123");
+        title.setTotalNumberOfVersions(3);
+        ProviewTitleReportKeyword key = new ProviewTitleReportKeyword("Federal","Federal", "jurisdiction");
+        title.setKeyword(Collections.singletonList(key));
+        expectedTitleReportLst.add(title);
+
+        EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
+        EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+        EasyMock.expect(
+                        mockRestTemplate.execute(
+                                "http://" + PROVIEW_DOMAIN_PREFIX + getTitlesJsonUriTemplate + USCL + ALL,
+                                HttpMethod.GET,
+                                mockRequestCallback,
+                                mockResponseExtractor,
+                                urlParameters))
+                .andReturn(responseJsonString);
+
+        replayAll();
+        final List<ProviewTitleReportInfo> responseTitleInfoList = proviewClient.getAllPublishedTitlesJson(USCL);
+        verifyAll();
+
+        Assert.assertEquals(1,responseTitleInfoList.size());
+        Assert.assertEquals(expectedTitleReportLst.get(0).getId(),responseTitleInfoList.get(0).getId());
+        Assert.assertEquals(expectedTitleReportLst.get(0).getStatus(),responseTitleInfoList.get(0).getStatus());
+        Assert.assertEquals(expectedTitleReportLst.get(0).getKeyword().get(0).getType(),responseTitleInfoList.get(0).getKeyword().get(0).getType());
     }
 
     @Test

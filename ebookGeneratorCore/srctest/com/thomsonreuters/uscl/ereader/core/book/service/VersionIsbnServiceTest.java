@@ -34,6 +34,7 @@ public final class VersionIsbnServiceTest {
     private static final String PT_2 = "_pt2";
     private static final String ISBN_1 = "978-5-3322-6109-1";
     private static final String ISBN_2 = "978-3-7303-6936-4";
+    private static final String MATERIAL_ID_1 = "789012";
     private static final String VERSION = "4.7";
 
     private VersionIsbnService versionIsbnService;
@@ -68,6 +69,17 @@ public final class VersionIsbnServiceTest {
     }
 
     @Test
+    public void testGetMaterialIdOfTitleVersion() {
+        when(mockBookDefinitionService.findBookDefinitionByTitle(TITLE_ID)).thenReturn(mockBookDefinition);
+        when(mockVersionIsbnDao.findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION)).thenReturn(mockVersionIsbn1);
+        when(mockVersionIsbn1.getMaterialId()).thenReturn(MATERIAL_ID_1);
+
+        String materialId = versionIsbnService.getMaterialIdOfTitleVersion(TITLE_ID, VERSION);
+
+        assertEquals(MATERIAL_ID_1, materialId);
+    }
+
+    @Test
     public void testGetIsbnOfTitleVersion_noBookDefinition() {
         String isbn = versionIsbnService.getIsbnOfTitleVersion(TITLE_ID, VERSION);
 
@@ -92,6 +104,17 @@ public final class VersionIsbnServiceTest {
         versionIsbnService.saveIsbn(mockBookDefinition, VERSION, ISBN_1);
 
         verify(mockBookDefinition).getTitleId();
+        verify(mockVersionIsbnDao).findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION);
+        verify(mockVersionIsbnDao).save(mockVersionIsbn1);
+    }
+
+    @Test
+    public void testSaveMaterialId() {
+        when(mockBookDefinitionService.findBookDefinitionByTitle(TITLE_ID)).thenReturn(mockBookDefinition);
+        when(mockVersionIsbnDao.findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION)).thenReturn(mockVersionIsbn1);
+
+        versionIsbnService.saveMaterialId(TITLE_ID, VERSION, MATERIAL_ID_1);
+
         verify(mockVersionIsbnDao).findDistinctByEbookDefinitionAndVersion(mockBookDefinition, VERSION);
         verify(mockVersionIsbnDao).save(mockVersionIsbn1);
     }
