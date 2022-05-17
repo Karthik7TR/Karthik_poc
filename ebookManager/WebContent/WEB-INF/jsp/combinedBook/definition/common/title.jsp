@@ -18,7 +18,7 @@
             <div class="titleData">
                 <div><label>Title ID:</label> ${primaryTitle.fullyQualifiedTitleId}</div>
                 <div><label>ProView Display Name:</label> ${fn:escapeXml(primaryTitle.proviewDisplayName)}</div>
-                <div class="bookStatus"><label>Definition Status:</label> ${combinedBookDefinition.deletedFlag ? "Deleted": primaryTitle.bookStatus}</div>
+                <div class="bookStatus"><label>Definition Status:</label> ${primaryTitle.bookStatus}</div>
             </div>
         </div>
     </c:otherwise>

@@ -55,6 +55,17 @@ public class CombinedBookDefinition {
                 .orElseThrow(() -> new EBookException("Primary title was not found"));
     }
 
+    public boolean isBookDefinitionDeletedFlag() {
+        List<BookDefinition> bookDefinitionList = sources.stream()
+                .map(CombinedBookDefinitionSource::getBookDefinition)
+                .collect(Collectors.toList());
+
+        long countOfDeletedBooks = bookDefinitionList.stream()
+                .filter(book -> book.isDeletedFlag())
+                .count();
+        return countOfDeletedBooks >= 1 ? true : false;
+    }
+
     public void setIsDeletedFlag(final boolean isDeletedFlag) {
         this.isDeletedFlag = getStringForBooleanValue(isDeletedFlag);
     }
