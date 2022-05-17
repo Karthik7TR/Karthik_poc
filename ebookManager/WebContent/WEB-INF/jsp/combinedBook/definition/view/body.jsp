@@ -38,6 +38,7 @@
             <display:column title="Source Type">${vdo.bookDefinition.sourceType}</display:column>
             <display:column title="Title ID"><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinition.ebookDefinitionId}">${vdo.bookDefinition.fullyQualifiedTitleId}</a></display:column>
             <display:column title="Primary Title">${ vdo.primarySource ? "&#10004;" : "" }</display:column>
+            <display:column title="Deleted Book">${ vdo.bookDefinition.deletedFlag ? "&#10004;" : "" }</display:column>
         </display:table>
     </div>
     <div class="buttons">
@@ -48,7 +49,14 @@
             <c:otherwise>
                 <button type="button" ${editBook} onclick="location.href='<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_EDIT%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}'">Edit</button>
                 <button type="button" onclick="alert('In development')">Copy</button>
-                <button type="button" ${copyGenerateBook} onclick="location.href='<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}&<%=WebConstants.KEY_IS_COMBINED%>=true'">Generate</button>
+                <c:choose>
+                    <c:when test="${combinedBookDefinition.bookDefinitionDeletedFlag}">
+                       <button type="button" disabled>Generate</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" ${copyGenerateBook} onclick="location.href='<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}&<%=WebConstants.KEY_IS_COMBINED%>=true'">Generate</button>
+                    </c:otherwise>
+                </c:choose>
                 <button type="button" ${editGroup} onclick="location.href='<%=WebConstants.MVC_GROUP_DEFINITION_EDIT%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}&<%=WebConstants.KEY_IS_COMBINED%>=true'">Create/Edit Group</button>
                 <button type="button" ${superUser} onclick="location.href='<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE%>?<%=WebConstants.KEY_ID%>=${combinedBookDefinition.id}'">Delete</button>
             </c:otherwise>
