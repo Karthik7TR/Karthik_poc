@@ -24,7 +24,6 @@ function dialog(btnSelector, btnLabel, httpMethod, url, redirectUrl, redirectUrl
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        alert("Operation failed " + textStatus + ": " + jqXHR.status + " " + errorThrown);
                         if (redirectUrlError !== '') {
                             location.href = redirectUrlError;
                         } else {
