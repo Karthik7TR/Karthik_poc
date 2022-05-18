@@ -3,5 +3,5 @@
     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>${param.description}</p>
 </div>
 <script>
-    dialog('${param.btnSelector}', '${param.btnLabel}', '${param.httpMethod}', '${param.url}', '${param.redirectUrl}');
+    dialog('${param.btnSelector}', '${param.btnLabel}', '${param.httpMethod}', '${param.url}', '${param.redirectUrl}', '${param.redirectUrlError}');
 </script>

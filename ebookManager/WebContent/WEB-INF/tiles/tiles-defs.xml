@@ -498,6 +498,11 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/view/body.jsp"/>
 	</definition>
 
+	<definition name="_combinedBookDefinitionDeleteError" extends="oneColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/delete/titleDeleteError.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/view/body.jsp"/>
+	</definition>
+
 	<definition name="_combinedBookDefinitionEdit" extends="oneColumnDefinition">
 		<put-attribute name="title" value="/WEB-INF/jsp/combinedBook/definition/edit/title.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/jsp/combinedBook/definition/edit/body.jsp"/>
