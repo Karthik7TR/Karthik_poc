@@ -29,4 +29,5 @@
     <jsp:param name="httpMethod" value="DELETE"/>
     <jsp:param name="url" value="${WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE}?${WebConstants.KEY_ID}=${combinedBookDefinition.id}"/>
     <jsp:param name="redirectUrl" value="${WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW}?${WebConstants.KEY_ID}=${combinedBookDefinition.id}"/>
+    <jsp:param name="redirectUrlError" value="${WebConstants.MVC_COMBINED_BOOK_DEFINITION_DELETE_ERROR}?${WebConstants.KEY_ID}=${combinedBookDefinition.id}"/>
 </jsp:include>

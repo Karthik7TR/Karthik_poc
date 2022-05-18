@@ -4,7 +4,7 @@
 
 <c:choose>
     <c:when test="${combinedBookDefinition == null}">
-        <div class="errorMessage"><b>Combined book definition was not found.</b></div><br/>
+        <div class="errorMessage"><b>Combined book definition was not found or deleted successfully.</b></div><br/>
     </c:when>
     <c:when test="${combinedBookDefinition.primaryTitle.bookDefinition == null}">
         <div class="errorMessage">Primary book definition was deleted.</div>
@@ -18,8 +18,7 @@
             <div class="titleData">
                 <div><label>Title ID:</label> ${primaryTitle.fullyQualifiedTitleId}</div>
                 <div><label>ProView Display Name:</label> ${fn:escapeXml(primaryTitle.proviewDisplayName)}</div>
-                <div class="bookStatus"><label>Definition Status:</label> ${primaryTitle.bookStatus}</div>
-            </div>
+                <div class="bookStatus"><label>Definition Status:</label> ${primaryTitle.bookStatus}</div></div>
         </div>
     </c:otherwise>
 </c:choose>
