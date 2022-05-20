@@ -15,7 +15,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class ProviewListExcelTitleReportExportService extends BaseExcelExportService {
     public static final String TITLES_NAME = "ProviewTitleReport";
     public static final String[] TITLES_HEADER =
-        {"Title Id", "Version", "Status", "Material No", "Book Name", "Keywords", "ISBN"};
+        {"Title Id", "Version", "Status", "Entitlement Material No", "Sub Material No", "Book Name", "Keyword Jurisdiction",
+                "Keyword Subject", "ISBN"};
 
     private static final String KEYWORD_TYPE_JURISDICTION = "jurisdiction";
     private static final String KEYWORD_TYPE_SUBJECT = "subject";
@@ -39,21 +40,19 @@ public class ProviewListExcelTitleReportExportService extends BaseExcelExportSer
             row.createCell(1).setCellValue(title.getVersion());
             row.createCell(2).setCellValue(title.getStatus());
             row.createCell(3).setCellValue(title.getMaterialId());
-            row.createCell(4).setCellValue(title.getName());
+            row.createCell(4).setCellValue(title.getSubMaterialId());
+            row.createCell(5).setCellValue(title.getName());
 
-            String keyword = "";
             if (title.getKeyword() != null && title.getKeyword().size()>=1) {
                 for (final ProviewTitleReportKeyword keywords : title.getKeyword()) {
                     if (KEYWORD_TYPE_JURISDICTION.equalsIgnoreCase(keywords.getType())) {
-                        keyword += keywords.getValue() + ",";
+                        row.createCell(6).setCellValue(keywords.getValue());
                     } else if (KEYWORD_TYPE_SUBJECT.equalsIgnoreCase(keywords.getType())) {
-                        keyword += keywords.getValue() + ",";
+                        row.createCell(7).setCellValue(keywords.getValue());
                     }
                 }
-                keyword = keyword.substring(0, keyword.length() - 1);
             }
-            row.createCell(5).setCellValue(keyword);
-            row.createCell(6).setCellValue(title.getIsbn());
+            row.createCell(8).setCellValue(title.getIsbn());
             if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(

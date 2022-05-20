@@ -29,6 +29,7 @@ public class ProviewTitleReportInfo implements TitleInfo, Serializable, Comparab
     private String lastupdate;
     private List<ProviewTitleReportKeyword> keyword;
     private String materialId;
+    private String subMaterialId;
     private Integer totalNumberOfVersions;
     @Setter(AccessLevel.NONE)
     private List<String> splitParts;

@@ -121,16 +121,18 @@ public class ProviewTitleListController {
             log.warn(e.getMessage(), e);
             model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
         }
-        //update Material Id from VERSION_ISBN
+        //update Material Id from VERSION_ISBN (MaterialId) & SubMaterial id from EBOOK_DEFINITION (MaterialId)
         List<VersionIsbn> lstVersionIsbn = versionIsbnService.getAllVersionIsbnEbookDefinition();
         selectedProviewTitleReportInfoList.forEach((report) -> {
                 VersionIsbn currIsbn =  lstVersionIsbn.stream().filter(vi -> vi.getEbookDefinition().getFullyQualifiedTitleId().equals(report.getId()) &&
                         vi.getVersion().equals(report.getVersion().substring(1))).findFirst().orElse(null);
                 if (currIsbn != null && currIsbn.getMaterialId() != null) {
                     report.setMaterialId(currIsbn.getMaterialId());
+                    report.setSubMaterialId(currIsbn.getEbookDefinition().getMaterialId());
                 }
         });
-		saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
+
+        saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
 
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
         model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());

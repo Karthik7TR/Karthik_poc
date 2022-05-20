@@ -56,7 +56,7 @@ public abstract class BaseDeliverStep extends BookStepImpl implements SplitBookT
             proviewHandler.publishTitle(bookDefinition.getFullyQualifiedTitleId(), getBookVersion(), assembledBookFile);
         }
         versionIsbnService.saveIsbn(bookDefinition, getBookVersionString(), bookDefinition.getIsbn());
-        versionIsbnService.saveMaterialId(bookDefinition.getTitleId(),getBookVersionString(), bookDefinition.getEntitlement());
+        versionIsbnService.saveMaterialId(bookDefinition.getFullyQualifiedTitleId(),getBookVersionString(), bookDefinition.getEntitlement());
     }
 
     private void publishSplitBook() throws ProviewException {
