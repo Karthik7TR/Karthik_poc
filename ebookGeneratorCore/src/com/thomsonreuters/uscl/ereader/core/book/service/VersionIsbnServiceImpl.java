@@ -50,8 +50,9 @@ public class VersionIsbnServiceImpl implements VersionIsbnService {
         VersionIsbn versionIsbn = versionIsbnDao.findDistinctByEbookDefinitionAndVersion(bookDefinition, version);
         if (versionIsbn != null) {
             versionIsbn.setIsbn(isbn);
+            versionIsbn.setMaterialId(bookDefinition.getEntitlement());
         } else {
-            versionIsbn = new VersionIsbn(bookDefinition, version, isbn);
+            versionIsbn = new VersionIsbn(bookDefinition, version, isbn, bookDefinition.getEntitlement());
         }
         versionIsbnDao.save(versionIsbn);
     }

@@ -45,7 +45,6 @@ public class VersionIsbn implements Serializable, EbookDefinitionAware {
     private String isbn;
 
     @Column(name = "MATERIAL_ID")
-    @Null
     private String materialId;
 
     @Transient
@@ -58,4 +57,13 @@ public class VersionIsbn implements Serializable, EbookDefinitionAware {
         this.version = version;
         this.isbn = isbn;
     }
+
+    public VersionIsbn(final BookDefinition ebookDefinition, final String version, final String isbn,
+                       final String materialId) {
+        this.ebookDefinition = ebookDefinition;
+        this.version = version;
+        this.isbn = isbn;
+        this.materialId = materialId;
+    }
+
 }
