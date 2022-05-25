@@ -32,40 +32,34 @@ public class LibraryListDaoImpl implements LibraryListDao {
         sql.append("select * from ( select row_.*, ROWNUM rownum_ from ( ");
         sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, book.SOURCE_TYPE, ");
         sql.append("book.LAST_UPDATED, book.IS_DELETED_FLAG, book.EBOOK_DEFINITION_COMPLETE_FLAG, ps.pub_date, ");
-        sql.append("NULL AS COMB_BOOK_DEFN_ID, 'No' AS COMB_BOOK_FLAG from ");
+        sql.append("cbd.COMB_BOOK_DEFN_ID AS COMB_BOOK_DEFN_ID, CASE WHEN cbd.COMB_BOOK_DEFN_ID IS NULL THEN 'No' ELSE 'Yes' END as COMB_BOOK_FLAG from ");
         sql.append(
             "EBOOK_DEFINITION book LEFT JOIN (SELECT p.EBOOK_DEFINITION_ID, MAX(p.PUBLISH_START_TIMESTAMP) pub_date ");
         sql.append(
             "FROM PUBLISHING_STATS p GROUP BY p.EBOOK_DEFINITION_ID ) ps ON book.EBOOK_DEFINITION_ID = ps.EBOOK_DEFINITION_ID ");
-        sql.append("UNION ALL ");
-        sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, book.SOURCE_TYPE, book.LAST_UPDATED, book.IS_DELETED_FLAG, ");
-        sql.append("book.EBOOK_DEFINITION_COMPLETE_FLAG, ps.pub_date, cbd.COMB_BOOK_DEFN_ID, 'Yes' AS COMB_BOOK_FLAG ");
-        sql.append("from EBOOK_DEFINITION book ");
-        sql.append("JOIN COMB_BOOK_DEFN_SOURCE cbd ");
+        sql.append("LEFT JOIN COMB_BOOK_DEFN_SOURCE cbd ");
         sql.append("ON cbd.EBOOK_DEFINITION_ID = book.EBOOK_DEFINITION_ID and cbd.is_primary_source = 'Y' ");
-        sql.append("LEFT JOIN (SELECT p.EBOOK_DEFINITION_ID, MAX(p.PUBLISH_START_TIMESTAMP) pub_date ");
-        sql.append("FROM PUBLISHING_STATS p GROUP BY p.EBOOK_DEFINITION_ID ) ps ON book.EBOOK_DEFINITION_ID = ps.EBOOK_DEFINITION_ID ");
 
         sql.append(addFiltersToQuery(filter));
 
         final String direction = sort.isAscending() ? "asc" : "desc";
-        String sortPropertySQL = "PROVIEW_DISPLAY_NAME";
+        String sortPropertySQL = "book.PROVIEW_DISPLAY_NAME";
 
         final SortProperty sortProperty = sort.getSortProperty();
 
         if (sortProperty.equals(SortProperty.DEFINITION_STATUS)) {
-            final String sortDelete = "IS_DELETED_FLAG";
-            final String sortComplete = "EBOOK_DEFINITION_COMPLETE_FLAG";
+            final String sortDelete = "book.IS_DELETED_FLAG";
+            final String sortComplete = "book.EBOOK_DEFINITION_COMPLETE_FLAG";
             sql.append(String.format("order by %s %s, %s %s", sortDelete, direction, sortComplete, direction));
         } else {
             if (sortProperty.equals(SortProperty.TITLE_ID)) {
-                sortPropertySQL = "TITLE_ID";
+                sortPropertySQL = "book.TITLE_ID";
             } else if (sortProperty.equals(SortProperty.LAST_GENERATED_DATE)) {
-                sortPropertySQL = "PUB_DATE";
+                sortPropertySQL = "ps.PUB_DATE";
             } else if (sortProperty.equals(SortProperty.LAST_EDIT_DATE)) {
-                sortPropertySQL = "LAST_UPDATED";
+                sortPropertySQL = "book.LAST_UPDATED";
             } else if (sortProperty.equals(SortProperty.SOURCE_TYPE)) {
-                sortPropertySQL = "SOURCE_TYPE";
+                sortPropertySQL = "book.SOURCE_TYPE";
             } else if (sortProperty.equals(SortProperty.COMB_BOOK_FLAG)) {
                 sortPropertySQL = "COMB_BOOK_FLAG";
             }
@@ -81,20 +75,15 @@ public class LibraryListDaoImpl implements LibraryListDao {
 
         sql.append(String.format(") row_ ) where rownum_ <= %d and rownum_ > %d ", maxIndex, minIndex));
 
-        log.info("Query for Combined book =" + sql.toString());
+        log.debug("Query for Combined book =" + sql.toString());
         return jdbcTemplate.query(sql.toString(), libraryListMapper, args);
     }
 
     @Override
     public Integer numberOfBookDefinitions(final LibraryListFilter filter) {
         final StringBuffer sql = new StringBuffer();
-        sql.append("select sum(count_book) as total_books from ( ");
-        sql.append("SELECT COUNT(book.EBOOK_DEFINITION_ID) as count_book FROM EBOOK_DEFINITION book ");
-        sql.append("UNION ALL ");
-        sql.append("SELECT COUNT(cbd.comb_book_defn_id) as count_book ");
-        sql.append("from EBOOK_DEFINITION book JOIN COMB_BOOK_DEFN_SOURCE cbd ON cbd.EBOOK_DEFINITION_ID = book.EBOOK_DEFINITION_ID ");
-        sql.append("WHERE cbd.is_primary_source = 'Y' ");
-        sql.append(") x ");
+        sql.append("SELECT COUNT(book.EBOOK_DEFINITION_ID) FROM ");
+        sql.append("EBOOK_DEFINITION book ");
 
         sql.append(addFiltersToQuery(filter));
 
