@@ -21,6 +21,8 @@ public class LibraryList implements Serializable {
     private String isDeletedFlag;
     private Date lastUpdated;
     private Date lastPublishDate;
+    private Long combBookDefnId;
+    private String isCombBookFlag;
     private Set<Author> authorList;
 
     public LibraryList(
@@ -42,6 +44,39 @@ public class LibraryList implements Serializable {
         ebookDefinitionCompleteFlag = isComplete;
         lastPublishDate = lastPublished;
         authorList = authors;
+    }
+
+    public LibraryList(
+            final Long bookDefinitionId,
+            final String sourceType,
+            final String proviewName,
+            final String titleId,
+            final String isComplete,
+            final String isDeleted,
+            final Date lastUpdate,
+            final Date lastPublished,
+            final Long combBookDefnId,
+            final String isCombBookFlag,
+            final Set<Author> authors) {
+        this.bookDefinitionId = bookDefinitionId;
+        this.sourceType = sourceType;
+        proviewDisplayName = proviewName;
+        fullyQualifiedTitleId = titleId;
+        isDeletedFlag = isDeleted;
+        lastUpdated = lastUpdate;
+        ebookDefinitionCompleteFlag = isComplete;
+        lastPublishDate = lastPublished;
+        authorList = authors;
+        this.combBookDefnId = combBookDefnId;
+        this.isCombBookFlag = isCombBookFlag;
+    }
+
+    public Long getCombBookDefnId() {
+        return combBookDefnId;
+    }
+
+    public String getIsCombBookFlag() {
+        return isCombBookFlag;
     }
 
     @Override
@@ -68,6 +103,12 @@ public class LibraryList implements Serializable {
                 return false;
         } else if (!bookDefinitionId.equals(other.bookDefinitionId))
             return false;
+        if (combBookDefnId == null) {
+            if (other.combBookDefnId != null)
+                return false;
+        } else if (!combBookDefnId.equals(other.combBookDefnId))
+            return false;
+
         if (!Objects.equals(sourceType, other.sourceType)) {
             return false;
         }
@@ -80,6 +121,11 @@ public class LibraryList implements Serializable {
             if (other.isDeletedFlag != null)
                 return false;
         } else if (!isDeletedFlag.equals(other.isDeletedFlag))
+            return false;
+        if (isCombBookFlag == null) {
+            if (other.isCombBookFlag != null)
+                return false;
+        } else if (!isCombBookFlag.equals(other.isCombBookFlag))
             return false;
         if (lastPublishDate == null) {
             if (other.lastPublishDate != null)
@@ -175,6 +221,8 @@ public class LibraryList implements Serializable {
         result = prime * result + ((lastPublishDate == null) ? 0 : lastPublishDate.hashCode());
         result = prime * result + ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
         result = prime * result + ((proviewDisplayName == null) ? 0 : proviewDisplayName.hashCode());
+        result = prime * result + ((combBookDefnId == null) ? 0 : combBookDefnId.hashCode());
+        result = prime * result + ((isCombBookFlag == null) ? 0 : isCombBookFlag.hashCode());
         return result;
     }
 

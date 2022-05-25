@@ -14,7 +14,8 @@ public class LibraryListSort {
         TITLE_ID,
         LAST_GENERATED_DATE,
         DEFINITION_STATUS,
-        LAST_EDIT_DATE
+        LAST_EDIT_DATE,
+        COMB_BOOK_FLAG
     };
 
     /** Java bean property on which sorting should occur - entity maps this to the physical database column. */

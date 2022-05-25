@@ -27,6 +27,8 @@ public class LibraryListRowMapper implements RowMapper<LibraryList> {
             resultSet.getString("IS_DELETED_FLAG"),
             resultSet.getTimestamp("LAST_UPDATED"),
             resultSet.getTimestamp("PUB_DATE"),
+            resultSet.getLong("COMB_BOOK_DEFN_ID"),
+            resultSet.getString("COMB_BOOK_FLAG"),
             new HashSet<>(authorService.findAuthorsByEBookDefnId(bookDefinitionId)));
     }
 }
