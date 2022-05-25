@@ -145,6 +145,16 @@
 	  <display:column title="Last Definition Edit Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.LAST_EDIT_DATE.toString() %>" >
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
+	  <display:column title="Combined Book Primary Title" sortable="true" sortProperty="<%=DisplayTagSortProperty.COMB_BOOK_FLAG.toString() %>" >
+		  <c:choose>
+			  <c:when test="${vdo.combBookDefnId != 0 }">
+				  <a href="<%=WebConstants.MVC_COMBINED_BOOK_DEFINITION_VIEW%>?<%=WebConstants.KEY_ID%>=${vdo.combBookDefnId}">${vdo.isCombBookFlag}</a>
+			  </c:when>
+			  <c:otherwise>
+				  No
+			  </c:otherwise>
+		  </c:choose>
+	  </display:column>
 	</display:table>
 
 	<a id="excelExport" class="pointer" onclick="submitBookLibraryFormDownloadExcel()">Download Excel</a>
