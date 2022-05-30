@@ -41,7 +41,7 @@ public class ProviewAuditFilterForm {
         REQUEST_DATE
     }
 
-    private final PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<>();
+    private final PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<>(1, DisplayTagSortProperty.REQUEST_DATE, true);
     @Setter(AccessLevel.NONE)
     private String titleId;
     private String username;
