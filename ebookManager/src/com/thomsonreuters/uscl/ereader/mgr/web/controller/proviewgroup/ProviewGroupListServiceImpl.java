@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public class ProviewGroupListServiceImpl implements ProviewGroupListService {
             .build();
         final boolean isToRefresh = Command.REFRESH.equals(form.getCommand());
         List<ProviewGroup> allLatestProviewGroups = container.getAllLatestProviewGroups();
-        if (allLatestProviewGroups == null || isToRefresh) {
+        if (allLatestProviewGroups == null || isToRefresh || form.areAllFiltersBlank()) {
             final Map<String, ProviewGroupContainer> allProviewGroups =
                     allProviewGroupsProvider.getAllProviewGroups(isToRefresh);
             final Map<String, Date> latestUpdateDates = updateGroupTitlesLatestUpdateDates(allProviewGroups.values());
@@ -64,11 +65,19 @@ public class ProviewGroupListServiceImpl implements ProviewGroupListService {
             fillLatestUpdateDatesForProviewGroups(allLatestProviewGroups, latestUpdateDates);
             container.setAllLatestProviewGroups(allLatestProviewGroups);
         }
+        List<ProviewGroup> lstProviewGroupsFilterFinal = null;
+        List<ProviewGroup> lstProviewGroupsSortFinal = null;
         if (form.areAllFiltersBlank()) {
-            container.setSelectedProviewGroups(allLatestProviewGroups);
+            container.setAllLatestProviewGroups(allLatestProviewGroups);
+            lstProviewGroupsSortFinal = pagingAndSortingProviewGroupList(form, allLatestProviewGroups);
         } else {
-            container.setSelectedProviewGroups(filterProviewGroupList(form, allLatestProviewGroups));
+            lstProviewGroupsFilterFinal = filterProviewGroupList(form, allLatestProviewGroups);
+            container.setAllLatestProviewGroups(lstProviewGroupsFilterFinal);
+            lstProviewGroupsSortFinal = pagingAndSortingProviewGroupList(form, lstProviewGroupsFilterFinal);
         }
+
+        container.setSelectedProviewGroups(lstProviewGroupsSortFinal);
+
         return container;
     }
 
@@ -342,6 +351,139 @@ public class ProviewGroupListServiceImpl implements ProviewGroupListService {
                 selectedProviewGroupList.add(proviewGroup);
             }
         }
+
         return selectedProviewGroupList;
+    }
+
+    private List<ProviewGroup> pagingAndSortingProviewGroupList(
+            @NotNull final ProviewGroupForm form,
+            final List<ProviewGroup> selectedProviewGroupList) {
+
+        final int totalProviewGroupRecords = selectedProviewGroupList.size();
+
+        //Now sort the list and retrieve page wise data
+        int minIndex = (form.getPage() - 1) * (form.getObjectsPerPage());
+        int maxIndex = form.getObjectsPerPage() + minIndex;
+        if (minIndex > totalProviewGroupRecords) {
+            minIndex = totalProviewGroupRecords;
+        }
+        if (maxIndex > totalProviewGroupRecords) {
+            maxIndex = totalProviewGroupRecords;
+        }
+
+        List<ProviewGroup> subList = null;
+        List<ProviewGroup> foundList = null;
+        if ("GROUP_NAME".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupName,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("GROUP_NAME".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupName,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("GROUP_ID".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupId,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("GROUP_ID".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupId,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_STATUS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupStatus,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_STATUS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupStatus,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("TOTAL_VERSIONS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getTotalNumberOfVersions,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("TOTAL_VERSIONS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getTotalNumberOfVersions,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_VERSION".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupVersion,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_VERSION".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList,
+                    Comparator.comparing(ProviewGroup::getGroupVersion,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_STATUS_UPDATE".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList, new Comparator<ProviewGroup>() {
+                        @Override
+                        public int compare(ProviewGroup o1, ProviewGroup o2) {
+                            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                            try {
+                                return dateFormat.parse((o1.getLatestUpdateDate() == null || "".equals(o1.getLatestUpdateDate())
+                                            ? "29991231" : o1.getLatestUpdateDate())).
+                                        compareTo(dateFormat.parse((o2.getLatestUpdateDate() == null || "".equals(o2.getLatestUpdateDate())
+                                                ? "29991231" : o2.getLatestUpdateDate())));
+                            } catch (final Exception e) {
+                                log.error("Failed to parse last Update date: ", e);
+                                return 0;
+                            }
+                        }
+                    });
+
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_STATUS_UPDATE".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewGroupList, new Comparator<ProviewGroup>() {
+                @Override
+                public int compare(ProviewGroup o1, ProviewGroup o2) {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                    try {
+                        return dateFormat.parse((o2.getLatestUpdateDate() == null || "".equals(o2.getLatestUpdateDate())
+                                        ? "29991231" : o2.getLatestUpdateDate())).
+                                compareTo(dateFormat.parse((o1.getLatestUpdateDate() == null || "".equals(o1.getLatestUpdateDate())
+                                        ? "29991231" : o1.getLatestUpdateDate())));
+                    } catch (final Exception e) {
+                        log.error("Failed to parse last Update date: ", e);
+                        return 0;
+                    }
+                }
+            });
+            subList = selectedProviewGroupList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        }
+
+        return foundList;
     }
 }

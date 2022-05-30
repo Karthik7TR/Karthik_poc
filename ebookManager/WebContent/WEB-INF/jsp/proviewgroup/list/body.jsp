@@ -7,6 +7,8 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm.DisplayTagSortProperty"%>
+
 
 <c:set var="defaultPageSize" value="<%=WebConstants.DEFAULT_PAGE_SIZE%>"/>
 
@@ -63,28 +65,37 @@
 		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
 	</form:select>
 	<br>
-	
-	<display:table id="proviewGroup" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
+
+	<form:hidden path="sort" value="${ param.sort }"/>
+	<form:hidden path="dir" value="${ param.dir }"/>
+
+	<display:table id="proviewGroup" name="<%=WebConstants.KEY_PAGINATED_LIST%>"
+				   class="displayTagTable"
+				   cellpadding="2"
 				   requestURI="<%=WebConstants.MVC_PROVIEW_GROUPS%>"
-				   pagesize="${pageSize}"
-				   partialList="false"
-				   size="resultSize"
-				   export="true">
+				   export="true"
+				   sort="external">
 		
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 		<display:setProperty name="paging.banner.onepage" value=" " />
-		
-		
-		<display:column title="Group Name" property="groupName" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
-		<display:column title="Group ID" property="groupId" sortable="true"/>
-		<display:column title="Latest Status" property="groupStatus" sortable="true"/>
-		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
-		<display:column title="Latest Version" property="groupVersion" sortable="true" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator"/>
-		<display:column title="Latest Status Update" property="latestUpdateDate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
+
+		<display:column title="Group Name" property="groupName" sortable="true"
+						sortProperty="<%=DisplayTagSortProperty.GROUP_NAME.toString() %>"/>
+		<display:column title="Group ID" property="groupId" sortable="true"
+						sortProperty="<%=DisplayTagSortProperty.GROUP_ID.toString() %>"/>
+		<display:column title="Latest Status" property="groupStatus" sortable="true"
+						sortProperty="<%=DisplayTagSortProperty.LATEST_STATUS.toString() %>"/>
+		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"
+						sortProperty="<%=DisplayTagSortProperty.TOTAL_VERSIONS.toString() %>"/>
+		<display:column title="Latest Version" property="groupVersion" sortable="true"
+						sortProperty="<%=DisplayTagSortProperty.LATEST_VERSION.toString() %>" />
+		<display:column title="Latest Status Update" property="latestUpdateDate"
+						sortProperty="<%=DisplayTagSortProperty.LATEST_STATUS_UPDATE.toString() %>"
+						sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 			<a id="viewAllVersions" href="<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>?<%=WebConstants.KEY_GROUP_IDS%>=${proviewGroup.groupId}">View all versions</a>
 		</display:column>
-		
+
 	</display:table>
 	<a id="excelExport" href="<%= WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD %>">Download Excel</a>
 	
