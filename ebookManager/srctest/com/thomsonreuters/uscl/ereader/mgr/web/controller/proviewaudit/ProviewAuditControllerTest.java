@@ -68,7 +68,7 @@ public final class ProviewAuditControllerTest {
         validateProviewAuditListModelAndView(mav);
         final PaginatedList paginatedList = (PaginatedList) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST);
         assertNotNull(paginatedList);
-        assertEquals(SortOrderEnum.DESCENDING, paginatedList.getSortDirection());
+        assertEquals(SortOrderEnum.ASCENDING, paginatedList.getSortDirection());
         assertEquals(DisplayTagSortProperty.REQUEST_DATE.toString(), paginatedList.getSortCriterion());
         verifyAuditServiceCalls();
     }
