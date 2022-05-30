@@ -84,9 +84,13 @@ public final class ProviewGroupListControllerTest {
     private static final String DATE_FORMAT = "yyyyMMdd";
     private static final String COMMAND = "command";
     private static final String OBJECTS_PER_PAGE = "objectsPerPage";
-    private static final String DEFAULT_OPP = "20";
-    private static final String OPP_50 = "50";
+    private static final Integer DEFAULT_OPP = 20;
+    private static final Integer OPP_50 = 50;
     private static final String PERCENT = "%";
+    private static final String SORT = "sort";
+    private static final String DIR = "dir";
+    private static final String DIR_ASC = "asc";
+    private static final String DIR_DESC = "desc";
 
     @InjectMocks
     private ProviewGroupListController controller;
@@ -117,6 +121,7 @@ public final class ProviewGroupListControllerTest {
     private Map<String, ProviewGroupContainer> allProviewGroups;
     private List<ProviewGroup> selectedProviewGroups;
     private List<ProviewGroup> allLatestProviewGroups;
+
 
     @Before
     public void setUp() {
@@ -203,10 +208,13 @@ public final class ProviewGroupListControllerTest {
             .thenReturn(singletonMap(TITLE_ID, new Date()));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        final Map<String, Object> model = mav.getModel();
+        ProviewGroupPaginatedList actualPaginatedList = (ProviewGroupPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+        List<ProviewGroup> actualList = actualPaginatedList.getList();
 
         assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
         assertEquals(DateFormatUtils.format(new Date(), DATE_FORMAT),
-            ((List<ProviewGroup>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST)).get(0).getLatestUpdateDate());
+            actualList.get(0).getLatestUpdateDate());
 
         verify(mockProviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
         verify(mockProviewAuditService).findMaxRequestDateByTitleIds(any());
@@ -239,7 +247,7 @@ public final class ProviewGroupListControllerTest {
     public void getSelectionsForGroups_objectsPerPageIsGiven_pageSizeIsSet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter(OBJECTS_PER_PAGE, OPP_50);
+        request.setParameter(OBJECTS_PER_PAGE, String.valueOf(OPP_50));
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -265,6 +273,9 @@ public final class ProviewGroupListControllerTest {
         allLatestProviewGroups = Arrays.asList(proviewGroup, proviewGroupToFilterOut);
         selectedProviewGroups = singletonList(proviewGroup);
         allProviewGroups = emptyMap();
+        final Integer pageNo = 1;
+        ProviewGroupPaginatedList paginatedList = createPaginatedList(selectedProviewGroups, allLatestProviewGroups.size(),
+                pageNo, DEFAULT_OPP, "GROUP_NAME",true);
         when(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
         when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
 
@@ -272,9 +283,50 @@ public final class ProviewGroupListControllerTest {
 
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
+
         final Map<String, Object> model = mav.getModel();
+        ProviewGroupPaginatedList actualPaginatedList = (ProviewGroupPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+        List<ProviewGroup> actualList = actualPaginatedList.getList();
+
         assertEquals(DEFAULT_OPP, model.get(WebConstants.KEY_PAGE_SIZE));
-        assertEquals(selectedProviewGroups, model.get(WebConstants.KEY_PAGINATED_LIST));
+        assertEquals(paginatedList.getList().size(), actualList.size());
+        assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
+        verify(mockProviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
+    }
+
+    @Test
+    public void getSelectionsForGroups_formResetFiltersRetainSort() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter(GROUP_FILTER_NAME, "");
+        request.setParameter(GROUP_FILTER_ID, "");
+        request.setParameter(SORT, "GROUP_ID");
+        request.setParameter(DIR, DIR_DESC);
+
+        final ProviewGroup proviewGroup1 = createProviewGroup("testGroupName1", "uscl/an_test_images1");
+        final ProviewGroup proviewGroup2 = createProviewGroup("testGroupName2", "uscl/an_test_images2");
+        final ProviewGroup proviewGroup3 = createProviewGroup("testGroupName3", "uscl/an_test_images3");
+        allLatestProviewGroups = Arrays.asList(proviewGroup1,proviewGroup2,proviewGroup3);
+        selectedProviewGroups = Arrays.asList(proviewGroup1,proviewGroup2,proviewGroup3);
+        allProviewGroups = emptyMap();
+        final Integer pageNo = 1;
+        ProviewGroupPaginatedList paginatedList = createPaginatedList(selectedProviewGroups, allLatestProviewGroups.size(),
+                pageNo, DEFAULT_OPP, "GROUP_ID",false);
+        when(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
+        when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        assertNotNull(mav);
+        assertEquals(WebConstants.VIEW_PROVIEW_GROUPS, mav.getViewName());
+
+        final Map<String, Object> model = mav.getModel();
+        ProviewGroupPaginatedList actualPaginatedList = (ProviewGroupPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+        List<ProviewGroup> actualList = actualPaginatedList.getList();
+
+        assertEquals(DEFAULT_OPP, model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(paginatedList.getList().size(), actualList.size());
+        assertEquals(paginatedList.getList().get(2).getGroupId(),actualList.get(0).getGroupId());
         assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
         verify(mockProviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
     }
@@ -283,18 +335,23 @@ public final class ProviewGroupListControllerTest {
     public void getSelectionsForGroups_allLatestProviewGroupsAndPageSizeAttributesAreGiven_pageSizeAndPaginatedListAreSet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.GET.name());
-        request.setParameter(OBJECTS_PER_PAGE, OPP_50);
+        request.setParameter(OBJECTS_PER_PAGE, String.valueOf(OPP_50));
 
         final ProviewGroup proviewGroup = createProviewGroup(GROUP_NAME, GROUP_ID);
         allLatestProviewGroups = singletonList(proviewGroup);
+        selectedProviewGroups = Arrays.asList(proviewGroup);
+        allProviewGroups = emptyMap();
+
         final HttpSession session = request.getSession();
         session.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
+        when(mockProviewHandler.getAllLatestProviewGroupInfo(allProviewGroups)).thenReturn(allLatestProviewGroups);
+        when(mockProviewHandler.getAllProviewGroupInfo()).thenReturn(allProviewGroups);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         final Map<String, Object> model = mav.getModel();
+
         assertEquals(OPP_50, model.get(WebConstants.KEY_PAGE_SIZE));
-        assertEquals(allLatestProviewGroups, model.get(WebConstants.KEY_PAGINATED_LIST));
         assertEquals(allLatestProviewGroups, session.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS));
         assertEquals(allLatestProviewGroups, session.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS));
     }
@@ -767,5 +824,18 @@ public final class ProviewGroupListControllerTest {
         proviewGroup.setGroupName(groupName);
         proviewGroup.setGroupId(groupId);
         return proviewGroup;
+    }
+
+    private ProviewGroupPaginatedList createPaginatedList(List<ProviewGroup> selectedProviewGroups, Integer allLatestProviewGroupsSize,
+                                     Integer pageNo, Integer objectsPerPage, String sortColumn, boolean isAscendingSort) {
+        ProviewGroupPaginatedList proviewGroupPaginatedList = new ProviewGroupPaginatedList(
+                selectedProviewGroups,
+                allLatestProviewGroupsSize,
+                pageNo,
+                objectsPerPage,
+                null,
+                isAscendingSort);
+
+        return proviewGroupPaginatedList;
     }
 }

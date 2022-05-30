@@ -47,7 +47,9 @@ public class ProviewGroupListServiceImplTest {
 
         final ProviewGroupsContainer container = service.getProviewGroups(form, allLatestProviewGroups);
 
-        assertEquals(allLatestProviewGroups, container.getAllLatestProviewGroups());
+        //Will have filtered data only (partial list) if filters applied and not full list
+        assertEquals(filteredProviewGroups, container.getAllLatestProviewGroups());
+        //Will have sorted & paginated data list
         assertEquals(filteredProviewGroups, container.getSelectedProviewGroups());
     }
 
@@ -64,7 +66,9 @@ public class ProviewGroupListServiceImplTest {
 
         final ProviewGroupsContainer container = service.getProviewGroups(form, null);
 
+        //Will have full list, if no filters
         assertEquals(allLatestProviewGroups, container.getAllLatestProviewGroups());
+        //Will have sorted & paginated data list
         assertEquals(allLatestProviewGroups, container.getSelectedProviewGroups());
         verify(proviewHandler).getAllLatestProviewGroupInfo(allProviewGroups);
     }

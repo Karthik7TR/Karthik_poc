@@ -32,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryPaginatedList;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
@@ -116,7 +117,7 @@ public class ProviewGroupListController {
             log.debug("Binding errors on Group List page:\n" + bindingResult.getAllErrors().toString());
         }
         if (form.getObjectsPerPage() == null) {
-            form.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+            form.setObjectsPerPage(Integer.valueOf(WebConstants.DEFAULT_PAGE_SIZE));
         }
         updateUserPreferencesForCurrentSession(form, httpSession);
 
@@ -131,7 +132,18 @@ public class ProviewGroupListController {
 
         saveAllLatestProviewGroups(httpSession, container.getAllLatestProviewGroups());
         saveSelectedProviewGroups(httpSession, container.getSelectedProviewGroups()); // required for ProviewGroupExcelExportService
-        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, container.getSelectedProviewGroups());
+        //model.addAttribute(WebConstants.KEY_PAGINATED_LIST, container.getSelectedProviewGroups());
+        List<ProviewGroup> lstSelectedProviewGroups = container.getSelectedProviewGroups();
+
+        ProviewGroupPaginatedList proviewGroupPaginatedList = new ProviewGroupPaginatedList(
+                lstSelectedProviewGroups,
+                container.getAllLatestProviewGroups().size(),
+                form.getPage(),
+                form.getObjectsPerPage(),
+                form.getSort(),
+                form.isAscendingSort());
+
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupPaginatedList);
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 
