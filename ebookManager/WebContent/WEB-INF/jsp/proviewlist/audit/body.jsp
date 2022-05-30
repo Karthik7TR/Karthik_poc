@@ -37,7 +37,9 @@
         <form:option label="250" value="250"/>
         <form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
     </form:select>
-</form:form>
+    <form:hidden path="sort" value="${ param.sort }"/>
+    <form:hidden path="dir" value="${ param.dir }"/>
+
 
 <display:table id="audit" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2"
                requestURI="<%=WebConstants.MVC_PROVIEW_AUDIT_LIST%>"
@@ -58,4 +60,4 @@
   <display:column title="Action" property="proviewRequest" sortable="true" sortProperty="<%=DisplayTagSortProperty.PROVIEW_REQUEST.toString()%>"/>
   <display:column title="Comment" property="auditNote" />
 </display:table>
-
+</form:form>
