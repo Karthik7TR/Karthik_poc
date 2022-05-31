@@ -7,6 +7,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@ page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm" %>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.DisplayTagSortProperty"%>
 
 <c:set var="defaultPageSize" value="<%=WebConstants.DEFAULT_PAGE_SIZE%>"/>
 
@@ -62,12 +63,13 @@
 	</form:select>
 	<br>
 
+	<form:hidden path="sort" value="${ param.sort }"/>
+	<form:hidden path="dir" value="${ param.dir }"/>
+
 	<display:table id="proviewList" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2"
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLES%>"
-				   pagesize="${pageSize}"
-				   partialList="false"
-				   size="resultSize"
-				   export="true">
+				   export="true"
+					sort="external">
 		
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 		<display:setProperty name="paging.banner.onepage" value=" " />
@@ -76,17 +78,17 @@
 		<display:setProperty name="export.excel.filename" value="ProviewList.xls" />
 		
 		
-		<display:column title="ProView Display Name" property="title" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
-		<display:column title="Title ID" property="titleId" sortable="true" comparator="com.thomsonreuters.uscl.ereader.mgr.web.CaseSensetiveStringComporator"/>
-		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
-		<display:column title="Split Parts" sortable="true">
+		<display:column title="ProView Display Name" property="title" sortable="true" sortProperty="<%=DisplayTagSortProperty.PROVIEW_DISPLAY_NAME.toString() %>"/>
+		<display:column title="Title ID" property="titleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString() %>"/>
+		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true" sortProperty="<%=DisplayTagSortProperty.TOTAL_VERSIONS.toString() %>"/>
+		<display:column title="Split Parts" sortable="true" sortProperty="<%=DisplayTagSortProperty.SPLIT_PARTS.toString() %>">
 			${proviewList.splitParts.size()}
 		</display:column>
-		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
-		<display:column title="Status" property="status" sortable="true"/>
-		<display:column title="Publisher" property="publisher" sortable="true"/>
-		<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
-		<display:column title="Latest Status Update" property="lastStatusUpdateDate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
+		<display:column title="Latest Version" property="version" sortProperty="<%=DisplayTagSortProperty.LATEST_VERSION.toString() %>" sortable="true"/>
+		<display:column title="Status" property="status" sortable="true" sortProperty="<%=DisplayTagSortProperty.STATUS.toString() %>"/>
+		<display:column title="Publisher" property="publisher" sortable="true" sortProperty="<%=DisplayTagSortProperty.PUBLISHER.toString() %>"/>
+		<display:column title="Last Update" property="lastupdate" sortProperty="<%=DisplayTagSortProperty.LAST_UPDATE.toString() %>" sortable="true"/>
+		<display:column title="Latest Status Update" property="lastStatusUpdateDate" sortProperty="<%=DisplayTagSortProperty.LATEST_STATUS_UPDATE.toString() %>" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 				<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">View all versions</a>
 		</display:column>
