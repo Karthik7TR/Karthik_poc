@@ -148,7 +148,7 @@ public final class ProviewTitleListControllerTest {
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
         assertEquals(Boolean.TRUE, model.get(WebConstants.KEY_ERROR_OCCURRED));
-        assertEquals(objectsPerPage, model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(objectsPerPage,""+ model.get(WebConstants.KEY_PAGE_SIZE));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
         verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
         verifyNoMoreInteractions(mockProviewTitleListService);
@@ -175,7 +175,7 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(WebConstants.DEFAULT_PAGE_SIZE,""+ model.get(WebConstants.KEY_PAGE_SIZE));
         assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
         assertNotNull(model.get(ProviewListFilterForm.FORM_NAME));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
@@ -199,7 +199,7 @@ public final class ProviewTitleListControllerTest {
         assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
         assertNotNull(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE));
         assertNull(model.get(WebConstants.KEY_ERR_MESSAGE));
-        assertEquals(pageSize, model.get(WebConstants.KEY_PAGE_SIZE));
+        assertEquals(pageSize,""+ model.get(WebConstants.KEY_PAGE_SIZE));
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
     }
 
@@ -279,9 +279,8 @@ public final class ProviewTitleListControllerTest {
     private void validateModel(final ModelAndView mav) {
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_PROVIEW_TITLES, mav.getViewName());
-        List<ProviewTitleInfo> list = (List<ProviewTitleInfo>) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST);
-        assertTrue(CollectionUtils.isNotEmpty(list));
-        assertEquals(TEST_TITLE_ID, list.get(0).getTitleId());
+        ProviewTitlePaginatedList  paginatedList = (ProviewTitlePaginatedList) mav.getModel().get(WebConstants.KEY_PAGINATED_LIST);
+        assertEquals(TEST_TITLE_ID, paginatedList.getList().get(0).getTitleId());
     }
 
     @Test
@@ -588,4 +587,19 @@ public final class ProviewTitleListControllerTest {
         request.setParameter(VERSION, versionString);
         request.setParameter(STATUS, status);
     }
+
+
+    private ProviewTitlePaginatedList createPaginatedList(List<ProviewTitleInfo> selectedProviewTitleInfo, Integer allLatestProviewTitleInfoSize,
+                                                          Integer pageNo, Integer objectsPerPage, String sortColumn, boolean isAscendingSort) {
+        ProviewTitlePaginatedList proviewTitlePaginatedList = new ProviewTitlePaginatedList(
+                selectedProviewTitleInfo,
+                allLatestProviewTitleInfoSize,
+                pageNo,
+                objectsPerPage,
+                null,
+                isAscendingSort);
+
+        return proviewTitlePaginatedList;
+    }
+
 }

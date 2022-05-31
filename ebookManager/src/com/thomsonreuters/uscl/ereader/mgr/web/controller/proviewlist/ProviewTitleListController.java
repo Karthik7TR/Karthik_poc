@@ -9,10 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleReportInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.*;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -51,7 +48,7 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_ST
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
-
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm;
 @Slf4j
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -100,8 +97,10 @@ public class ProviewTitleListController {
             log.error("Binding errors on Proview List page:\n" + bindingResult.getAllErrors().toString());
         }
         if (form.getObjectsPerPage() == null) {
-            form.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+            form.setObjectsPerPage(Integer.valueOf(WebConstants.DEFAULT_PAGE_SIZE));
         }
+
+
         updateUserPreferencesForCurrentSession(form, httpSession);
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
@@ -112,7 +111,7 @@ public class ProviewTitleListController {
             log.warn(e.getMessage(), e);
             model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
         }
-        saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo); // required for Excel Export Service
+        saveSelectedProviewTitleInfo(httpSession, form.getProviewTitleListFull()); // required for Excel Export Service
 
     	List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
         try {
@@ -131,13 +130,24 @@ public class ProviewTitleListController {
                     report.setSubMaterialId(currIsbn.getEbookDefinition().getMaterialId());
                 }
         });
-
         saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
+        ProviewTitlePaginatedList proviewListPaginatedList = new ProviewTitlePaginatedList(
+                selectedProviewTitleInfo,
+                form.getProviewTitleListFullSize(),
+                form.getPage(),
+                form.getObjectsPerPage(),
+                form.getSort(),
+                form.isAscendingSort());
 
-        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
+       /* model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
+     */
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewListPaginatedList);
+
         model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
     }
+
+
 
     private void updateUserPreferencesForCurrentSession(@NotNull final ProviewListFilterForm form,
             @NotNull final HttpSession httpSession) {
@@ -149,7 +159,7 @@ public class ProviewTitleListController {
             sessionPreferences.setTitleId(form.getTitleId());
             sessionPreferences.setMinVersions(form.getMinVersions());
             sessionPreferences.setMaxVersions(form.getMaxVersions());
-            sessionPreferences.setProviewListObjectsPerPage(form.getObjectsPerPage());
+            sessionPreferences.setProviewListObjectsPerPage(""+form.getObjectsPerPage());
             sessionPreferences.setStatus(form.getStatus());
         }
     }

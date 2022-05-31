@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -85,14 +86,220 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, allProviewTitleInfo.keySet());
         }
         final List<ProviewTitleInfo> selectedProviewTitleInfo;
+        List<ProviewTitleInfo> lstProviewTitleInfoSortFinal = null;
         if (form.areAllFiltersBlank()) {
             selectedProviewTitleInfo = allLatestProviewTitleInfo;
-        } else {
+        }
+        else {
             selectedProviewTitleInfo = getFilteredProviewTitleInfos(form, allLatestProviewTitleInfo);
         }
-        return selectedProviewTitleInfo;
+        form.setProviewTitleListFullSize(selectedProviewTitleInfo.size());
+        form.setProviewTitleListFull(selectedProviewTitleInfo);
+        lstProviewTitleInfoSortFinal = pagingAndSortingProviewTitleInfoList(form, selectedProviewTitleInfo);
+
+        return lstProviewTitleInfoSortFinal;
     }
-    public List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewListFilterForm form)
+
+    private List<ProviewTitleInfo> pagingAndSortingProviewTitleInfoList(
+            @NotNull final ProviewListFilterForm form,
+            final List<ProviewTitleInfo> selectedProviewTitleInfoList) {
+
+        final int totalProviewGroupRecords = selectedProviewTitleInfoList.size();
+
+        //Now sort the list and retrieve page wise data
+        int minIndex = (form.getPage() - 1) * (form.getObjectsPerPage());
+        int maxIndex = form.getObjectsPerPage() + minIndex;
+        if (minIndex > totalProviewGroupRecords) {
+            minIndex = totalProviewGroupRecords;
+        }
+        if (maxIndex > totalProviewGroupRecords) {
+            maxIndex = totalProviewGroupRecords;
+        }
+
+        List<ProviewTitleInfo> subList = null;
+        List<ProviewTitleInfo> foundList = null;
+        if ("PROVIEW_DISPLAY_NAME".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getTitle,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("PROVIEW_DISPLAY_NAME".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getTitle,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("TITLE_ID".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getTitleId,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("TITLE_ID".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getTitleId,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("TOTAL_VERSIONS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getTotalNumberOfVersions,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("TOTAL_VERSIONS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getTotalNumberOfVersions,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_VERSION".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getVersion, //get minor or majaor or just version ?
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_VERSION".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getVersion,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_STATUS_UPDATE".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList, new Comparator<ProviewTitleInfo>() {
+                @Override
+                public int compare(ProviewTitleInfo o1, ProviewTitleInfo o2) {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                    try {
+                        return dateFormat.parse((o1.getLastStatusUpdateDate() == null || "".equals(o1.getLastStatusUpdateDate())
+                                        ? "29991231" : o1.getLastStatusUpdateDate())).
+                                compareTo(dateFormat.parse((o2.getLastStatusUpdateDate() == null || "".equals(o2.getLastStatusUpdateDate())
+                                        ? "29991231" : o2.getLastStatusUpdateDate())));
+                    } catch (final Exception e) {
+                        log.error("Failed to parse last Update date: ", e);
+                        return 0;
+                    }
+                }
+            });
+
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("LATEST_STATUS_UPDATE".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList, new Comparator<ProviewTitleInfo>() {
+                @Override
+                public int compare(ProviewTitleInfo o1, ProviewTitleInfo o2) {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                    try {
+                        return dateFormat.parse((o2.getLastStatusUpdateDate() == null || "".equals(o2.getLastStatusUpdateDate())
+                                        ? "29991231" : o2.getLastStatusUpdateDate())).
+                                compareTo(dateFormat.parse((o1.getLastStatusUpdateDate() == null || "".equals(o1.getLastStatusUpdateDate())
+                                        ? "29991231" : o1.getLastStatusUpdateDate())));
+                    } catch (final Exception e) {
+                        log.error("Failed to parse last Update date: ", e);
+                        return 0;
+                    }
+                }
+            });
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+
+        } else if ("STATUS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getStatus,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("STATUS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getStatus,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex, maxIndex);
+            foundList = new ArrayList<>(subList);
+
+          } else if ("PUBLISHER".equalsIgnoreCase(form.getSort().name().toString()) &&
+            form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                Comparator.comparing(ProviewTitleInfo::getPublisher, //get minor or majaor or just version ?
+                        Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+              foundList = new ArrayList<>(subList);
+         } else if ("PUBLISHER".equalsIgnoreCase(form.getSort().name().toString()) &&
+            !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getPublisher,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex, maxIndex);
+            foundList = new ArrayList<>(subList);
+         } else if ("SPLIT_PARTS".equalsIgnoreCase(form.getSort().name().toString()) &&
+            form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList, (o1, o2) -> o1.getSplitParts().size() - o2.getSplitParts().size());
+            subList = selectedProviewTitleInfoList.subList(minIndex, maxIndex);
+            foundList = new ArrayList<>(subList);
+
+        } else if ("SPLIT_PARTS".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList, (o1, o2) -> o2.getSplitParts().size() - o1.getSplitParts().size());
+            subList = selectedProviewTitleInfoList.subList(minIndex, maxIndex);
+            foundList = new ArrayList<>(subList);
+
+    } else if ("LAST_UPDATE".equalsIgnoreCase(form.getSort().name().toString()) &&
+            form.isAscendingSort()) {
+        Collections.sort(selectedProviewTitleInfoList, new Comparator<ProviewTitleInfo>() {
+            @Override
+            public int compare(ProviewTitleInfo o1, ProviewTitleInfo o2) {
+                final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                try {
+                    return dateFormat.parse((o1.getLastupdate() == null || "".equals(o1.getLastupdate())
+                                    ? "29991231" : o1.getLastupdate())).
+                            compareTo(dateFormat.parse((o2.getLastupdate() == null || "".equals(o2.getLastupdate())
+                                    ? "29991231" : o2.getLastupdate())));
+                } catch (final Exception e) {
+                    log.error("Failed to parse last Update date: ", e);
+                    return 0;
+                }
+            }
+        });
+
+        subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+        foundList = new ArrayList<>(subList);
+    } else if ("LAST_UPDATE".equalsIgnoreCase(form.getSort().name().toString()) &&
+            !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList, new Comparator<ProviewTitleInfo>() {
+                @Override
+                public int compare(ProviewTitleInfo o1, ProviewTitleInfo o2) {
+                    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+                    try {
+                        return dateFormat.parse((o2.getLastupdate() == null || "".equals(o2.getLastupdate())
+                                        ? "29991231" : o2.getLastupdate())).
+                                compareTo(dateFormat.parse((o1.getLastupdate() == null || "".equals(o1.getLastupdate())
+                                        ? "29991231" : o1.getLastupdate())));
+                    } catch (final Exception e) {
+                        log.error("Failed to parse last Update date: ", e);
+                        return 0;
+                    }
+                }
+            });
+            subList = selectedProviewTitleInfoList.subList(minIndex, maxIndex);
+            foundList = new ArrayList<>(subList);
+        }
+        return foundList;
+}
+
+
+        public List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewListFilterForm form)
             throws ProviewException
     {
         final List<ProviewTitleReportInfo> allLatestProviewTitleReportInfo = getAllLatestProviewTitleReportInfo();
