@@ -4,6 +4,7 @@ import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -31,6 +32,7 @@ import static com.thomsonreuters.uscl.ereader.util.ValueConverter.isEqualsYes;
 @Table(name = "COMB_BOOK_DEFN")
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class CombinedBookDefinition {
     private static final long MOCK_ID_FOR_COMBINED_BOOK = -1L;
     @Column(name = "COMB_BOOK_DEFN_ID", nullable = false)
@@ -56,17 +58,23 @@ public class CombinedBookDefinition {
     }
 
     public boolean isBookDefinitionDeletedFlag() {
+        log.info("Inside isBookDefinitionDeletedFlag");
         List<BookDefinition> bookDefinitionList = sources.stream()
                 .map(CombinedBookDefinitionSource::getBookDefinition)
                 .collect(Collectors.toList());
+        log.info("Inside isBookDefinitionDeletedFlag bookDefinitionList= " + bookDefinitionList);
 
         //If for the CombinedBookDefinition, the underlying books are deleted disable Generate button
         if (bookDefinitionList == null || bookDefinitionList.size() == 0) {
+            log.info("Inside isBookDefinitionDeletedFlag book null or size =0");
             return true;
         }
+        log.info("Inside isBookDefinitionDeletedFlag size of bookDefinitionList= " + bookDefinitionList.size());
+
         long countOfDeletedBooks = bookDefinitionList.stream()
                 .filter(book -> book.isDeletedFlag())
                 .count();
+        log.info("Inside isBookDefinitionDeletedFlag countOfDeletedBooks=" + countOfDeletedBooks);
         return countOfDeletedBooks >= 1 ? true : false;
     }
 
