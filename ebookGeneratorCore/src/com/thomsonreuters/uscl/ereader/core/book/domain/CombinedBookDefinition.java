@@ -60,6 +60,10 @@ public class CombinedBookDefinition {
                 .map(CombinedBookDefinitionSource::getBookDefinition)
                 .collect(Collectors.toList());
 
+        //If for the CombinedBookDefinition, the underlying books are deleted disable Generate button
+        if (bookDefinitionList == null || bookDefinitionList.size() == 0) {
+            return true;
+        }
         long countOfDeletedBooks = bookDefinitionList.stream()
                 .filter(book -> book.isDeletedFlag())
                 .count();
