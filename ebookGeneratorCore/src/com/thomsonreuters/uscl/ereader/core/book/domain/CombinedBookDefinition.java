@@ -71,8 +71,9 @@ public class CombinedBookDefinition {
         }
         log.info("Inside isBookDefinitionDeletedFlag size of bookDefinitionList= " + bookDefinitionList.size());
 
+        //On delete books: bookDefinitionList= [null, null, null]
         long countOfDeletedBooks = bookDefinitionList.stream()
-                .filter(book -> book.isDeletedFlag())
+                .filter(book -> book != null && book.isDeletedFlag())
                 .count();
         log.info("Inside isBookDefinitionDeletedFlag countOfDeletedBooks=" + countOfDeletedBooks);
         return countOfDeletedBooks >= 1 ? true : false;
