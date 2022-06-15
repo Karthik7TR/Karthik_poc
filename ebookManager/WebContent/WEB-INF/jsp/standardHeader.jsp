@@ -24,7 +24,17 @@
     };
     const proviewListQueryString = getFilteredQueryString(proviewListFilterParams);
 
-    const bookLibraryFilterParams = {
+	const proviewTitlesReportFilterParams = {
+		proviewDisplayName: '${ currentSessionUserPreferences.proviewTitlesReportProviewDisplayName }',
+		titleId: '${ currentSessionUserPreferences.proviewTitlesReportTitleId }',
+		minVersions: '${ currentSessionUserPreferences.proviewTitlesReportMinVersions }',
+		maxVersions: '${ currentSessionUserPreferences.proviewTitlesReportMaxVersions }',
+		objectsPerPage: '${ currentSessionUserPreferences.proviewTitlesReportObjectsPerPage }',
+		status: '${ currentSessionUserPreferences.proviewTitlesReportStatus }'
+	};
+	const proviewTitlesReportQueryString = getFilteredQueryString(proviewTitlesReportFilterParams);
+
+	const bookLibraryFilterParams = {
 			  proviewDisplayName: '${ currentSessionUserPreferences.bookLibraryPreferences.proviewDisplayName }',
 			  sourceType: '${ currentSessionUserPreferences.bookLibraryPreferences.sourceType }',
 			  titleId: '${ currentSessionUserPreferences.bookLibraryPreferences.titleId }',
@@ -73,7 +83,8 @@
         $('#libraryTab').prop('href', '${ WebConstants.MVC_BOOK_LIBRARY_LIST }' + bookLibraryQueryString);
         $('#groupListTab').prop('href', '${ WebConstants.MVC_PROVIEW_GROUPS }' + groupListQueryString);
         $('#proviewListTab').prop('href', '${ WebConstants.MVC_PROVIEW_TITLES }' + proviewListQueryString);
-        $('#AuditTab').prop('href', '${ WebConstants.MVC_BOOK_AUDIT_LIST }' + bookAuditQueryString);
+		$('#proviewTitlesReportTab').prop('href', '${ WebConstants.MVC_PROVIEW_TITLES_REPORT }' + proviewTitlesReportQueryString);
+		$('#AuditTab').prop('href', '${ WebConstants.MVC_BOOK_AUDIT_LIST }' + bookAuditQueryString);
         $('#statsTab').prop('href', '${ WebConstants.MVC_STATS }' + statsQueryString);
     });
 </script>
@@ -89,6 +100,7 @@
 	<ul class="navList">
 		<li><a id="libraryTab" href="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>">LIBRARY</a></li>
 		<li><a id="proviewListTab" href="<%=WebConstants.MVC_PROVIEW_TITLES%>">PROVIEW LIST</a></li>
+		<li><a id="proviewTitlesReportTab" href="<%=WebConstants.MVC_PROVIEW_TITLES_REPORT%>">PROVIEW TITLES</a></li>
 		<li><a id="AuditTab" href="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>">AUDIT</a></li>
 		<li><a id="jobsTab" href="<%=WebConstants.MVC_JOB_SUMMARY%>">JOBS</a></li>
 		<li><a id="queuedTab" href="<%=WebConstants.MVC_JOB_QUEUE%>">QUEUED</a></li>
