@@ -287,6 +287,7 @@ public class WebConstants {
 
     // Proview related URI's
     public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
+    public static final String MVC_PROVIEW_TITLES_REPORT = "proviewTitlesReport.mvc";
     public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
     public static final String MVC_PROVIEW_TITLE_DOWNLOAD = "proviewTitleDownload.mvc";
     public static final String MVC_PROVIEW_TITLE_REPORT_DOWNLOAD = "proviewTitleReportDownload.mvc";
@@ -417,6 +418,7 @@ public class WebConstants {
     public static final String VIEW_SUPPORT_PAGE_VIEW = "_supportPageView";
     public static final String VIEW_PROVIEW_GROUPS = "_proviewGroups";
     public static final String VIEW_PROVIEW_TITLES = "_proviewTitles";
+    public static final String VIEW_PROVIEW_TITLES_REPORT = "_proviewTitlesReport";
     public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";
     public static final String VIEW_PROVIEW_GROUP_ALL_VERSIONS = "_proviewGroupAllVersions";
     public static final String VIEW_PROVIEW_GROUP_SINGLE_VERSION = "_proviewGroupSingleVersion";

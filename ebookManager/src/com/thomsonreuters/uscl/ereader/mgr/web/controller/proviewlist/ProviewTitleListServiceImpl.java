@@ -12,7 +12,6 @@ import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.*;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -78,8 +77,8 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     @Override
     public List<ProviewTitleInfo> getSelectedProviewTitleInfo(final ProviewListFilterForm form)
             throws ProviewException {
-        final Command command = form.getCommand();
-        final boolean isRefresh = Command.REFRESH.equals(command);
+        final com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command command = form.getCommand();
+        final boolean isRefresh = com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command.REFRESH.equals(command);
         final Map<String, ProviewTitleContainer> allProviewTitleInfo = getAllProviewTitleInfo(isRefresh);
         final List<ProviewTitleInfo> allLatestProviewTitleInfo = getAllLatestProviewTitleInfo();
         if (isRefresh || !hasAnyLastStatusUpdateDates(allLatestProviewTitleInfo)) {
@@ -299,7 +298,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
 }
 
 
-        public List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewListFilterForm form)
+        public List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewTitlesReportFilterForm form)
             throws ProviewException
     {
         final List<ProviewTitleReportInfo> allLatestProviewTitleReportInfo = getAllLatestProviewTitleReportInfo();
@@ -451,7 +450,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         return selectedProviewTitleInfo;
     }
 
-    private List<ProviewTitleReportInfo> getFilteredProviewTitleReportInfos(final ProviewListFilterForm filterForm,
+    private List<ProviewTitleReportInfo> getFilteredProviewTitleReportInfos(final ProviewTitlesReportFilterForm filterForm,
                                                                 final List<ProviewTitleReportInfo> allLatestProviewTitleReportInfo) {
         List<ProviewTitleReportInfo> selectedProviewTitleReportInfo = new ArrayList<ProviewTitleReportInfo>();
         boolean proviewDisplayNameBothWayWildCard = false;

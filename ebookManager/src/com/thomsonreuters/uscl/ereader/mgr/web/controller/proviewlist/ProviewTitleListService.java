@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public interface ProviewTitleListService {
 
     List<ProviewTitleInfo> getSelectedProviewTitleInfo(final ProviewListFilterForm form) throws ProviewException;
-    List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewListFilterForm form) throws ProviewException;
+    List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewTitlesReportFilterForm form) throws ProviewException;
     List<ProviewTitleReportInfo> getAllLatestProviewTitleReportInfo() throws ProviewException;
 
     Map<String, ProviewTitleContainer> getAllProviewTitleInfo(final boolean isRefresh) throws ProviewException;

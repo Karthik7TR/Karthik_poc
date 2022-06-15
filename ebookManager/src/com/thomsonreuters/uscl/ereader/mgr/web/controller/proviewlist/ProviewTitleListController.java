@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
-import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
@@ -48,7 +47,6 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_ST
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm;
 @Slf4j
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -59,8 +57,9 @@ public class ProviewTitleListController {
     private final JobRequestService jobRequestService;
     private final GroupService groupService;
     private final ProviewTitleListService proviewTitleListService;
-    private final OutageService outageService;
     private final VersionIsbnService versionIsbnService;
+
+    private final OutageService outageService;
 
     @InitBinder(ProviewListFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder) {
@@ -77,17 +76,6 @@ public class ProviewTitleListController {
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewTitleInfo);
     }
 
-
-    private List<ProviewTitleReportInfo> fetchSelectedProviewTitleReportInfo(final HttpSession httpSession) {
-        return (List<ProviewTitleReportInfo>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES_REPORT);
-    }
-
-    private void saveSelectedProviewTitleReportInfo(
-        final HttpSession httpSession,
-        final List<ProviewTitleReportInfo> selectedProviewTitleInfo) {
-        httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES_REPORT, selectedProviewTitleInfo);
-    }
-
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.GET)
     @ShowOnException(errorViewName = WebConstants.VIEW_PROVIEW_TITLES)
     public ModelAndView getSelections(@ModelAttribute final ProviewListFilterForm form,
@@ -99,7 +87,6 @@ public class ProviewTitleListController {
         if (form.getObjectsPerPage() == null) {
             form.setObjectsPerPage(Integer.valueOf(WebConstants.DEFAULT_PAGE_SIZE));
         }
-
 
         updateUserPreferencesForCurrentSession(form, httpSession);
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
@@ -113,24 +100,6 @@ public class ProviewTitleListController {
         }
         saveSelectedProviewTitleInfo(httpSession, form.getProviewTitleListFull()); // required for Excel Export Service
 
-    	List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
-        try {
-             selectedProviewTitleReportInfoList = proviewTitleListService.getSelectedProviewTitleReportInfo(form);
-        } catch (final ProviewException e) {
-            log.warn(e.getMessage(), e);
-            model.addAttribute(WebConstants.KEY_ERROR_OCCURRED, Boolean.TRUE);
-        }
-        //update Material Id from VERSION_ISBN (MaterialId) & SubMaterial id from EBOOK_DEFINITION (MaterialId)
-        List<VersionIsbn> lstVersionIsbn = versionIsbnService.getAllVersionIsbnEbookDefinition();
-        selectedProviewTitleReportInfoList.forEach((report) -> {
-                VersionIsbn currIsbn =  lstVersionIsbn.stream().filter(vi -> vi.getEbookDefinition().getFullyQualifiedTitleId().equals(report.getId()) &&
-                        vi.getVersion().equals(report.getVersion().substring(1))).findFirst().orElse(null);
-                if (currIsbn != null && currIsbn.getMaterialId() != null) {
-                    report.setMaterialId(currIsbn.getMaterialId());
-                    report.setSubMaterialId(currIsbn.getEbookDefinition().getMaterialId());
-                }
-        });
-        saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
         ProviewTitlePaginatedList proviewListPaginatedList = new ProviewTitlePaginatedList(
                 selectedProviewTitleInfo,
                 form.getProviewTitleListFullSize(),
@@ -462,24 +431,4 @@ public class ProviewTitleListController {
             .forEach(item -> item.setStatus(updatedStatus));
         saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
     }
-
-    @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REPORT_DOWNLOAD, method = RequestMethod.GET)
-    public void downloadPublishingTitleReportExcel(final HttpSession httpSession, final HttpServletResponse response) {
-        final ProviewListExcelTitleReportExportService excelExportService = new ProviewListExcelTitleReportExportService();
-        try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
-            final Date date = new Date();
-            final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
-            final String stringDate = s.format(date);
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader(
-                    "Content-Disposition",
-                    "attachment; filename=" + ProviewListExcelTitleReportExportService.TITLES_NAME + stringDate + ".xls");
-            final ServletOutputStream out = response.getOutputStream();
-            wb.write(out);
-            out.flush();
-        } catch (final Exception e) {
-            log.error(e.getMessage(), e);
-        }
-    }
-
 }

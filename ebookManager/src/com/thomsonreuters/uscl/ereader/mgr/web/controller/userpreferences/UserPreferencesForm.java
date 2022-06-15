@@ -20,6 +20,7 @@ public class UserPreferencesForm {
     public enum HomepageProperty {
         LIBRARY,
         PROVIEW_LIST,
+        PROVIEW_TITLES_REPORT,
         AUDIT,
         JOBS,
         QUEUED,

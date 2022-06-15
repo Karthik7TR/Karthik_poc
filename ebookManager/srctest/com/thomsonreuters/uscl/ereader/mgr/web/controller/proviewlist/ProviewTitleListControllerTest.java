@@ -79,6 +79,9 @@ public final class ProviewTitleListControllerTest {
 
     @InjectMocks
     private ProviewTitleListController controller;
+    @Mock
+    private VersionIsbnService mockVersionIsbnService;
+
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
     private HandlerAdapter handlerAdapter;
@@ -92,8 +95,6 @@ public final class ProviewTitleListControllerTest {
     private MessageSourceAccessor mockMessageSourceAccessor;
     @Mock
     private JobRequestService mockJobRequestService;
-    @Mock
-    private VersionIsbnService mockVersionIsbnService;
     @SuppressWarnings("unused")
     @Mock
     private GroupService mockGroupService;
@@ -138,10 +139,6 @@ public final class ProviewTitleListControllerTest {
         when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
                 .thenThrow(new ProviewException(""));
 
-        final List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
-        when(mockProviewTitleListService.getSelectedProviewTitleReportInfo(any(ProviewListFilterForm.class)))
-                .thenReturn(selectedProviewTitleReportInfoList);
-
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
@@ -150,7 +147,6 @@ public final class ProviewTitleListControllerTest {
         assertEquals(Boolean.TRUE, model.get(WebConstants.KEY_ERROR_OCCURRED));
         assertEquals(objectsPerPage,""+ model.get(WebConstants.KEY_PAGE_SIZE));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
-        verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
         verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
@@ -166,10 +162,6 @@ public final class ProviewTitleListControllerTest {
         when(mockProviewTitleListService.getSelectedProviewTitleInfo(any(ProviewListFilterForm.class)))
                 .thenReturn(selectedProviewTitleInfo);
 
-        final List<ProviewTitleReportInfo> selectedProviewTitleReportInfoList = Collections.emptyList();
-        when(mockProviewTitleListService.getSelectedProviewTitleReportInfo(any(ProviewListFilterForm.class)))
-                .thenReturn(selectedProviewTitleReportInfoList);
-
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
         assertNotNull(mav);
@@ -179,7 +171,6 @@ public final class ProviewTitleListControllerTest {
         assertNull(model.get(WebConstants.KEY_ERROR_OCCURRED));
         assertNotNull(model.get(ProviewListFilterForm.FORM_NAME));
         verify(mockProviewTitleListService).getSelectedProviewTitleInfo(any());
-        verify(mockProviewTitleListService).getSelectedProviewTitleReportInfo(any());
         verifyNoMoreInteractions(mockProviewTitleListService);
     }
 
@@ -229,36 +220,6 @@ public final class ProviewTitleListControllerTest {
         assertEquals(STATUS_REVIEW, form.getStatus());
     }
 
-    @Test
-    public void getSelections_filteringParamsStartingWithWildcardAreGiven_filteringParamsArePassedToServiceLayerTitlesReport()
-            throws Exception {
-        initProviewTitlesGetRequest();
-        final String proviewDisplayName = TEST_TITLE_NAME + PERCENT;
-        request.setParameter(PROVIEW_DISPLAY_NAME, proviewDisplayName);
-        final String titleId = TEST_TITLE_ID + PERCENT;
-        request.setParameter(TITLE_ID, titleId);
-        request.setParameter(MIN_VERSIONS_FILTER, TOTAL_NUMBER_OF_VERSIONS.toString());
-        request.setParameter(MAX_VERSIONS_FILTER, Integer.toString(3));
-        request.setParameter(STATUS_KEY, STATUS_REVIEW);
-        final ArgumentCaptor<ProviewListFilterForm> formCaptor = ArgumentCaptor.forClass(ProviewListFilterForm.class);
-        when(mockProviewTitleListService.getSelectedProviewTitleReportInfo(formCaptor.capture()))
-                .thenReturn(Collections.singletonList(getProviewTitleReportInfo()));
-
-        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
-
-        final HttpSession httpSession = request.getSession();
-
-        List<ProviewTitleReportInfo> lstReportTitles =  (List<ProviewTitleReportInfo>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES_REPORT);
-        assertTrue(CollectionUtils.isNotEmpty(lstReportTitles));
-        assertEquals(TEST_TITLE_ID, lstReportTitles.get(0).getId());
-
-        final ProviewListFilterForm form = formCaptor.getValue();
-        assertEquals(proviewDisplayName, form.getProviewDisplayName());
-        assertEquals(titleId, form.getTitleId());
-        assertEquals(TOTAL_NUMBER_OF_VERSIONS, form.getMinVersionsInt());
-        assertEquals(Integer.valueOf(3), form.getMaxVersionsInt());
-        assertEquals(STATUS_REVIEW, form.getStatus());
-    }
 
     private ProviewTitleInfo getProviewTitleInfo() {
         final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
@@ -268,13 +229,6 @@ public final class ProviewTitleListControllerTest {
         return titleInfo;
     }
 
-    private ProviewTitleReportInfo getProviewTitleReportInfo() {
-        final ProviewTitleReportInfo titleInfo = new ProviewTitleReportInfo();
-        titleInfo.setName(TEST_TITLE_NAME);
-        titleInfo.setId(TEST_TITLE_ID);
-        titleInfo.setTotalNumberOfVersions(TOTAL_NUMBER_OF_VERSIONS);
-        return titleInfo;
-    }
 
     private void validateModel(final ModelAndView mav) {
         assertNotNull(mav);
@@ -299,21 +253,6 @@ public final class ProviewTitleListControllerTest {
         assertFalse(outStream.toString().isEmpty());
     }
 
-    @Test
-    public void testDownloadPublishingTitleReportExcel() throws Exception {
-        request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_REPORT_DOWNLOAD);
-        request.setMethod(HttpMethod.GET.name());
-
-        final List<ProviewTitleReportInfo> titles = new ArrayList<>();
-
-        final HttpSession session = request.getSession();
-        session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES_REPORT, titles);
-        request.setSession(session);
-        handlerAdapter.handle(request, response, controller);
-
-        final ServletOutputStream outStream = response.getOutputStream();
-        assertFalse(outStream.toString().isEmpty());
-    }
 
     @Test
     public void proviewTitleDeleteTestModel() throws Exception {

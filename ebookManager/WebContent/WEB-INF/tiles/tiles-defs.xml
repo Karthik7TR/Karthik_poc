@@ -33,7 +33,13 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/proviewlist/list/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/list/body.jsp"/>
 	</definition>
-	
+
+	<definition name="_proviewTitlesReport" extends="twoColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/proviewlist/titlesreport/title.jsp"/>
+		<put-attribute name="left" value="/WEB-INF/jsp/proviewlist/titlesreport/left.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/proviewlist/titlesreport/body.jsp"/>
+	</definition>
+
 	<definition name="_proviewTitleAllVersions" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/singletitle/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/singletitle/body.jsp"/>

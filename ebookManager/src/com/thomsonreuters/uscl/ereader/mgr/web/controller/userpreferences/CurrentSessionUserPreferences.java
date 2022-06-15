@@ -43,12 +43,22 @@ public class CurrentSessionUserPreferences implements Serializable {
     private String proviewListObjectsPerPage;
     private String status;
 
+    // PROVIEW TITLES REPORT page parameters
+    private String proviewTitlesReportProviewDisplayName;
+    private String proviewTitlesReportTitleId;
+    private String proviewTitlesReportMinVersions;
+    private String proviewTitlesReportMaxVersions;
+    private String proviewTitlesReportObjectsPerPage;
+    private String proviewTitlesReportStatus;
+
     public CurrentSessionUserPreferences(@NotNull final UserPreferencesForm form) {
         BeanUtils.copyProperties(form, this);
         bookLibraryPreferences.setProviewDisplayName(getLibraryFilterProviewName());
         bookLibraryPreferences.setTitleId(getLibraryFilterTitleId());
         proviewDisplayName = form.getProviewListFilterProviewName();
         titleId = form.getProviewListFilterTitleId();
+        proviewTitlesReportProviewDisplayName = form.getProviewListFilterProviewName();
+        proviewTitlesReportTitleId = form.getProviewListFilterTitleId();
         bookAuditPreferences.setProviewDisplayName(getAuditFilterProviewName());
         bookAuditPreferences.setTitleId(getAuditFilterTitleId());
     }
@@ -64,6 +74,15 @@ public class CurrentSessionUserPreferences implements Serializable {
                 proviewListQueryParams.put(WebConstants.KEY_OBJECTS_PER_PAGE, getProviewListObjectsPerPage());
                 proviewListQueryParams.put(WebConstants.KEY_STATUS, getStatus());
                 return generateUri(WebConstants.MVC_PROVIEW_TITLES, proviewListQueryParams);
+            case PROVIEW_TITLES_REPORT:
+                final Map<String, String> proviewTitlesReportQueryParams = new HashMap<>();
+                proviewTitlesReportQueryParams.put(WebConstants.KEY_PROVIEW_DISPLAY_NAME_FILTER, getProviewTitlesReportProviewDisplayName());
+                proviewTitlesReportQueryParams.put(WebConstants.KEY_TITLE_ID_FILTER, getProviewTitlesReportTitleId());
+                proviewTitlesReportQueryParams.put(WebConstants.KEY_MIN_VERSIONS_FILTER, getProviewTitlesReportMinVersions());
+                proviewTitlesReportQueryParams.put(WebConstants.KEY_MAX_VERSIONS_FILTER, getProviewTitlesReportMaxVersions());
+                proviewTitlesReportQueryParams.put(WebConstants.KEY_OBJECTS_PER_PAGE, getProviewTitlesReportObjectsPerPage());
+                proviewTitlesReportQueryParams.put(WebConstants.KEY_STATUS, getProviewTitlesReportStatus());
+                return generateUri(WebConstants.MVC_PROVIEW_TITLES_REPORT, proviewTitlesReportQueryParams);
             case AUDIT:
                 final Map<String, String> bookAuditListQueryParameters = new HashMap<>();
                 bookAuditListQueryParameters.put(WebConstants.KEY_PROVIEW_DISPLAY_NAME_FILTER, getAuditFilterProviewName());
