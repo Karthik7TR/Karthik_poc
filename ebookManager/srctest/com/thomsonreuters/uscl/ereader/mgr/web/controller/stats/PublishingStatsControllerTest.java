@@ -73,8 +73,8 @@ public final class PublishingStatsControllerTest {
         assertNotNull(model.get(WebConstants.KEY_DISPLAY_OUTAGE));
         assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
         assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(KEY_PAGE_SIZE).toString());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class));
         verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
-        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
         verify(outageService).getAllPlannedOutagesToDisplay();
     }
 
@@ -115,8 +115,8 @@ public final class PublishingStatsControllerTest {
         assertEquals(ASC, form.getDir());
         assertEquals(OBJECTS_PER_PAGE, form.getObjectsPerPage());
         assertEquals(PAGE_NUMBER, form.getPage());
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class));
         verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
-        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
     }
 
     @Test
@@ -132,6 +132,5 @@ public final class PublishingStatsControllerTest {
 
         final ServletOutputStream outStream = response.getOutputStream();
         assertFalse(outStream.toString().isEmpty());
-        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class));
     }
 }

@@ -9,11 +9,14 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.mockito.Matchers.any;
 
 public final class PublishingStatsServiceTest {
     private static final Long BOOK_DEFINITION_ID = 1L;
@@ -77,6 +80,18 @@ public final class PublishingStatsServiceTest {
         Assert.assertEquals(auditId, audit.getAuditId());
         EasyMock.verify(mockDao);
         EasyMock.verify(mockUtil);
+    }
+
+    @Test
+    public void testFindPublishingStats() {
+        EasyMock.expect(mockDao.findPublishingStats(any(PublishingStatsFilter.class))).andReturn(STATS);
+        EasyMock.replay(mockDao);
+
+        final List<PublishingStats> lstSelectedStats = service.findPublishingStats(any(PublishingStatsFilter.class));
+
+        final int actualCountSelectedStats = lstSelectedStats.size();
+        Assert.assertEquals(STATS.size(), actualCountSelectedStats);
+        EasyMock.verify(mockDao);
     }
 
     @Test
