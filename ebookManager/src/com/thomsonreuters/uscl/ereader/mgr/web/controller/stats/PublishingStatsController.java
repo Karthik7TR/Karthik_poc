@@ -65,7 +65,7 @@ public class PublishingStatsController {
             filterForm = getUserPreferencesForCurrentSession(httpSession);
         }
         updateUserPreferencesForCurrentSession(filterForm, httpSession);
-        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, createPaginatedList(filterForm));
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, createPaginatedList(filterForm,httpSession));
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, filterForm.getObjectsPerPage());
 
         return new ModelAndView(WebConstants.VIEW_STATS);
@@ -79,6 +79,12 @@ public class PublishingStatsController {
             return sessionPreferences.getStatsPreferences();
         }
         return new PublishingStatsFilterForm();
+    }
+
+    private void saveSelectedPublishingStats(
+            final HttpSession httpSession,
+            final List<PublishingStats> selectedPublishingStats) {
+        httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, selectedPublishingStats);
     }
 
     private void updateUserPreferencesForCurrentSession(final PublishingStatsFilterForm form,
@@ -97,14 +103,21 @@ public class PublishingStatsController {
      * @param filterForm contains current page number, sort column, and sort direction (asc/desc).
      * @return an implemented DisplayTag paginated list interface
      */
-    private PaginatedList createPaginatedList(final PublishingStatsFilterForm filterForm) {
+    private PaginatedList createPaginatedList(final PublishingStatsFilterForm filterForm,
+                                              HttpSession httpSession) {
         final PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
         final PublishingStatsSort publishingStatsSort = createStatsSort(filterForm);
 
         // Lookup all the Stats objects by their primary key
+        final List<PublishingStats> statsSelected =
+                publishingStatsService.findPublishingStats(publishingStatsFilter);
         final List<PublishingStats> stats =
                 publishingStatsService.findPublishingStats(publishingStatsFilter, publishingStatsSort);
-        final int numberOfStats = publishingStatsService.numberOfPublishingStats(publishingStatsFilter);
+        //final int numberOfStats = publishingStatsService.numberOfPublishingStats(publishingStatsFilter);
+        final int numberOfStats = statsSelected.size();
+
+        //For Download Excel report
+        saveSelectedPublishingStats(httpSession,statsSelected);
 
         // Instantiate the object used by DisplayTag to render a partial list
         return new PublishingStatsPaginatedList(
@@ -142,12 +155,8 @@ public class PublishingStatsController {
 
     @RequestMapping(value = WebConstants.MVC_STATS_DOWNLOAD, method = RequestMethod.GET)
     public void downloadPublishingStatsExcel(final HttpSession httpSession, final HttpServletResponse response) {
-        final PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
-        final PublishingStatsFilterForm filterForm = getUserPreferencesForCurrentSession(httpSession);
-        final PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
-        final List<PublishingStats> stats = publishingStatsService.findPublishingStats(publishingStatsFilter);
-        httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
 
+        final PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
         try (final Workbook wb = excelExportService.createExcelDocument(httpSession)) {
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
