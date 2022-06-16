@@ -21,6 +21,8 @@ import static org.mockito.Matchers.any;
 public final class PublishingStatsServiceTest {
     private static final Long BOOK_DEFINITION_ID = 1L;
     private static final String TITLE_ID = "uscl/an/book";
+    private static final String BOOK_NAME = "demoBook";
+    private static final String ISBN = "978-054-7-34124-8";
     private static final int MAJOR_VERSION = 1;
     private static final String VERSION = "v" + MAJOR_VERSION + ".0";
     private List<PublishingStats> STATS = new ArrayList<>();
@@ -84,11 +86,11 @@ public final class PublishingStatsServiceTest {
 
     @Test
     public void testFindPublishingStats() {
-        EasyMock.expect(mockDao.findPublishingStats(any(PublishingStatsFilter.class))).andReturn(STATS);
+        PublishingStatsFilter filterForm = new PublishingStatsFilter(TITLE_ID,BOOK_NAME,ISBN);
+        EasyMock.expect(mockDao.findPublishingStats(filterForm)).andReturn(STATS);
         EasyMock.replay(mockDao);
 
-        final List<PublishingStats> lstSelectedStats = service.findPublishingStats(any(PublishingStatsFilter.class));
-
+        final List<PublishingStats> lstSelectedStats = service.findPublishingStats(filterForm);
         final int actualCountSelectedStats = lstSelectedStats.size();
         Assert.assertEquals(STATS.size(), actualCountSelectedStats);
         EasyMock.verify(mockDao);
