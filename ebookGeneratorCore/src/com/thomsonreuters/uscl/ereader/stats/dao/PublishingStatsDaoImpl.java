@@ -161,26 +161,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
         return criteria.list();
     }
 
-    //@Override
-    public List<PublishingStats> findPublishingStatsOrg(final PublishingStatsFilter filter) {
-        final Criteria criteria = addFilters(filter);
-
-        return criteria.list();
-    }
-
     @Override
     public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
+        double totalFilterCount = numberOfPublishingStats(filter);
+
         final Criteria criteria = addFilters(filter);
         criteria.addOrder(Order.desc("jobSubmitTimestamp"));
 
-        criteria.setProjection(Projections.rowCount());
-        double totalFilterCount = ((Long) criteria.uniqueResult()).doubleValue();
-
-        criteria.setProjection(null);
-        criteria.setResultTransformer(Criteria.ROOT_ENTITY);
-
         List<PublishingStats> pageStatsList = new ArrayList<PublishingStats>();
-
         final int itemsPerPage = 10000;
         int totalPages = (int) Math.ceil(totalFilterCount/itemsPerPage);
         int pageNumber = 1;
