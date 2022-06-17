@@ -3,10 +3,7 @@ package com.thomsonreuters.uscl.ereader.stats.dao;
 import static org.hibernate.criterion.Restrictions.eq;
 import static org.hibernate.criterion.Restrictions.lt;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -164,11 +161,36 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
         return criteria.list();
     }
 
-    @Override
-    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
+    //@Override
+    public List<PublishingStats> findPublishingStatsOrg(final PublishingStatsFilter filter) {
         final Criteria criteria = addFilters(filter);
 
         return criteria.list();
+    }
+
+    @Override
+    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
+        final Criteria criteria = addFilters(filter);
+        criteria.addOrder(Order.desc("jobSubmitTimestamp"));
+
+        criteria.setProjection(Projections.rowCount());
+        double totalFilterCount = ((Long) criteria.uniqueResult()).doubleValue();
+
+        criteria.setProjection(null);
+        criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+
+        List<PublishingStats> pageStatsList = new ArrayList<PublishingStats>();
+
+        final int itemsPerPage = 10000;
+        int totalPages = (int) Math.ceil(totalFilterCount/itemsPerPage);
+        int pageNumber = 1;
+        while (pageNumber <= totalPages) {
+            criteria.setFirstResult((pageNumber - 1) * (itemsPerPage));
+            criteria.setMaxResults(itemsPerPage);
+            pageStatsList.addAll(criteria.list());
+            pageNumber++;
+        }
+        return pageStatsList;
     }
 
     @Override
