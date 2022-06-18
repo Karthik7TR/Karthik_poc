@@ -63,6 +63,13 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<PublishingStats> findPublishingStatsForExcelReport(PublishingStatsFilter filter,
+         PublishingStatsSort sort, int maxExcelRowCount) {
+        return publishingStatsDAO.findPublishingStatsForExcelReport(filter, sort, maxExcelRowCount);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
         return publishingStatsDAO.findPublishingStats(filter);
     }

@@ -41,6 +41,8 @@ public interface PublishingStatsService {
     List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
+    List<PublishingStats> findPublishingStatsForExcelReport(PublishingStatsFilter filter,
+          PublishingStatsSort sort, int maxExcelRowCount);
 
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
 

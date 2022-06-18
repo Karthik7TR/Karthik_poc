@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.ServletOutputStream;
@@ -43,6 +44,7 @@ public final class PublishingStatsControllerTest {
     private static final String ASC = "asc";
     private static final Integer PAGE_NUMBER = 5;
     private static final Integer OBJECTS_PER_PAGE = 28;
+    public static final int MAX_EXCEL_SHEET_ROW_NUM = 65535;
 
     @InjectMocks
     private PublishingStatsController controller;
@@ -73,8 +75,11 @@ public final class PublishingStatsControllerTest {
         assertNotNull(model.get(WebConstants.KEY_DISPLAY_OUTAGE));
         assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
         assertEquals(WebConstants.DEFAULT_PAGE_SIZE, model.get(KEY_PAGE_SIZE).toString());
-        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class));
-        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class),
+                any(PublishingStatsSort.class));
+        verify(publishingStatsService).findPublishingStatsForExcelReport(any(PublishingStatsFilter.class),
+                any(PublishingStatsSort.class), eq(MAX_EXCEL_SHEET_ROW_NUM));
+        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
         verify(outageService).getAllPlannedOutagesToDisplay();
     }
 
@@ -115,8 +120,11 @@ public final class PublishingStatsControllerTest {
         assertEquals(ASC, form.getDir());
         assertEquals(OBJECTS_PER_PAGE, form.getObjectsPerPage());
         assertEquals(PAGE_NUMBER, form.getPage());
-        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class));
-        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class), any(PublishingStatsSort.class));
+        verify(publishingStatsService).findPublishingStats(any(PublishingStatsFilter.class),
+                any(PublishingStatsSort.class));
+        verify(publishingStatsService).findPublishingStatsForExcelReport(any(PublishingStatsFilter.class),
+                any(PublishingStatsSort.class), eq(MAX_EXCEL_SHEET_ROW_NUM));
+        verify(publishingStatsService).numberOfPublishingStats(any(PublishingStatsFilter.class));
     }
 
     @Test

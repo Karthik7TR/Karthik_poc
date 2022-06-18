@@ -69,7 +69,8 @@ public interface PublishingStatsDao {
      * @return
      */
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
-
+    List<PublishingStats> findPublishingStatsForExcelReport(PublishingStatsFilter filter,
+           PublishingStatsSort sort, int maxExcelRowCount);
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
 
     int numberOfPublishingStats(PublishingStatsFilter filter);
