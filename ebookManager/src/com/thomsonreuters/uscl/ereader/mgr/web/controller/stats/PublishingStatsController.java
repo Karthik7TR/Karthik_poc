@@ -40,6 +40,7 @@ public class PublishingStatsController {
     private final PublishingStatsService publishingStatsService;
     private final OutageService outageService;
     private final Validator validator;
+    public static final int MAX_EXCEL_SHEET_ROW_NUM = 65535;
 
     @Autowired
     public PublishingStatsController(final PublishingStatsService publishingStatsService,
@@ -109,12 +110,13 @@ public class PublishingStatsController {
         final PublishingStatsSort publishingStatsSort = createStatsSort(filterForm);
 
         // Lookup all the Stats objects by their primary key
+        //Will have max 65,535 records downloaded to Excel
         final List<PublishingStats> statsSelected =
-                publishingStatsService.findPublishingStats(publishingStatsFilter);
+                publishingStatsService.findPublishingStatsForExcelReport(publishingStatsFilter,
+                    publishingStatsSort, MAX_EXCEL_SHEET_ROW_NUM);
         final List<PublishingStats> stats =
                 publishingStatsService.findPublishingStats(publishingStatsFilter, publishingStatsSort);
-        //final int numberOfStats = publishingStatsService.numberOfPublishingStats(publishingStatsFilter);
-        final int numberOfStats = statsSelected.size();
+        final int numberOfStats = publishingStatsService.numberOfPublishingStats(publishingStatsFilter);
 
         //For Download Excel report
         saveSelectedPublishingStats(httpSession,statsSelected);

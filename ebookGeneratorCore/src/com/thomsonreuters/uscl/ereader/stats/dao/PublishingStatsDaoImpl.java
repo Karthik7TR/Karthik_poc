@@ -23,7 +23,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 
-public class PublishingStatsDaoImpl implements PublishingStatsDao {
+public  class PublishingStatsDaoImpl implements PublishingStatsDao {
     private static final String EBOOK_DEF_ID = "ebookDefId";
     private static final String PUBLISH_STATUS = "publishStatus";
     private static final String AUDIT = "audit";
@@ -142,6 +142,13 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
     }
 
     @Override
+    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
+        final Criteria criteria = addFilters(filter);
+
+        return criteria.list();
+    }
+
+    @Override
     public List<PublishingStats> findPublishingStats(
         final PublishingStatsFilter filter,
         final PublishingStatsSort sort) {
@@ -162,11 +169,19 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
     }
 
     @Override
-    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
+    public List<PublishingStats> findPublishingStatsForExcelReport(final PublishingStatsFilter filter,
+            PublishingStatsSort sort, int maxExcelRowCount) {
         double totalFilterCount = numberOfPublishingStats(filter);
+        totalFilterCount = totalFilterCount > maxExcelRowCount ? maxExcelRowCount : totalFilterCount;
 
         final Criteria criteria = addFilters(filter);
-        criteria.addOrder(Order.desc("jobSubmitTimestamp"));
+        final String orderByColumn = sort.getOrderByColumnName();
+        if (sort.isAscending()) {
+            criteria.addOrder(Order.asc(orderByColumn));
+        } else {
+            criteria.addOrder(Order.desc(orderByColumn));
+        }
+        criteria.addOrder(Order.desc(sort.getDefaultOrderByColumnName()));
 
         List<PublishingStats> pageStatsList = new ArrayList<PublishingStats>();
         final int itemsPerPage = 10000;

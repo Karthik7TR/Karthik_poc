@@ -1,15 +1,13 @@
 package com.thomsonreuters.uscl.ereader.stats.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -23,6 +21,8 @@ public final class PublishingStatsServiceTest {
     private static final String TITLE_ID = "uscl/an/book";
     private static final String BOOK_NAME = "demoBook";
     private static final String ISBN = "978-054-7-34124-8";
+    private static final int MAX_EXCEL_SHEET_ROW_NUM = 65535;
+
     private static final int MAJOR_VERSION = 1;
     private static final String VERSION = "v" + MAJOR_VERSION + ".0";
     private List<PublishingStats> STATS = new ArrayList<>();
@@ -85,12 +85,56 @@ public final class PublishingStatsServiceTest {
     }
 
     @Test
-    public void testFindPublishingStats() {
+    public void testFindPublishingStatsWithFilter() {
         PublishingStatsFilter filterForm = new PublishingStatsFilter(TITLE_ID,BOOK_NAME,ISBN);
         EasyMock.expect(mockDao.findPublishingStats(filterForm)).andReturn(STATS);
         EasyMock.replay(mockDao);
 
         final List<PublishingStats> lstSelectedStats = service.findPublishingStats(filterForm);
+        final int actualCountSelectedStats = lstSelectedStats.size();
+        Assert.assertEquals(STATS.size(), actualCountSelectedStats);
+        EasyMock.verify(mockDao);
+    }
+
+    @Test
+    public void testFindPublishingStatsWithFilterAndSort() {
+        PublishingStatsFilter filterForm = new PublishingStatsFilter(TITLE_ID,BOOK_NAME,ISBN);
+        PublishingStatsSort sortForm = new PublishingStatsSort(PublishingStatsSort.SortProperty.AUDIT_ID,
+          false,1,20);
+
+        Collections.sort(STATS, (o1, o2) -> o2.getAudit().getAuditId().intValue() -
+                o1.getAudit().getAuditId().intValue());
+
+        EasyMock.expect(mockDao.findPublishingStats(filterForm,sortForm)).andReturn(STATS);
+        EasyMock.replay(mockDao);
+
+        final List<PublishingStats> lstSelectedStats = service.findPublishingStats(filterForm,sortForm);
+        final int actualCountSelectedStats = lstSelectedStats.size();
+        final long expectedFirstAuditId = 9;
+        final long expectedLastAuditId = 0;
+        final long actualFirstAuditId = STATS.get(0).getAudit().getAuditId();
+        final long actualLastAuditId = STATS.get(9).getAudit().getAuditId();
+        Assert.assertEquals(STATS.size(), actualCountSelectedStats);
+        Assert.assertEquals(expectedFirstAuditId,actualFirstAuditId);
+        Assert.assertEquals(expectedLastAuditId,actualLastAuditId);
+        EasyMock.verify(mockDao);
+    }
+
+    @Test
+    public void testFindPublishingStatsForExcelReport_checkMaxExcelRows() {
+        PublishingStatsFilter filterForm = new PublishingStatsFilter(TITLE_ID,BOOK_NAME,ISBN);
+        PublishingStatsSort sortForm = new PublishingStatsSort(PublishingStatsSort.SortProperty.AUDIT_ID,
+                false,1,20);
+
+        Collections.sort(STATS, (o1, o2) -> o2.getAudit().getAuditId().intValue() -
+                o1.getAudit().getAuditId().intValue());
+
+        EasyMock.expect(mockDao.findPublishingStatsForExcelReport(filterForm,sortForm,MAX_EXCEL_SHEET_ROW_NUM))
+                .andReturn(STATS);
+        EasyMock.replay(mockDao);
+
+        final List<PublishingStats> lstSelectedStats = service.findPublishingStatsForExcelReport(filterForm,
+                sortForm,MAX_EXCEL_SHEET_ROW_NUM);
         final int actualCountSelectedStats = lstSelectedStats.size();
         Assert.assertEquals(STATS.size(), actualCountSelectedStats);
         EasyMock.verify(mockDao);
