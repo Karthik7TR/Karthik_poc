@@ -11,6 +11,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class PublishingStatsFilter {
     // Publishing Stats properties
+    public static final String FORM_NAME = "statsFilterForm";
+
     private Date from; // job submit date on and after this calendar date (inclusive)
     private Date to; // job submit date on and before this calendar date (inclusive)
 

@@ -26,13 +26,24 @@ public class PublishingStatsSort {
         LARGEST_IMAGE_SIZE,
         LARGEST_PDF_SIZE,
         PROVIEW_DISPLAY_NAME,
-        TITLE_ID
+        TITLE_ID,
+        PROVIEW_VERSION,
+        ISBN,
+        GENERATE_DATE_TIME
     } // publishing stats properties that can be sorted on
 
     /** Java bean property on which sorting should occur - entity maps this to the physical database column. */
     private SortProperty sortProperty;
     /** true if ascending sort, false if descending sort */
     private boolean ascending;
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public void setItemsPerPage(int itemsPerPage) {
+        this.itemsPerPage = itemsPerPage;
+    }
 
     private int pageNumber;
     private int itemsPerPage;
@@ -93,6 +104,12 @@ public class PublishingStatsSort {
             return "book.proviewDisplayName";
         case TITLE_ID:
             return "book.titleId";
+        case PROVIEW_VERSION:
+            return "bookVersionSubmitted";
+        case ISBN:
+            return "book.isbn";
+        case GENERATE_DATE_TIME:
+            return "jobSubmitTimestamp";
         default:
             throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
         }

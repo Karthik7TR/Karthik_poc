@@ -222,6 +222,7 @@ public class WebConstants {
     public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
     public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc";
     public static final String MVC_JOB_SUMMARY_CHANGE_ROW_COUNT = "jobSummaryChangeRowCount.mvc";
+    public static final String MVC_ADMIN_AUDIT_CHANGE_ROW_COUNT = "adminAuditChangeRowCount.mvc";
     public static final String MVC_JOB_SUMMARY_FILTER = "jobSummaryFilter.mvc";
     public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
     public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
