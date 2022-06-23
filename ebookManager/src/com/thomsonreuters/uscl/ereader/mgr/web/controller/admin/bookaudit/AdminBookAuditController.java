@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,11 +11,13 @@ import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.mgr.annotaion.ShowOnException;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -33,6 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
+@Slf4j
 public class AdminBookAuditController {
     private final EBookAuditService auditService;
     private final PublishingStatsService publishingStatsService;
@@ -62,50 +66,143 @@ public class AdminBookAuditController {
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST, method = RequestMethod.GET)
-    public ModelAndView viewAuditList(final HttpSession httpSession, final Model model) throws Exception {
-        AdminAuditFilterForm form = (AdminAuditFilterForm) httpSession.getAttribute(AdminAuditFilterForm.FORM_NAME);
+    public ModelAndView viewAuditList(
+            @ModelAttribute(AdminAuditFilterForm.FORM_NAME) @Valid final AdminAuditFilterForm form,
+            final HttpSession httpSession, final Model model) throws Exception {
 
-        // Setup form is came from redirect
-        if (model.containsAttribute(AdminAuditFilterForm.FORM_NAME)) {
-            form = (AdminAuditFilterForm) model.asMap().get(AdminAuditFilterForm.FORM_NAME);
-            // Save filter and paging state in the session
-            httpSession.setAttribute(AdminAuditFilterForm.FORM_NAME, form);
-            setupFilterForm(httpSession, model, form);
-        } else if (form != null) {
-            // Setup form from previous saved filter form
-            setupFilterForm(httpSession, model, form);
-        } else {
-            // new form
-            form = new AdminAuditFilterForm();
+        List<PublishingStats> adminAuditList = new ArrayList<PublishingStats>();
+        adminAuditList = setupFilterForm(httpSession, model, form);
+
+        //Save form to session for page dropdown
+        httpSession.setAttribute(AdminAuditFilterForm.FORM_NAME, form);
+
+        final PublishingStatsFilter filter =
+                new PublishingStatsFilter(form.getTitleId(), form.getProviewDisplayName(), form.getIsbn());
+
+        AdminAuditPaginatedList adminAuditPaginatedList = new AdminAuditPaginatedList(
+                adminAuditList,
+                publishingStatsService.numberOfPublishingStats(filter),
+                form.getPage(),
+                form.getObjectsPerPage(),
+                form.getSort(),
+                form.isAscendingSort());
+
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, adminAuditPaginatedList);
+        model.addAttribute(AdminAuditFilterForm.FORM_NAME, form);
+
+        return new ModelAndView(WebConstants.VIEW_ADMIN_AUDIT_BOOK_LIST);
+
+    }
+
+    protected void setUpModel(
+            final PublishingStatsFilter filter,
+            final PublishingStatsSort sort,
+            final HttpSession httpSession,
+            final Model model) {
+        // Save filter and paging state in the session
+        httpSession.setAttribute(PublishingStatsFilter.FORM_NAME, filter);
+        httpSession.setAttribute(PublishingStatsSort.class.getName(), sort);
+
+        model.addAttribute(AdminAuditFilterForm.FORM_NAME, filter);
+
+        // Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
+        List<PublishingStats> publishingStats = new ArrayList<PublishingStats>();
+        publishingStats = publishingStatsService.findPublishingStats(filter, sort);
+
+        AdminAuditPaginatedList adminAuditPaginatedList = new AdminAuditPaginatedList(
+                publishingStats,
+                publishingStatsService.numberOfPublishingStats(filter),
+                sort.getPageNumber(),
+                sort.getItemsPerPage(),
+                sort.getSortProperty(),
+                sort.isAscending());
+
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, adminAuditPaginatedList);
+
+    }
+
+    private List<PublishingStats> setupFilterForm(final HttpSession httpSession, final Model model, final AdminAuditFilterForm form) {
+        List<PublishingStats> publishingStats = new ArrayList<PublishingStats>();
+        if (!form.isEmpty()) {
+            final PublishingStatsFilter filter =
+                new PublishingStatsFilter(form.getTitleId(), form.getProviewDisplayName(), form.getIsbn());
+            final PublishingStatsSort sort = new PublishingStatsSort(
+                    form.getSort(),
+                    form.isAscendingSort(), form.getPage(), form.getObjectsPerPage());
+            publishingStats = publishingStatsService.findPublishingStats(filter, sort);
+            //model.addAttribute("publishingStats", publishingStats);
         }
+        return publishingStats;
+    }
 
+    @RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_CHANGE_ROW_COUNT, method = RequestMethod.POST)
+    public ModelAndView handleChangeInItemsToDisplay(
+            @ModelAttribute(AdminAuditFilterForm.FORM_NAME) @Valid AdminAuditFilterForm form,
+            final HttpSession httpSession, final Model model) throws Exception {
+
+        // Always start from first page again once changing row count to avoid index out of bounds
+        int pageNumber = 1;
+        // Update the new number of items to be shown at one time
+        int itemsPerPage = form.getObjectsPerPage();
+
+        //get latest form state from session
+        form = (AdminAuditFilterForm) httpSession.getAttribute(AdminAuditFilterForm.FORM_NAME);
+        form.setPage(pageNumber);
+        form.setObjectsPerPage(itemsPerPage);
+
+        List<PublishingStats> adminAuditList = new ArrayList<PublishingStats>();
+        adminAuditList = setupFilterForm(httpSession, model, form);
+
+        //Save form to session for page dropdown
+        httpSession.setAttribute(AdminAuditFilterForm.FORM_NAME, form);
+
+        final PublishingStatsFilter filter =
+                new PublishingStatsFilter(form.getTitleId(), form.getProviewDisplayName(), form.getIsbn());
+
+        AdminAuditPaginatedList adminAuditPaginatedList = new AdminAuditPaginatedList(
+                adminAuditList,
+                publishingStatsService.numberOfPublishingStats(filter),
+                form.getPage(),
+                form.getObjectsPerPage(),
+                form.getSort(),
+                form.isAscendingSort());
+
+        model.addAttribute(WebConstants.KEY_PAGINATED_LIST, adminAuditPaginatedList);
         model.addAttribute(AdminAuditFilterForm.FORM_NAME, form);
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_AUDIT_BOOK_LIST);
     }
 
-    private void setupFilterForm(final HttpSession httpSession, final Model model, final AdminAuditFilterForm form) {
-        if (!form.isEmpty()) {
-            final PublishingStatsFilter filter =
-                new PublishingStatsFilter(form.getTitleId(), form.getProviewDisplayName(), form.getIsbn());
-            final PublishingStatsSort sort = new PublishingStatsSort(SortProperty.JOB_SUBMIT_TIMESTAMP, false, 1, 100);
-            final List<PublishingStats> publishingStats = publishingStatsService.findPublishingStats(filter, sort);
-            model.addAttribute("publishingStats", publishingStats);
-        }
-    }
-
     @RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_BOOK_SEARCH, method = RequestMethod.POST)
     public String search(
-        @ModelAttribute(AdminAuditFilterForm.FORM_NAME) @Valid final AdminAuditFilterForm form,
-        @RequestParam final String submit,
-        final BindingResult errors,
-        final RedirectAttributes ra) {
+            @ModelAttribute(AdminAuditFilterForm.FORM_NAME) @Valid final AdminAuditFilterForm form,
+            @RequestParam final String submit,
+            final BindingResult errors,
+            final RedirectAttributes ra) {
         if ("reset".equalsIgnoreCase(submit)) {
             form.initialize();
         }
 
         ra.addFlashAttribute(AdminAuditFilterForm.FORM_NAME, form);
         return "redirect:/" + WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST;
+    }
+
+    protected PublishingStatsSort fetchSavedPageAndSort(final HttpSession httpSession) {
+        PublishingStatsSort pageAndSort =
+                (PublishingStatsSort) httpSession.getAttribute(PublishingStatsSort.class.getName());
+        if (pageAndSort == null) {
+            pageAndSort =
+                    new PublishingStatsSort(PublishingStatsSort.SortProperty.JOB_SUBMIT_TIMESTAMP, true, 1,20);
+        }
+        return pageAndSort;
+    }
+
+    protected PublishingStatsFilter fetchSavedFilterForm(final HttpSession httpSession) {
+        PublishingStatsFilter form = (PublishingStatsFilter) httpSession.getAttribute(PublishingStatsFilter.FORM_NAME);
+        if (form == null) {
+            form = new PublishingStatsFilter();
+        }
+        return form;
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_BOOK_MODIFY_ISBN, method = RequestMethod.GET)
