@@ -18,7 +18,8 @@ public class GenerateBookForm {
     public enum Version {
         MAJOR,
         MINOR,
-        OVERWRITE
+        OVERWRITE,
+        CUSTOM_VERSION
     };
 
     private boolean highPriorityJob;
@@ -29,6 +30,7 @@ public class GenerateBookForm {
     private String newOverwriteVersion;
     private String newMajorVersion;
     private String newMinorVersion;
+    private String newCustomVersion;
     private Version newVersion;
     @Getter
     @Setter
@@ -106,8 +108,17 @@ public class GenerateBookForm {
         this.fullyQualifiedTitleId = fullyQualifiedTitleId;
     }
 
+    public String getNewCustomVersion() {
+        return newCustomVersion;
+    }
+
+    public void setNewCustomVersion(String newCustomVersion) {
+        this.newCustomVersion = newCustomVersion;
+    }
+
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

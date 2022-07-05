@@ -84,6 +84,7 @@ public class WebConstants {
     public static final String KEY_NEW_VERSION_NUMBER = "newGeneratedBookVersion";
     public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
     public static final String KEY_NEW_MINOR_VERSION_NUMBER = "newMinorVersionNumber";
+    public static final String KEY_NEW_CUSTOM_VERSION_NUMBER = "newCustomVersionNumber";
     public static final String KEY_NEW_OVERWRITE_VERSION_NUMBER = "newOverwriteVersionNumber";
     public static final String KEY_IS_BOOK_GENERATION_ENQUEUED = "isBookGenerationEnqueued";
     public static final String KEY_IS_HIGH_PRIORITY_JOB = "isHighPriorityJob";
