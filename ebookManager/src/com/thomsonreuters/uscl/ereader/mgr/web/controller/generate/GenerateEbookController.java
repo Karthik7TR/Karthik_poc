@@ -302,6 +302,7 @@ public class GenerateEbookController {
         model.addAttribute(WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER, newOverwriteVersion);
         model.addAttribute(WebConstants.KEY_NEW_MAJOR_VERSION_NUMBER, newMajorVersion);
         model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER, newMinorVersion);
+        model.addAttribute(WebConstants.KEY_NEW_CUSTOM_VERSION_NUMBER, form.getNewCustomVersion());
         model.addAttribute(WebConstants.BOOK_STATUS_IN_PROVIEW, status);
         model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, REVIEW_STATUS.equals(status) ? "Y" : "N");
 

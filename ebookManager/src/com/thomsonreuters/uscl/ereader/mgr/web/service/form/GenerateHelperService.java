@@ -83,6 +83,8 @@ public class GenerateHelperService {
             return form.getNewMinorVersion();
         case OVERWRITE:
             return form.getNewOverwriteVersion();
+        case CUSTOM_VERSION:
+            return form.getNewCustomVersion();
         default:
             throw new RuntimeException();
         }
