@@ -48,7 +48,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -57,13 +57,7 @@ jobs:
       with:
         java-version: '8.0.202'
         distribution: 'adopt'
-    - uses: actions/checkout@v2
-    - uses: dbelyaev/action-checkstyle@v0.5.1
-      with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
-         
+   
     - name: Output Run Number
       run: echo ${{ github.run_number }}
            echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"   
