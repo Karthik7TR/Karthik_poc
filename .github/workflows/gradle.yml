@@ -53,7 +53,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: nikitasavinov/checkstyle-action@0.6.0
+    - uses: nikitasavinov/checkstyle-action@0.5.1
       with:
         
           reporter: github-pr-review
