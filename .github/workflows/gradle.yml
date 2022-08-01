@@ -58,10 +58,7 @@ jobs:
       with:
         java-version: '8.0.202'
         distribution: 'adopt'
-    - uses: actions/cache@v1
-      with:
-        path: ~/.m2/repository
-       
+    - uses: actions/cache@v1   
     - name: Build with Maven
       run: mvn -B verify checkstyle:checkstyle
     - uses: jwgmeligmeyling/checkstyle-github-action@master
