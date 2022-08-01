@@ -47,13 +47,13 @@ permissions:
 
 jobs:
            
-  checkstyle:
+   build:
     name: runner / checkstyle
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - uses: dbelyaev/action-checkstyle@v0.5.1
+    - uses: nikitasavinov/checkstyle-action@0.6.0
       with:
         
           reporter: github-pr-review
