@@ -44,8 +44,8 @@ on:
 
 permissions:
   contents: read
-
-checkstyle:
+jobs:
+  checkstyle:
     name: runner / checkstyle
     runs-on: ubuntu-latest
     steps:
@@ -59,8 +59,8 @@ checkstyle:
       - name: Set up JDK 1.8.0_202
       - uses: actions/setup-java@v3
         with:
-        java-version: '8.0.202'
-        distribution: 'adopt'
+         java-version: '8.0.202'
+         distribution: 'adopt'
    
       - name: Checkout
       - uses: actions/checkout@v2
