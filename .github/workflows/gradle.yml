@@ -58,6 +58,12 @@ jobs:
       with:
         java-version: '8.0.202'
         distribution: 'adopt'
+        cache: gradle
+    
+    - uses: docker-practice/actions-setup-docker@master
+    - run: |
+        docker version
+        docker run --rm hello-world
     - uses: actions/checkout@v2
     - uses: dbelyaev/action-checkstyle@v0.5.1
       with:
