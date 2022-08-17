@@ -1068,21 +1068,25 @@ public final class EditBookDefinitionFormValidatorTest {
         expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
-        final TableViewer document = new TableViewer();
-        document.setNote("test");
-        form.getTableViewers().add(document);
+        form.setTableViewersUsed(true);
+
+        //final TableViewer document = new TableViewer();
+        //document.setNote("test");
+        //form.getTableViewers().add(document);
 
         validator.validate(form, errors);
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("tableViewers[0].documentGuid").getCode());
+        Assert.assertFalse(errors.hasErrors());
+        //Table Viewer will now apply to all GUIDs in the Book published to Proview
+        //Assert.assertEquals(ERROR_REQUIRED, errors.getFieldError("tableViewers[0].documentGuid").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
 
     /**
-     * Test TableViewer duplicate guids
+     * Test TableViewer duplicate guids: This is not valid use case as
+     * Table Viewer will now apply to all GUIDs (if enabled) in the Book published to Proview
      */
-    @Test
+    //@Test
     public void testTableViewerDuplicateGuids() {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
             .andReturn(null);
@@ -1124,8 +1128,10 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setTableViewersUsed(true);
 
         validator.validate(form, errors);
-        Assert.assertTrue(errors.hasErrors());
-        Assert.assertEquals("error.used.selected", errors.getFieldError("tableViewers").getCode());
+
+        //Table Viewer will now apply to all GUIDs in the Book published to Proview
+        Assert.assertFalse(errors.hasErrors());
+        //Assert.assertEquals("error.used.selected", errors.getFieldError("tableViewers").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
     }
