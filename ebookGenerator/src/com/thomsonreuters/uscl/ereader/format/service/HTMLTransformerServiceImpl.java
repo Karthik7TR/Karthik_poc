@@ -110,8 +110,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         final boolean isHighlight,
         final boolean isStrikethrough,
         final boolean delEditorNodeHeading,
-        final String version,
-        final boolean isProviewTableFlag) throws EBookFormatException {
+        final String version) throws EBookFormatException {
         if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
@@ -167,8 +166,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version,
-                isProviewTableFlag);
+                version);
             numDocs++;
         }
 
@@ -223,8 +221,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
         final boolean isHighlight,
         final boolean isStrikethrough,
         final boolean delEditorNodeHeading,
-        String version,
-        final boolean isProviewTableFlag) throws EBookFormatException {
+        String version) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
         try (FileInputStream inStream = new FileInputStream(sourceFile)) {
@@ -244,9 +241,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
 
                 tagIdDedupingFilter.setParent(emptyH2Filter);
 
-                //tableViewers and copyTableViewers will always be NULL
-                boolean isTableViewRequired = isProviewTableFlag;
-
+                boolean isTableViewRequired = false;
                 // Check if table viewer is turned on for this document guid
                 if ((tableViewers != null) && (tableViewers.size() > 0) && (copyTableViewers != null)) {
                     for (final TableViewer document : tableViewers) {

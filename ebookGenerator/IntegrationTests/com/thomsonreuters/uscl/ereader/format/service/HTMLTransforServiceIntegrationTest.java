@@ -276,8 +276,7 @@ public final class HTMLTransforServiceIntegrationTest {
             false,
             false,
             false,
-            version,
-            isTableViewRequired);
+            version);
 
         final String renderedOutput =
             IOUtils.toString(new FileInputStream(new File(transformedDirectory, preRenderedInput + ".postTransform")));
@@ -402,8 +401,7 @@ public final class HTMLTransforServiceIntegrationTest {
             false,
             false,
             false,
-            version,
-            false);
+            version);
 
         final String renderedOutput =
             IOUtils.toString(new FileInputStream(new File(transformedDirectory, preRenderedInput + ".postTransform")));
@@ -623,8 +621,7 @@ public final class HTMLTransforServiceIntegrationTest {
             false,
             false,
             false,
-            version,
-            false);
+            version);
         final String renderedOutput = IOUtils.toString(
             new FileInputStream(
                 new File(transformedDirectory, "Id8ec0a72cfe111da9bb4a39a5015044e" + ".postTransform")));

@@ -507,10 +507,6 @@ $(document).ready(function() {
 						<label class="labelCol">Pilot Book: Notes Migration</label>
 						<span class="field">${ fn:toLowerCase(book.pilotBookStatus) }</span>
 					</div>
-					<div class="row">
-						<label class="labelCol">Table Viewer</label>
-						<span class="field">${ book.proviewTableViewFlag }</span>
-					</div>
 					<c:if test="${not empty book.groupName}">
 						<div class="row">
 							<label class="labelCol">Group Name</label>
@@ -533,7 +529,27 @@ $(document).ready(function() {
 				</div>
 			</div>
 		</div>
-
+		
+		<div class="dynamicContent">
+			<label class="labelCol">Table Viewer</label>
+			<c:forEach items="${ book.tableViewers }" var="document">
+				<div class="expandingBox">
+					<div class="dynamicRow">
+						<label>Document Guid:</label>
+						<span class="field"> ${ document.documentGuid }</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Note:</label>
+						<div class="wordwrap">${ fn:escapeXml(document.note) }</div>
+					</div>
+					<div class="dynamicRow">
+						<label>Last Updated:</label>
+						<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+		
 		<div class="section">
 			<div class="sectionLabel" ${xppHide}>
 				Front Matter

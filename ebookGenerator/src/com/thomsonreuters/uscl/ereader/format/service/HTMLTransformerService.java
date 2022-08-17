@@ -49,6 +49,5 @@ public interface HTMLTransformerService {
         boolean isHighlight,
         boolean isStrikethrough,
         boolean delEditorNodeHeading,
-        String version,
-        boolean isProviewTableFlag) throws EBookFormatException;
+        String version) throws EBookFormatException;
 }

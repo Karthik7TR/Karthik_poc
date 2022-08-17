@@ -986,6 +986,10 @@
 					<form:errors path="tableViewersUsed" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div id="addTableViewerRow" class="row" style="display:none;">
+				<label class="labelCol">Table Viewer</label>
+				<input type="button" id="addTableViewer" value="add" />
+			</div>
 			<div class="row">
 				<form:label path="groupsEnabled" class="labelCol">Enable Groups</form:label>
 				<form:radiobutton path="groupsEnabled" value="true" />True
@@ -1057,7 +1061,7 @@
 	<div class="errorDiv">
 		<form:errors path="tableViewers" cssClass="errorMessage" />
 	</div>
-			<c:forEach items="${editBookDefinitionForm.tableViewers		}" var="document" varStatus="aStatus">
+	<c:forEach items="${editBookDefinitionForm.tableViewers}" var="document" varStatus="aStatus">
 		<div class="expandingBox">
 			<div class="dynamicRow">
 				<label>Document Guid</label>
