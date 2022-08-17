@@ -111,7 +111,7 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private Collection<RenameTocEntry> renameTocEntriesCopy = new AutoPopulatingList<>(RenameTocEntry.class);
     @Getter @Setter
-    private boolean isTableViewersUsed;
+    private boolean isTableViewersUsed = Boolean.TRUE;
     @Getter @Setter
     private Collection<TableViewer> tableViewers = new AutoPopulatingList<>(TableViewer.class);
     @Getter @Setter
@@ -274,7 +274,7 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String indexTocRootGuid;
 
-    @Getter @Setter
+    @Getter @Setterble
     private boolean previousVersionIdsEnabled = false;
     @Getter @Setter
     private String versionWithPreviousDocIds;
@@ -440,8 +440,8 @@ public class EditBookDefinitionForm {
             // Determine if RenameTocEntries are present in Book Definition
             isRenameTocEntriesUsed = book.getRenameTocEntries().size() > 0;
 
-            isTableViewersUsed = tableViewers.size() > 0;
-
+            //isTableViewersUsed = tableViewers.size() > 0;
+            isTableViewersUsed = book.isProviewTableViewFlag();
             // Determine if Publish Cut-off Date is used
             final Date date = book.getPublishCutoffDate();
             if (date != null) {
@@ -543,7 +543,8 @@ public class EditBookDefinitionForm {
                 document.setLastUpdated(new Date());
             }
         }
-        book.setTableViewers(tableViewers);
+        book.setTableViewers(tableViewers);5
+        book.setIsProviewTableViewFlag(isTableViewersUsed);
 
         for (final DocumentCopyright documentCopyright : documentCopyrights) {
             documentCopyright.setBookDefinition(book);
@@ -570,7 +571,6 @@ public class EditBookDefinitionForm {
         book.setELooseleafsEnabled(Bucket.isElooseLeafsEnabled(bucket));
         book.setReleaseNotes(releaseNotes);
         book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
-
         final DocumentTypeCode dtc = new DocumentTypeCode();
         dtc.setId(contentTypeId != null ? contentTypeId : 0L);
         book.setDocumentTypeCodes(dtc);
