@@ -243,7 +243,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         validatePilotBooks(form, errors);
         validateExcludeDocuments(form, errors);
         validateRenameTocEntries(form, errors);
-        //validateTableViewers(form, errors);
+        validateTableViewers(form, errors);
         validateAdditionalFrontMatter(form, errors);
         validateDocumentCurrencies(form, errors);
         validateDocumentCopyrights(form, errors);
@@ -821,6 +821,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             }
             i++;
         }
+
         if (form.isTableViewersUsed()) {
             if (form.getTableViewers().size() == 0) {
                 errors.rejectValue(
