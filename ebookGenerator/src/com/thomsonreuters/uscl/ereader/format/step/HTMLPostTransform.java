@@ -57,6 +57,7 @@ public class HTMLPostTransform extends BookStepImpl {
         final List<TableViewer> tableViewers = bookDefinition.getTableViewers();
         final PublishingStats jobstats = new PublishingStats(jobId);
         String stepStatus = "Completed";
+        final boolean isProviewTableFlag = bookDefinition.isProviewTableViewFlag();
 
         try {
             final int numDocsTransformed = transformerService.transformHTML(
@@ -72,7 +73,8 @@ public class HTMLPostTransform extends BookStepImpl {
                 bookDefinition.isInsStyleFlag(),
                 bookDefinition.isDelStyleFlag(),
                 bookDefinition.isRemoveEditorNoteHeadFlag(),
-                version);
+                version,
+                isProviewTableFlag);
 
             if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of post transformed documents did not match the number "
