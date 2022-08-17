@@ -274,7 +274,7 @@ public class EditBookDefinitionForm {
     @Getter @Setter
     private String indexTocRootGuid;
 
-    @Getter @Setterble
+    @Getter @Setter
     private boolean previousVersionIdsEnabled = false;
     @Getter @Setter
     private String versionWithPreviousDocIds;
@@ -543,7 +543,7 @@ public class EditBookDefinitionForm {
                 document.setLastUpdated(new Date());
             }
         }
-        book.setTableViewers(tableViewers);5
+        book.setTableViewers(tableViewers);
         book.setIsProviewTableViewFlag(isTableViewersUsed);
 
         for (final DocumentCopyright documentCopyright : documentCopyrights) {

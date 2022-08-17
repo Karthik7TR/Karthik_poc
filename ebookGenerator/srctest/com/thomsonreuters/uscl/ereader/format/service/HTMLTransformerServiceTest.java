@@ -63,6 +63,7 @@ public final class HTMLTransformerServiceTest {
     private File targetDir;
     private File staticImgList;
     private List<TableViewer> tableViewers;
+    private boolean isProviewTableFlag;
     private String title = "ebook_source_test";
     private Long jobId;
     private Map<String, Set<String>> targetAnchors;
@@ -73,8 +74,7 @@ public final class HTMLTransformerServiceTest {
     private boolean delEditorNodeHeading;
     private String version = "test";
 
-    /**
-     * makeFile( File directory, String name, String content ) helper method to streamline file creation
+    /*** makeFile( File directory, String name, String content ) helper method to streamline file creation
      *
      * @param directory Location the new file will be created in
      * @param name Name of the new file
@@ -101,6 +101,7 @@ public final class HTMLTransformerServiceTest {
         tempRootDir.mkdir();
         srcDir = new File("srctest/com/thomsonreuters/uscl/ereader/format/service/staticContent");
         targetDir = new File(tempRootDir.getAbsolutePath(), "PostTransformDirectory");
+        isProviewTableFlag = false;
         targetDir.mkdir();
         staticImgList = makeFile(tempRootDir, "StaticImageList", "");
         jobId = Long.valueOf(127);
@@ -158,7 +159,8 @@ public final class HTMLTransformerServiceTest {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version);
+                version,
+                isProviewTableFlag);
         } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
@@ -180,9 +182,10 @@ public final class HTMLTransformerServiceTest {
 
         /* test miscellaneous IF branches not taken by happy path */
         tableViewers = new ArrayList<>();
-        final TableViewer table = new TableViewer();
-        table.setDocumentGuid(title);
-        tableViewers.add(table);
+        //final TableViewer table = new TableViewer();
+        //table.setDocumentGuid(title);
+        //tableViewers.add(table);
+        isProviewTableFlag = true;
         version = "test.test";
         docMeta.setProviewFamilyUUIDDedup(Integer.valueOf(1));
         docMeta.setDocFamilyUuid("hello test!");
@@ -206,7 +209,8 @@ public final class HTMLTransformerServiceTest {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version);
+                version,
+                isProviewTableFlag);
         } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
@@ -218,49 +222,6 @@ public final class HTMLTransformerServiceTest {
         assertTrue(postTransform.exists());
     }
 
-    /**
-     * Tests the case were there are more table viewers than .transformed files to process. Should throw an
-     * EBookFormatException.
-     */
-    @Test
-    public void testWithExtraTableViewers() {
-        boolean thrown = false;
-        boolean expect = false;
-
-        tableViewers = new ArrayList<>();
-        final TableViewer table = new TableViewer();
-        table.setDocumentGuid(title);
-        tableViewers.add(table);
-        tableViewers.add(table);
-
-        try {
-            EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
-            EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
-            EasyMock.replay(metadataMoc);
-
-            transformerService.transformHTML(
-                srcDir,
-                targetDir,
-                staticImgList,
-                tableViewers,
-                title,
-                jobId,
-                targetAnchors,
-                docsGuidFile,
-                deDuppingFile,
-                isHighlight,
-                isStrikethrough,
-                delEditorNodeHeading,
-                version);
-        } catch (final EBookFormatException e) {
-            expect = true;
-        } catch (final Exception e) {
-            // e.printStackTrace();
-            thrown = true;
-        }
-        assertTrue(!thrown);
-        assertTrue(expect);
-    }
 
     /**
      * test miscellaneous exceptions that may be thrown due to bad arguments
@@ -283,7 +244,8 @@ public final class HTMLTransformerServiceTest {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version);
+                version,
+                isProviewTableFlag);
         } catch (final IllegalArgumentException e) {
             // e.printStackTrace();
             expect = true;
@@ -311,7 +273,8 @@ public final class HTMLTransformerServiceTest {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version);
+                version,
+                isProviewTableFlag);
         } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
@@ -350,7 +313,8 @@ public final class HTMLTransformerServiceTest {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version);
+                version,
+                isProviewTableFlag);
         } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
@@ -392,7 +356,8 @@ public final class HTMLTransformerServiceTest {
                 isHighlight,
                 isStrikethrough,
                 delEditorNodeHeading,
-                version);
+                version,
+                isProviewTableFlag);
         } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
