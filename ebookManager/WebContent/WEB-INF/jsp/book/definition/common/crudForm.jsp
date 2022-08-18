@@ -29,6 +29,32 @@
 
 </c:otherwise>
 </c:choose>
+
+<script>
+    $(document).ready(function() {
+        var val = document.getElementById("includeAnnotationsN").checked;
+        if (val === true) {
+            document.getElementById("includeNotesOfDecisionsY").disabled = true;
+			document.getElementById("includeNotesOfDecisionsN").disabled = true;
+			document.getElementById("includeNotesOfDecisionsY").checked = false;
+			document.getElementById("includeNotesOfDecisionsN").checked = true;
+        }
+    });
+    function checkAnnotation(){
+		var val = document.getElementById("includeAnnotationsN").checked;
+		if (val === true) {
+			document.getElementById("includeNotesOfDecisionsY").disabled = true;
+			document.getElementById("includeNotesOfDecisionsN").disabled = true;
+			document.getElementById("includeNotesOfDecisionsY").checked = false;
+			document.getElementById("includeNotesOfDecisionsN").checked = true;
+		}
+    }
+    function undisable(){
+		document.getElementById("includeNotesOfDecisionsY").disabled = false;
+		document.getElementById("includeNotesOfDecisionsN").disabled = false;
+    }
+</script>
+
 <script type="text/javascript" src="js/book/book-fields.js"></script>
 <script type="text/javascript" src="js/create-book.js"></script>
 <script type="text/javascript" src="js/common-form.js"></script>
@@ -254,16 +280,16 @@
 			</c:if>
 			<div class="row xppHideClass">
 				<form:label path="includeAnnotations" class="labelCol">Include Annotations</form:label>
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="true" />Yes
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="false" />No
+				<form:radiobutton id="includeAnnotationsY" disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="true" onclick="undisable()" />Yes
+				<form:radiobutton id="includeAnnotationsN" disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="false" onclick="checkAnnotation()" />No
 				<div class="errorDiv">
 					<form:errors path="includeAnnotations" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row xppHideClass">
 				<form:label path="includeNotesOfDecisions" class="labelCol">Include Notes of Decisions</form:label>
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="true" />Yes
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="false" />No
+				<form:radiobutton id="includeNotesOfDecisionsY" readonly="readonly"  disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="true" />Yes
+				<form:radiobutton id="includeNotesOfDecisionsN" readonly="readonly" disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="false" />No
 				<div class="errorDiv">
 					<form:errors path="includeNotesOfDecisions" cssClass="errorMessage" />
 				</div>

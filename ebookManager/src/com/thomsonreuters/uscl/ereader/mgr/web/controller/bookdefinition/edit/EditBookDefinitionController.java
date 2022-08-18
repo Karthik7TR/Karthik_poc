@@ -168,6 +168,10 @@ public class EditBookDefinitionController {
         updateFormWithUnescapedStylingTags(form);
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
+        if (!form.isIncludeAnnotations()) {
+            form.setIncludeNotesOfDecisions(false);
+        }
+
         if (!bindingResult.hasErrors()) {
             BookDefinition book = new BookDefinition();
             form.loadBookDefinition(book);
@@ -306,6 +310,10 @@ public class EditBookDefinitionController {
         updateFormWithUnescapedStylingTags(form);
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
+        if (!form.isIncludeAnnotations()) {
+            form.setIncludeNotesOfDecisions(false);
+        }
+
         final Long bookDefinitionId = form.getBookdefinitionId();
         final String username = UserUtils.getAuthenticatedUserName();
 
@@ -438,6 +446,10 @@ public class EditBookDefinitionController {
         final Model model) throws Exception {
         updateFormWithUnescapedStylingTags(form);
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
+
+        if (!form.isIncludeAnnotations()) {
+            form.setIncludeNotesOfDecisions(false);
+        }
 
         if (!bindingResult.hasErrors()) {
             BookDefinition book = new BookDefinition();
