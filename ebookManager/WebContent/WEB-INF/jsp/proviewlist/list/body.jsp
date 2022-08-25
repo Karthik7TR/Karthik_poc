@@ -89,6 +89,7 @@
 		<display:column title="Publisher" property="publisher" sortable="true" sortProperty="<%=DisplayTagSortProperty.PUBLISHER.toString() %>"/>
 		<display:column title="Last Update" property="lastupdate" sortProperty="<%=DisplayTagSortProperty.LAST_UPDATE.toString() %>" sortable="true"/>
 		<display:column title="Latest Status Update" property="lastStatusUpdateDate" sortProperty="<%=DisplayTagSortProperty.LATEST_STATUS_UPDATE.toString() %>" sortable="true"/>
+		<display:column title="User Name" property="jobSubmitterName" sortProperty="<%=DisplayTagSortProperty.JOB_SUBMITTER_NAME.toString() %>" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 				<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">View all versions</a>
 		</display:column>

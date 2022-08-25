@@ -67,6 +67,20 @@ public class ProviewAudit implements Serializable {
     @Column(name = "AUDIT_NOTE", length = 1024, nullable = false)
     private String auditNote;
 
+    public ProviewAudit() {
+        super();
+    }
+
+    public ProviewAudit(String titleId, String bookVersion, String proviewRequest,
+               Date requestDate, String username) {
+        super();
+        this.titleId = titleId;
+        this.bookVersion = bookVersion;
+        this.proviewRequest = proviewRequest;
+        this.requestDate = requestDate;
+        this.username = username;
+    }
+
     public Long getId() {
         return id;
     }

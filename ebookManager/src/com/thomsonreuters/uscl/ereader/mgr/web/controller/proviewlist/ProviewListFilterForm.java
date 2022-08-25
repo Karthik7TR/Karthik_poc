@@ -3,14 +3,20 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -36,7 +42,8 @@ public class ProviewListFilterForm implements Serializable {
         LAST_UPDATE,
         PUBLISHER,
         LATEST_STATUS_UPDATE,
-        ACTION
+        ACTION,
+        JOB_SUBMITTER_NAME
     }
     @Getter @Setter
     private Integer proviewTitleListFullSize =0;
@@ -98,6 +105,10 @@ public class ProviewListFilterForm implements Serializable {
     @Getter @Setter
     private Command command;
     @Getter @Setter
+    private String fromDateString;
+    @Getter @Setter
+    private String toDateString;
+    @Getter @Setter
     private String objectsPerPage;
     @Getter @Setter
     private String status;
@@ -105,8 +116,62 @@ public class ProviewListFilterForm implements Serializable {
     public boolean areAllFiltersBlank() {
         return isBlank(getProviewDisplayName()) && isBlank(getTitleId())
                 && isBlank(getMinVersions()) && isBlank(getMaxVersions())
-                && isBlank(getStatus());
+                && isBlank(getStatus()) && isBlank(getFromDateString())
+                && isBlank(getToDateString());
     }
+
+    public void setFromDate(final Date fromDate) {
+        fromDateString = parseDate(fromDate);
+    }
+
+    public void setFromDateString(final String fromDate) {
+        fromDateString = fromDate;
+    }
+
+    public void setToDateString(final String toDate) {
+        toDateString = toDate;
+    }
+
+    public void setToDate(final Date toDate) {
+        toDateString = parseDate(toDate);
+    }
+
+    public Date getFromDate() {
+        return parseDate(fromDateString);
+    }
+
+    public String getFromDateString() {
+        return fromDateString;
+    }
+
+    public Date getToDate() {
+        return parseDate(toDateString);
+    }
+
+    public String getToDateString() {
+        return toDateString;
+    }
+    public static String parseDate(final Date date) {
+        if (date != null) {
+            final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
+            return sdf.format(date);
+        }
+        return null;
+    }
+
+    public static Date parseDate(final String dateString) {
+        Date date = null;
+        try {
+            if (StringUtils.isNotBlank(dateString)) {
+                final String[] parsePatterns = {CoreConstants.DATE_TIME_FORMAT_PATTERN};
+                date = DateUtils.parseDate(dateString, parsePatterns);
+            }
+        } catch (final ParseException e) {
+            //Intentionally left blank
+        }
+        return date;
+    }
+
 
     @SuppressWarnings("unused")
     public void setMinVersions(final String minVersions) {

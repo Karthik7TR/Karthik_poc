@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class ProviewListExcelExportService extends BaseExcelExportService {
     public static final String TITLES_NAME = "ProviewGroups";
     public static final String[] TITLES_HEADER =
-        {"ProView DisplayName", "Title ID", "Total Versions", "Split Parts", "Latest Version", "Status", "Publisher", "Last Update"};
+        {"ProView DisplayName", "Title ID", "Total Versions", "Split Parts", "Latest Version", "Status", "Publisher", "Last Update", "User Name"};
 
     public ProviewListExcelExportService() {
         super();
@@ -40,6 +40,7 @@ public class ProviewListExcelExportService extends BaseExcelExportService {
             row.createCell(5).setCellValue(title.getStatus());
             row.createCell(6).setCellValue(title.getPublisher());
             row.createCell(7).setCellValue(title.getLastupdate());
+            row.createCell(8).setCellValue(title.getJobSubmitterName());
             if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(
