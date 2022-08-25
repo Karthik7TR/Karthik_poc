@@ -23,6 +23,20 @@
 				submitLeftFormAndBodyForm();
 			}
 		});
+		<%-- Set up the timepicker TO and FROM date picker UI widget --%>
+		$( "#datepickerFrom" ).datetimepicker({
+			showSecond: true,
+			timeFormat: 'HH:mm:ss'
+		});
+		$( "#datepickerTo" ).datetimepicker({
+			hour: 23,
+			minute: 59,
+			second: 59,
+			showSecond: true,
+			timeFormat: 'HH:mm:ss'
+		});
+		$("#datepickerFrom, #datepickerTo").attr('autocomplete','off');
+
 	});
 
 	$(window).on('pageshow', function() {
@@ -72,6 +86,14 @@
 	<div class="filterRow">
 		<label>Max Total versions:</label>
 		<form:input path="maxVersions"/>
+	</div>
+	<div class="filterRow">
+		<label>From Date:</label>
+		<form:input id="datepickerFrom" path="fromDateString"/>
+	</div>
+	<div class="filterRow">
+		<label>To Date:</label>
+		<form:input id="datepickerTo" path="toDateString"/>
 	</div>
 	<div class="filterRow">
 		<label>Status:</label>

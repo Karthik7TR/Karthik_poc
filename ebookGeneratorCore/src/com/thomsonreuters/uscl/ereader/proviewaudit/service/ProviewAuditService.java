@@ -33,4 +33,6 @@ public interface ProviewAuditService {
     List<ProviewAudit> getRemovedAndDeletedVersions(String fullyQualifiedTitleId);
 
     Map<String, Date> findMaxRequestDateByTitleIds(Collection<String> titleIds);
+
+    List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion();
 }

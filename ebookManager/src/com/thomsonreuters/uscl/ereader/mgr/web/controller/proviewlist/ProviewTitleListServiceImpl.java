@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
@@ -12,10 +13,12 @@ import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.*;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
+import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
@@ -84,6 +88,8 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         if (isRefresh || !hasAnyLastStatusUpdateDates(allLatestProviewTitleInfo)) {
             fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, allProviewTitleInfo.keySet());
         }
+        //Update Job Submitter user name from ProviewAudit
+        fillLatestJobSubmitterNameForTitleInfos(allLatestProviewTitleInfo);
         final List<ProviewTitleInfo> selectedProviewTitleInfo;
         List<ProviewTitleInfo> lstProviewTitleInfoSortFinal = null;
         if (form.areAllFiltersBlank()) {
@@ -142,6 +148,20 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                 !form.isAscendingSort()) {
             Collections.sort(selectedProviewTitleInfoList,
                     Comparator.comparing(ProviewTitleInfo::getTitleId,
+                            Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("JOB_SUBMITTER_NAME".equalsIgnoreCase(form.getSort().name().toString()) &&
+                form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getJobSubmitterName,
+                            Comparator.nullsLast(Comparator.naturalOrder())));
+            subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
+            foundList = new ArrayList<>(subList);
+        } else if ("JOB_SUBMITTER_NAME".equalsIgnoreCase(form.getSort().name().toString()) &&
+                !form.isAscendingSort()) {
+            Collections.sort(selectedProviewTitleInfoList,
+                    Comparator.comparing(ProviewTitleInfo::getJobSubmitterName,
                             Comparator.nullsLast(Comparator.naturalOrder())).reversed());
             subList = selectedProviewTitleInfoList.subList(minIndex,maxIndex);
             foundList = new ArrayList<>(subList);
@@ -329,11 +349,30 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                         mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
     }
 
+    private void fillLatestJobSubmitterNameForTitleInfos(final List<ProviewTitleInfo> latestTitleInfos) {
+        List<ProviewAudit> lstTitleSubmitter = findJobSubmitterNameForAllTitlesLatestVersion();
+
+        //update Job Submitter Name for each title
+        latestTitleInfos.forEach(titleInfo -> {
+            ProviewAudit proviewAudit = lstTitleSubmitter.stream().filter(submitter ->
+                    submitter.getTitleId().equals(titleInfo.getTitleId()) &&
+                    submitter.getBookVersion().equals(titleInfo.getVersion())).findFirst().orElse(null);
+            if (proviewAudit != null) {
+                titleInfo.setJobSubmitterName(proviewAudit.getUsername());
+            }
+        });
+
+    }
+
     private Map<String, Date> updateLatestUpdateDates(final Collection<String> titleIds) {
         return Optional.ofNullable(titleIds)
                 .filter(CollectionUtils::isNotEmpty)
                 .map(proviewAuditService::findMaxRequestDateByTitleIds)
                 .orElseGet(Collections::emptyMap);
+    }
+
+    private List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion() {
+        return proviewAuditService.findJobSubmitterNameForAllTitlesLatestVersion();
     }
 
     private String mapDateToString(final Date date) {
@@ -354,6 +393,8 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         String proviewDisplayNameSearchTerm = filterForm.getProviewDisplayName();
         String titleIdSearchTerm = filterForm.getTitleId();
         String statusSearchTerm = filterForm.getStatus();
+        Date fromDate=filterForm.getFromDate();
+        Date toDate=filterForm.getToDate();
 
         if (filterForm.getProviewDisplayName() != null) {
             if (filterForm.getProviewDisplayName().endsWith("%")
@@ -436,6 +477,24 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                     selected = false;
                 }
             }
+            if (selected) {
+                if (fromDate != null) {
+                    if (!(parseDate(titleInfo.getLastupdate()).compareTo(fromDate) > 0 ||
+                            parseDate(titleInfo.getLastupdate()).compareTo(fromDate) == 0)) {
+                        selected = false;
+                    }
+                }
+            }
+
+            if (selected) {
+                if (toDate != null) {
+                    if (!(parseDate(titleInfo.getLastupdate()).compareTo(toDate) < 0 ||
+                            parseDate(titleInfo.getLastupdate()).compareTo(toDate) == 0)) {
+                        selected = false;
+                    }
+                }
+            }
+
             if (selected) {
                 if (statusSearchTerm != null) {
                     if (!StringUtils.containsIgnoreCase(titleInfo.getStatus(), statusSearchTerm)) {
@@ -779,4 +838,18 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             throw new EBookException(e);
         }
     }
+
+    public static Date parseDate(final String dateString) {
+        Date date = null;
+        try {
+            if (StringUtils.isNotBlank(dateString)) {
+                final String[] parsePatterns = {CoreConstants.DIR_DATE_FORMAT};
+                date = DateUtils.parseDate(dateString, parsePatterns);
+            }
+        } catch (final ParseException e) {
+            //Intentionally left blank
+        }
+        return date;
+    }
+
 }

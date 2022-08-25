@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
@@ -71,6 +72,39 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
         query.setParameter("titleId", titleId);
 
         return query.list();
+    }
+
+    @Override
+    public List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion() {
+        final StringBuffer hql =
+                new StringBuffer("select x.title_id, x.book_version, x.proview_request, x.request_date, x.user_name from ( ");
+        hql.append(" select a.title_id, a.book_version, ");
+        hql.append(" case a.proview_request WHEN 'REMOVE' THEN 'Removed' WHEN 'PROMOTE' THEN 'Final' ELSE 'Review' end as proview_request, ");
+        hql.append(" a.request_date, a.user_name, ");
+        hql.append(" row_number() over(partition by a.title_id ");
+        hql.append(" order by a.book_version desc, ");
+        hql.append(" case a.proview_request WHEN 'REMOVE' THEN 1 WHEN 'PROMOTE' THEN 2 ELSE 3 end, a.proview_audit_id desc) proview_rank ");
+        hql.append(" from proview_audit a ");
+        //Remove DELETE
+        hql.append(" where a.proview_request in ('REVIEW','PROMOTE','REMOVE') ) x ");
+        hql.append(" where x.proview_rank = 1 ");
+        // Create query and populate it with where clause values
+        final Session session = sessionFactory.getCurrentSession();
+        //final Query query = session.createQuery(hql.toString());
+        //return query.list();
+
+        final Query query = session.createSQLQuery(hql.toString());
+        final List<Object[]> objectList = query.list();
+
+        final List<ProviewAudit> arrayList = new ArrayList<>();
+        for (final Object[] arr : objectList) {
+            final ProviewAudit proviewAudit =
+                  new ProviewAudit(arr[0].toString(), arr[1].toString(), arr[2].toString(),
+                      (Date) arr[3], arr[4].toString());
+            arrayList.add(proviewAudit);
+        }
+        return arrayList;
+
     }
 
     @Override

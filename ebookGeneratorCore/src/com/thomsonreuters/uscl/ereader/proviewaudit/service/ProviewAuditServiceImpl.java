@@ -70,4 +70,11 @@ public class ProviewAuditServiceImpl implements ProviewAuditService {
     public Map<String, Date> findMaxRequestDateByTitleIds(final Collection<String> titleIds) {
         return dao.findMaxRequestDateByTitleIds(titleIds);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion() {
+        return dao.findJobSubmitterNameForAllTitlesLatestVersion();
+    }
+
 }

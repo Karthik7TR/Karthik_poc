@@ -16,12 +16,12 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 public interface ProviewAuditDao {
     /**
      * Save an existing ProviewAudit entity
-     *
      */
     void save(ProviewAudit audit);
 
     /**
      * Return all ProviewAudit that are filtered
+     *
      * @return
      */
     List<ProviewAudit> findProviewAudits(ProviewAuditFilter filter, ProviewAuditSort sort);
@@ -33,4 +33,6 @@ public interface ProviewAuditDao {
     List<ProviewAudit> findRemovedAndDeletedVersions(String titleId);
 
     Map<String, Date> findMaxRequestDateByTitleIds(Collection<String> titleIds);
+
+    List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion();
 }
