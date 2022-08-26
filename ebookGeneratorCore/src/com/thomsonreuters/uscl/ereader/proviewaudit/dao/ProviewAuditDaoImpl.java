@@ -108,6 +108,31 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
     }
 
     @Override
+    public List<ProviewAudit> findBooksInReviewStageForMoreThan24Hrs() {
+        final StringBuffer hql =
+                new StringBuffer("select a.title_id, a.book_version, a.proview_request, a.request_date, a.user_name ");
+        hql.append(" from proview_audit a ");
+        //REVIEW or PROMOTE
+        hql.append(" where a.proview_request = 'REVIEW' ");
+        hql.append(" and sysdate - to_date(to_char(a.request_date,'DD/MM/YYYY HH24:MI:SS'), 'DD/MM/YYYY HH24:MI:SS') > 1 ");
+        // Create query and populate it with where clause values
+        final Session session = sessionFactory.getCurrentSession();
+
+        final Query query = session.createSQLQuery(hql.toString());
+        final List<Object[]> objectList = query.list();
+
+        final List<ProviewAudit> arrayList = new ArrayList<>();
+        for (final Object[] arr : objectList) {
+            final ProviewAudit proviewAudit =
+                    new ProviewAudit(arr[0].toString(), arr[1].toString(), arr[2].toString(),
+                            (Date) arr[3], arr[4].toString());
+            arrayList.add(proviewAudit);
+        }
+        return arrayList;
+
+    }
+
+    @Override
     public void save(ProviewAudit audit) {
         final Session session = sessionFactory.getCurrentSession();
 

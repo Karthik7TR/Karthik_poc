@@ -35,4 +35,6 @@ public interface ProviewAuditDao {
     Map<String, Date> findMaxRequestDateByTitleIds(Collection<String> titleIds);
 
     List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion();
+
+    List<ProviewAudit> findBooksInReviewStageForMoreThan24Hrs();
 }
