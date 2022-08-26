@@ -77,4 +77,10 @@ public class ProviewAuditServiceImpl implements ProviewAuditService {
         return dao.findJobSubmitterNameForAllTitlesLatestVersion();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProviewAudit> findBooksInReviewStageForMoreThan24Hrs() {
+        return dao.findBooksInReviewStageForMoreThan24Hrs();
+    }
+
 }
