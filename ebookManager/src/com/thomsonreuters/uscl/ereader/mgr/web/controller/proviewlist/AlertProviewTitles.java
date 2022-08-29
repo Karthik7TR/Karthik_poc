@@ -106,7 +106,7 @@ public class AlertProviewTitles {
 
                 //Send email with attachment
                 final String subject =
-                        "eBook user Notification for Proview titles in Review Stage for more than 24 hours";
+                        "eBook user Notification for Proview titles in Review Stage for more than 24 hours in " + environmentName + " environment";
                 final String emailBody = "Attached is the file which has Proview Titles in Review stage for more than 24 hours";
                 final Collection<InternetAddress> emailRecipients = emailUtil.getEmailRecipientsByUsername("286076");
                 List<String> alertEmailsList = Stream.of(alertEmails.split(",", -1))
