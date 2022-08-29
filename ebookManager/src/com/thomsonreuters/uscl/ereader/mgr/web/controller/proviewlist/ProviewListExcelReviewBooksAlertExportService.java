@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class ProviewListExcelReviewBooksAlertExportService extends BaseExcelExportProviewListAlertsService {
     public static final String TITLES_NAME = "ProviewReviewBooks";
     public static final String[] TITLES_HEADER =
-            {"Title ID", "Latest Version", "User Name"};
+            {"Title ID", "ProView Display Name", "Latest Version", "User Name"};
 
     public ProviewListExcelReviewBooksAlertExportService() {
         super();
@@ -32,8 +32,9 @@ public class ProviewListExcelReviewBooksAlertExportService extends BaseExcelExpo
             // Create a row and put some cells in it.
             Row row = sheet.createRow(rowIndex);
             row.createCell(0).setCellValue(title.getTitleId());
-            row.createCell(1).setCellValue(title.getVersion());
-            row.createCell(2).setCellValue(title.getJobSubmitterName());
+            row.createCell(1).setCellValue(title.getTitle());  //ProView display name
+            row.createCell(2).setCellValue(title.getVersion());
+            row.createCell(3).setCellValue(title.getJobSubmitterName());
             if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(
