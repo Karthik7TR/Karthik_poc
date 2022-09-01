@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewStatus;
@@ -89,6 +90,8 @@ public final class ProviewTitleListServiceTest {
     @Mock
     private EmailServiceImpl emailService;
     @Mock
+    private VersionIsbnService versionIsbnService;
+    @Mock
     private ProviewTitleForm form;
     @Mock
     private TitleAction titleAction;
@@ -114,7 +117,7 @@ public final class ProviewTitleListServiceTest {
     public void setUp() {
         proviewTitleListService = new ProviewTitleListServiceImpl(bookDefinitionService,
                 proviewAuditService, proviewHandler, proviewTitlesProvider, emailUtil, emailService,
-                "environmentName");
+                "environmentName", versionIsbnService);
 
         initiateVersions();
         initiateTitleNames();

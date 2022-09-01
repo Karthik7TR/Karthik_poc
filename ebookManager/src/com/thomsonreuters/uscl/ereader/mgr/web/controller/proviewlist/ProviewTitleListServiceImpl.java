@@ -6,9 +6,11 @@ import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.*;
@@ -59,6 +61,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     private final EmailService emailService;
     private final String environmentName;
 
+    private final VersionIsbnService versionIsbnService;
     @Autowired
     public ProviewTitleListServiceImpl(
         final BookDefinitionService bookDefinitionService,
@@ -68,7 +71,8 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         EmailUtil emailUtil,
         EmailService emailService,
         @Qualifier("environmentName")
-        String environmentName) {
+        String environmentName,
+        VersionIsbnService versionIsbnService) {
         this.bookDefinitionService = bookDefinitionService;
         this.proviewAuditService = proviewAuditService;
         this.proviewHandler = proviewHandler;
@@ -76,6 +80,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         this.emailUtil = emailUtil;
         this.emailService = emailService;
         this.environmentName = environmentName;
+        this.versionIsbnService = versionIsbnService;
     }
 
     @Override
@@ -88,6 +93,9 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
         if (isRefresh || !hasAnyLastStatusUpdateDates(allLatestProviewTitleInfo)) {
             fillLatestUpdateDatesForTitleInfos(allLatestProviewTitleInfo, allProviewTitleInfo.keySet());
         }
+        //Update Material Id for Excel report
+        fillLatestMaterialIdForTitleInfos(allLatestProviewTitleInfo);
+
         //Update Job Submitter user name from ProviewAudit
         fillLatestJobSubmitterNameForTitleInfos(allLatestProviewTitleInfo);
         final List<ProviewTitleInfo> selectedProviewTitleInfo;
@@ -349,7 +357,7 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
                         mapDateToString(latestUpdateDates.get(titleInfo.getTitleId()))));
     }
 
-    private void fillLatestJobSubmitterNameForTitleInfos(final List<ProviewTitleInfo> latestTitleInfos) {
+    private void fillLatestJobSubmitterNameForTitleInfos(List<ProviewTitleInfo> latestTitleInfos) {
         List<ProviewAudit> lstTitleSubmitter = findJobSubmitterNameForAllTitlesLatestVersion();
 
         //update Job Submitter Name for each title
@@ -362,6 +370,18 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             }
         });
 
+    }
+
+    private void fillLatestMaterialIdForTitleInfos(List<ProviewTitleInfo>  allLatestProviewTitleInfo) {
+        //update Material Id from VERSION_ISBN (MaterialId) & SubMaterial id from EBOOK_DEFINITION (MaterialId)
+        List<VersionIsbn> lstVersionIsbn = versionIsbnService.getAllVersionIsbnEbookDefinition();
+        allLatestProviewTitleInfo.forEach((title) -> {
+            VersionIsbn currIsbn = lstVersionIsbn.stream().filter(vi -> vi.getEbookDefinition().getFullyQualifiedTitleId().equals(title.getTitleId()) &&
+                    vi.getVersion().equals(title.getVersion().substring(1))).findFirst().orElse(null);
+            if (currIsbn != null && currIsbn.getMaterialId() != null) {
+                title.setMaterialId(currIsbn.getMaterialId());
+            }
+        });
     }
 
     private Map<String, Date> updateLatestUpdateDates(final Collection<String> titleIds) {
