@@ -35,6 +35,7 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
     private Integer totalNumberOfVersions;
     private String lastStatusUpdateDate;
     private String jobSubmitterName;
+    private String materialId;
     @Setter(AccessLevel.NONE)
     private List<String> splitParts;
 
