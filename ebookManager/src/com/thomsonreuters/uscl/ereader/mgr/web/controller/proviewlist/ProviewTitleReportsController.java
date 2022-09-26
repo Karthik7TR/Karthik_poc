@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -103,6 +104,35 @@ public class ProviewTitleReportsController {
                 report.setSubMaterialId(currIsbn.getEbookDefinition().getMaterialId());
             }
         });
+
+        selectedProviewTitleReportInfoList.forEach((report) -> {
+            BigInteger minorVersion,majorVersion; // please import biginteger
+            minorVersion  = report.getMinorVersion();
+            majorVersion  =report.getMajorVersion();
+            int min= minorVersion.intValue();
+            int max=majorVersion.intValue();
+
+            if (report.getMaterialId() == null || report.getSubMaterialId() == null) {
+
+                for(int i=min;i>=0;i--) //minor version loop to find ids till 0
+                {
+                    if(min>100) //checking minor version not having invalid version
+                    { break; }
+
+                    int finalMin = i; //assigning value of i for fetching previous version details
+                    VersionIsbn previousIsbn = lstVersionIsbn.stream().filter(vi -> vi.getEbookDefinition().getFullyQualifiedTitleId().equals(report.getId()) &&
+                            vi.getVersion().equals(max + "." + finalMin)).findFirst().orElse(null);
+
+                    if(previousIsbn !=null && previousIsbn.getMaterialId() !=null) {
+                        report.setMaterialId(previousIsbn.getMaterialId());
+                        report.setSubMaterialId(previousIsbn.getEbookDefinition().getMaterialId());
+                    }
+
+                }
+            }
+        });
+
+
         saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES_REPORT);
     }
