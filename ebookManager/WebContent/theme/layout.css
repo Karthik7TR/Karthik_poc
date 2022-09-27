@@ -474,7 +474,7 @@ td.field {
 }
 
 .bookDefinitionCRUD .generateTitleID {
-	background-color: #D0E0E0;
+	background-color: #BFDFFF;
 	border: gray 2px solid;
 	padding:10px 5px;
 	margin:10px 0px;
@@ -709,39 +709,39 @@ td.field {
 
 #stats.displayTagTable tr.tableRowEven, 
 #stats.displayTagTable tr.even {
-	background-color: #F0A6A6;
+	background-color: #BFDFFF;
 }
 
 #audit.displayTagTable tr.tableRowEven, 
 #audit.displayTagTable tr.even {
-	background-color: #FFB259;
+	background-color: #BFDFFF;
 }
 
 #job.displayTagTable tr.tableRowEven, 
 #job.displayTagTable tr.even {
-	background-color: #8CF2B5;
+	background-color: #BFDFFF;
 }
 #step.displayTagTable tr.tableRowEven, 
 #step.displayTagTable tr.even {
-	background-color: #A8FFE2;
+	background-color: #BFDFFF;
 }
 #jobExecutionContextMapEntry.displayTagTable tr.tableRowEven, 
 #jobExecutionContextMapEntry.displayTagTable tr.even {
-	background-color: #F3DBFF;
+	background-color: #BFDFFF;
 }
 #jobParameterMapEntry.displayTagTable tr.tableRowEven, 
 #jobParameterMapEntry.displayTagTable tr.even {
-	background-color: #F3DBFF;
+	background-color: #BFDFFF;
 }
 
 #proviewList.displayTagTable tr.tableRowEven, 
 #proviewList.displayTagTable tr.even {
-	background-color: #FFFF66;
+	background-color: #BFDFFF; 
 }
 
 #support.displayTagTable tr.tableRowEven, 
 #support.displayTagTable tr.even {
-	background-color: #CFD2F1;
+	background-color: #BFDFFF;
 }
 
 /* css for timepicker addon */
