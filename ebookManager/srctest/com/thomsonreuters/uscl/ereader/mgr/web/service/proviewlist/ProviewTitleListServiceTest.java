@@ -4,9 +4,7 @@ import static com.thomsonreuters.uscl.ereader.core.CoreConstants.CLEANUP_BOOK_ST
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.FINAL_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REMOVED_BOOK_STATUS;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.REVIEW_BOOK_STATUS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
@@ -17,7 +15,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.service.EmailServiceI
 import com.thomsonreuters.uscl.ereader.core.book.service.VersionIsbnService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewStatus;
+import com.thomsonreuters.uscl.ereader.deliver.service.*;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.Command;
@@ -37,9 +35,6 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListServiceImpl;
 import java.util.concurrent.Callable;
@@ -181,6 +176,60 @@ public final class ProviewTitleListServiceTest {
                 proviewTitleListService.getSelectedProviewTitleInfo(form);
 
         assertEquals(lastStatusUpdateDate, selectedProviewTitleInfo.get(0).getLastStatusUpdateDate());
+    }
+
+    @Test
+    public void updateMaterialId_Test() {
+        List <ProviewTitleReportInfo> selectedProviewTitleReportInfoList = new ArrayList<ProviewTitleReportInfo> ();
+        ProviewTitleReportInfo title1 = new ProviewTitleReportInfo();
+        title1.setId("CW/OTS/ZUKER_EN");
+        title1.setVersion("v2020.1");
+        title1.setMaterialId("Mtrl01");
+        title1.setSubMaterialId("SubMtrl01");
+        title1.setIsbn("9780314860002");
+        title1.setTotalNumberOfVersions(4);
+
+        ProviewTitleReportInfo title2 = new ProviewTitleReportInfo();
+        title2.setId("CW/OTS/ZUKER_EN");
+        title2.setVersion("v2020.2");
+
+        ProviewTitleReportInfo title3 = new ProviewTitleReportInfo();
+        title3.setId("CW/OTS/ZUKER_EN");
+        title3.setVersion("v2020.3");
+
+        ProviewTitleReportInfo title4 = new ProviewTitleReportInfo();
+        title4.setId("CW/OTS/ZUKER_EN");
+        title4.setVersion("v2020.4");
+
+        //Second title
+        ProviewTitleReportInfo title5 = new ProviewTitleReportInfo();
+        title5.setId("uscl/an/immls2d");
+        title5.setVersion("v1.0");
+        title5.setMaterialId("42995644");
+        title5.setSubMaterialId("42816069");
+        title5.setIsbn("9781668720776");
+        title5.setTotalNumberOfVersions(3);
+
+        ProviewTitleReportInfo title6 = new ProviewTitleReportInfo();
+        title6.setId("uscl/an/immls2d");
+        title6.setVersion("v1.1");
+
+        ProviewTitleReportInfo title7 = new ProviewTitleReportInfo();
+        title7.setId("uscl/an/immls2d");
+        title7.setVersion("v2.0");
+
+        selectedProviewTitleReportInfoList.addAll(Arrays.asList(title1,title2,title3,title4,title5,title6,title7));
+
+        proviewTitleListService.updateMaterialId(selectedProviewTitleReportInfoList);
+        assertEquals("Mtrl01", selectedProviewTitleReportInfoList.get(1).getMaterialId());
+        assertEquals("Mtrl01", selectedProviewTitleReportInfoList.get(2).getMaterialId());
+        assertEquals("Mtrl01", selectedProviewTitleReportInfoList.get(3).getMaterialId());
+        assertEquals("SubMtrl01", selectedProviewTitleReportInfoList.get(1).getSubMaterialId());
+        assertEquals("9780314860002", selectedProviewTitleReportInfoList.get(1).getIsbn());
+
+        assertEquals("42995644", selectedProviewTitleReportInfoList.get(5).getMaterialId());
+        assertNull(selectedProviewTitleReportInfoList.get(6).getMaterialId());
+
     }
 
     @Test

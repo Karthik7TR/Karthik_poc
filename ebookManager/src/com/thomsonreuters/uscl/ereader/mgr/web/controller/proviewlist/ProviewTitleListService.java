@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -20,6 +21,7 @@ public interface ProviewTitleListService {
     List <ProviewTitleReportInfo> getSelectedProviewTitleReportInfo(final ProviewTitlesReportFilterForm form) throws ProviewException;
     List<ProviewTitleReportInfo> getAllLatestProviewTitleReportInfo() throws ProviewException;
 
+    void updateMaterialId(List <ProviewTitleReportInfo> selectedProviewTitleReportInfoList);
     Map<String, ProviewTitleContainer> getAllProviewTitleInfo(final boolean isRefresh) throws ProviewException;
 
     List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException;
