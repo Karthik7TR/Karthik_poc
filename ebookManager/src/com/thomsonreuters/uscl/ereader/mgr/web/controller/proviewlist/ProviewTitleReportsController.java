@@ -103,6 +103,8 @@ public class ProviewTitleReportsController {
                 report.setSubMaterialId(currIsbn.getEbookDefinition().getMaterialId());
             }
         });
+        //Update Material Ids from previous major version for each title
+        proviewTitleListService.updateMaterialId(selectedProviewTitleReportInfoList);
         saveSelectedProviewTitleReportInfo(httpSession,selectedProviewTitleReportInfoList); // required for Title excel report
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES_REPORT);
     }

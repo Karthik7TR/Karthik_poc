@@ -653,6 +653,36 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
     }
 
     @Override
+    public void updateMaterialId(List <ProviewTitleReportInfo> selectedProviewTitleReportInfoList) {
+
+        List <ProviewTitleReportInfo> selectedProviewTitleReportInfoListCopy =
+                new ArrayList<ProviewTitleReportInfo> (selectedProviewTitleReportInfoList);
+
+        selectedProviewTitleReportInfoList.forEach((report) -> {
+            if (report.getMaterialId() == null) {
+                List <ProviewTitleReportInfo> proviewReportForTitleEarlierVersions =
+                  selectedProviewTitleReportInfoListCopy.stream().filter(title ->
+                       title.getId().equals(report.getId()) &&
+                       title.getMaterialId() != null &&
+                       title.getMajorVersion().equals(report.getMajorVersion()) &&
+                       title.getMinorVersion().intValue() < report.getMinorVersion().intValue())
+                          .sorted(Comparator.comparing(ProviewTitleReportInfo::getMinorVersion).reversed())
+                          .collect(Collectors.toList());
+                  if (proviewReportForTitleEarlierVersions != null && proviewReportForTitleEarlierVersions.size() > 0) {
+                      for (ProviewTitleReportInfo proviewTitle : proviewReportForTitleEarlierVersions) {
+                          if (proviewTitle.getMaterialId() != null) {
+                              report.setMaterialId(proviewTitle.getMaterialId());
+                              report.setSubMaterialId(proviewTitle.getSubMaterialId());
+                              report.setIsbn(proviewTitle.getIsbn());
+                              break;
+                          }
+                      }
+                  }
+            }
+        });
+    }
+
+    @Override
     public void markTitleSuperseded(final String titleId) throws ProviewException {
         proviewHandler.markTitleSuperseded(titleId);
     }
