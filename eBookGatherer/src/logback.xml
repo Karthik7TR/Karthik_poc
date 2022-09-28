@@ -3,7 +3,7 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <pattern>%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n</pattern>
         </encoder>
-        <file>/apps/eBookBuilder/ebookGenerator-${hostName}.log</file>
+        <file>/apps/eBookBuilder/ebookGatherer-${hostName}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <fileNamePattern>/apps/eBookBuilder/ebookGenerator-${hostName}.%i.log</fileNamePattern>
             <minIndex>1</minIndex>
