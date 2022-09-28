@@ -1,6 +1,6 @@
 <configuration debug="false">
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoder>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <pattern>%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n</pattern>
         </encoder>
         <file>/apps/eBookBuilder/ebookManager-${hostName}.log</file>
