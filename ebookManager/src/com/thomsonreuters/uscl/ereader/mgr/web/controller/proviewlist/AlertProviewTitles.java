@@ -90,7 +90,7 @@ public class AlertProviewTitles {
         });
 
         //If List has data, generate Excel workbook
-        if ( allLatestProviewTitleInfoAlert != null  && allLatestProviewTitleInfoAlert.size() > 0) {
+        if ( allLatestProviewTitleInfoAlert != null  && allLatestProviewTitleInfoAlert.size() > 0 && environmentName.equals("prodcontent")) {
             try {
                 final ProviewListExcelReviewBooksAlertExportService excelExportService = new ProviewListExcelReviewBooksAlertExportService();
                 final Workbook wb = excelExportService.createExcelDocument(allLatestProviewTitleInfoAlert);
