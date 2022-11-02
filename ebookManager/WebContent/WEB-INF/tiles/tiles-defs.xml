@@ -180,6 +180,30 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/common/createEditForm.jsp"/>
 	</definition>
+
+	<definition name="_adminUserProfileView" extends="twoColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/admin/code/userProfile/list/title.jsp"/>
+		<put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/code/userProfile/list/body.jsp"/>
+	</definition>
+
+	<definition name="_adminUserProfileEdit" extends="twoColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/admin/code/userProfile/edit/title.jsp"/>
+		<put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/code/userProfile/edit/body.jsp"/>
+	</definition>
+
+	<definition name="_adminUserProfileDelete" extends="twoColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/admin/code/userProfile/delete/title.jsp"/>
+		<put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/code/userProfile/delete/body.jsp"/>
+	</definition>
+
+	<definition name="_adminUserProfileCreate" extends="twoColumnDefinition">
+		<put-attribute name="title" value="/WEB-INF/jsp/admin/code/userProfile/create/title.jsp"/>
+		<put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/jsp/admin/code/userProfile/common/createEditForm.jsp"/>
+	</definition>
 	
 	<definition name="_adminDocTypeMetricView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/docTypeCode/list/title.jsp"/>

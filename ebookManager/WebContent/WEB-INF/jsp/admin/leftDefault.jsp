@@ -19,6 +19,7 @@
 		<li><a href="<%= WebConstants.MVC_ADMIN_JURIS_CODE_VIEW %>">Jurisdiction</a></li>
 		<li><a href="<%= WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW %>">Publish Type</a></li>
 		<li><a href="<%= WebConstants.MVC_ADMIN_STATE_CODE_VIEW %>">States</a></li>
+		<li><a href="<%= WebConstants.MVC_ADMIN_USER_PROFILE_VIEW %>">User Profiles</a></li>
 	</ul>
 	
 	ProView
