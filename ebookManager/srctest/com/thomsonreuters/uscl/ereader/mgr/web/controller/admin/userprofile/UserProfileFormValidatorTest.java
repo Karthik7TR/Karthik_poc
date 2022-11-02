@@ -70,11 +70,12 @@ public class UserProfileFormValidatorTest {
       userProfile.setFirstName("test");
 
         EasyMock.expect(mockUserProfileService.getUserProfileByFirstName("test")).andReturn(userProfiles);
+        EasyMock.expect(mockUserProfileService.getUserProfileById(USER_ID)).andReturn(USER_PROFILE);
         EasyMock.replay(mockUserProfileService);
 
         // Verify name requirement
         validator.validate(form, errors);
-        Assert.assertEquals("error.exist", errors.getFieldError("firstName").getCode());
+        Assert.assertEquals("error.exist", errors.getFieldError("userId").getCode());
 
         EasyMock.verify(mockUserProfileService);
     }
