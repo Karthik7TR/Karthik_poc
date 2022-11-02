@@ -32,6 +32,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.VersionIsbn;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDaoImpl;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfileDao;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfileDaoImpl;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfiles;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDao;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
@@ -184,7 +187,8 @@ public abstract class CommonJPAConfig {
                 PilotBook.class,
                 PrintComponent.class,
                 PrintComponentHistory.class,
-                XppBundleArchive.class));
+                XppBundleArchive.class,
+                    UserProfiles.class));
         addAdditionalEntities(annotatedClasses);
         sessionFactory.setAnnotatedClasses(annotatedClasses.toArray(new Class<?>[annotatedClasses.size()]));
 
@@ -208,6 +212,10 @@ public abstract class CommonJPAConfig {
         return new StateCodeDaoImpl(sessionFactory);
     }
 
+    @Bean
+    public UserProfileDao userProfileDao(final SessionFactory sessionFactory) {
+        return new UserProfileDaoImpl(sessionFactory);
+    }
 
     @Bean
     public PublishingStatsDao publishingStatsDao(final SessionFactory sessionFactory) {

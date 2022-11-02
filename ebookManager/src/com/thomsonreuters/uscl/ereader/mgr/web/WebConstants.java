@@ -30,6 +30,7 @@ public class WebConstants {
     public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
     public static final String KEY_DOC_TYPE_CODE = "docTypeCode";
     public static final String KEY_STATE_CODE = "stateCode";
+    public static final String KEY_USER_PROFILE = "userProfile";
     public static final String KEY_SUPPORT = "support";
     public static final String KEY_KEYWORD_TYPE_CODE = "keywordTypeCode";
     public static final String KEY_KEYWORD_TYPE_VALUE = "keywordTypeValue";
@@ -267,6 +268,10 @@ public class WebConstants {
     public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
     public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
     public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
+    public static final String MVC_ADMIN_USER_PROFILE_VIEW = "adminUserProfileView.mvc";
+    public static final String MVC_ADMIN_USER_PROFILE_CREATE = "adminUserProfileCreate.mvc";
+    public static final String MVC_ADMIN_USER_PROFILE_DELETE = "adminUserProfileDelete.mvc";
+    public static final String MVC_ADMIN_USER_PROFILE_EDIT = "adminUserProfileEdit.mvc";
     public static final String MVC_ADMIN_SUPPORT_VIEW = "adminSupportView.mvc";
     public static final String MVC_ADMIN_SUPPORT_CREATE = "adminSupportCreate.mvc";
     public static final String MVC_ADMIN_SUPPORT_DELETE = "adminSupportDelete.mvc";
@@ -358,6 +363,10 @@ public class WebConstants {
     public static final String VIEW_ADMIN_STATE_CODE_CREATE = "_adminStateCodeCreate";
     public static final String VIEW_ADMIN_STATE_CODE_DELETE = "_adminStateCodeDelete";
     public static final String VIEW_ADMIN_STATE_CODE_EDIT = "_adminStateCodeEdit";
+    public static final String VIEW_ADMIN_USER_PROFILE_VIEW = "_adminUserProfileView";
+    public static final String VIEW_ADMIN_USER_PROFILE_CREATE = "_adminUserProfileCreate";
+    public static final String VIEW_ADMIN_USER_PROFILE_DELETE = "_adminUserProfileDelete";
+    public static final String VIEW_ADMIN_USER_PROFILE_EDIT = "_adminUserProfileEdit";
     public static final String VIEW_ADMIN_OUTAGE_ACTIVE_LIST = "_adminOutageActiveList";
     public static final String VIEW_ADMIN_OUTAGE_FULL_LIST = "_adminOutageFullList";
     public static final String VIEW_ADMIN_OUTAGE_CREATE = "_adminOutageCreate";
