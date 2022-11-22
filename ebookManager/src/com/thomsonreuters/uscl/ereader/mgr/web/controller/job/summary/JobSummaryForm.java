@@ -14,6 +14,7 @@ public class JobSummaryForm {
         START_TIME,
         BATCH_STATUS,
         SUBMITTED_BY,
+        USER_NAME,
         JOB_INSTANCE_ID,
         JOB_EXECUTION_ID
     }

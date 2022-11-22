@@ -75,7 +75,7 @@ $(window).on('pageshow', function () {
 		<form:input path="bookDefinitionId" maxlength="19" onfocus="bookDefinitionIdField.addRestrictions(this)"/>
 	</div>	
 	<div class="filterRow">	
-		<label>User Name:</label>
+		<label>User ID:</label>
 		<form:input path="submittedBy" maxlength="4000"/>
 	</div>	
 	<div class="filterRow">	
