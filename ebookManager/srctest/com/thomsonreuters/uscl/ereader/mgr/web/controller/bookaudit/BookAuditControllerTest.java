@@ -16,6 +16,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfileService;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfiles;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm.DisplayTagSortProperty;
@@ -45,6 +47,8 @@ public final class BookAuditControllerTest {
     private BookAuditController controller;
     @Mock
     private EBookAuditService mockAuditService;
+    @Mock
+    private UserProfileService mockUserProfiles;
     @Mock
     private OutageService outageService;
     @Spy
@@ -92,6 +96,8 @@ public final class BookAuditControllerTest {
     @Test
     public void auditList_bookDefinitionIdIsGiven_listReturned() throws Exception {
         final Long bookDefinitionId = 1L;
+        final String userid="c286054";
+        UserProfiles userProfiles = null;
         request.setRequestURI(SLASH + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("bookDefinitionId", bookDefinitionId.toString());
@@ -100,6 +106,7 @@ public final class BookAuditControllerTest {
         when(mockAuditService.findEbookAudits(any(EbookAuditFilter.class), any(EbookAuditSort.class)))
                 .thenReturn(Collections.singletonList(audit));
         when(mockAuditService.numberEbookAudits(any(EbookAuditFilter.class))).thenReturn(0);
+        when(mockUserProfiles.getUserProfileById((userid))).thenReturn(userProfiles);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
