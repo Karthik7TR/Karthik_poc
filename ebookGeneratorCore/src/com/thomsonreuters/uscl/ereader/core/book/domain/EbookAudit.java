@@ -712,7 +712,6 @@ public class EbookAudit implements Serializable {
         buffer.append("keywordsConcat=[").append(keywordsConcat).append("] ");
         buffer.append("frontMatterConcat=[").append(frontMatterConcat).append("] ");
         buffer.append("updatedBy=[").append(updatedBy).append("] ");
-       // buffer.append("fName=[").append(fName).append("] ");
         buffer.append("auditNote=[").append(auditNote).append("] ");
         buffer.append("auditType=[").append(auditType).append("] ");
         buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");
