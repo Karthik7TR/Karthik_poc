@@ -20,7 +20,6 @@
 
 <script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
-
 	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
 	$(window).on('pageshow', function () {
 		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);
