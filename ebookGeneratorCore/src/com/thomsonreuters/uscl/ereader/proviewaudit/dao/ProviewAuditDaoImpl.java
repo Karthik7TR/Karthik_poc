@@ -73,6 +73,8 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
 
         return query.list();
     }
+
+
     @Override
     public List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion() {
         final StringBuffer hql =

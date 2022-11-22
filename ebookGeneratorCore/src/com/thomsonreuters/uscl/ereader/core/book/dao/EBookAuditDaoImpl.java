@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
-
 import java.util.List;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
