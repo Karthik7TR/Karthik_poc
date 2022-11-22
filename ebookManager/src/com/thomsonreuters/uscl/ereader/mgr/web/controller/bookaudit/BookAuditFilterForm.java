@@ -40,6 +40,7 @@ public class BookAuditFilterForm {
         SUBMITTED_DATE,
         ACTION,
         SUBMITTED_BY,
+        USER_NAME,
         COMMENT
     }
 
@@ -53,6 +54,7 @@ public class BookAuditFilterForm {
     private String titleId;
     private Long bookDefinitionId;
     private String submittedBy;
+    private String userName;
     private String fromDateString;
     private String toDateString;
     private Action action;

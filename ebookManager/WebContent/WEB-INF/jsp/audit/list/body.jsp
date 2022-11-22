@@ -20,6 +20,8 @@
 
 <script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
+
+	alert(${paginatedList});
 	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
 	$(window).on('pageshow', function () {
 		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);
@@ -27,6 +29,7 @@
 </script>
 
 <c:if test="${fn:length(paginatedList.list) != 0}">
+
 	<form:form id="bodyForm"
 						 action="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>"
 						 modelAttribute="<%=BookAuditFilterForm.FORM_NAME%>"
@@ -59,7 +62,9 @@
   </display:column>
   <display:column title="ProView Display Name" property="proviewDisplayName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
   <display:column title="Title ID" property="titleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>" />
-  <display:column title="User Name" property="updatedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
-  <display:column title="Action" property="auditType" sortable="true" sortProperty="<%=DisplayTagSortProperty.ACTION.toString()%>"/>
+  <display:column title="User ID" property="updatedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
+	<display:column title="User Name" property="userName" sortable="true" sortProperty="<%=DisplayTagSortProperty.USER_NAME.toString()%>"/>
+
+	<display:column title="Action" property="auditType" sortable="true" sortProperty="<%=DisplayTagSortProperty.ACTION.toString()%>"/>
   <display:column title="Comment" property="auditNote" />
 </display:table>

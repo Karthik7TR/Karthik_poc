@@ -16,6 +16,7 @@ public class EbookAuditSort {
         BOOK_NAME,
         BOOK_DEFINITION_ID,
         SUBMITTED_DATE,
+        USER_NAME,
         ACTION,
         SUBMITTED_BY
     }; // Book properties that can be sorted on

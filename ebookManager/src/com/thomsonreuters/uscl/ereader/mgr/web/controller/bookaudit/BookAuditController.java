@@ -9,6 +9,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfileService;
+import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfiles;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.CurrentSessionUserPreferences;
@@ -33,15 +35,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class BookAuditController {
     private final EBookAuditService auditService;
+    private final UserProfileService userProfileService;
     private final OutageService outageService;
     private final Validator validator;
 
     @Autowired
-    public BookAuditController(final EBookAuditService auditService, final OutageService outageService,
+    public BookAuditController(final EBookAuditService auditService, final OutageService outageService,final UserProfileService userProfileService,
             @Qualifier("bookAuditFilterFormValidator") final Validator validator) {
         this.auditService = auditService;
         this.outageService = outageService;
         this.validator = validator;
+        this.userProfileService=userProfileService;
     }
 
     @InitBinder(BookAuditFilterForm.FORM_NAME)
@@ -79,6 +83,16 @@ public class BookAuditController {
         final EbookAuditSort bookAuditSort = createBookAuditSort(filterForm);
         // Lookup all the EbookAudit objects by their primary key
         final List<EbookAudit> audits = auditService.findEbookAudits(bookAuditFilter, bookAuditSort);
+        //fetching UserNames for updatedBy IDs
+        for(EbookAudit a:audits){
+            final UserProfiles userProfile =userProfileService.getUserProfileById(a.getUpdatedBy());
+            if(userProfile != null && a.getUpdatedBy()!= null ) {
+                if (a.getUpdatedBy().equals(userProfile.getId())) {
+                    a.setUserName(userProfile.getLastName() + ", " + userProfile.getFirstName());
+                }
+            }
+        }
+
         final int numberOfAudits = auditService.numberEbookAudits(bookAuditFilter);
         // Instantiate the object used by DisplayTag to render a partial list
         return new BookAuditPaginatedList(

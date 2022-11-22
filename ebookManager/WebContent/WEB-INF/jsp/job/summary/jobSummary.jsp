@@ -107,8 +107,10 @@ function submitJobSummaryForm(command) {
 		  </c:choose>
 	  </display:column>
 	  <display:column title="Source Type" property="sourceType" sortable="true" sortProperty="<%=DisplayTagSortProperty.SOURCE_TYPE.toString()%>"/>
+
 	  <display:column title="Submitted By" property="submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
-	  <display:column title="Job Status" property="batchStatus" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
+		<display:column title="User Name" property="userName" sortable="true" sortProperty="<%=DisplayTagSortProperty.USER_NAME.toString()%>"/>
+		<display:column title="Job Status" property="batchStatus" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
 	  <display:column title="Inst &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
 	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${job.jobInstanceId}">${job.jobInstanceId}</a>
 	  </display:column>

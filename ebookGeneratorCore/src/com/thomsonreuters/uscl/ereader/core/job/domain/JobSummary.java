@@ -24,6 +24,7 @@ public class JobSummary {
     private final Long jobExecutionId;
     private final BatchStatus batchStatus;
     private final String submittedBy;
+    private final String userName;
     private final Date startTime;
     private final Date endTime;
 

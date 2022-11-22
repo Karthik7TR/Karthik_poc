@@ -42,12 +42,13 @@ public class JobDaoImpl implements JobDao {
             final StringBuilder sql = new StringBuilder(
                 "select auditTable.EBOOK_DEFINITION_ID, stats.COMB_BOOK_DEFN_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.SOURCE_TYPE, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
             sql.append(
-                "execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME from \n ");
-            sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
+                "execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME , CASE WHEN userProfile.USER_LN IS NOT NULL AND userProfile.USER_FN  IS NOT NULL THEN userProfile.USER_LN || ', ' || userProfile.USER_FN WHEN userProfile.USER_LN IS NULL AND userProfile.USER_FN  IS NULL THEN stats.JOB_SUBMITTER_NAME end AS JOB_SUBMITTER_USER_NAME from \n ");
+            sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable, USER_PROFILE userProfile ");
             sql.append("where ");
             sql.append(String.format("(execution.JOB_EXECUTION_ID = %d) and ", jobExecutionId));
             sql.append("(execution.JOB_INSTANCE_ID = stats.JOB_INSTANCE_ID(+)) and ");
-            sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+))");
+            sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+)) and ");
+            sql.append("(stats.JOB_SUBMITTER_NAME=userProfile.USER_ID(+)) ");
             // sql.append("(auditTable.PROVIEW_DISPLAY_NAME is not null)");  // Do not fetch rows that appear to be garbage
             final List<JobSummary> rows = jdbcTemplate.query(sql.toString(), JOB_SUMMARY_ROW_MAPPER);
             if (rows.isEmpty()) {
@@ -176,6 +177,8 @@ public class JobDaoImpl implements JobDao {
      */
     private String getOrderByColumnName(final SortProperty sortProperty) {
         switch (sortProperty) {
+
+
         case JOB_EXECUTION_ID:
             return "execution.JOB_EXECUTION_ID";
         case JOB_INSTANCE_ID:
@@ -191,7 +194,9 @@ public class JobDaoImpl implements JobDao {
         case SOURCE_TYPE:
             return "auditTable.SOURCE_TYPE";
         case SUBMITTED_BY:
-            return "stats.JOB_SUBMITTER_NAME";
+            case USER_NAME:
+                return "stats.JOB_SUBMITTER_NAME";
+
         default:
             throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
         }
@@ -214,7 +219,8 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
         final Long jobExecutionId = resultSet.getLong("JOB_EXECUTION_ID");
         final Long jobInstanceId = resultSet.getLong("JOB_INSTANCE_ID");
         final BatchStatus batchStatus = BatchStatus.valueOf(resultSet.getString("STATUS"));
-        final String submittedBy = resultSet.getString("JOB_SUBMITTER_NAME"); // Username of user who started the job
+        final String userName = resultSet.getString("JOB_SUBMITTER_USER_NAME"); //UserName
+        final String submittedBy = resultSet.getString("JOB_SUBMITTER_NAME"); // UserID of user who started the job
         final Date startTime = resultSet.getTimestamp("START_TIME");
         final Date endTime = resultSet.getTimestamp("END_TIME");
         final JobSummary js = new JobSummary(
@@ -227,6 +233,7 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
             jobExecutionId,
             batchStatus,
             submittedBy,
+                userName,
             startTime,
             endTime);
         return js;

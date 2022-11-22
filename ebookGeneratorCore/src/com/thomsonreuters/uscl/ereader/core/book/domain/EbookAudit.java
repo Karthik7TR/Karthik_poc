@@ -7,19 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -34,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 @NamedQueries({
     @NamedQuery(
         name = "findEbookAuditByPrimaryKey",
-        query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId")})
+            query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId")})
 @Table(name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
     private static final long serialVersionUID = 2L;
@@ -409,6 +397,19 @@ public class EbookAudit implements Serializable {
     @Getter @Setter
     private String titlePageImageIncluded;
 
+    @Transient
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = getStringForBooleanValue(isTocFlag);
     }
@@ -558,6 +559,7 @@ public class EbookAudit implements Serializable {
         setRootTocGuid(that.getRootTocGuid());
         setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
         setTitlePageImageIncluded(that.isTitlePageImageIncluded());
+        setUserName(that.getUserName());
     }
 
     /**
@@ -647,6 +649,7 @@ public class EbookAudit implements Serializable {
         setRootTocGuid(that.getRootTocGuid());
         setSubstituteTocHeadersLevel(that.getSubstituteTocHeadersLevel());
         setTitlePageImageIncluded(that.isTitlePageImageIncluded());
+
     }
 
     @Transient
@@ -709,6 +712,7 @@ public class EbookAudit implements Serializable {
         buffer.append("keywordsConcat=[").append(keywordsConcat).append("] ");
         buffer.append("frontMatterConcat=[").append(frontMatterConcat).append("] ");
         buffer.append("updatedBy=[").append(updatedBy).append("] ");
+       // buffer.append("fName=[").append(fName).append("] ");
         buffer.append("auditNote=[").append(auditNote).append("] ");
         buffer.append("auditType=[").append(auditType).append("] ");
         buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");

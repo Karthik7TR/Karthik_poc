@@ -19,6 +19,7 @@ public class JobSort {
         TITLE_ID,
         BOOK_NAME,
         SUBMITTED_BY,
+        USER_NAME,
         SOURCE_TYPE
     }; // Book properties that can be sorted on
 
@@ -53,7 +54,8 @@ public class JobSort {
         return (SortProperty.TITLE_ID.equals(sortProperty)
             || SortProperty.BOOK_NAME.equals(sortProperty)
             || SortProperty.SUBMITTED_BY.equals(sortProperty)
-            || SortProperty.SOURCE_TYPE.equals(sortProperty));
+            || SortProperty.SOURCE_TYPE.equals(sortProperty))
+                ||SortProperty.USER_NAME.equals(sortProperty);
     }
 
     public SortProperty getSortProperty() {

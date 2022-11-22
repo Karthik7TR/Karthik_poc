@@ -73,18 +73,18 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
 
         return query.list();
     }
-
+//added
     @Override
     public List<ProviewAudit> findJobSubmitterNameForAllTitlesLatestVersion() {
         final StringBuffer hql =
                 new StringBuffer("select x.title_id, x.book_version, x.proview_request, x.request_date, x.user_name from ( ");
         hql.append(" select a.title_id, a.book_version, ");
         hql.append(" case a.proview_request WHEN 'REMOVE' THEN 'Removed' WHEN 'PROMOTE' THEN 'Final' ELSE 'Review' end as proview_request, ");
-        hql.append(" a.request_date, a.user_name, ");
+        hql.append(" a.request_date, CASE WHEN u.USER_LN IS NOT NULL AND u.USER_FN  IS NOT NULL THEN u.USER_LN || ', ' || u.USER_FN WHEN u.USER_LN IS NULL AND u.USER_FN  IS NULL THEN a.user_name end AS user_name, ");
         hql.append(" row_number() over(partition by a.title_id ");
         hql.append(" order by a.book_version desc, ");
         hql.append(" case a.proview_request WHEN 'REMOVE' THEN 1 WHEN 'PROMOTE' THEN 2 ELSE 3 end, a.proview_audit_id desc) proview_rank ");
-        hql.append(" from proview_audit a ");
+        hql.append(" from proview_audit a left join USER_PROFILE u on a.user_name = u.USER_ID ");
         //Remove DELETE
         hql.append(" where a.proview_request in ('REVIEW','PROMOTE','REMOVE') ) x ");
         hql.append(" where x.proview_rank = 1 ");
