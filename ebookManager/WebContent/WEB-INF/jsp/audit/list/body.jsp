@@ -20,8 +20,6 @@
 
 <script type="text/javascript" src="js/form-utils.js"></script>
 <script type="text/javascript">
-
-	alert(${paginatedList});
 	const opp = "${ pageSize == null ? defaultPageSize : pageSize }";
 	$(window).on('pageshow', function () {
 		$('#objectsPerPage option[value=' + opp + ']').prop('selected', true);

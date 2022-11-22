@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
     private static final long serialVersionUID = 2L;
-
     // Lowered the Max characters to account for some unicode characters
     private static final int MAX_CHARACTER_1024 = 1000;
     public static final int MAX_CHARACTER_2048 = 2000;
@@ -712,7 +711,6 @@ public class EbookAudit implements Serializable {
         buffer.append("keywordsConcat=[").append(keywordsConcat).append("] ");
         buffer.append("frontMatterConcat=[").append(frontMatterConcat).append("] ");
         buffer.append("updatedBy=[").append(updatedBy).append("] ");
-       // buffer.append("fName=[").append(fName).append("] ");
         buffer.append("auditNote=[").append(auditNote).append("] ");
         buffer.append("auditType=[").append(auditType).append("] ");
         buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");

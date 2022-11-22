@@ -1,25 +1,15 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
-
-import java.util.Arrays;
 import java.util.List;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
-import com.thomsonreuters.uscl.ereader.core.book.userprofile.UserProfiles;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.*;
 import org.hibernate.criterion.*;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.SetJoin;
-import javax.persistence.criteria.Subquery;
 
 /**
  * DAO to manage EBookAudit entities.
@@ -30,15 +20,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
     private static final String AUDIT = "audit";
     private static final String EBOOK_UPD_ID = "ebookUpdId";
     private SessionFactory sessionFactory;
-  /* private final RowMapper<EbookAudit> EBookAuditRowMapper;
-    private final JdbcTemplate jdbcTemplate;
-
-    public EBookAuditDaoImpl(final RowMapper<EbookAudit> EBookAuditRowMapper, final JdbcTemplate jdbcTemplate,final SessionFactory hibernateSessionFactory) {
-        this.EBookAuditRowMapper = EBookAuditRowMapper;
-        this.jdbcTemplate = jdbcTemplate;
-        sessionFactory = hibernateSessionFactory;
-    }
-   */ public EBookAuditDaoImpl(final SessionFactory hibernateSessionFactory) {
+  public EBookAuditDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
 
     }
