@@ -42,7 +42,7 @@ public class JobDaoImpl implements JobDao {
             final StringBuilder sql = new StringBuilder(
                 "select auditTable.EBOOK_DEFINITION_ID, stats.COMB_BOOK_DEFN_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.SOURCE_TYPE, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
             sql.append(
-                "execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME , CASE WHEN userProfile.USER_LN IS NOT NULL AND userProfile.USER_FN  IS NOT NULL THEN userProfile.USER_LN || ', ' || userProfile.USER_FN WHEN userProfile.USER_LN IS NULL AND userProfile.USER_FN  IS NULL THEN stats.JOB_SUBMITTER_NAME end AS JOB_SUBMITTER_USER_NAME from \n ");
+                "execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME , CASE WHEN userProfile.USER_LN IS NOT NULL AND userProfile.USER_FN  IS NOT NULL THEN userProfile.USER_LN || ', ' || userProfile.USER_FN end AS JOB_SUBMITTER_USER_NAME from \n ");
             sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable, USER_PROFILE userProfile ");
             sql.append("where ");
             sql.append(String.format("(execution.JOB_EXECUTION_ID = %d) and ", jobExecutionId));
