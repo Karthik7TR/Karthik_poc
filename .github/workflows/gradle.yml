@@ -49,9 +49,12 @@ jobs:
  checkstyle:
     name: runner / checkstyle        
      
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
+    - name: Grant permission for long paths
+      run:  git config --system core.longpaths true
+      
     - uses: actions/checkout@v3
     - name: Set up JDK 1.8.0_202
       uses: actions/setup-java@v3
@@ -59,27 +62,29 @@ jobs:
         java-version: '8.0.202'
         distribution: 'adopt'
         cache: gradle
-    
-    - uses: docker-practice/actions-setup-docker@master
-    - run: |
-        docker version
-        docker run --rm hello-world
-    - uses: actions/checkout@v2
-    - uses: dbelyaev/action-checkstyle@v0.5.1
-      with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
+  
    
    
     - name: Output Run Number
       run: echo ${{ github.run_number }}
            echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"   
      
-    - name: Grant execute permission for gradlew
+    - name: Grant execute permission for gradlew wrapper
       run: chmod +x gradlew
    
-    - name: Build with Gradle
-      run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGatherer:build
-        
+    - name: CI Build for ebookGatherer with Gradle
+      run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGatherer:build -x test
+      shell: cmd 
+      
+    - name: display war files
+      run: dir ebookGatherer\build\libs\
+      shell: cmd
   
+    - name: CI Build for ebookGenerator with Gradle
+      run: .\gradlew -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookGenerator:build -x test
+      shell: cmd 
+     
+     
+    - name: display war files
+      run: dir ebookGenerator\build\libs\
+      shell: cmd
