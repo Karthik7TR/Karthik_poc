@@ -84,7 +84,12 @@ jobs:
       run: .\gradlew -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookGenerator:build -x test
       shell: cmd 
      
-     
+    - uses: jfrog/setup-jfrog-cli@v1
+    - run: |
+           jfrog rt u ebookGatherer/build/libs/gcs-distribution_delivery-on-prem-0.1.0.jar "generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/0.0.0.${{ github.run_number }}/" --url=https://tr1.jfrog.io/artifactory --user=s.gcs.git.service --password=${{ secrets.SAMI_BAMS_API_TOKEN }}
+      
+      
+
     - name: display war files
       run: dir ebookGenerator\build\libs\
       shell: cmd
