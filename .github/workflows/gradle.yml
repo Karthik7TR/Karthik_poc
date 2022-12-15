@@ -86,7 +86,7 @@ jobs:
      
     - uses: jfrog/setup-jfrog-cli@v1
     - run: |
-           jfrog rt u ebookGatherer/build/libs/gcs-distribution_delivery-on-prem-0.1.0.jar "generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/0.0.0.${{ github.run_number }}/" --url=https://tr1.jfrog.io/artifactory --user=s.gcs.git.service --password=${{ secrets.SAMI_BAMS_API_TOKEN }}
+           jfrog rt u D:\a\ebook_ebook-publishing\ebook_ebook-publishing\ebookGenerator\build\libs\gcs-distribution_delivery-on-prem-0.1.0.jar "generic-local\SCM-Publishing\BuildArtifacts\EditorialConten\EBookGatherer\0.0.0.${{ github.run_number }}/" --url=https://tr1.jfrog.io/artifactory --user=s.gcs.git.service --password=${{ secrets.SAMI_BAMS_API_TOKEN }}
       
       
 
