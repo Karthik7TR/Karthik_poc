@@ -1,0 +1,76 @@
+name: eBookGenerator Java CI build with Gradle
+
+on:
+  push:
+    branches: [ "feature1" ]
+    paths-ignore:
+        - 'eBookGatherer/**'
+        - 'ebookManager/**'
+        - 'ebookStatic/**'
+        - 'ebookStylesheets/**'
+        - 'gradle/**'
+        - 'settings.gradle'
+        - '.github/**'
+        - 'gradlew.bat'
+        - 'gitattributes'
+        - 'gitignore'
+        - 'assetinfo.json'
+        - 'build.gradle'
+        - 'checkStyleConfig.xml'
+        - 'gradlew'
+      
+  pull_request:
+    branches: [ "feature1" ]
+    paths-ignore:
+        - 'eBookGatherer/**'
+        - 'ebookManager/**'
+        - 'ebookStatic/**'
+        - 'ebookStylesheets/**'
+        - 'gradle/**'
+        - 'settings.gradle'
+        - '.github/**'
+        - 'gradlew.bat'
+        - 'gitattributes'
+        - 'gitignore'
+        - 'assetinfo.json'
+        - 'build.gradle'
+        - 'checkStyleConfig.xml'
+        - 'gradlew'
+
+
+permissions:
+  contents: read
+
+jobs:
+ checkstyle:
+    name: runner / checkstyle        
+     
+    runs-on: windows-latest
+
+    steps:
+    - name: Grant permission for long paths
+      run:  git config --system core.longpaths true
+
+    - uses: actions/checkout@v3
+    - name: Set up JDK 1.8.0_202
+      uses: actions/setup-java@v3
+      with:
+       java-version: '8.0.202'
+       distribution: 'adopt'
+       cache: gradle
+   
+   
+    - name: Output Run Number
+      run: echo ${{ github.run_number }}
+           echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"   
+     
+    - name: Grant execute permission for gradlew wrapper
+      run: chmod +x gradlew
+   
+    - name: CI Build for eBookGenerator with Gradle
+      run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGenerator:build -x test
+      shell: cmd 
+      
+    - name: display war files
+      run: dir eBookGenerator\build\libs\
+      shell: cmd
