@@ -1,0 +1,80 @@
+name: EbookManager with Gradle
+
+on:
+  push:
+    branches: [ "feature1" ]
+    paths-ignore:
+        - 'eBookGatherer/**'
+        - 'ebookGenerator/**'
+        - 'ebookStatic/**'
+        - 'ebookStylesheets/**'
+        - 'gradle/**'
+        - 'settings.gradle'
+        - '.github/**'
+        - 'gradlew.bat'
+        - 'gitattributes'
+        - 'gitignore'
+        - 'assetinfo.json'
+        - 'build.gradle'
+        - 'checkStyleConfig.xml'
+        - 'gradlew'
+      
+  pull_request:
+    branches: [ "feature1" ]
+    paths-ignore:
+        - 'eBookGatherer/**'
+        - 'ebookGenerator/**'
+        - 'ebookStatic/**'
+        - 'ebookStylesheets/**'
+        - 'gradle/**'
+        - 'settings.gradle'
+        - '.github/**'
+        - 'gradlew.bat'
+        - 'gitattributes'
+        - 'gitignore'
+        - 'assetinfo.json'
+        - 'build.gradle'
+        - 'checkStyleConfig.xml'
+        - 'gradlew'
+permissions:
+  contents: read
+
+jobs:
+ checkstyle:
+    name: runner / checkstyle  
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Grant permission for long paths
+        run:  git config --system core.longpaths true
+        
+      - uses: actions/checkout@v3
+      - name: setup-java
+        uses: ./
+        id: setup-java
+        with:
+          java-version: 8
+          distribution: corretto
+
+
+        
+      
+
+
+      - name: Output Run Number
+        run: echo ${{ github.run_number }}
+             echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"   
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+
+      - name: CI Build for ebookManager with Gradle
+        run: .\gradlew assemble -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookManager:build -x test
+        shell: cmd 
+
+
+      - name: display war files
+        run: dir ebookManager\build\libs\
+        shell: cmd
