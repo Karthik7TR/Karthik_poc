@@ -20,7 +20,7 @@ on:
         - 'gradlew'
       
   pull_request:
-    branches: [ "feature1" ]
+    branches: [ "dev" ]
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookGenerator/**'
