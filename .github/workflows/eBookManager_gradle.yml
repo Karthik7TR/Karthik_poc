@@ -2,7 +2,7 @@ name: EbookManager with Gradle
 
 on:
   push:
-    branches: [ "feature1" ]
+    branches: [ "dev" ]
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookGenerator/**'
