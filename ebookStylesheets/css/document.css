@@ -2708,22 +2708,3 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: block;
   text-align: center;
 }
-
-div.tr_footnote .co_footnoteNumber
-{
-  padding-right: 0em;
-  float: left;
-  font-size: 0.8em;
-  clear: both;
-  padding-top: 1em;
-}
-
-div.tr_footnote .co_footnoteBody
-{
-  padding-left: 2em;
-  padding-top: 0.8em;
-  font-size: 0.8em;
-  margin: 0em;
-  text-align: justify;
-  text-indent: 0em;
-}
