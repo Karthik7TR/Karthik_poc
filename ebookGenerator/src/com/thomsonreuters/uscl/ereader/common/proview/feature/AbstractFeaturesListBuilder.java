@@ -1,11 +1,5 @@
 package com.thomsonreuters.uscl.ereader.common.proview.feature;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -16,10 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_MINOR_VERSIONS_MAPPING_XML_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_FIELDS_XML_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_TEMPLATE_XML_FILE;
-import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_THESAURUS_XML_FILE;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.*;
 
 /**
  * Abstract class contains common builder methods e.g. creating of default features list.
@@ -34,6 +29,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     private boolean withMinorVersionMapping;
 
     private Version newBookVersion;
+
+    private static SimpleDateFormat dateFormat =new SimpleDateFormat("yyyyMMdd");
+
+    private static String date = dateFormat.format(new Date());
 
     @NotNull
     @Override
@@ -99,8 +98,12 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
             );
         }
 
-        if (bookDefinition.isELooseleafsEnabled()) {
+        if (bookDefinition.isELooseleafsEnabled() && bookDefinition.isCwBook()) {
             features.add(DefaultProviewFeatures.ELOOSELEAFS_BUCKET.feature);
+        }
+
+        if (bookDefinition.isELooseleafsEnabled() && bookDefinition.isUSCLBook()) {
+            features.add(DefaultProviewFeatures.PERIODICAL_BUCKET.feature);
         }
 
         if (withPageNumbers) {
@@ -164,6 +167,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         ONE_PASS_SSO_WWW_WESTLAW(new Feature("OnePassSSO", "www.westlaw.com")),
         ONE_PASS_SSO_NEXT_WESTLAW(new Feature("OnePassSSO", "next.westlaw.com")),
         ELOOSELEAFS_BUCKET(new Feature("tr_opt_TitleType", "eReference")),
+        PERIODICAL_BUCKET(new Feature("Periodical", date)),
         PAGE_NUMBERS(new Feature("PageNos")),
         SPAN_PAGES(new Feature("SpanPages")),
         SEARCH_FIELDS(new Feature("SearchFields", FORMAT_THESAURUS_FIELDS_XML_FILE.getName())),

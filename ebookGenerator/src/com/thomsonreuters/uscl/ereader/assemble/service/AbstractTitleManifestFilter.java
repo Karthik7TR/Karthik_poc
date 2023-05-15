@@ -26,7 +26,7 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
     protected static final String ID_ATTRIBUTE = "id";
     protected static final String TYPE_ATTRIBUTE = "type";
     protected static final String NAME_ELEMENT = "name";
-
+    protected static final String HEADLINE_ELEMENT = "headline";
     private static final String ISBN_ELEMENT = "isbn";
     private static final String STATUS_ATTRIBUTE = "status";
     private static final String ONLINEEXPIRATION_ATTRIBUTE = "onlineexpiration";
@@ -70,6 +70,7 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
         writeCoverArt();
         writeAssets();
         writeDisplayName();
+        writeHeaderline();
         writeLibfields();
         writeAuthors();
         writeKeywords();
@@ -140,6 +141,15 @@ abstract class AbstractTitleManifestFilter extends AbstractTocManifestFilter {
         final String displayName = titleMetadata.getDisplayName();
         super.characters(displayName.toCharArray(), 0, displayName.length());
         super.endElement(URI, NAME_ELEMENT, NAME_ELEMENT);
+    }
+
+    protected void writeHeaderline() throws SAXException {
+        if (titleMetadata.isElooseleafsEnabled() && !titleMetadata.isCwBook()) {
+            super.startElement(URI, HEADLINE_ELEMENT, HEADLINE_ELEMENT, EMPTY_ATTRIBUTES);
+            final String headline = titleMetadata.getHeadline();
+            super.characters(headline.toCharArray(), 0, headline.length());
+            super.endElement(URI, HEADLINE_ELEMENT, HEADLINE_ELEMENT);
+        }
     }
 
     protected void writeLibfields() throws SAXException {

@@ -592,7 +592,7 @@ public class EbookAudit implements Serializable {
         setPublishDateText(that.getPublishDateText());
         setPublisherCodesId(that.getPublisherCodes().getId());
         setCurrency(that.getCurrency());
-        setIsELooseleafsEnabled(that.isELooseleafsEnabled());
+        setIsELooseleafsEnabled((that.isELooseleafsEnabled() && that.isCwBook()) || (that.isELooseleafsEnabled() && that.isUSCLBook()));
         setPublishedDate(that.getPublishedDate());
         setReleaseNotes(that.getReleaseNotes());
         setKeyciteToplineFlag(that.getKeyciteToplineFlag());

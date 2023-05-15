@@ -98,7 +98,7 @@ public class EditGroupController {
 
                 final GroupDefinition group = groupService.getLastGroup(bookDef);
                 setupVersion(group, form, model);
-                setGroupType(form, group, bookDef.isELooseleafsEnabled());
+                setGroupType(form, group, bookDef.isELooseleafsEnabled(), bookDef.isCwBook());
 
                 final Map<String, ProviewTitleInfo> proviewTitleMap = getMajorVersionForTitleMap(bookDef.getFullyQualifiedTitleId());
                 final Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
@@ -146,13 +146,13 @@ public class EditGroupController {
     }
 
     private void setGroupType(final EditGroupDefinitionForm form, final GroupDefinition lastGroup,
-        final boolean isElooseleafsEnabled) {
+        final boolean isElooseleafsEnabled, final boolean isCwBook) {
         String groupType;
         if (lastGroup != null) {
             groupType = lastGroup.getType();
         } else {
-            groupType = isElooseleafsEnabled ? CoreConstants.GROUP_TYPE_EREFERENCE
-                    : CoreConstants.GROUP_TYPE_STANDARD;
+            groupType = isElooseleafsEnabled && isCwBook ? CoreConstants.GROUP_TYPE_EREFERENCE
+                    : isElooseleafsEnabled && !isCwBook ? CoreConstants.GROUP_TYPE_PERIODICAL :CoreConstants.GROUP_TYPE_STANDARD;
         }
         form.setGroupType(groupType);
     }
