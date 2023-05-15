@@ -362,7 +362,7 @@ public class EditBookDefinitionForm {
             frontMatters = book.getFrontMatterPages();
             publishDateText = book.getPublishDateText();
             currency = book.getCurrency();
-            bucket = Bucket.getBucket(book.isELooseleafsEnabled());
+            bucket = Bucket.getBucket(book.isELooseleafsEnabled() && book.isCwBook(), book.isELooseleafsEnabled() && book.isUSCLBook());
 
             final SimpleDateFormat dateFormat = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
             final Date publishedDateInDateFormat = book.getPublishedDate();
@@ -568,7 +568,7 @@ public class EditBookDefinitionForm {
         book.setCopyright(copyright);
         book.setCopyrightPageText(copyrightPageText);
         book.setCurrency(currency);
-        book.setELooseleafsEnabled(Bucket.isElooseLeafsEnabled(bucket));
+        book.setELooseleafsEnabled(Bucket.isElooseLeafsEnabled(bucket) || Bucket.isPeriodicalsEnabled(bucket));
         book.setReleaseNotes(releaseNotes);
         book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
         final DocumentTypeCode dtc = new DocumentTypeCode();

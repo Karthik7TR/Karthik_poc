@@ -43,8 +43,11 @@ $(document).ready(function() {
 	</c:if>
 	<c:set var="bucket" value=""/>
 	<c:choose>
-		<c:when test="${book.ELooseleafsEnabled}">
+		<c:when test="${book.ELooseleafsEnabled && book.isCwBook()}">
 			<c:set var="bucket" value="<%= Bucket.ELOOSELEAFS.toString() %>"/>
+		</c:when>
+		<c:when test="${book.ELooseleafsEnabled && book.isUSCLBook()}">
+			<c:set var="bucket" value="<%= Bucket.PERIODICALS.toString() %>"/>
 		</c:when>
 		<c:otherwise>
 			<c:set var="bucket" value="<%= Bucket.BOOKS.toString() %>"/>
@@ -155,7 +158,7 @@ $(document).ready(function() {
 							</c:choose>
 						</span>
 					</div>
-					<c:if test="${ book.isCwBook() }">
+					<c:if test="${ book.isCwBook() || book.isUSCLBook()}">
 						<div class="row xppHideClass cwbHideClass">
 							<label class="labelCol">Bucket</label>
 							<span class="field">${ bucket }</span>

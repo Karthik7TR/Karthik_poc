@@ -80,6 +80,8 @@ public final class TitleMetadata implements Serializable {
     private String titleVersion;
     @XmlElement(name = "lastUpdated")
     private String lastUpdated;
+    @XmlElement(name = "headline")
+    private String headline;
     @XmlElement(name = "name")
     private String displayName;
     @XmlTransient
@@ -156,7 +158,7 @@ public final class TitleMetadata implements Serializable {
         isElooseleafsEnabled = builder.isElooseleafsEnabled;
         isPagesEnabled = builder.isPagesEnabled;
         isCombinedBook = builder.isCombinedBook;
-
+        headline= ".";
         authorNames = ofNullable(builder.authors)
             .filter(CollectionUtils::isNotEmpty)
             .map(Collection::stream)
@@ -201,7 +203,7 @@ public final class TitleMetadata implements Serializable {
                 .authors(bookDefinition.getAuthors())
                 .publishedDate(getFormattedPublishedDate(bookDefinition.getPublishedDate()))
                 .infoFields(getInfoFields(bookDefinition))
-                .isElooseleafsEnabled(bookDefinition.isELooseleafsEnabled())
+                .isElooseleafsEnabled((bookDefinition.isELooseleafsEnabled() && bookDefinition.isCwBook()) || (bookDefinition.isELooseleafsEnabled() && bookDefinition.isUSCLBook()))
                 .isCwBook(bookDefinition.isCwBook())
                 .isPilotBook(bookDefinition.getIsPilotBook())
                 .isbn(bookDefinition.getIsbnNormalized())

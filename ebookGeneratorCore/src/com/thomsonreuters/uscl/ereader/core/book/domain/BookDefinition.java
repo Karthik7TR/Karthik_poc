@@ -74,6 +74,7 @@ public class BookDefinition implements Serializable {
     private static final String N = "N";
     private static final String CW_PUBLISHER = "cw/";
 
+    private static final String USCL_PUBLISHER = "uscl/";
     public enum PilotBookStatus {
         TRUE,
         FALSE,
@@ -1033,5 +1034,10 @@ public class BookDefinition implements Serializable {
     @Transient
     public boolean isCwBook() {
         return getFullyQualifiedTitleId().startsWith(CW_PUBLISHER);
+    }
+
+    @Transient
+    public boolean isUSCLBook() {
+        return getFullyQualifiedTitleId().startsWith(USCL_PUBLISHER);
     }
 }

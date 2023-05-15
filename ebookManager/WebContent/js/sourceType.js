@@ -167,7 +167,8 @@ $(function() {
 			.css("display","block");
 		showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
         showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
-        showSelectOptions($("#publisher").val() !== "uscl", "#bucketDiv");
+        // showSelectOptions($("#publisher").val() !== 'uscl', "#bucketDiv");
+		showSelectOptions(true, "#bucketDiv");
 		updatePubCutoffDateBox(sourceType);
 		splitChanged();
 		splitSizeChanged();

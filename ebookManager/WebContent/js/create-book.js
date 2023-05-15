@@ -10,6 +10,7 @@ const REGISTERED_PUBLISHERS = [USCL_PUBLISHER, CW_PUBLISHER];
 const CW_SOURCE_TYPES = ['NORT', 'TOC'];
 const BOOKS_BUCKET = 'BOOKS';
 const ELOOSELEAFS_BUCKET = 'ELOOSELEAFS';
+const PERIODICALS_BUCKET = 'PERIODICALS';
 
 const FILE_EXTENSION_PATTERN = /\.[^/.]+$/;
 const PDF_NAME_ALLOWED_CHARACTERS = /^[-_!A-Za-z0-9]+$/;
@@ -168,6 +169,25 @@ function previousVersionIdsEnabledChanged() {
 	}
 }
 
+function filterBucketOptionBasedOnPublisher(){
+	if ($('#publisher').val() === USCL_PUBLISHER) {
+		$('#bucket option[value="PERIODICALS"]').show();
+		$('#bucket option[value="ELOOSELEAFS"]').hide();
+	} else{
+		$('#bucket option[value="PERIODICALS"]').hide();
+		$('#bucket option[value="ELOOSELEAFS"]').show();
+	}
+}
+
+function disableGroupDetails(){
+	if($('#bucket option:selected').val() === PERIODICALS_BUCKET){
+		$('input:radio[name=groupsEnabled][value=true]').prop('checked', true);
+		$('input:radio[name=groupsEnabled][value=false]').prop('disabled', true);
+	} else {
+		$('input:radio[name=groupsEnabled][value=false]').prop('disabled', false);
+	}
+}
+
 $(function() {
 	$(document).ready(function() {
 		// Declare Global Variables
@@ -283,7 +303,9 @@ $(function() {
 					} else {
 						$('#publishDetailDiv').hide();
 					}
-					$('#bucketDiv').hide();
+					if (CW_SOURCE_TYPES.indexOf($('input:radio[name=sourceType]:checked').val()) !== -1) {
+						$('#bucketDiv').show();
+					}
 					$('.cw_show').hide();
 					$('.uscl_show').show();
 					showKeywordsForPublisher(publisher);
@@ -714,6 +736,11 @@ $(function() {
 			updateTitleId();
 			toggleGroups(publisher);
 			updatePubCutoffDateBox();
+			filterBucketOptionBasedOnPublisher();
+		});
+
+		$('#bucket').change(function () {
+			disableGroupDetails();
 		});
 
 		$('input:radio[name=splitBook]').change(function () {splitChanged()});
@@ -1091,5 +1118,7 @@ $(function() {
 		$(".subject-keyword").click(checkMaxNumberOfSubjectKeywords);
 		
 		checkMaxNumberOfSubjectKeywords();
+		filterBucketOptionBasedOnPublisher();
+		disableGroupDetails();
 	});
 });

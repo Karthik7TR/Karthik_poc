@@ -37,6 +37,7 @@ public final class GroupServiceImplTest {
     private static final String SUBGROUP_NAME = "2015";
     private static final String SUBGROUP_NAME_2 = "2016";
     private static final String FULLY_QUALIFIED_TITLE_ID = "uscl/an/book_lohisplitnodeinfo";
+    private static final String CW_FULLY_QUALIFIED_TITLE_ID = "cw/an/book_lohisplitnodeinfo";
     private static final String PILOT_BOOK_TITLE_ID = "uscl/an/book_pilotBook";
     private static final String EXCEPTION_MESSAGE = "Message";
     private static final String EXCEPTION_TITLE_DOES_NOT_EXIST = "This Title does not exist";
@@ -1775,7 +1776,8 @@ public final class GroupServiceImplTest {
     @Test
     public void testSetGroupTypeEreference() {
         bookDefinition.setELooseleafsEnabled(true);
-        setUpSimpleBookGroup(mockContainer());
+        bookDefinition.setFullyQualifiedTitleId(CW_FULLY_QUALIFIED_TITLE_ID);
+        setUpCWBookGroup(mockContainer());
 
         GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, V1, null);
 
@@ -1843,6 +1845,18 @@ public final class GroupServiceImplTest {
                 .andReturn(container);
         EasyMock.replay(mockProviewHandler, mockBookDefinitionService);
     }
+
+    @SneakyThrows
+    private void setUpCWBookGroup(ProviewTitleContainer container) {
+        final String groupId = groupService.getGroupId(bookDefinition);
+        EasyMock.expect(mockProviewHandler.getGroupDefinitionsById(groupId)).andReturn(groupDefinitionList);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(CW_FULLY_QUALIFIED_TITLE_ID))
+                .andReturn(bookDefinition);
+        EasyMock.expect(mockProviewHandler.getProviewTitleContainer(CW_FULLY_QUALIFIED_TITLE_ID))
+                .andReturn(container);
+        EasyMock.replay(mockProviewHandler, mockBookDefinitionService);
+    }
+
     private void checkGroupType(final GroupDefinition groupDefinition, final String expectedGroupType) {
         String actualGroupType = groupDefinition.getType();
         Assert.assertEquals(expectedGroupType, actualGroupType);

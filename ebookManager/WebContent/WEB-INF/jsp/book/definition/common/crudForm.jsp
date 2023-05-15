@@ -357,7 +357,7 @@
 					<form:errors path="sourceType" cssClass="errorMessage" />
 				</div>
 			</div>
-			<c:if test="${ !isPublished || (isPublished && book.isCwBook()) }">
+			<c:if test="${ !isPublished || (isPublished && book.isCwBook()) || (isPublished && book.isUSCLBook()) }">
 				<div id="bucketDiv" class="row xppHideClass cwbHideClass">
 					<form:label path="bucket" class="labelCol">Bucket</form:label>
 					<form:select path="bucket" >

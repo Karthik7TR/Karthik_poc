@@ -37,6 +37,7 @@ import org.springframework.http.HttpStatus;
 
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_EREFERENCE;
 import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_STANDARD;
+import static com.thomsonreuters.uscl.ereader.core.CoreConstants.GROUP_TYPE_PERIODICAL;
 
 @Slf4j
 public class GroupServiceImpl implements GroupService {
@@ -462,7 +463,8 @@ public class GroupServiceImpl implements GroupService {
 
     private String getGroupType(String titleId) {
         BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(titleId);
-        return bookDefinition.isELooseleafsEnabled() ? GROUP_TYPE_EREFERENCE : GROUP_TYPE_STANDARD;
+        return bookDefinition.isELooseleafsEnabled() && bookDefinition.isCwBook() ? GROUP_TYPE_EREFERENCE :
+        bookDefinition.isELooseleafsEnabled() && bookDefinition.isUSCLBook() ? GROUP_TYPE_PERIODICAL : GROUP_TYPE_STANDARD;
     }
 
     private List<String> getPilotBooks(final BookDefinition book) {
