@@ -85,6 +85,7 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
     @Test
     public void testELooseLeafsBucketFeatureEnabled() {
         given(bookDefinition.isELooseleafsEnabled()).willReturn(true);
+        given(bookDefinition.isCwBook()).willReturn(true);
 
         final List<Feature> features = featuresListBuilder.getFeatures();
 
