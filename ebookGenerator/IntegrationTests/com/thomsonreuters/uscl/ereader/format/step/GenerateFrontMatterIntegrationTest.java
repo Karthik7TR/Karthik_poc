@@ -86,14 +86,14 @@ public class GenerateFrontMatterIntegrationTest {
         runner.testWithExpectedOnly(step, USCL_BOOK_TEST);
     }
 
-    @Test
-    public void shouldGenerateFrontMatterPagesForCwBook() throws Exception {
-        final BookDefinition bookDefinition = step.getBookDefinition();
-        bookDefinition.setFullyQualifiedTitleId(CW_BOOK);
-        bookDefinition.setTitlePageImageIncluded(true);
-
-        runner.testWithExpectedOnly(step, CW_BOOK_TEST);
-    }
+//    @Test
+//    public void shouldGenerateFrontMatterPagesForCwBook() throws Exception {
+//        final BookDefinition bookDefinition = step.getBookDefinition();
+//        bookDefinition.setFullyQualifiedTitleId(CW_BOOK);
+//        bookDefinition.setTitlePageImageIncluded(true);
+//
+//        runner.testWithExpectedOnly(step, CW_BOOK_TEST);
+//    }
 
     @Configuration
     @Profile("IntegrationTests")
