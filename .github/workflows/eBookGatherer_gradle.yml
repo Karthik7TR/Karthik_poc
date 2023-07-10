@@ -10,7 +10,6 @@ on:
         - 'ebookStylesheets/**'
         - 'gradle/**'
         - 'settings.gradle'
-        - '.github/**'
         - 'gradlew.bat'
         - 'gitattributes'
         - 'gitignore'
