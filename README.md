@@ -5,7 +5,7 @@
         <img alt="Last Updated" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/last-badge-update.svg">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/actions/runs/5505359708" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/actions/runs/5505475608" target="_blank">
         <img alt="CI Build" src="https://github.com/tr/ebook_ebook-publishing/actions/workflows/java-microservice-build-with-policy-scan.yml/badge.svg?branch=java-cicd-workflows_1688970504">
       </a>
       <br />
@@ -25,7 +25,7 @@
         <img alt="Code Coverage" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/code-coverage.svg">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/runs/14902414380" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/runs/14902732030" target="_blank">
         <img alt="Lines of Code" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/lines-of-code.svg">
       </a>
       <br />
