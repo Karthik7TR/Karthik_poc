@@ -274,7 +274,7 @@ jobs:
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v1.2.0
       env:
-        server: ${{ secrets.JFROG_API }}
+        server: ${{ secrets.SCM_JFROG_API_TOKEN }}
       
     # Running JFROG Commans to upload artifactory
     - name: Uploading Artifacts to JFrog
