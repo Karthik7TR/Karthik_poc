@@ -194,19 +194,22 @@ jobs:
        }           
          
     - name: Generate Build Variables
+      shell: pwsh
       id: deploy_version
       run: |
           echo "The current build number is: "${{ steps.build_number.outputs.version }}.${{ github.run_number}}
-          echo "build_version=${{ steps.build_number.outputs.version }}.${{ github.run_number }}"
-          numeric_deploy_version=$build_version
-          echo "VERSION=$build_version" >> $GITHUB_OUTPUT
+          echo "::set-env name=build_version::$(echo ${{ steps.build_number.outputs.version }}.${{ github.run_number }})"
+          $numeric_deploy_version=${{ env.build_version }}
+          echo "VERSION=${{ env.build_version }}" >> $GITHUB_OUTPUT
+          echo "VERSION=${{ env.build_version }}"
 
     - name: Artifact Naming
+      shell: pwsh
       id: artifactid 
       run: |
         build_var="${{ env.build_version }}"
+        echo ::set-output name=build_var::${build_var}
         echo "${build_var}"
-    #    echo ::set-output name=build_var::${build_var}
    
     # - name: Output Run Number
     #   run: echo ${{ github.run_number }}
