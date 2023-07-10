@@ -41,8 +41,7 @@ env:
   GIT_USER_NAME: "GitHub Actions"
   ENV_CONFIG_FILE: ".github/env-variables.txt"
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  ARTIFACTORY_TOKEN: ${{ secrets[env.SCM_JFROG_API_TOKEN] }}
-  ARTIFACTORY_USER: ${{ secrets[env.SCM_JFROG_ACCOUNT_NAME]}}
+
 
 jobs:
  checkstyle:
