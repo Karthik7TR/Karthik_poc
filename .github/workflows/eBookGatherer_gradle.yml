@@ -205,8 +205,8 @@ jobs:
       id: artifactid 
       run: |
         build_var="${{ env.build_version }}"
-    #    echo ::set-output name=build_var::${build_var}
         echo "${build_var}"
+    #    echo ::set-output name=build_var::${build_var}
    
     # - name: Output Run Number
     #   run: echo ${{ github.run_number }}
