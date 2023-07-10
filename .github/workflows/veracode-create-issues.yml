@@ -1,0 +1,146 @@
+name: Create Issues From Veracode Scan Results
+
+on:
+  schedule:
+    - cron: '00 3 * * 1'  #scheduled to run every week
+
+#!! IMPORTANT -Please Read!!
+
+#Make sure to set these secrets in the repo with the API ID and Key of your Veracode API account.  Contact the ISRM AppSecTesting at appsec@thomsonreuters.com for a Veracode API account.
+#One Time Only - Generate Veracode api credentials (id/key) for your api account here: https://docs.veracode.com/r/t_create_api_creds
+
+#The Following Two Secrets Are Required
+
+#1. - Veracode API ID and Key Secrets
+  #The Two VERACODE Secrets MUST be created as GH Team secrets in order to be updated by the secret updates build steps.  Use these steps to set up your team Veracode secrets
+  #1-Navigate to GH Self Service platform (login with user and personal token): https://githubrunnerselfservice.2212.aws-int.thomsonreuters.com/
+  #2-Select 'List Teams'
+  #3-Select the Team with access to this repository
+  #4-Select 'Manage Secrets'
+  #5-Select 'Create new secret' and create the two secrets below in the required format.  Update the secret names in the env values and in the last two 'Update Veracode Secret' build steps accordingly.
+    #<Team-Name>_VERACODE_API_ID (your Veracode api account id)
+    #<Team-Name>_VERACODE_API_SECRET (your Veracode api account key)
+
+#2. - Set up env variables for Veracode App ID and App Name in .github/env-variables.txt with the following variable names
+  # APP_ID  (From your Veracode application profile, the ID is the second numerical parameter in the URL - example:https://analysiscenter.veracode.com/auth/index.jsp#HomeAppProfile:10430:521978:11488373:11462863:11478526:5413764:: - 521978 is the APP ID)
+  # APP_NAME  (Name of your Veracode Application Profile)
+  # VERACODE_API_ID_SECRET_NAME  (The name of the GitHub secret which contains your Veracode API ID)
+  # VERACODE_API_SECRET_SECRET_NAME  (The name of the GitHub secret which contains your Veracode API Secret)
+
+#3. - Jfrog Artifactory service account and token
+  #IF your team already has an artifactory team secret that is team-wide and follows the naming convention (secret name has team name prefix), THEN you can skip this step!
+
+  #IF you do not already have a Jfrog service account, you can create one here, along with the token (https://self-service.artifactory.2212.aws-int.thomsonreuters.com/)
+  #Use the same steps as listed in step 1 above to create the team secret name below, with the token value.
+    #<TeamName>_ARTIFACTORY_TOKEN
+
+#4. Then, Set up env variables in .github/env-variables.txt with the following variable names and values:
+  # ARTIFACTORY_USER               (The name of your Artifactory service account)
+  # ARTIFACTORY_TOKEN_SECRET_NAME  (The name of the GitHub secret which contains your Artifactory token)
+
+
+env:
+  GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  GH_REPO: ${{github.repository}}
+  GITHUB_WORKSPACE: ${{github.workspace}}
+  ENV_CONFIG_FILE: ".github/env-variables.txt"
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 11
+
+      - name: Set environment variables defined in the ENV_CONFIG_FILE
+        shell: bash
+        run: |
+          IFS="["
+          while read -r -a LINE || [ -n "$LINE" ] ; do
+            if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
+              echo "$LINE" | xargs;
+            fi
+          done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
+
+      - name: Check If Required ENV Vars Have Values
+        id: checkenv
+        shell: bash
+        run: |
+          if [ "${{env.ARTIFACTORY_TOKEN_SECRET_NAME}}" == "" ]; then
+            echo "STOP! The ARTIFACTORY_TOKEN_SECRET_NAME environment value was not set"
+            exit 1
+          elif [ "${{env.VERACODE_API_ID_SECRET_NAME}}" == "" ]; then
+            echo "STOP! The VERACODE_API_ID_SECRET_NAME environment value was not set"
+            exit 1
+          elif [ "${{env.VERACODE_API_SECRET_SECRET_NAME}}" == "" ]; then
+            echo "STOP! The VERACODE_API_SECRET_SECRET_NAME environment value was not set"
+            exit 1
+          elif [ "${{env.ARTIFACTORY_USER}}" == "" ]; then
+            echo "STOP! The ARTIFACTORY_USER environment value was not set"
+            exit 1
+          else
+            echo "All required environment values have been set!"
+          fi
+
+      - name: Get the API wrapper manifest
+        run: |
+          curl -sS -o manifest.xml "https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/maven-metadata.xml"
+
+      - name: Get latest wrapper version from manifest file
+        shell: sh
+        run: |
+          ver=$(cat manifest.xml | grep latest | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+          echo "WRAPPER_VER=$ver" >> $GITHUB_ENV
+
+      - name: Get the Java API wrapper
+        run:
+          curl -sS -o VeracodeJavaAPI.jar "https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${{env.WRAPPER_VER}}/vosp-api-wrappers-java-${{env.WRAPPER_VER}}.jar"
+
+      - name: Get Build ID From Latest Scan
+        shell: bash
+        run: |
+          java -jar VeracodeJavaAPI.jar -action getbuildinfo -vid ${{secrets[env.VERACODE_API_ID_SECRET_NAME]}} -vkey ${{secrets[env.VERACODE_API_SECRET_SECRET_NAME]}} -appid ${{env.APP_ID}} &> buildinfo.xml || true
+          echo "Response from GetBuildInfo...."
+          cat buildinfo.xml
+          if grep -q "No app_id parameter specified" buildinfo.xml;
+          then
+            echo "ERROR: No App ID was specified.  Check your env and secret value for VERACODE_API_ID_SECRET_NAME"
+            exit 1
+          elif grep -q "Could not find a build for application" buildinfo.xml;
+          then
+            echo "ERROR: A build was not found. Verify that you have completed a Policy scan"
+            exit 1
+          elif grep -q "Access denied" buildinfo.xml;
+          then
+            echo "ERROR: Your API account does not have access to the Veracode profile"
+            exit 1
+          elif grep -q "appid is missing an argument" buildinfo.xml;
+          then
+            echo "ERROR: No App ID was provided.  Check your ENV value for APP_ID"
+            exit 1
+          else
+            echo "INFO: Build Info Successfully Retrieved"
+          fi
+
+      - name: Download Script From Artifactory, To Get Latest Results and Create Issues
+        shell: sh
+        run: |
+          curl -u ${{env.ARTIFACTORY_USER}}:${{secrets[env.ARTIFACTORY_TOKEN_SECRET_NAME]}} -X GET -O "https://tr1.jfrog.io/artifactory/generic-local/isrm-appsec/veracode-actions/create-issues/createIssuesFromScanResults.zip!/createIssuesFromScanResults.py"
+
+      - name: Set Up Required ENV Vars and Run createIssuesFromScanResults.py
+        shell: sh
+        run: |
+          export VERACODE_API_KEY_ID=${{secrets[env.VERACODE_API_ID_SECRET_NAME]}}
+          export VERACODE_API_KEY_SECRET=${{secrets[env.VERACODE_API_SECRET_SECRET_NAME]}}
+          export GH_TOKEN=${{env.GH_TOKEN}}
+          export GH_REPO=${{env.GH_REPO}}
+          export GH_WORKSPACE=${{env.GITHUB_WORKSPACE}}
+          export APP_NAME=${{env.APP_NAME}}
+          pip install veracode-api-signing
+          pip install pandas
+          python createIssuesFromScanResults.py

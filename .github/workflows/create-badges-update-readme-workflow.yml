@@ -1,0 +1,396 @@
+name: Create Badges and update README File
+on:
+  workflow_call:
+    inputs:
+      COVERAGE_PERCENTAGE:
+        description: 'Coverage Percentage Number passed from CI workflow'
+        required: true
+        type: string
+      WORKFLOW_FILE:
+        description: 'workflow from CI workflow'
+        required: true
+        type: string
+      BUILD_JOB_STATUS:
+        description: 'Status of CI Build Job'
+        required: true
+        type: string
+    outputs:
+      COVERAGE_PERCENTAGE_OUTPUT:
+        description: "Coverage Percentage Output"
+        value: ${{ jobs.badges.outputs.COVERAGE_PERCENTAGE }}
+      STALE_PR_OUTPUT:
+        description: "Stale PR count output"
+        value: ${{ jobs.badges.outputs.STALE_PR }}
+      DEPENDENCIES_OUT_OF_DATE_OUTPUT:
+        description: "Dependencies out of date output"
+        value: ${{ jobs.badges.outputs.DEPENDENCIES_OUT_OF_DATE }}
+      LINES_OF_CODE_OUTPUT:
+        description: "Lines of Code output"
+        value: ${{ jobs.badges.outputs.LINES_OF_CODE }}
+      VERACODE_COUNT_OUTPUT:
+        description: "Veracode count output"
+        value: ${{ jobs.badges.outputs.VERACODE_COUNT }}
+
+jobs:
+  badges:
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    # Repo badges job to inform repo health
+    env:
+      # Badge variables
+      BADGE_ROOT_DIR: badges
+      BADGE_BRANCH_NAME: tr-cicd-resources
+      BADGE_BRANCH_DIR: ${{ github.ref_name }}
+      STALE_PR_COUNT_BADGE_FILE_NAME: stale-pr-count.svg
+      DATED_DEPENDENCY_COUNT_BADGE_FILE_NAME: dated-dependency-count.svg
+      VERACODE_VULNERABILITY_COUNT_BADGE_FILE_NAME: veracode-vulnerability-counts.svg
+      CODE_COVERAGE_BADGE_FILE_NAME: code-coverage.svg
+      LATEST_RELEASE_BADGE_FILE_NAME: latest-release.svg
+      LINES_OF_CODE_BADGE_FILE_NAME: lines-of-code.svg
+      STALE_PR_DAYS: 7
+      BADGE_TEMPLATE_FILE: badge-template.html
+      LAST_BADGE_UPDATE_BADGE_FILE_NAME: last-badge-update.svg
+      ENV_CONFIG_FILE: ".github/env-variables.txt"
+      TEMP_BADGE_BRANCH_NAME: temp-tr-cicd-resources
+
+    outputs:
+      COVERAGE_PERCENTAGE: ${{ steps.code_coverage.outputs.COVERAGE_PERCENTAGE }}
+      VERACODE_COUNT: ${{ steps.vulnerability_count.outputs.count }}
+      STALE_PR: ${{ steps.stale_pr_count.outputs.prCount}}
+      DEPENDENCIES_OUT_OF_DATE: ${{ steps.dated_dependencies_count.outputs.count }}
+      LATEST_RELEASE_VERSION: ${{ steps.release.outputs.releaseName }}
+      LINES_OF_CODE: ${{ steps.lines-of-code-reporter.outputs.total_lines_int }}
+
+    steps:
+      # Setup/Checkout repo
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Set environment variables defined in the ENV_CONFIG_FILE
+        shell: bash
+        run: |
+          IFS="["
+          while read -r -a LINE || [ -n "$LINE" ] ; do
+            if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
+              echo "$LINE" | xargs;
+            fi
+          done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
+
+      #  Create badge image root folder if needed
+      - name: Create badge image root-folder
+        run: |
+          # Create the directory where badges will be saved, if needed
+          mkdir -p "${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}"
+
+      # Creating Lines of Code Report programming language wise
+      - name: Lines of Code Report
+        id: lines-of-code-reporter
+        uses: PavanMudigonda/lines-of-code-reporter@v1.4
+        with:
+          directory: ${{ env.LINES_OF_CODE_DIRECTORY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_check_run: false
+
+      # Fetch current system time
+      - name: Get Time
+        id: time
+        shell: pwsh
+        run: |
+          Set-Variable -Name CURRENT_TIME -Value (Get-Date -Format "dd-MMM-yyyy HH:mm")
+          Write-Output $CURRENT_TIME
+          echo "CURRENT_TIME=$CURRENT_TIME" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      # Create Badge with current timestamp
+      - name: Last Badge Update
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Last updated at'
+          status: ${{ env.CURRENT_TIME }}
+          color: 'blue'
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.LAST_BADGE_UPDATE_BADGE_FILE_NAME }}
+
+      # BADGE: Pull Requests: {n} open beyond {x} days
+      # Default to 7 days
+      - name: Get stale PR count
+        id: stale_pr_count
+        run: |
+          STALE_START_DATE=$(date -d "${{ env.STALE_PR_DAYS }} days ago" +%Y-%m-%d)
+          export PR_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  $GITHUB_API_URL/search/issues?q=repo:${{ github.repository }}++is:open+is:pr+created:%3C%3D$STALE_START_DATE | jq '.items | length'`
+          echo "prCount=${PR_COUNT}" >> $GITHUB_OUTPUT
+          echo "STALE_START_DATE=${STALE_START_DATE}" >> $GITHUB_OUTPUT
+          echo "Open PR Count = ${PR_COUNT}"
+          echo "Stale Start Date = ${STALE_START_DATE}"
+
+      # Create Badge with Stale PR Count
+      - name: Generate the stale PR count badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Pull Requests:'
+          status:  ${{ steps.stale_pr_count.outputs.prCount}} open beyond ${{ env.STALE_PR_DAYS }} days
+          color: ${{ steps.stale_pr_count.outputs.prCount > 0 && 'red' || 'green'}}
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.STALE_PR_COUNT_BADGE_FILE_NAME }}
+
+      # BADGE: Dependencies: {n} out of date
+      # Dependabot PR's with 'dependencies' label
+      - name: Get outdated dependencies count
+        id: dated_dependencies_count
+        run: |
+          export COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  $GITHUB_API_URL/search/issues?q=is:open%20is:pr%20repo:${{ github.repository }}%20label:dependencies | jq .total_count`
+          echo "${COUNT}"
+          export DEPENDENCIES=`[ ${COUNT} -gt 0 ] && echo "${COUNT} out of date" || echo "up to date"`
+          export DEPENDENCIES_COLOR=`[ ${COUNT} -gt 0 ] && echo "red" || echo "green"`
+          echo "${DEPENDENCIES}"
+          echo "${DEPENDENCIES_COLOR}"
+          echo "depends=${DEPENDENCIES}" >> $GITHUB_OUTPUT
+          echo "dependscolor=${DEPENDENCIES_COLOR}" >> $GITHUB_OUTPUT
+          echo "count=${COUNT}" >> $GITHUB_OUTPUT
+          echo "Dependencies Count = ${COUNT}"
+      - name: Generate the outdated dependencies badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Dependencies'
+          status: ${{ steps.dated_dependencies_count.outputs.depends }}
+          color: ${{ steps.dated_dependencies_count.outputs.dependscolor }}
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.DATED_DEPENDENCY_COUNT_BADGE_FILE_NAME }}
+
+      # BADGE: Veracode Vulnerabilities: {n}
+      # Count of open issues with Veracode label
+      - name: Get Veracode issue count
+        id: vulnerability_count
+        env:
+          ISSUE_LABEL: veracode-vulnerability
+        run: |
+          export issueCount=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s $GITHUB_API_URL/search/issues?q=repo:${{ github.repository }}+is:issue+is:open+label:veracode-vulnerability | jq '.items | length'`
+          echo "Veracode Vulnerability Count = ${issueCount}"
+          echo "count=${issueCount}" >> $GITHUB_OUTPUT
+          export veraCodeColor=`[ ${issueCount} -eq 0 ] && echo "green" || echo "red"`
+          echo "badgeColor=${veraCodeColor}" >> $GITHUB_OUTPUT
+      - name: Generate the Veracode issue count badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Veracode Vulnerabilities'
+          status: ${{ steps.vulnerability_count.outputs.count }}
+          color: '${{ steps.vulnerability_count.outputs.badgeColor }}'
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.VERACODE_VULNERABILITY_COUNT_BADGE_FILE_NAME }}
+
+      - name: Generate Lines of Code badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Lines of Code'
+          status: ${{ steps.lines-of-code-reporter.outputs.total_lines_string }}
+          color: 'green'
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.LINES_OF_CODE_BADGE_FILE_NAME }}
+
+      # BADGE: Calculate Code Coverage : {%}
+      - name: Append % symbol to create Code Coverage Badge
+        id: code_coverage
+        run: |
+          export COVERAGE_PERCENTAGE=`printf "%.2f" ${{ inputs.COVERAGE_PERCENTAGE }}`
+          echo "codeCoverage=${COVERAGE_PERCENTAGE} %" >> $GITHUB_OUTPUT
+          if (( $(echo "$COVERAGE_PERCENTAGE > $CODE_COV_THRESHOLD" | bc -l) )); then
+            echo "badgeColor=green" >> $GITHUB_OUTPUT
+          else
+            echo "badgeColor=red" >> $GITHUB_OUTPUT
+          fi
+      - name: Generate the Code Coverage badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Code Coverage'
+          status: ${{ steps.code_coverage.outputs.codeCoverage }}
+          color: ${{ steps.code_coverage.outputs.badgeColor }}
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.CODE_COVERAGE_BADGE_FILE_NAME }}
+
+      # BADGE: Latest Release: vX.Y.Z
+      # Latest GH Releases version
+      - name: Get latest release number
+        id: release
+        run: |
+          # Generates a GitHub Workflow output named `releaseName`
+          export RELEASE_NAME=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r .name`
+          echo "releaseName=${RELEASE_NAME}" >> $GITHUB_OUTPUT
+          export RELEASE=`echo " ${RELEASE_NAME} "`
+          export RELEASE_COLOR=`echo "green"`
+          echo "Latest Release name = ${RELEASE_NAME}"
+          echo "releaseName=${RELEASE}" >> $GITHUB_OUTPUT
+          echo "dependscolor=${RELEASE_COLOR}" >> $GITHUB_OUTPUT
+      - name: Generate latest release badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Latest Release'
+          status: ${{ steps.release.outputs.releaseName }}
+          color: 'green'
+          path: ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.LATEST_RELEASE_BADGE_FILE_NAME }}
+
+      - name: Query Check Run API and Construct Check Run URLs - other than main branch scenario
+        if: github.ref != 'refs/heads/main'
+        run: |
+          CHECK_RUN_URL=https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+          HEAD_SHA=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" $CHECK_RUN_URL | jq -r '.head_sha')
+          echo $HEAD_SHA
+          COVERAGE_RUN_HTML_URL=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v4+json" https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs | jq '.check_runs[] | select(.name=="coverage") | .html_url')
+          LOC_RUN_HTML_URL=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v4+json" https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs | jq '.check_runs[] | select(.name=="Lines of Code") | .html_url')
+          COVERAGE_RUN_HTML_URL=`sed -e 's/^"//' -e 's/"$//' <<<"$COVERAGE_RUN_HTML_URL"`
+          LOC_RUN_HTML_URL=`sed -e 's/^"//' -e 's/"$//' <<<"$LOC_RUN_HTML_URL"`
+          echo $COVERAGE_RUN_HTML_URL
+          echo $LOC_RUN_HTML_URL
+          echo COVERAGE_RUN_HTML_URL=$COVERAGE_RUN_HTML_URL >> $GITHUB_ENV
+          echo LOC_RUN_HTML_URL=$LOC_RUN_HTML_URL >> $GITHUB_ENV
+
+      - name: Query Check Run API and Construct Check Run URLs - other than main branch scenario
+        if: github.ref == 'refs/heads/main'
+        run: |
+          CHECK_SUITE_URL=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID} | jq -r '.check_suite_url')
+          COVERAGE_CHECK_RUN_ID=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v4+json" $CHECK_SUITE_URL/check-runs | jq '.check_runs[] | select(.name=="coverage") | .id ')
+          LOC_CHECK_RUN_ID=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v4+json" $CHECK_SUITE_URL/check-runs | jq '.check_runs[] | select(.name=="Lines of Code") | .id ')
+          COVERAGE_RUN_HTML_URL=https://github.com/$GITHUB_REPOSITORY/runs/$COVERAGE_CHECK_RUN_ID
+          LOC_RUN_HTML_URL=https://github.com/$GITHUB_REPOSITORY/runs/$LOC_CHECK_RUN_ID
+          echo COVERAGE_RUN_HTML_URL=$COVERAGE_RUN_HTML_URL >> $GITHUB_ENV
+          echo LOC_RUN_HTML_URL=$LOC_RUN_HTML_URL >> $GITHUB_ENV
+
+      # Create Badge Template File for insertion into README
+      - name: Create badge template file
+        env:
+          GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
+          GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
+          BADGE_BRANCH_NAME: ${{ env.BADGE_BRANCH_NAME }}
+          STALE_START_DATE: ${{ steps.stale_pr_count.outputs.STALE_START_DATE }}
+        run: |
+          export WORKFLOW_FILE="${{ inputs.WORKFLOW_FILE }}"
+          export URL_ENCODED_REF_NAME=$(python -c "import urllib.parse; print(urllib.parse.quote('$GITHUB_REF_NAME'))")
+          export BADGE_BLOB_PATH=https://github.com/$GITHUB_REPOSITORY/blob/$BADGE_BRANCH_NAME/${{ env.BADGE_ROOT_DIR }}/$URL_ENCODED_REF_NAME
+          cat > ${{ env.BADGE_TEMPLATE_FILE }} <<EOF
+          <svg fill="none" viewBox="0 0 120 120" width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+            <foreignObject width="100%" height="100%">
+              <div xmlns="http://www.w3.org/1999/xhtml">
+                <a href="https://github.com/$GITHUB_REPOSITORY/blob/${{ env.BADGE_BRANCH_NAME }}/$GITHUB_REPOSITORY/${{ env.BADGE_ROOT_DIR }}/$URL_ENCODED_REF_NAME/${{ env.LAST_BADGE_UPDATE_BADGE_FILE_NAME }}" target="_blank">
+                  <img alt="Last Updated" src="$BADGE_BLOB_PATH/${{ env.LAST_BADGE_UPDATE_BADGE_FILE_NAME }}">
+                </a>
+                <br />
+                <a href="https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" target="_blank">
+                  <img alt="CI Build" src="https://github.com/$GITHUB_REPOSITORY/actions/workflows/$WORKFLOW_FILE/badge.svg?branch=$URL_ENCODED_REF_NAME">
+                </a>
+                <br />
+                <a href="https://github.com/$GITHUB_REPOSITORY/pulls?q=is:pr+created:%3C%3D$STALE_START_DATE+is%3Aopen" target="_blank">
+                <img alt="Stale Pull Requests" src="$BADGE_BLOB_PATH/${{ env.STALE_PR_COUNT_BADGE_FILE_NAME }}">
+                </a>
+                <br />
+                <a href="https://github.com/$GITHUB_REPOSITORY/labels/dependencies?q=+is%3Aopen" target="_blank">
+                <img alt="Dated Dependencies" src="$BADGE_BLOB_PATH/${{ env.DATED_DEPENDENCY_COUNT_BADGE_FILE_NAME }}">
+                </a>
+                <br />
+                <a href="https://github.com/$GITHUB_REPOSITORY/issues?q=is%3Aissue+is%3Aopen+label%3Averacode-vulnerability" target="_blank">
+                  <img alt="Veracode Vulnerabilities" src="$BADGE_BLOB_PATH/${{ env.VERACODE_VULNERABILITY_COUNT_BADGE_FILE_NAME }}">
+                </a>
+                <br />
+                <a href="${{ env.COVERAGE_RUN_HTML_URL }}" target="_blank">
+                  <img alt="Code Coverage" src="$BADGE_BLOB_PATH/${{ env.CODE_COVERAGE_BADGE_FILE_NAME }}">
+                </a>
+                <br />
+                <a href="${{ env.LOC_RUN_HTML_URL }}" target="_blank">
+                  <img alt="Lines of Code" src="$BADGE_BLOB_PATH/${{ env.LINES_OF_CODE_BADGE_FILE_NAME }}">
+                </a>
+                <br />
+                <a href="https://github.com/$GITHUB_REPOSITORY/releases/latest" target="_blank">
+                <img alt="Latest Release" src="https://github.com/$GITHUB_REPOSITORY/blob/$BADGE_BRANCH_NAME/${{ env.BADGE_ROOT_DIR }}/main/${{ env.LATEST_RELEASE_BADGE_FILE_NAME }}">
+                </a>
+              </div>
+            </foreignObject>
+          </svg>
+          EOF
+
+      # Insert README badge-section's start/end boundaries if not already existing
+      - name: Add badge-section's start and end boundaries to README.md
+        env:
+          README_PATH: 'README.md'
+        shell: pwsh
+        run: |
+          Set-Variable -Name "BADGE_TEMPLATE_FILE" -Value ${{ env.BADGE_TEMPLATE_FILE }};
+          Set-Variable -Name "README_PATH" -Value ${{ env.README_PATH }};
+          #If the Readme Markdown file does not exist, then create it.
+          if (-not(Test-Path -Path $README_PATH -PathType Leaf)) {
+              try {
+                  $null = New-Item -ItemType File -Path $README_PATH -Force -ErrorAction Stop
+                  Write-Host "The file [$README_PATH] has been created."
+              }
+              catch {
+                  throw $_.Exception.Message
+              }
+          }
+          # If the file already exists, show the message and do nothing.
+          else {
+              Write-Host "Cannot create [$README_PATH] because a file with that name already exists."
+          }
+          $SELECT_START_STRING = Select-String -Path $README_PATH -Pattern "<!-- START $BADGE_TEMPLATE_FILE -->";
+          $SELECT_END_STRING = Select-String -Path $README_PATH -Pattern "<!-- END $BADGE_TEMPLATE_FILE -->";
+          if ( ($SELECT_START_STRING.Length -eq 0) -and ($SELECT_END_STRING.Length -eq 0) )
+          {
+            Write-Output "Adding badge template start and end line to README markdown";
+            $README_CONTENTS = Get-Content -Path $README_PATH -Raw;
+            "<!-- START $BADGE_TEMPLATE_FILE -->" + "`r`n" + "<!-- END $BADGE_TEMPLATE_FILE -->” + “`n” + $README_CONTENTS + “`n” | Set-Content $README_PATH;
+          }
+          else
+          {
+              Write-Output "Already having badge template lines";
+          }
+
+      # Populate/Update the README badge-section's *content*
+      - name: "Dynamic Badge Template Render"
+        uses: varunsridharan/action-dynamic-readme@1.2
+        with:
+          confirm_and_push: false # false not to trigger commit for README.md
+          files: README.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #  Commit README to triggering branch and all newly generated badge images to tr-cicd-resources branch
+      - name: Commit badge images and README Markdown
+        env:
+          GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}
+        if: ${{ env.BRANCH_PROTECTION != 'true' }}
+        run: |
+          git config --local user.email $GIT_USER_EMAIL
+          git config --local user.name $GIT_USER_NAME
+          if [ $GITHUB_REF_NAME != "main" ]
+          then
+            git pull --ff -q
+            git add README.md
+            git commit -m 'Update README.md'
+            git push
+
+            echo "README_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          fi
+          git add ${{ env.BADGE_ROOT_DIR }}/
+          if [ `git branch -r --list "origin/${{ env.BADGE_BRANCH_NAME }}"` ]
+          then
+              git checkout -b ${{ env.TEMP_BADGE_BRANCH_NAME }}
+              git commit -m "Updated badge images"
+              if [ $GITHUB_REF_NAME == "main" ]
+              then
+                git stash
+              fi
+              git checkout ${{ env.BADGE_BRANCH_NAME }}
+              git checkout ${{ env.TEMP_BADGE_BRANCH_NAME }} ${{ env.BADGE_ROOT_DIR }}
+              git add ${{ env.BADGE_ROOT_DIR }}/
+              git commit -m "Updated badge images"
+              git push --force
+              git branch -D ${{ env.TEMP_BADGE_BRANCH_NAME }}
+          else
+              git checkout -b ${{ env.BADGE_BRANCH_NAME }}
+              git commit -m "Updated badge images"
+              git push --set-upstream origin ${{ env.BADGE_BRANCH_NAME }}
+          fi
+
+      - name: Set Job Status
+        if: ${{ env.README_SHA }}
+        run: |
+          curl \
+            --request POST \
+            --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ env.README_SHA }} \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --data '{"state":"${{ inputs.BUILD_JOB_STATUS }}", "context":"build"}'

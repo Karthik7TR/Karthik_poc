@@ -1,0 +1,34 @@
+#Template Version 1.1.0
+
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+
+
+# version: 2
+# updates:
+
+#   - package-ecosystem: "gradle"
+#     directory: "/"
+#     schedule:
+#       # Check for updates to GitHub Actions every weekday
+#       interval: "daily"
+
+version: 2
+registries:
+  maven-artifactory:
+    type: maven-repository
+    url: https://tr1.jfrog.io/tr1/libs-release
+    username: ${{secrets.ARTIFACTORY_USER}}
+    password: ${{secrets.ARTIFACTORY_TOKEN}}
+updates:
+  - package-ecosystem: "gradle" # See documentation for possible values
+    open-pull-requests-limit: 10
+    registries:
+      - maven-artifactory
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+      time: "13:00"

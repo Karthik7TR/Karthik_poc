@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  # COMMENT for manually releasing versions
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
+    branches:
+      - main
+  # UNCOMMENT for manually releasing versions
+  # workflow_dispatch:
+
+env:
+  # Define git user email and name to be used for git commits
+  GIT_USER_EMAIL: "actions@github.com"
+  GIT_USER_NAME: "GitHub Actions"
+  ENV_CONFIG_FILE: ".github/env-variables.txt"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # COMMENT condition for manually releasing versions
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        with:
+          publish: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+
+      - name: Set environment variables defined in the ENV_CONFIG_FILE
+        shell: bash
+        run: |
+          IFS="["
+          while read -r -a LINE || [ -n "$LINE" ] ; do
+            if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
+              echo "$LINE" | xargs;
+            fi
+          done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
+
+      - name: Delete Older Releases (keep latest 20 releases)
+        uses: dev-drprasad/delete-older-releases@v0.2.1
+        with:
+          keep_latest: ${{ env.RELEASES_TO_KEEP || 20 }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Repo badges job to inform repo health
+  badges:
+    runs-on: ubuntu-latest
+    needs: release
+    env:
+      # Badge variables
+      BADGE_ROOT_DIR: badges
+      BADGE_BRANCH_NAME: tr-cicd-resources
+      BADGE_BRANCH_DIR: ${{ github.ref_name}}
+      LATEST_RELEASE_BADGE_FILE_NAME: latest-release.svg
+
+    steps:
+      # Setup/Checkout repo
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set environment variables defined in the ENV_CONFIG_FILE
+        shell: bash
+        run: |
+          IFS="["
+          while read -r -a LINE || [ -n "$LINE" ] ; do
+            if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
+              echo "$LINE" | xargs;
+            fi
+          done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
+
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ env.BADGE_BRANCH_NAME }}
+
+      # BADGE: Latest Release: vX.Y.Z
+      # Latest GH Releases version
+      - name: Get latest release number
+        id: release
+        run: |
+          # Generates a GitHub Workflow output named `releaseName`
+          export RELEASE_NAME=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r .name`
+          echo "Latest Release Version = ${RELEASE_NAME}"
+          echo "releaseName=${RELEASE_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Generate latest release badge image
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Latest Release'
+          status: ${{ steps.release.outputs.releaseName }}
+          color: 'green'
+          path: ${{ env.BADGE_ROOT_DIR}}/${{ env.BADGE_BRANCH_DIR }}/${{ env.LATEST_RELEASE_BADGE_FILE_NAME }}
+
+      #  Commit all newly generated badge images to tr-cicd-resources branch
+      - name: Commit badge images and README Markdown
+        if: ${{ env.BRANCH_PROTECTION != 'true' }}
+        run: |
+          git config --local user.email $GIT_USER_EMAIL
+          git config --local user.name $GIT_USER_NAME
+          git add ${{ env.BADGE_ROOT_DIR }}/${{ env.BADGE_BRANCH_DIR }}/${{ env.LATEST_RELEASE_BADGE_FILE_NAME }}
+          git commit -m "Latest release badge updated"
+          git push -u origin ${{ env.BADGE_BRANCH_NAME }} --force

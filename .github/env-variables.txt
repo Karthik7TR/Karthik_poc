@@ -1,0 +1,38 @@
+# Remove leading # from optional values to allow their usage
+
+# Veracode Code Scanning related variables
+APP_ID=[Required-Generate when setting up you Veracode credentials]
+APP_NAME=[Required-Generate when setting up you Veracode credentials]
+VERACODE_API_ID_SECRET_NAME=[Required-Name of the secret as stored in Github Secrets. Generate when setting up you Veracode credentials]
+VERACODE_API_SECRET_SECRET_NAME=[Required-Name of the secret as stored in Github Secrets. Generate when setting up you Veracode credentials]
+# VERACODE_SCA_AGENT_TOKEN_SECRET_NAME=[Optional-used only if you have a secret name for a token to publish a Veracode Software Composition Analysis to a specific workspace]
+
+# Artifactory credentials for resolving dependencies
+ARTIFACTORY_USER=[Required]
+ARTIFACTORY_TOKEN_SECRET_NAME=[Required-Name of the secret as stored in Github Secrets]
+
+# Release artifact variable settings
+ARTIFACT_SOURCE_DIR=dist [Required-Default value that can be edited to fit your build]
+ARTIFACT_EXCLUSION_FILE=.github/exclude.lst [Required-Default value that can be edited to fit your build]
+# RELEASES_TO_KEEP=20 [Optional-Default value can be over written to change the max number of GH Releases to keep]
+
+# Enabled branch protection rules - This will override the creation of repository status badges in your README, and Veracode pipeline scan results file used for as a high water mark
+# BRANCH_PROTECTION=true [Optional-Boolean to indicate using branch protection rules]
+
+# Github repository and application health metric customization
+CODE_COV_THRESHOLD=80 [Required-Default value that can be edited to fit your build. Minimum level of testing code coverage for a successful CI build]
+LINES_OF_CODE_DIRECTORY=./ [Required-Default value that can be edited to fit your build. Directory to be scanned when calculating total lines of code in a build project]
+
+# Required configs for "Artifactory Shared Binary Publish" pattern/workflow
+# ARTIFACTORY_REPONAME=[Optional-used with artifactory-shared-binary-publish workflow]
+# ARTIFACTORY_FOLDERNAME=[Optional-used with artifactory-shared-binary-publish workflow]
+
+# Config for Java based AWS Lambda functions
+# LAMBDA_FUNCTION=true [Optional-Boolean value to indicate deployment platform is AWS Lambda]
+# VERACODE_SCAN_MODULES=[Required with LAMBDA_FUNCTION. Case-sensitive, comma-separated list of module(s) to scan as the top-level module(s) of an application]
+
+# DataDog API Key variable settings
+# DD_API_KEY_SECRET_NAME=[Optional-Name of the secret as stored in Github Secrets. Required when opted-in for sending custom metrics to DataDog]
+
+# Service name to be included in Cumulus logs and metrics
+SERVICE_NAME=[Required - the name of the service in this repository i.e., the value of spring.application.name if using a spring-boot app]
