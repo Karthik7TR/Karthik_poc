@@ -248,14 +248,14 @@ jobs:
     - name: fetch repo topics
       shell: pwsh
       run: |
-        gh_resp=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/topics)
+        $gh_resp=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/topics)
         echo REPO_TOPICS=$(echo "$gh_resp" | jq '.names') >> $GITHUB_ENV
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create and upload release-info.json
-      shell: sh
-      if: github.ref == 'refs/heads/main'
+      shell: pwsh
+      if: github.ref == 'refs/heads/main' || 'refs/head/java-cicd-workflows_1688970504'
       id: upload-release-info
       run: |
         cd dist
