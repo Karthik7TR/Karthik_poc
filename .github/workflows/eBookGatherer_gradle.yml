@@ -195,6 +195,7 @@ jobs:
        }           
          
     - name: Generate Build Variables
+      shell: pwsh
       id: deploy_version
       run: |
           echo "The current build number is: "${{ steps.build_number.outputs.version }}.${{ github.run_number}}
