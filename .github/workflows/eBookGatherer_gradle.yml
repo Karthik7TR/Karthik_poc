@@ -62,8 +62,8 @@ jobs:
       run:  git config --system core.longpaths true
     - name: jfrog SECRETS
       run: |
-       echo ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}  | sed 's/./& /g'
-       echo ${{ secrets.SCM_JFROG_API_TOKEN }} | sed 's/./& /g'
+       echo ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}  
+       echo ${{ secrets.SCM_JFROG_API_TOKEN }} 
 
     - uses: actions/checkout@v3
     - name: Set environment variables defined in the ENV_CONFIG_FILE
