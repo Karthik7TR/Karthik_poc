@@ -207,21 +207,23 @@ jobs:
       shell: pwsh
       id: artifactid 
       run: |
-        build_var="${{ env.build_version }}"
+        $build_var="${{ env.build_version }}"
         echo ::set-output name=build_var::${build_var}
         echo "${build_var}"
-   
-    # - name: Output Run Number
-    #   run: echo ${{ github.run_number }}
-    #        echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"   
      
-    # - name: Grant execute permission for gradlew wrapper
-    #   run: chmod +x gradlew
+    - name: Grant execute permission for gradlew wrapper
+      run: chmod +x gradlew
    
-    # - name: CI Build for ebookGatherer with Gradle
-    #   run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGatherer:build -x test
-    #   shell: cmd 
+    - name: CI Build for ebookGatherer with Gradle
+      run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGatherer:build -x test
+      shell: cmd 
       
-    # - name: display war files
-    #   run: dir ebookGatherer\build\libs\
-    #   shell: cmd
+    - name: display war files
+      run: dir ebookGatherer\build\libs\
+      shell: cmd
+
+    - name: HTML Preview
+      id: html_preview
+      uses: pavi2410/html-preview-action@v2
+      with:
+        html_file: '.\eBookGatherer\build\reports\tests\test\index.html'
