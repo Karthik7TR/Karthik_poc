@@ -221,7 +221,7 @@ jobs:
     - name: display war files
       run: |
         dir ebookGatherer\build\libs\
-        dir eBookGatherer\build\reports\tests\test\
+        tree
       shell: cmd
 
     - name: HTML Preview
