@@ -258,6 +258,7 @@ jobs:
       if: github.ref == 'refs/heads/main' || 'refs/head/java-cicd-workflows_1688970504'
       id: upload-release-info
       run: |
+        mkdir dist
         cd dist
         echo '{"service_name":"${{ env.SERVICE_NAME }}", "github_repository":"${{ github.repository }}", "github_sha": "${{ steps.lead-time.outputs.commit }}", "repo_topics":${{ env.REPO_TOPICS }}, "full_semver": "${{ steps.lead-time.outputs.name }}", "created_at": "${{ steps.lead-time.outputs.time }}", "lead_time_to_release_days": "${{ steps.lead-time.outputs.lead_time }}"}' > release-info.json
 
