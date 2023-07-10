@@ -1,201 +1,56 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://tr1.jfrog.io/tr1/libs-release/"
-            credentials {
-                username System.getenv("ARTIFACTORY_USER")
-                password System.getenv("ARTIFACTORY_TOKEN")
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+
+    if (project.name != 'ebookGeneratorCore') {
+        apply plugin: "war"
+        war {
+            from 'WebContent' exclude '/**/*.jar'
+        }
+        task copyDeployDir(type: Copy) {
+            from("$projectDir/deploy") {
+                include "**"
             }
+            into "$buildDir/libs"
         }
+        compileJava.dependsOn ':ebookGeneratorCore:buildNeeded'
+        assemble.dependsOn copyDeployDir
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.4.RELEASE")
-    }
-    configurations.classpath {
-        resolutionStrategy.activateDependencyLocking()
-    }
-}
 
-plugins {
-  id 'com.github.sherter.google-java-format' version '0.9'
-}
-
-apply plugin: 'jacoco'
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'project-report'
-apply plugin: 'maven'
-apply plugin: "maven-publish"
-
-//group = 'path/to/artifactory/location'
-
-bootJar {
-    archiveBaseName
-    archiveVersion
-}
-
-def artifactoryUser = System.getenv("ARTIFACTORY_USER")
-def artifactoryToken = System.getenv("ARTIFACTORY_TOKEN")
-repositories {
-    mavenLocal()
-    maven {
-        url "https://tr1.jfrog.io/tr1/libs-release/"
-        credentials {
-            username artifactoryUser
-            password artifactoryToken
-        }
-    }
-}
-
-sourceCompatibility = 11
-targetCompatibility = 11
-
-configurations {
-	all {
-		resolutionStrategy.activateDependencyLocking()
-	}
-    //https://stackoverflow.com/questions/32366586/using-log4j2-with-slf4j
-    all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
-    all*.exclude module: 'spring-boot-starter-logging'
-}
-
-dependencyLocking {
-    lockAllConfigurations()
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'software.amazon.awssdk:bom:2.10.56'
-    }
-}
-
-dependencies {
-
-    //Spring Boot
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-
-    //Logging with Log4j2
-    implementation("org.springframework.boot:spring-boot-starter-log4j2")
-    implementation("org.apache.logging.log4j:log4j-1.2-api")
-
-    //Groovy
-    implementation('org.codehaus.groovy:groovy-all:3.0.7')
-
-    //Swagger
-    implementation("io.springfox:springfox-swagger2:2.9.2") {
-        //https://github.com/springfox/springfox/issues/2265
-        exclude module: 'swagger-annotations'
-        exclude module: 'swagger-models'
-    }
-    implementation("io.springfox:springfox-swagger-ui:2.9.2")
-    implementation("io.swagger:swagger-annotations:1.5.22")
-    implementation("io.swagger:swagger-models:1.5.22")
-
-    //Testing
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "com.vaadin.external.google", module: "android-json"
-    }
-    //Tests
-    testImplementation(
-            "org.springframework.boot:spring-boot-starter-test",
-            "org.mockito:mockito-core:2.24.5",
-            'org.mockito:mockito-junit-jupiter:2.18.3',
-            'org.junit.jupiter:junit-jupiter-api:5.4.2',
-            "org.junit.vintage:junit-vintage-engine:5.2.0",
-            "org.springframework.security:spring-security-test",
-            'org.spockframework:spock-core:1.3-groovy-2.5',
-            'org.spockframework:spock-spring:1.3-groovy-2.5'
-    )
-    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.3.2')
-}
-
-test {
-    useJUnitPlatform()
-    reports {
-        testResultsDirName = "$buildDir/test"
-    }
-    shouldRunAfter test
-    testLogging {
-        showStandardStreams = true
-        events "passed", "skipped", "failed", "standardOut", "standardError"
-    }
-    finalizedBy jacocoTestReport
-}
-
-jacoco {
-    toolVersion = "0.8.3"
-    reportsDir = file("$buildDir/reports/tests")
-}
-
-jacocoTestReport {
-    executionData fileTree("${buildDir}/jacoco")
-    reports {
-        html.required = false
-        xml.required = true
-        csv.required = true
-    }
-}
-
-tasks.jacocoTestReport.dependsOn(tasks.test)
-
-bootRun {
-    // support passing JVM options to bootRun (like -Dspring.profiles.active=local)
-    systemProperties = System.properties
-}
-
-idea {
-    module {
-        inheritOutputDirs = false
-        outputDir = file("$buildDir/classes/main/")
-    }
-}
-
-if (System.getenv("LAMBDA_FUNCTION") == 'true') {
-    task buildZip(type: Zip) {
-        from compileJava
-        from processResources
-        into('lib') {
-            from configurations.runtimeClasspath
-        }
-        bootJar {
-            enabled = false
-        }
-        jar {
-            enabled = false
-        }
-    }
-    assemble.finalizedBy(buildZip)
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact bootJar
-        }
-    }
     repositories {
-        maven {
-            url = "$rootDir/dist"
+        flatDir {
+            dirs '../ebookGeneratorCore/lib',
+                    '../ebookGeneratorCore/plugins/',
+                    '../ebookGeneratorCore/plugins/findbugs/lib',
+                    '../ebookGeneratorCore/lib/build/jacoco/lib',
+                    '../ebookGeneratorCore/lib/build/pdfbox'
         }
     }
-}
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "https://tr1.jfrog.io/tr1/libs-release/") {
-                authentication(userName: artifactoryUser, password: artifactoryToken)
-            }
-            snapshotRepository(url: "https://tr1.jfrog.io/tr1/libs-snapshot/") {
-                authentication(userName: artifactoryUser, password: artifactoryToken)
-            }
-        }
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(Test) {
+        systemProperty("file.encoding", "UTF-8")
+    }
+
+    checkstyle {
+        configFile file("../checkStyleConfig.xml")
+        toolVersion '5.1'
+        maxErrors(9999)
+        maxWarnings(9999999)
+    }
+
+    findbugs {
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/reports/findbugs")
+        effort = "max"
+    }
+    test {
+        maxHeapSize = '1024m'
+        jvmArgs("-Xms1024m", "-XX:MaxMetaspaceSize=512m")
     }
 }

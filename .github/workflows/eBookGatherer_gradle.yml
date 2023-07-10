@@ -2,7 +2,7 @@ name: eBookGatherer Java CI build with Gradle
  
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "java*" ]
     paths-ignore:
         - 'ebookManager/**'
         - 'ebookGenerator/**'
