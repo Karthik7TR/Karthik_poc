@@ -219,11 +219,13 @@ jobs:
       shell: cmd 
       
     - name: display war files
-      run: dir ebookGatherer\build\libs\
+      run: |
+        dir ebookGatherer\build\libs\
+        dir eBookGatherer\build\reports\tests\test\
       shell: cmd
 
     - name: HTML Preview
       id: html_preview
       uses: pavi2410/html-preview-action@v2
       with:
-        html_file: '.\eBookGatherer\build\reports\tests\test\index.html'
+        html_file: 'eBookGatherer\build\reports\tests\test\index.html'
