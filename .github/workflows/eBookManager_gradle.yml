@@ -57,9 +57,9 @@ jobs:
        distribution: 'adopt'
        cache: gradle
    
-    - name: Output Run Number
-      run: echo ${{ github.run_number }}
-           echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"
+    # - name: Output Run Number
+    #   run: echo ${{ github.run_number }}
+    #        echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"
      
     - name: Grant execute permission for gradlew wrapper
       run: chmod +x gradlew
