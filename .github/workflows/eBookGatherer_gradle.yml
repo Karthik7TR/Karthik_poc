@@ -41,7 +41,8 @@ env:
   GIT_USER_NAME: "GitHub Actions"
   ENV_CONFIG_FILE: ".github/env-variables.txt"
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
+  ARTIFACTORY_TOKEN: ${{ secrets[env.SCM_JFROG_API_TOKEN] }}
+  ARTIFACTORY_USER: ${{ secrets[env.SCM_JFROG_ACCOUNT_NAME]}}
 
 jobs:
  checkstyle:
@@ -281,5 +282,5 @@ jobs:
     # Running JFROG Commans to upload artifactory
     - name: Uploading Artifacts to JFrog
       run: |
-       jfrog rt u "ebookGatherer\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user ${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password ${{ secrets.SCM_JFROG_API_TOKEN }} 
+       jfrog rt u "ebookGatherer\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user=${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} 
    
