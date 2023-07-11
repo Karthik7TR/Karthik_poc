@@ -69,11 +69,15 @@ jobs:
            cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.40
            net use Q: /delete
 
-    # - name: executing remote ssh commands using password
-    #   uses: appleboy/ssh-action@v0.1.10
-    #   with:
-    #     host: ${{github.event.inputs.SCMserver}}
-    #     username: ${{github.event.inputs.SCMusername}}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: 22
-    #     script: whoami
+    - name: Deploy to DEV
+      shell: cmd
+      run: |
+         ls
+         cd deploy
+         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Ddeploy_version=2308.0.40"
+         
+    - name: Clean workspace
+      run: |
+         Remove-Item -Path ${{ github.workspace}}\* -Recurse
+         echo "Removed the content of workspace"
+         dir    
