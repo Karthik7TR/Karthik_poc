@@ -211,7 +211,7 @@ jobs:
       
     - name: display war files
       run: |
-        dir ebookGatherer\build\libs\
+        dir eBookGenerator\build\libs\
         tree
       shell: cmd
 
@@ -219,7 +219,7 @@ jobs:
       shell: pwsh
       run: |
         pwd
-        Compress-Archive -Path ebookGatherer\build\libs\*.war ${{ env.build_version }}.zip
+        Compress-Archive -Path eBookGenerator\build\libs\*.war ${{ env.build_version }}.zip
 
     - name: Get path to Java Artifact
       shell: pwsh
@@ -261,7 +261,7 @@ jobs:
     # - name: Upload to Jfrog Artifactory
     #   shell: bash
     #   run: |
-    #          cd ./ebookGatherer/build/libs
+    #          cd ./eBookGenerator/build/libs
     #          ls | while read file;
     #          do
     #            echo "uploading: $file"
@@ -271,4 +271,4 @@ jobs:
     # Running JFROG Commans to upload artifactory
     - name: Uploading Artifacts to JFrog
       run: |
-       jfrog rt u "ebookGatherer\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user=${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} 
+       jfrog rt u "eBookGenerator\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/eBookGenerator/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user=${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} 
