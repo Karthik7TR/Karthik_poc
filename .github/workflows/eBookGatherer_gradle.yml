@@ -224,12 +224,27 @@ jobs:
         tree
       shell: cmd
 
-      # Upload unit test results path for developer review and badge rendering
+    - name: Create zip of published artifacts
+      shell: pwsh
+      run: |
+        pwd
+        zip -r ${{ env.build_version }}.zip ebookGatherer\build\libs\*.war 
+
+    - name: Get Unit Test Results File Path and Rename
+      shell: sh
+      id: unit_test_file_name
+      run: |
+        mkdir test-results
+        mv $(find . -iname "index.html") test-results
+        echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
+        echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
+
+      # Upload test results path for developer review and badge rendering
     - name: Upload Test Results Artifact for Badges
       uses: actions/upload-artifact@v3
       with:
         name: test-results
-        path: 'eBookGatherer\build\reports\tests\test\index.html'
+        path: '${{ env.UNIT_TEST_RESULTS_XML }}'
   
     - name: Get path to Java Artifact
       shell: pwsh
