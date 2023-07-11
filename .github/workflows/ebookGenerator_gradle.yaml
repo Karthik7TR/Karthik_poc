@@ -36,20 +36,29 @@ on:
         - 'checkStyleConfig.xml'
         - 'gradlew'
 
-
-permissions:
-  contents: read
+env:
+  # Define git user email and name to be used for git commits
+  GIT_USER_EMAIL: "actions@github.com"
+  GIT_USER_NAME: "GitHub Actions"
+  ENV_CONFIG_FILE: ".github/env-variables.txt"
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
  checkstyle:
     name: Build        
      
-#    runs-on: windows-latest
-    runs-on: ubuntu-latest
-
+    runs-on: windows-latest
+    permissions: write-all
+    outputs:
+      ENVIRONMENT_VARIABLE_PATH: ${{ env.ENV_CONFIG_FILE }}
+      UNIT_TEST_RESULTS_XML: ${{ steps.unit_test_file_name.outputs.UNIT_TEST_RESULTS_XML }}
+      COVERAGE_PERCENTAGE: ${{ steps.jacoco_reporter.outputs.coverage_percentage }}
+      BRANCH_RELEASE_TAG: ${{ steps.get_version.outputs.BRANCH_RELEASE_TAG }}
+      BUILD_JOB_STATUS: ${{ steps.set_job_status.outputs.BUILD_JOB_STATUS}}
+      build_var: ${{ steps.artifactid.outputs.build_var }}
     steps:
-    # - name: Grant permission for long paths
-    #   run:  git config --system core.longpaths true
+    - name: Grant permission for long paths
+      run:  git config --system core.longpaths true
 
     - uses: actions/checkout@v3
     - name: Set up JDK 1.8.0_202
@@ -58,19 +67,208 @@ jobs:
        java-version: '8.0.202'
        distribution: 'adopt'
        cache: gradle
-   
-   
-    - name: Output Run Number
-      run: echo ${{ github.run_number }}
-           echo "VERSION_NUMBER=0.0.0.${{ github.run_number }}"   
+
+    - name: Build version and Hotfix version
+      shell: pwsh
+      id: build_number
+      run: |
+       $file=(Get-content .\iteration.txt)
+       if ( ([string]::IsNullOrWhitespace($file)) ) 
+       {
+            $version  = Get-content -path .\version.properties | where-object {$_ -match "version="}
+            $version = $version.Split('=')[1]
+            echo "The current release number is:" $version
+            echo "::set-output name=version::${version}"
+            
+            if ( ([string]::IsNullOrWhitespace($version)) ) 
+            {
+            $FetchDate = Get-Date -format "dd-MM-yy"
+            $FetchDate = $FetchDate -split "-"
+
+            if ($FetchDate[0] -gt 0 -and $FetchDate[0] -le 15)
+            { 
+                $sprint = 0
+                Write-host $sprint
+            }
+            else
+            {
+               $sprint = 1
+               Write-host $sprint
+            }
+            if ($Fetchdate[1] -gt 12)
+            {
+              $Fetchdate[1] = 0
+              $Fetchdate[1] = 1 + $Fetchdate[1]
+            }
+            else 
+            {
+             $Fetchdate[1] = 1 + $Fetchdate[1]
+            }
+            [int]$Checkdate = $Fetchdate[1]
+            if ($Checkdate -gt 0 -and $Checkdate -le 9)
+            {
+               $Fetchdate[1] = "0" + $Fetchdate[1]
+            }
+
+            $version = $FetchDate[2]+ $FetchDate[1]+"."+$sprint
+            Write-host  $version
+            echo "::set-output name=version::${version}"
+            echo "::set-output name=hotfixversion::0"
+            }
+            else {
+            echo "hotfix version is used"
+            echo "The current release number is:" $version
+            echo "::set-output name=hotfixversion::1"
+            }
+
+             $filedata = Get-content .\version.properties
+             $Hotfixvariable = $filedata.split("=")[0]
+             $Versionnumber = $filedata.split("=")[1]
+             $Versionnumber = " "
+             $filedata = $Hotfixvariable + "=" + $Versionnumber | set-content .\version.properties
+             cat ./version.properties   
+       }
+       else 
+       {
+            $version  = Get-content -path .\version.properties | where-object {$_ -match "version="}
+            $version = $version.Split('=')[1]
+            echo "The current release number is:" $version
+            echo "::set-output name=version::${version}"
+            if ( ([string]::IsNullOrWhitespace($version)) ) 
+            {
+            $FetchDate = Get-Date -format "dd-MM-yy"
+            $FetchDate = $FetchDate -split "-"         
+            $sprint = 3
+            Write-host $sprint
+            if ($Fetchdate[1] -gt 12)
+            {
+              $Fetchdate[1] = 0
+              $Fetchdate[1] = 1 + $Fetchdate[1]
+            }
+            else 
+            {
+             $Fetchdate[1] = 1 + $Fetchdate[1]
+            }
+            [int]$Checkdate = $Fetchdate[1]
+            if ($Checkdate -gt 0 -and $Checkdate -le 9)
+            {
+               $Fetchdate[1] = "0" + $Fetchdate[1]
+            }
+            $version = $FetchDate[2]+ $FetchDate[1]+"."+$sprint
+            Write-host  $version
+            echo "::set-output name=version::${version}"
+            echo "::set-output name=hotfixversion::0"
+            }
+            else {
+            echo "hotfix version is used"
+            echo "The current release number is:" $version
+            echo "::set-output name=hotfixversion::1"
+            }
+             $filedata = Get-content .\version.properties
+             $Hotfixvariable = $filedata.split("=")[0]
+             $Versionnumber = $filedata.split("=")[1]
+             $Versionnumber = " "
+             $filedata = $Hotfixvariable + "=" + $Versionnumber | set-content .\version.properties
+             cat ./version.properties  
+             cat ./iteration.txt
+
+             git config user.email "actions@github.com"
+             git config user.name "GitHub Actions"
+             echo "Committing iteration.txt file to repo ..."
+             Clear-Content ".\iteration.txt"
+             git add "iteration.txt"
+             git commit -m "Clear iteration.txt"
+             git push origin ${{ github.ref_name }}
+             echo "iteration.txt .."
+             cat ./iteration.txt
+       }           
+         
+    - name: Generate Build Variables
+      shell: pwsh
+      id: deploy_version
+      run: |
+          echo "The current build number is: "${{ steps.build_number.outputs.version }}.${{ github.run_number}}
+          echo "::set-env name=build_version::$(echo ${{ steps.build_number.outputs.version }}.${{ github.run_number }})"
+          $numeric_deploy_version=${{ env.build_version }}
+          echo "VERSION=${{ env.build_version }}" >> $GITHUB_OUTPUT
+          echo "VERSION=${{ env.build_version }}"
+
+    - name: Artifact Naming
+      shell: pwsh
+      id: artifactid 
+      run: |
+        $build_var="${{ env.build_version }}"
+        echo ::set-output name=build_var::${build_var}
+        echo "${build_var}"
+
      
     - name: Grant execute permission for gradlew wrapper
       run: chmod +x gradlew
    
     - name: CI Build for eBookGenerator with Gradle
       run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGenerator:build -x test
-      shell: sh 
+      shell: cmd 
       
     - name: display war files
-      run: ll eBookGenerator\build\libs\
-      shell: sh
+      run: |
+        dir ebookGatherer\build\libs\
+        tree
+      shell: cmd
+
+    - name: Create zip of published artifacts
+      shell: pwsh
+      run: |
+        pwd
+        Compress-Archive -Path ebookGatherer\build\libs\*.war ${{ env.build_version }}.zip
+
+    - name: Get path to Java Artifact
+      shell: pwsh
+      run: echo JAVA_ARTIFACT=${{ env.build_version }}.zip >> $GITHUB_ENV
+
+    - name: fetch repo topics
+      shell: pwsh
+      run: |
+        $gh_resp=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/topics)
+        echo REPO_TOPICS=$(echo "$gh_resp" | jq '.names') >> $GITHUB_ENV
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create and upload release-info.json
+      shell: pwsh
+      if: github.ref == 'refs/heads/main' || 'refs/head/java-cicd-workflows_1688970504'
+      id: upload-release-info
+      run: |
+        mkdir dist
+        cd dist
+        echo '{"service_name":"${{ env.SERVICE_NAME }}", "github_repository":"${{ github.repository }}", "github_sha": "${{ steps.lead-time.outputs.commit }}", "repo_topics":${{ env.REPO_TOPICS }}, "full_semver": "${{ steps.lead-time.outputs.name }}", "created_at": "${{ steps.lead-time.outputs.time }}", "lead_time_to_release_days": "${{ steps.lead-time.outputs.lead_time }}"}' > release-info.json
+
+    - name: Create Release and Upload Artifacts
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ${{ env.build_version }}.zip
+        tag: "${{ env.build_version }}"
+        name: "v${{ env.build_version }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        replacesArtifacts: false
+
+    # Setting Up JFROG CLI
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v1.2.0
+      env:
+        server: ${{ secrets.SCM_JFROG_API_TOKEN }}
+        
+    # - name: Upload to Jfrog Artifactory
+    #   shell: bash
+    #   run: |
+    #          cd ./ebookGatherer/build/libs
+    #          ls | while read file;
+    #          do
+    #            echo "uploading: $file"
+    #            curl -u ${{ secrets[env.SCM_JFROG_ACCOUNT_NAME] }}:${{ secrets[env.SCM_JFROG_API_TOKEN] }} -X PUT "https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ env.build_version }}/" -T "$file"
+    #          done;
+      
+    # Running JFROG Commans to upload artifactory
+    - name: Uploading Artifacts to JFrog
+      run: |
+       jfrog rt u "ebookGatherer\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user=${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} 
