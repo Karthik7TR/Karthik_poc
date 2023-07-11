@@ -46,7 +46,7 @@ jobs:
         ls -ltr
     - name: display war files
       run: |
-        type 'D:\password\password.txt'
+        type D:\password\password.txt
         net use z: /delete
         net use /persistent:yes z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /USER:svcTFSNGService
         rmdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
