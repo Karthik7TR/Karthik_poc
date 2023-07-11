@@ -43,14 +43,14 @@ jobs:
 
     steps:
 
-    - name: Set environment variables defined in the ENV_CONFIG_FILE
-      shell: pwsh
-      run: |
-        while read -r LINE || [ -n "$LINE" ] ; do
-          if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
-            echo "$LINE";
-          fi
-        done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
+    # - name: Set environment variables defined in the ENV_CONFIG_FILE
+    #   shell: bash
+    #   run: |
+    #     while read -r LINE || [ -n "$LINE" ] ; do
+    #       if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
+    #         echo "$LINE";
+    #       fi
+    #     done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
  
 
     - name: Download Artifact
