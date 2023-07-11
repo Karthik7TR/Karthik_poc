@@ -46,8 +46,9 @@ jobs:
         ls -ltr
     - name: display war files
       run: |
+        $username = 'ECOMQC\svcTFSNGService'
         $SCMpassword1 = Get-Content -Path 'D:\password\password.txt'
-        $SCMpassword1 = ConvertTo-SecureString -String $pass -AsPlainText -Force
+        $password = ConvertTo-SecureString -String $SCMpassword1 -AsPlainText -Force
         $cred = New-Object System.Management.Automation.PSCredential($username,$password)
         net use z: /delete
         net use /persistent:yes z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /USER:svcTFSNGService
