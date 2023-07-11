@@ -46,11 +46,11 @@ jobs:
     #     echo "Removed the content of workspace"
     #     dir
            
-    # - name: Checkout Git Repo
-    #   uses: actions/checkout@v2
-    #   with:
-    #     fetch-depth: 0
-    #     ref: ${{ github.ref_name }}  
+    - name: Checkout Git Repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ref: ${{ github.ref_name }}  
 
     - name: display war files
       shell: cmd
@@ -68,8 +68,8 @@ jobs:
            net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer  /u:ECOMQC\svcTFSNGService $pass
            $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
            cd artifacts
-           mkdir Q:2308.0.00
-           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.00
+           mkdir Q:2308.0.01
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.01
            net use Q: /delete
 
     - name: Deploy to DEV
