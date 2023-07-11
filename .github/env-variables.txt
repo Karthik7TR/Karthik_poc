@@ -8,8 +8,8 @@ VERACODE_API_SECRET_SECRET_NAME=[Required-Name of the secret as stored in Github
 # VERACODE_SCA_AGENT_TOKEN_SECRET_NAME=[Optional-used only if you have a secret name for a token to publish a Veracode Software Composition Analysis to a specific workspace]
 
 # Artifactory credentials for resolving dependencies
-ARTIFACTORY_USER=[Required]
-ARTIFACTORY_TOKEN_SECRET_NAME=[Required-Name of the secret as stored in Github Secrets]
+ARTIFACTORY_USER=SCM_JFROG_ACCOUNT_NAME
+ARTIFACTORY_TOKEN_SECRET_NAME=SCM_JFROG_API_TOKEN
 
 # Release artifact variable settings
 ARTIFACT_SOURCE_DIR=dist [Required-Default value that can be edited to fit your build]
