@@ -54,7 +54,6 @@ jobs:
         rmdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
         mkdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
         copy ${{ github.workspace }}\* z:\eBookGatherer\${{github.event.inputs.artifact_version}}
-      shell: cmd
 
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v0.1.10
