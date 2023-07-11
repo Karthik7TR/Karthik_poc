@@ -55,7 +55,9 @@ jobs:
     - name: display war files
       shell: cmd
       run: |
+        mkdir artifacts
         curl -u  ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}:${{ secrets.SCM_JFROG_API_TOKEN }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/2308.0.40/eBookGatherer.war -o eBookGatherer.war
+        cp -r eBookGatherer.war artifacts
         ls -ltr
     - name: display war files
       run: |
@@ -65,8 +67,9 @@ jobs:
            $cred = New-Object System.Management.Automation.PSCredential($username,$password)
            net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer  /u:ECOMQC\svcTFSNGService $pass
            $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
-           mkdir Q:2308.0.40
-           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.40
+           cd artifacts
+           mkdir Q:2308.0.00
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.00
            net use Q: /delete
 
     - name: Deploy to DEV
@@ -74,7 +77,7 @@ jobs:
       run: |
          ls
          cd deploy
-         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Ddeploy_version=2308.0.40"
+         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Ddeploy_version=2308.0.00"
          
     - name: Clean workspace
       run: |
