@@ -1,0 +1,81 @@
+name: eBookGatherer-ci-deploy
+  
+on: 
+  push:
+    branches: [ "java*" ]
+  workflow_dispatch:
+    inputs:
+      # env:
+      #   description: 'Environmant: CI, Demo'     
+      #   required: true
+      #   default: 'none'
+      artifact_version:
+        description: 'Version'
+        required: true
+        default: '2308.0.40'
+      BAMS:
+        description: 'Artifactory location'
+        required: true
+        default: 'BuildArtifacts/EditorialContent/EBookGatherer'
+      SCMserver:
+        description: 'Deployment Manager'
+        required: true
+        default: 'c851oatscmdfd.int.thomsonreuters.com'
+      SCMusername:
+        description: 'Server credential'
+        required: true
+        default: 'asadmin'
+
+
+env:
+  # Define git user email and name to be used for git commits
+  GIT_USER_EMAIL: "actions@github.com"
+  GIT_USER_NAME: "GitHub Actions"
+  ENV_CONFIG_FILE: ".github/env-variables.txt"
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+
+jobs:
+ checkstyle:
+    name: Deploy        
+     
+    runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
+
+    steps:
+
+    - name: Set environment variables defined in the ENV_CONFIG_FILE
+      shell: bash
+      run: |
+        while read -r LINE || [ -n "$LINE" ] ; do
+          if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
+            echo "$LINE";
+          fi
+        done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
+ 
+
+    - name: Download Artifact
+      run: |
+        echo ${{github.event.inputs.artifact_version}}
+        cd cdap-deploy
+        LATEST_ARTIFACT=generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{github.event.inputs.artifact_version}}/eBookGatherer.war
+        jfrog rt dl --flat --url "https://tr1.jfrog.io/artifactory" --user ${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} $LATEST_ARTIFACT
+        ls -alrt
+        pwd
+    - name: display war files
+      run: |
+        SCMpassword1=(cat D:\password\password.txt)
+        net use z: /delete
+        net use /persistent:yes z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ %SCMpassword1% /USER:svcTFSNGService
+        rmdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
+        mkdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
+        copy ${{ github.workspace }}\* z:\eBookGatherer\${{github.event.inputs.artifact_version}}
+      shell: cmd
+
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{github.event.inputs.SCMserver}}
+        username: asadmin
+        password: ${{ secrets.PASSWORD }}
+        port: 22
+        script: whoami
