@@ -40,11 +40,11 @@ jobs:
 
     steps:
 
-    - name: Clean workspace
-      run: |
-        Remove-Item -Path ${{ github.workspace}}\* -Recurse
-        echo "Removed the content of workspace"
-        dir
+    # - name: Clean workspace
+    #   run: |
+    #     Remove-Item -Path ${{ github.workspace}}\* -Recurse
+    #     echo "Removed the content of workspace"
+    #     dir
            
     # - name: Checkout Git Repo
     #   uses: actions/checkout@v2
