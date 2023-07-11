@@ -5,10 +5,6 @@ on:
     branches: [ "java*" ]
   workflow_dispatch:
     inputs:
-      # env:
-      #   description: 'Environmant: CI, Demo'     
-      #   required: true
-      #   default: 'none'
       artifact_version:
         description: 'Version'
         required: true
@@ -43,23 +39,6 @@ jobs:
 
     steps:
 
-    # - name: Set environment variables defined in the ENV_CONFIG_FILE
-    #   shell: bash
-    #   run: |
-    #     while read -r LINE || [ -n "$LINE" ] ; do
-    #       if [[ -n "$LINE" && ${LINE::1} != "#" ]]; then
-    #         echo "$LINE";
-    #       fi
-    #     done < ${{ env.ENV_CONFIG_FILE }} >> $GITHUB_ENV
- 
-
-    # - name: Download Artifact
-    #   shell: cmd
-    #   run: |
-    #     echo ${{github.event.inputs.artifact_version}}
-    #     curl -u ${{ secrets.SCM_JFROG_ACCOUNT_NAMEs }}:${{ secrets.SCM_JFROG_API_TOKEN1 }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{github.event.inputs.artifact_version}}/eBookGatherer.war eBookGatherer.war
-    #     ls -alrt
-    #     pwd
     # - name: display war files
     #   run: |
     #     $SCMpassword1=(cat D:\password\password.txt)
@@ -70,15 +49,6 @@ jobs:
     #     copy ${{ github.workspace }}\* z:\eBookGatherer\${{github.event.inputs.artifact_version}}
     #   shell: cmd
 
-    # - name: executing remote ssh commands using password
-    #   uses: appleboy/ssh-action@v0.1.10
-    #   with:
-    #     host: ${{github.event.inputs.SCMserver}}
-    #     username: asadmin
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: 22
-    #     script: whoami
-
       - uses: jfrog/setup-jfrog-cli@v3
         env:
           # JFrog platform url (for example: https://acme.jfrog.io) 
@@ -88,4 +58,4 @@ jobs:
           JF_USER: ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}
           JF_PASSWORD: ${{ secrets.SCM_JFROG_API_TOKEN }}
       - run: |
-          jf rt dl /generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{github.event.inputs.artifact_version}}/eBookGatherer.war .
+          jf rt dl generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{github.event.inputs.artifact_version}}/eBookGatherer.war .
