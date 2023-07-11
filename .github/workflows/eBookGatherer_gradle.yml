@@ -292,17 +292,7 @@ jobs:
       uses: jfrog/setup-jfrog-cli@v1.2.0
       env:
         server: ${{ secrets.SCM_JFROG_API_TOKEN }}
-        
-    - name: Upload to Jfrog Artifactory
-      shell: bash
-      run: |
-             cd ./ebookGatherer/build/libs
-             ls | while read file;
-             do
-               echo "uploading: $file"
-               curl -u ${{ secrets[env.SCM_JFROG_ACCOUNT_NAME] }}:${{ secrets[env.SCM_JFROG_API_TOKEN] }} -X PUT "https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ env.build_version }}/" -T "$file"
-             done;
-      
+              
     # Running JFROG Commans to upload artifactory
     - name: Uploading Artifacts to JFrog
       run: |
