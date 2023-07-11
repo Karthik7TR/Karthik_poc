@@ -50,11 +50,16 @@ jobs:
         $SCMpassword1 = Get-Content -Path 'D:\password\password.txt'
         $password = ConvertTo-SecureString -String $SCMpassword1 -AsPlainText -Force
         $cred = New-Object System.Management.Automation.PSCredential($username,$password)
+        net use I: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /u:ECOMQC\svcTFSNGService
+        $DriveMapped=Get-PSDrive -Name I -ErrorAction SilentlyContinue
+        $DestinatioFolder="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\${{ github.event.inputs.artifact_version }}" 
+        if (-not (Test-Path "$DestinatioFolder")){
+        mkdir I:${{ github.event.inputs.version }}
+        }            
+        cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\${{ github.event.inputs.artifact_version }}
         net use I: /delete
-        net use /persistent:yes I: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /USER:svcTFSNGService
-        rmdir  I:\eBookGatherer\${{github.event.inputs.artifact_version}}
-        mkdir  I:\eBookGatherer\${{github.event.inputs.artifact_version}}
-        copy ${{ github.workspace }}\* I:\eBookGatherer\${{github.event.inputs.artifact_version}}
+
+
 
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v0.1.10
