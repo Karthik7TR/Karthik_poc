@@ -1,4 +1,4 @@
-name: eBookGenerator Java CI build with Gradle
+name: eBookGenerator-main-build
 
 on:
   push:
@@ -10,7 +10,6 @@ on:
         - 'ebookStylesheets/**'
         - 'gradle/**'
         - 'settings.gradle'
-        - '.github/**'
         - 'gradlew.bat'
         - 'gitattributes'
         - 'gitignore'
@@ -20,7 +19,7 @@ on:
         - 'gradlew'
       
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "java*" ]
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookManager/**'
@@ -43,13 +42,14 @@ permissions:
 
 jobs:
  checkstyle:
-    name: runner / checkstyle        
+    name: Build        
      
-    runs-on: windows-latest
+#    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Grant permission for long paths
-      run:  git config --system core.longpaths true
+    # - name: Grant permission for long paths
+    #   run:  git config --system core.longpaths true
 
     - uses: actions/checkout@v3
     - name: Set up JDK 1.8.0_202
@@ -69,8 +69,8 @@ jobs:
    
     - name: CI Build for eBookGenerator with Gradle
       run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGenerator:build -x test
-      shell: cmd 
+      shell: sh 
       
     - name: display war files
-      run: dir eBookGenerator\build\libs\
-      shell: cmd
+      run: ll eBookGenerator\build\libs\
+      shell: sh
