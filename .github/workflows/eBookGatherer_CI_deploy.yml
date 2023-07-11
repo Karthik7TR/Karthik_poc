@@ -35,14 +35,15 @@ jobs:
  checkstyle:
     name: Deploy        
      
-    runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
+    #runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
+    runs-on: ['self-hosted', 'Windows', 'X64']
 
     steps:
 
     - name: display war files
       shell: cmd
       run: |
-        curl -u  ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}:${{ secrets.SCM_JFROG_API_TOKEN }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{github.event.inputs.artifact_version}}/eBookGatherer.war -o eBookGatherer.war
+        curl -u  ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}:${{ secrets.SCM_JFROG_API_TOKEN }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/${{ github.event.inputs.artifact_version }}/eBookGatherer.war -o eBookGatherer.war
         ls -ltr
     - name: display war files
       run: |
@@ -50,20 +51,20 @@ jobs:
         $SCMpassword1 = Get-Content -Path 'D:\password\password.txt'
         $password = ConvertTo-SecureString -String $SCMpassword1 -AsPlainText -Force
         $cred = New-Object System.Management.Automation.PSCredential($username,$password)
-        net use z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /u:ECOMQC\svcTFSNGService
-        $DriveMapped=Get-PSDrive -Name z -ErrorAction SilentlyContinue
+        net use I: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /u:ECOMQC\svcTFSNGService
+        $DriveMapped=Get-PSDrive -Name I -ErrorAction SilentlyContinue
         $DestinatioFolder="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\${{ github.event.inputs.artifact_version }}" 
         if (-not (Test-Path "$DestinatioFolder")){
-        mkdir z:${{ github.event.inputs.version }}
+        mkdir I:${{ github.event.inputs.version }}
         }            
         cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\${{ github.event.inputs.artifact_version }}
-        net use z: /delete
+        net use I: /delete
 
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{github.event.inputs.SCMserver}}
-        username: ${{github.event.inputs.SCMusername}}
-        password: ${{ secrets.PASSWORD }}
-        port: 22
-        script: whoami
+    # - name: executing remote ssh commands using password
+    #   uses: appleboy/ssh-action@v0.1.10
+    #   with:
+    #     host: ${{github.event.inputs.SCMserver}}
+    #     username: ${{github.event.inputs.SCMusername}}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: 22
+    #     script: whoami
