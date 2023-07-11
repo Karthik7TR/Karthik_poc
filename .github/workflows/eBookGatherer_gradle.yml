@@ -228,8 +228,7 @@ jobs:
       shell: pwsh
       run: |
         pwd
-        zip -r ${{ env.build_version }}.zip ebookGatherer\build\libs\*.war 
-
+        Compress-Archive -Path ebookGatherer\build\libs\*.war ${{ env.build_version }}.zip
     - name: Get Unit Test Results File Path and Rename
       shell: sh
       id: unit_test_file_name
