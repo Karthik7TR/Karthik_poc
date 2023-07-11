@@ -46,9 +46,9 @@ jobs:
         ls -ltr
     - name: display war files
       run: |
-        $SCMpassword1=(cat D:\password\password.txt)
+        $SCMpassword1=(type 'D:\password\password.txt')
         net use z: /delete
-        net use /persistent:yes z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ %SCMpassword1% /USER:svcTFSNGService
+        net use /persistent:yes z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$ $SCMpassword1 /USER:svcTFSNGService
         rmdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
         mkdir  z:\eBookGatherer\${{github.event.inputs.artifact_version}}
         copy ${{ github.workspace }}\* z:\eBookGatherer\${{github.event.inputs.artifact_version}}
