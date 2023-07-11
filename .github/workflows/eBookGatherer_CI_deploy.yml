@@ -35,8 +35,8 @@ jobs:
  checkstyle:
     name: Deploy        
      
-    #runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
-    runs-on: ['self-hosted', 'Windows', 'X64']
+    runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
+    #runs-on: ['self-hosted', 'Windows', 'X64']
 
     steps:
 
@@ -46,11 +46,11 @@ jobs:
         echo "Removed the content of workspace"
         dir
            
-    - name: Checkout Git Repo
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        ref: ${{ github.ref_name }}  
+    # - name: Checkout Git Repo
+    #   uses: actions/checkout@v2
+    #   with:
+    #     fetch-depth: 0
+    #     ref: ${{ github.ref_name }}  
 
     - name: display war files
       shell: cmd
@@ -59,19 +59,16 @@ jobs:
         ls -ltr
     - name: display war files
       run: |
-        $username = 'ECOMQC\svcTFSNGService'
-        $SCMpassword1 = Get-Content -Path 'D:\password\password.txt'
-        $password = ConvertTo-SecureString -String $SCMpassword1 -AsPlainText -Force
-        $cred = New-Object System.Management.Automation.PSCredential($username,$password)
-        net use z: \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer $SCMpassword1 /u:ECOMQC\svcTFSNGService
-        $DriveMapped=Get-PSDrive -Name z -ErrorAction SilentlyContinue
-        $DestinatioFolder="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.40" 
-        rmdir z:${{ github.event.inputs.version }}
-        if (-not (Test-Path "$DestinatioFolder")){
-        mkdir z:${{ github.event.inputs.version }}
-        }            
-        cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.40
-        net use z: /delete
+           $username = 'ECOMQC\svcTFSNGService'
+           $pass = Get-Content -Path 'D:\password\password.txt'
+           $password = ConvertTo-SecureString -String $pass -AsPlainText -Force
+           $cred = New-Object System.Management.Automation.PSCredential($username,$password)
+           cd artifacts
+           net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer  /u:ECOMQC\svcTFSNGService $pass
+           $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
+           mkdir Q:2308.0.40
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.40
+           net use Q: /delete
 
     # - name: executing remote ssh commands using password
     #   uses: appleboy/ssh-action@v0.1.10
