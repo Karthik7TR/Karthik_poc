@@ -1,26 +1,22 @@
-name: eBookGatherer-ci-deploy
+name: ci-deploy
   
 on: 
-  push:
-    branches: [ "java*" ]
+  # push:
+  #   branches: [ "java*" ]
   workflow_dispatch:
     inputs:
-      artifact_version:
+      version:
         description: 'Version'
         required: true
-        default: '2308.0.40'
+        default: '0.0.0'
       BAMS:
         description: 'Artifactory location'
         required: true
         default: 'BuildArtifacts/EditorialContent/EBookGatherer'
-      SCMserver:
-        description: 'Deployment Manager'
+      deploymentScript:
+        description: ' TRAMs Deployment script name ex: deploycicontent '
         required: true
-        default: 'c851oatscmdfd.int.thomsonreuters.com'
-      SCMusername:
-        description: 'Server credential'
-        required: true
-        default: 'asadmin'
+        default: 'deploycicontent'
 
 
 env:
@@ -40,11 +36,11 @@ jobs:
 
     steps:
 
-    # - name: Clean workspace
-    #   run: |
-    #     Remove-Item -Path ${{ github.workspace}}\* -Recurse
-    #     echo "Removed the content of workspace"
-    #     dir
+    - name: Clean workspace
+      run: |
+        Remove-Item -Path ${{ github.workspace}}\* -Recurse
+        echo "Removed the content of workspace"
+        dir
            
     - name: Checkout Git Repo
       uses: actions/checkout@v2
@@ -56,8 +52,9 @@ jobs:
       shell: cmd
       run: |
         mkdir artifacts
-        curl -u  ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}:${{ secrets.SCM_JFROG_API_TOKEN }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookGatherer/2308.0.40/eBookGatherer.war -o eBookGatherer.war
+        curl -u  ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}:${{ secrets.SCM_JFROG_API_TOKEN }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/${{ github.event.inputs.BAMS }}/${{ github.event.inputs.version }}/eBookGatherer.war -o eBookGatherer.war
         cp -r eBookGatherer.war artifacts
+        ls -ltr artifacts
         ls -ltr
     - name: display war files
       run: |
@@ -68,8 +65,9 @@ jobs:
            net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer  /u:ECOMQC\svcTFSNGService $pass
            $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
            cd artifacts
-           mkdir Q:2308.0.01
-           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\2308.0.01
+           rmdir Q:${{ github.event.inputs.version }}
+           mkdir Q:${{ github.event.inputs.version }}
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\${{ github.event.inputs.version }}
            net use Q: /delete
 
     - name: Deploy to DEV
@@ -77,7 +75,7 @@ jobs:
       run: |
          ls
          cd deploy
-         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Ddeploy_version=2308.0.00"
+         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Denv=${{ github.event.inputs.deploymentScript }}" "-Ddeploy_version=${{ github.event.inputs.version }}"
          
     - name: Clean workspace
       run: |

@@ -19,9 +19,10 @@
     password="${CURRENT_PASSWORD}"
     trust="yes"
              
-    command="cd /appserver/deployment;./deploycicontent ${deploy_version} application=${APPLICATION} dryRun=${DRYRUN} forcedeployment=true script=./conf/workflow_content.xml username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>
+    command="cd /appserver/deployment;./${env} ${deploy_version} application=${APPLICATION} dryRun=${DRYRUN} forcedeployment=true script=./conf/workflow_content.xml username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>
     <!--command="cd /appserver/deployment;./deployci ${numeric_deploy_version} application=${APPLICATION} username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>-->
     
   </target>
 
 </project>
+
