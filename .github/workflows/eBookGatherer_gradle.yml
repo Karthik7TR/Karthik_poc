@@ -277,7 +277,7 @@ jobs:
 
   call-badges:
     if: ${{ success() || failure() }}
-    needs: [ build, veracode ]
+    needs: [ build ]
     uses: ./.github/workflows/create-badges-update-readme-workflow.yml
     with:
       COVERAGE_PERCENTAGE: ${{ needs.build.outputs.COVERAGE_PERCENTAGE }}
