@@ -16,7 +16,7 @@ on:
       BAMS:
         description: 'Artifactory location'
         required: true
-        default: 'BuildArtifacts/EditorialContent/EBookGatherer'
+        default: 'BuildArtifacts/EditorialContent/EBookManager'
       deploymentScript:
         description: ' TRAMs Deployment script name ex: deploycicontent '
         required: true
