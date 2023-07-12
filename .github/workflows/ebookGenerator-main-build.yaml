@@ -266,4 +266,4 @@ jobs:
     uses: ./.github/workflows/create-badges-update-readme-workflow.yml
     with:
       COVERAGE_PERCENTAGE: ${{ needs.build.outputs.COVERAGE_PERCENTAGE }}
-      WORKFLOW_FILE: "ebookGenerator_gradle.yaml"
+      WORKFLOW_FILE: "ebookGenerator-main-build.yaml"

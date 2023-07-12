@@ -1,0 +1,88 @@
+name: eBookGatherer-ci-deploy
+  
+on: 
+  # push:
+  #   branches: [ "java*" ]
+  workflow_dispatch:
+    inputs:
+      application:
+        description: 'application name'
+        required: true
+        default: 'eBookGatherer'
+      version:
+        description: 'Version'
+        required: true
+        default: '0.0.0'
+      BAMS:
+        description: 'Artifactory location'
+        required: true
+        default: 'BuildArtifacts/EditorialContent/EBookGatherer'
+      deploymentScript:
+        description: ' TRAMs Deployment script name ex: deploycicontent '
+        required: true
+        default: 'deploycicontent'
+
+
+env:
+  # Define git user email and name to be used for git commits
+  GIT_USER_EMAIL: "actions@github.com"
+  GIT_USER_NAME: "GitHub Actions"
+  ENV_CONFIG_FILE: ".github/env-variables.txt"
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+
+jobs:
+ checkstyle:
+    name: Deploy        
+     
+    runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
+    #runs-on: ['self-hosted', 'Windows', 'X64']
+
+    steps:
+
+    - name: Clean workspace
+      run: |
+        Remove-Item -Path ${{ github.workspace}}\* -Recurse
+        echo "Removed the content of workspace"
+        dir
+           
+    - name: Checkout Git Repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ref: ${{ github.ref_name }}  
+
+    - name: display war files
+      shell: cmd
+      run: |
+        mkdir artifacts
+        curl -u  ${{ secrets.SCM_JFROG_ACCOUNT_NAME }}:${{ secrets.SCM_JFROG_API_TOKEN }} https://tr1.jfrog.io/artifactory/generic-local/SCM-Publishing/${{ github.event.inputs.BAMS }}/${{ github.event.inputs.version }}/eBookGatherer.war -o eBookGatherer.war
+        cp -r eBookGatherer.war artifacts
+        ls -ltr artifacts
+        ls -ltr
+    - name: display war files
+      run: |
+           $username = 'ECOMQC\svcTFSNGService'
+           $pass = Get-Content -Path 'D:\password\password.txt'
+           $password = ConvertTo-SecureString -String $pass -AsPlainText -Force
+           $cred = New-Object System.Management.Automation.PSCredential($username,$password)
+           net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer  /u:ECOMQC\svcTFSNGService $pass
+           $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
+           cd artifacts
+           rmdir Q:${{ github.event.inputs.version }}
+           mkdir Q:${{ github.event.inputs.version }}
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookGatherer\${{ github.event.inputs.version }}
+           net use Q: /delete
+
+    - name: Deploy to DEV
+      shell: cmd
+      run: |
+         ls
+         cd deploy
+         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Denv=${{ github.event.inputs.deploymentScript }}" "-Ddeploy_version=${{ github.event.inputs.version }}" "-Dapplication=${{ github.event.inputs.application }}}"
+         
+    - name: Clean workspace
+      run: |
+         Remove-Item -Path ${{ github.workspace}}\* -Recurse
+         echo "Removed the content of workspace"
+         dir    
