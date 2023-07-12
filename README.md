@@ -5,11 +5,11 @@
         <img alt="Last Updated" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/last-badge-update.svg">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/actions/runs/5505475608" target="_blank">
-        <img alt="CI Build" src="https://github.com/tr/ebook_ebook-publishing/actions/workflows/java-microservice-build-with-policy-scan.yml/badge.svg?branch=java-cicd-workflows_1688970504">
+      <a href="https://github.com/tr/ebook_ebook-publishing/actions/runs/5529033404" target="_blank">
+        <img alt="CI Build" src="https://github.com/tr/ebook_ebook-publishing/actions/workflows/ebookGenerator_gradle.yaml/badge.svg?branch=java-cicd-workflows_1688970504">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/pulls?q=is:pr+created:%3C%3D2023-07-03+is%3Aopen" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/pulls?q=is:pr+created:%3C%3D2023-07-05+is%3Aopen" target="_blank">
       <img alt="Stale Pull Requests" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/stale-pr-count.svg">
       </a>
       <br />
@@ -25,12 +25,12 @@
         <img alt="Code Coverage" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/code-coverage.svg">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/runs/14902732030" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/runs/14971816655" target="_blank">
         <img alt="Lines of Code" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/lines-of-code.svg">
       </a>
       <br />
       <a href="https://github.com/tr/ebook_ebook-publishing/releases/latest" target="_blank">
-      <img alt="Latest Release" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/main/latest-release.svg">
+      <img alt="Latest Release" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/latest-release.svg">
       </a>
     </div>
   </foreignObject>
