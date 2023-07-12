@@ -33,9 +33,9 @@ env:
 
 
 jobs:
- checkstyle:
-    name: Build        
-     
+
+  # CI Build Job
+  build:        
     runs-on: windows-latest
     permissions: write-all
     outputs:

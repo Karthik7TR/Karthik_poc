@@ -32,8 +32,9 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
- checkstyle:
-    name: Build        
+
+  # CI Build Job
+  build:        
      
     runs-on: windows-latest
     permissions: write-all
