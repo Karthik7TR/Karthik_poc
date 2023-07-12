@@ -1,8 +1,13 @@
 name: eBookGenerator-main-build
  
 on:
+  workflow_dispatch:
   push:
-    branches: [ "java*" ]
+    branches:
+      - 'java-*'
+      - 'main' 
+      - 'hotfix*'
+      - 'release/*'
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookManager/**'
@@ -18,23 +23,6 @@ on:
         - 'checkStyleConfig.xml'
         - 'gradlew'
       
-  pull_request:
-    branches: [ "java*" ]
-    paths-ignore:
-        - 'eBookGatherer/**'
-        - 'ebookManager/**'
-        - 'ebookStatic/**'
-        - 'ebookStylesheets/**'
-        - 'gradle/**'
-        - 'settings.gradle'
-        - '.github/**'
-        - 'gradlew.bat'
-        - 'gitattributes'
-        - 'gitignore'
-        - 'assetinfo.json'
-        - 'build.gradle'
-        - 'checkStyleConfig.xml'
-        - 'gradlew'
 
 env:
   # Define git user email and name to be used for git commits
@@ -51,11 +39,9 @@ jobs:
     permissions: write-all
     outputs:
       ENVIRONMENT_VARIABLE_PATH: ${{ env.ENV_CONFIG_FILE }}
-      UNIT_TEST_RESULTS_XML: ${{ steps.unit_test_file_name.outputs.UNIT_TEST_RESULTS_XML }}
       COVERAGE_PERCENTAGE: ${{ steps.jacoco_reporter.outputs.coverage_percentage }}
       BRANCH_RELEASE_TAG: ${{ steps.get_version.outputs.BRANCH_RELEASE_TAG }}
       BUILD_JOB_STATUS: ${{ steps.set_job_status.outputs.BUILD_JOB_STATUS}}
-      build_var: ${{ steps.artifactid.outputs.build_var }}
     steps:
     - name: Grant permission for long paths
       run:  git config --system core.longpaths true
@@ -272,3 +258,11 @@ jobs:
     - name: Uploading Artifacts to JFrog
       run: |
        jfrog rt u "eBookGenerator\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/eBookGenerator/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user=${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} 
+ 
+  call-badges:
+    if: ${{ success() || failure() }}
+    needs: [ build, veracode ]
+    uses: ./.github/workflows/create-badges-update-readme-workflow.yml
+    with:
+      COVERAGE_PERCENTAGE: ${{ needs.build.outputs.COVERAGE_PERCENTAGE }}
+      WORKFLOW_FILE: "ebookGenerator_gradle.yaml"
