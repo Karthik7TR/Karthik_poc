@@ -45,8 +45,8 @@ jobs:
       BUILD_JOB_STATUS: ${{ steps.set_job_status.outputs.BUILD_JOB_STATUS}}
 
     steps:
-    - name: Grant permission for long paths
-      run:  git config --system core.longpaths true
+    # - name: Grant permission for long paths
+    #   run:  git config --system core.longpaths true
 
     - uses: actions/checkout@v3
     - name: Set up JDK 1.8.0_202
