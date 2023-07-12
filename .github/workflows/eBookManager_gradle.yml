@@ -57,138 +57,138 @@ jobs:
        cache: gradle
    
    
-    - name: Build version and Hotfix version
-      shell: pwsh
-      id: build_number
-      run: |
-       $file=(Get-content .\iteration.txt)
-       if ( ([string]::IsNullOrWhitespace($file)) ) 
-       {
-            $version  = Get-content -path .\version.properties | where-object {$_ -match "version="}
-            $version = $version.Split('=')[1]
-            echo "The current release number is:" $version
-            echo "::set-output name=version::${version}"
+    # - name: Build version and Hotfix version
+    #   shell: pwsh
+    #   id: build_number
+    #   run: |
+    #    $file=(Get-content .\iteration.txt)
+    #    if ( ([string]::IsNullOrWhitespace($file)) ) 
+    #    {
+    #         $version  = Get-content -path .\version.properties | where-object {$_ -match "version="}
+    #         $version = $version.Split('=')[1]
+    #         echo "The current release number is:" $version
+    #         echo "::set-output name=version::${version}"
             
-            if ( ([string]::IsNullOrWhitespace($version)) ) 
-            {
-            $FetchDate = Get-Date -format "dd-MM-yy"
-            $FetchDate = $FetchDate -split "-"
+    #         if ( ([string]::IsNullOrWhitespace($version)) ) 
+    #         {
+    #         $FetchDate = Get-Date -format "dd-MM-yy"
+    #         $FetchDate = $FetchDate -split "-"
 
-            if ($FetchDate[0] -gt 0 -and $FetchDate[0] -le 15)
-            { 
-                $sprint = 0
-                Write-host $sprint
-            }
-            else
-            {
-               $sprint = 1
-               Write-host $sprint
-            }
-            if ($Fetchdate[1] -gt 12)
-            {
-              $Fetchdate[1] = 0
-              $Fetchdate[1] = 1 + $Fetchdate[1]
-            }
-            else 
-            {
-             $Fetchdate[1] = 1 + $Fetchdate[1]
-            }
-            [int]$Checkdate = $Fetchdate[1]
-            if ($Checkdate -gt 0 -and $Checkdate -le 9)
-            {
-               $Fetchdate[1] = "0" + $Fetchdate[1]
-            }
+    #         if ($FetchDate[0] -gt 0 -and $FetchDate[0] -le 15)
+    #         { 
+    #             $sprint = 0
+    #             Write-host $sprint
+    #         }
+    #         else
+    #         {
+    #            $sprint = 1
+    #            Write-host $sprint
+    #         }
+    #         if ($Fetchdate[1] -gt 12)
+    #         {
+    #           $Fetchdate[1] = 0
+    #           $Fetchdate[1] = 1 + $Fetchdate[1]
+    #         }
+    #         else 
+    #         {
+    #          $Fetchdate[1] = 1 + $Fetchdate[1]
+    #         }
+    #         [int]$Checkdate = $Fetchdate[1]
+    #         if ($Checkdate -gt 0 -and $Checkdate -le 9)
+    #         {
+    #            $Fetchdate[1] = "0" + $Fetchdate[1]
+    #         }
 
-            $version = $FetchDate[2]+ $FetchDate[1]+"."+$sprint
-            Write-host  $version
-            echo "::set-output name=version::${version}"
-            echo "::set-output name=hotfixversion::0"
-            }
-            else {
-            echo "hotfix version is used"
-            echo "The current release number is:" $version
-            echo "::set-output name=hotfixversion::1"
-            }
+    #         $version = $FetchDate[2]+ $FetchDate[1]+"."+$sprint
+    #         Write-host  $version
+    #         echo "::set-output name=version::${version}"
+    #         echo "::set-output name=hotfixversion::0"
+    #         }
+    #         else {
+    #         echo "hotfix version is used"
+    #         echo "The current release number is:" $version
+    #         echo "::set-output name=hotfixversion::1"
+    #         }
 
-             $filedata = Get-content .\version.properties
-             $Hotfixvariable = $filedata.split("=")[0]
-             $Versionnumber = $filedata.split("=")[1]
-             $Versionnumber = " "
-             $filedata = $Hotfixvariable + "=" + $Versionnumber | set-content .\version.properties
-             cat ./version.properties   
-       }
-       else 
-       {
-            $version  = Get-content -path .\version.properties | where-object {$_ -match "version="}
-            $version = $version.Split('=')[1]
-            echo "The current release number is:" $version
-            echo "::set-output name=version::${version}"
-            if ( ([string]::IsNullOrWhitespace($version)) ) 
-            {
-            $FetchDate = Get-Date -format "dd-MM-yy"
-            $FetchDate = $FetchDate -split "-"         
-            $sprint = 3
-            Write-host $sprint
-            if ($Fetchdate[1] -gt 12)
-            {
-              $Fetchdate[1] = 0
-              $Fetchdate[1] = 1 + $Fetchdate[1]
-            }
-            else 
-            {
-             $Fetchdate[1] = 1 + $Fetchdate[1]
-            }
-            [int]$Checkdate = $Fetchdate[1]
-            if ($Checkdate -gt 0 -and $Checkdate -le 9)
-            {
-               $Fetchdate[1] = "0" + $Fetchdate[1]
-            }
-            $version = $FetchDate[2]+ $FetchDate[1]+"."+$sprint
-            Write-host  $version
-            echo "::set-output name=version::${version}"
-            echo "::set-output name=hotfixversion::0"
-            }
-            else {
-            echo "hotfix version is used"
-            echo "The current release number is:" $version
-            echo "::set-output name=hotfixversion::1"
-            }
-             $filedata = Get-content .\version.properties
-             $Hotfixvariable = $filedata.split("=")[0]
-             $Versionnumber = $filedata.split("=")[1]
-             $Versionnumber = " "
-             $filedata = $Hotfixvariable + "=" + $Versionnumber | set-content .\version.properties
-             cat ./version.properties  
-             cat ./iteration.txt
+    #          $filedata = Get-content .\version.properties
+    #          $Hotfixvariable = $filedata.split("=")[0]
+    #          $Versionnumber = $filedata.split("=")[1]
+    #          $Versionnumber = " "
+    #          $filedata = $Hotfixvariable + "=" + $Versionnumber | set-content .\version.properties
+    #          cat ./version.properties   
+    #    }
+    #    else 
+    #    {
+    #         $version  = Get-content -path .\version.properties | where-object {$_ -match "version="}
+    #         $version = $version.Split('=')[1]
+    #         echo "The current release number is:" $version
+    #         echo "::set-output name=version::${version}"
+    #         if ( ([string]::IsNullOrWhitespace($version)) ) 
+    #         {
+    #         $FetchDate = Get-Date -format "dd-MM-yy"
+    #         $FetchDate = $FetchDate -split "-"         
+    #         $sprint = 3
+    #         Write-host $sprint
+    #         if ($Fetchdate[1] -gt 12)
+    #         {
+    #           $Fetchdate[1] = 0
+    #           $Fetchdate[1] = 1 + $Fetchdate[1]
+    #         }
+    #         else 
+    #         {
+    #          $Fetchdate[1] = 1 + $Fetchdate[1]
+    #         }
+    #         [int]$Checkdate = $Fetchdate[1]
+    #         if ($Checkdate -gt 0 -and $Checkdate -le 9)
+    #         {
+    #            $Fetchdate[1] = "0" + $Fetchdate[1]
+    #         }
+    #         $version = $FetchDate[2]+ $FetchDate[1]+"."+$sprint
+    #         Write-host  $version
+    #         echo "::set-output name=version::${version}"
+    #         echo "::set-output name=hotfixversion::0"
+    #         }
+    #         else {
+    #         echo "hotfix version is used"
+    #         echo "The current release number is:" $version
+    #         echo "::set-output name=hotfixversion::1"
+    #         }
+    #          $filedata = Get-content .\version.properties
+    #          $Hotfixvariable = $filedata.split("=")[0]
+    #          $Versionnumber = $filedata.split("=")[1]
+    #          $Versionnumber = " "
+    #          $filedata = $Hotfixvariable + "=" + $Versionnumber | set-content .\version.properties
+    #          cat ./version.properties  
+    #          cat ./iteration.txt
 
-             git config user.email "actions@github.com"
-             git config user.name "GitHub Actions"
-             echo "Committing iteration.txt file to repo ..."
-             Clear-Content ".\iteration.txt"
-             git add "iteration.txt"
-             git commit -m "Clear iteration.txt"
-             git push origin ${{ github.ref_name }}
-             echo "iteration.txt .."
-             cat ./iteration.txt
-       }           
+    #          git config user.email "actions@github.com"
+    #          git config user.name "GitHub Actions"
+    #          echo "Committing iteration.txt file to repo ..."
+    #          Clear-Content ".\iteration.txt"
+    #          git add "iteration.txt"
+    #          git commit -m "Clear iteration.txt"
+    #          git push origin ${{ github.ref_name }}
+    #          echo "iteration.txt .."
+    #          cat ./iteration.txt
+    #    }           
          
-    - name: Generate Build Variables
-      shell: pwsh
-      id: deploy_version
-      run: |
-          echo "The current build number is: "${{ steps.build_number.outputs.version }}.${{ github.run_number}}
-          echo "::set-env name=build_version::$(echo ${{ steps.build_number.outputs.version }}.${{ github.run_number }})"
-          $numeric_deploy_version=${{ env.build_version }}
-          echo "VERSION=${{ env.build_version }}" >> $GITHUB_OUTPUT
-          echo "VERSION=${{ env.build_version }}"
+    # - name: Generate Build Variables
+    #   shell: pwsh
+    #   id: deploy_version
+    #   run: |
+    #       echo "The current build number is: "${{ steps.build_number.outputs.version }}.${{ github.run_number}}
+    #       echo "::set-env name=build_version::$(echo ${{ steps.build_number.outputs.version }}.${{ github.run_number }})"
+    #       $numeric_deploy_version=${{ env.build_version }}
+    #       echo "VERSION=${{ env.build_version }}" >> $GITHUB_OUTPUT
+    #       echo "VERSION=${{ env.build_version }}"
 
-    - name: Artifact Naming
-      shell: pwsh
-      id: artifactid 
-      run: |
-        $build_var="${{ env.build_version }}"
-        echo ::set-output name=build_var::${build_var}
-        echo "${build_var}"  
+    # - name: Artifact Naming
+    #   shell: pwsh
+    #   id: artifactid 
+    #   run: |
+    #     $build_var="${{ env.build_version }}"
+    #     echo ::set-output name=build_var::${build_var}
+    #     echo "${build_var}"  
      
     - name: Grant execute permission for gradlew wrapper
       run: chmod +x gradlew
