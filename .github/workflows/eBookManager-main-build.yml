@@ -227,12 +227,31 @@ jobs:
         cd dist
         echo '{"service_name":"${{ env.SERVICE_NAME }}", "github_repository":"${{ github.repository }}", "github_sha": "${{ steps.lead-time.outputs.commit }}", "repo_topics":${{ env.REPO_TOPICS }}, "full_semver": "${{ steps.lead-time.outputs.name }}", "created_at": "${{ steps.lead-time.outputs.time }}", "lead_time_to_release_days": "${{ steps.lead-time.outputs.lead_time }}"}' > release-info.json
 
-    # - name: Create Release and Upload Artifacts
-    #   uses: ncipollo/release-action@v1
-    #   with:
-    #     artifacts: ${{ env.build_version }}.zip
-    #     tag: "${{ env.build_version }}"
-    #     name: "v${{ env.build_version }}"
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     allowUpdates: true
-    #     replacesArtifacts: false
+    - name: Create Release and Upload Artifacts
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ${{ env.build_version }}.zip
+        tag: "${{ env.build_version }}"
+        name: "v${{ env.build_version }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        replacesArtifacts: false
+
+    # Setting Up JFROG CLI
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v1.2.0
+      env:
+        server: ${{ secrets.SCM_JFROG_API_TOKEN }}
+              
+    # Running JFROG Commans to upload artifactory
+    - name: Uploading Artifacts to JFrog
+      run: |
+       jfrog rt u "eBookGenerator\build\libs\*.war" generic-local/SCM-Publishing/BuildArtifacts/EditorialContent/EBookManager/${{ env.build_version }}/ --url "https://tr1.jfrog.io/artifactory" --user=${{ secrets.SCM_JFROG_ACCOUNT_NAME }} --password=${{ secrets.SCM_JFROG_API_TOKEN }} 
+ 
+  call-badges:
+    if: ${{ success() || failure() }}
+    needs: [ build ]
+    uses: ./.github/workflows/create-badges-update-readme-workflow.yml
+    with:
+      COVERAGE_PERCENTAGE: ${{ needs.build.outputs.COVERAGE_PERCENTAGE }}
+      WORKFLOW_FILE: "eBookManager-main-build.yml"
