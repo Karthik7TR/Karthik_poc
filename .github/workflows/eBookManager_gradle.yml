@@ -35,7 +35,8 @@ jobs:
   # CI Build Job
   build:     
      
-    runs-on: windows-latest
+  #  runs-on: windows-latest
+    runs-on: [self-hosted, C343URQSCMAHP-SCM-GEN1-BuildMachine]
     permissions: write-all
     outputs:
       ENVIRONMENT_VARIABLE_PATH: ${{ env.ENV_CONFIG_FILE }}
