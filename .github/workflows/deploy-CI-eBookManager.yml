@@ -73,7 +73,7 @@ jobs:
            if (-not (Test-Path "$DestinatioFolder")){
             mkdir R:${{ github.event.inputs.version }}
            } 
-           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager\${{ github.event.inputs.version }}
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\\eBookManager\${{ github.event.inputs.version }}
            net use R: /delete
 
     - name: Deploy to DEV
