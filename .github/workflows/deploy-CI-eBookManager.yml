@@ -60,7 +60,7 @@ jobs:
         cp -r eBookGatherer.war artifacts
         ls -ltr artifacts
         ls -ltr
-    - name: display war files
+    - name: copy to local NAS
       run: |
            $username = 'ECOMQC\svcTFSNGService'
            $pass = Get-Content -Path 'D:\password\password.txt'
@@ -69,8 +69,10 @@ jobs:
            net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager  /u:ECOMQC\svcTFSNGService $pass
            $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
            cd artifacts
-           rmdir Q:${{ github.event.inputs.version }}
-           mkdir Q:${{ github.event.inputs.version }}
+           $DestinatioFolder=\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager\${{ github.event.inputs.version }}
+           if (-not (Test-Path "$DestinatioFolder")){
+            mkdir I:${{ github.event.inputs.version }}
+           } 
            cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager\${{ github.event.inputs.version }}
            net use Q: /delete
 
