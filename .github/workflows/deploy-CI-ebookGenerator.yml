@@ -40,11 +40,11 @@ jobs:
 
     steps:
 
-    - name: Clean workspace
-      run: |
-        Remove-Item -Path ${{ github.workspace}}\* -Recurse
-        echo "Removed the content of workspace"
-        dir
+    # - name: Clean workspace
+    #   run: |
+    #     Remove-Item -Path ${{ github.workspace}}\* -Recurse
+    #     echo "Removed the content of workspace"
+    #     dir
            
     - name: Checkout Git Repo
       uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
         cp -r eBookGatherer.war artifacts
         ls -ltr artifacts
         ls -ltr
-    - name: display war files
+    - name: copy to local NAS
       run: |
            $username = 'ECOMQC\svcTFSNGService'
            $pass = Get-Content -Path 'D:\password\password.txt'
@@ -69,9 +69,11 @@ jobs:
            net use Q:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\ebookGenerator  /u:ECOMQC\svcTFSNGService $pass
            $DriveMapped=Get-PSDrive -Name Q -ErrorAction SilentlyContinue
            cd artifacts
-           rmdir Q:${{ github.event.inputs.version }}
-           mkdir Q:${{ github.event.inputs.version }}
-           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\ebookGenerator\${{ github.event.inputs.version }}
+           $DestinatioFolder="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\ebookGenerator\${{ github.event.inputs.version }}"
+           if (-not (Test-Path "$DestinatioFolder")){
+            mkdir S:${{ github.event.inputs.version }}
+           }
+           cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\\ebookGenerator\${{ github.event.inputs.version }}
            net use Q: /delete
 
     - name: Deploy to DEV
@@ -79,10 +81,10 @@ jobs:
       run: |
          ls
          cd deploy
-         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Denv=${{ github.event.inputs.deploymentScript }}" "-Ddeploy_version=${{ github.event.inputs.version }}" "-Dapplication=${{ github.event.inputs.application }}}"
+         "C:\Program Files (x86)\Ant\apache-ant-1.10.1\bin\ant.bat" -file dev-deploy.xml "-Dproperty.file=deploydev.properties" "-Denv=${{ github.event.inputs.deploymentScript }}" "-Ddeploy_version=${{ github.event.inputs.version }}" "-Dapplication=${{ github.event.inputs.application }}"
          
-    - name: Clean workspace
-      run: |
-         Remove-Item -Path ${{ github.workspace}}\* -Recurse
-         echo "Removed the content of workspace"
-         dir    
+    # - name: Clean workspace
+    #   run: |
+    #      Remove-Item -Path ${{ github.workspace}}\* -Recurse
+    #      echo "Removed the content of workspace"
+    #      dir    
