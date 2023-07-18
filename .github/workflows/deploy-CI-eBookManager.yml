@@ -66,15 +66,15 @@ jobs:
            $pass = Get-Content -Path 'D:\password\password.txt'
            $password = ConvertTo-SecureString -String $pass -AsPlainText -Force
            $cred = New-Object System.Management.Automation.PSCredential($username,$password)
-           net use R:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager  /u:ECOMQC\svcTFSNGService $pass
-           $DriveMapped=Get-PSDrive -Name R -ErrorAction SilentlyContinue
+           net use S:  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager  /u:ECOMQC\svcTFSNGService $pass
+           $DriveMapped=Get-PSDrive -Name S -ErrorAction SilentlyContinue
            cd artifacts
-           $DestinatioFolder=\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager\${{ github.event.inputs.version }}
+           $DestinatioFolder="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\eBookManager\${{ github.event.inputs.version }}"
            if (-not (Test-Path "$DestinatioFolder")){
-            mkdir R:${{ github.event.inputs.version }}
+            mkdir S:${{ github.event.inputs.version }}
            } 
            cp *  \\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$\\eBookManager\${{ github.event.inputs.version }}
-           net use R: /delete
+           net use S: /delete
 
     - name: Deploy to DEV
       shell: cmd
