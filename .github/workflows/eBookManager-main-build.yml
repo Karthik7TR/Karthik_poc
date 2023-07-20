@@ -8,6 +8,7 @@ on:
       - 'main' 
       - 'hotfix*'
       - 'release/*'
+      - 'dev'
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookGenerator/**'
