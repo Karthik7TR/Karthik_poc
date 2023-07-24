@@ -214,7 +214,7 @@ jobs:
       id: unit_test_file_name
       run: |
         mkdir test-results
-        mv ebookGenerator/build/reports/tests/test/index.html test-results
+        mv $(find . -iname "index.html") test-results
         echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
         echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
 

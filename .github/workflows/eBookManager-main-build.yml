@@ -199,20 +199,22 @@ jobs:
       shell: cmd 
 
     - name: display war files
-      run: dir ebookManager\build\libs\
+      run: |
+        tree
+        dir ebookManager\build\libs\
       shell: cmd
     - name: Create zip of published artifacts
       shell: pwsh
       run: |
         pwd
-        Compress-Archive -Path ebookGatherer\build\libs\*.war ${{ env.build_version }}.zip
+        Compress-Archive -Path ebookManager\build\libs\*.war ${{ env.build_version }}.zip
 
     - name: Get Unit Test Results File Path and Rename
       shell: sh
       id: unit_test_file_name
       run: |
         mkdir test-results
-        mv ebookManager/build/reports/tests/test/index.html test-results
+        mv $(find . -iname "index.html") test-results
         echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
         echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
 
