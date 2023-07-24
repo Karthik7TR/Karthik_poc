@@ -195,7 +195,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: CI Build for ebookManager with Gradle
-      run: .\gradlew assemble -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookManager:build -x test
+      run: .\gradlew assemble -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookManager:build
       shell: cmd 
 
     - name: display war files
@@ -206,6 +206,22 @@ jobs:
       run: |
         pwd
         Compress-Archive -Path ebookGatherer\build\libs\*.war ${{ env.build_version }}.zip
+
+    - name: Get Unit Test Results File Path and Rename
+      shell: sh
+      id: unit_test_file_name
+      run: |
+        mkdir test-results
+        mv ebookManager/build/reports/tests/test/index.html test-results
+        echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
+        echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
+
+      # Upload test results path for developer review and badge rendering
+    - name: Upload Test Results Artifact for Badges
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: '${{ env.UNIT_TEST_RESULTS_XML }}'
 
     - name: Get path to Java Artifact
       shell: pwsh

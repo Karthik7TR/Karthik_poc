@@ -43,7 +43,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: CI Build for ebookManager with Gradle
-      run: .\gradlew assemble -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookManager:build -x test
+      run: .\gradlew assemble -Dskip.tests=true -Dhttps.protocols=TLSv1.2 -Dhttps.proxyHost=webproxy.int.westgroup.com -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 ebookManager:build
       shell: cmd 
 
     - name: display war files
