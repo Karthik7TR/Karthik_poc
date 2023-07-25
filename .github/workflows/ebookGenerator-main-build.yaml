@@ -49,11 +49,11 @@ jobs:
       run:  git config --system core.longpaths true
 
     - uses: actions/checkout@v3
-    - name: Set up JDK 1.8.0_202
+    - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-       java-version: '8.0.202'
-       distribution: 'adopt'
+       java-version: '8'
+       distribution: 'corretto'
        cache: gradle
 
     - name: Build version and Hotfix version
@@ -209,21 +209,21 @@ jobs:
         pwd
         Compress-Archive -Path eBookGenerator\build\libs\*.war ${{ env.build_version }}.zip
 
-    - name: Get Unit Test Results File Path and Rename
-      shell: sh
-      id: unit_test_file_name
-      run: |
-        mkdir test-results
-        mv $(find . -iname "index.html") test-results
-        echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
-        echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
+    # - name: Get Unit Test Results File Path and Rename
+    #   shell: sh
+    #   id: unit_test_file_name
+    #   run: |
+    #     mkdir test-results
+    #     mv $(find . -iname "index.html") test-results
+    #     echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
+    #     echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
 
       # Upload test results path for developer review and badge rendering
     - name: Upload Test Results Artifact for Badges
       uses: actions/upload-artifact@v3
       with:
         name: test-results
-        path: '${{ env.UNIT_TEST_RESULTS_XML }}'
+        path: 'eBookGenerator/build/reports/tests/test/index.html'
 
     - name: Get path to Java Artifact
       shell: pwsh
