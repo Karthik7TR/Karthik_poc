@@ -5,11 +5,11 @@
         <img alt="Last Updated" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/last-badge-update.svg">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/actions/runs/5653121339" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/actions/runs/6296372664" target="_blank">
         <img alt="CI Build" src="https://github.com/tr/ebook_ebook-publishing/actions/workflows/ebookGenerator-main-build.yaml/badge.svg?branch=java-cicd-workflows_1688970504">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/pulls?q=is:pr+created:%3C%3D2023-07-18+is%3Aopen" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/pulls?q=is:pr+created:%3C%3D2023-09-18+is%3Aopen" target="_blank">
       <img alt="Stale Pull Requests" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/stale-pr-count.svg">
       </a>
       <br />
@@ -25,7 +25,7 @@
         <img alt="Code Coverage" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/code-coverage.svg">
       </a>
       <br />
-      <a href="https://github.com/tr/ebook_ebook-publishing/runs/15313920938" target="_blank">
+      <a href="https://github.com/tr/ebook_ebook-publishing/runs/17091290293" target="_blank">
         <img alt="Lines of Code" src="https://github.com/tr/ebook_ebook-publishing/blob/tr-cicd-resources/badges/java-cicd-workflows_1688970504/lines-of-code.svg">
       </a>
       <br />
