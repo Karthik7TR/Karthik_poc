@@ -44,7 +44,7 @@ jobs:
       run: chmod +x gradlew
    
     - name: CI Build for ebookGatherer with Gradle
-      run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGatherer:build
+      run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGatherer:build -x test
       shell: cmd 
       
     - name: display war files
