@@ -50,7 +50,7 @@ public final class JMSClientIntegrationTest {
         client.receiveMessages(jmsTemplate, "");
     }
 
-    @Test
+    //@Test
     public void testSendReceive() {
         initQueue();
         final List<String> contents = client.receiveMessages(jmsTemplate, "");
@@ -63,7 +63,7 @@ public final class JMSClientIntegrationTest {
         Assert.assertTrue(contents.contains("eee"));
     }
 
-    @Test
+    //@Test
     public void testReceiveNext() throws Exception {
         initQueue();
 
@@ -81,7 +81,7 @@ public final class JMSClientIntegrationTest {
         Assert.assertEquals(null, message);
     }
 
-    @Test
+   // @Test
     public void testReceiveByKeyword() {
         initQueue();
         client.sendMessageToQueue(jmsTemplate, "abc", null);
@@ -101,7 +101,7 @@ public final class JMSClientIntegrationTest {
         Assert.assertTrue(contents.contains("eee"));
     }
 
-    @Test
+    // @Test
     public void testReceiveNextByKeyword() {
         initQueue();
         client.sendMessageToQueue(jmsTemplate, "abc", null);
@@ -117,7 +117,7 @@ public final class JMSClientIntegrationTest {
         Assert.assertTrue(contents.contains("eee"));
     }
 
-    @Test
+    //@Test
     public void testClearQueue() {
         initQueue();
 

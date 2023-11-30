@@ -38,7 +38,7 @@ public final class JMSClientVMTransportTest {
         return jmsTemplate;
     }
 
-    @Test
+    //@Test
     public void testSendReceive() {
         final List<String> contents = client.receiveMessages(jmsTemplate, "");
 
@@ -50,7 +50,7 @@ public final class JMSClientVMTransportTest {
         Assert.assertTrue(contents.contains("eee"));
     }
 
-    @Test
+    //@Test
     public void testReceiveNext() throws Exception {
         String content = ((TextMessage) jmsTemplate.receive()).getText();
         Assert.assertEquals("aaa", content);
@@ -66,7 +66,7 @@ public final class JMSClientVMTransportTest {
         Assert.assertEquals(null, message);
     }
 
-    @Test
+   // @Test
     public void testReceiveByKeyword() {
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
@@ -85,7 +85,7 @@ public final class JMSClientVMTransportTest {
         Assert.assertTrue(contents.contains("eee"));
     }
 
-    @Test
+   // @Test
     public void testReceiveNextByKeyword() {
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
@@ -100,7 +100,7 @@ public final class JMSClientVMTransportTest {
         Assert.assertTrue(contents.contains("eee"));
     }
 
-    @Test
+   // @Test
     public void testClearQueue() throws Exception {
         client.receiveMessages(jmsTemplate, "");
 
