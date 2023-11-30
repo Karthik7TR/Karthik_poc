@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
-public class PaceMetadataServiceTest {
+public class PaceMetadataServiceTest{
     /**
      * The service being tested, injected by Spring.
      *
