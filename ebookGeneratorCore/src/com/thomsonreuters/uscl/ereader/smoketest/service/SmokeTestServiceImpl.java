@@ -124,7 +124,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     @Override
     public Map<String, SmokeTest> getDatabaseServerStatuses() {
         final Map<String, SmokeTest> databaseServerStatuses = new HashMap<>();
-        databaseServerStatuses.put("lowerEnvDatabase", getServerStatus("c540wfyctdbqf.int.thomsonreuters.com"));
+        databaseServerStatuses.put("lowerEnvDatabase", getServerStatus("c394bnbtdbqf.int.thomsonreuters.com"));
         databaseServerStatuses.put("prodDatabase", getServerStatus("c279znzctdbpf.int.thomsonreuters.com"));
         return databaseServerStatuses;
     }

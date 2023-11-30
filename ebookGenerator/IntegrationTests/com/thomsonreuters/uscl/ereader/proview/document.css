@@ -1989,3 +1989,8 @@ a.co_internalLink {
 	display:inline;
 	padding-left:5px;
 }
+
+
+/*table, th, td{
+	border: 1px solid black !important;
+}*/
