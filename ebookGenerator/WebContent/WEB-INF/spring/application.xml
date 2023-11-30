@@ -21,7 +21,7 @@
 		<!-- Common properties (defined in core project) -->
 		<value>classpath:spring/properties/default-spring.properties</value>
 		<value>classpath:spring/properties/${environment}-spring.properties</value>
-		<value>classpath:eBookGenerator.properties</value>
+		<value>/WEB-INF/spring/properties/eBookGenerator.properties</value>
 		<!-- XPP Specific properties -->
 		<value>/WEB-INF/spring/properties/xpp.properties</value>
 	</util:list>

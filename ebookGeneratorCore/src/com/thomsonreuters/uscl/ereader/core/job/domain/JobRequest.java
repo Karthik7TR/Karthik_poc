@@ -23,7 +23,7 @@ import org.hibernate.annotations.FetchMode;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
-@Table(name = "JOB_REQUEST")
+@Table(name = "JOB_REQUEST_NIKOLAY")
 public class JobRequest implements Serializable {
     private static final long serialVersionUID = 5207493496108658705L;
 
