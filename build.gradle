@@ -1,0 +1,56 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+
+    if (project.name != 'ebookGeneratorCore') {
+        apply plugin: "war"
+        war {
+            from 'WebContent' exclude '/**/*.jar'
+        }
+        task copyDeployDir(type: Copy) {
+            from("$projectDir/deploy") {
+                include "**"
+            }
+            into "$buildDir/libs"
+        }
+        compileJava.dependsOn ':ebookGeneratorCore:buildNeeded'
+        assemble.dependsOn copyDeployDir
+    }
+
+    repositories {
+        flatDir {
+            dirs '../ebookGeneratorCore/lib',
+                    '../ebookGeneratorCore/plugins/',
+                    '../ebookGeneratorCore/plugins/findbugs/lib',
+                    '../ebookGeneratorCore/lib/build/jacoco/lib',
+                    '../ebookGeneratorCore/lib/build/pdfbox'
+        }
+    }
+
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(Test) {
+        systemProperty("file.encoding", "UTF-8")
+    }
+
+    checkstyle {
+        configFile file("../checkStyleConfig.xml")
+        toolVersion '5.1'
+        maxErrors(9999)
+        maxWarnings(9999999)
+    }
+
+    findbugs {
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/reports/findbugs")
+        effort = "max"
+    }
+    test {
+        maxHeapSize = '1024m'
+        jvmArgs("-Xms1024m", "-XX:MaxMetaspaceSize=512m")
+    }
+}
