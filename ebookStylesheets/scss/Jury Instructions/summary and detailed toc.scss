@@ -1,6 +1,0 @@
-@import "~/constants";
-.name {
-    .full_toc>.toc_part>.toc_chapter:first-of-type>.toc_analytical_level:first-of-type>.toc_section:first-of-type>.outline_name_block:first-of-type>&:first-of-type {
-        padding-left: #{$indent * 4.25}em;
-    }
-}

@@ -1,1 +1,0 @@
-<div class="pageTitle">Remove Title Version from ProView</div>

@@ -1,1 +1,0 @@
-<div class="errorMessage">Book definition is not found.</div>

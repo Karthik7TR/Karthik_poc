@@ -1,1 +1,0 @@
-<div class="pageTitle">Promote selected items to Final in ProView</div>

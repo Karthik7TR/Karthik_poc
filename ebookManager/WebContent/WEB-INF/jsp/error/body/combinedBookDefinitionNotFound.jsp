@@ -1,1 +1,0 @@
-<div class="errorMessage">Combined book definition is not found.</div>

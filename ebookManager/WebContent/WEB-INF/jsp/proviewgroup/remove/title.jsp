@@ -1,1 +1,0 @@
-<div class="pageTitle">Remove selected items in ProView</div>
