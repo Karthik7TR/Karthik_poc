@@ -4,11 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'java-*'
-      - 'main' 
-      - 'hotfix*'
-      - 'release/*'
-      - 'dev'
+      - java-cicd-workflows_1688970504
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookManager/**'
