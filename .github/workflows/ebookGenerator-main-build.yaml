@@ -190,7 +190,7 @@ jobs:
       run: chmod +x gradlew
    
     - name: CI Build for eBookGenerator with Gradle
-      run: ./gradlew --stacktrace eBookGenerator:build -x test
+      run: ./gradlew build 
       shell: cmd 
       
     - name: display war files
