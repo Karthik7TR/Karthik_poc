@@ -189,9 +189,9 @@ jobs:
     - name: Grant execute permission for gradlew wrapper
       run: chmod +x gradlew
    
-   # - name: CI Build for eBookGenerator with Gradle
-   #   run: ./gradlew  -Dhttps.protocols=TLSv1.2 -Dorg.gradle.daemon=false -Dhttps.proxyPort=80 --stacktrace eBookGenerator:build -x test
-   #   shell: cmd 
+    - name: CI Build for eBookGenerator with Gradle
+      run: ./gradlew --stacktrace eBookGenerator:build -x test
+      shell: cmd 
       
     - name: display war files
       run: |
