@@ -22,7 +22,7 @@ on:
       
 
 env:
-  # Define git user email and name to be used for git commits
+  ## Define git user email and name to be used for git commits
   GIT_USER_EMAIL: "actions@github.com"
   GIT_USER_NAME: "GitHub Actions"
   ENV_CONFIG_FILE: ".github/env-variables.txt"
