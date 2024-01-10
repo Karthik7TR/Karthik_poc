@@ -270,3 +270,4 @@ jobs:
   #  with:
   #    COVERAGE_PERCENTAGE: ${{ needs.build.outputs.COVERAGE_PERCENTAGE }}
   #    WORKFLOW_FILE: "ebookGenerator-main-build.yaml"
+#
