@@ -1,14 +1,14 @@
 ---
 Pipeline:
   AssetId: '206296'
-  ResourceOwner: firstname.lastname@tr.com  # FIXME  Your email
+  ResourceOwner: karthikraja.s@thomsonreuters.com  # FIXME  Your email
   EnvironmentType: DEVELOPMENT
-  ServiceName: ems
-  GroupName: "TEN-Acct-Id"  # FIXME the same GroupName as in the installer-input.yaml
-  ArtifactBucket: a206296-TEN-Acct-Id-bucket
+  ServiceName: iac
+  GroupName: "u6121086"  # FIXME Replace u6121086 with your TEN Id
+  ArtifactBucket: a206296-u6121086-bucket # FIXME
   Notifications:
     # Mandatory: The SNS Arn to publish to for certain events in the pipeline.
-    SnsArn: arn:aws:sns:eu-west-1:586370897882:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic
+    SnsArn: arn:aws:sns:eu-west-1:586370897882:a206296-u6121086-bluegreen-resource-cleanup-topic
     # Optional. The events to notify on. Defaults to PipelineSuccess and PipelineFailure.
     NotifyOn:
       PipelineSuccess: true
@@ -18,28 +18,14 @@ Pipeline:
 
 Components:
   Source:
-    Type: S3
-    Key: TEN-Acct-Id/pipeline-source.zip  # FIXME Where you want to upload your source file zip to.  This is where the pipeline watches to trigger.
-    Bucket: a206296-tr-ihn-cicd-sandbox-eu-west-1-dojo
-  Build:
-    Type: BasicCodeBuild
-    BuildSpecLocation: cicd/buildspec.yaml
-  Bake:
-    Type: BasicCodeBuild
-    BuildSpecLocation: cicd/bakespec.yaml
-    EnvironmentVariables:
-      ARTIFACTORY_USERNAME: s.cumulus.readonly
-      ARTIFACTORY_PASSWORD:
-        Value: arn:aws:secretsmanager:eu-west-1:586370897882:secret:a206296-artifactory-credentials-s-cumulus-readonly
-        Type: SECRETS_MANAGER
-
+    Type: GitHubReleases
+    # Required if 'GitHub' or 'GitHubReleases' is used.
+    # This is the name of the repository in GitHub that will trigger your pipeline.
+    Repo: u6121086-cumulus_iac-sample-application # FIXME GitHub repo name of your fork
   Deploy:
+    - Environment: cicd
+      DeployspecLocation: cicd/cumulus-deployspec.yaml
     - Environment: dev
       DeployspecLocation: cicd/cumulus-deployspec.yaml
-
     - Environment: qa
       DeployspecLocation: cicd/cumulus-deployspec.yaml
-      Approval:
-        Enabled: true
-        CustomData: QA deploy is queued up for deployment.
-        SnsArn: arn:aws:sns:eu-west-1:586370897882:a206296-TEN-Acct-Id-bluegreen-resource-cleanup-topic

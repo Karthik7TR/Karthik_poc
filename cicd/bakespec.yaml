@@ -17,7 +17,7 @@ phases:
     commands:
       # Build image
       - echo "Building the Docker image..."
-      - IMAGE_NAME=a206296-TEN-Acct-Id-dojo-repo  # FIXME From output `ECRName` in a206296-${TEN-Acct-Id}-ems-dojo-cicd-ecr-repository stack in deployment account
+      - IMAGE_NAME=a206296-u6121086-dojo-repo  # FIXME From output `ECRName` in a206296-${u6121086}-ems-dojo-cicd-ecr-repository stack in deployment account
       - HASH=`date +%s`
       - docker build . --tag ${IMAGE_NAME}:latest
 

@@ -8,7 +8,7 @@ Deploy a new version of your code.  See how the deploy impacts your listener rul
     > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.
     ```sh
     SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-    S3_SOURCE_BUCKET_DIR="TEN-Acct-Id" # FIXME Change this to your u ID
+    S3_SOURCE_BUCKET_DIR="u6121086" # FIXME Change this to your u ID
     S3_BUCKET_NAME="a206296-tr-ihn-cicd-sandbox-eu-west-1-dojo"
     AWS_PROFILE="tr-ihn-cicd-sandbox"
     REGION="eu-west-1"
@@ -47,7 +47,7 @@ If you do not receive the email to approve the release, you can find the command
 
 1. Use the blue green ID and the table name to approve the release.
     ```sh
-    cumulus bluegreen approve-deployment --profile tr-ihn-cicd-sandbox  --region eu-west-1 --table a206296-TEN-Acct-Id-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+    cumulus bluegreen approve-deployment --profile tr-ihn-cicd-sandbox  --region eu-west-1 --table a206296-u6121086-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
     ```
 
 ## Setting Headers

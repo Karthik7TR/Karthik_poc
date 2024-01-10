@@ -11,7 +11,7 @@ Deploy the first version of your application.  See how the pipeline progresses t
     > :pushpin: **NOTE:** If you are viewing this in the remote Git repo, note that the find/replace values are incorrect.  However, you can directly copy/paste these commands from within your local file.  
     ```sh
     SOURCE_ZIPFILE_NAME="pipeline-source.zip"
-    S3_SOURCE_BUCKET_DIR="TEN-Acct-Id" # FIXME Change this to your u ID (e.x. u0123456)
+    S3_SOURCE_BUCKET_DIR="u6121086" # FIXME Change this to your u ID (e.x. u0123456)
     S3_BUCKET_NAME="a206296-tr-ihn-cicd-sandbox-eu-west-1-dojo"
     AWS_PROFILE="tr-ihn-cicd-sandbox"
     REGION="eu-west-1"
@@ -20,7 +20,7 @@ Deploy the first version of your application.  See how the pipeline progresses t
     rm ${SOURCE_ZIPFILE_NAME}
     ```
 
-1. Navigate to the console | CodePipeline and search for TEN-Acct-Id to watch your pipeline work!
+1. Navigate to the console | CodePipeline and search for u6121086 to watch your pipeline work!
 1. When it gets to the Deploy stage, click Details to see the deployment engine step function.  This is very simple (only one step) in this example, however if you take advantage of any of our perimeter Lambdas, then this will look different.  In any case, click on the step `Deploy using BlueGreen Deployer` then click the link under "Resource" to go to the step function that drives the BlueGreen deployment.
 1. You will first get an email mentioning that the automated testing has started. If you click on the `CodeBuildTest` step and then click on the `Resource` link, you will see the CodeBuild testing execution live.
     - Once the testing is done, you can click on the `Reports` tab to see an overview of the tests.
@@ -28,9 +28,9 @@ Deploy the first version of your application.  See how the pipeline progresses t
     > :pushpin: **NOTE:** If you do not receive the email, see the Appendix at the bottom of this page.
 
 1. The step function should finish a few seconds later.
-1. Navigate to the console in the target account (as opposed to the CICD account where we have been previously) to EC2 | Loadbalancers.  You should be able to find your ALB by searching the name.  It will take the syntax `a206296-dojo-TEN-Acct-Id-dev`
+1. Navigate to the console in the target account (as opposed to the CICD account where we have been previously) to EC2 | Loadbalancers.  You should be able to find your ALB by searching the name.  It will take the syntax `a206296-dojo-u6121086-dev`
 1. Find the DNS name for your ALB.  For example, mine is `internal-a206296-dojo-u6065223-dev-23278987.eu-west-1.elb.amazonaws.com`.
-    You can get your DNS name from the `DNSName` value in the `a206296-TEN-Acct-Id-ems-dojo-dev-alb-ecs-allconfig` stack that was deployed with Cloud IaC.
+    You can get your DNS name from the `DNSName` value in the `a206296-u6121086-ems-dojo-dev-alb-ecs-allconfig` stack that was deployed with Cloud IaC.
     Keep in mind that there are two DNS names - one for `dev` and one for `qa`. Make sure you pick the one from the `dev` stack.
 1. Open your browser and navigate to `https://<ALB_DNS_NAME>` (where you've replaced `<ALB_DNS_NAME>` with the value you just retrieved from your stack outputs)
 1. Notice the version in the top right.  To simulate a deploy, we will change this value in the source code and redeploy later.
@@ -46,5 +46,5 @@ If you do not receive the email to approve the release, you can find the command
 
 1. Use the blue green ID and the table name to approve the release.
     ```sh
-    cumulus bluegreen approve-deployment --profile tr-ihn-cicd-sandbox  --region eu-west-1 --table a206296-TEN-Acct-Id-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
+    cumulus bluegreen approve-deployment --profile tr-ihn-cicd-sandbox  --region eu-west-1 --table a206296-u6121086-bluegreen-deployer-table-nonprod-v1-eu-west-1 --id fc15314b-d2ac-452e-bbdf-322b65a6672e --go
     ```
