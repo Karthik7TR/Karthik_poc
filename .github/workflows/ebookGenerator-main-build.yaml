@@ -4,11 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'java-*'
-      - 'main' 
-      - 'hotfix*'
-      - 'release/*'
-      - 'dev'
+      - poc
     paths-ignore:
         - 'eBookGatherer/**'
         - 'ebookManager/**'
