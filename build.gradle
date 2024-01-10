@@ -1,7 +1,6 @@
 subprojects {
     apply plugin: 'java'
     apply plugin: 'checkstyle'
-    apply plugin: 'findbugs'
 
     if (project.name != 'ebookGeneratorCore') {
         apply plugin: "war"
