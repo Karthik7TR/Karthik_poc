@@ -212,7 +212,7 @@ jobs:
     #     mkdir test-results
     #     mv $(find . -iname "index.html") test-results
     #     echo TEST_RESULTS_XML=test-results/index.html >> $GITHUB_ENV
-    #     echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
+    ##     echo "##[set-output name=TEST_RESULTS_XML;]${TEST_RESULTS_XML}"
 
       # Upload test results path for developer review and badge rendering
     - name: Upload Test Results Artifact for Badges
